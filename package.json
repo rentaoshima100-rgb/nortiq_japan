@@ -1,0 +1,19 @@
+{
+  "name": "nortiq-website",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Nortiq Labs site — static production build",
+  "scripts": {
+    "prebuild": "node render-pdf.mjs",
+    "build": "node build.js",
+    "serve": "npx --yes serve dist -l 5173"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.24.0",
+    "@babel/core": "^7.24.0",
+    "@babel/preset-react": "^7.24.0",
+    "canvas": "^3.2.3",
+    "pdfjs-dist": "^3.11.174",
+    "terser": "^5.30.0"
+  }
+}
