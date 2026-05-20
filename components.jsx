@@ -18,7 +18,6 @@ const NAV_MEGA = [
         { id: 'dx',      label: 'DX・ML 機能一覧' },
       ]},
       { heading: '技術領域', links: [
-        { id: 'feature-cms',       label: 'CMS / 記事更新システム' },
         { id: 'feature-lpo',       label: 'LP制作 / LPO' },
         { id: 'feature-recruit',   label: '採用専門サイト' },
         { id: 'feature-analytics', label: 'アクセス解析カスタム実装' },
@@ -105,6 +104,43 @@ const PREFECTURES = [
   '神奈川県','新潟県','長野県','静岡県','愛知県','岐阜県','三重県','京都府',
   '大阪府','兵庫県','岡山県','広島県','福岡県','宮城県','岩手県','山形県',
 ];
+
+// -------------------- Contact delivery --------------------
+// All inquiry forms open the user's email client (mailto:) with the form
+// contents pre-filled. The recipient is fixed to NORTIQ_INQUIRY_EMAIL.
+// When you want a proper backend (Formspree / EmailJS / serverless function),
+// replace `openInquiryMailto` with a POST to that endpoint.
+const NORTIQ_INQUIRY_EMAIL = 'rdaichi27@gmail.com';
+
+function openInquiryMailto(form, kind = 'main') {
+  const safe = (v) => (v == null ? '' : String(v));
+  const arr = (a) => (Array.isArray(a) ? a.join(' / ') : safe(a));
+  const subject = `【Nortiq Labs】${safe(form.company) || safe(form.name) || 'Web'} 様からのお問い合わせ`;
+  const lines = [
+    `[ Nortiq Labs — ${kind} form ]`,
+    '',
+    `貴社名         : ${safe(form.company)}`,
+    `ご担当者名     : ${safe(form.name)}`,
+    `メールアドレス : ${safe(form.email)}`,
+    `電話番号       : ${safe(form.phone)}`,
+    form.address ? `所在地         : ${safe(form.address)}` : null,
+    form.categories && form.categories.length ? `カテゴリ       : ${arr(form.categories)}` : null,
+    form.inqTypes && form.inqTypes.length ? `お問い合わせ   : ${arr(form.inqTypes)}` : null,
+    form.reasons && form.reasons.length ? `きっかけ       : ${arr(form.reasons)}` : null,
+    form.source ? `流入元         : ${safe(form.source)}` : null,
+    form.station ? `最寄り駅       : ${safe(form.station)}` : null,
+    form.siteUrl ? `サイトURL      : ${safe(form.siteUrl)}` : null,
+    '',
+    'ご相談内容:',
+    safe(form.message) || '(記入なし)',
+    '',
+    '---',
+    `送信日時: ${new Date().toLocaleString('ja-JP')}`,
+  ].filter(Boolean);
+  const mailto = `mailto:${NORTIQ_INQUIRY_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(lines.join('\n'))}`;
+  // Use location.href so default mail handler intercepts without losing the SPA.
+  window.location.href = mailto;
+}
 
 // -------------------- Icons --------------------
 function Icon({ name, size = 16, stroke = 1.4 }) {
@@ -263,9 +299,12 @@ function Nav({ current, onNavigate, onContact, onSideForm }) {
       <div className={`nav-drawer${drawer ? ' open' : ''}`} onClick={(e) => e.target === e.currentTarget && setDrawer(false)}>
         <div className="nav-drawer-panel">
           <div className="nav-drawer-head">
-            <span className="wordmark" style={{ fontFamily: 'var(--font-wordmark)', fontWeight: 700, letterSpacing: '0.14em' }}>
-              <span style={{ color: 'var(--text)' }}>NORTIQ</span>
-              <span style={{ color: 'var(--text-3)', fontSize: '0.7em', marginLeft: 8 }}>LABS</span>
+            <span className="nav-logo" style={{ fontSize: 18 }}>
+              <span className="nav-logo-mark" aria-hidden="true"></span>
+              <span className="wordmark">
+                <span className="wordmark-main">NORTIQ</span>
+                <span className="wordmark-sub">LABS</span>
+              </span>
             </span>
             <button className="drawer-close" onClick={() => setDrawer(false)} aria-label="閉じる">
               <Icon name="close" size={20}/>
@@ -430,7 +469,6 @@ function Footer({ onNavigate, onContact }) {
               <li><a onClick={() => onNavigate('web')}>Web制作 機能一覧</a></li>
               <li><a onClick={() => onNavigate('chatbot')}>AIチャットボット 機能一覧</a></li>
               <li><a onClick={() => onNavigate('dx')}>DX・ML 機能一覧</a></li>
-              <li><a onClick={() => onNavigate('feature-cms')}>CMS / 記事更新</a></li>
               <li><a onClick={() => onNavigate('feature-lpo')}>LP制作 / LPO</a></li>
               <li><a onClick={() => onNavigate('feature-recruit')}>採用専門サイト</a></li>
               <li><a onClick={() => onNavigate('feature-analytics')}>アクセス解析</a></li>
@@ -548,7 +586,8 @@ function ContactModal({ open, onClose, defaultCategory = '' }) {
     e.preventDefault();
     if (!validate()) return;
     setStage('sending');
-    setTimeout(() => setStage('done'), 1100);
+    openInquiryMailto(form, 'modal');
+    setTimeout(() => setStage('done'), 800);
   };
 
   const onChange = (k) => (e) => {
@@ -579,10 +618,13 @@ function ContactModal({ open, onClose, defaultCategory = '' }) {
             }}>
               <Icon name="check" size={24} stroke={2}/>
             </div>
-            <h3 className="display-s" style={{ marginBottom: 12 }}>送信完了しました</h3>
-            <p className="body" style={{ marginBottom: 28, fontSize: 14 }}>
-              24時間以内 (営業日換算) に担当者よりご連絡いたします。<br/>
-              自動返信メールをお送りしましたので、ご確認ください。
+            <h3 className="display-s" style={{ marginBottom: 12 }}>メールアプリを開きました</h3>
+            <p className="body" style={{ marginBottom: 12, fontSize: 14 }}>
+              内容をご確認の上、送信ボタンを押してください。<br/>
+              営業日 24 時間以内に担当者よりご返信します。
+            </p>
+            <p className="small" style={{ color: 'var(--text-3)', marginBottom: 28 }}>
+              ※ メールアプリが起動しない場合は <a href={`mailto:${NORTIQ_INQUIRY_EMAIL}`} style={{ color: 'var(--accent)' }}>{NORTIQ_INQUIRY_EMAIL}</a> 宛に直接お送りください。
             </p>
             <Button variant="ghost" onClick={onClose}>閉じる</Button>
           </div>
@@ -724,6 +766,7 @@ function BigInlineForm() {
     if (!form.agree) er.agree = '同意してください';
     setErrors(er);
     if (Object.keys(er).length === 0) {
+      openInquiryMailto(form, 'full-page');
       setTimeout(() => setDone(true), 500);
     }
   };
@@ -734,8 +777,9 @@ function BigInlineForm() {
         <div style={{ width: 56, height: 56, borderRadius: '50%', background: 'var(--accent-soft)', color: 'var(--accent)', display: 'grid', placeItems: 'center', margin: '0 auto 20px' }}>
           <Icon name="check" size={24} stroke={2}/>
         </div>
-        <h3 className="display-s" style={{ marginBottom: 8 }}>送信完了しました</h3>
-        <p className="small">24時間以内 (営業日換算) にご返信します。</p>
+        <h3 className="display-s" style={{ marginBottom: 8 }}>メールアプリを開きました</h3>
+        <p className="small" style={{ marginBottom: 8 }}>内容をご確認の上、ご送信ください。営業日 24h 以内にご返信します。</p>
+        <p className="small" style={{ color: 'var(--text-3)' }}>※ メールアプリが開かない場合は <a href={`mailto:${NORTIQ_INQUIRY_EMAIL}`} style={{ color: 'var(--accent)' }}>{NORTIQ_INQUIRY_EMAIL}</a> 宛にお送りください</p>
       </div>
     );
   }
@@ -872,6 +916,7 @@ function SideTabForm() {
   const submit = (e) => {
     e.preventDefault();
     if (!form.company || !form.name || !form.email || !form.agree) return;
+    openInquiryMailto(form, 'side-tab');
     setTimeout(() => setDone(true), 400);
   };
   return (
@@ -894,8 +939,11 @@ function SideTabForm() {
               <div style={{ width: 56, height: 56, borderRadius: '50%', background: 'var(--accent-soft)', color: 'var(--accent)', display: 'grid', placeItems: 'center', margin: '0 auto 20px' }}>
                 <Icon name="check" size={24} stroke={2}/>
               </div>
-              <h3 className="display-s" style={{ marginBottom: 8 }}>送信しました</h3>
-              <p className="small">24時間以内にご返信します。</p>
+              <h3 className="display-s" style={{ marginBottom: 8 }}>メールアプリを開きました</h3>
+              <p className="small" style={{ marginBottom: 8 }}>内容をご確認の上、ご送信ください。</p>
+              <p className="small" style={{ color: 'var(--text-3)' }}>
+                未起動の場合は <a href={`mailto:${NORTIQ_INQUIRY_EMAIL}`} style={{ color: 'var(--accent)' }}>{NORTIQ_INQUIRY_EMAIL}</a> 宛にお送りください。
+              </p>
               <Button variant="ghost" size="sm" onClick={() => { setDone(false); setOpen(false); }} style={{ marginTop: 24 }}>閉じる</Button>
             </div>
           ) : (

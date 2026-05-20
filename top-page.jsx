@@ -13,14 +13,13 @@ function TopPage({ onNavigate, onContact }) {
         <span className="geo-blob b1"></span>
         <span className="geo-blob b2"></span>
         <span className="geo-blob b3"></span>
-        <div className="main-hero-mark" aria-hidden="true"/>
         <div className="main-wordmark-bg" aria-hidden="true">NORTIQ LABS</div>
 
         <div className="main-bg" aria-hidden="true">
-          <VScrollCol direction="down" images={["assets/work-asia-exchange.png", "assets/work-pleast.png", "assets/work-renewal.png", "assets/work-rakuyu.png", "assets/work-panza.png", "assets/work-taketora.png"]}/>
-          <VScrollCol direction="up"   images={["assets/work-cocopa.png", "assets/work-pleast.png", "assets/work-asia-exchange.png", "assets/work-renewal.png", "assets/work-taketora.png", "assets/work-panza.png"]}/>
-          <VScrollCol direction="down" images={["assets/work-rakuyu.png", "assets/work-cocopa.png", "assets/work-taketora.png", "assets/work-pleast.png", "assets/work-asia-exchange.png", "assets/work-renewal.png"]}/>
-          <VScrollCol direction="up"   images={["assets/work-panza.png", "assets/work-asia-exchange.png", "assets/work-cocopa.png", "assets/work-renewal.png", "assets/work-pleast.png", "assets/work-rakuyu.png"]}/>
+          <VScrollCol direction="down" images={["assets/hero-01.png", "assets/work-asia-exchange.png", "assets/hero-02.png", "assets/work-pleast.png", "assets/hero-03.png", "assets/work-renewal.png", "assets/hero-04.png", "assets/work-rakuyu.png"]}/>
+          <VScrollCol direction="up"   images={["assets/work-cocopa.png", "assets/hero-05.png", "assets/work-pleast.png", "assets/hero-06.png", "assets/work-asia-exchange.png", "assets/hero-07.png", "assets/work-renewal.png", "assets/hero-08.png"]}/>
+          <VScrollCol direction="down" images={["assets/hero-02.png", "assets/work-rakuyu.png", "assets/hero-04.png", "assets/work-cocopa.png", "assets/hero-06.png", "assets/work-taketora.png", "assets/hero-08.png", "assets/work-pleast.png"]}/>
+          <VScrollCol direction="up"   images={["assets/work-panza.png", "assets/hero-01.png", "assets/work-asia-exchange.png", "assets/hero-03.png", "assets/work-cocopa.png", "assets/hero-05.png", "assets/work-renewal.png", "assets/hero-07.png"]}/>
         </div>
 
         <div className="main-inner">
@@ -166,12 +165,12 @@ function TopPage({ onNavigate, onContact }) {
             </p>
           </div>
           <div className="reasons-grid">
-            <ReasonCard num="01" emphasis="WEBサイトで他社と差別化" title="オリジナルデザイン" desc="テンプレ流用ではなく、業種・ブランドに合わせて毎回ゼロから設計。Core Web Vitals Good を標準担保。" link="制作実績一覧へ" delay={0} onClick={() => onNavigate('works')} src="assets/reason-01.png"/>
-            <ReasonCard num="02" emphasis="専属チームで" title="コンサル・運用サポート" desc="月次アクセスレポート + 定期訪問 + 改善 MTG。「公開して終わり」を絶対にしない運用体制。" link="サポートについて詳しく見る" delay={150} onClick={() => onNavigate('support')} src="assets/reason-02.png"/>
-            <ReasonCard num="03" emphasis="ホームページで" title="契約率を高める顧客管理" desc="ヒーロー / CTA配置 / フォーム設計まで、コンバージョン視点で構造化します。" link="機能サービス一覧へ" delay={300} onClick={() => onNavigate('web')} src="assets/reason-03.png"/>
-            <ReasonCard num="04" emphasis="業種別の専門コンテンツ" title="無料で利用可能" desc="医療・不動産・建築など、業種ごとに最適化された記事構成テンプレを無料提供。" link="制作実績一覧へ" delay={450} onClick={() => onNavigate('works')} src="assets/reason-04.png"/>
-            <ReasonCard num="05" emphasis="保守プラン内なら" title="公開後の修正にも対応" desc="軽微修正・テキスト変更は契約中の保守プランで対応可。プラン内回数を超える大規模変更は別途お見積もりさせていただきます。" link="HPサポートについて" delay={600} onClick={() => onNavigate('support')} src="assets/reason-05.png"/>
-            <ReasonCard num="06" emphasis="更新コンテンツで" title="独自のSEO強化を図る" desc="AI 投稿ツール + SEO 内部対策 + 業界キーワード設計を一体運用します。" link="SEO対策について" delay={750} onClick={() => onNavigate('chatbot')} src="assets/reason-06.png"/>
+            <ReasonCard num="01" emphasis="WEBサイトで他社と差別化" title="オリジナルデザイン" desc="テンプレ流用ではなく、業種・ブランドに合わせて毎回ゼロから設計。Core Web Vitals Good を標準担保。" link="制作実績一覧へ" delay={0} onClick={() => onNavigate('works')} src="assets/hero-01.png"/>
+            <ReasonCard num="02" emphasis="専属チームで" title="コンサル・運用サポート" desc="月次アクセスレポート + 定期訪問 + 改善 MTG。「公開して終わり」を絶対にしない運用体制。" link="サポートについて詳しく見る" delay={150} onClick={() => onNavigate('support')} src="assets/hero-03.png"/>
+            <ReasonCard num="03" emphasis="ホームページで" title="契約率を高める顧客管理" desc="ヒーロー / CTA配置 / フォーム設計まで、コンバージョン視点で構造化します。" link="機能サービス一覧へ" delay={300} onClick={() => onNavigate('web')} src="assets/hero-08.png"/>
+            <ReasonCard num="04" emphasis="業種別の専門コンテンツ" title="無料で利用可能" desc="医療・不動産・建築など、業種ごとに最適化された記事構成テンプレを無料提供。" link="制作実績一覧へ" delay={450} onClick={() => onNavigate('works')} src="assets/work-asia-exchange.png"/>
+            <ReasonCard num="05" emphasis="保守プラン内なら" title="公開後の修正にも対応" desc="軽微修正・テキスト変更は契約中の保守プランで対応可。プラン内回数を超える大規模変更は別途お見積もりさせていただきます。" link="HPサポートについて" delay={600} onClick={() => onNavigate('support')} src="assets/work-aozora-family.png"/>
+            <ReasonCard num="06" emphasis="更新コンテンツで" title="独自のSEO強化を図る" desc="AI 投稿ツール + SEO 内部対策 + 業界キーワード設計を一体運用します。" link="SEO対策について" delay={750} onClick={() => onNavigate('chatbot')} src="assets/pdf/loop-ai-07.png"/>
           </div>
         </div>
       </section>
@@ -200,7 +199,7 @@ function TopPage({ onNavigate, onContact }) {
             <div className="bento-cell bento-2 fadein" data-delay="80" onClick={() => onNavigate('product-vetonet')}>
               <p className="bento-eyebrow">RESEARCH</p>
               <h3>VetoNet</h3>
-              <p>AI Agent Security の研究プロダクト。NeurIPS / ICML Workshop 級に論文採択 (3 件)。商用 AI 案件 12 件に適用。</p>
+              <p>生成 AI の出力を、誰がどう検証するか。「検証レイヤ」を設計する社内研究プロダクト。設計思想と Architecture をホワイトペーパで順次公開予定。</p>
               <span className="bento-cta">研究を見る <Icon name="arrow-right" size={14}/></span>
             </div>
             <div className="bento-cell bento-3 fadein" data-delay="160" onClick={() => onNavigate('staff')}>
@@ -379,7 +378,7 @@ function TopPage({ onNavigate, onContact }) {
             {[
               { n: "01", t: "月次アクセス報告", d: "GA4 / GSC / 独自解析を統合したカスタムダッシュボードで、毎月の変化を可視化。" },
               { n: "02", t: "定期訪問・MTG",   d: "月1回のオンライン or オフライン MTG で、改善施策をその場で決定。" },
-              { n: "03", t: "活用勉強会",        d: "チーム全員が WordPress / AI ツールを使いこなせるよう、無償勉強会を実施。" },
+              { n: "03", t: "操作マニュアル整備", d: "WordPress / AI ツールの管理画面ごとに、画像付きの操作手順書をお渡しします。" },
               { n: "04", t: "ヒートマップ解析",   d: "どこで離脱するか、どこをクリックするか。データに基づくUI改善を提案。" },
             ].map((it, i) => (
               <div key={i} className="support-card fadein" data-delay={i * 120}>
@@ -413,6 +412,7 @@ function TopPage({ onNavigate, onContact }) {
               quote="Web制作からの付き合いで、半年後にAIチャットボットも導入。ブログ更新の負担がなくなり、SEO流入が1.8倍になりました。「Webのプロが横にいる」感覚を、初めて持てた気がします。"
               name="A.K."
               role="代表取締役・院長"
+              src="assets/voice-clinic-ak.png"
               delay={0}
             />
             <VoiceBubble
@@ -420,6 +420,7 @@ function TopPage({ onNavigate, onContact }) {
               quote="他社は『AIできます』止まりだが、Nortiqは実装の中身まで説明してくれて納得感があった。米国の技術背景は伊達じゃない。判断材料がきちんと揃う、貴重なパートナーです。"
               name="T.M."
               role="経営企画"
+              src="assets/voice-realty-tm.png"
               reversed
               delay={200}
             />
@@ -523,10 +524,10 @@ function ReasonCard({ num, emphasis, title, desc, link, onClick, delay, src }) {
   );
 }
 
-function WorkCard({ tag, title, stat, services }) {
+function WorkCard({ tag, title, stat, services, src }) {
   return (
     <div className="card card-link" style={{ padding: 0, overflow: 'hidden' }}>
-      <Placeholder label={tag} caption={`screenshot / ${tag}`} aspect="16/10"/>
+      <Placeholder label={tag} caption={`screenshot / ${tag}`} aspect="16/10" src={src} fit/>
       <div style={{ padding: '20px 24px 24px' }}>
         <div className="row" style={{ justifyContent: 'space-between', marginBottom: 12 }}>
           <span className="tag">{tag}</span>
@@ -543,12 +544,11 @@ function WorkCard({ tag, title, stat, services }) {
   );
 }
 
-function FeatureTrioCard({ vertical, label, titlePrefix, titleSuffix, sub, desc, price, featured, onClick, delay }) {
+function FeatureTrioCard({ vertical, titlePrefix, titleSuffix, sub, desc, price, featured, onClick, delay }) {
   return (
     <article className={`feature-trio-card fadein${featured ? ' featured' : ''}`} onClick={onClick} data-delay={delay}>
-      <div className="row" style={{ justifyContent: 'space-between', marginBottom: 18 }}>
+      <div className="row" style={{ marginBottom: 18 }}>
         <span className="step-num">{vertical}</span>
-        <span className="tag tag-on-accent">{label}</span>
       </div>
       <div className="feature-trio-title">
         <h3><span className="accent-block">{titlePrefix}</span>{titleSuffix}</h3>
@@ -566,12 +566,12 @@ function GalleryTabs({ onNavigate }) {
   const [tab, setTab] = React.useState(0);
   const data = [
     [
-      { tag: "クリニック", t: "地域密着型クリニックのリニューアル", stat: "問い合わせ 2.4×", route: 'works-clinic' },
-      { tag: "クリニック", t: "内科クリニックの予約サイト構築", stat: "予約 +83%", route: 'works-clinic' },
-      { tag: "クリニック", t: "皮膚科ブランドサイト × 集客連動", stat: "PV 2.7×", route: 'works-clinic' },
-      { tag: "クリニック", t: "歯科医院の総合 LP 構築", stat: "予約 +110%", route: 'works-clinic' },
-      { tag: "クリニック", t: "整形外科のオンライン予約刷新", stat: "予約離脱 -42%", route: 'works-clinic' },
-      { tag: "クリニック", t: "クリニックグループのコーポレート", stat: "応募 1.9×", route: 'works-clinic' },
+      { tag: "クリニック", t: "地域密着型クリニックのリニューアル (あおぞら Family Clinic)", stat: "問い合わせ 2.4×", route: 'works-clinic', img: "assets/work-aozora-family.png" },
+      { tag: "クリニック", t: "内科クリニックの予約サイト構築 (あおぞら内科クリニック)", stat: "予約 +83%", route: 'works-clinic', img: "assets/work-aozora-naika.png" },
+      { tag: "クリニック", t: "皮膚科ブランドサイト × 集客連動 (AIRA CLINIC GINZA)", stat: "PV 2.7×", route: 'works-clinic', img: "assets/hero-05.png" },
+      { tag: "クリニック", t: "歯科医院の総合 LP 構築 (白藍 HAKURAN DENTAL)", stat: "予約 +110%", route: 'works-clinic', img: "assets/hero-04.png" },
+      { tag: "クリニック", t: "美容外来のブランドサイト (クマ取り専門外来)", stat: "予約離脱 -42%", route: 'works-clinic', img: "assets/hero-06.png" },
+      { tag: "クリニック", t: "クリニックグループのコーポレート (Tokyo Clinic Group)", stat: "応募 1.9×", route: 'works-clinic', img: "assets/case-clinic-doctor.png" },
     ],
     [
       { tag: "不動産", t: "新時代の不動産投資ブランド (PLEAST)", stat: "問合せ 3.2×", route: 'works-realty', img: "assets/work-pleast.png" },
@@ -591,7 +591,7 @@ function GalleryTabs({ onNavigate }) {
     ],
     [
       { tag: "人材", t: "外国人材組合の総合ブランドサイト", stat: "応募 +84%", route: 'works-hr', img: "assets/work-asia-exchange.png" },
-      { tag: "人材", t: "新卒採用ブランドサイト構築", stat: "エントリー 2.1×", route: 'works-hr' },
+      { tag: "人材", t: "新卒採用ブランドサイト構築 (AXIA · NEW GRADUATES)", stat: "エントリー 2.1×", route: 'works-hr', img: "assets/hero-07.png" },
       { tag: "人材", t: "中途採用LP + リスティング連動", stat: "応募単価 -38%", route: 'works-hr' },
       { tag: "人材", t: "派遣会社の登録LP", stat: "登録 1.7×", route: 'works-hr' },
       { tag: "人材", t: "外国人材紹介の英日バイリンガル", stat: "海外PV 4×", route: 'works-hr', img: "assets/work-asia-exchange.png" },
@@ -644,11 +644,11 @@ function GalleryTabs({ onNavigate }) {
   );
 }
 
-function VoiceBubble({ tag, quote, name, role, reversed, delay }) {
+function VoiceBubble({ tag, quote, name, role, reversed, delay, src }) {
   return (
     <figure className={`voice-bubble fadein${reversed ? ' reversed' : ''}`} data-delay={delay}>
       <div className="voice-avatar">
-        <Placeholder label={tag} caption="" aspect="1/1"/>
+        <Placeholder label={src ? "" : tag} caption="" aspect="1/1" src={src} fit/>
       </div>
       <div className="voice-content">
         <span className="tag tag-on-accent" style={{ marginBottom: 14, display: 'inline-block' }}>{tag}</span>

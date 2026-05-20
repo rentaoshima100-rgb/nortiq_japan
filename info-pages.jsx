@@ -9,23 +9,27 @@
 // WORKS — index + category
 // ============================================================
 const WORKS_DATA = [
-  { id: 1, tag: "クリニック", category: "clinic", title: "地域密着型クリニックのリニューアル", stat: "問い合わせ 2.4×", services: ["Web制作", "AIチャットボット"] },
-  { id: 2, tag: "クリニック", category: "clinic", title: "内科クリニックの予約サイト構築", stat: "予約 +83%", services: ["Web制作"] },
+  { id: 1, tag: "クリニック", category: "clinic", title: "地域密着型クリニックのリニューアル (あおぞら Family Clinic)", stat: "問い合わせ 2.4×", services: ["Web制作", "AIチャットボット"], img: "assets/work-aozora-family.png" },
+  { id: 2, tag: "クリニック", category: "clinic", title: "内科クリニックの予約サイト構築 (あおぞら内科クリニック)", stat: "予約 +83%", services: ["Web制作"], img: "assets/work-aozora-naika.png" },
+  { id: 18, tag: "クリニック", category: "clinic", title: "皮膚科ブランドサイト × 集客連動 (AIRA CLINIC GINZA)", stat: "PV 2.7×", services: ["Web制作", "SEO"], img: "assets/hero-05.png" },
+  { id: 19, tag: "クリニック", category: "clinic", title: "歯科医院の総合 LP 構築 (白藍 HAKURAN DENTAL)", stat: "予約 +110%", services: ["Web制作"], img: "assets/hero-04.png" },
+  { id: 20, tag: "クリニック", category: "clinic", title: "美容外来のブランドサイト (クマ取り専門外来)", stat: "予約離脱 -42%", services: ["Web制作"], img: "assets/hero-06.png" },
   { id: 3, tag: "不動産", category: "realty", title: "新時代の不動産投資ブランド構築 (PLEAST)", stat: "問合せ 3.2×", services: ["Web制作", "SEO"], img: "assets/work-pleast.png" },
   { id: 4, tag: "不動産", category: "realty", title: "投資物件専門サイト × 物件管理", stat: "反響 2.7×", services: ["Web制作", "DX"], img: "assets/work-pleast.png" },
   { id: 5, tag: "建築", category: "build", title: "大規模修繕・建物リニューアル (Renew Reuse Loop)", stat: "問合せ 2.6×", services: ["Web制作", "Recruit"], img: "assets/work-renewal.png" },
   { id: 6, tag: "建築", category: "build", title: "不断水水替工法のテクニカルサイト (RAKUYU-Z)", stat: "BtoB商談 +210%", services: ["Web制作"], img: "assets/work-rakuyu.png" },
   { id: 7, tag: "人材", category: "hr", title: "外国人材組合 (Asia Exchange Cooperative) サイト", stat: "応募 +84%", services: ["Web制作", "AIチャットボット"], img: "assets/work-asia-exchange.png" },
-  { id: 8, tag: "人材", category: "hr", title: "新卒採用ブランドサイト構築", stat: "エントリー 2.1×", services: ["Web制作", "AIチャットボット"], img: "assets/work-asia-exchange.png" },
+  { id: 8, tag: "人材", category: "hr", title: "新卒採用ブランドサイト構築 (AXIA · NEW GRADUATES)", stat: "エントリー 2.1×", services: ["Web制作", "AIチャットボット"], img: "assets/hero-07.png" },
+  { id: 21, tag: "人材", category: "hr", title: "中途採用 LP (AXIA · 挑め、想定の外へ)", stat: "応募 1.6×", services: ["Web制作", "LPO"], img: "assets/lpo-axia-recruit.png" },
   { id: 9, tag: "小売", category: "retail", title: "京都のキッチンカー (panza) ブランドLP", stat: "SNS流入 4.6×", services: ["Web制作"], img: "assets/work-panza.png" },
   { id: 10, tag: "小売", category: "retail", title: "京都の骨董店 (TAKETORA) バイリンガルEC", stat: "海外PV 5.2×", services: ["Web制作", "EC"], img: "assets/work-taketora.png" },
   { id: 11, tag: "小売", category: "retail", title: "ゴルフリゾート (COCOPA) のブランドサイト", stat: "予約 1.9×", services: ["Web制作"], img: "assets/work-cocopa.png" },
-  { id: 12, tag: "小売", category: "retail", title: "サブスク EC のリピート率改善", stat: "解約率 -32%", services: ["DX・ML"] },
+  { id: 12, tag: "小売", category: "retail", title: "サブスク EC のリピート率改善 (Quiet Objects · Spring Editorial)", stat: "解約率 -32%", services: ["DX・ML"], img: "assets/hero-01.png" },
   { id: 13, tag: "インフラ", category: "infra", title: "RAKUYU-Z 工法協会 サイト", stat: "信頼度評価 +", services: ["Web制作"], img: "assets/work-rakuyu.png" },
-  { id: 14, tag: "インフラ", category: "infra", title: "電力会社のサービスサイト刷新", stat: "PV 2.1×", services: ["Web制作", "アクセス解析"] },
-  { id: 15, tag: "AI", category: "ai", title: "AIスタートアップのシード期 LP", stat: "商談化率 4.2×", services: ["Web制作"] },
-  { id: 16, tag: "AI", category: "ai", title: "BtoB SaaS のサービスサイト", stat: "問合せ +210%", services: ["Web制作", "AIチャットボット"] },
-  { id: 17, tag: "AI", category: "ai", title: "ML エンジン PoC LP", stat: "デモ申込 5.6×", services: ["Web制作"] },
+  { id: 14, tag: "インフラ", category: "infra", title: "電力会社のサービスサイト刷新 (VOLTIO スマートエネルギー)", stat: "PV 2.1×", services: ["Web制作", "アクセス解析"], img: "assets/hero-03.png" },
+  { id: 15, tag: "AI", category: "ai", title: "AIスタートアップのシード期 LP (Sable · SEED 2026)", stat: "商談化率 4.2×", services: ["Web制作"], img: "assets/hero-02.png" },
+  { id: 16, tag: "AI", category: "ai", title: "BtoB SaaS のサービスサイト (ATLAS ML Engine)", stat: "問合せ +210%", services: ["Web制作", "AIチャットボット"], img: "assets/hero-08.png" },
+  { id: 17, tag: "AI", category: "ai", title: "ML エンジン PoC LP (AI ツール解説サービス)", stat: "デモ申込 5.6×", services: ["Web制作"], img: "assets/work-ai-toolpicks.jpg" },
 ];
 
 const CATEGORY_LABELS = {
@@ -218,7 +222,7 @@ function SupportPage({ onNavigate, onContact }) {
           <div className="grid-4">
             <div className="card"><div className="step-num" style={{ marginBottom: 16 }}>01</div><h3 style={{ fontSize: 19, fontWeight: 500, margin: 0, marginBottom: 10 }}>月次アクセス報告</h3><p className="body" style={{ fontSize: 14 }}>GA4 / GSC / 独自解析を統合したカスタムダッシュボードで、毎月の変化を可視化。</p></div>
             <div className="card"><div className="step-num" style={{ marginBottom: 16 }}>02</div><h3 style={{ fontSize: 19, fontWeight: 500, margin: 0, marginBottom: 10 }}>定期訪問・MTG</h3><p className="body" style={{ fontSize: 14 }}>月1回のオンライン or オフライン MTG で、改善施策をその場で決定します。</p></div>
-            <div className="card"><div className="step-num" style={{ marginBottom: 16 }}>03</div><h3 style={{ fontSize: 19, fontWeight: 500, margin: 0, marginBottom: 10 }}>活用勉強会</h3><p className="body" style={{ fontSize: 14 }}>WordPress / AI ツールを社内メンバーが使いこなせるよう、無償勉強会を実施。</p></div>
+            <div className="card"><div className="step-num" style={{ marginBottom: 16 }}>03</div><h3 style={{ fontSize: 19, fontWeight: 500, margin: 0, marginBottom: 10 }}>操作マニュアル整備</h3><p className="body" style={{ fontSize: 14 }}>WordPress / AI ツールの管理画面ごとに、画像付きの操作手順書をご提供します。</p></div>
             <div className="card"><div className="step-num" style={{ marginBottom: 16 }}>04</div><h3 style={{ fontSize: 19, fontWeight: 500, margin: 0, marginBottom: 10 }}>ヒートマップ解析</h3><p className="body" style={{ fontSize: 14 }}>どこで離脱するか、どこをクリックするか。データに基づくUI改善を提案。</p></div>
           </div>
         </div>
@@ -879,7 +883,6 @@ function SitemapPage({ onNavigate, onContact }) {
               { id: 'web', label: 'Web制作 機能一覧' },
               { id: 'chatbot', label: 'AIチャットボット 機能一覧' },
               { id: 'dx', label: 'DX・ML 機能一覧' },
-              { id: 'feature-cms', label: 'CMS / 記事更新システム' },
               { id: 'feature-lpo', label: 'LP制作 / LPO' },
               { id: 'feature-recruit', label: '採用専門サイト' },
               { id: 'feature-analytics', label: 'アクセス解析カスタム実装' },

@@ -93,12 +93,14 @@ function ProductVetoNetPage({ onNavigate, onContact }) {
       <Breadcrumb items={[{ label: "トップ", id: "top" }, { label: "自社プロダクト" }, { label: "VetoNet" }]} onNavigate={onNavigate}/>
       <DetailHero
         tag="PRODUCT / 研究開発"
-        title={<>VetoNet —<br/>AI Agent Security の研究プロダクト。</>}
+        title={<>VetoNet,<br/>AI Agent Security の研究プロダクト。</>}
         lede="AI Agent の振る舞いを多層検証する、Nortiq Labs の研究開発プロダクト。自社プロダクト開発の技術基盤として、お客様の AI 実装にもその知見を還元しています。"
         badges={["β preview", "Python / Rust", "AI Research", "Distributed"]}
         onContact={onContact}
         visualLabel="VetoNet"
-        visualCaption="dashboard.png"
+        visualCaption="dashboard preview"
+        visualSrc="assets/vetonet-dashboard.png"
+        visualAspect="4/3"
       />
 
       <section className="section-pad">
@@ -107,14 +109,14 @@ function ProductVetoNetPage({ onNavigate, onContact }) {
             <h2 className="section-title fadein">なぜ AI Security か。</h2>
             <p className="section-sub fadein">WHY · AI AGENT SECURITY</p>
             <p className="lede fadein" style={{ margin: '24px auto 0' }}>
-              生成 AI が業務の中核に入った今、<span className="highlight">「AIの出力を、誰がどう検証するか」</span>が経営課題に直結します。VetoNet はその「検証レイヤー」を構築する研究です。
+              生成 AI が業務の中核に入った今、<span className="highlight">「AI の出力を、誰がどう検証するか」</span>が経営課題に直結します。LLM は確率的に振る舞うため、従来のルールベース監査ではカバーしきれない判断が日々生まれている。VetoNet はその検証レイヤを構築するための研究です。
             </p>
           </div>
           <BulletGrid items={[
-            { title: "出力検証パイプライン", desc: "LLM 出力に対して 7 段階の検証 (事実性 / 安全性 / 一貫性 / 形式 / 業務適合 / コスト / 監査) を自動実行。" },
-            { title: "Multi-Agent Orchestration", desc: "複数 AI Agent の協調動作を、検証専用 Agent (Veto) が監督する仕組み。分散システム理論を応用。" },
-            { title: "Audit Trail / 監査証跡", desc: "全 AI 判断にトレースを残し、後から監査・再現できる構造。コンプライアンス重視業種で有効。" },
-            { title: "Red Team Module", desc: "敵対的入力を自動生成し、Agent の脆弱性を発見。継続的なセキュリティ強化に。" },
+            { title: "出力検証パイプライン", desc: "LLM 出力に対して 7 段階の検証 (事実性 / 安全性 / 一貫性 / 形式 / 業務適合 / コスト / 監査) を自動実行。1 つの Agent 応答が本番反映される前に、複数の独立した観点から validated される構造にしています。" },
+            { title: "Multi-Agent Orchestration", desc: "複数 AI Agent の協調動作を、検証専用 Agent (Veto) が監督する仕組み。分散システム理論の Two-Phase Commit や Byzantine Fault Tolerance を応用し、Agent 間の合意形成に検証を組み込んでいます。" },
+            { title: "Audit Trail / 監査証跡", desc: "全 AI 判断にトレースを残し、後から監査・再現できる構造。金融・医療・法務など、判断根拠の説明責任が問われる業種で有効です。" },
+            { title: "Red Team Module", desc: "敵対的入力を自動生成し、Agent の脆弱性を発見。Prompt Injection、Jailbreak、Data Exfiltration など既知の攻撃パタンを継続的に投入し、本番投入前にリスクを洗い出します。" },
           ]}/>
         </div>
       </section>
@@ -122,13 +124,25 @@ function ProductVetoNetPage({ onNavigate, onContact }) {
       <section className="section-pad" style={{ background: 'var(--bg-2)' }}>
         <div className="container">
           <div className="section-head">
-            <h2 className="section-title fadein">研究成果は、お客様の AI 実装に還元します。</h2>
-            <p className="section-sub fadein">FEEDBACK LOOP</p>
+            <h2 className="section-title fadein">研究の現状と、公開方針。</h2>
+            <p className="section-sub fadein">STATUS · IN PROGRESS</p>
           </div>
           <div className="grid-3">
-            <div className="card fadein"><div className="bignum" style={{ fontSize: 36 }}>3<sub style={{ fontSize: 14, color: 'var(--accent-2)' }}>論文</sub></div><h3 style={{ fontSize: 17, marginTop: 12, marginBottom: 6, fontWeight: 700 }}>査読論文採択</h3><p className="body" style={{ fontSize: 13, margin: 0 }}>2025-2026 に NeurIPS / ICML Workshop 級に採択。</p></div>
-            <div className="card fadein" data-delay="120"><div className="bignum" style={{ fontSize: 36 }}>12<sub style={{ fontSize: 14, color: 'var(--accent-2)' }}>件</sub></div><h3 style={{ fontSize: 17, marginTop: 12, marginBottom: 6, fontWeight: 700 }}>商用 AI 案件への適用</h3><p className="body" style={{ fontSize: 13, margin: 0 }}>金融 / 医療 / 法務 業種の AI 案件で、検証レイヤーとして導入。</p></div>
-            <div className="card fadein" data-delay="240"><div className="bignum" style={{ fontSize: 36 }}>0<sub style={{ fontSize: 14, color: 'var(--accent-2)' }}>件</sub></div><h3 style={{ fontSize: 17, marginTop: 12, marginBottom: 6, fontWeight: 700 }}>重大インシデント</h3><p className="body" style={{ fontSize: 13, margin: 0 }}>VetoNet 適用後の本番運用で、重大な AI ミスは検出ゼロ。</p></div>
+            <div className="card fadein">
+              <div className="bignum" style={{ fontSize: 36 }}>01<sub style={{ fontSize: 14, color: 'var(--accent-2)' }}>phase</sub></div>
+              <h3 style={{ fontSize: 17, marginTop: 12, marginBottom: 6, fontWeight: 700 }}>三層の検証アーキテクチャを設計中</h3>
+              <p className="body" style={{ fontSize: 13, margin: 0 }}>入力検証 / モデル出力検証 / 人間レビューを直列に挟む、多層的な検証レイヤを試作しています。各層が異なる粒度で AI の判断を捕捉する構造を目指しています。</p>
+            </div>
+            <div className="card fadein" data-delay="120">
+              <div className="bignum" style={{ fontSize: 36 }}>02<sub style={{ fontSize: 14, color: 'var(--accent-2)' }}>phase</sub></div>
+              <h3 style={{ fontSize: 17, marginTop: 12, marginBottom: 6, fontWeight: 700 }}>社内 PoC を反復中</h3>
+              <p className="body" style={{ fontSize: 13, margin: 0 }}>外部公開や商用導入の前に、Nortiq 内部で運用する AI ツールへ組み込み、検出率・偽陽性率・運用負荷を計測しています。実運用に耐えるオーバヘッドかどうかを最優先で検証中。</p>
+            </div>
+            <div className="card fadein" data-delay="240">
+              <div className="bignum" style={{ fontSize: 36 }}>03<sub style={{ fontSize: 14, color: 'var(--accent-2)' }}>phase</sub></div>
+              <h3 style={{ fontSize: 17, marginTop: 12, marginBottom: 6, fontWeight: 700 }}>Whitepaper で段階公開</h3>
+              <p className="body" style={{ fontSize: 13, margin: 0 }}>完成を待たず、設計思想、脅威モデル、評価指標を順次ホワイトペーパとして公開していく予定です。クローズドな研究ではなく、コミュニティと議論しながら磨いていく方針です。</p>
+            </div>
           </div>
         </div>
       </section>
@@ -136,11 +150,11 @@ function ProductVetoNetPage({ onNavigate, onContact }) {
       <section className="section-pad">
         <div className="container">
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 48, alignItems: 'flex-start' }}>
-            <Placeholder label="VetoNet" caption="architecture.fig" aspect="4/3"/>
+            <Placeholder label="" caption="architecture · validation layers" aspect="4/3" src="assets/vetonet-architecture.png" fit/>
             <div>
               <h3 className="display-s" style={{ marginBottom: 20 }}>技術的詳細</h3>
               <p className="body" style={{ marginBottom: 24 }}>
-                Multi-Agent システム上に Veto Agent を別立てで実装し、他の Agent の出力を 7 種類の検証器に通します。検証器は Rust で実装された高速モジュールと、Python の LLM ベース検証器の組み合わせです。
+                Multi-Agent システム上に Veto Agent を別立てで実装し、他の Agent の出力を 7 種類の検証器に通します。検証器は Rust で実装された高速モジュール (構文・形式・コスト系のルールベース検証) と、Python の LLM ベース検証器 (事実性・一貫性・業務適合の意味論的検証) の組み合わせ。前段で安価に弾けるものは Rust 層で落とし、判断が必要なものだけを LLM 層に流すことで、レイテンシとコストのバランスを取っています。
               </p>
               <StackBlock stack={["Python", "Rust", "PyTorch", "FastAPI", "Anthropic Claude", "OpenAI", "PostgreSQL", "Redis", "Docker"]}/>
               <div style={{ marginTop: 24 }}>
@@ -151,7 +165,7 @@ function ProductVetoNetPage({ onNavigate, onContact }) {
         </div>
       </section>
 
-      <RedCTAStrip onContact={onContact} onNavigate={onNavigate} title={<>業務に AI を入れる前に、<br/>検証レイヤーの議論をしませんか。</>}/>
+      <RedCTAStrip onContact={onContact} onNavigate={onNavigate} title={<>業務に AI を入れる前に、<br/>検証レイヤの議論をしませんか。</>}/>
     </main>
   );
 }
@@ -652,7 +666,9 @@ function FeatureLPOPage({ onNavigate, onContact }) {
         badges={["コピー設計から", "A/Bテスト", "ヒートマップ解析", "リスティング連動"]}
         onContact={onContact}
         visualLabel="LPO"
-        visualCaption="ab-test.png"
+        visualCaption="AXIA · 挑め、想定の外へ"
+        visualSrc="assets/lpo-axia-recruit.png"
+        visualAspect="4/3"
       />
 
       <section className="section-pad">
@@ -743,7 +759,9 @@ function FeatureAnalyticsPage({ onNavigate, onContact }) {
         badges={["GA4 / GSC", "BigQuery", "Looker Studio", "カスタムイベント"]}
         onContact={onContact}
         visualLabel="Analytics"
-        visualCaption="dashboard.png"
+        visualCaption="data ops / dashboards"
+        visualSrc="assets/feature-analytics-office.png"
+        visualAspect="4/3"
       />
 
       <section className="section-pad">

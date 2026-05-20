@@ -133,7 +133,7 @@ function WebPage({ onNavigate, onContact }) {
               <ProcessStep title="運用・改善" desc="公開後 3 ヶ月のサポート期間中、月次レビュー会で改善施策を実行。"/>
             </ol>
             <div style={{ position: 'sticky', top: 100 }}>
-              <Placeholder label="Process Diagram" caption="figma / workflow.fig" aspect="4/5"/>
+              <Placeholder label="Process Diagram" caption="6 steps · web build" aspect="4/5" src="assets/process-6steps.png" fit/>
             </div>
           </div>
         </div>
@@ -205,9 +205,9 @@ function WebPage({ onNavigate, onContact }) {
             <Button variant="text">すべての実績を見る<Icon name="arrow-right" size={13}/></Button>
           </div>
           <div className="grid-3">
-            <WorkCard tag="クリニック" title="地域密着型クリニックのリニューアル" stat="問い合わせ 2.4×" services={["Web制作", "AIチャットボット"]}/>
-            <WorkCard tag="不動産" title="都内不動産仲介の集客サイト構築" stat="月間PV 3.1×" services={["Web制作", "SEO"]}/>
-            <WorkCard tag="AI スタートアップ" title="シードラウンド時の Tech 企業 LP" stat="商談化率 4.2×" services={["Web制作"]}/>
+            <WorkCard tag="クリニック" title="地域密着型クリニックのリニューアル" stat="問い合わせ 2.4×" services={["Web制作", "AIチャットボット"]} src="assets/hero-05.png"/>
+            <WorkCard tag="不動産" title="都内不動産仲介の集客サイト構築" stat="月間PV 3.1×" services={["Web制作", "SEO"]} src="assets/work-pleast.png"/>
+            <WorkCard tag="AI スタートアップ" title="シードラウンド時の Tech 企業 LP" stat="商談化率 4.2×" services={["Web制作"]} src="assets/hero-08.png"/>
           </div>
         </div>
       </section>
@@ -228,7 +228,7 @@ function WebPage({ onNavigate, onContact }) {
                 <Button variant="ghost" onClick={() => onNavigate('chatbot')}>STEP 02 を見る<Icon name="arrow-right" size={14}/></Button>
               </div>
             </div>
-            <Placeholder label="Funnel · 02" caption="next step illustration" aspect="4/3"/>
+            <Placeholder label="Funnel · 02" caption="AI 投稿アシスタント (next step)" aspect="4/3" src="assets/pdf/loop-ai-04.png" fit/>
           </div>
         </div>
       </section>
@@ -338,8 +338,8 @@ function ChatbotPage({ onNavigate, onContact }) {
               <Button variant="primary" onClick={() => onContact('chatbot')} arrow>導入の相談をする</Button>
             </div>
             <div className="stack-m">
-              <Placeholder label="Chat Interface" caption="screenshot / chatbot-ui.png" aspect="4/3"/>
-              <Placeholder label="Generated Article" caption="screenshot / wp-editor.png" aspect="4/3"/>
+              <Placeholder label="Desktop UI" caption="A · Notion-style (PC)" aspect="4/3" src="assets/chatbot-ui-desktop.png" fit/>
+              <Placeholder label="Mobile UI" caption="C · iPhone" aspect="4/5" src="assets/chatbot-ui-mobile.png" fit/>
             </div>
           </div>
         </div>
@@ -383,7 +383,7 @@ function ChatbotPage({ onNavigate, onContact }) {
                 <Button variant="text">事例の詳細を見る<Icon name="arrow-right" size={13}/></Button>
               </div>
             </div>
-            <Placeholder label="Case Study" caption="medical-clinic-case.jpg" aspect="3/4"/>
+            <Placeholder label="" caption="" aspect="3/4" src="assets/case-clinic-doctor.png" fit/>
           </div>
         </div>
       </section>
