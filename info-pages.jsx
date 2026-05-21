@@ -780,8 +780,8 @@ function CompanyPage({ onNavigate, onContact }) {
 function StaffPage({ onNavigate, onContact }) {
   const members = [
     { role: "Founder · 代表", name: "Renta Oshima", desc: "米国の大学で AI 研究。帰国後、日本の中小企業向け DX 支援を起業。事業全体と顧客並走の責任者。", tags: ["AI Research", "Full-stack", "JP / EN"], img: "assets/staff-founder.jpg" },
-    { role: "CTO · Computer Scientist", name: "C.S.", desc: "計算理論・分散システムが専門。自社プロダクト VetoNet (AI Security) とテニスフォーム分析 SaaS の開発主担当 兼 CTO。", tags: ["Distributed", "Security", "Rust"], img: "assets/staff-cto.jpg" },
-    { role: "Data Scientist", name: "D.S.", desc: "AI のコア部分を担うデータサイエンティスト。統計モデリングと ML 実装のエキスパートとして、分析基盤の設計から実装までを牽引。", tags: ["Statistics", "ML Core", "MLOps"], img: "assets/staff-ds.jpg" },
+    { role: "CTO · Computer Scientist", name: "Takenosuke", desc: "計算理論・分散システムが専門。自社プロダクト VetoNet (AI Security) とテニスフォーム分析 SaaS の開発主担当 兼 CTO。", tags: ["Distributed", "Security", "Rust"], img: "assets/staff-cto.jpg" },
+    { role: "Data Scientist", name: "Ashwin", desc: "AI のコア部分を担うデータサイエンティスト。統計モデリングと ML 実装のエキスパートとして、分析基盤の設計から実装までを牽引。", tags: ["Statistics", "ML Core", "MLOps"], img: "assets/staff-ds.jpg" },
   ];
   return (
     <main className="page-fade">
