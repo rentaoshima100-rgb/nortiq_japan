@@ -836,8 +836,8 @@ const LP_DATA = {
     lede: "実店舗・ブランドとオンライン販売を連動させる EC 送客 LP の制作実績。越境 EC や実店舗送客まで、購買導線を一気通貫で設計します。",
     badges: ["OMO設計", "越境EC対応", "実店舗送客"],
     items: [
+      { tag: "EC連動", t: "クラフト・衣料ブランドのエディトリアル EC", stat: "客単価 +24%", img: "assets/work-quiet-objects.png" },
       { tag: "EC連動", t: "京都・骨董店「TAKETORA」のバイリンガル越境EC", stat: "海外売上 2.2×", img: "assets/work-taketora.png" },
-      { tag: "EC連動", t: "京都のキッチンカー「panza」ブランド × オンライン送客LP", stat: "EC流入 1.8×", img: "assets/work-panza.png" },
     ],
   },
   'works-video': {
