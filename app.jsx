@@ -90,6 +90,48 @@ function idFromPath(path) {
   return stripped === '' ? 'top' : stripped;
 }
 
+// Per-route SEO metadata. Since this SPA serves one static index.html for every
+// route, canonical + description must be rewritten client-side on navigation so
+// each page gets its own (Google reads the rendered DOM). Falls back to default.
+const NORTIQ_SITE = 'https://nortiqlab.com';
+const DEFAULT_DESC = '米国の技術水準を、日本の中小企業の武器に。Web制作・AIチャットボット・DX/ML実装まで、50社以上の支援実績を持つ技術チームが段階的に伴走するDXパートナーです。';
+const SEO_DESC = {
+  top: DEFAULT_DESC,
+  web: 'オリジナルデザイン + AI運用付きWeb制作。50社の制作実績を持つ技術チームが、契約率を高めるコーポレート・LP・ブランドサイトを設計から運用まで一貫で支援します。',
+  chatbot: 'WordPressのブログ更新をAIで自動化するチャットボット導入支援。50社の運用実績で、SEO強化と問い合わせ増加を両立します。',
+  dx: '機械学習・データ分析・業務自動化で経営判断を加速するDX実装支援。米国大学発の技術チームが中小企業のDXを段階的に伴走します。',
+  works: 'Nortiq Labsの制作実績一覧。クリニック・不動産・組合・歯科・美容外来まで、50社以上のWeb制作とDX支援事例を掲載。',
+  voice: 'Nortiq Labsをご利用いただいた企業様の声。地域密着クリニックから不動産投資ブランドまで、長くご支援している顧客の評価をご紹介。',
+  pricing: '料金プラン。Web制作30万円〜、AIチャットボット・DX実装まで、段階的に始められる明朗な料金体系をご案内します。',
+  support: '公開後も伴走するサポート体制。営業日24時間以内のご返信で、Web・AI・DXの運用と改善を継続的にご支援します。',
+  diagnostic: 'URLを入れるだけで、サイトのテクニカルSEO・AI可視性・競合比較まで無料診断。NORTIQLABの専門家が改善提案までお届けします。',
+  diagnosis: 'サイト無料診断。Nortiq独自のチェックリストで、現状のWeb課題を可視化し、改善の優先順位をご提案します。',
+  subsidy: 'IT導入補助金2026の申請サポート。最大450万円。Web・AI・DX投資の補助金活用を一気通貫でご支援します。',
+  guidebook: '中小企業のためのDXガイドブック（無料DL）。Web → AIチャットボット → DXまで、段階的な進め方を一冊にまとめました。',
+  column: 'Nortiq Labsのコラム・技術ブログ。AI・SEO・DX・業種別の実務知見を、調査データに基づいてお届けします。',
+  company: 'Nortiq Labs 会社概要。米国のAI研究背景を持つエンジニアと、日本の経営課題に向き合うメンバーによる技術チームです。',
+  staff: 'Nortiq Labsのチーム紹介。Founder / Computer Scientist / Data Scientist の三職能が、お客様1社にチーム編成で並走します。',
+  recruit: 'Nortiq Labsの採用情報。米国の技術水準を、日本の中小企業の武器に。技術と現場の両輪で挑むメンバーを募集しています。',
+  'product-vetonet': 'VetoNet — AI agent security の研究開発プロダクト。Nortiq Labs が取り組む分散システム・セキュリティの技術をご紹介します。',
+  'product-wpchat': 'WordPress AIチャットボット / AI投稿アシスタント。ブログ更新と問い合わせ対応を自動化し、運用負担を減らします。',
+  'product-tennis': 'テニスフォーム分析 SaaS。動画から姿勢・スイングをAIで解析する、Nortiq Labs の自社プロダクトです。',
+  'feature-lpo': 'LP制作 / LPO 支援。コンバージョンを最大化するランディングページの設計・改善を、データに基づいて行います。',
+  'feature-recruit': '採用専門サイトの制作。コンセプト設計・社員撮影・エントリー導線まで、応募率を高める採用ブランドサイトを構築します。',
+  'feature-analytics': 'アクセス解析のカスタム実装。計測設計からダッシュボード構築まで、意思決定に効くデータ基盤をご提供します。',
+};
+function descFor(route) {
+  if (route && route.indexOf('article-') === 0) {
+    const slug = route.slice('article-'.length);
+    const a = ((typeof window !== 'undefined' && window.NORTIQ_ARTICLES) || {})[slug];
+    return a ? `${a.title} ｜ Nortiq Labs の技術ブログ（${a.category}）。` : DEFAULT_DESC;
+  }
+  return SEO_DESC[route] || DEFAULT_DESC;
+}
+function setMetaContent(selector, value) {
+  const el = document.head.querySelector(selector);
+  if (el) el.setAttribute('content', value);
+}
+
 function App() {
   const [route, setRoute] = React.useState(() => {
     const id = idFromPath(window.location.pathname);
@@ -117,6 +159,17 @@ function App() {
   React.useEffect(() => {
     const meta = ROUTES[route] || ROUTES.top;
     document.title = meta.title;
+    // Per-route canonical + description (this SPA shares one static index.html).
+    const url = NORTIQ_SITE + pathFor(route);
+    const desc = descFor(route);
+    const canonical = document.head.querySelector('link[rel="canonical"]');
+    if (canonical) canonical.setAttribute('href', url);
+    setMetaContent('meta[name="description"]', desc);
+    setMetaContent('meta[property="og:url"]', url);
+    setMetaContent('meta[property="og:title"]', meta.title);
+    setMetaContent('meta[property="og:description"]', desc);
+    setMetaContent('meta[name="twitter:title"]', meta.title);
+    setMetaContent('meta[name="twitter:description"]', desc);
     window.scrollTo({ top: 0, behavior: 'instant' });
   }, [route]);
 

@@ -219,7 +219,7 @@ function Nav({ current, onNavigate, onContact, onSideForm }) {
   };
 
   return (
-    <nav className="nav" role="navigation">
+    <header className="nav" role="banner">
       <div className="nav-inner">
         <a className="nav-logo" onClick={() => navTo('top')} style={{ cursor: 'pointer' }}>
           <span className="nav-logo-mark"></span>
@@ -229,7 +229,7 @@ function Nav({ current, onNavigate, onContact, onSideForm }) {
           </span>
         </a>
 
-        <div className="nav-links">
+        <nav className="nav-links" aria-label="メインナビゲーション">
           {NAV_MEGA.map(item => {
             const hasMega = !!item.columns;
             return (
@@ -272,7 +272,7 @@ function Nav({ current, onNavigate, onContact, onSideForm }) {
               </div>
             );
           })}
-        </div>
+        </nav>
 
         <div className="nav-cta-wrap">
           <Button variant="primary" size="sm" onClick={onContact}>
@@ -348,7 +348,7 @@ function Nav({ current, onNavigate, onContact, onSideForm }) {
           </div>
         </div>
       </div>
-    </nav>
+    </header>
   );
 }
 
