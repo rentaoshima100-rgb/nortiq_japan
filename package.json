@@ -11,6 +11,9 @@
     "render-pdf": "node render-pdf.mjs",
     "serve": "npx --yes serve dist -l 5173"
   },
+  "dependencies": {
+    "sharp": "^0.33.5"
+  },
   "devDependencies": {
     "@babel/cli": "^7.24.0",
     "@babel/core": "^7.24.0",

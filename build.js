@@ -4,6 +4,7 @@ const path = require('path');
 const babel = require('@babel/core');
 const { minify } = require('terser');
 const { marked } = require('marked');
+const sharp = require('sharp');
 
 const ROOT = __dirname;
 const DIST = path.join(ROOT, 'dist');
@@ -78,6 +79,75 @@ function copyDir(src, dest) {
   }
 }
 
+// Small UI icons we never want to resize/recompress (kept pixel-perfect & tiny).
+const ICON_SKIP = new Set(['nortiq-fav.png', 'nortiq-icon.png', 'nortiq-mark.png']);
+const RASTER_EXT = new Set(['.png', '.jpg', '.jpeg']);
+
+// Recursively collect raster image paths under dir, skipping the vendor/ JS folder.
+function collectRasterImages(dir, acc = []) {
+  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+    const full = path.join(dir, entry.name);
+    if (entry.isDirectory()) {
+      if (entry.name === 'vendor') continue; // vendor/ holds JS, not images
+      collectRasterImages(full, acc);
+    } else if (RASTER_EXT.has(path.extname(entry.name).toLowerCase())) {
+      acc.push(full);
+    }
+  }
+  return acc;
+}
+
+function rasterBytes(files) {
+  let total = 0;
+  for (const f of files) {
+    try { total += fs.statSync(f).size; } catch { /* ignore */ }
+  }
+  return total;
+}
+
+function humanBytes(n) {
+  if (n >= 1024 * 1024) return (n / (1024 * 1024)).toFixed(1) + 'MB';
+  if (n >= 1024) return (n / 1024).toFixed(1) + 'KB';
+  return n + 'B';
+}
+
+// Walk dist/assets, downscale oversized rasters to <=1600px wide, and re-encode
+// PNG/JPEG in place — only keeping the result when it actually saves bytes.
+async function optimizeImages(assetsDir) {
+  if (!fs.existsSync(assetsDir)) return;
+  const files = collectRasterImages(assetsDir);
+  const before = rasterBytes(files);
+  for (const file of files) {
+    const base = path.basename(file);
+    if (ICON_SKIP.has(base)) continue;
+    const ext = path.extname(file).toLowerCase();
+    try {
+      // Read into a Buffer first — sharp can't reliably read & overwrite the
+      // same path within one pipeline.
+      const buffer = fs.readFileSync(file);
+      const original = buffer.length;
+      let pipeline = sharp(buffer);
+      const meta = await pipeline.metadata();
+      if (meta.width && meta.width > 1600) {
+        pipeline = pipeline.resize({ width: 1600, withoutEnlargement: true });
+      }
+      if (ext === '.png') {
+        pipeline = pipeline.png({ compressionLevel: 9, palette: true, quality: 80 });
+      } else {
+        pipeline = pipeline.jpeg({ quality: 80, mozjpeg: true });
+      }
+      const out = await pipeline.toBuffer();
+      if (out.length < original) {
+        fs.writeFileSync(file, out);
+      }
+    } catch (e) {
+      console.warn(`  ! image opt skipped ${path.relative(assetsDir, file)}: ${e.message}`);
+    }
+  }
+  const after = rasterBytes(files);
+  console.log(`  → image opt: ${humanBytes(before)} -> ${humanBytes(after)}`);
+}
+
 async function compileJsx(file) {
   const src = fs.readFileSync(path.join(ROOT, file), 'utf8');
   const out = babel.transformSync(src, {
@@ -137,6 +207,9 @@ async function build() {
   console.log('• copying assets/');
   copyDir(path.join(ROOT, 'assets'), path.join(DIST, 'assets'));
 
+  console.log('• optimizing dist/assets images');
+  await optimizeImages(path.join(DIST, 'assets'));
+
   console.log('• emitting dist/index.html');
   // Cache-busting version token — appended to local asset URLs so each deploy
   // forces browsers to fetch fresh files instead of serving a stale bundle.
@@ -192,10 +265,24 @@ async function build() {
   fs.writeFileSync(path.join(DIST, 'robots.txt'),
     `User-agent: *\nAllow: /\n\nSitemap: ${SITE}/sitemap.xml\n`, 'utf8');
   const today = new Date().toISOString().slice(0, 10);
+  const SITEMAP_ROUTES = [
+    'top', 'web', 'chatbot', 'dx', 'works', 'voice', 'support', 'pricing',
+    'diagnosis', 'subsidy', 'guidebook', 'column', 'company', 'staff', 'recruit',
+    'news', 'diagnostic', 'product-vetonet', 'product-wpchat', 'product-tennis',
+    'feature-cms', 'feature-lpo', 'feature-recruit', 'feature-analytics',
+    'works-clinic', 'works-realty', 'works-build', 'works-hr', 'works-retail',
+    'works-infra', 'works-ai', 'solution-clinic', 'solution-realty',
+    'solution-build', 'solution-hr', 'solution-retail',
+  ];
+  const sitemapUrls = SITEMAP_ROUTES.map((id) => {
+    const loc = id === 'top' ? `${SITE}/` : `${SITE}/${id}`;
+    const priority = id === 'top' ? '1.0' : '0.8';
+    return `  <url><loc>${loc}</loc><lastmod>${today}</lastmod><changefreq>weekly</changefreq><priority>${priority}</priority></url>`;
+  }).join('\n');
   fs.writeFileSync(path.join(DIST, 'sitemap.xml'),
     `<?xml version="1.0" encoding="UTF-8"?>\n`
     + `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n`
-    + `  <url><loc>${SITE}/</loc><lastmod>${today}</lastmod><changefreq>weekly</changefreq><priority>1.0</priority></url>\n`
+    + sitemapUrls + '\n'
     + `</urlset>\n`, 'utf8');
 
   console.log('\n✓ build complete → dist/');

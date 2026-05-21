@@ -81,8 +81,20 @@ Object.keys((typeof window !== 'undefined' && window.NORTIQ_ARTICLES) || {}).for
   };
 });
 
+// URL <-> route id helpers
+function pathFor(id) {
+  return id === 'top' ? '/' : '/' + id;
+}
+function idFromPath(path) {
+  const stripped = (path || '').replace(/^\//, '');
+  return stripped === '' ? 'top' : stripped;
+}
+
 function App() {
-  const [route, setRoute] = React.useState('top');
+  const [route, setRoute] = React.useState(() => {
+    const id = idFromPath(window.location.pathname);
+    return ROUTES[id] ? id : 'top';
+  });
   const [contactOpen, setContactOpen] = React.useState(false);
   const [contactCategory, setContactCategory] = React.useState('');
 
@@ -132,9 +144,23 @@ function App() {
   };
 
   const handleNavigate = (id) => {
-    if (ROUTES[id]) setRoute(id);
-    else handleContact();
+    if (ROUTES[id]) {
+      setRoute(id);
+      window.history.pushState({ id }, '', pathFor(id));
+    } else {
+      handleContact();
+    }
   };
+
+  // Sync route with browser back/forward navigation
+  React.useEffect(() => {
+    const onPopState = () => {
+      const id = idFromPath(window.location.pathname);
+      setRoute(ROUTES[id] ? id : 'top');
+    };
+    window.addEventListener('popstate', onPopState);
+    return () => window.removeEventListener('popstate', onPopState);
+  }, []);
 
   const routeMeta = ROUTES[route] || ROUTES.top;
   const PageComp = routeMeta.c();

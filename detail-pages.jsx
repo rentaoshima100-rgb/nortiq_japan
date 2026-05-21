@@ -31,6 +31,7 @@ function DetailHero({ tag, title, lede, badges, onContact, ctaLabel = "資料請
               caption={visualCaption || "product visual"}
               aspect={visualAspect}
               src={visualSrc}
+              alt={`${tag.split(' / ')[1] || tag}のサービスイメージ`}
               fit
             />
           </div>
@@ -879,7 +880,7 @@ function WorksVariantPage({ pageId, onNavigate, onContact }) {
           <div className="grid-3">
             {m.items.map((w, i) => (
               <a key={i} className="card card-link fadein" data-delay={i * 60} style={{ padding: 0, overflow: 'hidden', cursor: 'pointer' }}>
-                <Placeholder label={w.tag} caption={`case · #${String(i + 1).padStart(3,'0')}`} aspect="16/10" src={w.img} fit/>
+                <Placeholder label={w.tag} caption={`case · #${String(i + 1).padStart(3,'0')}`} aspect="16/10" src={w.img} alt={`${w.t}の制作実績`} fit/>
                 <div style={{ padding: '20px 22px 22px' }}>
                   <div className="row" style={{ justifyContent: 'space-between', marginBottom: 12 }}>
                     <span className="tag">{w.tag}</span>

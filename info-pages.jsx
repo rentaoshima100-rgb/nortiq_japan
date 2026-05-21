@@ -98,7 +98,7 @@ function WorksPage({ category, onNavigate, onContact }) {
           <div className="grid-3">
             {items.map(w => (
               <a key={w.id} className="card card-link" style={{ padding: 0, overflow: 'hidden', cursor: 'pointer' }}>
-                <Placeholder label={w.tag} caption={`case · #${String(w.id).padStart(3,'0')}`} aspect="16/10" src={w.img} fit/>
+                <Placeholder label={w.tag} caption={`case · #${String(w.id).padStart(3,'0')}`} aspect="16/10" src={w.img} alt={`${w.title}の制作実績`} fit/>
                 <div style={{ padding: '20px 22px 22px' }}>
                   <div className="row" style={{ justifyContent: 'space-between', marginBottom: 12 }}>
                     <span className="tag">{w.tag}</span>
@@ -615,7 +615,7 @@ function ColumnPage({ onNavigate, onContact }) {
           <div className="grid-3" style={{ gap: 32 }}>
             {shown.map((a) => (
               <a key={a.slug} className="article-card" style={{ cursor: 'pointer' }} onClick={() => onNavigate('article-' + a.slug)}>
-                <Placeholder label={a.img ? "" : a.category} caption={a.img ? "" : a.slug} aspect="16/10" src={a.img} fit/>
+                <Placeholder label={a.img ? "" : a.category} caption={a.img ? "" : a.slug} aspect="16/10" src={a.img} alt={a.title} fit/>
                 <div className="article-meta">
                   <span style={{ color: 'var(--accent)' }}>{a.category}</span>
                   <span className="article-meta-sep">·</span>
@@ -798,7 +798,7 @@ function StaffPage({ onNavigate, onContact }) {
           <div className="grid-3" style={{ gap: 24 }}>
             {members.map((m, i) => (
               <div key={i} className="card" style={{ padding: 0, overflow: 'hidden' }}>
-                <Placeholder label="" caption="" aspect="3/4" src={m.img}/>
+                <Placeholder label="" caption="" aspect="3/4" src={m.img} alt={`Nortiq Labs ${m.role} ${m.name}`}/>
                 <div style={{ padding: 24 }}>
                   <p className="small text-mono" style={{ color: 'var(--text-3)', marginBottom: 4 }}>{m.role}</p>
                   <h3 style={{ fontSize: 19, fontWeight: 600, margin: 0, marginBottom: 12, letterSpacing: '-0.01em' }}>{m.name}</h3>

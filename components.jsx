@@ -353,7 +353,7 @@ function Nav({ current, onNavigate, onContact, onSideForm }) {
 }
 
 // -------------------- Placeholder image --------------------
-function Placeholder({ label = "Image", caption, aspect = "16/9", height, children, src, fit = false }) {
+function Placeholder({ label = "Image", caption, aspect = "16/9", height, children, src, fit = false, alt }) {
   const style = {
     aspectRatio: height ? undefined : aspect,
     height: height || undefined,
@@ -362,7 +362,7 @@ function Placeholder({ label = "Image", caption, aspect = "16/9", height, childr
   if (src) {
     return (
       <div className={`ph ph-image${fit ? ' ph-fit' : ''}`} style={style}>
-        <img src={src} alt={label}/>
+        <img src={src} alt={alt || label || ''}/>
         {label && <span className="ph-label" style={{ background: 'rgba(255,255,255,0.92)' }}>{label}</span>}
         {caption && <div className="ph-caption" style={{ color: '#fff', textShadow: '0 1px 3px rgba(0,0,0,0.6)' }}>{caption}</div>}
       </div>

@@ -97,7 +97,7 @@ function TopPage({ onNavigate, onContact }) {
               { tag: "建築・リニューアル", title: "建物リニューアル × 大規模修繕の総合刷新", q: "工数が38%減って、現場が回り始めた。", author: "代表 S.W.", img: "assets/work-renewal.png" },
             ].map((c, i) => (
               <article key={i} className="case-card fadein" data-delay={i * 150}>
-                <Placeholder label={c.tag} caption="case study" aspect="16/10" src={c.img} fit/>
+                <Placeholder label={c.tag} caption="case study" aspect="16/10" src={c.img} alt={`${c.title}の導入実績`} fit/>
                 <div className="case-card-body">
                   <div className="row" style={{ justifyContent: 'flex-end', marginBottom: 14 }}>
                     <span className="small text-mono" style={{ color: 'var(--text-3)' }}>CASE / {String(i+1).padStart(2,'0')}</span>
@@ -513,7 +513,7 @@ function ReasonCard({ num, emphasis, title, desc, link, onClick, delay, src }) {
         <span className="reason-num">{num}</span>
         <Icon name="arrow-right" size={14}/>
       </div>
-      <Placeholder label={title} caption={`reason / ${num}`} aspect="16/10" src={src} fit/>
+      <Placeholder label={title} caption={`reason / ${num}`} aspect="16/10" src={src} alt={title} fit/>
       <div style={{ padding: '20px 0 0' }}>
         <p className="reason-emphasis">{emphasis}</p>
         <h3 className="reason-title">{title}</h3>
@@ -527,7 +527,7 @@ function ReasonCard({ num, emphasis, title, desc, link, onClick, delay, src }) {
 function WorkCard({ tag, title, stat, services, src }) {
   return (
     <div className="card card-link" style={{ padding: 0, overflow: 'hidden' }}>
-      <Placeholder label="" caption="" aspect="16/10" src={src} fit/>
+      <Placeholder label="" caption="" aspect="16/10" src={src} alt={`${title}の制作実績`} fit/>
       <div style={{ padding: '20px 24px 24px' }}>
         <div className="row" style={{ justifyContent: 'space-between', marginBottom: 12 }}>
           <span className="tag">{tag}</span>
@@ -625,7 +625,7 @@ function GalleryTabs({ onNavigate }) {
         <div className="grid-3" style={{ marginTop: 32 }}>
           {data[tab].slice(0, 6).map((w, i) => (
             <a key={i} className="card card-link fadein" data-delay={i * 80} style={{ padding: 0, overflow: 'hidden', cursor: 'pointer' }} onClick={() => onNavigate(w.route)}>
-              <Placeholder label="" caption="" aspect="16/10" src={w.img} fit/>
+              <Placeholder label="" caption="" aspect="16/10" src={w.img} alt={`${w.t}の制作実績`} fit/>
               <div style={{ padding: '20px 22px 22px' }}>
                 <div className="row" style={{ justifyContent: 'space-between', marginBottom: 12 }}>
                   <span className="tag">{w.tag}</span>
@@ -648,7 +648,7 @@ function VoiceBubble({ tag, quote, name, role, reversed, delay, src }) {
   return (
     <figure className={`voice-bubble fadein${reversed ? ' reversed' : ''}`} data-delay={delay}>
       <div className="voice-avatar">
-        <Placeholder label={src ? "" : tag} caption="" aspect="1/1" src={src} fit/>
+        <Placeholder label={src ? "" : tag} caption="" aspect="1/1" src={src} alt={`${name}（${role}）`} fit/>
       </div>
       <div className="voice-content">
         <blockquote>{quote}</blockquote>

@@ -711,7 +711,7 @@ function PhaseCard({ n, name, duration, cost, desc }) {
 function TeamCard({ role, name, desc, tags, src }) {
   return (
     <div className="card">
-      <Placeholder label={src ? "" : role.split(' · ')[0]} caption="" aspect="4/5" src={src}/>
+      <Placeholder label={src ? "" : role.split(' · ')[0]} caption="" aspect="4/5" src={src} alt={`Nortiq Labs ${role} ${name}`}/>
       <div style={{ marginTop: 24 }}>
         <p className="small text-mono" style={{ color: 'var(--text-3)', marginBottom: 6 }}>{role}</p>
         <h3 style={{ fontSize: 20, fontWeight: 600, margin: 0, marginBottom: 12, letterSpacing: '-0.01em' }}>{name}</h3>
