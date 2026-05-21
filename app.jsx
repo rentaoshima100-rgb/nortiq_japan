@@ -132,6 +132,51 @@ function setMetaContent(selector, value) {
   if (el) el.setAttribute('content', value);
 }
 
+// Per-route structured data (injected into <head> on navigation; Google reads
+// the rendered DOM). BreadcrumbList on every subpage, Service on the service
+// pages, and Review/AggregateRating on the testimonials page.
+const NORTIQ_ORG_ID = NORTIQ_SITE + '/#org';
+const SERVICE_LD = {
+  web: { name: 'Web制作', types: ['コーポレートサイト制作', 'LP制作', 'ブランドサイト制作'] },
+  chatbot: { name: 'AIチャットボット導入', types: ['AIチャットボット', 'WordPress AI投稿アシスタント', '問い合わせ自動化'] },
+  dx: { name: 'DX・ML実装', types: ['機械学習', 'データ分析', '業務自動化'] },
+};
+function routeLd(route) {
+  const url = NORTIQ_SITE + pathFor(route);
+  const meta = ROUTES[route] || ROUTES.top;
+  const pageName = (meta.title || '').replace(/\s*[—｜|].*$/, '').trim() || 'Nortiq Labs';
+  const out = [];
+  if (route !== 'top') {
+    out.push({
+      '@context': 'https://schema.org', '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'トップ', item: NORTIQ_SITE + '/' },
+        { '@type': 'ListItem', position: 2, name: pageName, item: url },
+      ],
+    });
+  }
+  if (SERVICE_LD[route]) {
+    const s = SERVICE_LD[route];
+    out.push({
+      '@context': 'https://schema.org', '@type': 'Service',
+      name: s.name, description: descFor(route), url, serviceType: s.types, areaServed: 'JP',
+      provider: { '@type': 'Organization', '@id': NORTIQ_ORG_ID, name: 'Nortiq Labs', url: NORTIQ_SITE + '/' },
+    });
+  }
+  if (route === 'voice') {
+    out.push({
+      '@context': 'https://schema.org', '@type': 'Organization', '@id': NORTIQ_ORG_ID,
+      name: 'Nortiq Labs', url: NORTIQ_SITE + '/',
+      aggregateRating: { '@type': 'AggregateRating', ratingValue: '4.8', bestRating: '5', ratingCount: '50' },
+      review: [
+        { '@type': 'Review', reviewRating: { '@type': 'Rating', ratingValue: '5', bestRating: '5' }, author: { '@type': 'Person', name: 'A.K.（代表取締役・院長）' }, reviewBody: 'Web制作からの付き合いで、半年後にAIチャットボットも導入。ブログ更新の負担がなくなり、SEO流入が1.8倍になりました。「Webのプロが横にいる」感覚を、初めて持てた気がします。' },
+        { '@type': 'Review', reviewRating: { '@type': 'Rating', ratingValue: '5', bestRating: '5' }, author: { '@type': 'Person', name: 'T.M.（経営企画）' }, reviewBody: '他社は「AIできます」止まりだが、Nortiqは実装の中身まで説明してくれて納得感があった。判断材料がきちんと揃う、貴重なパートナーです。' },
+      ],
+    });
+  }
+  return out;
+}
+
 function App() {
   const [route, setRoute] = React.useState(() => {
     const id = idFromPath(window.location.pathname);
@@ -170,6 +215,17 @@ function App() {
     setMetaContent('meta[property="og:description"]', desc);
     setMetaContent('meta[name="twitter:title"]', meta.title);
     setMetaContent('meta[name="twitter:description"]', desc);
+    // Per-route structured data (Service / Review / BreadcrumbList).
+    const oldLd = document.getElementById('route-ld');
+    if (oldLd) oldLd.remove();
+    const items = routeLd(route);
+    if (items.length) {
+      const s = document.createElement('script');
+      s.type = 'application/ld+json';
+      s.id = 'route-ld';
+      s.textContent = JSON.stringify(items.length === 1 ? items[0] : items);
+      document.head.appendChild(s);
+    }
     window.scrollTo({ top: 0, behavior: 'instant' });
   }, [route]);
 

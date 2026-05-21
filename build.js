@@ -211,6 +211,16 @@ async function build() {
   console.log('• optimizing dist/assets images');
   await optimizeImages(path.join(DIST, 'assets'));
 
+  // Dedicated 1200x630 Open Graph / Twitter share image.
+  try {
+    await sharp(path.join(ROOT, 'assets', 'nortiq-hero-bg.png'))
+      .resize(1200, 630, { fit: 'cover', position: 'centre' })
+      .png({ quality: 82 })
+      .toFile(path.join(DIST, 'assets', 'og-image.png'));
+  } catch (e) {
+    console.warn('  ! og-image generation skipped: ' + e.message);
+  }
+
   console.log('• emitting dist/index.html');
   // Cache-busting version token — appended to local asset URLs so each deploy
   // forces browsers to fetch fresh files instead of serving a stale bundle.
@@ -218,7 +228,7 @@ async function build() {
   const SITE = 'https://nortiqlab.com';
   const TITLE = 'Nortiq Labs — 日本のDX、世界水準で巻き返す。';
   const DESC = '米国の技術水準を、日本の中小企業の武器に。Web制作・AIチャットボット・DX/ML実装まで、50社以上の支援実績を持つ技術チームが段階的に伴走するDXパートナーです。';
-  const OG_IMAGE = SITE + '/assets/nortiq-hero-bg.png';
+  const OG_IMAGE = SITE + '/assets/og-image.png';
   const FAQ_QA = [
     { q: 'Nortiq Labs はどんな会社ですか？', a: '米国の技術背景を持つエンジニアと、日本の経営課題に向き合うメンバーで構成された技術チームです。Web制作・AIチャットボット・DX/ML 実装まで、中小企業のDXを段階的に支援します。これまで50社以上の制作・支援実績があります。' },
     { q: 'Web制作の費用はどれくらいですか？', a: 'オリジナルデザインのWeb制作は30万円から承っています。ページ数・機能・要件に応じてお見積もりし、公開後の運用・改善まで伴走します。' },
