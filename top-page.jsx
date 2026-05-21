@@ -110,7 +110,7 @@ function TopPage({ onNavigate, onContact }) {
             ))}
           </div>
           <div style={{ textAlign: 'center', marginTop: 48 }}>
-            <Button variant="ghost" onClick={() => onNavigate('voice')}>他の実績を見る<Icon name="arrow-right" size={14}/></Button>
+            <Button variant="ghost" onClick={() => onNavigate('works')}>他の実績を見る<Icon name="arrow-right" size={14}/></Button>
           </div>
         </div>
       </section>
