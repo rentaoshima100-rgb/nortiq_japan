@@ -2,6 +2,24 @@
 // Nortiq Labs — Top page (matches Nortiq IA spec section order)
 // ============================================================
 
+// Descriptive alt text for the hero marquee + reason-card images, keyed by
+// filename, so the alt matches the actual image (real work screenshots).
+const IMG_ALT = {
+  'work-asia-exchange': '外国人材組合 Asia Exchange Cooperative サイトの制作実績',
+  'work-pleast': '不動産投資ブランド PLEAST サイトの制作実績',
+  'work-renewal': '建物リニューアル・大規模修繕サイトの制作実績',
+  'work-rakuyu': 'RAKUYU-Z 工法協会サイトの制作実績',
+  'work-cocopa': 'ゴルフリゾート COCOPA サイトの制作実績',
+  'work-taketora': '京都の骨董店 TAKETORA 越境ECサイトの制作実績',
+  'work-panza': '京都のキッチンカー panza ブランドLPの制作実績',
+  'work-aozora-family': 'あおぞら Family Clinic サイトの制作実績',
+  'work-aozora-naika': 'あおぞら内科クリニック予約サイトの制作実績',
+};
+function altFor(src) {
+  const m = String(src || '').match(/([^/]+)\.(png|jpe?g|webp)$/i);
+  return (m && IMG_ALT[m[1]]) || 'Nortiq Labs の制作実績イメージ';
+}
+
 function TopPage({ onNavigate, onContact }) {
   useFadeIn();
   useCardSpotlight();
@@ -530,7 +548,7 @@ function VScrollCol({ direction, images }) {
       <div className="main-col-track">
         {items.map((src, i) => (
           <div key={i} className="main-col-img">
-            <Picture src={src} alt="" loading="lazy"/>
+            <Picture src={src} alt={altFor(src)} loading="lazy"/>
           </div>
         ))}
       </div>
@@ -545,7 +563,7 @@ function ReasonCard({ num, emphasis, title, desc, link, onClick, delay, src }) {
         <span className="reason-num">{num}</span>
         <Icon name="arrow-right" size={14}/>
       </div>
-      <Placeholder label={title} caption={`reason / ${num}`} aspect="16/10" src={src} alt="" fit/>
+      <Placeholder label={title} caption={`reason / ${num}`} aspect="16/10" src={src} alt={altFor(src)} fit/>
       <div style={{ padding: '20px 0 0' }}>
         <p className="reason-emphasis">{emphasis}</p>
         <h3 className="reason-title">{title}</h3>
