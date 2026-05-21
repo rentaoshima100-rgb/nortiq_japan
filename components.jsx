@@ -126,6 +126,22 @@ function openInquiryMailto(form, kind = 'main') {
   window.location.href = mailto;
 }
 
+// Primary delivery path: POST the inquiry to the serverless function, which
+// sends a real email via Resend (no mail-client dependency). Throws on failure
+// so callers can show an error state.
+async function sendInquiry(form, kind = 'main') {
+  const res = await fetch('/api/contact', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ ...form, kind }),
+  });
+  if (!res.ok) {
+    const e = await res.json().catch(() => ({}));
+    throw new Error(e.error || `HTTP ${res.status}`);
+  }
+  return res.json().catch(() => ({ ok: true }));
+}
+
 // -------------------- Icons --------------------
 function Icon({ name, size = 16, stroke = 1.4 }) {
   const s = { width: size, height: size, fill: 'none', stroke: 'currentColor', strokeWidth: stroke, strokeLinecap: 'round', strokeLinejoin: 'round' };
@@ -259,10 +275,6 @@ function Nav({ current, onNavigate, onContact, onSideForm }) {
         </div>
 
         <div className="nav-cta-wrap">
-          <a className="nav-link nav-phone">
-            <Icon name="phone" size={14}/>
-            <span>0120-XXX-XXX</span>
-          </a>
           <Button variant="primary" size="sm" onClick={onContact}>
             <Icon name="mail" size={13}/>メールでお問合せ
           </Button>
@@ -330,14 +342,7 @@ function Nav({ current, onNavigate, onContact, onSideForm }) {
             })}
           </nav>
           <div className="nav-drawer-foot">
-            <a className="drawer-tel" href="tel:0120-XXX-XXX">
-              <Icon name="phone" size={18}/>
-              <div>
-                <div className="num" style={{ fontSize: 22, fontWeight: 700 }}>0120-XXX-XXX</div>
-                <div className="small">平日 9:30〜17:00</div>
-              </div>
-            </a>
-            <Button variant="primary" size="lg" onClick={() => { onContact(); setDrawer(false); }} style={{ width: '100%', marginTop: 12 }}>
+            <Button variant="primary" size="lg" onClick={() => { onContact(); setDrawer(false); }} style={{ width: '100%' }}>
               <Icon name="mail" size={14}/>資料請求・お問い合わせ
             </Button>
           </div>
@@ -417,13 +422,6 @@ function Footer({ onNavigate, onContact }) {
               日本のDX、世界水準で巻き返す。<br/>
               Web制作からAI・DX実装までの技術チーム。
             </p>
-            <div className="row" style={{ gap: 12, marginBottom: 18, alignItems: 'center' }}>
-              <Icon name="phone" size={18}/>
-              <div>
-                <div className="num" style={{ fontSize: 22, fontWeight: 700, letterSpacing: '0.02em', color: 'var(--accent)' }}>0120-XXX-XXX</div>
-                <div className="small">平日 9:30〜17:00</div>
-              </div>
-            </div>
             <Button variant="primary" size="sm" onClick={onContact}>
               <Icon name="mail" size={13}/>資料請求はこちら
             </Button>
@@ -554,12 +552,16 @@ function ContactModal({ open, onClose, defaultCategory = '' }) {
     return Object.keys(e).length === 0;
   };
 
-  const submit = (e) => {
+  const submit = async (e) => {
     e.preventDefault();
     if (!validate()) return;
     setStage('sending');
-    openInquiryMailto(form, 'modal');
-    setTimeout(() => setStage('done'), 800);
+    try {
+      await sendInquiry(form, 'modal');
+      setStage('done');
+    } catch (err) {
+      setStage('error');
+    }
   };
 
   const onChange = (k) => (e) => {
@@ -590,15 +592,30 @@ function ContactModal({ open, onClose, defaultCategory = '' }) {
             }}>
               <Icon name="check" size={24} stroke={2}/>
             </div>
-            <h3 className="display-s" style={{ marginBottom: 12 }}>メールアプリを開きました</h3>
-            <p className="body" style={{ marginBottom: 12, fontSize: 14 }}>
-              内容をご確認の上、送信ボタンを押してください。<br/>
+            <h3 className="display-s" style={{ marginBottom: 12 }}>送信が完了しました</h3>
+            <p className="body" style={{ marginBottom: 28, fontSize: 14 }}>
+              お問い合わせありがとうございます。<br/>
               営業日 24 時間以内に担当者よりご返信します。
             </p>
-            <p className="small" style={{ color: 'var(--text-3)', marginBottom: 28 }}>
-              ※ メールアプリが起動しない場合は <a href={`mailto:${NORTIQ_INQUIRY_EMAIL}`} style={{ color: 'var(--accent)' }}>{NORTIQ_INQUIRY_EMAIL}</a> 宛に直接お送りください。
-            </p>
             <Button variant="ghost" onClick={onClose}>閉じる</Button>
+          </div>
+        ) : stage === 'error' ? (
+          <div style={{ textAlign: 'center', padding: '20px 0' }}>
+            <div style={{
+              width: 56, height: 56, borderRadius: '50%',
+              background: 'var(--accent-soft)', color: 'var(--accent)',
+              display: 'grid', placeItems: 'center', margin: '0 auto 24px'
+            }}>
+              <Icon name="close" size={24} stroke={2}/>
+            </div>
+            <h3 className="display-s" style={{ marginBottom: 12 }}>送信に失敗しました</h3>
+            <p className="body" style={{ marginBottom: 12, fontSize: 14 }}>
+              通信エラーが発生しました。お手数ですが、もう一度お試しください。
+            </p>
+            <p className="small" style={{ color: 'var(--text-3)', marginBottom: 28 }}>
+              解決しない場合は <a href={`mailto:${NORTIQ_INQUIRY_EMAIL}`} style={{ color: 'var(--accent)' }}>{NORTIQ_INQUIRY_EMAIL}</a> 宛に直接お送りください。
+            </p>
+            <Button variant="primary" onClick={() => setStage('form')}>フォームに戻る</Button>
           </div>
         ) : (
           <>
@@ -711,6 +728,8 @@ function BigInlineForm() {
   const [form, setForm] = React.useState(initialForm);
   const [errors, setErrors] = React.useState({});
   const [done, setDone] = React.useState(false);
+  const [sending, setSending] = React.useState(false);
+  const [failed, setFailed] = React.useState(false);
 
   const onChange = (k) => (e) => {
     const v = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
@@ -724,7 +743,7 @@ function BigInlineForm() {
     if (errors[key]) setErrors({ ...errors, [key]: undefined });
   };
 
-  const submit = (e) => {
+  const submit = async (e) => {
     e.preventDefault();
     const er = {};
     if (!form.company) er.company = '必須項目です';
@@ -737,9 +756,16 @@ function BigInlineForm() {
     if (!form.address) er.address = '必須項目です';
     if (!form.agree) er.agree = '同意してください';
     setErrors(er);
-    if (Object.keys(er).length === 0) {
-      openInquiryMailto(form, 'full-page');
-      setTimeout(() => setDone(true), 500);
+    if (Object.keys(er).length !== 0) return;
+    setSending(true);
+    setFailed(false);
+    try {
+      await sendInquiry(form, 'full-page');
+      setDone(true);
+    } catch (err) {
+      setFailed(true);
+    } finally {
+      setSending(false);
     }
   };
 
@@ -749,9 +775,8 @@ function BigInlineForm() {
         <div style={{ width: 56, height: 56, borderRadius: '50%', background: 'var(--accent-soft)', color: 'var(--accent)', display: 'grid', placeItems: 'center', margin: '0 auto 20px' }}>
           <Icon name="check" size={24} stroke={2}/>
         </div>
-        <h3 className="display-s" style={{ marginBottom: 8 }}>メールアプリを開きました</h3>
-        <p className="small" style={{ marginBottom: 8 }}>内容をご確認の上、ご送信ください。営業日 24h 以内にご返信します。</p>
-        <p className="small" style={{ color: 'var(--text-3)' }}>※ メールアプリが開かない場合は <a href={`mailto:${NORTIQ_INQUIRY_EMAIL}`} style={{ color: 'var(--accent)' }}>{NORTIQ_INQUIRY_EMAIL}</a> 宛にお送りください</p>
+        <h3 className="display-s" style={{ marginBottom: 8 }}>送信が完了しました</h3>
+        <p className="small" style={{ marginBottom: 8 }}>お問い合わせありがとうございます。営業日 24h 以内にご返信します。</p>
       </div>
     );
   }
@@ -869,8 +894,15 @@ function BigInlineForm() {
           {errors.agree && <div className="err">{errors.agree}</div>}
         </label>
       </div>
+      {failed && (
+        <p className="err" style={{ textAlign: 'center', marginTop: 12 }}>
+          送信に失敗しました。もう一度お試しいただくか、<a href={`mailto:${NORTIQ_INQUIRY_EMAIL}`} style={{ color: 'var(--accent)' }}>{NORTIQ_INQUIRY_EMAIL}</a> 宛に直接お送りください。
+        </p>
+      )}
       <div className="big-form-submit">
-        <Button variant="primary" size="lg" type="submit">同意して送信する<Icon name="arrow-right" size={14}/></Button>
+        <Button variant="primary" size="lg" type="submit" disabled={sending}>
+          {sending ? '送信中…' : <>同意して送信する<Icon name="arrow-right" size={14}/></>}
+        </Button>
       </div>
     </form>
   );
@@ -881,22 +913,32 @@ function SideTabForm() {
   const [open, setOpen] = React.useState(false);
   const [form, setForm] = React.useState({ company: '', name: '', email: '', phone: '', message: '', agree: false });
   const [done, setDone] = React.useState(false);
+  const [sending, setSending] = React.useState(false);
+  const [failed, setFailed] = React.useState(false);
   const onChange = (k) => (e) => {
     const v = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
     setForm({ ...form, [k]: v });
   };
-  const submit = (e) => {
+  const submit = async (e) => {
     e.preventDefault();
     if (!form.company || !form.name || !form.email || !form.agree) return;
-    openInquiryMailto(form, 'side-tab');
-    setTimeout(() => setDone(true), 400);
+    setSending(true);
+    setFailed(false);
+    try {
+      await sendInquiry(form, 'side-tab');
+      setDone(true);
+    } catch (err) {
+      setFailed(true);
+    } finally {
+      setSending(false);
+    }
   };
   return (
     <>
       {!open && (
         <div className="side-tab">
           <button className="side-tab-btn" onClick={() => setOpen(true)}>資料請求</button>
-          <a className="side-tab-btn side-tab-btn-tel" href="tel:0120-XXX-XXX" style={{ writingMode: 'vertical-rl', textOrientation: 'upright', padding: '16px 12px' }}>無料相談</a>
+          <button type="button" className="side-tab-btn side-tab-btn-tel" onClick={() => setOpen(true)} style={{ writingMode: 'vertical-rl', textOrientation: 'upright', padding: '16px 12px', border: 'none', cursor: 'pointer' }}>無料相談</button>
         </div>
       )}
       <div className={`side-form-panel${open ? ' open' : ''}`}>
@@ -911,11 +953,8 @@ function SideTabForm() {
               <div style={{ width: 56, height: 56, borderRadius: '50%', background: 'var(--accent-soft)', color: 'var(--accent)', display: 'grid', placeItems: 'center', margin: '0 auto 20px' }}>
                 <Icon name="check" size={24} stroke={2}/>
               </div>
-              <h3 className="display-s" style={{ marginBottom: 8 }}>メールアプリを開きました</h3>
-              <p className="small" style={{ marginBottom: 8 }}>内容をご確認の上、ご送信ください。</p>
-              <p className="small" style={{ color: 'var(--text-3)' }}>
-                未起動の場合は <a href={`mailto:${NORTIQ_INQUIRY_EMAIL}`} style={{ color: 'var(--accent)' }}>{NORTIQ_INQUIRY_EMAIL}</a> 宛にお送りください。
-              </p>
+              <h3 className="display-s" style={{ marginBottom: 8 }}>送信が完了しました</h3>
+              <p className="small" style={{ marginBottom: 8 }}>お問い合わせありがとうございます。営業日24h以内にご返信します。</p>
               <Button variant="ghost" size="sm" onClick={() => { setDone(false); setOpen(false); }} style={{ marginTop: 24 }}>閉じる</Button>
             </div>
           ) : (
@@ -946,7 +985,14 @@ function SideTabForm() {
                   <a href="#" style={{ color: 'var(--accent)' }}>個人情報の取り扱い</a>に同意します
                 </label>
               </div>
-              <Button variant="primary" size="lg" type="submit" style={{ width: '100%' }}>確認画面へ<Icon name="arrow-right" size={14}/></Button>
+              {failed && (
+                <p className="err" style={{ marginBottom: 10 }}>
+                  送信に失敗しました。<a href={`mailto:${NORTIQ_INQUIRY_EMAIL}`} style={{ color: 'var(--accent)' }}>{NORTIQ_INQUIRY_EMAIL}</a> 宛にお送りください。
+                </p>
+              )}
+              <Button variant="primary" size="lg" type="submit" style={{ width: '100%' }} disabled={sending}>
+                {sending ? '送信中…' : <>送信する<Icon name="arrow-right" size={14}/></>}
+              </Button>
             </form>
           )}
         </div>
@@ -1023,10 +1069,7 @@ function RedCTAStrip({ onContact, onNavigate, title }) {
           <Button onClick={onContact}><Icon name="mail" size={14}/>資料請求はこちら</Button>
           <Button onClick={() => onNavigate && onNavigate('diagnostic')}><Icon name="search" size={14}/>ホームページ無料診断</Button>
         </div>
-        <div className="t_inq_tel">
-          <a href="tel:0120-XXX-XXX"><Icon name="phone" size={28}/>0120-XXX-XXX</a>
-          <p className="t_inq_time">営業日: 月〜金 受付 9:30〜17:00</p>
-        </div>
+        <p className="t_inq_time">営業日 24時間以内に担当者よりご返信します。</p>
       </div>
     </section>
   );

@@ -7,7 +7,8 @@
   "trailingSlash": false,
   "cleanUrls": true,
   "functions": {
-    "api/diagnose.js": { "maxDuration": 30 }
+    "api/diagnose.js": { "maxDuration": 30 },
+    "api/contact.js": { "maxDuration": 15 }
   },
   "headers": [
     {

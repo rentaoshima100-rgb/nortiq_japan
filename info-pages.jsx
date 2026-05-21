@@ -731,7 +731,7 @@ function CompanyPage({ onNavigate, onContact }) {
               ["事業内容", "Web 制作 / AI チャットボット開発 / DX・ML 実装 / 自社プロダクト開発"],
               ["主要取引銀行", "三菱UFJ銀行 武蔵野支店"],
               ["所属団体", "情報処理推進機構 (IPA), 一般社団法人 日本ディープラーニング協会"],
-              ["連絡先", "0120-XXX-XXX / info@nortiq-labs.example"],
+              ["連絡先", "info@nortiq-labs.example"],
             ].map(([k, v]) => (
               <div key={k} className="company-row">
                 <dt>{k}</dt>

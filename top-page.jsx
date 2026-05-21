@@ -527,7 +527,7 @@ function ReasonCard({ num, emphasis, title, desc, link, onClick, delay, src }) {
 function WorkCard({ tag, title, stat, services, src }) {
   return (
     <div className="card card-link" style={{ padding: 0, overflow: 'hidden' }}>
-      <Placeholder label={tag} caption={`screenshot / ${tag}`} aspect="16/10" src={src} fit/>
+      <Placeholder label="" caption="" aspect="16/10" src={src} fit/>
       <div style={{ padding: '20px 24px 24px' }}>
         <div className="row" style={{ justifyContent: 'space-between', marginBottom: 12 }}>
           <span className="tag">{tag}</span>
@@ -625,7 +625,7 @@ function GalleryTabs({ onNavigate }) {
         <div className="grid-3" style={{ marginTop: 32 }}>
           {data[tab].slice(0, 6).map((w, i) => (
             <a key={i} className="card card-link fadein" data-delay={i * 80} style={{ padding: 0, overflow: 'hidden', cursor: 'pointer' }} onClick={() => onNavigate(w.route)}>
-              <Placeholder label={w.tag} caption={`screenshot · ${w.tag}`} aspect="16/10" src={w.img} fit/>
+              <Placeholder label="" caption="" aspect="16/10" src={w.img} fit/>
               <div style={{ padding: '20px 22px 22px' }}>
                 <div className="row" style={{ justifyContent: 'space-between', marginBottom: 12 }}>
                   <span className="tag">{w.tag}</span>
