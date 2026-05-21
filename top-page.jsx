@@ -435,6 +435,38 @@ function TopPage({ onNavigate, onContact }) {
       {/* =========== コラム タブ =========== */}
       <ContentTabs onNavigate={onNavigate}/>
 
+      {/* =========== 最新コラム (個別記事への内部リンク導線) =========== */}
+      {(() => {
+        const arts = Object.values((typeof window !== 'undefined' && window.NORTIQ_ARTICLES) || {}).slice(0, 3);
+        if (!arts.length) return null;
+        return (
+          <section className="section-pad-sm">
+            <div className="container">
+              <div className="row" style={{ marginBottom: 32, justifyContent: 'space-between', alignItems: 'flex-end' }}>
+                <div>
+                  <h3 className="display-s">最新コラム</h3>
+                  <p className="section-sub" style={{ marginTop: 4 }}>COLUMN / 技術ブログ</p>
+                </div>
+                <Button variant="ghost" onClick={() => onNavigate('column')}>すべての記事<Icon name="arrow-right" size={14}/></Button>
+              </div>
+              <div className="grid-3" style={{ gap: 32 }}>
+                {arts.map((a) => (
+                  <a key={a.slug} className="article-card" style={{ cursor: 'pointer' }} onClick={() => onNavigate('article-' + a.slug)}>
+                    <Placeholder label="" caption="" aspect="16/10" src={a.img} alt={a.title} fit/>
+                    <div className="article-meta">
+                      <span style={{ color: 'var(--accent)' }}>{a.category}</span>
+                      <span className="article-meta-sep">·</span>
+                      <span>{a.date}</span>
+                    </div>
+                    <h3 className="article-title">{a.title}</h3>
+                  </a>
+                ))}
+              </div>
+            </div>
+          </section>
+        );
+      })()}
+
       {/* =========== ピックアップ 3 バナー =========== */}
       <section className="section-pad-sm">
         <div className="container">

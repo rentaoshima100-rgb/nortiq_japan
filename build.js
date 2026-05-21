@@ -218,12 +218,29 @@ async function build() {
   const TITLE = 'Nortiq Labs — 日本のDX、世界水準で巻き返す。';
   const DESC = '米国の技術水準を、日本の中小企業の武器に。Web制作・AIチャットボット・DX/ML実装まで、50社以上の支援実績を持つ技術チームが段階的に伴走するDXパートナーです。';
   const OG_IMAGE = SITE + '/assets/nortiq-hero-bg.png';
+  const FAQ_QA = [
+    { q: 'Nortiq Labs はどんな会社ですか？', a: '米国の技術背景を持つエンジニアと、日本の経営課題に向き合うメンバーで構成された技術チームです。Web制作・AIチャットボット・DX/ML 実装まで、中小企業のDXを段階的に支援します。これまで50社以上の制作・支援実績があります。' },
+    { q: 'Web制作の費用はどれくらいですか？', a: 'オリジナルデザインのWeb制作は30万円から承っています。ページ数・機能・要件に応じてお見積もりし、公開後の運用・改善まで伴走します。' },
+    { q: 'AIチャットボットは導入できますか？', a: 'はい。WordPress連携のAI投稿アシスタントをはじめ、問い合わせ対応やブログ更新を自動化するAIチャットボットの導入を、実装の中身まで説明しながら支援します。' },
+    { q: 'IT導入補助金には対応していますか？', a: 'はい。最大450万円のIT導入補助金の申請サポートに対応しています。Web・AI・DX投資の補助金活用を一気通貫でご支援します。' },
+    { q: '対応している業種は？', a: 'クリニック・医療、不動産、建築・工務店、人材、小売/EC、インフラ・製造、AIスタートアップなど、7業種以上の制作・支援実績があります。' },
+    { q: '制作後のサポートはありますか？', a: '公開して終わりにはせず、運用・改善まで継続して伴走します。お問い合わせには営業日24時間以内にご返信します。' },
+    { q: '全国対応していますか？', a: 'はい。オンラインを中心に、全国のお客様に対応しています。' },
+  ];
   const jsonLd = JSON.stringify({
     '@context': 'https://schema.org',
     '@graph': [
-      { '@type': 'Organization', '@id': SITE + '/#org', name: 'Nortiq Labs', url: SITE + '/', logo: SITE + '/assets/nortiq-mark.png', description: DESC },
+      {
+        '@type': 'Organization', '@id': SITE + '/#org', name: 'Nortiq Labs', url: SITE + '/',
+        logo: SITE + '/assets/nortiq-mark.png', image: OG_IMAGE, description: DESC,
+        slogan: '日本のDX、世界水準で巻き返す。', foundingDate: '2024',
+        areaServed: { '@type': 'Country', name: 'Japan' },
+        knowsAbout: ['Web制作', 'AIチャットボット', 'DX', '機械学習', 'SEO', 'LP制作 / LPO', '業務自動化', 'データ分析'],
+        founder: { '@type': 'Person', name: 'Renta Oshima', jobTitle: 'Founder / Engineer', description: '米国の大学で AI 研究。帰国後、日本の中小企業向け DX 支援を起業。' },
+      },
       { '@type': 'WebSite', '@id': SITE + '/#website', name: 'Nortiq Labs', url: SITE + '/', publisher: { '@id': SITE + '/#org' }, inLanguage: 'ja' },
       { '@type': 'ProfessionalService', name: 'Nortiq Labs', url: SITE + '/', description: DESC, areaServed: 'JP', serviceType: ['Web制作', 'AIチャットボット導入', 'DX・ML実装', 'IT導入補助金 申請サポート'], provider: { '@id': SITE + '/#org' } },
+      { '@type': 'FAQPage', '@id': SITE + '/#faq', mainEntity: FAQ_QA.map((x) => ({ '@type': 'Question', name: x.q, acceptedAnswer: { '@type': 'Answer', text: x.a } })) },
     ],
   }).replace(/</g, '\\u003c');
   // Production-mode React (smaller, faster) — no Babel runtime in the browser.
@@ -273,6 +290,9 @@ async function build() {
     'works-clinic', 'works-realty', 'works-build', 'works-hr', 'works-retail',
     'works-infra', 'works-ai', 'solution-clinic', 'solution-realty',
     'solution-build', 'solution-hr', 'solution-retail',
+    'works-lp-corp', 'works-lp-recruit', 'works-lp-ec', 'works-video',
+    'privacy', 'terms',
+    ...BLOG.map((b) => 'article-' + b.slug),
   ];
   const sitemapUrls = SITEMAP_ROUTES.map((id) => {
     const loc = id === 'top' ? `${SITE}/` : `${SITE}/${id}`;
