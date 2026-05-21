@@ -530,7 +530,7 @@ function VScrollCol({ direction, images }) {
       <div className="main-col-track">
         {items.map((src, i) => (
           <div key={i} className="main-col-img">
-            <img src={src} alt="" loading="lazy"/>
+            <Picture src={src} alt="" loading="lazy"/>
           </div>
         ))}
       </div>
@@ -545,7 +545,7 @@ function ReasonCard({ num, emphasis, title, desc, link, onClick, delay, src }) {
         <span className="reason-num">{num}</span>
         <Icon name="arrow-right" size={14}/>
       </div>
-      <Placeholder label={title} caption={`reason / ${num}`} aspect="16/10" src={src} alt={title} fit/>
+      <Placeholder label={title} caption={`reason / ${num}`} aspect="16/10" src={src} alt="" fit/>
       <div style={{ padding: '20px 0 0' }}>
         <p className="reason-emphasis">{emphasis}</p>
         <h3 className="reason-title">{title}</h3>

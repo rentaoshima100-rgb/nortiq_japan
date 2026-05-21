@@ -583,6 +583,9 @@ section { position: relative; }
   color: var(--text-3);
 }
 .ph-image { background: var(--bg-2); }
+/* <picture> wrappers should be layout-transparent so the inner img behaves
+   exactly as a bare img (used for WebP progressive enhancement). */
+picture { display: contents; }
 .ph-image img {
   display: block;
   width: 100%;

@@ -352,6 +352,16 @@ function Nav({ current, onNavigate, onContact, onSideForm }) {
   );
 }
 
+// -------------------- Picture (WebP + raster fallback) --------------------
+// Serves an optimized .webp (generated at build time) with the original PNG/JPEG
+// as fallback. `picture { display: contents }` keeps layout identical to a bare img.
+function Picture({ src, alt = '', className, loading, style }) {
+  const webp = typeof src === 'string' && /\.(png|jpe?g)$/i.test(src)
+    ? src.replace(/\.(png|jpe?g)$/i, '.webp') : null;
+  const img = <img src={src} alt={alt} className={className} loading={loading} style={style}/>;
+  return webp ? (<picture><source srcSet={webp} type="image/webp"/>{img}</picture>) : img;
+}
+
 // -------------------- Placeholder image --------------------
 function Placeholder({ label = "Image", caption, aspect = "16/9", height, children, src, fit = false, alt }) {
   const style = {
@@ -362,7 +372,7 @@ function Placeholder({ label = "Image", caption, aspect = "16/9", height, childr
   if (src) {
     return (
       <div className={`ph ph-image${fit ? ' ph-fit' : ''}`} style={style}>
-        <img src={src} alt={alt || label || ''}/>
+        <Picture src={src} alt={alt !== undefined ? alt : (label || '')}/>
         {label && <span className="ph-label" style={{ background: 'rgba(255,255,255,0.92)' }}>{label}</span>}
         {caption && <div className="ph-caption" style={{ color: '#fff', textShadow: '0 1px 3px rgba(0,0,0,0.6)' }}>{caption}</div>}
       </div>

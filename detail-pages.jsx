@@ -516,7 +516,7 @@ function ProductWPChatPage({ onNavigate, onContact }) {
                   <span className="pdf-gallery-num">{p.n} / 09</span>
                   <span className="pdf-gallery-title">{p.t}</span>
                 </figcaption>
-                <img src={`assets/pdf/loop-ai-${p.n}.png`} alt={`設計提案資料 ページ ${p.n}`} loading="lazy"/>
+                <Picture src={`assets/pdf/loop-ai-${p.n}.png`} alt={`設計提案資料 ページ ${p.n}`} loading="lazy"/>
               </figure>
             ))}
           </div>

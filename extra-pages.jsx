@@ -718,7 +718,7 @@ function ArticleDetailPage({ onNavigate, onContact, slug }) {
 
         {article.img && (
           <div className="container" style={{ maxWidth: 880, marginBottom: 8 }}>
-            <img src={article.img} alt={article.title} className="article-hero-img"/>
+            <Picture src={article.img} alt={article.title} className="article-hero-img"/>
           </div>
         )}
 

@@ -126,20 +126,21 @@ async function optimizeImages(assetsDir) {
       // same path within one pipeline.
       const buffer = fs.readFileSync(file);
       const original = buffer.length;
-      let pipeline = sharp(buffer);
-      const meta = await pipeline.metadata();
-      if (meta.width && meta.width > 1600) {
-        pipeline = pipeline.resize({ width: 1600, withoutEnlargement: true });
-      }
-      if (ext === '.png') {
-        pipeline = pipeline.png({ compressionLevel: 9, palette: true, quality: 80 });
-      } else {
-        pipeline = pipeline.jpeg({ quality: 80, mozjpeg: true });
-      }
+      const meta = await sharp(buffer).metadata();
+      const oversized = !!(meta.width && meta.width > 1600);
+      const sized = (p) => (oversized ? p.resize({ width: 1600, withoutEnlargement: true }) : p);
+      // Re-encode the same format in place (only when it saves bytes).
+      let pipeline = sized(sharp(buffer));
+      pipeline = ext === '.png'
+        ? pipeline.png({ compressionLevel: 9, palette: true, quality: 80 })
+        : pipeline.jpeg({ quality: 80, mozjpeg: true });
       const out = await pipeline.toBuffer();
       if (out.length < original) {
         fs.writeFileSync(file, out);
       }
+      // Emit a WebP sibling for <picture> progressive enhancement.
+      const webpBuf = await sized(sharp(buffer)).webp({ quality: 78 }).toBuffer();
+      fs.writeFileSync(file.replace(/\.(png|jpe?g)$/i, '.webp'), webpBuf);
     } catch (e) {
       console.warn(`  ! image opt skipped ${path.relative(assetsDir, file)}: ${e.message}`);
     }
