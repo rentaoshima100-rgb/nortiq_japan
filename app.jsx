@@ -11,7 +11,6 @@ const ROUTES = {
   voice:           { c: () => window.VoicePage,           title: 'ご利用会社様の声 — Nortiq Labs' },
   support:         { c: () => window.SupportPage,         title: 'サポート — Nortiq Labs' },
   pricing:         { c: () => window.PricingPage,         title: '料金プラン — Nortiq Labs' },
-  seminar:         { c: () => window.SeminarPage,         title: 'セミナー — Nortiq Labs' },
   diagnosis:       { c: () => window.DiagnosisPage,       title: 'サイト無料診断 — Nortiq Labs' },
   'quick-diagnosis': { c: () => window.QuickDiagnosisPage, title: 'クイック診断 — Nortiq Labs' },
   subsidy:         { c: () => window.SubsidyPage,         title: 'IT導入補助金 — Nortiq Labs' },
@@ -61,15 +60,26 @@ ROUTES['feature-analytics'] = { c: () => window.FeatureAnalyticsPage, title: '�
 ROUTES['news']    = { c: () => window.NewsPage,    title: 'お知らせ — Nortiq Labs' };
 ROUTES['recruit'] = { c: () => window.RecruitPage, title: '採用情報 — Nortiq Labs' };
 
+// NORTIQLAB Site Diagnostic — landing page
+ROUTES['diagnostic'] = { c: () => window.DiagnosticLPPage, title: 'NORTIQLAB サイト診断 — URLを入れるだけでSEO・AI可視性まで完全分析 [無料]' };
+
 // Industry solutions
 ['clinic', 'realty', 'build', 'hr', 'retail'].forEach(k => {
   ROUTES['solution-' + k] = { c: () => window.SolutionPage, title: '業種別ソリューション — Nortiq Labs', argName: 'pageId', argVal: 'solution-' + k };
 });
 
-// Detail templates (single work / article / seminar example pages)
+// Detail templates (single work / article example pages)
 ROUTES['work-detail']    = { c: () => window.WorkDetailPage,    title: '実績詳細 — Nortiq Labs' };
-ROUTES['article-detail'] = { c: () => window.ArticleDetailPage, title: '記事詳細 — Nortiq Labs' };
-ROUTES['seminar-detail'] = { c: () => window.SeminarDetailPage, title: 'セミナー詳細 — Nortiq Labs' };
+
+// Blog articles — one route per slug (content from window.NORTIQ_ARTICLES)
+Object.keys((typeof window !== 'undefined' && window.NORTIQ_ARTICLES) || {}).forEach((slug) => {
+  const a = window.NORTIQ_ARTICLES[slug];
+  ROUTES['article-' + slug] = {
+    c: () => window.ArticleDetailPage,
+    title: `${a.title} — Nortiq Labs`,
+    argName: 'slug', argVal: slug,
+  };
+});
 
 function App() {
   const [route, setRoute] = React.useState('top');
@@ -130,8 +140,9 @@ function App() {
   const PageComp = routeMeta.c();
   const extraProps = routeMeta.argName ? { [routeMeta.argName]: routeMeta.argVal } : {};
 
-  // Sync mega menu "current" key (treat works-* as 'works', etc.)
+  // Sync mega menu "current" key (treat works-* as 'works', article-* as contents, etc.)
   const currentKey = route.startsWith('works-') ? 'works'
+    : route.startsWith('article-') ? 'contents'
     : (route === 'quick-diagnosis' ? 'diagnosis'
     : route);
 

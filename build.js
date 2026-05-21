@@ -3,6 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const babel = require('@babel/core');
 const { minify } = require('terser');
+const { marked } = require('marked');
 
 const ROOT = __dirname;
 const DIST = path.join(ROOT, 'dist');
@@ -18,6 +19,35 @@ const JSX_FILES = [
   'extra-pages.jsx',
   'app.jsx',
 ];
+
+// Blog articles — markdown source in content/blog/ + display metadata.
+// Order = newest first (drives the column list).
+const BLOG = [
+  { slug: 'japan-dx',        category: 'DX 観察記', date: '2026.05.12', read: '8 min',  title: 'なぜ日本のDXはアメリカに2〜3年遅れているのか' },
+  { slug: 'vetonet',         category: '技術',       date: '2026.04.28', read: '12 min', title: 'VetoNet 開発の裏側 — AI agent security とは何か' },
+  { slug: 'wordpress-stall', category: 'AI活用',     date: '2026.03.30', read: '7 min',  title: 'WordPress 更新が止まる本当の理由とその解決' },
+  { slug: 'core-web-vitals', category: '技術',       date: '2026.03.18', read: '10 min', title: 'Core Web Vitals の「Good」を現実的に取得する' },
+  { slug: 'clinic-web',      category: '業種別',     date: '2026.03.05', read: '8 min',  title: 'クリニックのWeb集客 2026年版 完全ガイド' },
+  { slug: 'ai-poc',          category: 'DX 観察記', date: '2026.02.22', read: '9 min',  title: 'PoCで終わるAI案件と、本実装まで進むAI案件の違い' },
+  { slug: 'realty-lp',       category: '業種別',     date: '2026.02.10', read: '6 min',  title: '不動産売却査定LPで反響を獲得する7つの必須要素' },
+  { slug: 'claude-vs-gpt',   category: 'AI活用',     date: '2026.01.28', read: '11 min', title: 'Claude vs GPT 業務利用 比較ドシエ' },
+];
+
+marked.setOptions({ gfm: true, breaks: false, headerIds: false, mangle: false });
+
+function buildArticles() {
+  const out = {};
+  for (const a of BLOG) {
+    const mdPath = path.join(ROOT, 'content', 'blog', a.slug + '.md');
+    if (!fs.existsSync(mdPath)) { console.warn(`  ! missing ${a.slug}.md`); continue; }
+    let md = fs.readFileSync(mdPath, 'utf8');
+    // Drop the leading H1 (we render title/meta from the manifest in the page header).
+    md = md.replace(/^\s*#\s+.+\n+/, '');
+    const html = marked.parse(md);
+    out[a.slug] = { slug: a.slug, title: a.title, category: a.category, date: a.date, read: a.read, html };
+  }
+  return out;
+}
 
 function rmrf(p) {
   if (!fs.existsSync(p)) return;
@@ -93,6 +123,14 @@ async function build() {
   const sizeKB = (Buffer.byteLength(minified.code, 'utf8') / 1024).toFixed(1);
   console.log(`  → dist/app.bundle.js (${sizeKB} KB)`);
 
+  console.log('• rendering blog articles (markdown → html)');
+  const articles = buildArticles();
+  const articlesJs = 'window.NORTIQ_ARTICLES = ' + JSON.stringify(articles) + ';';
+  fs.writeFileSync(path.join(DIST, 'articles.js'), articlesJs, 'utf8');
+  // Also drop a copy at project root so the Babel dev HTML can load it.
+  fs.writeFileSync(path.join(ROOT, 'articles.js'), articlesJs, 'utf8');
+  console.log(`  → dist/articles.js (${Object.keys(articles).length} articles, ${(Buffer.byteLength(articlesJs, 'utf8') / 1024).toFixed(1)} KB)`);
+
   console.log('• copying styles.css');
   fs.copyFileSync(path.join(ROOT, 'styles.css'), path.join(DIST, 'styles.css'));
 
@@ -115,6 +153,7 @@ async function build() {
 </head>
 <body>
   <div id="app"></div>
+  <script src="articles.js" defer></script>
   <script src="app.bundle.js" defer></script>
 </body>
 </html>

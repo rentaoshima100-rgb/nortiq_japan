@@ -36,7 +36,7 @@ function TopPage({ onNavigate, onContact }) {
 
           <ul className="main-medaru fadein" data-delay="300">
             <li className="medaru">
-              <div className="num"><Counter to={120} suffix="" className=""/><sup>社+</sup></div>
+              <div className="num"><Counter to={50} suffix="" className=""/><sup>社+</sup></div>
               <div className="lbl">制作・支援実績</div>
             </li>
             <li className="medaru">
@@ -53,14 +53,14 @@ function TopPage({ onNavigate, onContact }) {
             <span className="btn-pulse" style={{ display: 'inline-block' }}>
               <Button variant="primary" size="lg" onClick={onContact} arrow>資料請求はこちら</Button>
             </span>
-            <Button variant="ghost" size="lg" onClick={() => onNavigate('diagnosis')}><Icon name="search" size={14}/>ホームページ無料診断</Button>
+            <Button variant="ghost" size="lg" onClick={() => onNavigate('diagnostic')}><Icon name="search" size={14}/>ホームページ無料診断</Button>
           </div>
         </div>
       </section>
 
       {/* =========== Mix marquee (stats + values) =========== */}
       <MixMarquee items={[
-        { num: "120+", text: "Companies Supported" },
+        { num: "50+", text: "Companies Supported" },
         { num: "94%", text: "3-Year Retention" },
         { num: "4.8", text: "Google Rating / 5" },
         { num: "24h", text: "Response SLA" },
@@ -189,11 +189,11 @@ function TopPage({ onNavigate, onContact }) {
           <div className="bento">
             <div className="bento-cell bento-1 fadein" onClick={() => onNavigate('voice')}>
               <p className="bento-eyebrow">CLIENTS / 03</p>
-              <div className="bento-num"><Counter to={120} suffix="+" className=""/></div>
+              <div className="bento-num"><Counter to={50} suffix="+" className=""/></div>
               <h3 style={{ fontSize: 28, fontWeight: 900, lineHeight: 1.3, marginBottom: 12 }}>
-                120 社以上の<br/>制作・DX 支援実績。
+                50 社以上の<br/>制作・DX 支援実績。
               </h3>
-              <p>クリニック・不動産・建築・人材・小売・インフラ・AIスタートアップまで、業種横断で 120 社以上を支援。3 年継続率は <strong style={{ color: '#fff' }}>94%</strong>。</p>
+              <p>クリニック・不動産・建築・人材・小売・インフラ・AIスタートアップまで、業種横断で 50 社以上を支援。3 年継続率は <strong style={{ color: '#fff' }}>94%</strong>。</p>
               <span className="bento-cta">実績を見る <Icon name="arrow-right" size={14}/></span>
             </div>
             <div className="bento-cell bento-2 fadein" data-delay="80" onClick={() => onNavigate('product-vetonet')}>
@@ -204,8 +204,8 @@ function TopPage({ onNavigate, onContact }) {
             </div>
             <div className="bento-cell bento-3 fadein" data-delay="160" onClick={() => onNavigate('staff')}>
               <p className="bento-eyebrow">TEAM</p>
-              <div className="bento-num" style={{ fontSize: 42 }}>8<sub style={{ fontSize: 14, color: 'var(--text-3)' }}>名</sub></div>
-              <p>Engineer / Data Scientist / Computer Scientist / Designer / Consultant の専門家チーム。</p>
+              <div className="bento-num" style={{ fontSize: 42 }}>3<sub style={{ fontSize: 14, color: 'var(--text-3)' }}>名</sub></div>
+              <p>Founder / CTO・Computer Scientist / Data Scientist の代表 3 名体制。</p>
             </div>
             <div className="bento-cell bento-4 fadein" data-delay="240" onClick={() => onNavigate('product-wpchat')}>
               <p className="bento-eyebrow">PRODUCT · 主力</p>
@@ -432,7 +432,7 @@ function TopPage({ onNavigate, onContact }) {
         </div>
       </section>
 
-      {/* =========== コラム / セミナー タブ =========== */}
+      {/* =========== コラム タブ =========== */}
       <ContentTabs onNavigate={onNavigate}/>
 
       {/* =========== ピックアップ 3 バナー =========== */}
@@ -613,7 +613,7 @@ function GalleryTabs({ onNavigate }) {
           <h2 className="section-title fadein">制作実績</h2>
           <p className="section-sub fadein">PRODUCTION RESULTS</p>
           <p className="lede fadein" style={{ margin: '24px auto 0' }}>
-            これまで120社以上のWEB戦略・運用支援実績をもとに、地域密着の中小企業から大手まで幅広くサポートしています。<br/>
+            これまで50社以上のWEB戦略・運用支援実績をもとに、地域密着の中小企業から大手まで幅広くサポートしています。<br/>
             ホームページ制作だけでなく、SEO・広告運用・反響分析・コンテンツ改善まで一貫対応。
           </p>
         </div>
@@ -651,7 +651,6 @@ function VoiceBubble({ tag, quote, name, role, reversed, delay, src }) {
         <Placeholder label={src ? "" : tag} caption="" aspect="1/1" src={src} fit/>
       </div>
       <div className="voice-content">
-        <span className="tag tag-on-accent" style={{ marginBottom: 14, display: 'inline-block' }}>{tag}</span>
         <blockquote>{quote}</blockquote>
         <figcaption>
           <strong>{name}</strong>
@@ -665,18 +664,6 @@ function VoiceBubble({ tag, quote, name, role, reversed, delay, src }) {
 function ContentTabs({ onNavigate }) {
   const [tab, setTab] = React.useState(0);
   const data = [
-    {
-      label: "セミナー",
-      en: "SEMINAR",
-      items: [
-        { date: "2026.06.12", title: "中小企業のための DX 段階導入セミナー (オンライン)", tag: "オンライン" },
-        { date: "2026.06.25", title: "WordPress × AI で記事更新を10倍速にする", tag: "オンライン" },
-        { date: "2026.07.08", title: "業種別 (クリニック) Web集客の最前線", tag: "ハイブリッド" },
-        { date: "2026.07.22", title: "データドリブン経営の作り方 / 入門編", tag: "オンライン" },
-        { date: "2026.08.05", title: "LP制作 + リスティング広告の連動運用", tag: "オンライン" },
-      ],
-      onCta: () => onNavigate('seminar'),
-    },
     {
       label: "コラム",
       en: "COLUMN",

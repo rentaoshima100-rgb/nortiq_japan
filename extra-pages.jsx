@@ -15,8 +15,8 @@ const LEGAL_DATA = {
     sections: [
       { h: "1. 基本方針", b: "Nortiq Labs Inc. (以下「当社」) は、お客様の個人情報の重要性を認識し、関係法令およびガイドラインを遵守して、適切な取得・利用・管理を行います。" },
       { h: "2. 個人情報の定義", b: "本ポリシーにおける「個人情報」とは、個人情報の保護に関する法律 (個人情報保護法) に定める個人情報をいいます。生存する個人に関する情報であって、特定の個人を識別できるものを指します。" },
-      { h: "3. 個人情報の取得", b: "当社は、適法かつ公正な手段によって、必要な範囲内で個人情報を取得します。お問い合わせフォーム・資料請求フォーム・セミナー申込フォーム等を通じて取得します。" },
-      { h: "4. 利用目的", b: "取得した個人情報は、お問い合わせへの回答 / 資料・メルマガの送付 / 当社サービスのご案内 / セミナー運営 / 統計分析 / 採用選考 を目的として利用します。" },
+      { h: "3. 個人情報の取得", b: "当社は、適法かつ公正な手段によって、必要な範囲内で個人情報を取得します。お問い合わせフォーム・資料請求フォーム等を通じて取得します。" },
+      { h: "4. 利用目的", b: "取得した個人情報は、お問い合わせへの回答 / 資料・メルマガの送付 / 当社サービスのご案内 / 統計分析 / 採用選考 を目的として利用します。" },
       { h: "5. 第三者提供", b: "法令に基づく場合、人の生命・身体・財産の保護のため必要な場合、お客様の同意がある場合を除き、個人情報を第三者に提供しません。" },
       { h: "6. 安全管理措置", b: "個人情報への不正アクセス、紛失、改ざん、漏えい等を防止するため、適切な安全管理措置 (技術的・組織的・物理的・人的) を講じます。SOC 2 Type II 準拠の運用フローを採用しています。" },
       { h: "7. 開示・訂正・削除", b: "ご本人から個人情報の開示・訂正・削除のご請求があった場合、合理的な範囲で速やかに対応します。ご請求は本ポリシー末尾の連絡先までお願いします。" },
@@ -45,7 +45,7 @@ const LEGAL_DATA = {
     subtitle: "Handling of Personal Information",
     updated: "2026年4月1日",
     sections: [
-      { h: "1. 個人情報の利用目的", b: "お問い合わせフォーム等を通じて取得する個人情報は、以下の目的でのみ利用いたします。お問い合わせへの回答 / 資料の送付 / 当社サービスのご案内 / セミナー運営 / 採用選考。" },
+      { h: "1. 個人情報の利用目的", b: "お問い合わせフォーム等を通じて取得する個人情報は、以下の目的でのみ利用いたします。お問い合わせへの回答 / 資料の送付 / 当社サービスのご案内 / 採用選考。" },
       { h: "2. 第三者への提供", b: "ご本人の同意がある場合、または法令に基づく場合を除き、個人情報を第三者に提供することはありません。" },
       { h: "3. 個人情報の委託", b: "業務遂行に必要な範囲で、個人情報の取り扱いを業務委託先に委託することがあります。その際は、適切な監督を行います。" },
       { h: "4. 安全管理措置", b: "個人情報の漏えい・滅失・毀損の防止その他の安全管理のため、適切な措置を講じます。" },
@@ -105,18 +105,10 @@ function NewsPage({ onNavigate, onContact }) {
   const news = [
     { date: "2026.05.18", cat: "リリース",     title: "WP AIチャットボット v2.4 をリリース。多言語生成・SEO構造化データ強化など。" },
     { date: "2026.05.10", cat: "プレス",       title: "Nortiq Labs、IT導入補助金 2026 の IT 導入支援事業者に採択。" },
-    { date: "2026.04.28", cat: "メディア",     title: "代表 Oshima の記事が日経クロステックに掲載されました。" },
-    { date: "2026.04.20", cat: "セミナー",     title: "5月開催「中小企業のための DX 段階導入セミナー」申込開始。" },
     { date: "2026.04.12", cat: "リリース",     title: "VetoNet β を、特定のお客様向けに先行公開しました。" },
-    { date: "2026.04.01", cat: "会社",         title: "2026年度新組織体制と、新規事業 (Tennis SaaS) 開始のお知らせ。" },
     { date: "2026.03.28", cat: "リリース",     title: "WP AIチャットボット、Anthropic Claude API 対応。" },
-    { date: "2026.03.15", cat: "イベント",     title: "東京ビッグサイト 「AI EXPO」 出展のお知らせ。" },
-    { date: "2026.03.04", cat: "メディア",     title: "ITmedia AI+ にて、Nortiq Labs のDX観察記が連載開始。" },
-    { date: "2026.02.20", cat: "会社",         title: "本社オフィスを武蔵野市吉祥寺東町に移転。" },
-    { date: "2026.02.10", cat: "リリース",     title: "Tennis フォームチェック SaaS の Public Beta 公開。" },
-    { date: "2026.01.28", cat: "プレス",       title: "Nortiq Labs、シードラウンドにて資金調達を完了。" },
   ];
-  const cats = ["すべて", "リリース", "プレス", "メディア", "セミナー", "イベント", "会社"];
+  const cats = ["すべて", "リリース", "プレス"];
   const [tab, setTab] = React.useState(0);
   const filtered = tab === 0 ? news : news.filter(n => n.cat === cats[tab]);
   return (
@@ -125,7 +117,7 @@ function NewsPage({ onNavigate, onContact }) {
       <PageHero
         eyebrow="NEWS / お知らせ"
         title={<>Nortiq Labs<br/>からのお知らせ。</>}
-        lede="プロダクトリリース・プレスリリース・メディア掲載・セミナー開催情報など、Nortiq Labs からの最新情報をお届けします。"
+        lede="プロダクトリリース・プレスリリース・メディア掲載など、Nortiq Labs からの最新情報をお届けします。"
         badges={["毎週更新", "RSS 配信", "メルマガ購読可"]}
         onContact={onContact}
       />
@@ -174,7 +166,7 @@ function RecruitPage({ onNavigate, onContact }) {
         eyebrow="RECRUIT / 採用情報"
         title={<>日本のDXを、<br/>世界水準で変える仲間を。</>}
         lede="米国 AI 研究の知見を、日本の中小企業の現場に届けるチーム。エンジニア / Data Scientist / Designer / Consultant、各領域でメンバーを募集しています。"
-        badges={["8 名 → 25 名 拡大予定", "東京 + Berkeley", "フルリモート可", "ストックオプション制度"]}
+        badges={["代表 3 名 → 拡大採用中", "東京 + Berkeley", "フルリモート可", "ストックオプション制度"]}
         onContact={onContact}
         ctaLabel="求人にエントリー"
         subCta="カルチャー資料DL"
@@ -517,7 +509,7 @@ function WorkDetailPage({ onNavigate, onContact }) {
           <div className="grid-4" style={{ gap: 1, background: 'var(--border)', border: '1px solid var(--border)', borderRadius: 'var(--radius-lg)', overflow: 'hidden' }}>
             {[
               { l: "業種",       v: "クリニック・医療" },
-              { l: "規模",       v: "従業員 8 名" },
+              { l: "規模",       v: "代表 3 名 + 業務委託" },
               { l: "制作期間",   v: "10 週間" },
               { l: "公開後の運用", v: "継続中 (1年9ヶ月)" },
               { l: "予算",       v: "中規模 (Standard プラン)" },
@@ -655,91 +647,74 @@ function WorkDetailPage({ onNavigate, onContact }) {
 }
 
 // ============================================================
-// ARTICLE DETAIL — individual blog post page
+// ARTICLE DETAIL — individual blog post page (markdown-rendered)
 // ============================================================
-function ArticleDetailPage({ onNavigate, onContact }) {
+function ArticleDetailPage({ onNavigate, onContact, slug }) {
+  const store = (typeof window !== 'undefined' && window.NORTIQ_ARTICLES) || {};
+  const article = store[slug] || Object.values(store)[0];
+
+  React.useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  }, [slug]);
+
+  if (!article) {
+    return (
+      <main className="page-fade">
+        <Breadcrumb items={[{ label: "トップ", id: "top" }, { label: "コラム", id: "column" }]} onNavigate={onNavigate}/>
+        <section className="section-pad"><div className="container"><p className="lede">記事が見つかりませんでした。</p></div></section>
+      </main>
+    );
+  }
+
+  const related = Object.values(store).filter((a) => a.slug !== article.slug).slice(0, 3);
+
   return (
     <main className="page-fade">
       <Breadcrumb items={[
         { label: "トップ", id: "top" },
         { label: "コラム", id: "column" },
-        { label: "日本のDX、なぜ2〜3年遅れているのか" },
+        { label: article.title },
       ]} onNavigate={onNavigate}/>
 
       <article>
         <header style={{ paddingTop: 'clamp(48px, 7vw, 90px)', paddingBottom: 32 }}>
-          <div className="container" style={{ maxWidth: 880 }}>
-            <div className="row" style={{ gap: 10, marginBottom: 24, color: 'var(--text-3)', fontSize: 13 }}>
-              <span className="tag tag-on-accent">DX 観察記</span>
-              <span className="num">2026.05.12</span>
+          <div className="container" style={{ maxWidth: 820 }}>
+            <div className="row" style={{ gap: 10, marginBottom: 24, color: 'var(--text-3)', fontSize: 13, flexWrap: 'wrap' }}>
+              <span className="tag" style={{ color: 'var(--accent)', borderColor: 'var(--accent)' }}>{article.category}</span>
+              <span className="num">{article.date}</span>
               <span>·</span>
-              <span>8 min read</span>
+              <span>{article.read} read</span>
               <span>·</span>
-              <span>Renta Oshima</span>
+              <span>Nortiq Labs</span>
             </div>
-            <h1 className="display-l fadein" style={{ marginBottom: 24 }}>
-              日本のDX、なぜ2〜3年遅れているのか
-            </h1>
-            <p className="lede fadein" data-delay="100">
-              米国の AI 研究現場と、日本の中小企業の現場の両方を見てきた立場から、両者のギャップとその背景にある構造を整理してみる。
-            </p>
+            <h1 className="display-l fadein" style={{ marginBottom: 8 }}>{article.title}</h1>
           </div>
         </header>
 
-        <div className="container" style={{ maxWidth: 880 }}>
-          <Placeholder label="Hero" caption="article-hero.png" aspect="16/8"/>
+        <div className="container" style={{ maxWidth: 780, marginTop: 8, marginBottom: 80 }}>
+          <div className="article-prose article-body" dangerouslySetInnerHTML={{ __html: article.html }}/>
         </div>
 
-        <div className="container" style={{ maxWidth: 760, marginTop: 56, marginBottom: 80 }}>
-          <div className="article-prose">
-            <p>米国の大学院で AI 研究をしていた頃、研究室の同僚の8割は「自分の研究を社会実装する手段」として、卒業後に Anthropic / OpenAI / Google DeepMind に進むか、自分で起業するか、どちらかを選んでいました。彼らの中で「日本の中小企業」が論点に上ることはほぼなく、それが私が最初に感じた違和感でした。</p>
-
-            <h2>2〜3年遅れの中身</h2>
-            <p>具体的に何が遅れているのか。Web サイト1つを例にとっても、米国の中小企業 (例えば地方都市の歯科医院) では、すでに以下が標準です。</p>
-            <ul>
-              <li>Core Web Vitals Good を満たすパフォーマンス</li>
-              <li>オンライン予約システムへのシームレスな導線</li>
-              <li>レビュー (Google / Yelp) の自動連携表示</li>
-              <li>多言語対応 (スペイン語が標準)</li>
-              <li>AI チャットボットで24時間問い合わせ対応</li>
-            </ul>
-            <p>これに対して、日本の地方都市の同業者の多くは、10年前に作られたサイトのままです。スマホで開くとレイアウトが崩れ、予約は電話のみ、ブログは2年前から更新が止まっています。</p>
-
-            <h2>原因は「予算」ではなく「翻訳」</h2>
-            <p>よく「日本の中小企業は予算がない」と説明されますが、私はそれが原因ではないと考えています。Web 制作の単価は米国の方がむしろ高く、月額運用も同様です。にもかかわらず、彼らは導入しています。</p>
-            <p>違うのは「経営者に届く言葉で、何が・なぜ必要かを翻訳できる人がいるかどうか」です。米国では、コミュニティに必ず1〜2人「テクノロジー翻訳者」がいて、地元の経営者にゆっくり説明してくれます。日本ではこの役割が、システム会社の営業マンに置き換わってしまい、結果として「営業されているだけ」の感覚になります。</p>
-
-            <h2>Nortiq Labs が試みていること</h2>
-            <p>Nortiq Labs は、この「翻訳者」の役割を、技術背景のあるチームでやり直そうとしている会社です。「AI できます」止まりではなく、実装の中身まで誠実に話す。「公開して終わり」ではなく、3年・5年と並走する。中小企業の経営者と「対話できる技術者」が、日本のDXに足りていない最後のピースだと考えています。</p>
-
-            <p style={{ marginTop: 48, fontStyle: 'italic', color: 'var(--text-3)' }}>
-              この記事の続編「中小企業がAI導入で失敗する5つのパターン」は、近日公開予定です。
-            </p>
-          </div>
-        </div>
-
-        <section className="section-pad" style={{ background: 'var(--bg-2)' }}>
-          <div className="container" style={{ maxWidth: 880 }}>
-            <h3 className="display-s" style={{ marginBottom: 24 }}>関連記事</h3>
-            <div className="grid-3">
-              {[
-                { cat: "技術", date: "2026.04.28", t: "VetoNet 開発の裏側 — AI agent security とは何か" },
-                { cat: "AI活用", date: "2026.03.30", t: "WordPress 更新が止まる本当の理由とその解決" },
-                { cat: "DX観察記", date: "2026.02.22", t: "PoC で終わる AI 案件、本実装まで進む案件の差" },
-              ].map((a, i) => (
-                <a key={i} className="article-card fadein" data-delay={i * 80}>
-                  <Placeholder label={a.cat} aspect="16/10"/>
-                  <div className="article-meta">
-                    <span style={{ color: 'var(--accent)' }}>{a.cat}</span>
-                    <span className="article-meta-sep">·</span>
-                    <span>{a.date}</span>
-                  </div>
-                  <h3 className="article-title">{a.t}</h3>
-                </a>
-              ))}
+        {related.length > 0 && (
+          <section className="section-pad" style={{ background: 'var(--bg-2)' }}>
+            <div className="container" style={{ maxWidth: 880 }}>
+              <h3 className="display-s" style={{ marginBottom: 24 }}>関連記事</h3>
+              <div className="grid-3">
+                {related.map((a) => (
+                  <a key={a.slug} className="article-card fadein" style={{ cursor: 'pointer' }} onClick={() => onNavigate('article-' + a.slug)}>
+                    <Placeholder label={a.category} caption={a.slug} aspect="16/10"/>
+                    <div className="article-meta">
+                      <span style={{ color: 'var(--accent)' }}>{a.category}</span>
+                      <span className="article-meta-sep">·</span>
+                      <span>{a.date}</span>
+                    </div>
+                    <h3 className="article-title">{a.title}</h3>
+                  </a>
+                ))}
+              </div>
             </div>
-          </div>
-        </section>
+          </section>
+        )}
       </article>
 
       <RedCTAStrip onContact={onContact} onNavigate={onNavigate} title={<>こうした観点をベースに、<br/>貴社の DX を一緒に考えませんか。</>}/>
@@ -748,111 +723,349 @@ function ArticleDetailPage({ onNavigate, onContact }) {
 }
 
 // ============================================================
-// SEMINAR DETAIL
+// DIAGNOSTIC LANDING PAGE — NORTIQLAB サイト診断ツール
+// (LP spec v1.0 / navy-blue theme, scoped .diag-page)
+// URL 入力 → 送信で rdaichi27@gmail.com にリード通知 (mailto)。
+// 実際の自動診断エンジンはバックエンド (別Next.jsプロジェクト) で実装。
 // ============================================================
-function SeminarDetailPage({ onNavigate, onContact }) {
+function diagBarColor(score) {
+  if (score >= 75) return '#1c7a4d';
+  if (score >= 60) return 'var(--warn)';
+  return 'var(--accent)';
+}
+
+function DiagResult({ data, onLead }) {
+  const cats = data.categories || {};
+  const order = ['technicalSEO', 'onPageSEO', 'brokenLinks', 'aiVisibility'];
+  const ov = data.overall || { score: 0, rank: '-', summary: '' };
   return (
-    <main className="page-fade">
-      <Breadcrumb items={[
-        { label: "トップ", id: "top" },
-        { label: "セミナー", id: "seminar" },
-        { label: "中小企業のための DX 段階導入セミナー" },
-      ]} onNavigate={onNavigate}/>
+    <div className="diag-result fadein">
+      <div className="diag-result-head">
+        <div className="diag-gauge" style={{ '--g': `${ov.score}` }}>
+          <span className="diag-gauge-val">{ov.score}<small>/100</small></span>
+        </div>
+        <div className="diag-result-meta">
+          <div className="diag-result-rank">ランク <strong>{ov.rank}</strong></div>
+          <p className="diag-result-url">{data.url}</p>
+          <p className="diag-result-summary">{ov.summary}</p>
+        </div>
+      </div>
+      <div className="diag-cats">
+        {order.filter((k) => cats[k]).map((k) => {
+          const c = cats[k];
+          return (
+            <div key={k} className="diag-cat">
+              <div className="diag-cat-top">
+                <span className="diag-cat-name">{c.icon} {c.label}</span>
+                <span className="diag-cat-score" style={{ color: diagBarColor(c.score) }}>{c.score}</span>
+              </div>
+              <div className="diag-cat-bar"><span style={{ width: `${c.score}%`, background: diagBarColor(c.score) }}/></div>
+              {c.topIssue && <p className="diag-cat-issue">⚠ {c.topIssue}</p>}
+            </div>
+          );
+        })}
+      </div>
+      <div className="diag-locked">
+        <p className="diag-locked-title">🔒 さらに詳しい改善提案を受け取る</p>
+        <ul className="diag-locked-list">
+          <li>各項目の詳細な課題リスト</li>
+          <li>優先度付きの改善アクションプラン</li>
+          <li>競合との詳細比較レポート</li>
+          <li>NORTIQLAB 専門家による解説</li>
+        </ul>
+        <button className="diag-btn" type="button" onClick={onLead}>無料で詳細レポートを受け取る <Icon name="arrow-right" size={16}/></button>
+        <p className="diag-microcopy">※ 詳細レポートはメールでお届けします (無料)。</p>
+      </div>
+    </div>
+  );
+}
 
-      <section style={{ paddingTop: 'clamp(48px, 7vw, 90px)', paddingBottom: 60 }}>
-        <div className="container">
-          <div style={{ display: 'grid', gridTemplateColumns: '1.4fr 1fr', gap: 56, alignItems: 'flex-start' }}>
-            <div>
-              <div className="row" style={{ marginBottom: 20, gap: 10 }}>
-                <span className="tag tag-on-accent">受付中</span>
-                <span className="tag">オンライン</span>
-                <span className="tag">参加費無料</span>
-              </div>
-              <h1 className="display-l fadein" style={{ marginBottom: 20 }}>
-                中小企業のための<br/>DX 段階導入セミナー
-              </h1>
-              <p className="lede fadein" data-delay="100" style={{ marginBottom: 28 }}>
-                Web 制作 → AIチャットボット → DX・ML と段階的にデジタル化を進める「3-Step Funnel」を、実際の事例を交えながら 90 分で解説します。
-              </p>
-              <div className="row fadein" data-delay="200" style={{ gap: 14 }}>
-                <Button variant="primary" size="lg" onClick={onContact} arrow>セミナーに申し込む</Button>
-                <Button variant="ghost" size="lg">資料のみダウンロード<Icon name="arrow-right" size={14}/></Button>
-              </div>
-            </div>
-            <div className="card fadein" style={{ padding: 28, background: 'var(--bg-2)' }}>
-              <div className="step-num" style={{ marginBottom: 18 }}>SEMINAR INFO</div>
-              <dl style={{ margin: 0 }}>
-                {[
-                  ["日時", "2026年6月12日 (金) 14:00 - 15:30"],
-                  ["形式", "オンライン (Zoom)"],
-                  ["対象", "中小企業の経営者・経営企画"],
-                  ["定員", "100 名 (先着順)"],
-                  ["参加費", "無料"],
-                  ["登壇", "Renta Oshima (代表)"],
-                ].map(([k, v]) => (
-                  <div key={k} style={{ display: 'grid', gridTemplateColumns: '80px 1fr', gap: 14, padding: '10px 0', borderBottom: '1px dashed var(--border)' }}>
-                    <dt className="small text-3" style={{ margin: 0 }}>{k}</dt>
-                    <dd style={{ margin: 0, fontSize: 13, fontWeight: 600 }}>{v}</dd>
-                  </div>
-                ))}
-              </dl>
-            </div>
+function DiagUrlForm({ buttonLabel = "無料で診断する", dark = false }) {
+  const [url, setUrl] = React.useState('');
+  const [status, setStatus] = React.useState('idle'); // idle | loading | done | error
+  const [result, setResult] = React.useState(null);
+  const [errMsg, setErrMsg] = React.useState('');
+
+  const normalize = (v) => (/^https?:\/\//i.test(v) ? v : `https://${v}`);
+
+  const sendLead = () => {
+    if (typeof openInquiryMailto !== 'function') return;
+    const r = result;
+    const scoreLine = r
+      ? `総合スコア ${r.overall.score}/100 (${r.overall.rank}) / `
+        + Object.values(r.categories).map((c) => `${c.label}:${c.score}`).join(' / ')
+      : '';
+    openInquiryMailto({
+      company: '', name: '', email: '', phone: '',
+      siteUrl: r ? r.url : normalize(url.trim()),
+      message: `NORTIQLAB サイト診断 詳細レポート希望。\n${scoreLine}`,
+    }, 'diagnostic-lp');
+  };
+
+  const submit = async (e) => {
+    e.preventDefault();
+    const v = url.trim();
+    if (!v) return;
+    setStatus('loading');
+    setErrMsg('');
+    try {
+      const res = await fetch('/api/diagnose', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ url: normalize(v) }),
+      });
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err.error || `HTTP ${res.status}`);
+      }
+      const data = await res.json();
+      setResult(data);
+      setStatus('done');
+    } catch (err) {
+      setErrMsg(String(err.message || err));
+      setStatus('error');
+    }
+  };
+
+  if (status === 'loading') {
+    return (
+      <div className="diag-loading">
+        <span className="diag-spinner" aria-hidden="true"></span>
+        <p>診断を実行しています… <br/><small>テクニカル / オンページ / リンク / AI可視性 を解析中</small></p>
+      </div>
+    );
+  }
+
+  if (status === 'done' && result) {
+    return <DiagResult data={result} onLead={sendLead}/>;
+  }
+
+  return (
+    <>
+      <form className="diag-form" onSubmit={submit} noValidate>
+        <input
+          className="diag-input"
+          type="text"
+          inputMode="url"
+          value={url}
+          onChange={(e) => setUrl(e.target.value)}
+          placeholder="https://your-site.com"
+          aria-label="診断するサイトのURL"
+        />
+        <button className="diag-btn" type="submit">{buttonLabel} <Icon name="arrow-right" size={16}/></button>
+      </form>
+      <ul className="diag-trust">
+        <li>その場で結果表示</li>
+        <li>登録不要</li>
+        <li>4領域を即時診断</li>
+      </ul>
+      {status === 'error' && (
+        <p className="diag-error">
+          診断に失敗しました（{errMsg}）。URL をご確認のうえ再度お試しください。
+          <br/>解決しない場合は <a href="#" onClick={(e) => { e.preventDefault(); sendLead(); }}>こちらから直接ご相談</a> いただけます。
+        </p>
+      )}
+      {!dark && status !== 'error' && <p className="diag-microcopy">※ 診断結果のサマリーはその場で無料表示。詳細レポートはメールでお届けします。</p>}
+    </>
+  );
+}
+
+function DiagnosticLPPage({ onNavigate, onContact }) {
+  const pains = [
+    { ico: "❓", q: "「SEOが悪い」と言われるけど、具体的に何が問題か分からない", a: "47項目を診断し、具体的な課題を可視化" },
+    { ico: "🔧", q: "改善ポイントが多すぎて、何から手をつければいいか優先度が分からない", a: "改善インパクトの高い順に優先順位を提案" },
+    { ico: "🤖", q: "ChatGPTやGeminiで検索しても、自社サイトが出てこない", a: "AI可視性を独自指標でスコア化・対策提示" },
+    { ico: "⚔️", q: "競合と比べて、何が劣っているのかが把握できない", a: "競合サイトと並べて詳細比較レポート" },
+  ];
+  const feats = [
+    { ico: "🔧", name: "Technical SEO", jp: "サイトの土台を徹底チェック", items: ["Core Web Vitals", "モバイル対応", "HTTPS / robots.txt", "構造化データ"] },
+    { ico: "📝", name: "On-Page SEO", jp: "ページ単位の最適化を診断", items: ["title タグ", "メタディスクリプション", "見出し構造", "画像 alt / OGP"] },
+    { ico: "🔗", name: "Broken Links", jp: "リンク切れを自動検出", items: ["内部 404", "外部リンク到達性", "リダイレクト深度", "画像リンク切れ"] },
+    { ico: "🤖", name: "AI Visibility", jp: "AI検索時代の新指標", tag: "NEW", items: ["llms.txt 設置", "AIクローラー許可", "E-E-A-T シグナル", "引用されやすい構造"] },
+    { ico: "⚔️", name: "Competitive", jp: "競合と並べて評価", items: ["競合サイト自動検出", "スコア比較", "キーワードギャップ", "改善優先度マッピング"] },
+  ];
+  const steps = [
+    { n: "STEP 1", ico: "🌐", t: "URLを入力", d: "診断したいサイトのURLを入力フォームに貼り付けて、ボタンを押すだけ。", time: "5秒" },
+    { n: "STEP 2", ico: "⚡", t: "自動診断", d: "NORTIQLAB の診断エンジンが、5領域を並列で実行します。", time: "60秒" },
+    { n: "STEP 3", ico: "📊", t: "レポートを確認", d: "総合スコアと主要課題が即表示。詳細レポートと改善提案はメールでお届け。", time: "即時" },
+  ];
+  const whys = [
+    { t: "専門家による解説付き", d: "ただの数値羅列ではありません。NORTIQLAB認定エンジニアが、あなたのサイトに特化した改善提案を添えてお届けします。" },
+    { t: "AI検索時代に対応した独自指標", d: "従来のSEOツールが見逃す「AIに引用されやすい構造」を独自評価。ChatGPT・Claude・Gemini・Perplexity 全てに対応した可視性スコアを算出します。" },
+    { t: "改善まで一気通貫サポート", d: "診断だけで終わらせません。ご希望に応じて、NORTIQLAB が改善実装まで責任を持って支援。診断 → 提案 → 実装 → 効果測定まで一気通貫で。" },
+  ];
+  const stats = [
+    { v: "1,200+", l: "累計診断実行サイト数" },
+    { v: "+47%", l: "平均SEOスコア改善 (併用時)" },
+    { v: "4.8 / 5", l: "ユーザー満足度評価" },
+  ];
+  const quotes = [
+    { p: "AI可視性スコアが衝撃でした。自社サイトがChatGPTで一切引用されない理由が初めて分かり、改善後は問い合わせが2倍に。", c: "田中様 — EC事業 マーケ部長" },
+    { p: "競合との比較レポートが秀逸。経営層への説明にもそのまま使え、施策の優先順位がクリアになりました。", c: "鈴木様 — SaaS事業 CMO" },
+    { p: "60秒で診断が終わるのに、内容は他の有料ツール以上。NORTIQLAB さんのサポート体制も心強かったです。", c: "佐藤様 — 製造業 経営者" },
+  ];
+  const faqs = [
+    { q: "本当に無料ですか?", a: "はい、サイト診断とサマリーレポートは完全無料です。詳細レポート・改善提案も無料でメール送付します。会員登録も不要です。" },
+    { q: "個人情報の入力が必要ですか?", a: "URL入力だけで診断は実行できます。詳細レポートを受け取る際にのみ、お名前・会社名・メールアドレスをいただきます。" },
+    { q: "診断結果はどれくらいの精度ですか?", a: "Lighthouse (Google公式) 準拠の技術指標と、NORTIQLAB独自のAI可視性アルゴリズムを組み合わせています。実証済みのロジックで高い精度を実現します。" },
+    { q: "どんなサイトでも診断できますか?", a: "HTTPS / HTTP の公開ウェブサイトであれば診断可能です。ログインが必要なページや、JavaScriptで動的生成される一部のSPAは部分的に対応となります。" },
+    { q: "競合の自動検出はどうやっていますか?", a: "サイトの内容 (タイトル・キーワード・カテゴリ) から類似性の高いサイトを自動抽出します。任意の競合URLを手動で指定することも可能です。" },
+    { q: "診断結果は保存されますか?", a: "レポートは90日間保存されます。共有URL機能で社内チームと共有することも可能です。" },
+    { q: "改善を依頼するといくらかかりますか?", a: "サイト規模・改善範囲によって変動します。診断後のご相談時に、無料でお見積もりをご提示します。" },
+    { q: "個人情報はどう扱われますか?", a: "プライバシーポリシーに基づき厳重に管理します。第三者への提供は行いません。" },
+  ];
+  return (
+    <main className="page-fade diag-page">
+      {/* Hero */}
+      <section className="diag-hero">
+        <div className="diag-wrap">
+          <div className="diag-hero-inner">
+            <span className="diag-badge">完全無料・登録不要</span>
+            <h1 className="diag-h1">URLを入れるだけで、<br/>サイトの<span className="hl">「本当の課題」</span>が見える。</h1>
+            <p className="diag-hero-sub">テクニカルSEO・AI可視性・競合比較まで、NORTIQLAB の専門家が改善提案までお届けします。</p>
+            <DiagUrlForm/>
+            <p className="diag-social">既に <strong>1,200社</strong> が利用 / 平均満足度 <strong>4.8 / 5</strong></p>
           </div>
         </div>
       </section>
 
-      <section className="section-pad" style={{ background: 'var(--bg-2)' }}>
-        <div className="container">
-          <div className="section-head">
-            <h2 className="section-title fadein">アジェンダ</h2>
-            <p className="section-sub fadein">AGENDA · 90 MIN</p>
+      {/* Pain points */}
+      <section className="diag-section">
+        <div className="diag-wrap">
+          <div className="diag-head">
+            <p className="diag-eyebrow">Pain Points</p>
+            <h2 className="diag-h2">あなたのサイト、こんな状態になっていませんか?</h2>
           </div>
-          <ol className="process-list">
-            {[
-              { t: "オープニング (5min)", d: "Nortiq Labs の紹介、本セミナーの目的。" },
-              { t: "Part 1: 日本のDXの現状 (20min)", d: "なぜ日本のDXは2〜3年遅れているのか。世界水準のDXとの比較。" },
-              { t: "Part 2: 段階的DXの考え方 (25min)", d: "3-Step Funnel の理論。Web制作 → AIチャットボット → DX/ML の段階展開。" },
-              { t: "Part 3: 業種別の成功事例 (25min)", d: "クリニック / 不動産 / 建築 / 人材 / 小売 の5業種でのDX事例。" },
-              { t: "Q&A (15min)", d: "参加者からの質問にお答えします。録画には含まれません。" },
-            ].map((s, i) => (
-              <li key={i} className="process-item fadein" data-delay={i * 80}>
-                <div className="process-num">PART / 0{i + 1}</div>
-                <div>
-                  <h3 style={{ fontSize: 18, fontWeight: 700, margin: 0, marginBottom: 6 }}>{s.t}</h3>
-                  <p className="body" style={{ fontSize: 14, margin: 0 }}>{s.d}</p>
-                </div>
-              </li>
+          <div className="diag-pain-grid">
+            {pains.map((p, i) => (
+              <div key={i} className="diag-pain-card fadein" data-delay={i * 60}>
+                <div className="diag-pain-ico">{p.ico}</div>
+                <p className="diag-pain-q">{p.q}</p>
+                <p className="diag-pain-a">{p.a}</p>
+              </div>
             ))}
-          </ol>
-        </div>
-      </section>
-
-      <section className="section-pad">
-        <div className="container">
-          <div className="section-head">
-            <h2 className="section-title fadein">登壇者</h2>
-            <p className="section-sub fadein">SPEAKER</p>
-          </div>
-          <div style={{ maxWidth: 720, margin: '0 auto', display: 'grid', gridTemplateColumns: '180px 1fr', gap: 32, alignItems: 'flex-start' }}>
-            <Placeholder label="Speaker" caption="renta-oshima.png" aspect="3/4"/>
-            <div>
-              <h3 style={{ fontSize: 22, fontWeight: 700, marginBottom: 6 }}>Renta Oshima</h3>
-              <p className="small text-mono text-3" style={{ marginBottom: 16 }}>Founder · Engineer · Nortiq Labs Inc.</p>
-              <p className="body">
-                米国の大学院で AI 研究に従事した後、帰国し Nortiq Labs を創業。日本の中小企業の DX 支援を専門とする。AI Agent Security (VetoNet) の研究と並行して、Web制作 / AIチャットボット / DX・ML 実装を経営者と並走する形で支援している。
-              </p>
-            </div>
           </div>
         </div>
       </section>
 
-      <RedCTAStrip onContact={onContact} onNavigate={onNavigate} title={<>セミナー、お申し込みお待ちしています。</>}/>
+      {/* 5 features */}
+      <section className="diag-section alt">
+        <div className="diag-wrap">
+          <div className="diag-head">
+            <p className="diag-eyebrow">Features</p>
+            <h2 className="diag-h2">5つの観点で、サイトを徹底解剖</h2>
+            <p className="diag-lead">業界標準のテクニカル指標から、AI検索時代の新しい評価軸まで。NORTIQLAB独自のアルゴリズムで包括的に診断します。</p>
+          </div>
+          <div className="diag-feat-grid">
+            {feats.map((f, i) => (
+              <div key={i} className={`diag-feat-card fadein${f.tag ? ' new' : ''}`} data-delay={i * 50}>
+                <div className="diag-feat-ico">{f.ico}</div>
+                {f.tag && <span className="diag-feat-tag">★ {f.tag}</span>}
+                <div className="diag-feat-name">{f.name}</div>
+                <div className="diag-feat-jp">{f.jp}</div>
+                <ul className="diag-feat-list">{f.items.map((it, j) => <li key={j}>{it}</li>)}</ul>
+              </div>
+            ))}
+          </div>
+          <div style={{ textAlign: 'center', marginTop: 40 }}>
+            <a className="diag-btn ghost" href="#diag-top" onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); }}>今すぐ無料診断を試す <Icon name="arrow-right" size={16}/></a>
+          </div>
+        </div>
+      </section>
+
+      {/* 3 steps */}
+      <section className="diag-section">
+        <div className="diag-wrap">
+          <div className="diag-head">
+            <p className="diag-eyebrow">How It Works</p>
+            <h2 className="diag-h2">たった60秒。3ステップで完了。</h2>
+          </div>
+          <div className="diag-steps">
+            {steps.map((s, i) => (
+              <div key={i} className="diag-step fadein" data-delay={i * 80}>
+                <div className="diag-step-n">{s.n}</div>
+                <div className="diag-step-ico">{s.ico}</div>
+                <h3>{s.t}</h3>
+                <p>{s.d}</p>
+                <span className="diag-step-time">所要 {s.time}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Why us */}
+      <section className="diag-section alt">
+        <div className="diag-wrap">
+          <div className="diag-head">
+            <p className="diag-eyebrow">Why Us</p>
+            <h2 className="diag-h2">なぜ、NORTIQLABなのか。</h2>
+          </div>
+          <div className="diag-why">
+            {whys.map((w, i) => (
+              <div key={i} className="diag-why-row fadein" data-delay={i * 70}>
+                <div className="diag-why-num">{i + 1}</div>
+                <div>
+                  <h3>{w.t}</h3>
+                  <p>{w.d}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Social proof */}
+      <section className="diag-section">
+        <div className="diag-wrap">
+          <div className="diag-head">
+            <p className="diag-eyebrow">Social Proof</p>
+            <h2 className="diag-h2">多くの企業様にご活用いただいています</h2>
+          </div>
+          <div className="diag-stats">
+            {stats.map((s, i) => (
+              <div key={i} className="diag-stat fadein" data-delay={i * 60}>
+                <div className="diag-stat-v">{s.v}</div>
+                <div className="diag-stat-l">{s.l}</div>
+              </div>
+            ))}
+          </div>
+          <div className="diag-quotes">
+            {quotes.map((qt, i) => (
+              <figure key={i} className="diag-quote fadein" data-delay={i * 60}>
+                <p>「{qt.p}」</p>
+                <cite>― {qt.c}</cite>
+              </figure>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ */}
+      <section className="diag-section alt">
+        <div className="diag-wrap" style={{ maxWidth: 820 }}>
+          <div className="diag-head">
+            <p className="diag-eyebrow">FAQ</p>
+            <h2 className="diag-h2">よくあるご質問</h2>
+          </div>
+          <FAQ items={faqs}/>
+        </div>
+      </section>
+
+      {/* Final CTA */}
+      <section className="diag-final">
+        <div className="diag-wrap">
+          <h2>まずは、あなたのサイトを<br/>60秒で診断してみませんか?</h2>
+          <DiagUrlForm dark/>
+        </div>
+      </section>
     </main>
   );
 }
 
 Object.assign(window, {
   LegalPage, NewsPage, RecruitPage, SolutionPage,
-  WorkDetailPage, ArticleDetailPage, SeminarDetailPage,
+  WorkDetailPage, ArticleDetailPage,
+  DiagnosticLPPage,
   SOLUTION_DATA, LEGAL_DATA,
 });

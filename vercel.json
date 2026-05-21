@@ -6,6 +6,9 @@
   "framework": null,
   "trailingSlash": false,
   "cleanUrls": true,
+  "functions": {
+    "api/diagnose.js": { "maxDuration": 30 }
+  },
   "headers": [
     {
       "source": "/assets/(.*)",

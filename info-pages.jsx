@@ -59,11 +59,11 @@ function WorksPage({ category, onNavigate, onContact }) {
         title={category ? <>{label}の<br/>制作実績</> : <>制作実績の<br/>すべて。</>}
         lede={category
           ? `${label}の業種で、Nortiq Labs が手がけた制作・支援実績を集約しました。Web制作からAI実装まで一貫した事例を掲載しています。`
-          : "120 社以上の制作・支援実績から、業種別・LP強化別・動画別に絞り込めます。お探しの業種・課題に近い事例から、最適なアプローチをご検討ください。"
+          : "50 社以上の制作・支援実績から、業種別・LP強化別・動画別に絞り込めます。お探しの業種・課題に近い事例から、最適なアプローチをご検討ください。"
         }
         badges={category
           ? ["業種: " + label, "全 " + items.length + " 件"]
-          : ["全120社+", "業種 7 / LP 3 / 動画", "オリジナルデザイン"]
+          : ["全50社+", "業種 7 / LP 3 / 動画", "オリジナルデザイン"]
         }
         onContact={onContact}
         ctaLabel="同業種の見積依頼"
@@ -186,7 +186,7 @@ function VoicePage({ onNavigate, onContact }) {
           <div className="stats-ribbon-inner">
             <div className="stats-ribbon-cell"><span className="num">94%</span><span className="lbl">3年契約継続率</span></div>
             <div className="stats-ribbon-cell"><span className="num">4.8</span><span className="lbl">Google レビュー / 5</span></div>
-            <div className="stats-ribbon-cell"><span className="num">120+</span><span className="lbl">支援企業数</span></div>
+            <div className="stats-ribbon-cell"><span className="num">50+</span><span className="lbl">支援企業数</span></div>
             <div className="stats-ribbon-cell"><span className="num">24h</span><span className="lbl">返信SLA</span></div>
           </div>
         </div>
@@ -320,52 +320,6 @@ function PricingPage({ onNavigate, onContact }) {
       ))}
 
       <CTAStrip onContact={onContact} title="プランの組み合わせ、ご相談ください。" sub="複数プランを段階導入する形での見積も可能です。IT補助金の活用も含めて、最適な投資計画をご提案します。"/>
-    </main>
-  );
-}
-
-// ============================================================
-// SEMINAR
-// ============================================================
-function SeminarPage({ onNavigate, onContact }) {
-  const seminars = [
-    { date: "2026.06.12", title: "中小企業のための DX 段階導入セミナー", tag: "オンライン", time: "14:00-15:30", status: "受付中" },
-    { date: "2026.06.25", title: "WordPress × AI で記事更新を10倍速にする", tag: "オンライン", time: "14:00-15:00", status: "受付中" },
-    { date: "2026.07.08", title: "業種別 (クリニック) Web集客の最前線", tag: "ハイブリッド", time: "13:30-15:30", status: "受付中" },
-    { date: "2026.07.22", title: "データドリブン経営の作り方 / 入門編", tag: "オンライン", time: "14:00-15:00", status: "受付中" },
-    { date: "2026.08.05", title: "LP制作 + リスティング広告の連動運用", tag: "オンライン", time: "14:00-15:30", status: "受付中" },
-    { date: "2026.05.22", title: "AI Agent Security 最新動向 (VetoNet 開発者解説)", tag: "オンライン", time: "終了", status: "アーカイブ" },
-    { date: "2026.04.18", title: "中小企業がAI導入で失敗する5つのパターン", tag: "オンライン", time: "終了", status: "アーカイブ" },
-  ];
-  return (
-    <main className="page-fade">
-      <Breadcrumb items={[{ label: "トップ", id: "top" }, { label: "セミナー" }]} onNavigate={onNavigate}/>
-      <PageHero
-        eyebrow="SEMINAR / セミナー"
-        title={<>知見を、惜しまず<br/>共有します。</>}
-        lede="毎月開催する Web 集客・AI 活用・DX 導入のオンライン / オフラインセミナー。Nortiq Labs のエンジニア・コンサルが直接登壇します。"
-        badges={["毎月開催", "アーカイブ視聴可", "参加費無料"]}
-        onContact={onContact}
-        ctaLabel="セミナーに申し込む"
-      />
-      <section className="section-pad">
-        <div className="container">
-          <SectionHead eyebrow="UPCOMING & ARCHIVE" title="開催予定 / アーカイブ"/>
-          <div className="content-list" style={{ background: 'var(--surface)' }}>
-            {seminars.map((s, i) => (
-              <a key={i} className="content-row" style={{ gridTemplateColumns: '110px 110px 90px 1fr 100px auto' }}>
-                <span className="content-date num">{s.date}</span>
-                <span className="content-tag-pill">{s.tag}</span>
-                <span className="small text-mono" style={{ color: 'var(--text-3)' }}>{s.time}</span>
-                <span className="content-title">{s.title}</span>
-                <span className={`tag ${s.status === '受付中' ? '' : ''}`} style={s.status === '受付中' ? { color: 'var(--accent)', borderColor: 'var(--accent)' } : { color: 'var(--text-3)' }}>{s.status}</span>
-                <Icon name="arrow-right" size={14}/>
-              </a>
-            ))}
-          </div>
-        </div>
-      </section>
-      <CTAStrip onContact={onContact} title="個別セミナー (社内向け) もご相談ください。" sub="貴社の課題に合わせたカスタムセミナーを、リクエストに応じて開催可能です。"/>
     </main>
   );
 }
@@ -586,15 +540,21 @@ function GuidebookPage({ onNavigate, onContact }) {
       <PageHero
         eyebrow="GUIDEBOOK / DXガイドブック"
         title={<>中小企業のための<br/>DXガイドブック。</>}
-        lede="Web 制作 → AIチャットボット → DX・ML の段階的な進め方を、すべての中小経営者に届けるためのフリーDLガイド (PDF・約60ページ)。"
-        badges={["全60ページ", "無料DL", "営業 / 経営者向け"]}
+        lede="Web 制作 → AIチャットボット → DX・ML の段階的な進め方を、すべての中小経営者に届けるためのフリーDLガイド (PDF・全56ページ)。"
+        badges={["全56ページ", "無料DL", "営業 / 経営者向け"]}
         onContact={onContact}
         ctaLabel="ガイドブックを無料DLする"
       />
       <section className="section-pad">
         <div className="container">
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 64, alignItems: 'flex-start' }}>
-            <Placeholder label="Guidebook" caption="dx-guidebook-2026.pdf" aspect="3/4"/>
+          <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: 56, alignItems: 'flex-start' }}>
+            <div className="guidebook-viewer">
+              <iframe
+                src="assets/Nortiq_DX_Guidebook.pdf#view=FitH"
+                title="中小企業のための DXガイドブック (全56ページ)"
+                loading="lazy"
+              />
+            </div>
             <div>
               <h3 className="display-s" style={{ marginBottom: 24 }}>目次 (抜粋)</h3>
               <ol style={{ paddingLeft: 20, lineHeight: 2.2, fontSize: 15 }}>
@@ -607,9 +567,15 @@ function GuidebookPage({ onNavigate, onContact }) {
                 <li>IT 補助金の活用方法</li>
                 <li>失敗しない外注パートナーの選び方</li>
               </ol>
-              <div style={{ marginTop: 32 }}>
-                <Button variant="primary" size="lg" onClick={onContact} arrow>無料DLする</Button>
+              <div className="row" style={{ marginTop: 32, gap: 14, flexWrap: 'wrap' }}>
+                <a className="btn btn-primary btn-lg" href="assets/Nortiq_DX_Guidebook.pdf" download>
+                  <Icon name="arrow-down" size={16}/>無料ダウンロード (PDF)
+                </a>
+                <a className="btn btn-ghost btn-lg" href="assets/Nortiq_DX_Guidebook.pdf" target="_blank" rel="noopener">
+                  別タブで全文を読む<Icon name="arrow-right" size={14}/>
+                </a>
               </div>
+              <p className="small text-mono" style={{ color: 'var(--text-3)', marginTop: 16 }}>PDF · 全56ページ · 約1.6MB</p>
             </div>
           </div>
         </div>
@@ -623,39 +589,33 @@ function GuidebookPage({ onNavigate, onContact }) {
 // COLUMN (記事一覧)
 // ============================================================
 function ColumnPage({ onNavigate, onContact }) {
-  const articles = [
-    { category: "DX 観察記", date: "2026.05.12", title: "日本のDX、なぜ2〜3年遅れているのか", read: "8 min" },
-    { category: "技術", date: "2026.04.28", title: "VetoNet 開発の裏側 — AI agent security とは何か", read: "12 min" },
-    { category: "SEO / Web 制作", date: "2026.04.14", title: "30万円でちゃんと集客できる Web サイトを作る方法", read: "6 min" },
-    { category: "AI活用", date: "2026.03.30", title: "WordPress 更新が止まる本当の理由とその解決", read: "7 min" },
-    { category: "技術", date: "2026.03.18", title: "Core Web Vitals Good の現実的な取り方", read: "10 min" },
-    { category: "業種別", date: "2026.03.05", title: "クリニック Web 集客の最新トレンド (2026年版)", read: "5 min" },
-    { category: "DX 観察記", date: "2026.02.22", title: "PoC で終わる AI 案件、本実装まで進む案件の差", read: "9 min" },
-    { category: "業種別", date: "2026.02.10", title: "不動産仲介の集客 LP に必要な 7 つの要素", read: "6 min" },
-    { category: "AI活用", date: "2026.01.28", title: "Anthropic Claude vs OpenAI GPT-4 — 業務利用の比較", read: "11 min" },
-  ];
+  const store = (typeof window !== 'undefined' && window.NORTIQ_ARTICLES) || {};
+  const articles = Object.values(store);
+  const [cat, setCat] = React.useState('すべて');
+  const cats = ['すべて', ...Array.from(new Set(articles.map(a => a.category)))];
+  const shown = cat === 'すべて' ? articles : articles.filter(a => a.category === cat);
   return (
     <main className="page-fade">
       <Breadcrumb items={[{ label: "トップ", id: "top" }, { label: "コラム / 技術ブログ" }]} onNavigate={onNavigate}/>
       <PageHero
         eyebrow="COLUMN / コラム・技術ブログ"
         title={<>技術と DX の<br/>現場から。</>}
-        lede="Nortiq Labs のエンジニア・コンサルが執筆する技術ブログとコラム。月10本ペースで更新中です。"
+        lede="Nortiq Labs が執筆する、調査データに基づく技術ブログとコラム。AI・SEO・DX・業種別の実務知見をお届けします。"
         badges={["DX観察記", "技術解説", "業種別", "AI 活用"]}
         onContact={onContact}
         ctaLabel="新着メルマガを購読"
       />
       <section className="section-pad">
         <div className="container">
-          <div className="row" style={{ marginBottom: 32, gap: 8 }}>
-            {["すべて", "DX 観察記", "技術", "Web制作", "AI活用", "業種別", "SEO"].map((c, i) => (
-              <button key={c} className="kw-pill" style={i === 0 ? { borderColor: 'var(--accent)', color: 'var(--accent)' } : {}}>{c}</button>
+          <div className="row" style={{ marginBottom: 32, gap: 8, flexWrap: 'wrap' }}>
+            {cats.map((c) => (
+              <button key={c} className="kw-pill" onClick={() => setCat(c)} style={cat === c ? { borderColor: 'var(--accent)', color: 'var(--accent)' } : {}}>{c}</button>
             ))}
           </div>
           <div className="grid-3" style={{ gap: 32 }}>
-            {articles.map((a, i) => (
-              <a key={i} className="article-card" style={{ cursor: 'pointer' }}>
-                <Placeholder label={a.category} caption="blog cover" aspect="16/10"/>
+            {shown.map((a) => (
+              <a key={a.slug} className="article-card" style={{ cursor: 'pointer' }} onClick={() => onNavigate('article-' + a.slug)}>
+                <Placeholder label={a.category} caption={a.slug} aspect="16/10"/>
                 <div className="article-meta">
                   <span style={{ color: 'var(--accent)' }}>{a.category}</span>
                   <span className="article-meta-sep">·</span>
@@ -819,14 +779,9 @@ function CompanyPage({ onNavigate, onContact }) {
 // ============================================================
 function StaffPage({ onNavigate, onContact }) {
   const members = [
-    { role: "Founder · Engineer", name: "Renta Oshima", desc: "米国の大学で AI 研究。帰国後、日本の中小企業向け DX 支援を起業。", tags: ["AI Research", "Full-stack", "JP / EN"] },
-    { role: "Data Scientist", name: "D.S. (匿名)", desc: "統計モデリング・ML 実装の主担当。データ分析基盤の設計から。", tags: ["Statistics", "Python", "MLOps"] },
-    { role: "Computer Scientist", name: "C.S. (匿名)", desc: "計算理論・分散システム。VetoNet (AI security) の研究開発主担当。", tags: ["Distributed", "Security", "Rust"] },
-    { role: "Web Lead", name: "K.S.", desc: "WordPress / Next.js を10年以上。1000サイト以上の制作実績。", tags: ["WordPress", "Next.js", "UI"] },
-    { role: "Design Lead", name: "H.M.", desc: "ブランディングからUI/UXまで一貫設計。元・大手代理店アートディレクター。", tags: ["Branding", "UI/UX", "Type"] },
-    { role: "Consultant", name: "T.A.", desc: "外資コンサルティングファーム出身。中小企業の経営課題と並走。", tags: ["Strategy", "Ops", "JP / EN"] },
-    { role: "Content Lead", name: "M.K.", desc: "SEO × ライティングの両軸。月100本以上のコンテンツ運用経験。", tags: ["SEO", "Writing", "AI 連携"] },
-    { role: "Customer Success", name: "Y.N.", desc: "全顧客の月次レビューを担当。「Webのプロが横にいる」を体現するハブ。", tags: ["CS", "PM", "Slack"] },
+    { role: "Founder · 代表", name: "Renta Oshima", desc: "米国の大学で AI 研究。帰国後、日本の中小企業向け DX 支援を起業。事業全体と顧客並走の責任者。", tags: ["AI Research", "Full-stack", "JP / EN"], img: "assets/staff-founder.jpg" },
+    { role: "CTO · Computer Scientist", name: "C.S.", desc: "計算理論・分散システムが専門。自社プロダクト VetoNet (AI Security) とテニスフォーム分析 SaaS の開発主担当 兼 CTO。", tags: ["Distributed", "Security", "Rust"], img: "assets/staff-cto.jpg" },
+    { role: "Data Scientist", name: "D.S.", desc: "AI のコア部分を担うデータサイエンティスト。統計モデリングと ML 実装のエキスパートとして、分析基盤の設計から実装までを牽引。", tags: ["Statistics", "ML Core", "MLOps"], img: "assets/staff-ds.jpg" },
   ];
   return (
     <main className="page-fade">
@@ -834,16 +789,16 @@ function StaffPage({ onNavigate, onContact }) {
       <PageHero
         eyebrow="STAFF / チーム"
         title={<>専門家が、<br/>専門家として並走する。</>}
-        lede="Engineer / Data Scientist / Computer Scientist / Designer / Consultant / CS — 各領域のプロが、お客様1社にチーム編成で並走します。"
-        badges={["8 名の専門家", "米国 1 拠点", "全員フルリモートOK"]}
+        lede="Founder / CTO・Computer Scientist / Data Scientist — 各領域のプロが、お客様1社にチーム編成で並走します。"
+        badges={["代表 3 名体制", "米国 1 拠点", "全員フルリモートOK"]}
         onContact={onContact}
       />
       <section className="section-pad">
         <div className="container">
-          <div className="grid-4" style={{ gap: 24 }}>
+          <div className="grid-3" style={{ gap: 24 }}>
             {members.map((m, i) => (
               <div key={i} className="card" style={{ padding: 0, overflow: 'hidden' }}>
-                <Placeholder label={m.role.split(' · ')[0]} caption="staff" aspect="3/4"/>
+                <Placeholder label="" caption="" aspect="3/4" src={m.img}/>
                 <div style={{ padding: 24 }}>
                   <p className="small text-mono" style={{ color: 'var(--text-3)', marginBottom: 4 }}>{m.role}</p>
                   <h3 style={{ fontSize: 19, fontWeight: 600, margin: 0, marginBottom: 12, letterSpacing: '-0.01em' }}>{m.name}</h3>
@@ -924,9 +879,6 @@ function SitemapPage({ onNavigate, onContact }) {
             ]}/>
             <SitemapCol heading="メディア・コンテンツ" onNavigate={onNavigate} links={[
               { id: 'column',         label: 'コラム / 技術ブログ' },
-              { id: 'article-detail', label: '記事詳細サンプル' },
-              { id: 'seminar',        label: 'セミナー' },
-              { id: 'seminar-detail', label: 'セミナー詳細サンプル' },
               { id: 'news',           label: 'お知らせ' },
               { id: 'guidebook',      label: 'DXガイドブック' },
               { id: 'subsidy',        label: 'IT導入補助金' },
@@ -1012,7 +964,7 @@ function GenericPage({ pageId, onNavigate, onContact }) {
 }
 
 Object.assign(window, {
-  WorksPage, VoicePage, SupportPage, PricingPage, SeminarPage,
+  WorksPage, VoicePage, SupportPage, PricingPage,
   DiagnosisPage, QuickDiagnosisPage, SubsidyPage, GuidebookPage,
   ColumnPage, CompanyPage, StaffPage, SitemapPage, GenericPage,
 });

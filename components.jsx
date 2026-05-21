@@ -49,8 +49,6 @@ const NAV_MEGA = [
       ]},
       { heading: '実績まとめ', links: [
         { id: 'works',         label: '全実績一覧' },
-        { id: 'works-video',   label: '動画制作事例' },
-        { id: 'work-detail',   label: '実績詳細サンプル' },
       ]},
     ],
   },
@@ -76,27 +74,13 @@ const NAV_MEGA = [
     columns: [
       { heading: 'メディア', links: [
         { id: 'column',  label: 'コラム / 技術ブログ' },
-        { id: 'seminar', label: 'セミナー' },
         { id: 'news',    label: 'お知らせ' },
         { id: 'guidebook', label: 'DXガイドブック' },
         { id: 'subsidy',   label: 'IT導入補助金' },
       ]},
-      { heading: '詳細サンプル', links: [
-        { id: 'article-detail', label: '記事詳細サンプル' },
-        { id: 'seminar-detail', label: 'セミナー詳細サンプル' },
-      ]},
     ],
   },
-  {
-    id: 'diagnosis',
-    label: '無料診断',
-    columns: [
-      { heading: '無料診断', links: [
-        { id: 'diagnosis',       label: 'サイト無料診断 (詳細)' },
-        { id: 'quick-diagnosis', label: 'クイック診断 (1分)' },
-      ]},
-    ],
-  },
+  { id: 'diagnostic', label: '無料診断' },
 ];
 
 const PREFECTURES = [
@@ -486,9 +470,7 @@ function Footer({ onNavigate, onContact }) {
             <ul>
               <li><a onClick={() => onNavigate('support')}>運用サポート</a></li>
               <li><a onClick={() => onNavigate('voice')}>ご利用会社様の声</a></li>
-              <li><a onClick={() => onNavigate('diagnosis')}>サイト無料診断</a></li>
-              <li><a onClick={() => onNavigate('quick-diagnosis')}>クイック診断</a></li>
-              <li><a onClick={() => onNavigate('seminar')}>セミナー実績</a></li>
+              <li><a onClick={() => onNavigate('diagnostic')}>サイト無料診断 (URL入力)</a></li>
               <li><a onClick={() => onNavigate('column')}>技術ブログ / コラム</a></li>
               <li><a onClick={() => onNavigate('news')}>お知らせ</a></li>
               <li><a onClick={() => onNavigate('subsidy')}>IT導入補助金</a></li>
@@ -540,7 +522,7 @@ function Footer({ onNavigate, onContact }) {
 const CATEGORY_OPTIONS = ["Web制作", "AIチャットボット", "DX・ML", "業務自動化", "LP制作", "採用サイト"];
 const INQ_TYPE_OPTIONS = ["新規HP制作", "HPリニューアル", "AIチャットボット導入", "DX・ML 実装", "業務自動化", "リスティング広告", "コンサルティング"];
 const REASON_OPTIONS = ["HPが無い", "問い合わせを増やしたい", "サービス資料がほしい", "無料診断", "デザインを改善したい", "SEOを上げたい", "AI活用したい", "業務効率化したい", "IT補助金を使いたい"];
-const SOURCE_OPTIONS = ["Google検索", "Yahoo検索", "ご紹介", "メール", "DMチラシ", "セミナー", "SNS (X/LinkedIn)", "以前から知っていた", "その他"];
+const SOURCE_OPTIONS = ["Google検索", "Yahoo検索", "ご紹介", "メール", "DMチラシ", "SNS (X/LinkedIn)", "以前から知っていた", "その他"];
 
 function ContactModal({ open, onClose, defaultCategory = '' }) {
   const initialForm = {
@@ -1049,7 +1031,7 @@ function RedCTAStrip({ onContact, onNavigate, title }) {
         <h2>{title || (<>オリジナルデザインのWeb制作 × AI運用<br/>まずは無料で資料請求</>)}</h2>
         <div className="t_inq_btns">
           <Button onClick={onContact}><Icon name="mail" size={14}/>資料請求はこちら</Button>
-          <Button onClick={() => onNavigate && onNavigate('diagnosis')}><Icon name="search" size={14}/>ホームページ無料診断</Button>
+          <Button onClick={() => onNavigate && onNavigate('diagnostic')}><Icon name="search" size={14}/>ホームページ無料診断</Button>
         </div>
         <div className="t_inq_tel">
           <a href="tel:0120-XXX-XXX"><Icon name="phone" size={28}/>0120-XXX-XXX</a>
