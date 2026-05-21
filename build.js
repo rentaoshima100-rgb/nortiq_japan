@@ -141,16 +141,41 @@ async function build() {
   // Cache-busting version token — appended to local asset URLs so each deploy
   // forces browsers to fetch fresh files instead of serving a stale bundle.
   const ver = Date.now().toString(36);
+  const SITE = 'https://nortiqlab.com';
+  const TITLE = 'Nortiq Labs — 日本のDX、世界水準で巻き返す。';
+  const DESC = '米国の技術水準を、日本の中小企業の武器に。Web制作・AIチャットボット・DX/ML実装まで、50社以上の支援実績を持つ技術チームが段階的に伴走するDXパートナーです。';
+  const OG_IMAGE = SITE + '/assets/nortiq-hero-bg.png';
+  const jsonLd = JSON.stringify({
+    '@context': 'https://schema.org',
+    '@graph': [
+      { '@type': 'Organization', '@id': SITE + '/#org', name: 'Nortiq Labs', url: SITE + '/', logo: SITE + '/assets/nortiq-mark.png', description: DESC },
+      { '@type': 'WebSite', '@id': SITE + '/#website', name: 'Nortiq Labs', url: SITE + '/', publisher: { '@id': SITE + '/#org' }, inLanguage: 'ja' },
+      { '@type': 'ProfessionalService', name: 'Nortiq Labs', url: SITE + '/', description: DESC, areaServed: 'JP', serviceType: ['Web制作', 'AIチャットボット導入', 'DX・ML実装', 'IT導入補助金 申請サポート'], provider: { '@id': SITE + '/#org' } },
+    ],
+  }).replace(/</g, '\\u003c');
   // Production-mode React (smaller, faster) — no Babel runtime in the browser.
   const html = `<!DOCTYPE html>
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Nortiq Labs — 日本のDX、世界水準で巻き返す。</title>
-  <meta name="description" content="米国の技術水準を、中小企業の武器に。Web制作からAI実装、業務効率化まで段階的に伴走するDXパートナー。">
+  <title>${TITLE}</title>
+  <meta name="description" content="${DESC}">
+  <link rel="canonical" href="${SITE}/">
   <link rel="icon" href="assets/nortiq-fav.png" type="image/png">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Nortiq Labs">
+  <meta property="og:title" content="${TITLE}">
+  <meta property="og:description" content="${DESC}">
+  <meta property="og:url" content="${SITE}/">
+  <meta property="og:image" content="${OG_IMAGE}">
+  <meta property="og:locale" content="ja_JP">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="${TITLE}">
+  <meta name="twitter:description" content="${DESC}">
+  <meta name="twitter:image" content="${OG_IMAGE}">
   <link rel="stylesheet" href="styles.css?v=${ver}">
+  <script type="application/ld+json">${jsonLd}</script>
   <script src="assets/vendor/react.production.min.js?v=${ver}"></script>
   <script src="assets/vendor/react-dom.production.min.js?v=${ver}"></script>
 </head>
@@ -162,6 +187,16 @@ async function build() {
 </html>
 `;
   fs.writeFileSync(path.join(DIST, 'index.html'), html, 'utf8');
+
+  console.log('• emitting robots.txt + sitemap.xml');
+  fs.writeFileSync(path.join(DIST, 'robots.txt'),
+    `User-agent: *\nAllow: /\n\nSitemap: ${SITE}/sitemap.xml\n`, 'utf8');
+  const today = new Date().toISOString().slice(0, 10);
+  fs.writeFileSync(path.join(DIST, 'sitemap.xml'),
+    `<?xml version="1.0" encoding="UTF-8"?>\n`
+    + `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n`
+    + `  <url><loc>${SITE}/</loc><lastmod>${today}</lastmod><changefreq>weekly</changefreq><priority>1.0</priority></url>\n`
+    + `</urlset>\n`, 'utf8');
 
   console.log('\n✓ build complete → dist/');
 }
