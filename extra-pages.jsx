@@ -745,7 +745,7 @@ function DiagResult({ data, onLead }) {
   const order = ['technicalSEO', 'onPageSEO', 'brokenLinks', 'aiVisibility'];
   const ov = data.overall || { score: 0, rank: '-', summary: '' };
   return (
-    <div className="diag-result fadein">
+    <div className="diag-result">
       <div className="diag-result-head">
         <div className="diag-gauge" style={{ '--g': `${ov.score}` }}>
           <span className="diag-gauge-val">{ov.score}<small>/100</small></span>
@@ -805,7 +805,7 @@ function DiagProgress() {
   }, []);
   const pct = Math.round(((active + 1) / DIAG_STEPS.length) * 100);
   return (
-    <div className="diag-progress fadein">
+    <div className="diag-progress">
       <div className="diag-progress-head">
         <span className="diag-spinner" aria-hidden="true"></span>
         <div>
