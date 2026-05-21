@@ -151,8 +151,8 @@ async function build() {
   <meta name="description" content="米国の技術水準を、中小企業の武器に。Web制作からAI実装、業務効率化まで段階的に伴走するDXパートナー。">
   <link rel="icon" href="assets/nortiq-fav.png" type="image/png">
   <link rel="stylesheet" href="styles.css?v=${ver}">
-  <script crossorigin src="https://unpkg.com/react@18.3.1/umd/react.production.min.js"></script>
-  <script crossorigin src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+  <script src="assets/vendor/react.production.min.js?v=${ver}"></script>
+  <script src="assets/vendor/react-dom.production.min.js?v=${ver}"></script>
 </head>
 <body>
   <div id="app"></div>
