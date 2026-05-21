@@ -138,6 +138,9 @@ async function build() {
   copyDir(path.join(ROOT, 'assets'), path.join(DIST, 'assets'));
 
   console.log('• emitting dist/index.html');
+  // Cache-busting version token — appended to local asset URLs so each deploy
+  // forces browsers to fetch fresh files instead of serving a stale bundle.
+  const ver = Date.now().toString(36);
   // Production-mode React (smaller, faster) — no Babel runtime in the browser.
   const html = `<!DOCTYPE html>
 <html lang="ja">
@@ -147,14 +150,14 @@ async function build() {
   <title>Nortiq Labs — 日本のDX、世界水準で巻き返す。</title>
   <meta name="description" content="米国の技術水準を、中小企業の武器に。Web制作からAI実装、業務効率化まで段階的に伴走するDXパートナー。">
   <link rel="icon" href="assets/nortiq-fav.png" type="image/png">
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css?v=${ver}">
   <script crossorigin src="https://unpkg.com/react@18.3.1/umd/react.production.min.js"></script>
   <script crossorigin src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
 </head>
 <body>
   <div id="app"></div>
-  <script src="articles.js" defer></script>
-  <script src="app.bundle.js" defer></script>
+  <script src="articles.js?v=${ver}" defer></script>
+  <script src="app.bundle.js?v=${ver}" defer></script>
 </body>
 </html>
 `;
