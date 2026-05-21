@@ -691,7 +691,13 @@ function ArticleDetailPage({ onNavigate, onContact, slug }) {
           </div>
         </header>
 
-        <div className="container" style={{ maxWidth: 780, marginTop: 8, marginBottom: 80 }}>
+        {article.img && (
+          <div className="container" style={{ maxWidth: 880, marginBottom: 8 }}>
+            <img src={article.img} alt={article.title} className="article-hero-img"/>
+          </div>
+        )}
+
+        <div className="container" style={{ maxWidth: 780, marginTop: 24, marginBottom: 80 }}>
           <div className="article-prose article-body" dangerouslySetInnerHTML={{ __html: article.html }}/>
         </div>
 
@@ -702,7 +708,7 @@ function ArticleDetailPage({ onNavigate, onContact, slug }) {
               <div className="grid-3">
                 {related.map((a) => (
                   <a key={a.slug} className="article-card fadein" style={{ cursor: 'pointer' }} onClick={() => onNavigate('article-' + a.slug)}>
-                    <Placeholder label={a.category} caption={a.slug} aspect="16/10"/>
+                    <Placeholder label={a.img ? "" : a.category} caption={a.img ? "" : a.slug} aspect="16/10" src={a.img} fit/>
                     <div className="article-meta">
                       <span style={{ color: 'var(--accent)' }}>{a.category}</span>
                       <span className="article-meta-sep">·</span>
@@ -780,6 +786,50 @@ function DiagResult({ data, onLead }) {
   );
 }
 
+const DIAG_STEPS = [
+  'サイトへ接続しています',
+  'テクニカルSEO（HTTPS・表示速度・構造化データ）を解析',
+  'オンページSEO（タイトル・見出し・メタ情報）を解析',
+  'リンク切れ・内部リンクをチェック',
+  'AI可視性（生成AIからの参照しやすさ）を評価',
+  '総合スコアとレポートを生成',
+];
+
+function DiagProgress() {
+  const [active, setActive] = React.useState(0);
+  React.useEffect(() => {
+    const id = setInterval(() => {
+      setActive((a) => (a < DIAG_STEPS.length - 1 ? a + 1 : a));
+    }, 1400);
+    return () => clearInterval(id);
+  }, []);
+  const pct = Math.round(((active + 1) / DIAG_STEPS.length) * 100);
+  return (
+    <div className="diag-progress fadein">
+      <div className="diag-progress-head">
+        <span className="diag-spinner" aria-hidden="true"></span>
+        <div>
+          <p className="diag-progress-title">サイトを解析しています…</p>
+          <p className="diag-progress-sub">通常 10〜30 秒ほどで完了します。</p>
+        </div>
+      </div>
+      <div className="diag-progress-bar"><span style={{ width: `${pct}%` }}/></div>
+      <ol className="diag-steps">
+        {DIAG_STEPS.map((s, i) => (
+          <li key={i} className={i < active ? 'is-done' : i === active ? 'is-active' : 'is-wait'}>
+            <span className="diag-step-mark">{i < active ? '✓' : ''}</span>
+            <span className="diag-step-label">{s}</span>
+          </li>
+        ))}
+      </ol>
+      <div className="diag-warn" role="alert">
+        <strong>⚠ このまま画面を開いたままお待ちください。</strong>
+        解析が完了するまで、ページの再読み込み・タブの移動・ブラウザを閉じる操作は行わないでください。途中で離れると結果を取得できない場合があります。
+      </div>
+    </div>
+  );
+}
+
 function DiagUrlForm({ buttonLabel = "無料で診断する", dark = false }) {
   const [url, setUrl] = React.useState('');
   const [status, setStatus] = React.useState('idle'); // idle | loading | done | error
@@ -808,6 +858,15 @@ function DiagUrlForm({ buttonLabel = "無料で診断する", dark = false }) {
     if (!v) return;
     setStatus('loading');
     setErrMsg('');
+    // Keep the progress checklist on screen long enough to read, even if the
+    // API responds (or fails) almost instantly.
+    const startedAt = Date.now();
+    const MIN_MS = 4200;
+    const settle = async (fn) => {
+      const wait = MIN_MS - (Date.now() - startedAt);
+      if (wait > 0) await new Promise((r) => setTimeout(r, wait));
+      fn();
+    };
     try {
       const res = await fetch('/api/diagnose', {
         method: 'POST',
@@ -819,21 +878,14 @@ function DiagUrlForm({ buttonLabel = "無料で診断する", dark = false }) {
         throw new Error(err.error || `HTTP ${res.status}`);
       }
       const data = await res.json();
-      setResult(data);
-      setStatus('done');
+      await settle(() => { setResult(data); setStatus('done'); });
     } catch (err) {
-      setErrMsg(String(err.message || err));
-      setStatus('error');
+      await settle(() => { setErrMsg(String(err.message || err)); setStatus('error'); });
     }
   };
 
   if (status === 'loading') {
-    return (
-      <div className="diag-loading">
-        <span className="diag-spinner" aria-hidden="true"></span>
-        <p>診断を実行しています… <br/><small>テクニカル / オンページ / リンク / AI可視性 を解析中</small></p>
-      </div>
-    );
+    return <DiagProgress/>;
   }
 
   if (status === 'done' && result) {

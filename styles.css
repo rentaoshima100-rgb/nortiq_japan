@@ -1966,6 +1966,15 @@ section { position: relative; }
 .legal-meta p { margin: 4px 0; font-size: 13px; color: var(--text-3); }
 
 /* ================= Article prose ================== */
+.article-hero-img {
+  width: 100%;
+  display: block;
+  border-radius: 18px;
+  border: 1px solid var(--border);
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  box-shadow: 0 18px 50px -28px rgba(0,0,0,0.4);
+}
 .article-prose {
   font-size: 16px;
   line-height: 2;
@@ -3964,6 +3973,58 @@ section { position: relative; }
 @keyframes diag-spin { to { transform: rotate(360deg); } }
 .diag-loading p { margin: 16px 0 0; color: var(--d-body); font-size: 15px; line-height: 1.7; }
 .diag-loading small { color: #94A3B8; font-size: 13px; }
+
+/* --- diagnostic progress / process checklist --- */
+.diag-progress {
+  max-width: 640px; margin: 0 auto; text-align: left; background: #fff;
+  border: 1px solid var(--d-border); border-radius: 14px;
+  padding: clamp(22px, 3.5vw, 32px); box-shadow: 0 10px 36px rgba(0,0,0,0.08);
+}
+.diag-progress-head { display: flex; align-items: center; gap: 16px; }
+.diag-progress-head .diag-spinner { width: 38px; height: 38px; border-width: 3px; flex-shrink: 0; }
+.diag-progress-title { margin: 0; font-size: 17px; font-weight: 800; color: var(--d-heading); }
+.diag-progress-sub { margin: 4px 0 0; font-size: 13px; color: var(--d-body); }
+.diag-progress-bar {
+  height: 6px; border-radius: 99px; background: var(--accent-soft);
+  margin: 20px 0 22px; overflow: hidden;
+}
+.diag-progress-bar span {
+  display: block; height: 100%; border-radius: 99px;
+  background: linear-gradient(90deg, var(--accent), var(--accent-hi));
+  transition: width 700ms cubic-bezier(.4,0,.2,1);
+}
+.diag-steps { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 12px; }
+.diag-steps li { display: flex; align-items: center; gap: 12px; font-size: 14px; line-height: 1.5; }
+.diag-step-mark {
+  width: 22px; height: 22px; flex-shrink: 0; border-radius: 50%;
+  display: inline-flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 800; border: 2px solid var(--d-border);
+  color: #fff; background: #fff; transition: all 200ms;
+}
+.diag-steps li.is-wait .diag-step-label { color: #9aa3af; }
+.diag-steps li.is-active .diag-step-label { color: var(--d-heading); font-weight: 700; }
+.diag-steps li.is-active .diag-step-mark {
+  border-color: var(--accent);
+  background:
+    radial-gradient(circle, var(--accent) 0 30%, transparent 32%);
+  animation: diag-pulse 1s ease-in-out infinite;
+}
+.diag-steps li.is-done .diag-step-label { color: var(--d-heading); }
+.diag-steps li.is-done .diag-step-mark { border-color: var(--d-green); background: var(--d-green); }
+@keyframes diag-pulse { 0%,100% { transform: scale(1); opacity: 1; } 50% { transform: scale(.86); opacity: .65; } }
+.diag-warn {
+  margin: 24px 0 0; padding: 14px 16px; border-radius: 10px;
+  background: var(--accent-soft); border: 1px solid rgba(230,0,18,0.22);
+  font-size: 13px; line-height: 1.7; color: var(--d-heading);
+}
+.diag-warn strong { display: block; margin-bottom: 4px; color: var(--accent); }
+/* dark final-CTA section variant */
+.diag-final .diag-progress { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.16); box-shadow: none; }
+.diag-final .diag-progress-title, .diag-final .diag-steps li.is-active .diag-step-label, .diag-final .diag-steps li.is-done .diag-step-label { color: #fff; }
+.diag-final .diag-progress-sub, .diag-final .diag-steps li.is-wait .diag-step-label { color: rgba(255,255,255,0.66); }
+.diag-final .diag-step-mark { background: transparent; }
+.diag-final .diag-warn { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.18); color: rgba(255,255,255,0.92); }
+.diag-final .diag-warn strong { color: #fff; }
 
 .diag-result {
   max-width: 720px; margin: 0 auto; text-align: left; background: #fff;
