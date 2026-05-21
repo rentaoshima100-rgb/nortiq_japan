@@ -639,9 +639,9 @@ function DXPage({ onNavigate, onContact }) {
             lede="米国アイビーリーグ出身者で構成された技術チーム。Engineer / Data Scientist / Computer Scientist の三職能が連携します。"
           />
           <div className="grid-3">
-            <TeamCard role="Founder · Engineer" name="Renta Oshima" desc="米国の大学で AI 研究。帰国後、日本の中小企業向け DX 支援を起業。" tags={["AI Research", "Full-stack", "JP / EN"]}/>
-            <TeamCard role="Data Scientist" name="Member · D.S." desc="統計モデリング・ML 実装の主担当。データ分析基盤の設計から。" tags={["Statistics", "Python", "MLOps"]}/>
-            <TeamCard role="Computer Scientist" name="Member · C.S." desc="計算理論・分散システム。VetoNet (AI security) の研究開発主担当。" tags={["Distributed", "Security", "Rust"]}/>
+            <TeamCard role="Founder · 代表" name="Renta Oshima" desc="米国の大学で AI 研究。帰国後、日本の中小企業向け DX 支援を起業。" tags={["AI Research", "Full-stack", "JP / EN"]} src="assets/staff-founder.jpg"/>
+            <TeamCard role="Data Scientist" name="D.S." desc="AI のコア部分を担う。統計モデリング・ML 実装のエキスパート。" tags={["Statistics", "ML Core", "MLOps"]} src="assets/staff-ds.jpg"/>
+            <TeamCard role="CTO · Computer Scientist" name="C.S." desc="計算理論・分散システム。VetoNet とテニス分析 SaaS の開発主担当 兼 CTO。" tags={["Distributed", "Security", "Rust"]} src="assets/staff-cto.jpg"/>
           </div>
         </div>
       </section>
@@ -708,10 +708,10 @@ function PhaseCard({ n, name, duration, cost, desc }) {
   );
 }
 
-function TeamCard({ role, name, desc, tags }) {
+function TeamCard({ role, name, desc, tags, src }) {
   return (
     <div className="card">
-      <Placeholder label={role.split(' · ')[0]} caption="photo / team" aspect="4/5"/>
+      <Placeholder label={src ? "" : role.split(' · ')[0]} caption="" aspect="4/5" src={src}/>
       <div style={{ marginTop: 24 }}>
         <p className="small text-mono" style={{ color: 'var(--text-3)', marginBottom: 6 }}>{role}</p>
         <h3 style={{ fontSize: 20, fontWeight: 600, margin: 0, marginBottom: 12, letterSpacing: '-0.01em' }}>{name}</h3>

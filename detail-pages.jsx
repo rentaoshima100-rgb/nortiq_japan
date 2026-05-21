@@ -720,7 +720,9 @@ function FeatureRecruitPage({ onNavigate, onContact }) {
         badges={["新卒 / 中途 両対応", "ブランド設計", "応募率 +52% (平均)", "写真ディレクション込"]}
         onContact={onContact}
         visualLabel="Recruit"
-        visualCaption="recruit-lp.png"
+        visualCaption="AXIA · NEW GRADUATES (採用実績)"
+        visualSrc="assets/hero-07.png"
+        visualAspect="4/3"
       />
 
       <section className="section-pad">
@@ -811,12 +813,12 @@ const LP_DATA = {
     lede: "上場準備・IRに耐える総合コーポレートサイトの制作実績。投資家・取引先・採用候補者の3層に対応する情報設計を得意としています。",
     badges: ["IR対応", "多言語", "ブランディング", "上場準備"],
     items: [
-      { tag: "コーポレート", t: "上場準備中の総合コーポレート", stat: "信頼度評価 +" },
-      { tag: "コーポレート", t: "ホールディングス再編後のリブランド", stat: "ブランド指標 +" },
-      { tag: "コーポレート", t: "BtoB SaaS のサービスサイト", stat: "問合せ +210%" },
-      { tag: "コーポレート", t: "メーカーのコーポレート再構築", stat: "PV 1.6×" },
-      { tag: "コーポレート", t: "コンサルファームのサービス紹介", stat: "DL +260%" },
-      { tag: "コーポレート", t: "金融機関のリブランド", stat: "認知度 +" },
+      { tag: "コーポレート", t: "上場準備中の総合コーポレート", stat: "信頼度評価 +", img: "assets/hero-08.png" },
+      { tag: "コーポレート", t: "ホールディングス再編後のリブランド", stat: "ブランド指標 +", img: "assets/work-renewal.png" },
+      { tag: "コーポレート", t: "BtoB SaaS のサービスサイト", stat: "問合せ +210%", img: "assets/hero-02.png" },
+      { tag: "コーポレート", t: "メーカーのコーポレート再構築", stat: "PV 1.6×", img: "assets/work-rakuyu.png" },
+      { tag: "コーポレート", t: "コンサルファームのサービス紹介", stat: "DL +260%", img: "assets/hero-03.png" },
+      { tag: "コーポレート", t: "金融機関のリブランド", stat: "認知度 +", img: "assets/work-pleast.png" },
     ],
   },
   'works-lp-recruit': {
@@ -825,12 +827,12 @@ const LP_DATA = {
     lede: "応募率を高める採用専門 LP の制作実績。新卒・中途・業界特化型を多数手がけています。",
     badges: ["応募率 +52% (平均)", "ATS連携", "写真撮影込"],
     items: [
-      { tag: "採用LP", t: "中堅メーカーの採用専門 LP", stat: "応募数 3.6×" },
-      { tag: "採用LP", t: "新卒採用ブランドサイト", stat: "エントリー 2.1×" },
-      { tag: "採用LP", t: "若手中心の採用ブランド LP", stat: "応募数 3.6×" },
-      { tag: "採用LP", t: "中途採用LP + リスティング連動", stat: "応募単価 -38%" },
-      { tag: "採用LP", t: "派遣会社の登録LP", stat: "登録 1.7×" },
-      { tag: "採用LP", t: "外国人材紹介のバイリンガル", stat: "海外PV 4×" },
+      { tag: "採用LP", t: "中堅メーカーの採用専門 LP", stat: "応募数 3.6×", img: "assets/lpo-axia-recruit.png" },
+      { tag: "採用LP", t: "新卒採用ブランドサイト (AXIA)", stat: "エントリー 2.1×", img: "assets/hero-07.png" },
+      { tag: "採用LP", t: "若手中心の採用ブランド LP", stat: "応募数 3.6×", img: "assets/work-asia-exchange.png" },
+      { tag: "採用LP", t: "中途採用LP + リスティング連動", stat: "応募単価 -38%", img: "assets/hero-07.png" },
+      { tag: "採用LP", t: "派遣会社の登録LP", stat: "登録 1.7×", img: "assets/work-asia-exchange.png" },
+      { tag: "採用LP", t: "外国人材紹介のバイリンガル", stat: "海外PV 4×", img: "assets/lpo-axia-recruit.png" },
     ],
   },
   'works-lp-ec': {
@@ -839,12 +841,12 @@ const LP_DATA = {
     lede: "実店舗 × オンラインを連動させる送客 LP の制作実績。EC への送客と店舗集客の両立を設計します。",
     badges: ["OMO設計", "EC連携", "実店舗送客"],
     items: [
-      { tag: "EC連動", t: "実店舗 × オンライン送客 LP", stat: "EC流入 2.2×" },
-      { tag: "EC連動", t: "セレクトショップの EC 統合", stat: "CVR 1.8×" },
-      { tag: "EC連動", t: "実店舗 EC 統合 OMO 基盤", stat: "EC売上 +210%" },
-      { tag: "EC連動", t: "ECとの送客LP構築", stat: "EC流入 2.2×" },
-      { tag: "EC連動", t: "ブランド EC のリブランド", stat: "客単価 +24%" },
-      { tag: "EC連動", t: "サブスク EC のリピート率改善", stat: "解約率 -32%" },
+      { tag: "EC連動", t: "実店舗 × オンライン送客 LP", stat: "EC流入 2.2×", img: "assets/work-panza.png" },
+      { tag: "EC連動", t: "セレクトショップの EC 統合", stat: "CVR 1.8×", img: "assets/hero-01.png" },
+      { tag: "EC連動", t: "実店舗 EC 統合 OMO 基盤", stat: "EC売上 +210%", img: "assets/work-taketora.png" },
+      { tag: "EC連動", t: "ECとの送客LP構築", stat: "EC流入 2.2×", img: "assets/work-cocopa.png" },
+      { tag: "EC連動", t: "ブランド EC のリブランド", stat: "客単価 +24%", img: "assets/work-panza.png" },
+      { tag: "EC連動", t: "サブスク EC のリピート率改善", stat: "解約率 -32%", img: "assets/hero-01.png" },
     ],
   },
   'works-video': {
@@ -886,7 +888,7 @@ function WorksVariantPage({ pageId, onNavigate, onContact }) {
           <div className="grid-3">
             {m.items.map((w, i) => (
               <a key={i} className="card card-link fadein" data-delay={i * 60} style={{ padding: 0, overflow: 'hidden', cursor: 'pointer' }}>
-                <Placeholder label={w.tag} caption={`case · #${String(i + 1).padStart(3,'0')}`} aspect="16/10"/>
+                <Placeholder label={w.tag} caption={`case · #${String(i + 1).padStart(3,'0')}`} aspect="16/10" src={w.img} fit/>
                 <div style={{ padding: '20px 22px 22px' }}>
                   <div className="row" style={{ justifyContent: 'space-between', marginBottom: 12 }}>
                     <span className="tag">{w.tag}</span>

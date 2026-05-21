@@ -495,16 +495,6 @@ function Footer({ onNavigate, onContact }) {
           </div>
         </div>
 
-        <div className="footer-area">
-          <h4>― エリア別 制作実績</h4>
-          <ul>
-            {PREFECTURES.map(p => (
-              <li key={p}><a onClick={() => onNavigate('works')}>{p}の Web制作・DX実績</a></li>
-            ))}
-            <li><a onClick={() => onNavigate('works')} style={{ color: 'var(--accent)', fontWeight: 700 }}>全47都道府県 →</a></li>
-          </ul>
-        </div>
-
         <div className="footer-bottom">
           <span>© 2026 Nortiq Labs Inc. All rights reserved.</span>
           <div className="row" style={{ gap: 24 }}>

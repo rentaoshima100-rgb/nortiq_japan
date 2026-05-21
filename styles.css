@@ -3576,6 +3576,10 @@ section { position: relative; }
 .type-row:last-child { border-bottom: 0; }
 .type-label { font-size: 12px; color: var(--text-3); font-weight: 600; }
 .type-sample { font-size: 15px; color: var(--text); }
+@media (max-width: 768px) {
+  .type-row { grid-template-columns: 1fr; gap: 4px; }
+  .color-strip { grid-template-columns: 1fr; }
+}
 
 @media (max-width: 1024px) {
   .step8-grid { grid-template-columns: 1fr 1fr; }
