@@ -8,6 +8,8 @@
   },
   "scripts": {
     "build": "node build.js",
+    "prerender": "node build-prerender.js",
+    "build:full": "node build.js && node build-prerender.js",
     "render-pdf": "node render-pdf.mjs",
     "serve": "npx --yes serve dist -l 5173"
   },
@@ -19,6 +21,7 @@
     "@babel/core": "^7.24.0",
     "@babel/preset-react": "^7.24.0",
     "marked": "^12.0.2",
+    "playwright": "^1.40.0",
     "terser": "^5.30.0"
   },
   "optionalDependencies": {
