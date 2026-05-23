@@ -207,8 +207,16 @@ function App() {
     // Per-route canonical + description (this SPA shares one static index.html).
     const url = NORTIQ_SITE + pathFor(route);
     const desc = descFor(route);
-    const canonical = document.head.querySelector('link[rel="canonical"]');
-    if (canonical) canonical.setAttribute('href', url);
+    // Set per-route canonical, creating the <link> if the shell omitted it
+    // (the app.html fallback shell ships without a canonical so non-prerendered
+    // routes never appear to canonicalize to the homepage in raw HTML).
+    let canonical = document.head.querySelector('link[rel="canonical"]');
+    if (!canonical) {
+      canonical = document.createElement('link');
+      canonical.setAttribute('rel', 'canonical');
+      document.head.appendChild(canonical);
+    }
+    canonical.setAttribute('href', url);
     setMetaContent('meta[name="description"]', desc);
     setMetaContent('meta[property="og:url"]', url);
     setMetaContent('meta[property="og:title"]', meta.title);

@@ -288,6 +288,13 @@ async function build() {
 </html>
 `;
   fs.writeFileSync(path.join(DIST, 'index.html'), html, 'utf8');
+  // Clean SPA shell kept as the rewrite fallback target, so routes that are NOT
+  // pre-rendered don't inherit the (pre-rendered) home's body content. The
+  // prerendered overlay below overwrites index.html but never app.html.
+  // Strip the home canonical so non-prerendered routes don't appear to
+  // canonicalize to "/" in raw HTML — the client adds the correct one per route.
+  fs.writeFileSync(path.join(DIST, 'app.html'),
+    html.replace(/\s*<link rel="canonical"[^>]*>/, ''), 'utf8');
 
   console.log('• emitting robots.txt + sitemap.xml');
   fs.writeFileSync(path.join(DIST, 'robots.txt'),
@@ -315,6 +322,28 @@ async function build() {
     + `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n`
     + sitemapUrls + '\n'
     + `</urlset>\n`, 'utf8');
+
+  // Overlay committed pre-rendered route snapshots onto dist/ (if present).
+  // Chromium can't run in the Vercel build container, so snapshots are generated
+  // locally via `npm run build:full` and committed to prerendered/; here we just
+  // copy them in. Skipped automatically when prerendered/ is absent → pure SPA.
+  const PRERENDERED = path.join(ROOT, 'prerendered');
+  if (fs.existsSync(PRERENDERED)) {
+    let pages = 0;
+    const overlay = (src, dest) => {
+      for (const e of fs.readdirSync(src, { withFileTypes: true })) {
+        if (e.name === 'README.md') continue;
+        const s = path.join(src, e.name);
+        const d = path.join(dest, e.name);
+        if (e.isDirectory()) { fs.mkdirSync(d, { recursive: true }); overlay(s, d); }
+        else { fs.copyFileSync(s, d); if (e.name === 'index.html') pages++; }
+      }
+    };
+    overlay(PRERENDERED, DIST);
+    console.log(`• overlaid prerendered/ → dist/ (${pages} page(s))`);
+  } else {
+    console.log('• prerendered/ absent — serving pure SPA shell');
+  }
 
   console.log('\n✓ build complete → dist/');
 }
