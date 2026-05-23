@@ -16,6 +16,7 @@ const http = require('http');
 const { chromium } = require('playwright');
 
 const DIST = path.join(__dirname, 'dist');
+const PRERENDERED = path.join(__dirname, 'prerendered');
 const SITE = 'https://nortiqlab.com';
 
 // --- Partial rollout control --------------------------------------------------
@@ -29,9 +30,25 @@ function routesFromSitemap() {
   return locs.map((u) => u.replace(SITE, '') || '/').map((p) => (p === '' ? '/' : p));
 }
 
+// Output goes to the COMMITTED prerendered/ tree (Chromium can't run in the
+// Vercel build container, so snapshots are generated locally and committed;
+// build.js overlays them onto dist/ at deploy time).
 function routeToFile(route) {
-  if (route === '/') return path.join(DIST, 'index.html');
-  return path.join(DIST, route.replace(/^\//, ''), 'index.html');
+  if (route === '/') return path.join(PRERENDERED, 'index.html');
+  return path.join(PRERENDERED, route.replace(/^\//, ''), 'index.html');
+}
+
+// Copy prerendered/ onto dist/ (skipping README) so the freshly generated
+// snapshots are immediately testable in dist/ locally.
+function overlayOntoDist(src, dest) {
+  if (!fs.existsSync(src)) return;
+  for (const entry of fs.readdirSync(src, { withFileTypes: true })) {
+    if (entry.name === 'README.md') continue;
+    const s = path.join(src, entry.name);
+    const d = path.join(dest, entry.name);
+    if (entry.isDirectory()) { fs.mkdirSync(d, { recursive: true }); overlayOntoDist(s, d); }
+    else fs.copyFileSync(s, d);
+  }
 }
 
 const MIME = {
@@ -117,7 +134,9 @@ async function main() {
 
   await browser.close();
   server.close();
-  console.log(`• prerender complete: ${ok}/${allRoutes.length} routes`);
+  // Mirror fresh snapshots into dist/ for immediate local verification.
+  overlayOntoDist(PRERENDERED, DIST);
+  console.log(`• prerender complete: ${ok}/${allRoutes.length} routes (written to prerendered/ + mirrored to dist/)`);
 }
 
 main();

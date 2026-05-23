@@ -316,6 +316,28 @@ async function build() {
     + sitemapUrls + '\n'
     + `</urlset>\n`, 'utf8');
 
+  // Overlay committed pre-rendered route snapshots onto dist/ (if present).
+  // Chromium can't run in the Vercel build container, so snapshots are generated
+  // locally via `npm run build:full` and committed to prerendered/; here we just
+  // copy them in. Skipped automatically when prerendered/ is absent → pure SPA.
+  const PRERENDERED = path.join(ROOT, 'prerendered');
+  if (fs.existsSync(PRERENDERED)) {
+    let pages = 0;
+    const overlay = (src, dest) => {
+      for (const e of fs.readdirSync(src, { withFileTypes: true })) {
+        if (e.name === 'README.md') continue;
+        const s = path.join(src, e.name);
+        const d = path.join(dest, e.name);
+        if (e.isDirectory()) { fs.mkdirSync(d, { recursive: true }); overlay(s, d); }
+        else { fs.copyFileSync(s, d); if (e.name === 'index.html') pages++; }
+      }
+    };
+    overlay(PRERENDERED, DIST);
+    console.log(`• overlaid prerendered/ → dist/ (${pages} page(s))`);
+  } else {
+    console.log('• prerendered/ absent — serving pure SPA shell');
+  }
+
   console.log('\n✓ build complete → dist/');
 }
 

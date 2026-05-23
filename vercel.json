@@ -1,8 +1,8 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "buildCommand": "node build.js && node build-prerender.js",
+  "buildCommand": "node build.js",
   "outputDirectory": "dist",
-  "installCommand": "npm install && npx playwright install chromium",
+  "installCommand": "npm install",
   "framework": null,
   "trailingSlash": false,
   "rewrites": [

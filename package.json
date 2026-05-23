@@ -10,6 +10,7 @@
     "build": "node build.js",
     "prerender": "node build-prerender.js",
     "build:full": "node build.js && node build-prerender.js",
+    "prerender:check": "node prerender-check.js",
     "render-pdf": "node render-pdf.mjs",
     "serve": "npx --yes serve dist -l 5173"
   },
