@@ -20,8 +20,9 @@ const PRERENDERED = path.join(__dirname, 'prerendered');
 const SITE = 'https://nortiqlab.com';
 
 // --- Partial rollout control --------------------------------------------------
-// Start with the homepage only. Set to [] to prerender every sitemap URL.
-const ROUTES_ALLOWLIST = ['/'];
+// Rollout step 2: homepage + top service/works/voice pages.
+// Step 1 was ['/']; full rollout = [] (every sitemap URL).
+const ROUTES_ALLOWLIST = ['/', '/web', '/works', '/voice'];
 
 // ------------------------------------------------------------------------------
 function routesFromSitemap() {
