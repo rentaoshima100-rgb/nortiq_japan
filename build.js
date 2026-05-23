@@ -288,6 +288,10 @@ async function build() {
 </html>
 `;
   fs.writeFileSync(path.join(DIST, 'index.html'), html, 'utf8');
+  // Clean SPA shell kept as the rewrite fallback target, so routes that are NOT
+  // pre-rendered don't inherit the (pre-rendered) home's body content. The
+  // prerendered overlay below overwrites index.html but never app.html.
+  fs.writeFileSync(path.join(DIST, 'app.html'), html, 'utf8');
 
   console.log('• emitting robots.txt + sitemap.xml');
   fs.writeFileSync(path.join(DIST, 'robots.txt'),
