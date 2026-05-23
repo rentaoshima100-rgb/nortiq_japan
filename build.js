@@ -291,7 +291,10 @@ async function build() {
   // Clean SPA shell kept as the rewrite fallback target, so routes that are NOT
   // pre-rendered don't inherit the (pre-rendered) home's body content. The
   // prerendered overlay below overwrites index.html but never app.html.
-  fs.writeFileSync(path.join(DIST, 'app.html'), html, 'utf8');
+  // Strip the home canonical so non-prerendered routes don't appear to
+  // canonicalize to "/" in raw HTML — the client adds the correct one per route.
+  fs.writeFileSync(path.join(DIST, 'app.html'),
+    html.replace(/\s*<link rel="canonical"[^>]*>/, ''), 'utf8');
 
   console.log('• emitting robots.txt + sitemap.xml');
   fs.writeFileSync(path.join(DIST, 'robots.txt'),
