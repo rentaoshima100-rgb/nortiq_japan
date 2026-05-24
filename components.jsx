@@ -76,7 +76,7 @@ const NAV_MEGA = [
         { id: 'column',  label: 'コラム / 技術ブログ' },
         { id: 'news',    label: 'お知らせ' },
         { id: 'guidebook', label: 'DXガイドブック' },
-        { id: 'subsidy',   label: 'IT導入補助金' },
+        { id: 'subsidy',   label: '補助金活用相談' },
       ]},
     ],
   },
@@ -90,43 +90,7 @@ const PREFECTURES = [
 ];
 
 // -------------------- Contact delivery --------------------
-// All inquiry forms open the user's email client (mailto:) with the form
-// contents pre-filled. The recipient is fixed to NORTIQ_INQUIRY_EMAIL.
-// When you want a proper backend (Formspree / EmailJS / serverless function),
-// replace `openInquiryMailto` with a POST to that endpoint.
-const NORTIQ_INQUIRY_EMAIL = 'rdaichi27@gmail.com';
-
-function openInquiryMailto(form, kind = 'main') {
-  const safe = (v) => (v == null ? '' : String(v));
-  const arr = (a) => (Array.isArray(a) ? a.join(' / ') : safe(a));
-  const subject = `【Nortiq Labs】${safe(form.company) || safe(form.name) || 'Web'} 様からのお問い合わせ`;
-  const lines = [
-    `[ Nortiq Labs — ${kind} form ]`,
-    '',
-    `貴社名         : ${safe(form.company)}`,
-    `ご担当者名     : ${safe(form.name)}`,
-    `メールアドレス : ${safe(form.email)}`,
-    `電話番号       : ${safe(form.phone)}`,
-    form.address ? `所在地         : ${safe(form.address)}` : null,
-    form.categories && form.categories.length ? `カテゴリ       : ${arr(form.categories)}` : null,
-    form.inqTypes && form.inqTypes.length ? `お問い合わせ   : ${arr(form.inqTypes)}` : null,
-    form.reasons && form.reasons.length ? `きっかけ       : ${arr(form.reasons)}` : null,
-    form.source ? `流入元         : ${safe(form.source)}` : null,
-    form.station ? `最寄り駅       : ${safe(form.station)}` : null,
-    form.siteUrl ? `サイトURL      : ${safe(form.siteUrl)}` : null,
-    '',
-    'ご相談内容:',
-    safe(form.message) || '(記入なし)',
-    '',
-    '---',
-    `送信日時: ${new Date().toLocaleString('ja-JP')}`,
-  ].filter(Boolean);
-  const mailto = `mailto:${NORTIQ_INQUIRY_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(lines.join('\n'))}`;
-  // Use location.href so default mail handler intercepts without losing the SPA.
-  window.location.href = mailto;
-}
-
-// Primary delivery path: POST the inquiry to the serverless function, which
+// All inquiry forms POST to the serverless function, which
 // sends a real email via Resend (no mail-client dependency). Throws on failure
 // so callers can show an error state.
 async function sendInquiry(form, kind = 'main') {
@@ -481,7 +445,7 @@ function Footer({ onNavigate, onContact }) {
               <li><a onClick={() => onNavigate('diagnostic')}>サイト無料診断 (URL入力)</a></li>
               <li><a onClick={() => onNavigate('column')}>技術ブログ / コラム</a></li>
               <li><a onClick={() => onNavigate('news')}>お知らせ</a></li>
-              <li><a onClick={() => onNavigate('subsidy')}>IT導入補助金</a></li>
+              <li><a onClick={() => onNavigate('subsidy')}>補助金活用相談</a></li>
               <li><a onClick={() => onNavigate('guidebook')}>DXガイドブック</a></li>
             </ul>
             <h4 style={{ marginTop: 28 }}>業種別ソリューション</h4>
@@ -519,7 +483,7 @@ function Footer({ onNavigate, onContact }) {
 // -------------------- Contact Modal (big 12-field) --------------------
 const CATEGORY_OPTIONS = ["Web制作", "AIチャットボット", "DX・ML", "業務自動化", "LP制作", "採用サイト"];
 const INQ_TYPE_OPTIONS = ["新規HP制作", "HPリニューアル", "AIチャットボット導入", "DX・ML 実装", "業務自動化", "リスティング広告", "コンサルティング"];
-const REASON_OPTIONS = ["HPが無い", "問い合わせを増やしたい", "サービス資料がほしい", "無料診断", "デザインを改善したい", "SEOを上げたい", "AI活用したい", "業務効率化したい", "IT補助金を使いたい"];
+const REASON_OPTIONS = ["HPが無い", "問い合わせを増やしたい", "サービス資料がほしい", "無料診断", "デザインを改善したい", "SEOを上げたい", "AI活用したい", "業務効率化したい", "補助金活用を相談したい"];
 const SOURCE_OPTIONS = ["Google検索", "Yahoo検索", "ご紹介", "メール", "DMチラシ", "SNS (X/LinkedIn)", "以前から知っていた", "その他"];
 
 function ContactModal({ open, onClose, defaultCategory = '' }) {
@@ -623,7 +587,7 @@ function ContactModal({ open, onClose, defaultCategory = '' }) {
               通信エラーが発生しました。お手数ですが、もう一度お試しください。
             </p>
             <p className="small" style={{ color: 'var(--text-3)', marginBottom: 28 }}>
-              解決しない場合は <a href={`mailto:${NORTIQ_INQUIRY_EMAIL}`} style={{ color: 'var(--accent)' }}>{NORTIQ_INQUIRY_EMAIL}</a> 宛に直接お送りください。
+              解決しない場合は、お手数ですが時間をおいて再度お試しください。
             </p>
             <Button variant="primary" onClick={() => setStage('form')}>フォームに戻る</Button>
           </div>
@@ -843,7 +807,7 @@ function BigInlineForm() {
           <tr>
             <th>住所<span className="req">必須</span></th>
             <td>
-              <input type="text" value={form.address} onChange={onChange('address')} placeholder="東京都武蔵野市…"/>
+              <input type="text" value={form.address} onChange={onChange('address')} placeholder="京都府京都市…"/>
               {errors.address && <div className="err">{errors.address}</div>}
             </td>
           </tr>
@@ -906,7 +870,7 @@ function BigInlineForm() {
       </div>
       {failed && (
         <p className="err" style={{ textAlign: 'center', marginTop: 12 }}>
-          送信に失敗しました。もう一度お試しいただくか、<a href={`mailto:${NORTIQ_INQUIRY_EMAIL}`} style={{ color: 'var(--accent)' }}>{NORTIQ_INQUIRY_EMAIL}</a> 宛に直接お送りください。
+          送信に失敗しました。お手数ですが、時間をおいて再度お試しください。
         </p>
       )}
       <div className="big-form-submit">
@@ -997,7 +961,7 @@ function SideTabForm() {
               </div>
               {failed && (
                 <p className="err" style={{ marginBottom: 10 }}>
-                  送信に失敗しました。<a href={`mailto:${NORTIQ_INQUIRY_EMAIL}`} style={{ color: 'var(--accent)' }}>{NORTIQ_INQUIRY_EMAIL}</a> 宛にお送りください。
+                  送信に失敗しました。時間をおいて再度お試しください。
                 </p>
               )}
               <Button variant="primary" size="lg" type="submit" style={{ width: '100%' }} disabled={sending}>

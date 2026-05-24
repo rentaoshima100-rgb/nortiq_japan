@@ -63,7 +63,54 @@ curl/生 fetch は JS を実行しないため、SPA なら必ず本文 0 にな
 
 ---
 
-## フェーズ3：解決策（記入予定）
-## フェーズ4：実装（記入予定）
-## フェーズ5：検証（記入予定）
-## フェーズ6：最終まとめ（記入予定）
+## フェーズ3：解決策（決定）
+3案（A: Next.js移行 / B: Astro等ハイブリッド / C: Playwrightプリレンダ後段）を比較し、
+**案C（プリレンダ後段）** を採用。A/Bは非標準構成（UMD・classic createElement・window登録）の
+ため実質フルリライトで、効果は同等なのに工数・リスク・維持責任が突出するため却下。
+
+さらに案Cの実装方式として、Vercelビルド環境で Chromium が起動しなかった（後述）ため
+**C-local（ローカルでプリレンダ生成 → prerendered/ をコミット → build.js が dist へコピー）** に決定。
+
+## フェーズ4：実装
+- **build-prerender.js（新規）**: dist をローカル配信し headless Chromium で各ルートを描画、
+  レンダリング後HTMLを `prerendered/<route>/index.html` に保存。相対アセットを絶対(/)へ書換
+  （`<base>` 不使用＝`href="#"` 挙動を維持）。`ROUTES_ALLOWLIST` で部分ロールアウト制御。
+- **build.js**: `dist/app.html`（canonical除去のクリーンSPAシェル）を出力。末尾で
+  `prerendered/` があれば `dist/` へ冪等コピー（無ければ純SPAへ自動フォールバック）。
+- **app.jsx**: ルート遷移時に canonical を「無ければ生成」してページ別URLに設定。
+- **vercel.json**: `rewrites` の宛先を `/app.html`（未プリレンダのみクリーンシェル配信。
+  プリレンダ済みはファイルシステム優先で配信）。buildCommand/installCommand は Chromium無しに復帰。
+- **安全装置**: `prerendered/README.md`（編集禁止・再生成手順）／`npm run prerender:check`
+  （ソースが prerendered より新しければ exit 1）／build.js コピーは存在時のみ実行（冪等）。
+
+### Vercelビルドでの Chromium 起動失敗（重要な知見）
+オンVercelで `npx playwright install chromium` は成功するが、ビルドコンテナに
+`libnspr4.so` 等のシステムライブラリが無く Chromium が exit 127。`--with-deps` は
+apt/root前提で不可。→ プリレンダはローカル生成＋コミット方式（C-local）に確定。
+
+## フェーズ5：検証（本番 nortiqlab.com・Googlebot UA）
+| URL | bytes | body本文 | canonical(生HTML) |
+|---|---|---|---|
+| `/` | 100,690 | 7,288 | https://nortiqlab.com/ |
+| `/web` | 6,008 | 0 | （なし＝クリーンシェル）|
+| `/works` | 6,008 | 0 | （なし）|
+| `/article-japan-dx` | 6,008 | 0 | （なし）|
+
+- トップ＝レンダリング済み本文あり（フェーズ2の body 0 を解消）。
+- 未プリレンダのサブページ＝クリーンシェル（本文0・canonicalなし・キャッチコピーなし）→ revert基準すべて非該当。
+- ヘッドレス確認: ナビ遷移で URL/ canonical がページ別に更新（JS生成）、お問い合わせモーダル開閉OK、コンソールエラー0。
+
+## フェーズ6：最終まとめ
+- **確定原因**: 全URLが本文0の同一4KB shell を返すCSR(SPA)。クローラーの2段階レンダリング遅延でインデックスされにくい。
+- **採用approach**: C-local プリレンダ（ローカル生成＋コミット、Vercelはコピーのみ）。
+- **変更/新規ファイル**: build-prerender.js / prerender-check.js / prerendered/（README + 各ルートHTML）/ build.js / app.jsx / vercel.json / package.json。
+- **新ビルド/デプロイ手順**:
+  1. コンテンツ/ページを変更したら **ローカルで `npm run build:full`**（build + prerender）
+  2. `git add prerendered/ && commit && push`（main）→ Vercelが `node build.js` で dist へ overlay 配信
+  3. 鮮度チェック: `npm run prerender:check`
+- **デプロイ後アクション**: Google Search Console で対象URLを「URL検査 → 公開URLをテスト →（レンダリング済みHTMLに本文確認）→ インデックス登録をリクエスト」。sitemap.xml(50URL)は送信済み。
+- **既知のリスク / 後追い**: (1) コンテンツ変更時のプリレンダ再生成忘れ → prerender:check で検知。(2) ロールアウトはトップ→`['/','/web','/works','/voice']`(別ブランチ `ssr-prerender-expand-4` 準備済)→全50URL の順。(3) 将来 GitHub Actions でプリレンダ自動化すれば手動コミット不要。
+- **ロールバック**: `prerendered/` を削除してコミット（build.js のコピーが自動スキップ＝純SPA復帰）、または該当マージコミットを `git revert`。数分で完全復帰。
+
+### GSC スクリーンショット（ユーザー追記欄）
+（URL検査「公開URLをテスト」のレンダリング済みHTML確認・インデックス登録リクエストのスクショをここに貼付）

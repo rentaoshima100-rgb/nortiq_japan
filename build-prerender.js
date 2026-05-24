@@ -91,11 +91,16 @@ function toAbsolutePaths(html) {
 }
 
 async function main() {
-  if (!fs.existsSync(path.join(DIST, 'index.html'))) {
-    console.error('  ! dist/index.html not found — run `node build.js` first.');
+  // Use the CLEAN shell (app.html). build.js overlays the previous prerendered
+  // home onto index.html, so index.html can carry stale head/JSON-LD; app.html
+  // is always the fresh build output and is never overlaid.
+  const shellPath = fs.existsSync(path.join(DIST, 'app.html'))
+    ? path.join(DIST, 'app.html') : path.join(DIST, 'index.html');
+  if (!fs.existsSync(shellPath)) {
+    console.error('  ! dist shell not found — run `node build.js` first.');
     process.exit(1);
   }
-  const shellHtml = fs.readFileSync(path.join(DIST, 'index.html'), 'utf8');
+  const shellHtml = fs.readFileSync(shellPath, 'utf8');
   const allRoutes = ROUTES_ALLOWLIST.length ? ROUTES_ALLOWLIST : routesFromSitemap();
 
   const { server, port } = await startServer(shellHtml);

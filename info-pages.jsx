@@ -59,11 +59,11 @@ function WorksPage({ category, onNavigate, onContact }) {
         title={category ? <>{label}の<br/>制作実績</> : <>制作実績の<br/>すべて。</>}
         lede={category
           ? `${label}の業種で、Nortiq Labs が手がけた制作・支援実績を集約しました。Web制作からAI実装まで一貫した事例を掲載しています。`
-          : "50 社以上の制作・支援実績から、業種別・LP強化別・動画別に絞り込めます。お探しの業種・課題に近い事例から、最適なアプローチをご検討ください。"
+          : "20 社の制作・支援実績から、業種別・LP強化別・動画別に絞り込めます。お探しの業種・課題に近い事例から、最適なアプローチをご検討ください。"
         }
         badges={category
           ? ["業種: " + label, "全 " + items.length + " 件"]
-          : ["全50社+", "業種 7 / LP 3 / 動画", "オリジナルデザイン"]
+          : ["全20社", "業種 7 / LP 3 / 動画", "オリジナルデザイン"]
         }
         onContact={onContact}
         ctaLabel="同業種の見積依頼"
@@ -157,7 +157,7 @@ function VoicePage({ onNavigate, onContact }) {
         eyebrow="VOICE / ご利用会社様の声"
         title={<>長く付き合える、<br/>を裏付ける声。</>}
         lede="ご利用いただいている企業様の声を、何より大切にしています。日々いただくリアルなご意見が、私たちのサービスをかたちづくっています。"
-        badges={["3年契約継続率 94%", "Google 4.8 / 5", "全業種から声"]}
+        badges={["累計20社の支援", "全業種から声", "長期運用に伴走"]}
         onContact={onContact}
         watermark="VOICE"
         pageNo="VOICE"
@@ -184,9 +184,8 @@ function VoicePage({ onNavigate, onContact }) {
       <div className="stats-ribbon">
         <div className="container">
           <div className="stats-ribbon-inner">
-            <div className="stats-ribbon-cell"><span className="num">94%</span><span className="lbl">3年契約継続率</span></div>
-            <div className="stats-ribbon-cell"><span className="num">4.8</span><span className="lbl">Google レビュー / 5</span></div>
-            <div className="stats-ribbon-cell"><span className="num">50+</span><span className="lbl">支援企業数</span></div>
+            <div className="stats-ribbon-cell"><span className="num">20+</span><span className="lbl">支援企業数</span></div>
+            <div className="stats-ribbon-cell"><span className="num">5</span><span className="lbl">チーム人数</span></div>
             <div className="stats-ribbon-cell"><span className="num">24h</span><span className="lbl">返信SLA</span></div>
           </div>
         </div>
@@ -208,7 +207,7 @@ function SupportPage({ onNavigate, onContact }) {
         eyebrow="SUPPORT / コンサル・運用サポート"
         title={<>作るだけじゃない、<br/>育てる伴走。</>}
         lede="専属担当者からの「月次アクセス報告」「定期訪問」「活用勉強会」など、1社1社のWEB運用を3年・5年と並走支援します。"
-        badges={["3年契約継続率 94%", "月次レポート", "活用勉強会無償", "保守プラン内で修正対応"]}
+        badges={["月次レポート", "保守プラン内で修正対応", "長期運用に伴走"]}
         onContact={onContact}
       />
 
@@ -271,7 +270,7 @@ function PricingPage({ onNavigate, onContact }) {
         eyebrow="PRICING / 料金プラン"
         title={<>透明な、<br/>段階投資。</>}
         lede="サービスごとに3つのプランを用意。実際の費用はヒアリング後の見積でご提案しますが、目安レンジをすべて公開しています。"
-        badges={["明朗会計", "IT補助金活用可", "段階契約OK"]}
+        badges={["明朗会計", "補助金活用の相談可", "段階契約OK"]}
         onContact={onContact}
       />
 
@@ -319,7 +318,7 @@ function PricingPage({ onNavigate, onContact }) {
         </section>
       ))}
 
-      <CTAStrip onContact={onContact} title="プランの組み合わせ、ご相談ください。" sub="複数プランを段階導入する形での見積も可能です。IT補助金の活用も含めて、最適な投資計画をご提案します。"/>
+      <CTAStrip onContact={onContact} title="プランの組み合わせ、ご相談ください。" sub="複数プランを段階導入する形での見積も可能です。補助金の活用も視野に、最適な投資計画をご相談いただけます。"/>
     </main>
   );
 }
@@ -469,40 +468,32 @@ function QuickDiagnosisPage({ onNavigate, onContact }) {
 function SubsidyPage({ onNavigate, onContact }) {
   return (
     <main className="page-fade">
-      <Breadcrumb items={[{ label: "トップ", id: "top" }, { label: "IT導入補助金" }]} onNavigate={onNavigate}/>
+      <Breadcrumb items={[{ label: "トップ", id: "top" }, { label: "補助金活用相談" }]} onNavigate={onNavigate}/>
       <PageHero
-        eyebrow="SUBSIDY / IT導入補助金 2026"
-        title={<>最大 450 万円、<br/>申請を一気通貫サポート。</>}
-        lede="IT導入補助金 2026 の通常枠・デジタル化基盤導入枠の申請を、書類作成から採択後の実績報告まで一気通貫でサポートします。"
-        badges={["申請受付中", "最大 450 万円", "採択率 80%+"]}
+        eyebrow="SUBSIDY / 補助金を活用した DX 導入"
+        title={<>補助金を活用した<br/>DX導入のご相談。</>}
+        lede="IT導入補助金をはじめとする補助金の活用を視野に入れた、DX投資の進め方をご相談いただけます。"
+        badges={["補助金活用のご相談", "段階的なDX投資", "初回相談無料"]}
         onContact={() => onContact('subsidy')}
-        ctaLabel="補助金の相談をする"
-        subCta="申請ガイド DL"
+        ctaLabel="DX導入の相談をする"
       />
       <section className="section-pad">
         <div className="container">
-          <SectionHead eyebrow="OVERVIEW / 制度概要" title="補助金の概要"/>
+          <SectionHead eyebrow="OVERVIEW / 制度の概要" title="IT導入補助金とは（一般情報）"/>
+          <p className="lede" style={{ maxWidth: 820, margin: '0 auto 32px' }}>
+            IT導入補助金は、中小企業・小規模事業者が業務効率化やDXのためにITツールを導入する費用の一部を補助する国の制度です。枠ごとに補助上限・補助率の目安が定められています（下記は制度の一般的な区分です）。
+          </p>
           <div className="grid-3">
-            <SubsidyCard tl="通常枠 A 類型" amount="30〜150" unit="万円" rate="1/2 補助" desc="クラウドサービス利用料 (1年分) を含む、業務効率化ツールの導入支援"/>
-            <SubsidyCard tl="通常枠 B 類型" amount="150〜450" unit="万円" rate="1/2 補助" desc="複数業務にまたがる本格的な業務基盤の導入支援" featured/>
-            <SubsidyCard tl="デジタル化基盤" amount="〜350" unit="万円" rate="2/3 〜 3/4" desc="EC / 会計 / 受発注 / 決済の業務基盤デジタル化"/>
+            <SubsidyCard tl="通常枠 A 類型" amount="30〜150" unit="万円" rate="1/2 補助" desc="業務効率化ツールの導入（クラウド利用料を含む）"/>
+            <SubsidyCard tl="通常枠 B 類型" amount="150〜450" unit="万円" rate="1/2 補助" desc="複数業務にまたがる業務基盤の導入" featured/>
+            <SubsidyCard tl="デジタル化基盤" amount="〜350" unit="万円" rate="2/3 〜 3/4" desc="EC / 会計 / 受発注 / 決済のデジタル化"/>
           </div>
+          <p className="small" style={{ color: 'var(--text-3)', maxWidth: 820, margin: '24px auto 0', lineHeight: 1.8 }}>
+            ※ 補助金の申請には、登録された「IT導入支援事業者」との連携が必要です。Nortiq Labs は現在 IT導入支援事業者の登録を準備中で、登録後は申請サポートまで対応予定です。現時点では、補助金活用を前提とした DX 導入の方向性・進め方のご相談を承っています。最新の制度内容・補助上限・補助率は公募要領をご確認ください。
+          </p>
         </div>
       </section>
-      <section className="section-pad" style={{ background: 'var(--bg-2)', borderTop: '1px solid var(--border)', borderBottom: '1px solid var(--border)' }}>
-        <div className="container">
-          <SectionHead eyebrow="FLOW / 申請フロー" title="6 ステップで採択へ"/>
-          <ol className="process-list">
-            <ProcessStep title="無料相談" desc="現状ヒアリングと、補助金が使える事業か判定。" n="01"/>
-            <ProcessStep title="事業計画書ドラフト" desc="Nortiq Labs と一緒に、採択されやすい事業計画書を作成。" n="02"/>
-            <ProcessStep title="ITツール登録" desc="補助対象となる ITツール (Nortiq の提供サービス) を申請に紐付け。" n="03"/>
-            <ProcessStep title="本申請" desc="必要書類を整え、電子申請で完了。" n="04"/>
-            <ProcessStep title="採択・契約" desc="採択通知を受領後、Nortiq Labs と正式契約・着手。" n="05"/>
-            <ProcessStep title="実績報告・受給" desc="導入完了後、実績報告を提出して補助金を受給。" n="06"/>
-          </ol>
-        </div>
-      </section>
-      <CTAStrip onContact={() => onContact('subsidy')} title="まずは、自社が補助金を使えるか確認しませんか。" sub="無料相談で、申請可能性と概算の補助額をその場でお伝えします。"/>
+      <CTAStrip onContact={() => onContact('subsidy')} title="補助金を活用したDX投資について、相談しませんか。" sub="初回相談は無料です。現状をうかがい、補助金活用を含めた進め方をご提案します。"/>
     </main>
   );
 }
@@ -564,7 +555,7 @@ function GuidebookPage({ onNavigate, onContact }) {
                 <li>AIチャットボットで効率化する業務</li>
                 <li>ML・DX で経営判断を高度化する</li>
                 <li>業種別の DX 成功事例 (7業種)</li>
-                <li>IT 補助金の活用方法</li>
+                <li>補助金活用の考え方</li>
                 <li>失敗しない外注パートナーの選び方</li>
               </ol>
               <div className="row" style={{ marginTop: 32, gap: 14, flexWrap: 'wrap' }}>
@@ -645,7 +636,7 @@ function CompanyPage({ onNavigate, onContact }) {
         eyebrow="COMPANY / 会社概要"
         title={<>Nortiq Labs、<br/>と申します。</>}
         lede="米国の AI 研究背景を持つエンジニアと、日本の経営課題に向き合うコンサルタントによる、技術と現場の両輪を持つチームです。"
-        badges={["設立 2024", "本社 武蔵野市", "従業員 12 名", "海外 1拠点 (US)"]}
+        badges={["設立 2025", "本社 京都市中京区", "従業員 5 名"]}
         onContact={onContact}
         ctaLabel="採用情報"
         subCta="チーム紹介"
@@ -658,56 +649,35 @@ function CompanyPage({ onNavigate, onContact }) {
         <div className="container">
           <div className="section-head">
             <h2 className="section-title fadein">沿革</h2>
-            <p className="section-sub fadein">HISTORY · 2 YEARS</p>
+            <p className="section-sub fadein">HISTORY</p>
           </div>
           <ol className="timeline" style={{ maxWidth: 900, margin: '0 auto' }}>
             <li className="timeline-item fadein">
-              <div className="timeline-date">2024.04</div>
+              <div className="timeline-date">2025</div>
               <div className="timeline-content">
                 <h3>創業 / Nortiq Labs Inc. 設立</h3>
-                <p>代表 Renta Oshima が、米国アイビーリーグでの AI 研究を経て帰国し、日本の中小企業向け DX 支援を専門とする会社として設立。武蔵野市にて事業開始。</p>
+                <p>代表 Renta Oshima が、米国 UC Berkeley での AI 研究背景をもとに、日本の中小企業向け DX 支援を専門とする会社として京都で創業。</p>
               </div>
             </li>
             <li className="timeline-item fadein" data-delay="80">
-              <div className="timeline-date">2024.07</div>
+              <div className="timeline-date">2025</div>
               <div className="timeline-content">
-                <h3>1 号案件 (クリニック・東京) を獲得</h3>
-                <p>地域密着型クリニックのリニューアル案件をきっかけに、Nortiq の 3 段階ファネル (Web → AI → DX) の原型が形成される。</p>
+                <h3>3 段階ファネル (Web → AI → DX) を確立</h3>
+                <p>地域密着型クリニックのリニューアル等を起点に、Web 制作から AI・DX へ段階的に伴走する支援モデルを形成。</p>
               </div>
             </li>
             <li className="timeline-item fadein" data-delay="160">
-              <div className="timeline-date">2024.11</div>
+              <div className="timeline-date">2025〜2026</div>
               <div className="timeline-content">
-                <h3>WP AIチャットボット 投稿ツール β リリース</h3>
-                <p>WordPress ブログ更新を AI で代替する内製プロダクトの β を公開。既存顧客 3 社で先行運用開始。</p>
+                <h3>WP AIチャットボット 開発 / 業種横断で支援拡大</h3>
+                <p>WordPress ブログ更新を AI で支援する内製プロダクトを開発。クリニック・不動産・建築・人材・小売・AIスタートアップ等、累計 20 社の制作・DX 支援を展開。</p>
               </div>
             </li>
             <li className="timeline-item fadein" data-delay="240">
-              <div className="timeline-date">2025.04</div>
+              <div className="timeline-date">2026</div>
               <div className="timeline-content">
-                <h3>シード資金調達 / 米国 Berkeley 拠点開設</h3>
-                <p>AI Agent Security 研究 (VetoNet) を加速するため、米国カリフォルニア州 Berkeley に研究拠点を開設。</p>
-              </div>
-            </li>
-            <li className="timeline-item fadein" data-delay="320">
-              <div className="timeline-date">2025.10</div>
-              <div className="timeline-content">
-                <h3>累計支援企業数 100 社突破</h3>
-                <p>創業 1 年半で 100 社の支援実績を達成。3 年契約継続率 94%、Google 評価 4.8 / 5 を維持。</p>
-              </div>
-            </li>
-            <li className="timeline-item fadein" data-delay="400">
-              <div className="timeline-date">2026.02</div>
-              <div className="timeline-content">
-                <h3>Tennis フォームチェック SaaS Public Beta</h3>
-                <p>Computer Vision の応用研究を兼ねた一般ユーザー向け SaaS をリリース。技術検証成果を商用案件にもフィードバック。</p>
-              </div>
-            </li>
-            <li className="timeline-item fadein" data-delay="480">
-              <div className="timeline-date">2026.05</div>
-              <div className="timeline-content">
-                <h3>IT 導入支援事業者に採択</h3>
-                <p>IT 導入補助金 2026 の IT 導入支援事業者として登録。お客様の補助金活用を一気通貫サポート可能に。</p>
+                <h3>自社プロダクトの研究開発を本格化</h3>
+                <p>VetoNet (AI agent security) とテニスフォーム分析 SaaS の研究開発を進め、技術検証の成果を商用案件にフィードバック。</p>
               </div>
             </li>
           </ol>
@@ -723,15 +693,14 @@ function CompanyPage({ onNavigate, onContact }) {
           <dl className="company-table">
             {[
               ["商号", "Nortiq Labs Inc. (株式会社ノーティック ラボ)"],
-              ["設立", "2024年4月"],
+              ["設立", "2025年"],
               ["代表取締役", "Renta Oshima"],
-              ["所在地", "〒180-0002 東京都武蔵野市吉祥寺東町X-X-X"],
-              ["米国拠点", "Berkeley, California, USA"],
-              ["資本金", "5,000 万円"],
+              ["所在地", "〒604-0012 京都府京都市中京区竪大恩寺町 751"],
+              ["資本金", "100 万円"],
+              ["従業員数", "5 名"],
               ["事業内容", "Web 制作 / AI チャットボット開発 / DX・ML 実装 / 自社プロダクト開発"],
-              ["主要取引銀行", "三菱UFJ銀行 武蔵野支店"],
-              ["所属団体", "情報処理推進機構 (IPA), 一般社団法人 日本ディープラーニング協会"],
-              ["連絡先", "info@nortiq-labs.example"],
+              ["主要取引銀行", "三菱UFJ銀行"],
+              ["お問い合わせ", "サイトの問い合わせフォームより承ります"],
             ].map(([k, v]) => (
               <div key={k} className="company-row">
                 <dt>{k}</dt>
@@ -750,12 +719,11 @@ function CompanyPage({ onNavigate, onContact }) {
           </div>
           <div className="split-row">
             <div className="split-visual">
-              <Placeholder label="MAP" caption="map / kichijoji" aspect="4/5"/>
+              <Placeholder label="MAP" caption="map / kyoto" aspect="4/5"/>
             </div>
             <div>
               <p className="body" style={{ marginBottom: 18 }}>
-                <strong>JR 中央線・京王井の頭線</strong> 吉祥寺駅 北口 徒歩 5 分<br/>
-                住所: 〒180-0002 東京都武蔵野市吉祥寺東町X-X-X
+                〒604-0012 京都府京都市中京区竪大恩寺町 751
               </p>
               <p className="small" style={{ color: 'var(--text-3)' }}>
                 ご来社の際は事前にご連絡ください。<br/>
@@ -779,7 +747,7 @@ function CompanyPage({ onNavigate, onContact }) {
 // ============================================================
 function StaffPage({ onNavigate, onContact }) {
   const members = [
-    { role: "Founder · 代表", name: "Renta Oshima", desc: "米国の大学で AI 研究。帰国後、日本の中小企業向け DX 支援を起業。事業全体と顧客並走の責任者。", tags: ["AI Research", "Full-stack", "JP / EN"], img: "assets/staff-founder.jpg" },
+    { role: "Founder · 代表", name: "Renta Oshima", desc: "米国 UC Berkeley で AI 研究。日本の中小企業向け DX 支援を起業。事業全体と顧客並走の責任者。", tags: ["AI Research", "Full-stack", "JP / EN"], img: "assets/staff-founder.jpg" },
     { role: "CTO · Computer Scientist", name: "Takenosuke", desc: "計算理論・分散システムが専門。自社プロダクト VetoNet (AI Security) とテニスフォーム分析 SaaS の開発主担当 兼 CTO。", tags: ["Distributed", "Security", "Rust"], img: "assets/staff-cto.jpg" },
     { role: "Data Scientist", name: "Ashwin", desc: "AI のコア部分を担うデータサイエンティスト。統計モデリングと ML 実装のエキスパートとして、分析基盤の設計から実装までを牽引。", tags: ["Statistics", "ML Core", "MLOps"], img: "assets/staff-ds.jpg" },
   ];
@@ -881,7 +849,7 @@ function SitemapPage({ onNavigate, onContact }) {
               { id: 'column',         label: 'コラム / 技術ブログ' },
               { id: 'news',           label: 'お知らせ' },
               { id: 'guidebook',      label: 'DXガイドブック' },
-              { id: 'subsidy',        label: 'IT導入補助金' },
+              { id: 'subsidy',        label: '補助金活用相談' },
             ]}/>
             <SitemapCol heading="ご案内" onNavigate={onNavigate} links={[
               { id: 'pricing',  label: '料金プラン' },
