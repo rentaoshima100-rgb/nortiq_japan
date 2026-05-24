@@ -700,7 +700,7 @@ function CompanyPage({ onNavigate, onContact }) {
               ["従業員数", "5 名"],
               ["事業内容", "Web 制作 / AI チャットボット開発 / DX・ML 実装 / 自社プロダクト開発"],
               ["主要取引銀行", "三菱UFJ銀行"],
-              ["連絡先", "info@nortiqlab.com"],
+              ["お問い合わせ", "サイトの問い合わせフォームより承ります"],
             ].map(([k, v]) => (
               <div key={k} className="company-row">
                 <dt>{k}</dt>

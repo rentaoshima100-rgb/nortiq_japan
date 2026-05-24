@@ -21,7 +21,7 @@ const LEGAL_DATA = {
       { h: "6. 安全管理措置", b: "個人情報への不正アクセス、紛失、改ざん、漏えい等を防止するため、適切な安全管理措置 (技術的・組織的・物理的・人的) を講じます。SOC 2 Type II 準拠の運用フローを採用しています。" },
       { h: "7. 開示・訂正・削除", b: "ご本人から個人情報の開示・訂正・削除のご請求があった場合、合理的な範囲で速やかに対応します。ご請求は本ポリシー末尾の連絡先までお願いします。" },
       { h: "8. Cookie の利用", b: "当社サイトでは、サービス向上のため Cookie を使用します。ブラウザ設定で Cookie の受け入れを拒否することが可能です。" },
-      { h: "9. お問い合わせ", b: "個人情報の取り扱いに関するお問い合わせは、Nortiq Labs Inc. 個人情報保護管理者 (privacy@nortiqlab.com) までご連絡ください。" },
+      { h: "9. お問い合わせ", b: "個人情報の取り扱いに関するお問い合わせは、当サイトのお問い合わせフォーム、または郵送（〒604-0012 京都府京都市中京区竪大恩寺町751 Nortiq Labs Inc. 個人情報保護管理者宛）にてお願いいたします。" },
     ],
   },
   terms: {
@@ -50,7 +50,7 @@ const LEGAL_DATA = {
       { h: "3. 個人情報の委託", b: "業務遂行に必要な範囲で、個人情報の取り扱いを業務委託先に委託することがあります。その際は、適切な監督を行います。" },
       { h: "4. 安全管理措置", b: "個人情報の漏えい・滅失・毀損の防止その他の安全管理のため、適切な措置を講じます。" },
       { h: "5. 開示等の請求", b: "ご本人から個人情報の開示・訂正・削除等のご請求があった場合、合理的な範囲ですみやかに対応いたします。" },
-      { h: "6. お問い合わせ窓口", b: "個人情報の取扱いに関するお問い合わせは、Nortiq Labs Inc. 個人情報保護管理者 (privacy@nortiqlab.com) までお願いいたします。" },
+      { h: "6. お問い合わせ窓口", b: "個人情報の取扱いに関するお問い合わせは、当サイトのお問い合わせフォーム、または郵送（〒604-0012 京都府京都市中京区竪大恩寺町751 Nortiq Labs Inc. 個人情報保護管理者宛）にてお願いいたします。" },
     ],
   },
 };
@@ -754,7 +754,7 @@ function ArticleDetailPage({ onNavigate, onContact, slug }) {
 // ============================================================
 // DIAGNOSTIC LANDING PAGE — NORTIQLAB サイト診断ツール
 // (LP spec v1.0 / navy-blue theme, scoped .diag-page)
-// URL 入力 → 送信で rdaichi27@gmail.com にリード通知 (mailto)。
+// URL 入力 → その場でスコア表示。詳細レポート希望は問い合わせフォームへ誘導。
 // 実際の自動診断エンジンはバックエンド (別Next.jsプロジェクト) で実装。
 // ============================================================
 function diagBarColor(score) {
@@ -853,7 +853,7 @@ function DiagProgress() {
   );
 }
 
-function DiagUrlForm({ buttonLabel = "無料で診断する", dark = false }) {
+function DiagUrlForm({ buttonLabel = "無料で診断する", dark = false, onContact }) {
   const [url, setUrl] = React.useState('');
   const [status, setStatus] = React.useState('idle'); // idle | loading | done | error
   const [result, setResult] = React.useState(null);
@@ -862,17 +862,8 @@ function DiagUrlForm({ buttonLabel = "無料で診断する", dark = false }) {
   const normalize = (v) => (/^https?:\/\//i.test(v) ? v : `https://${v}`);
 
   const sendLead = () => {
-    if (typeof openInquiryMailto !== 'function') return;
-    const r = result;
-    const scoreLine = r
-      ? `総合スコア ${r.overall.score}/100 (${r.overall.rank}) / `
-        + Object.values(r.categories).map((c) => `${c.label}:${c.score}`).join(' / ')
-      : '';
-    openInquiryMailto({
-      company: '', name: '', email: '', phone: '',
-      siteUrl: r ? r.url : normalize(url.trim()),
-      message: `NORTIQLAB サイト診断 詳細レポート希望。\n${scoreLine}`,
-    }, 'diagnostic-lp');
+    // Route the "詳細レポート希望" lead through the site contact form (no email exposed).
+    if (typeof onContact === 'function') onContact('diagnostic');
   };
 
   const submit = async (e) => {
@@ -998,7 +989,7 @@ function DiagnosticLPPage({ onNavigate, onContact }) {
             <span className="diag-badge">完全無料・登録不要</span>
             <h1 className="diag-h1">URLを入れるだけで、<br/>サイトの<span className="hl">「本当の課題」</span>が見える。</h1>
             <p className="diag-hero-sub">テクニカルSEO・AI可視性・競合比較まで、NORTIQLAB の専門家が改善提案までお届けします。</p>
-            <DiagUrlForm/>
+            <DiagUrlForm onContact={onContact}/>
             <p className="diag-social"><strong>登録不要</strong> ・ URLを入れるだけ ・ <strong>その場で結果表示</strong></p>
           </div>
         </div>
@@ -1131,7 +1122,7 @@ function DiagnosticLPPage({ onNavigate, onContact }) {
       <section className="diag-final">
         <div className="diag-wrap">
           <h2>まずは、あなたのサイトを<br/>60秒で診断してみませんか?</h2>
-          <DiagUrlForm dark/>
+          <DiagUrlForm dark onContact={onContact}/>
         </div>
       </section>
     </main>
