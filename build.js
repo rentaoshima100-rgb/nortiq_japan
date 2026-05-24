@@ -238,8 +238,8 @@ async function build() {
   //   GADS_ID               Google Ads conversion ID            → "AW-XXXXXXXXXX"
   //   GADS_LABEL_CONTACT    Ads conversion label — 問い合わせフォーム送信
   //   GADS_LABEL_DIAGNOSTIC Ads conversion label — 無料診断 CTA クリック
-  const GA4_ID = 'G-XXXXXXXXXX';
-  const GADS_ID = 'AW-XXXXXXXXXX';
+  const GA4_ID = 'G-EYTD1TWR7T';
+  const GADS_ID = '';
   const GADS_LABEL_CONTACT = '';
   const GADS_LABEL_DIAGNOSTIC = '';
   const looksReal = (v, re) => typeof v === 'string' && re.test(v) && !/X{4,}/.test(v);
