@@ -154,3 +154,28 @@ apt/root前提で不可。→ プリレンダはローカル生成＋コミッ�
 ### 後追い候補（任意）
 - 無料診断の**実行**（DiagUrlForm で URL を入れて診断を回した時）を GA4 ファネルイベント `run_diagnosis` として別途計測すると、CTA クリック→実行→リードの遷移率が見える。
 - Google Tag Manager 経由に切替えれば、ID やイベントをコード再ビルドなしで管理可能。
+
+### GA4 有効化記録（2026-05-25・コミット `5f1f3f9`）
+- **GA4 測定 ID 投入**: `build.js` の `GA4_ID = 'G-EYTD1TWR7T'`。Google Ads は `GADS_ID = ''`（空＝no-op、ラベルも空。Ads は後日 Phase8 で有効化）。
+- `npm run build:full` で再ビルド＋プリレンダ再生成 → 公開トップ（プリレンダ HTML）の `<head>` に GA4 が入ることを確認。
+
+**本番検証（デプロイ後 ~72s でライブ確認）**
+
+| URL | GA4 (`G-EYTD1TWR7T`) | Ads (`AW-`) | gtag.js URL |
+|---|---|---|---|
+| `https://nortiqlab.com/` | 2 | 0 | `gtag/js?id=G-EYTD1TWR7T` |
+| `https://nortiqlab.com/web` | 2 | 0 | `gtag/js?id=G-EYTD1TWR7T` |
+| `https://nortiqlab.com/works` | 2 | 0 | `gtag/js?id=G-EYTD1TWR7T` |
+
+- GA4 はトップ（プリレンダ）＋サブページ（app.html フォールバック）の双方で配信。Ads タグは全 URL で 0（no-op 維持）。
+
+**/en/ Soft 404（再確認）**
+- 本番リダイレクトチェーン: `/en/` → **308** → `/en` → **308** → `/` → **200 OK**。
+- `permanent:true`（=308）は Google が 301 と同等の恒久リダイレクトとして扱うため SEO 等価。2 ホップは `trailingSlash:false` がスラッシュ除去を先に行うため（短い恒久チェーンでクローラ追従に問題なし）。
+- `vercel.json` に redirects（`/en`・`/en/`・`/en/:path*` → `/`）あり。本番 `sitemap.xml` の `/en/` 件数 = **0**。→ **修正済み・対応不要**。
+
+**次のアクション（ユーザー手動）**
+1. GA4 リアルタイムレポートで自分のアクセスが計測されることを確認。
+2. GSC でトップを「URL 検査 → インデックス登録をリクエスト」。
+3. GSC で `/en/` を「URL 検査 →（リダイレクト確認）→ 修正を検証」。
+4. Google Ads アカウント作成 → コンバージョン 2 件（お問い合わせ / 無料診断）作成 → ID/ラベル取得（後日 Phase8）。
