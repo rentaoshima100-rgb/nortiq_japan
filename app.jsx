@@ -252,6 +252,11 @@ function App() {
 
   const handleNavigate = (id) => {
     if (ROUTES[id]) {
+      // 無料診断 CTA click → GA4 event + Google Ads conversion (all entry CTAs
+      // route through here, so this is the single place that fires it).
+      if (id === 'diagnostic' && typeof window.nqTrack === 'function') {
+        window.nqTrack('diagnostic_cta_click', {}, 'diagnostic');
+      }
       setRoute(id);
       window.history.pushState({ id }, '', pathFor(id));
     } else {

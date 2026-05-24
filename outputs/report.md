@@ -114,3 +114,43 @@ apt/root前提で不可。→ プリレンダはローカル生成＋コミッ�
 
 ### GSC スクリーンショット（ユーザー追記欄）
 （URL検査「公開URLをテスト」のレンダリング済みHTML確認・インデックス登録リクエストのスクショをここに貼付）
+
+---
+
+## フェーズ7：アクセス解析（GA4）＋ Google Ads コンバージョン計測（2026-05-25）
+
+### 実装概要
+- **GA4 / Google Ads gtag.js を `<head>` に設置**（`build.js`）。`index.html` と `app.html` の共通ヘッドテンプレートに注入するため、両シェル＋プリレンダ済み全 HTML に同一タグが入る。`<meta viewport>` 直後（＝`<head>` 冒頭・推奨位置）に配置。
+- **2 つのコンバージョンを発火**：
+  1. **お問い合わせフォーム送信時** — `components.jsx` の `sendInquiry()` 成功時（3 フォーム＝ContactModal / BigInlineForm / SideTabForm の共通経路）に `gtag('event','generate_lead')` ＋ Google Ads `conversion`（`send_to: contact`）。
+  2. **「無料診断」CTA クリック時** — `app.jsx` の `handleNavigate()` で `id==='diagnostic'` のとき `gtag('event','diagnostic_cta_click')` ＋ Google Ads `conversion`（`send_to: diagnostic`）。サイト内の無料診断 CTA（トップ hero / フッタ / Sticky / SP ナビ / メガメニュー）はすべてこの 1 経路を通るため、ここ 1 箇所で全 CTA を捕捉。
+
+### 計測ヘルパー（`components.jsx` `nqTrack()`）
+- `gtag` 未ロード時（ローカル開発・ID 未設定時）は **完全 no-op**。`try/catch` で囲み、解析処理が UI を壊すことは絶対にない設計。
+- `convKey` で `window.NORTIQ_CONV`（ヘッドの gtag スニペットが定義）から Ads の `send_to` 文字列を引く。`window.nqTrack` として公開し、バンドル全域（app.jsx 含む）から呼べる。
+
+### 設定方法（ユーザー対応・**ここだけ埋めれば有効化**）
+`build.js` 冒頭の解析設定ブロックに実 ID を貼り付け、**`npm run build:full` で再ビルド**するだけ（※ `build` だけだと、コミット済みプリレンダ `prerendered/index.html` がトップに上書きコピーされ、トップだけタグが入らない。プリレンダ再生成を含む `build:full` が必須）：
+
+| 定数 | 値の形式 | 取得元 |
+|---|---|---|
+| `GA4_ID` | `G-XXXXXXXXXX` | GA4 管理 → データストリーム → 測定 ID |
+| `GADS_ID` | `AW-XXXXXXXXXX` | Google Ads → コンバージョン → タグ設定（コンバージョン ID）|
+| `GADS_LABEL_CONTACT` | 英数字ラベル | 〃「お問い合わせ」コンバージョンアクションのラベル |
+| `GADS_LABEL_DIAGNOSTIC` | 英数字ラベル | 〃「無料診断」コンバージョンアクションのラベル |
+
+- **未設定時は何も出力しない**（厳格な書式チェック＋`XXXX` 検出でガード）。半端なプレースホルダのまま誤って存在しないプロパティへ計測が飛ぶ事故を防止。
+- GA4 だけ・Ads だけの片方設定も可（ローダ ID は GA4 優先）。Ads ラベル未入力時は該当 `send_to` が `null` になり、コンバージョンは送らず GA4 イベントのみ発火。
+
+### Cookie 同意バナー
+- **Phase 2 扱い（今回は未実装）**。日本国内向けでは現状必須ではないとの方針。EU/英国向けトラフィックを取りに行く・Google Consent Mode v2 を厳密適用する段階で別途対応。
+
+### 検証
+- プレースホルダのままビルド → `dist/app.html` ヘッドは `<!-- Analytics off ... -->` コメントのみ（タグ・外部リクエストなし）を確認。
+- サンプル実 ID でスニペット生成ロジックを単体評価 → 正規の gtag.js スニペット（GA4 + Ads config + `NORTIQ_CONV`）が生成されることを確認。
+- minify 後の `dist/app.bundle.js` に `window.nqTrack` / `NORTIQ_CONV` / `generate_lead` / `diagnostic_cta_click` が残存することを確認（マングルで欠落していない）。
+- ※ 実 ID 設定後の **GA4 DebugView / Ads タグアシスタント実機確認は ID 投入後に要実施**（プレースホルダ段階では実発火テスト不可）。
+
+### 後追い候補（任意）
+- 無料診断の**実行**（DiagUrlForm で URL を入れて診断を回した時）を GA4 ファネルイベント `run_diagnosis` として別途計測すると、CTA クリック→実行→リードの遷移率が見える。
+- Google Tag Manager 経由に切替えれば、ID やイベントをコード再ビルドなしで管理可能。

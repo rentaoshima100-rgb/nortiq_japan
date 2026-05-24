@@ -229,6 +229,35 @@ async function build() {
   const TITLE = 'Nortiq Labs — 日本のDX、世界水準で巻き返す。';
   const DESC = '米国の技術水準を、日本の中小企業の武器に。Web制作・AIチャットボット・DX/ML実装まで、20社の支援実績を持つ技術チームが段階的に伴走するDXパートナーです。';
   const OG_IMAGE = SITE + '/assets/og-image.png';
+
+  // --- Analytics & conversion tracking ----------------------------------------
+  // Paste your real IDs here, then rebuild. Until they are filled in, NO tag is
+  // emitted — the build ships clean (no requests to a non-existent property, no
+  // console noise). Format check is strict so a half-filled placeholder stays off.
+  //   GA4_ID                Google Analytics 4 measurement ID   → "G-XXXXXXXXXX"
+  //   GADS_ID               Google Ads conversion ID            → "AW-XXXXXXXXXX"
+  //   GADS_LABEL_CONTACT    Ads conversion label — 問い合わせフォーム送信
+  //   GADS_LABEL_DIAGNOSTIC Ads conversion label — 無料診断 CTA クリック
+  const GA4_ID = 'G-XXXXXXXXXX';
+  const GADS_ID = 'AW-XXXXXXXXXX';
+  const GADS_LABEL_CONTACT = '';
+  const GADS_LABEL_DIAGNOSTIC = '';
+  const looksReal = (v, re) => typeof v === 'string' && re.test(v) && !/X{4,}/.test(v);
+  const GA4_ON = looksReal(GA4_ID, /^G-[A-Z0-9]{6,}$/);
+  const GADS_ON = looksReal(GADS_ID, /^AW-[0-9]{6,}$/);
+  const sendTo = (label) => (GADS_ON && label && !/X{4,}/.test(label)) ? `'${GADS_ID}/${label}'` : 'null';
+  const loaderId = GA4_ON ? GA4_ID : (GADS_ON ? GADS_ID : '');
+  const analyticsHead = loaderId ? `
+  <!-- Google tag (gtag.js) — GA4 + Google Ads conversion tracking -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=${loaderId}"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());${GA4_ON ? `\n    gtag('config', '${GA4_ID}');` : ''}${GADS_ON ? `\n    gtag('config', '${GADS_ID}');` : ''}
+    window.NORTIQ_CONV = { contact: ${sendTo(GADS_LABEL_CONTACT)}, diagnostic: ${sendTo(GADS_LABEL_DIAGNOSTIC)} };
+  </script>` : `
+  <!-- Analytics off: set GA4_ID / GADS_ID (+ conversion labels) in build.js to emit gtag.js. -->`;
+
   const FAQ_QA = [
     { q: 'Nortiq Labs はどんな会社ですか？', a: '米国 UC Berkeley での AI 研究背景を持つ代表のもと、日本の経営課題に向き合うメンバーで構成された技術チームです。Web制作・AIチャットボット・DX/ML 実装まで、中小企業のDXを段階的に支援します。これまで20社の制作・支援実績があります（2025年・京都設立）。' },
     { q: 'Web制作の費用はどれくらいですか？', a: 'オリジナルデザインのWeb制作は30万円から承っています。ページ数・機能・要件に応じてお見積もりし、公開後の運用・改善まで伴走します。' },
@@ -260,7 +289,7 @@ async function build() {
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">${analyticsHead}
   <title>${TITLE}</title>
   <meta name="description" content="${DESC}">
   <link rel="canonical" href="${SITE}/">

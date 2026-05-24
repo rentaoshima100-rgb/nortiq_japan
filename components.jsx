@@ -89,6 +89,21 @@ const PREFECTURES = [
   '大阪府','兵庫県','岡山県','広島県','福岡県','宮城県','岩手県','山形県',
 ];
 
+// -------------------- Analytics (GA4 + Google Ads) --------------------
+// Fail-safe wrapper around gtag. No-ops when gtag.js isn't loaded (local dev,
+// or before IDs are configured in build.js), so analytics can never break the
+// UI. `convKey` looks up a Google Ads send_to target from window.NORTIQ_CONV
+// (defined by the gtag snippet in <head>).
+function nqTrack(eventName, params, convKey) {
+  try {
+    if (typeof window === 'undefined' || typeof window.gtag !== 'function') return;
+    window.gtag('event', eventName, params || {});
+    const target = convKey && window.NORTIQ_CONV ? window.NORTIQ_CONV[convKey] : null;
+    if (target) window.gtag('event', 'conversion', { send_to: target });
+  } catch (_) { /* analytics must never throw into the UI */ }
+}
+if (typeof window !== 'undefined') window.nqTrack = nqTrack;
+
 // -------------------- Contact delivery --------------------
 // All inquiry forms POST to the serverless function, which
 // sends a real email via Resend (no mail-client dependency). Throws on failure
@@ -103,6 +118,8 @@ async function sendInquiry(form, kind = 'main') {
     const e = await res.json().catch(() => ({}));
     throw new Error(e.error || `HTTP ${res.status}`);
   }
+  // Lead delivered → GA4 event + Google Ads conversion.
+  nqTrack('generate_lead', { form_kind: kind }, 'contact');
   return res.json().catch(() => ({ ok: true }));
 }
 
