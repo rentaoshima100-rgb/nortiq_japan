@@ -21,7 +21,7 @@ const LEGAL_DATA = {
       { h: "6. 安全管理措置", b: "個人情報への不正アクセス、紛失、改ざん、漏えい等を防止するため、適切な安全管理措置 (技術的・組織的・物理的・人的) を講じます。SOC 2 Type II 準拠の運用フローを採用しています。" },
       { h: "7. 開示・訂正・削除", b: "ご本人から個人情報の開示・訂正・削除のご請求があった場合、合理的な範囲で速やかに対応します。ご請求は本ポリシー末尾の連絡先までお願いします。" },
       { h: "8. Cookie の利用", b: "当社サイトでは、サービス向上のため Cookie を使用します。ブラウザ設定で Cookie の受け入れを拒否することが可能です。" },
-      { h: "9. お問い合わせ", b: "個人情報の取り扱いに関するお問い合わせは、Nortiq Labs Inc. 個人情報保護管理者 (privacy@nortiq-labs.example) までご連絡ください。" },
+      { h: "9. お問い合わせ", b: "個人情報の取り扱いに関するお問い合わせは、Nortiq Labs Inc. 個人情報保護管理者 (privacy@nortiqlab.com) までご連絡ください。" },
     ],
   },
   terms: {
@@ -50,7 +50,7 @@ const LEGAL_DATA = {
       { h: "3. 個人情報の委託", b: "業務遂行に必要な範囲で、個人情報の取り扱いを業務委託先に委託することがあります。その際は、適切な監督を行います。" },
       { h: "4. 安全管理措置", b: "個人情報の漏えい・滅失・毀損の防止その他の安全管理のため、適切な措置を講じます。" },
       { h: "5. 開示等の請求", b: "ご本人から個人情報の開示・訂正・削除等のご請求があった場合、合理的な範囲ですみやかに対応いたします。" },
-      { h: "6. お問い合わせ窓口", b: "個人情報の取扱いに関するお問い合わせは、Nortiq Labs Inc. 個人情報保護管理者 (privacy@nortiq-labs.example) までお願いいたします。" },
+      { h: "6. お問い合わせ窓口", b: "個人情報の取扱いに関するお問い合わせは、Nortiq Labs Inc. 個人情報保護管理者 (privacy@nortiqlab.com) までお願いいたします。" },
     ],
   },
 };
@@ -104,7 +104,6 @@ function LegalPage({ pageId, onNavigate, onContact }) {
 function NewsPage({ onNavigate, onContact }) {
   const news = [
     { date: "2026.05.18", cat: "リリース",     title: "WP AIチャットボット v2.4 をリリース。多言語生成・SEO構造化データ強化など。" },
-    { date: "2026.05.10", cat: "プレス",       title: "Nortiq Labs、IT導入補助金 2026 の IT 導入支援事業者に採択。" },
     { date: "2026.04.12", cat: "リリース",     title: "VetoNet β を、特定のお客様向けに先行公開しました。" },
     { date: "2026.03.28", cat: "リリース",     title: "WP AIチャットボット、Anthropic Claude API 対応。" },
   ];
@@ -150,14 +149,14 @@ function NewsPage({ onNavigate, onContact }) {
 // ============================================================
 function RecruitPage({ onNavigate, onContact }) {
   const positions = [
-    { dept: "Engineering", title: "Senior Full-stack Engineer", type: "正社員", emp: "東京 / フルリモート可", level: "L4-L6" },
-    { dept: "Engineering", title: "ML Engineer / Data Scientist", type: "正社員", emp: "東京 / Berkeley", level: "L4-L6" },
-    { dept: "Engineering", title: "Frontend Engineer (Next.js)", type: "正社員", emp: "東京 / フルリモート可", level: "L3-L5" },
-    { dept: "Design", title: "UI/UX Designer (Lead)", type: "正社員", emp: "東京", level: "L4-L5" },
-    { dept: "Consulting", title: "DX Consultant", type: "正社員", emp: "東京 / 出張多", level: "L4-L6" },
-    { dept: "Customer Success", title: "Customer Success Manager", type: "正社員", emp: "東京", level: "L3-L5" },
-    { dept: "Sales", title: "Inside Sales", type: "正社員 / 業務委託可", emp: "東京 / フルリモート可", level: "L2-L4" },
-    { dept: "Internship", title: "AI Research インターン", type: "インターン", emp: "東京 / Berkeley", level: "学生" },
+    { dept: "Engineering", title: "Senior Full-stack Engineer", type: "正社員", emp: "京都 / フルリモート可", level: "L4-L6" },
+    { dept: "Engineering", title: "ML Engineer / Data Scientist", type: "正社員", emp: "京都 / フルリモート可", level: "L4-L6" },
+    { dept: "Engineering", title: "Frontend Engineer (Next.js)", type: "正社員", emp: "京都 / フルリモート可", level: "L3-L5" },
+    { dept: "Design", title: "UI/UX Designer (Lead)", type: "正社員", emp: "京都 / フルリモート可", level: "L4-L5" },
+    { dept: "Consulting", title: "DX Consultant", type: "正社員", emp: "京都 / 出張多", level: "L4-L6" },
+    { dept: "Customer Success", title: "Customer Success Manager", type: "正社員", emp: "京都 / フルリモート可", level: "L3-L5" },
+    { dept: "Sales", title: "Inside Sales", type: "正社員 / 業務委託可", emp: "京都 / フルリモート可", level: "L2-L4" },
+    { dept: "Internship", title: "AI Research インターン", type: "インターン", emp: "京都 / フルリモート可", level: "学生" },
   ];
   return (
     <main className="page-fade">
@@ -166,7 +165,7 @@ function RecruitPage({ onNavigate, onContact }) {
         eyebrow="RECRUIT / 採用情報"
         title={<>日本のDXを、<br/>世界水準で変える仲間を。</>}
         lede="米国 AI 研究の知見を、日本の中小企業の現場に届けるチーム。エンジニア / Data Scientist / Designer / Consultant、各領域でメンバーを募集しています。"
-        badges={["代表 3 名 → 拡大採用中", "東京 + Berkeley", "フルリモート可", "ストックオプション制度"]}
+        badges={["5 名 → 拡大採用中", "京都 + フルリモート可", "ストックオプション制度"]}
         onContact={onContact}
         ctaLabel="求人にエントリー"
         subCta="カルチャー資料DL"
@@ -229,7 +228,6 @@ function RecruitPage({ onNavigate, onContact }) {
               { t: "フルリモート可", d: "Engineering / Designer は完全リモート可。コアタイムなし。" },
               { t: "ストックオプション", d: "全社員に SO 配布。長期インセンティブを共有。" },
               { t: "学習支援", d: "書籍・カンファレンス参加費 年30万円まで補助。" },
-              { t: "海外研修", d: "Berkeley 拠点で年1回1週間の研修機会。" },
               { t: "副業OK", d: "競合制限のない副業は事前申請のみで可。" },
               { t: "週4日勤務制", d: "シニア職以上は週4日勤務の選択肢あり。" },
               { t: "産休・育休", d: "男女問わず取得実績多数。復帰サポートも。" },
@@ -509,12 +507,12 @@ function WorkDetailPage({ onNavigate, onContact }) {
           <div className="grid-4" style={{ gap: 1, background: 'var(--border)', border: '1px solid var(--border)', borderRadius: 'var(--radius-lg)', overflow: 'hidden' }}>
             {[
               { l: "業種",       v: "クリニック・医療" },
-              { l: "規模",       v: "代表 3 名 + 業務委託" },
+              { l: "規模",       v: "少数精鋭チーム + 業務委託" },
               { l: "制作期間",   v: "10 週間" },
-              { l: "公開後の運用", v: "継続中 (1年9ヶ月)" },
+              { l: "公開後の運用", v: "継続中" },
               { l: "予算",       v: "中規模 (Standard プラン)" },
               { l: "技術選定",   v: "WordPress + 予約システム連携" },
-              { l: "公開時期",   v: "2024年10月" },
+              { l: "公開時期",   v: "2025年" },
               { l: "対応領域",   v: "Web / AIチャットボット / SEO" },
             ].map((s, i) => (
               <div key={i} style={{ background: '#fff', padding: '20px 24px' }}>
@@ -972,9 +970,9 @@ function DiagnosticLPPage({ onNavigate, onContact }) {
     { t: "改善まで一気通貫サポート", d: "診断だけで終わらせません。ご希望に応じて、NORTIQLAB が改善実装まで責任を持って支援。診断 → 提案 → 実装 → 効果測定まで一気通貫で。" },
   ];
   const stats = [
-    { v: "1,200+", l: "累計診断実行サイト数" },
-    { v: "+47%", l: "平均SEOスコア改善 (併用時)" },
-    { v: "4.8 / 5", l: "ユーザー満足度評価" },
+    { v: "無料", l: "サイト診断・サマリーレポート" },
+    { v: "登録不要", l: "URLを入れるだけ" },
+    { v: "4領域", l: "テクニカル / オンページ / リンク / AI可視性" },
   ];
   const quotes = [
     { p: "AI可視性スコアが衝撃でした。自社サイトがChatGPTで一切引用されない理由が初めて分かり、改善後は問い合わせが2倍に。", c: "田中様 — EC事業 マーケ部長" },
@@ -1001,7 +999,7 @@ function DiagnosticLPPage({ onNavigate, onContact }) {
             <h1 className="diag-h1">URLを入れるだけで、<br/>サイトの<span className="hl">「本当の課題」</span>が見える。</h1>
             <p className="diag-hero-sub">テクニカルSEO・AI可視性・競合比較まで、NORTIQLAB の専門家が改善提案までお届けします。</p>
             <DiagUrlForm/>
-            <p className="diag-social">既に <strong>1,200社</strong> が利用 / 平均満足度 <strong>4.8 / 5</strong></p>
+            <p className="diag-social"><strong>登録不要</strong> ・ URLを入れるだけ ・ <strong>その場で結果表示</strong></p>
           </div>
         </div>
       </section>

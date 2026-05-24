@@ -41,7 +41,7 @@ function TopPage({ onNavigate, onContact }) {
         </div>
 
         <div className="main-inner">
-          <div className="main-eyebrow fadein">NORTIQ LABS · TOKYO × BERKELEY</div>
+          <div className="main-eyebrow fadein">NORTIQ LABS · KYOTO</div>
 
           <h1 className="main-title fadein" data-delay="100">
             日本のDX、<br/>
@@ -54,16 +54,16 @@ function TopPage({ onNavigate, onContact }) {
 
           <ul className="main-medaru fadein" data-delay="300">
             <li className="medaru">
-              <div className="num"><Counter to={50} suffix="" className=""/><sup>社+</sup></div>
+              <div className="num"><Counter to={20} suffix="" className=""/><sup>社+</sup></div>
               <div className="lbl">制作・支援実績</div>
             </li>
             <li className="medaru">
-              <div className="num"><Counter to={94} suffix="" className=""/><sup>%</sup></div>
-              <div className="lbl">3年契約継続率</div>
+              <div className="num"><Counter to={5} suffix="" className=""/><sup>名</sup></div>
+              <div className="lbl">少数精鋭チーム</div>
             </li>
             <li className="medaru">
-              <div className="num"><Counter to={4.8} decimals={1} className=""/><sup>/5</sup></div>
-              <div className="lbl">Google評価</div>
+              <div className="num"><Counter to={7} suffix="" className=""/><sup>業種</sup></div>
+              <div className="lbl">対応業種</div>
             </li>
           </ul>
 
@@ -78,9 +78,9 @@ function TopPage({ onNavigate, onContact }) {
 
       {/* =========== Mix marquee (stats + values) =========== */}
       <MixMarquee items={[
-        { num: "50+", text: "Companies Supported" },
-        { num: "94%", text: "3-Year Retention" },
-        { num: "4.8", text: "Google Rating / 5" },
+        { num: "20+", text: "Companies Supported" },
+        { num: "5", text: "Team Members" },
+        { num: "2025", text: "Founded" },
         { num: "24h", text: "Response SLA" },
         { num: "30万", text: "Web 制作 開始価格" },
         { num: "7", text: "業種カバー" },
@@ -142,8 +142,8 @@ function TopPage({ onNavigate, onContact }) {
               <div className="promo-num">01</div>
               <div className="promo-body">
                 <p className="promo-eyebrow">SUBSIDY</p>
-                <h3>IT導入補助金 2026<br/>申請サポート</h3>
-                <p className="promo-desc">最大 450 万円。Web/AI/DX 投資の補助金活用を一気通貫でサポートします。</p>
+                <h3>補助金を活用した<br/>DX導入</h3>
+                <p className="promo-desc">IT導入補助金などの活用を視野に、DX投資の進め方をご相談いただけます。</p>
               </div>
               <div className="promo-cta">詳しく見る <Icon name="arrow-right" size={14}/></div>
             </article>
@@ -207,11 +207,11 @@ function TopPage({ onNavigate, onContact }) {
           <div className="bento">
             <div className="bento-cell bento-1 fadein" onClick={() => onNavigate('voice')}>
               <p className="bento-eyebrow">CLIENTS / 03</p>
-              <div className="bento-num"><Counter to={50} suffix="+" className=""/></div>
+              <div className="bento-num"><Counter to={20} suffix="+" className=""/></div>
               <h3 style={{ fontSize: 28, fontWeight: 900, lineHeight: 1.3, marginBottom: 12 }}>
-                50 社以上の<br/>制作・DX 支援実績。
+                20 社の<br/>制作・DX 支援実績。
               </h3>
-              <p>クリニック・不動産・建築・人材・小売・インフラ・AIスタートアップまで、業種横断で 50 社以上を支援。3 年継続率は <strong style={{ color: '#fff' }}>94%</strong>。</p>
+              <p>クリニック・不動産・建築・人材・小売・インフラ・AIスタートアップまで、業種横断で 20 社の制作・DX を支援しています。</p>
               <span className="bento-cta">実績を見る <Icon name="arrow-right" size={14}/></span>
             </div>
             <div className="bento-cell bento-2 fadein" data-delay="80" onClick={() => onNavigate('product-vetonet')}>
@@ -222,8 +222,8 @@ function TopPage({ onNavigate, onContact }) {
             </div>
             <div className="bento-cell bento-3 fadein" data-delay="160" onClick={() => onNavigate('staff')}>
               <p className="bento-eyebrow">TEAM</p>
-              <div className="bento-num" style={{ fontSize: 42 }}>3<sub style={{ fontSize: 14, color: 'var(--text-3)' }}>名</sub></div>
-              <p>Founder / CTO・Computer Scientist / Data Scientist の代表 3 名体制。</p>
+              <div className="bento-num" style={{ fontSize: 42 }}>5<sub style={{ fontSize: 14, color: 'var(--text-3)' }}>名</sub></div>
+              <p>Founder・エンジニア・データサイエンティストが連携する、少数精鋭チーム。</p>
             </div>
             <div className="bento-cell bento-4 fadein" data-delay="240" onClick={() => onNavigate('product-wpchat')}>
               <p className="bento-eyebrow">PRODUCT · 主力</p>
@@ -233,8 +233,8 @@ function TopPage({ onNavigate, onContact }) {
             </div>
             <div className="bento-cell bento-5 fadein" data-delay="320" onClick={() => onNavigate('subsidy')}>
               <p className="bento-eyebrow">SUBSIDY · 2026</p>
-              <h3 style={{ fontSize: 22 }}>IT導入補助金、最大 <span style={{ color: 'var(--accent)' }}>450 万円</span>の活用サポート。</h3>
-              <p>申請書作成から採択後の実績報告まで、Nortiq Labs が一気通貫でサポート。採択率は 80%+。</p>
+              <h3 style={{ fontSize: 22 }}>補助金を活用した <span style={{ color: 'var(--accent)' }}>DX導入</span>のご相談。</h3>
+              <p>IT導入補助金などの活用を視野に、DX投資の進め方をご相談いただけます。（申請サポートは登録準備中）</p>
               <span className="bento-cta">補助金詳細 <Icon name="arrow-right" size={14}/></span>
             </div>
             <div className="bento-cell bento-6 fadein" data-delay="400" onClick={() => onNavigate('support')}>
@@ -663,7 +663,7 @@ function GalleryTabs({ onNavigate }) {
           <h2 className="section-title fadein">制作実績</h2>
           <p className="section-sub fadein">PRODUCTION RESULTS</p>
           <p className="lede fadein" style={{ margin: '24px auto 0' }}>
-            これまで50社以上のWEB戦略・運用支援実績をもとに、地域密着の中小企業から大手まで幅広くサポートしています。<br/>
+            これまで20社のWEB戦略・運用支援実績をもとに、地域密着の中小企業を中心に幅広くサポートしています。<br/>
             ホームページ制作だけでなく、SEO・広告運用・反響分析・コンテンツ改善まで一貫対応。
           </p>
         </div>

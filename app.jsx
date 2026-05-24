@@ -13,7 +13,7 @@ const ROUTES = {
   pricing:         { c: () => window.PricingPage,         title: '料金プラン — Nortiq Labs' },
   diagnosis:       { c: () => window.DiagnosisPage,       title: 'サイト無料診断 — Nortiq Labs' },
   'quick-diagnosis': { c: () => window.QuickDiagnosisPage, title: 'クイック診断 — Nortiq Labs' },
-  subsidy:         { c: () => window.SubsidyPage,         title: 'IT導入補助金 — Nortiq Labs' },
+  subsidy:         { c: () => window.SubsidyPage,         title: '補助金活用相談 — Nortiq Labs' },
   guidebook:       { c: () => window.GuidebookPage,       title: 'DXガイドブック — Nortiq Labs' },
   column:          { c: () => window.ColumnPage,          title: 'コラム — Nortiq Labs' },
   company:         { c: () => window.CompanyPage,         title: '会社概要 — Nortiq Labs' },
@@ -94,19 +94,19 @@ function idFromPath(path) {
 // route, canonical + description must be rewritten client-side on navigation so
 // each page gets its own (Google reads the rendered DOM). Falls back to default.
 const NORTIQ_SITE = 'https://nortiqlab.com';
-const DEFAULT_DESC = '米国の技術水準を、日本の中小企業の武器に。Web制作・AIチャットボット・DX/ML実装まで、50社以上の支援実績を持つ技術チームが段階的に伴走するDXパートナーです。';
+const DEFAULT_DESC = '米国の技術水準を、日本の中小企業の武器に。Web制作・AIチャットボット・DX/ML実装まで、20社の支援実績を持つ技術チームが段階的に伴走するDXパートナーです。';
 const SEO_DESC = {
   top: DEFAULT_DESC,
-  web: 'オリジナルデザイン + AI運用付きWeb制作。50社の制作実績を持つ技術チームが、契約率を高めるコーポレート・LP・ブランドサイトを設計から運用まで一貫で支援します。',
-  chatbot: 'WordPressのブログ更新をAIで自動化するチャットボット導入支援。50社の運用実績で、SEO強化と問い合わせ増加を両立します。',
+  web: 'オリジナルデザイン + AI運用付きWeb制作。20社の制作実績を持つ技術チームが、契約率を高めるコーポレート・LP・ブランドサイトを設計から運用まで一貫で支援します。',
+  chatbot: 'WordPressのブログ更新をAIで自動化するチャットボット導入支援。実装の中身まで説明しながら、SEO強化と問い合わせ増加を両立します。',
   dx: '機械学習・データ分析・業務自動化で経営判断を加速するDX実装支援。米国大学発の技術チームが中小企業のDXを段階的に伴走します。',
-  works: 'Nortiq Labsの制作実績一覧。クリニック・不動産・組合・歯科・美容外来まで、50社以上のWeb制作とDX支援事例を掲載。',
+  works: 'Nortiq Labsの制作実績一覧。クリニック・不動産・組合・歯科・美容外来まで、20社のWeb制作とDX支援事例を掲載。',
   voice: 'Nortiq Labsをご利用いただいた企業様の声。地域密着クリニックから不動産投資ブランドまで、長くご支援している顧客の評価をご紹介。',
   pricing: '料金プラン。Web制作30万円〜、AIチャットボット・DX実装まで、段階的に始められる明朗な料金体系をご案内します。',
   support: '公開後も伴走するサポート体制。営業日24時間以内のご返信で、Web・AI・DXの運用と改善を継続的にご支援します。',
   diagnostic: 'URLを入れるだけで、サイトのテクニカルSEO・AI可視性・競合比較まで無料診断。NORTIQLABの専門家が改善提案までお届けします。',
   diagnosis: 'サイト無料診断。Nortiq独自のチェックリストで、現状のWeb課題を可視化し、改善の優先順位をご提案します。',
-  subsidy: 'IT導入補助金2026の申請サポート。最大450万円。Web・AI・DX投資の補助金活用を一気通貫でご支援します。',
+  subsidy: '補助金を活用したDX導入のご相談。IT導入補助金などの活用を視野に、DX投資の進め方をご相談いただけます。',
   guidebook: '中小企業のためのDXガイドブック（無料DL）。Web → AIチャットボット → DXまで、段階的な進め方を一冊にまとめました。',
   column: 'Nortiq Labsのコラム・技術ブログ。AI・SEO・DX・業種別の実務知見を、調査データに基づいてお届けします。',
   company: 'Nortiq Labs 会社概要。米国のAI研究背景を持つエンジニアと、日本の経営課題に向き合うメンバーによる技術チームです。',
@@ -163,17 +163,7 @@ function routeLd(route) {
       provider: { '@type': 'Organization', '@id': NORTIQ_ORG_ID, name: 'Nortiq Labs', url: NORTIQ_SITE + '/' },
     });
   }
-  if (route === 'voice') {
-    out.push({
-      '@context': 'https://schema.org', '@type': 'Organization', '@id': NORTIQ_ORG_ID,
-      name: 'Nortiq Labs', url: NORTIQ_SITE + '/',
-      aggregateRating: { '@type': 'AggregateRating', ratingValue: '4.8', bestRating: '5', ratingCount: '50' },
-      review: [
-        { '@type': 'Review', reviewRating: { '@type': 'Rating', ratingValue: '5', bestRating: '5' }, author: { '@type': 'Person', name: 'A.K.（代表取締役・院長）' }, reviewBody: 'Web制作からの付き合いで、半年後にAIチャットボットも導入。ブログ更新の負担がなくなり、SEO流入が1.8倍になりました。「Webのプロが横にいる」感覚を、初めて持てた気がします。' },
-        { '@type': 'Review', reviewRating: { '@type': 'Rating', ratingValue: '5', bestRating: '5' }, author: { '@type': 'Person', name: 'T.M.（経営企画）' }, reviewBody: '他社は「AIできます」止まりだが、Nortiqは実装の中身まで説明してくれて納得感があった。判断材料がきちんと揃う、貴重なパートナーです。' },
-      ],
-    });
-  }
+  // Review / AggregateRating omitted intentionally — no public reviews yet.
   return out;
 }
 

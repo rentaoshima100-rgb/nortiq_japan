@@ -76,7 +76,7 @@ const NAV_MEGA = [
         { id: 'column',  label: 'コラム / 技術ブログ' },
         { id: 'news',    label: 'お知らせ' },
         { id: 'guidebook', label: 'DXガイドブック' },
-        { id: 'subsidy',   label: 'IT導入補助金' },
+        { id: 'subsidy',   label: '補助金活用相談' },
       ]},
     ],
   },
@@ -481,7 +481,7 @@ function Footer({ onNavigate, onContact }) {
               <li><a onClick={() => onNavigate('diagnostic')}>サイト無料診断 (URL入力)</a></li>
               <li><a onClick={() => onNavigate('column')}>技術ブログ / コラム</a></li>
               <li><a onClick={() => onNavigate('news')}>お知らせ</a></li>
-              <li><a onClick={() => onNavigate('subsidy')}>IT導入補助金</a></li>
+              <li><a onClick={() => onNavigate('subsidy')}>補助金活用相談</a></li>
               <li><a onClick={() => onNavigate('guidebook')}>DXガイドブック</a></li>
             </ul>
             <h4 style={{ marginTop: 28 }}>業種別ソリューション</h4>
@@ -519,7 +519,7 @@ function Footer({ onNavigate, onContact }) {
 // -------------------- Contact Modal (big 12-field) --------------------
 const CATEGORY_OPTIONS = ["Web制作", "AIチャットボット", "DX・ML", "業務自動化", "LP制作", "採用サイト"];
 const INQ_TYPE_OPTIONS = ["新規HP制作", "HPリニューアル", "AIチャットボット導入", "DX・ML 実装", "業務自動化", "リスティング広告", "コンサルティング"];
-const REASON_OPTIONS = ["HPが無い", "問い合わせを増やしたい", "サービス資料がほしい", "無料診断", "デザインを改善したい", "SEOを上げたい", "AI活用したい", "業務効率化したい", "IT補助金を使いたい"];
+const REASON_OPTIONS = ["HPが無い", "問い合わせを増やしたい", "サービス資料がほしい", "無料診断", "デザインを改善したい", "SEOを上げたい", "AI活用したい", "業務効率化したい", "補助金活用を相談したい"];
 const SOURCE_OPTIONS = ["Google検索", "Yahoo検索", "ご紹介", "メール", "DMチラシ", "SNS (X/LinkedIn)", "以前から知っていた", "その他"];
 
 function ContactModal({ open, onClose, defaultCategory = '' }) {
@@ -843,7 +843,7 @@ function BigInlineForm() {
           <tr>
             <th>住所<span className="req">必須</span></th>
             <td>
-              <input type="text" value={form.address} onChange={onChange('address')} placeholder="東京都武蔵野市…"/>
+              <input type="text" value={form.address} onChange={onChange('address')} placeholder="京都府京都市…"/>
               {errors.address && <div className="err">{errors.address}</div>}
             </td>
           </tr>

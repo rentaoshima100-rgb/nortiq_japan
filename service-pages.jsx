@@ -247,7 +247,7 @@ function WebPage({ onNavigate, onContact }) {
               { q: "ロゴやデザインの素材がないのですが?", a: "ブランドガイドラインから一緒に整える形でも対応可能です。必要に応じてデザイナーをアサインします。" },
               { q: "公開後のサポート範囲は?", a: "Light は1ヶ月、Standard は3ヶ月、Premium は6ヶ月のサポートを含みます。それ以降は月次保守契約 (月2〜5万円〜) で継続可能です。" },
               { q: "契約形態は?", a: "請負契約が基本ですが、長期の改善伴走をご希望の場合は準委任契約 (月額) もご相談いただけます。" },
-              { q: "助成金・補助金は使えますか?", a: "IT 導入補助金などの活用実績があります。応募サポートも可能 (別途料金) ですので、ご相談ください。" },
+              { q: "助成金・補助金は使えますか?", a: "IT導入補助金などの活用を視野に入れた DX 投資のご相談を承っています。なお、補助金申請の手続きサポート（登録 IT 導入支援事業者としての対応）は現在準備中です。" },
             ]}/>
           </div>
         </div>
@@ -526,7 +526,7 @@ function DXPage({ onNavigate, onContact }) {
         title={<>データを、本当の<br/>経営判断に変える。</>}
         watermark="DX"
         pageNo="03"
-        lede="ML 実装 / 業務自動化 / データ分析基盤 / 生成 AI 業務組み込み。米国アイビーリーグ出身の Engineer × Data Scientist × Computer Scientist チームで本格 DX を伴走。"
+        lede="ML 実装 / 業務自動化 / データ分析基盤 / 生成 AI 業務組み込み。米国 UC Berkeley での研究背景を持つ代表のもと、Engineer × Data Scientist × Computer Scientist チームで本格 DX を伴走。"
         badges={["Python", "PyTorch / TF", "AWS / GCP", "MLOps", "50万円〜"]}
         onContact={() => onContact('dx')}
       />
@@ -636,10 +636,10 @@ function DXPage({ onNavigate, onContact }) {
           <SectionHead
             eyebrow="TEAM / 担当チーム"
             title="技術背景を、隠しません。"
-            lede="米国アイビーリーグ出身者で構成された技術チーム。Engineer / Data Scientist / Computer Scientist の三職能が連携します。"
+            lede="米国 UC Berkeley での研究背景を持つ代表のもとに集まった技術チーム。Engineer / Data Scientist / Computer Scientist の三職能が連携します。"
           />
           <div className="grid-3">
-            <TeamCard role="Founder · 代表" name="Renta Oshima" desc="米国の大学で AI 研究。帰国後、日本の中小企業向け DX 支援を起業。" tags={["AI Research", "Full-stack", "JP / EN"]} src="assets/staff-founder.jpg"/>
+            <TeamCard role="Founder · 代表" name="Renta Oshima" desc="米国 UC Berkeley で AI 研究。日本の中小企業向け DX 支援を起業。" tags={["AI Research", "Full-stack", "JP / EN"]} src="assets/staff-founder.jpg"/>
             <TeamCard role="Data Scientist" name="D.S." desc="AI のコア部分を担う。統計モデリング・ML 実装のエキスパート。" tags={["Statistics", "ML Core", "MLOps"]} src="assets/staff-ds.jpg"/>
             <TeamCard role="CTO · Computer Scientist" name="C.S." desc="計算理論・分散システム。VetoNet とテニス分析 SaaS の開発主担当 兼 CTO。" tags={["Distributed", "Security", "Rust"]} src="assets/staff-cto.jpg"/>
           </div>
