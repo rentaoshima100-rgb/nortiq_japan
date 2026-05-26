@@ -32,6 +32,10 @@ const WORKS_DATA = [
   { id: 17, tag: "AI", category: "ai", title: "ML エンジン PoC LP (AI ツール解説サービス)", stat: "デモ申込 5.6×", services: ["Web制作"], img: "assets/work-ai-toolpicks.jpg" },
 ];
 
+// Expose for app.jsx so works-category pages can build ItemList JSON-LD from the
+// same source of truth (avoids duplicating the project list in the SEO layer).
+if (typeof window !== "undefined") window.NORTIQ_WORKS = WORKS_DATA;
+
 const CATEGORY_LABELS = {
   clinic: "クリニック・医療",
   realty: "不動産",

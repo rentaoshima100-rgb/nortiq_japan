@@ -655,30 +655,9 @@ function ArticleDetailPage({ onNavigate, onContact, slug }) {
     window.scrollTo({ top: 0, behavior: 'instant' });
   }, [slug]);
 
-  // Inject per-article BlogPosting JSON-LD into <head> so JS-rendering crawlers
-  // (Google) get article-level structured data for rich results / AI citation.
-  React.useEffect(() => {
-    if (!article) return undefined;
-    const SITE = 'https://nortiqlab.com';
-    const ld = {
-      '@context': 'https://schema.org',
-      '@type': 'BlogPosting',
-      headline: article.title,
-      datePublished: (article.date || '').replace(/\./g, '-'),
-      inLanguage: 'ja',
-      articleSection: article.category,
-      image: article.img ? `${SITE}/${article.img}` : undefined,
-      mainEntityOfPage: `${SITE}/article-${article.slug}`,
-      author: { '@type': 'Organization', name: 'Nortiq Labs', url: `${SITE}/` },
-      publisher: { '@type': 'Organization', name: 'Nortiq Labs', logo: { '@type': 'ImageObject', url: `${SITE}/assets/nortiq-mark.png` } },
-    };
-    const s = document.createElement('script');
-    s.type = 'application/ld+json';
-    s.id = 'article-ld';
-    s.textContent = JSON.stringify(ld);
-    document.head.appendChild(s);
-    return () => { const el = document.getElementById('article-ld'); if (el) el.remove(); };
-  }, [article]);
+  // BlogPosting JSON-LD is emitted centrally by the route SEO layer (app.jsx →
+  // routeLd/pageLd, id="route-ld"), which also references the Organization (#org)
+  // and adds a BreadcrumbList. Kept in one place to avoid duplicate BlogPosting.
 
   if (!article) {
     return (

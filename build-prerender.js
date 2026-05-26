@@ -20,8 +20,22 @@ const PRERENDERED = path.join(__dirname, 'prerendered');
 const SITE = 'https://nortiqlab.com';
 
 // --- Partial rollout control --------------------------------------------------
-// Start with the homepage only. Set to [] to prerender every sitemap URL.
-const ROUTES_ALLOWLIST = ['/'];
+// Homepage + the 10 sub-pages whose <head> must carry page-specific meta in the
+// INITIAL HTML (SNS crawlers don't run JS, so client-side meta isn't enough).
+// Set to [] to prerender every sitemap URL.
+const ROUTES_ALLOWLIST = [
+  '/',
+  '/article-japan-dx',
+  '/works-build',
+  '/works-clinic',
+  '/feature-analytics',
+  '/feature-cms',
+  '/feature-recruit',
+  '/diagnostic',
+  '/news',
+  '/product-tennis',
+  '/product-vetonet',
+];
 
 // ------------------------------------------------------------------------------
 function routesFromSitemap() {
