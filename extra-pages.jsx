@@ -709,7 +709,7 @@ function ArticleDetailPage({ onNavigate, onContact, slug }) {
               <h3 className="display-s" style={{ marginBottom: 24 }}>関連記事</h3>
               <div className="grid-3">
                 {related.map((a) => (
-                  <a key={a.slug} className="article-card fadein" style={{ cursor: 'pointer' }} onClick={() => onNavigate('article-' + a.slug)}>
+                  <a key={a.slug} className="article-card fadein" style={{ cursor: 'pointer' }} {...navProps('article-' + a.slug, onNavigate)}>
                     <Placeholder label={a.img ? "" : a.category} caption={a.img ? "" : a.slug} aspect="16/10" src={a.img} alt={a.title} fit/>
                     <div className="article-meta">
                       <span style={{ color: 'var(--accent)' }}>{a.category}</span>
