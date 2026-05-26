@@ -356,6 +356,43 @@ async function build() {
     + sitemapUrls + '\n'
     + `</urlset>\n`, 'utf8');
 
+  console.log('• emitting 404.html');
+  fs.writeFileSync(path.join(DIST, '404.html'), `<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, follow">
+<title>ページが見つかりません (404) — Nortiq Labs</title>
+<link rel="icon" href="/assets/nortiq-fav.png">
+<link rel="stylesheet" href="/styles.css">
+<style>
+  .nf-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:40px 20px;font-family:'Noto Sans JP',system-ui,sans-serif;background:#fff;color:#1a1a1a}
+  .nf-box{max-width:560px;text-align:center}
+  .nf-code{font-size:64px;font-weight:800;letter-spacing:.05em;margin:0;color:hsl(354,92%,45%)}
+  .nf-title{font-size:22px;font-weight:700;margin:12px 0 8px}
+  .nf-lede{font-size:15px;line-height:1.8;color:#555;margin:0 0 28px}
+  .nf-links{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+  .nf-links a{display:inline-block;padding:12px 22px;border-radius:10px;text-decoration:none;font-weight:700;font-size:14px}
+  .nf-primary{background:hsl(354,92%,45%);color:#fff}
+  .nf-ghost{border:1px solid #ddd;color:#1a1a1a}
+</style>
+</head>
+<body>
+<div class="nf-wrap"><div class="nf-box">
+  <p class="nf-code">404</p>
+  <h1 class="nf-title">お探しのページが見つかりませんでした</h1>
+  <p class="nf-lede">URL が変更されたか、削除された可能性があります。下記からお探しの情報にお進みください。</p>
+  <div class="nf-links">
+    <a class="nf-primary" href="/">トップへ戻る</a>
+    <a class="nf-ghost" href="/works">制作実績を見る</a>
+    <a class="nf-ghost" href="/diagnostic">無料サイト診断</a>
+  </div>
+</div></div>
+</body>
+</html>
+`, 'utf8');
+
   // Overlay committed pre-rendered route snapshots onto dist/ (if present).
   // Chromium can't run in the Vercel build container, so snapshots are generated
   // locally via `npm run build:full` and committed to prerendered/; here we just

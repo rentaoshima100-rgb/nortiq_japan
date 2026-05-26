@@ -32,6 +32,11 @@ WORKS_CATEGORIES.forEach(cat => {
 // duplicate-title / duplicate-content problem flagged in Search Console).
 ROUTES['works-clinic'].title = 'クリニック・医療の制作実績 — Nortiq Labs';
 ROUTES['works-build'].title  = '建築・工務店の制作実績 — Nortiq Labs';
+ROUTES['works-realty'].title = '不動産の制作実績｜投資ブランド・物件管理連動の事例 — Nortiq Labs';
+ROUTES['works-hr'].title     = '人材業界の制作実績｜採用ブランド・外国人材サイトの事例 — Nortiq Labs';
+ROUTES['works-retail'].title = '小売・ECの制作実績｜ブランドLP・越境EC・サブスクの事例 — Nortiq Labs';
+ROUTES['works-infra'].title  = 'インフラ・製造の制作実績｜技術サイト・電力サービスの事例 — Nortiq Labs';
+ROUTES['works-ai'].title     = 'AIスタートアップの制作実績｜SaaS・シードLPの事例 — Nortiq Labs';
 
 // Generic pages — for any pageId not yet implemented
 const GENERIC_IDS = [];
@@ -54,11 +59,18 @@ ROUTES['feature-analytics'] = { c: () => window.FeatureAnalyticsPage, title: '�
 ['works-lp-corp', 'works-lp-recruit', 'works-lp-ec', 'works-video'].forEach(id => {
   ROUTES[id] = { c: () => window.WorksVariantPage, title: '制作実績 — Nortiq Labs', argName: 'pageId', argVal: id };
 });
+ROUTES['works-lp-corp'].title    = 'コーポレートサイトの制作実績｜エネ・SaaS・建設・製造の事例 — Nortiq Labs';
+ROUTES['works-lp-recruit'].title = '採用LPの制作実績｜新卒採用ブランドサイトの事例 — Nortiq Labs';
+ROUTES['works-lp-ec'].title      = 'EC連動LPの制作実績｜越境EC・実店舗送客の事例 — Nortiq Labs';
+ROUTES['works-video'].title      = '動画制作の実績｜動画SEO・配信基盤・ショート動画の事例 — Nortiq Labs';
 
 // Legal pages
 ['privacy', 'terms', 'privacy-handling'].forEach(id => {
   ROUTES[id] = { c: () => window.LegalPage, title: '法務 — Nortiq Labs', argName: 'pageId', argVal: id };
 });
+ROUTES['privacy'].title          = 'プライバシーポリシー — Nortiq Labs';
+ROUTES['terms'].title            = '利用規約 — Nortiq Labs';
+ROUTES['privacy-handling'].title = '個人情報の取扱いについて — Nortiq Labs';
 
 // News & Recruit
 ROUTES['news']    = { c: () => window.NewsPage,    title: 'お知らせ・最新情報 — Nortiq Labs' };
@@ -71,6 +83,11 @@ ROUTES['diagnostic'] = { c: () => window.DiagnosticLPPage, title: 'NORTIQLAB サ
 ['clinic', 'realty', 'build', 'hr', 'retail'].forEach(k => {
   ROUTES['solution-' + k] = { c: () => window.SolutionPage, title: '業種別ソリューション — Nortiq Labs', argName: 'pageId', argVal: 'solution-' + k };
 });
+ROUTES['solution-clinic'].title = 'クリニック・医療のDXパッケージ｜集客×予約×AI投稿 — Nortiq Labs';
+ROUTES['solution-realty'].title = '不動産業の集客×管理パッケージ｜売却査定LP・物件連動 — Nortiq Labs';
+ROUTES['solution-build'].title  = '建築・工務店のブランド×案件管理パッケージ — Nortiq Labs';
+ROUTES['solution-hr'].title     = '人材業界のマッチング×集客パッケージ｜ATS連携・採用LP — Nortiq Labs';
+ROUTES['solution-retail'].title = '小売・ECのOMOパッケージ｜Shopify・実店舗送客・BI分析 — Nortiq Labs';
 
 // Detail templates (single work / article example pages)
 ROUTES['work-detail']    = { c: () => window.WorkDetailPage,    title: '実績詳細 — Nortiq Labs' };
@@ -148,7 +165,25 @@ const SEO_DESC = {
   'works-build': '大規模修繕のRenew Reuse Loop、不断水工法のRAKUYU-Zなど建築・工務店のWeb制作・採用支援事例。BtoB商談+210%等の成果につながったオリジナル制作を紹介します。',
   'works-clinic': 'あおぞらFamily Clinic、AIRA CLINIC GINZA、白藍デンタル等のWeb制作・AIチャットボット導入事例。予約+110%・問い合わせ2.4倍の医療業界向け実績を掲載します。',
   'article-japan-dx': 'IPA・経産省・OECD等の最新調査から、日本のDXが米国に遅れる構造的要因を3点に整理。中小企業が「段階的アプローチ」で人手不足と2025年の崖を越える現実解を解説します。',
+  'works-realty': '不動産投資ブランドPLEAST（問合せ3.2×）、物件管理連動の投資物件専門サイト（反響2.7×）など、不動産業のWeb制作・SEO・DX実績を紹介します。',
+  'works-hr': '外国人材組合Asia Exchange（応募+84%）、新卒採用ブランドAXIA（エントリー2.1×）、中途採用LP（応募1.6×）など、人材業界のWeb制作・AIチャットボット・LPO実績を紹介します。',
+  'works-retail': 'キッチンカーpanza（SNS流入4.6×）、骨董店TAKETORAの越境EC（海外PV5.2×）、サブスクEC（解約率-32%）など、小売・ECのWeb制作・EC・DX実績を紹介します。',
+  'works-infra': '不断水工法のRAKUYU-Z工法協会サイト、電力会社VOLTIOのサービスサイト刷新（PV2.1×）など、インフラ・製造業のWeb制作・アクセス解析実装の実績を紹介します。',
+  'works-ai': 'AIスタートアップSable（商談化率4.2×）、BtoB SaaSのATLAS ML Engine（問合せ+210%）、ML PoC LP（デモ申込5.6×）など、AI企業のWeb制作・AIチャットボット実績を紹介します。',
+  'works-lp-corp': '再エネVOLTIO（資料DL2.4×）、AI SaaS Sable（問合せ+210%）、ML製品ATLAS（PoC申込2.6×）など、投資家・取引先・採用候補に伝わるコーポレートサイトの制作実績を紹介します。',
+  'works-lp-recruit': '新卒採用ブランドサイトAXIA（マニフェスト型：エントリー2.4×／社員フィーチャー型：応募数3.6×）など、コンセプト設計から社員撮影・エントリー導線まで一貫構築した採用LP実績を紹介します。',
+  'works-lp-ec': 'クラフト衣料のエディトリアルEC（客単価+24%）、骨董店TAKETORAのバイリンガル越境EC（海外売上2.2×）など、OMO設計・越境対応のEC送客LP制作実績を紹介します。',
+  'works-video': '院長インタビュー（視聴完了率+42%）、物件紹介の動画SEO（問い合わせ1.9×）、配信プラットフォーム構築（登録者+3.1k）など、撮影・編集・配信まで対応した動画制作事例を紹介します。',
+  'solution-clinic': '薬機法フィルター付きAI投稿・予約サイト・FAQボットを一体化したクリニック向けDXパッケージ。問い合わせ2.4×・予約+110%の事例。60〜180万円＋月額運用3〜8万円。',
+  'solution-realty': '売買・賃貸・売却査定・投資を導線別に最適化し、ATBB/レインズ等の物件管理と連動。月間PV3.1×・査定依頼+180%の事例。80〜300万円＋月額運用5〜15万円。',
+  'solution-build': '施工事例DBを軸にしたブランドサイトに、見積〜施工〜アフターの案件管理とOB顧客追客を一体化。工数-38%・受注+52%の事例。100〜400万円＋月額運用5〜20万円。',
+  'solution-hr': '新卒・中途・派遣・外国人材に対応し、求職者LP・求人企業サイト・ATS連携を最適化。応募+52%・エントリー2.1×の事例。150〜500万円＋月額運用10〜30万円。',
+  'solution-retail': 'Shopify/独自ECと実店舗在庫連動、POS+EC+メルマガ統合のLTV分析、AIレコメンドを一体化したOMOパッケージ。CVR1.8×・EC売上+210%の事例。200〜800万円＋月額運用10〜40万円。',
+  'privacy': 'Nortiq Labs Inc. の個人情報保護方針。収集・利用目的、第三者提供、SOC 2 Type II準拠のセキュリティ、開示・訂正・削除請求、Cookieの取り扱いを定めています。',
+  'terms': 'Nortiq Labs Inc. のサービス利用規約。適用範囲・契約の成立・利用者の義務・禁止事項・知的財産権・免責事項・準拠法および管轄について定めています。',
+  'privacy-handling': 'Nortiq Labs Inc. における個人情報の利用目的、第三者提供、業務委託、開示請求の窓口など、個人情報の具体的な取扱いについて説明しています。',
 };
+const NOINDEX_ROUTES = { sitemap: true };
 function descFor(route) {
   // Explicit per-route description wins (incl. SEO-tuned article descriptions).
   if (SEO_DESC[route]) return SEO_DESC[route];
@@ -216,11 +251,17 @@ function pageLd(route, url) {
     };
   }
   switch (route) {
+    case 'works-clinic':
+    case 'works-realty':
     case 'works-build':
-    case 'works-clinic': {
+    case 'works-hr':
+    case 'works-retail':
+    case 'works-infra':
+    case 'works-ai': {
       const cat = route.slice('works-'.length);
       const works = ((typeof window !== 'undefined' && window.NORTIQ_WORKS) || []).filter((w) => w.category === cat);
-      const heading = route === 'works-build' ? '建築・工務店の制作実績' : 'クリニック・医療の制作実績';
+      const WCH = { clinic: 'クリニック・医療', realty: '不動産', build: '建築・工務店', hr: '人材', retail: '小売 / EC', infra: 'インフラ・製造', ai: 'AIスタートアップ' };
+      const heading = (WCH[cat] || '制作実績') + 'の制作実績';
       return {
         '@context': 'https://schema.org', '@type': 'CollectionPage',
         name: heading, description: desc, url,
@@ -233,11 +274,13 @@ function pageLd(route, url) {
     }
     case 'feature-analytics':
     case 'feature-cms':
-    case 'feature-recruit': {
+    case 'feature-recruit':
+    case 'feature-lpo': {
       const svc = {
         'feature-analytics': { name: 'アクセス解析のカスタム実装', type: 'Analytics Implementation' },
         'feature-cms':       { name: 'CMS / 記事更新システム',     type: 'CMS Implementation' },
         'feature-recruit':   { name: '採用専門サイトの制作',       type: 'Recruitment Website Development' },
+        'feature-lpo':       { name: 'LP制作 / LPO',               type: 'Landing Page Optimization' },
       }[route];
       return {
         '@context': 'https://schema.org', '@type': 'Service',
@@ -298,6 +341,42 @@ function pageLd(route, url) {
         name: 'ご利用会社様の声', description: desc, url,
         isPartOf: { '@id': NORTIQ_WEBSITE_ID }, publisher: ORG_REF,
       };
+    case 'product-wpchat':
+      return {
+        '@context': 'https://schema.org', '@type': 'SoftwareApplication',
+        name: 'WP AIチャットボット', description: desc, url,
+        applicationCategory: 'BusinessApplication', operatingSystem: 'WordPress / Web',
+        provider: ORG_REF, publisher: ORG_REF,
+      };
+    case 'column':
+      return {
+        '@context': 'https://schema.org', '@type': 'CollectionPage',
+        name: 'コラム / 技術ブログ', description: desc, url,
+        isPartOf: { '@id': NORTIQ_WEBSITE_ID }, publisher: ORG_REF,
+      };
+    case 'works-lp-corp':
+    case 'works-lp-recruit':
+    case 'works-lp-ec':
+    case 'works-video': {
+      const LPH = { 'works-lp-corp': 'コーポレートサイトの制作実績', 'works-lp-recruit': '採用LPの制作実績', 'works-lp-ec': 'EC連動LPの制作実績', 'works-video': '動画制作の実績' };
+      return {
+        '@context': 'https://schema.org', '@type': 'CollectionPage',
+        name: LPH[route], description: desc, url,
+        isPartOf: { '@id': NORTIQ_WEBSITE_ID }, publisher: ORG_REF,
+      };
+    }
+    case 'solution-clinic':
+    case 'solution-realty':
+    case 'solution-build':
+    case 'solution-hr':
+    case 'solution-retail': {
+      const SOL = { 'solution-clinic': 'クリニック・医療 DXパッケージ', 'solution-realty': '不動産 集客×管理パッケージ', 'solution-build': '建築・工務店 ブランド×案件管理パッケージ', 'solution-hr': '人材 マッチング×集客パッケージ', 'solution-retail': '小売・EC OMOパッケージ' };
+      return {
+        '@context': 'https://schema.org', '@type': 'Service',
+        name: SOL[route], serviceType: '業種特化 DX / Web制作パッケージ', description: desc, url, areaServed: 'JP',
+        provider: ORG_REF,
+      };
+    }
     default:
       return null;
   }
@@ -374,6 +453,14 @@ function App() {
       document.head.appendChild(canonical);
     }
     canonical.setAttribute('href', url);
+    // Utility pages (HTML sitemap) → noindex; all others stay indexable.
+    let robots = document.head.querySelector('meta[name="robots"]');
+    if (NOINDEX_ROUTES[route]) {
+      if (!robots) { robots = document.createElement('meta'); robots.setAttribute('name', 'robots'); document.head.appendChild(robots); }
+      robots.setAttribute('content', 'noindex, follow');
+    } else if (robots) {
+      robots.setAttribute('content', 'index, follow');
+    }
     setMetaContent('meta[name="description"]', desc);
     setMetaContent('meta[property="og:url"]', url);
     setMetaContent('meta[property="og:title"]', meta.title);

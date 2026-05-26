@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="ja" style="--accent: hsl(354, 92%, 45%); --accent-hi: hsl(354, 95%, 52%); --accent-soft: hsl(354, 90%, 95%);"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Google tag (gtag.js) — GA4 + Google Ads conversion tracking -->
+  <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-EYTD1TWR7T"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-EYTD1TWR7T');
+    window.NORTIQ_CONV = { contact: null, diagnostic: null };
+  </script>
+  <title>WordPress 更新が止まる本当の理由とその解決 — Nortiq Labs</title>
+  <meta name="description" content="WordPress 更新が止まる本当の理由とその解決 ｜ Nortiq Labs の技術ブログ（AI活用）。">
+  <link rel="icon" href="/assets/nortiq-fav.png" type="image/png">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Nortiq Labs">
+  <meta property="og:title" content="WordPress 更新が止まる本当の理由とその解決 — Nortiq Labs">
+  <meta property="og:description" content="WordPress 更新が止まる本当の理由とその解決 ｜ Nortiq Labs の技術ブログ（AI活用）。">
+  <meta property="og:url" content="https://nortiqlab.com/article-wordpress-stall">
+  <meta property="og:image" content="https://nortiqlab.com/assets/og-image.png">
+  <meta property="og:locale" content="ja_JP">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="WordPress 更新が止まる本当の理由とその解決 — Nortiq Labs">
+  <meta name="twitter:description" content="WordPress 更新が止まる本当の理由とその解決 ｜ Nortiq Labs の技術ブログ（AI活用）。">
+  <meta name="twitter:image" content="https://nortiqlab.com/assets/og-image.png">
+  <link rel="stylesheet" href="/styles.css?v=mpn245p6">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://nortiqlab.com/#org","name":"Nortiq Labs","url":"https://nortiqlab.com/","logo":"https://nortiqlab.com/assets/nortiq-mark.png","image":"https://nortiqlab.com/assets/og-image.png","description":"米国の技術水準を、日本の中小企業の武器に。Web制作・AIチャットボット・DX/ML実装まで、20社の支援実績を持つ技術チームが段階的に伴走するDXパートナーです。","slogan":"日本のDX、世界水準で巻き返す。","foundingDate":"2025","numberOfEmployees":5,"address":{"@type":"PostalAddress","addressCountry":"JP","postalCode":"604-0012","addressRegion":"京都府","addressLocality":"京都市中京区","streetAddress":"竪大恩寺町751"},"areaServed":{"@type":"Country","name":"Japan"},"knowsAbout":["Web制作","AIチャットボット","DX","機械学習","SEO","LP制作 / LPO","業務自動化","データ分析"],"founder":{"@type":"Person","name":"Renta Oshima","jobTitle":"Founder / Engineer","description":"米国 UC Berkeley で AI 研究。日本の中小企業向け DX 支援を起業。"}},{"@type":"WebSite","@id":"https://nortiqlab.com/#website","name":"Nortiq Labs","url":"https://nortiqlab.com/","publisher":{"@id":"https://nortiqlab.com/#org"},"inLanguage":"ja"},{"@type":"ProfessionalService","name":"Nortiq Labs","url":"https://nortiqlab.com/","description":"米国の技術水準を、日本の中小企業の武器に。Web制作・AIチャットボット・DX/ML実装まで、20社の支援実績を持つ技術チームが段階的に伴走するDXパートナーです。","areaServed":"JP","serviceType":["Web制作","AIチャットボット導入","DX・ML実装","補助金活用のDX導入相談"],"provider":{"@id":"https://nortiqlab.com/#org"}},{"@type":"FAQPage","@id":"https://nortiqlab.com/#faq","mainEntity":[{"@type":"Question","name":"Nortiq Labs はどんな会社ですか？","acceptedAnswer":{"@type":"Answer","text":"米国 UC Berkeley での AI 研究背景を持つ代表のもと、日本の経営課題に向き合うメンバーで構成された技術チームです。Web制作・AIチャットボット・DX/ML 実装まで、中小企業のDXを段階的に支援します。これまで20社の制作・支援実績があります（2025年・京都設立）。"}},{"@type":"Question","name":"Web制作の費用はどれくらいですか？","acceptedAnswer":{"@type":"Answer","text":"オリジナルデザインのWeb制作は30万円から承っています。ページ数・機能・要件に応じてお見積もりし、公開後の運用・改善まで伴走します。"}},{"@type":"Question","name":"AIチャットボットは導入できますか？","acceptedAnswer":{"@type":"Answer","text":"はい。WordPress連携のAI投稿アシスタントをはじめ、問い合わせ対応やブログ更新を自動化するAIチャットボットの導入を、実装の中身まで説明しながら支援します。"}},{"@type":"Question","name":"補助金は活用できますか？","acceptedAnswer":{"@type":"Answer","text":"IT導入補助金などの活用を視野に入れた DX 投資のご相談を承っています。なお、補助金申請の手続きサポート（登録 IT 導入支援事業者としての対応）は現在準備中です。"}},{"@type":"Question","name":"対応している業種は？","acceptedAnswer":{"@type":"Answer","text":"クリニック・医療、不動産、建築・工務店、人材、小売/EC、インフラ・製造、AIスタートアップなど、7業種以上の制作・支援実績があります。"}},{"@type":"Question","name":"制作後のサポートはありますか？","acceptedAnswer":{"@type":"Answer","text":"公開して終わりにはせず、運用・改善まで継続して伴走します。お問い合わせには営業日24時間以内にご返信します。"}},{"@type":"Question","name":"全国対応していますか？","acceptedAnswer":{"@type":"Answer","text":"はい。オンラインを中心に、全国のお客様に対応しています。"}}]}]}</script>
+  <script src="/assets/vendor/react.production.min.js?v=mpn245p6"></script>
+  <script src="/assets/vendor/react-dom.production.min.js?v=mpn245p6"></script>
+<link rel="canonical" href="https://nortiqlab.com/article-wordpress-stall"><script type="application/ld+json" id="route-ld">[{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"トップ","item":"https://nortiqlab.com/"},{"@type":"ListItem","position":2,"name":"コラム","item":"https://nortiqlab.com/column"},{"@type":"ListItem","position":3,"name":"WordPress 更新が止まる本当の理由とその解決","item":"https://nortiqlab.com/article-wordpress-stall"}]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"WordPress 更新が止まる本当の理由とその解決","description":"WordPress 更新が止まる本当の理由とその解決 ｜ Nortiq Labs の技術ブログ（AI活用）。","image":"https://nortiqlab.com/assets/blog-wordpress-stall.png","url":"https://nortiqlab.com/article-wordpress-stall","inLanguage":"ja","articleSection":"AI活用","datePublished":"2026-03-30","dateModified":"2026-03-30","author":{"@type":"Organization","@id":"https://nortiqlab.com/#org","name":"Nortiq Labs"},"publisher":{"@id":"https://nortiqlab.com/#org"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://nortiqlab.com/article-wordpress-stall"}}]</script></head>
+<body>
+  <div id="app"><header class="nav" role="banner"><div class="nav-inner"><a class="nav-logo" href="/" style="cursor: pointer;"><span class="nav-logo-mark"></span><span class="wordmark"><span class="wordmark-main">NORTIQ</span><span class="wordmark-sub">LABS</span></span></a><nav class="nav-links" aria-label="メインナビゲーション"><div class="nav-link-wrap"><a class="nav-link" href="/">トップ</a></div><div class="nav-link-wrap"><a class="nav-link">機能<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></a></div><div class="nav-link-wrap"><a class="nav-link">制作実績<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></a></div><div class="nav-link-wrap"><a class="nav-link">業種ソリューション<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></a></div><div class="nav-link-wrap"><a class="nav-link" href="/voice">ご利用会社様の声</a></div><div class="nav-link-wrap"><a class="nav-link" href="/support">サポート</a></div><div class="nav-link-wrap"><a class="nav-link" href="/pricing">料金プラン</a></div><div class="nav-link-wrap"><a class="nav-link" aria-current="page">コンテンツ<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></a></div><div class="nav-link-wrap"><a class="nav-link" href="/diagnostic">無料診断</a></div></nav><div class="nav-cta-wrap"><button class="btn btn-primary btn-sm" type="button"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><path d="M22 6l-10 7L2 6"></path></svg>メールでお問合せ</button><button class="hamburger" aria-label="メニューを開く" aria-expanded="false"><span></span><span></span><span></span></button></div></div><div class="nav-drawer"><div class="nav-drawer-panel"><div class="nav-drawer-head"><span class="nav-logo" style="font-size: 18px;"><span class="nav-logo-mark" aria-hidden="true"></span><span class="wordmark"><span class="wordmark-main">NORTIQ</span><span class="wordmark-sub">LABS</span></span></span><button class="drawer-close" aria-label="閉じる"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M6 18L18 6"></path></svg></button></div><nav class="nav-drawer-body"><a class="drawer-item" href="/"><span>トップ</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><div class="drawer-group"><button class="drawer-item drawer-group-head"><span>機能</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></button><div class="drawer-group-body"><div class="drawer-subgroup"><h5>サービス別 機能一覧</h5><a class="drawer-sub-item" href="/web"><span>Web制作 機能一覧</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/chatbot"><span>AIチャットボット 機能一覧</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/dx"><span>DX・ML 機能一覧</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></div><div class="drawer-subgroup"><h5>技術領域</h5><a class="drawer-sub-item" href="/feature-lpo"><span>LP制作 / LPO</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/feature-recruit"><span>採用専門サイト</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/feature-analytics"><span>アクセス解析カスタム実装</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/feature-cms"><span>CMS / 記事更新システム</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></div><div class="drawer-subgroup"><h5>自社プロダクト</h5><a class="drawer-sub-item" href="/product-vetonet"><span>VetoNet (AI Security)</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/product-wpchat"><span>WP AIチャットボット</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/product-tennis"><span>Tennis フォームチェック</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></div></div></div><div class="drawer-group"><button class="drawer-item drawer-group-head"><span>制作実績</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></button><div class="drawer-group-body"><div class="drawer-subgroup"><h5>業種から探す</h5><a class="drawer-sub-item" href="/works-clinic"><span>クリニック・医療</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/works-realty"><span>不動産</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/works-build"><span>建築・工務店</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/works-hr"><span>人材</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/works-retail"><span>小売 / EC</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/works-infra"><span>インフラ・製造</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/works-ai"><span>AIスタートアップ</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></div><div class="drawer-subgroup"><h5>強化LP別</h5><a class="drawer-sub-item" href="/works-lp-corp"><span>コーポレートサイト</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/works-lp-recruit"><span>採用LP</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/works-lp-ec"><span>EC連動LP</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></div><div class="drawer-subgroup"><h5>実績まとめ</h5><a class="drawer-sub-item" href="/works"><span>全実績一覧</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></div></div></div><div class="drawer-group"><button class="drawer-item drawer-group-head"><span>業種ソリューション</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></button><div class="drawer-group-body"><div class="drawer-subgroup"><h5>業種別パッケージ</h5><a class="drawer-sub-item" href="/solution-clinic"><span>クリニック・医療 DXパッケージ</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/solution-realty"><span>不動産 集客×管理パッケージ</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/solution-build"><span>建築 ブランド×案件管理</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/solution-hr"><span>人材 マッチング×集客</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/solution-retail"><span>小売・EC OMOパッケージ</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></div></div></div><a class="drawer-item" href="/voice"><span>ご利用会社様の声</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-item" href="/support"><span>サポート</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-item" href="/pricing"><span>料金プラン</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><div class="drawer-group"><button class="drawer-item drawer-group-head"><span>コンテンツ</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></button><div class="drawer-group-body"><div class="drawer-subgroup"><h5>メディア</h5><a class="drawer-sub-item" href="/column"><span>コラム / 技術ブログ</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/news"><span>お知らせ</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/guidebook"><span>DXガイドブック</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/subsidy"><span>補助金活用相談</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></div></div></div><a class="drawer-item" href="/diagnostic"><span>無料診断</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></nav><div class="nav-drawer-foot"><button class="btn btn-primary btn-lg" type="button" style="width: 100%;"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><path d="M22 6l-10 7L2 6"></path></svg>資料請求・お問い合わせ</button></div></div></div></header><div><main class="page-fade"><nav aria-label="Breadcrumb" style="padding: 14px 0px; border-bottom: 1px solid var(--border); background: var(--bg-2);"><div class="container"><ol class="row-tight" style="list-style: none; padding: 0px; margin: 0px; font-size: 12px; color: var(--text-3);"><li class="row-tight" style="gap: 8px;"><a href="/" style="cursor: pointer; color: var(--text-2);">トップ</a></li><li class="row-tight" style="gap: 8px;"><span style="color: var(--text-4);">›</span><a href="/column" style="cursor: pointer; color: var(--text-2);">コラム</a></li><li class="row-tight" style="gap: 8px;"><span style="color: var(--text-4);">›</span><span style="color: var(--text);">WordPress 更新が止まる本当の理由とその解決</span></li></ol></div></nav><article><header style="padding-top: clamp(48px, 7vw, 90px); padding-bottom: 32px;"><div class="container" style="max-width: 820px;"><div class="row" style="gap: 10px; margin-bottom: 24px; color: var(--text-3); font-size: 13px; flex-wrap: wrap;"><span class="tag" style="color: var(--accent); border-color: var(--accent);">AI活用</span><span class="num">2026.03.30</span><span>·</span><span>7 min read</span><span>·</span><span>Nortiq Labs</span></div><h1 class="display-l fadein is-in" style="margin-bottom: 8px;">WordPress 更新が止まる本当の理由とその解決</h1></div></header><div class="container" style="max-width: 880px; margin-bottom: 8px;"><picture><source srcset="/assets/blog-wordpress-stall.webp" type="image/webp"><img src="/assets/blog-wordpress-stall.png" alt="WordPress 更新が止まる本当の理由とその解決" class="article-hero-img"></picture></div><div class="container" style="max-width: 780px; margin-top: 24px; margin-bottom: 80px;"><div class="article-prose article-body"><h2>TL;DR</h2>
+<ul>
+<li>日本のオウンドメディアの<strong>約3割は事実上「放置（更新停止）」状態</strong>であり、停止メディアの<strong>65.5%が立ち上げから半年以内に更新が止まっている</strong>。最大の停止理由は「自社の運営担当者がいなくなったから（運用するリソースがなくなったから）」で<strong>54.3%</strong>（Zenken株式会社「2022年オウンドメディアに関する調査」運用担当者n=300）。「課題共感」パートの中核数字として強い。</li>
+<li>「更新が止まる」根本原因は4層：(1) 1本の記事を書くのに平均<strong>3時間48分</strong>かかる執筆負荷（Orbit Media 2024）、(2) 「広報部立ち上げ5年未満の企業の24.0%が1人広報」という兼任・ひとり体制（IDEATECH調査n=100）、(3) Google検索セントラル公式の「<strong>SEOの効果は4か月〜1年</strong>」という時間軸ギャップ、(4) 2024年だけで<strong>新規脆弱性7,966件・うち96%がプラグイン由来</strong>（Patchstack）というWordPressの構造的保守負担。</li>
+<li>一方、ブログを継続している企業は**訪問者+55%（HubSpot 2015）／リード+67%（DemandMetric）／ROI13倍（HubSpot 2015）**と明確な業績差が出るため、「止まる」ことの機会損失は極めて大きい。AIが「書く・調べる・整える」を肩代わりすれば、非技術者・ひとり兼任担当でも継続できるという「解決」の方向に自然に橋がかかる。</li>
+</ul>
+<hr>
+<h2>Key Findings</h2>
+<h3>A. 「ブログ更新が止まる」のは個人の意志ではなく構造の問題</h3>
+<table>
+<thead>
+<tr>
+<th>指標</th>
+<th>数字</th>
+<th>出典</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>日本企業のオウンドメディア「運営停止／放置」率</td>
+<td>約27%（運営停止7.7%＋運営されていない19.3%）</td>
+<td>Zenken株式会社「2022年オウンドメディアに関する調査」n=300</td>
+</tr>
+<tr>
+<td>停止メディアのうち、半年以内に更新が止まった割合</td>
+<td><strong>65.5%</strong>（1か月以内5.2%＋3か月以内31.0%＋半年以内29.3%）</td>
+<td>同上</td>
+</tr>
+<tr>
+<td>停止理由1位</td>
+<td><strong>「自社の運営担当者がいなくなったから（運用するリソースがなくなったから）」54.3%</strong></td>
+<td>同上</td>
+</tr>
+<tr>
+<td>停止理由2位</td>
+<td>「SEO対策がうまくいかなかったから」35.8%</td>
+<td>同上</td>
+</tr>
+<tr>
+<td>停止理由3位</td>
+<td>「リード（問い合わせ）獲得数が少なかったから」33.3%</td>
+<td>同上</td>
+</tr>
+<tr>
+<td>運用中のメディアの最大の課題</td>
+<td>「リード（問い合わせ）があっても成約につながりづらい」44.3%</td>
+<td>同上</td>
+</tr>
+<tr>
+<td>個人ブログの継続率（参考、慎重に扱う）</td>
+<td>1年後30%／2年後10%／3年後3%</td>
+<td>総務省 情報通信政策研究所『ブログの実態に関する調査研究』平成21年3月（後述の通り「推計のための仮定値」）</td>
+</tr>
+</tbody></table>
+<p>→ 「課題共感」の核：「やる気がなくなった」のではなく「リソースが尽きる構造」が原因。半年以内に65.5%という短い時間軸はフックに最適。</p>
+<h3>B. 「1記事を書く」こと自体が、想像以上に重い作業</h3>
+<table>
+<thead>
+<tr>
+<th>指標</th>
+<th>数字</th>
+<th>出典</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ブログ1記事の平均執筆時間（世界）</td>
+<td><strong>3時間48分</strong>（2024年。2014年の2時間24分から+57%）</td>
+<td>Orbit Media「11th Annual Blogger Survey 2024」回答者1,000+</td>
+</tr>
+<tr>
+<td>平均文字数</td>
+<td>1,394語（日本語換算でおおむね2,500〜3,500字相当）</td>
+<td>同上</td>
+</tr>
+<tr>
+<td>日本人ブロガーの体感</td>
+<td>初心者は1記事に<strong>8時間</strong>、慣れても2〜3時間（マナブ氏「3,000字を書く速度：1〜3ヶ月8時間→12ヶ月〜1.5時間」）</td>
+<td>BLOGUS 100人アンケート、manablog 他</td>
+</tr>
+<tr>
+<td>工程数</td>
+<td>リサーチ／構成／執筆／校正／画像／WordPress入稿／SEO設定／公開後リライト＝6〜8工程</td>
+<td>Orbit Media、各種制作会社解説</td>
+</tr>
+</tbody></table>
+<p>→ 「原因」：兼任担当が月4本書こうとすると、執筆だけで月16時間。通常業務との両立は構造的に困難。</p>
+<h3>C. 担当者は「ひとり」or「兼任」が日本の標準</h3>
+<table>
+<thead>
+<tr>
+<th>指標</th>
+<th>数字</th>
+<th>出典</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>広報部立ち上げ5年未満の企業のうち、広報部が「1人」体制</td>
+<td><strong>24.0%</strong>（「2〜5人」を加えると54.0%）</td>
+<td>株式会社IDEATECH「広報部立ち上げに関する実態調査」n=100、2022年11月</td>
+</tr>
+<tr>
+<td>一人広報の代表的な悩み</td>
+<td>「担当範囲が広すぎる」「成果の説明が難しい」「判断が不安」</td>
+<td>公益社団法人 日本パブリックリレーションズ協会（PRSJ）「"ひとり広報"実態調査」n=138、2023年（実査：楽天インサイト）</td>
+</tr>
+<tr>
+<td>広報業務歴5年未満の割合</td>
+<td>50.3%</td>
+<td>同上</td>
+</tr>
+<tr>
+<td>中堅企業のIT専任担当者「1人以下」</td>
+<td>約38%（「ひとり情シス」18.8%＋「ゼロ情シス」18.8%）</td>
+<td>Dell EMC IT投資動向調査（中堅企業約800社、2018-2019）</td>
+</tr>
+<tr>
+<td>中小企業の人手不足を感じている割合</td>
+<td>約7割（過去最大）</td>
+<td>日本商工会議所・東京商工会議所「人手不足の状況および多様な人材の活躍等に関する調査」2024年</td>
+</tr>
+<tr>
+<td>BtoBコンテンツマーケティングの最大の運用課題</td>
+<td>「コンテンツ制作に関する社内のスキル不足」<strong>55.4%</strong>、「社内のリソース不足」28.7%</td>
+<td>株式会社IDEATECH「BtoB企業のコンテンツマーケティングに関する実態調査」n=101、2023年</td>
+</tr>
+<tr>
+<td>配信ペースの実態</td>
+<td>約7割が「月1本」レベルにとどまる</td>
+<td>同上</td>
+</tr>
+</tbody></table>
+<p>→ 「原因」第2の柱：書く人が「一人」だから、その人が忙しくなった・休んだ・辞めた瞬間にブログが止まる。個人の問題ではなく構造の問題。</p>
+<h3>D. WordPressの「非技術者ペイン」の具体的中身</h3>
+<table>
+<thead>
+<tr>
+<th>指標</th>
+<th>数字</th>
+<th>出典</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>日本国内のWordPressシェア</td>
+<td><strong>CMS市場でシェア83%</strong>（全Webサイトでは58.5%）</td>
+<td>WordPress公式イベント "State of the Word 2024"（Matt Mullenweg基調講演、2024年12月）</td>
+</tr>
+<tr>
+<td>2024年に発見されたWordPressエコシステムの新規脆弱性</td>
+<td><strong>7,966件</strong>（前年比+34%）／1日あたり約22件</td>
+<td>Patchstack『State of WordPress Security 2025』</td>
+</tr>
+<tr>
+<td>そのうちプラグイン由来の割合</td>
+<td><strong>96%</strong>（テーマ4%、コア由来は7件のみ）</td>
+<td>同上</td>
+</tr>
+<tr>
+<td>認証不要で悪用可能な脆弱性</td>
+<td>43%</td>
+<td>WP Security Ninja集計</td>
+</tr>
+<tr>
+<td>プラグイン更新時の代表的トラブル</td>
+<td>「画面真っ白」「メンテナンスモードから戻らない」「管理画面に入れない」「レイアウト崩れ」「PHPバージョン非互換」</td>
+<td>複数の制作会社解説（edito.jp、glass-inc.jp、yokoyamadesuga.com、site-hikkoshi.com 他）</td>
+</tr>
+<tr>
+<td>WordPress自社運用が大変な理由</td>
+<td>①公式マニュアル・サポートなし、②専門用語のヘルプ、③プラグイン互換性、④定期バージョンアップ、⑤セキュリティ自己対応</td>
+<td>株式会社ジオコード、Timers Inc. 他</td>
+</tr>
+</tbody></table>
+<p>→ 「原因」第3の柱：書くこと以前に「サイトを健康に保つ」だけでも非技術者には負担。プラグイン更新通知が来ても怖くてクリックできない、という実感はデータで裏打ちされる。</p>
+<h3>E. SEO・成果が出るまでの「時間差」が脱落を生む</h3>
+<table>
+<thead>
+<tr>
+<th>指標</th>
+<th>数字</th>
+<th>出典</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>SEO効果が出るまでの公式目安</td>
+<td><strong>「変更に着手してからメリットが得られるようになるまで、通常は4か月から1年かかります」</strong></td>
+<td>Google検索セントラル「SEO業者（代理店、コンサルタント）とは」公式ドキュメント</td>
+</tr>
+<tr>
+<td>多くの企業が脱落するタイミング</td>
+<td>3か月以内に36.2%（1か月以内5.2%＋3か月以内31.0%）</td>
+<td>Zenken株式会社、上記n=300</td>
+</tr>
+<tr>
+<td>BtoBコンテンツマーケティングで「壁を感じた」割合</td>
+<td><strong>91.4%</strong>（「かなりある」35.2%＋「ややある」56.2%）</td>
+<td>株式会社イノーバ／IDEATECH「BtoB企業のコンテンツマーケティングの『壁』突破に関する実態調査」n=105、2023年</td>
+</tr>
+<tr>
+<td>BtoBコンテンツマーケ担当の課題1位</td>
+<td>「発信するコンテンツ・ネタがない」<strong>42.1%</strong>、「スキル・人材不足」33.8%</td>
+<td>株式会社リンクアンドパートナーズ「BtoB企業のWEBマーケティング実態調査」n=1,002、2023年5月</td>
+</tr>
+</tbody></table>
+<p>→ 「原因」第4の柱：SEOは4か月〜1年かかるのに、半年以内に65.5%が脱落。**「やめた瞬間に、ちょうど成果が出始める手前」**という致命的なミスマッチ。</p>
+<h3>F. 続けた企業は明確に勝つ（=止まることの機会損失）</h3>
+<table>
+<thead>
+<tr>
+<th>指標</th>
+<th>数字</th>
+<th>出典</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ブログ運営企業のWebサイト訪問者数</td>
+<td>非運営企業の**+55%**</td>
+<td>HubSpot "Blogging Statistics — 31 Stats You Need to Know"（2015年）："Companies that blog get 55% more website visitors than businesses that don't"</td>
+</tr>
+<tr>
+<td>ブログ運営企業の月間リード獲得</td>
+<td>非運営企業の**+67%**</td>
+<td>DemandMetric："Companies with blogs produce an average of 67% more leads monthly than companies that don't blog"</td>
+</tr>
+<tr>
+<td>ブログを優先投資した企業のROI</td>
+<td>非運営企業の<strong>13倍</strong></td>
+<td>HubSpot "Blogging Statistics — 31 Stats You Need to Know"（2015年）："Brands that prioritize blogging see 13 times more ROI than brands that don't"</td>
+</tr>
+<tr>
+<td>月16本以上ブログを投稿する企業のリード獲得</td>
+<td>月0-4本の企業の<strong>4.5倍</strong></td>
+<td>HubSpot 2015年調査："Companies that blog 16+ times per month get about 4.5x more leads than companies that blog 0-4 times per month"</td>
+</tr>
+<tr>
+<td>ブログを持つ企業のインデックスページ数</td>
+<td>非運営企業の**+434%**</td>
+<td>DemandMetric："Blogs are responsible for 434% more indexed pages"</td>
+</tr>
+<tr>
+<td>HubSpotのブログPVと過去記事の関係</td>
+<td>月間トラフィックの<strong>約75%</strong>、リードの**約90%**が「その月に公開していない過去記事」由来</td>
+<td>HubSpot "Want More Blog Traffic? Focus on Growing Subscribers"（blog.hubspot.com）："about 75% of the traffic and 90% of the leads we generate from the HubSpot Blog each month come from blog posts that weren't published that month"</td>
+</tr>
+</tbody></table>
+<p>→ 「解決の方向性」への橋渡し：続けた企業だけが複利的に効果を得る。だから「続けられる仕組み」こそが答え。</p>
+<h3>G. 解決の方向性：AI×対話型のトレンド</h3>
+<table>
+<thead>
+<tr>
+<th>指標</th>
+<th>数字</th>
+<th>出典</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>過去3か月にSEO記事執筆で生成AIを使った日本のライターの割合</td>
+<td><strong>76%</strong>（最多使用ツールはChatGPTで40%、69名）</td>
+<td>TechSuite株式会社「SEO記事執筆への生成AI活用度調査」n=230、2024年6月（実施：クロス・マーケティング QiQUMO）</td>
+</tr>
+<tr>
+<td>仕事で生成AIを使った経験のあるビジネスパーソン</td>
+<td><strong>約50%</strong>（前年比+10pt）</td>
+<td>トランスコスモス（コトラ）「ビジネスシーンにおける生成AI利用実態調査2024」n=2,156</td>
+</tr>
+<tr>
+<td>個人レベルの生成AI利用率（日本2024年度）</td>
+<td><strong>26.7%</strong>（前年9.1%から急増。20代は44.7%／中国81.2%・米国68.8%・独59.2%に対して大きな差）</td>
+<td>総務省『令和7年版 情報通信白書』</td>
+</tr>
+<tr>
+<td>Orbit Media調査でAIを「少なくとも時々」使うブロガー</td>
+<td>65%。<strong>ただし最終稿生成までAIに任せている人は3%にとどまる</strong>（多くはアイデア・アウトライン・編集補助）</td>
+<td>Orbit Media 2024</td>
+</tr>
+</tbody></table>
+<p>→ AIで「書く」はもう一般的選択肢。しかし汎用AIは「書ける人が指示を出して使う」前提のため、非技術者にはハードルが残る。<strong>「対話だけで全工程を進めてくれる」設計こそが、この最後のギャップを埋める提案になる。</strong></p>
+<hr>
+<h2>Details（記事LP導線に沿った整理）</h2>
+<h3>【課題共感】読者の内面を言語化する材料</h3>
+<p>書き手が自分でも気づいていない典型的なシーン：</p>
+<ol>
+<li><strong>「最初は意気込んで始めたのに、3か月で更新ペースが落ちる」</strong> → Zenken：停止メディアの36.2%が3か月以内停止。</li>
+<li><strong>「他の仕事が忙しくなると、まずブログが後回しになる」</strong> → IDEATECH：広報部立ち上げ5年未満企業の24.0%が1人広報。日商：中小企業の約7割が人手不足。後回しは個人の意志ではなく構造の帰結。</li>
+<li><strong>「書くネタが思い浮かばない」</strong> → リンクアンドパートナーズ n=1,002：BtoB課題1位「発信するコンテンツ・ネタがない」42.1%。</li>
+<li><strong>「1本書くのに半日潰れる」</strong> → Orbit Media：完成稿のみで3時間48分。リサーチ・画像・WordPress入稿を入れると半日〜1日が普通。</li>
+<li><strong>「WordPressの更新通知が怖くてクリックできない」</strong> → Patchstack：2024年新規脆弱性7,966件中96%がプラグイン由来。</li>
+<li><strong>「SEOや構造化データ、勉強することが多すぎる」</strong> → IDEATECH n=101：BtoBコンテンツマーケの55.4%が「社内のスキル不足」を最大課題に。</li>
+</ol>
+<h3>【原因】記事LPで分解すべき「4層の壁」</h3>
+<ol>
+<li><strong>時間の壁</strong>：1記事に約3時間48分（Orbit Media）。月4本で約16時間。兼任担当には不可能な工数。</li>
+<li><strong>人の壁</strong>：日本企業の広報・マーケ担当は1人体制が珍しくない（IDEATECH：1人広報24.0%）。中小企業の約7割が人手不足。</li>
+<li><strong>技術の壁</strong>：WordPressのプラグイン互換・PHPバージョン・セキュリティ。2024年だけで7,966件の脆弱性、96%がプラグイン。</li>
+<li><strong>時間軸の壁</strong>：SEOは4か月〜1年（Google公式）。一方で停止の65.5%は半年以内。「成果が出る前にエネルギーが尽きる報酬遅延の罠」。</li>
+</ol>
+<p>これら4層が「非技術者・ひとり兼任担当」に同時にのしかかる。<strong>個人の根性論では解けない。</strong></p>
+<h3>【解決の方向性】Loop AI 投稿アシスタントの提供価値要件</h3>
+<p>リサーチから逆算した「あるべき解」の要件：</p>
+<ul>
+<li><strong>書く時間を3時間48分 → 30分以下に圧縮</strong>できる（Orbit Mediaの平均値が比較基準）</li>
+<li><strong>「ふだんの言葉」だけで発信</strong>できる（SEO知識・キーワード調査・競合分析を担当者がやらない）</li>
+<li><strong>WordPressのプラグイン更新・脆弱性対応から解放</strong>される（保守を肩代わり／そもそもWordPressを使わない選択肢）</li>
+<li><strong>一人で完結</strong>する（兼任の現実に合わせる）</li>
+<li><strong>継続を仕組みで担保</strong>する（モチベーション依存をなくす）</li>
+<li><strong>「書きたい→公開」の心理ハードルを8ステップに階段化</strong>する（一気に全部やらせない）</li>
+</ul>
+<p>これは Loop AI 投稿アシスタントの設計思想と一致する。</p>
+<hr>
+<h2>Recommendations（記事LPコピー設計への提案）</h2>
+<h3>段階1：フック（タイトル直下）</h3>
+<p><strong>「日本の企業ブログの約3割は、すでに放置されています。」</strong>
+<strong>「しかも、止まったブログの65.5%は、立ち上げから半年以内に更新が止まっています。」</strong>
+（出典：Zenken株式会社、運用担当者300人調査）
+→ 「半年以内」という短い時間軸が読者の不安を即座に喚起する。</p>
+<h3>段階2：課題共感のシーン描写</h3>
+<p>「ブログを書こうとPCを開く → ネタ出しに30分 → リサーチに1時間 → WordPress管理画面を開く → プラグイン更新通知が出ている → 怖くてタブを閉じる → 結局1行も書けないまま1日が終わる」
+→ Orbit Mediaの3時間48分、Patchstackの脆弱性データ、ネタ切れ42.1%の3つで裏打ちできる。</p>
+<h3>段階3：原因の言語化フレーム</h3>
+<p>「あなたが続けられないのは、サボっているからではありません。WordPressという仕組みが、もともと<strong>書く人ではなくサイトを作る人</strong>のために設計されているからです。」
+→ ひとり広報24.0%＋WordPress脆弱性7,966件＋SEO4か月〜1年の3点を束ねた論理。</p>
+<h3>段階4：解決提示の対比的見出し</h3>
+<p>「<strong>3時間48分 vs. 対話3回</strong>」「<strong>8つの小さな質問に答えるだけ</strong>」
+→ Orbit Mediaの平均値と、Loop AIの「8ステップ対話」を直接比較。</p>
+<h3>段階5：機会損失で背中を押す</h3>
+<p>「続けた企業は、ブログ運営なし企業に比べ訪問者**+55%<strong>（HubSpot 2015）、月間リード</strong>+67%<strong>（DemandMetric）、ROI</strong>13倍**（HubSpot 2015）。<strong>止めた企業はゼロ。</strong>」</p>
+<h3>しきい値（この数字が変わったら方針を見直す）</h3>
+<ul>
+<li>もしZenken等の後続調査で「半年以内停止率」が50%を下回ったら、現在の「65.5%」訴求は弱まる。新指標へ更新。</li>
+<li>WordPress公式やプラグイン提供企業が「AI連携」を標準機能化したら、対話型の独自性は薄まる。今は<strong>2024〜2026年が訴求の窓</strong>。</li>
+<li>日本の生成AI利用率（総務省26.7%）が50%超に達した時点で、「AIで投稿」は当たり前化する。製品差別化を「対話型」「8ステップ」「非技術者特化」「WordPressを置き換える」など別軸に強化する必要が出る。</li>
+<li>HubSpotの2015年データは古く感じられるリスクがある。Orbit Media 2024やBacklinko等の近年データを併記して鮮度を保つこと。</li>
+</ul>
+<hr>
+<h2>Caveats（記事執筆時の重要な注意点）</h2>
+<ol>
+<li><strong>総務省ブログ継続率（1年30%、2年10%、3年3%）は「仮定値」</strong>：これは平成21年（2009年）『ブログの実態に関する調査研究』でアクティブブログ数を推計するために用いられた前提値であり、実測値ではない。引用する場合は「総務省2009年調査の推計モデルで用いられた継続率」と書くか、Zenken（実調査）を優先するのが正確。</li>
+<li><strong>HubSpot系の「55%」「13倍」「4.5倍」は2015年発の数字</strong>："Blogging Statistics — 31 Stats You Need to Know" が初出。引用は可能だが「HubSpot 2015年調査」と年号明記し、Orbit Media 2024等の近年データと併記して鮮度を補うのが安全。</li>
+<li><strong>「67%増」と「434%増」の出典はHubSpotではなくDemandMetric</strong>：HubSpot/DemandMetricの並記は正しいが、55%=HubSpot、67%＝DemandMetric、434%＝DemandMetricと分離して明記すべき。</li>
+<li><strong>「PV75%／リード90%は過去記事から」の正しい出典</strong>：「Compounding Blog Posts」レポートではなく、HubSpot公式記事 "Want More Blog Traffic? Focus on Growing Subscribers"（blog.hubspot.com）が一次出所。</li>
+<li><strong>日本のWordPressシェアの正確な数値</strong>：W3Techsの82.5%という値もネット上に出回るが、WordPress公式イベント "State of the Word 2024"（2024年12月、Matt Mullenweg）の最新公式数字は<strong>CMSシェア83%／全Webサイトシェア58.5%</strong>。公式の方を採用するのが安全。</li>
+<li><strong>「企業ブログの3割が放置」「半年以内に65.5%が停止」</strong>：Zenken株式会社（n=300）の自社調査でありサンプリング代表性に厳密保証はないが、Web担当者Forum（インプレス）が記事化しており媒体露出のある一次データとして使える。</li>
+<li><strong>競合製品（note・はてなブログ・Wix等）には触れない</strong>：ユーザー指示通り。記事LPでも「他より良い」訴求ではなく、「あなたの困りごと→AIアシスタント」の純粋な解決訴求に絞る。</li>
+<li><strong>「AIで全自動」は誇大表現になりやすい</strong>：Orbit Media 2024でも、AIユーザーのうち最終稿生成までAIに任せている人は3%。「AIが勝手に書く」ではなく「あなたの言葉を引き出して整える」「AIが伴走する」表現が信頼を得やすい。</li>
+<li><strong>SEO効果4か月〜1年は「Google検索セントラル」公式記述</strong>：強い武器。引用するときは「Google公式」ではなく**「Google検索セントラル『SEO業者（代理店、コンサルタント）とは』」**と正確に書くと信頼が増す。</li>
+<li><strong>WordPressプラグイン脆弱性7,966件は2024年単年・世界CVEベース</strong>（Patchstack）。「日本で実害があった件数」ではない点に注意。ただし「96%がプラグイン由来」という構造的事実は、非技術者の不安に直接刺さる強い数字。</li>
+<li><strong>「ひとり広報24%」は「広報部立ち上げ5年未満の企業」が母集団</strong>（IDEATECH調査）。全企業の数値ではないが、「比較的新しく広報を始めた企業の4社に1社が一人広報」という事実は、本記事LPのターゲット（SMBの兼任担当者）の実態に最も近いセグメントとして極めて有用。</li>
+<li><strong>「ネタ切れ42.1%」の本質</strong>：これは「書く能力の不足」というより「キーワード設計の不足」「読者像の不明確さ」が根本原因。Loop AIの「AIが競合分析・キーワード提案までやる」訴求と直結する。</li>
+</ol>
+</div></div><section class="section-pad" style="background: var(--bg-2);"><div class="container" style="max-width: 880px;"><h3 class="display-s" style="margin-bottom: 24px;">関連記事</h3><div class="grid-3"><a class="article-card fadein is-in" href="/article-japan-dx" style="cursor: pointer;"><div class="ph ph-image ph-fit" style="aspect-ratio: 16 / 10; width: 100%;"><picture><source srcset="/assets/blog-japan-dx.webp" type="image/webp"><img src="/assets/blog-japan-dx.png" alt="なぜ日本のDXはアメリカに2〜3年遅れているのか"></picture></div><div class="article-meta"><span style="color: var(--accent);">DX 観察記</span><span class="article-meta-sep">·</span><span>2026.05.12</span></div><h3 class="article-title">なぜ日本のDXはアメリカに2〜3年遅れているのか</h3></a><a class="article-card fadein is-in" href="/article-vetonet" style="cursor: pointer;"><div class="ph ph-image ph-fit" style="aspect-ratio: 16 / 10; width: 100%;"><picture><source srcset="/assets/blog-vetonet.webp" type="image/webp"><img src="/assets/blog-vetonet.png" alt="VetoNet 開発の裏側 — AI agent security とは何か"></picture></div><div class="article-meta"><span style="color: var(--accent);">技術</span><span class="article-meta-sep">·</span><span>2026.04.28</span></div><h3 class="article-title">VetoNet 開発の裏側 — AI agent security とは何か</h3></a><a class="article-card fadein is-in" href="/article-core-web-vitals" style="cursor: pointer;"><div class="ph ph-image ph-fit" style="aspect-ratio: 16 / 10; width: 100%;"><picture><source srcset="/assets/blog-core-web-vitals.webp" type="image/webp"><img src="/assets/blog-core-web-vitals.png" alt="Core Web Vitals の「Good」を現実的に取得する"></picture></div><div class="article-meta"><span style="color: var(--accent);">技術</span><span class="article-meta-sep">·</span><span>2026.03.18</span></div><h3 class="article-title">Core Web Vitals の「Good」を現実的に取得する</h3></a></div></div></section></article><section class="t_inq_wrap fadein is-in"><div class="container"><h2>こうした観点をベースに、<br>貴社の DX を一緒に考えませんか。</h2><div class="t_inq_btns"><button class="btn btn-primary" type="button"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><path d="M22 6l-10 7L2 6"></path></svg>資料請求はこちら</button><button class="btn btn-primary" type="button"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><path d="M21 21l-4.35-4.35"></path></svg>ホームページ無料診断</button></div><p class="t_inq_time">営業日 24時間以内に担当者よりご返信します。</p></div></section></main></div><footer class="footer"><div class="container"><div class="footer-grid"><div class="footer-brand"><div class="nav-logo" style="margin-bottom: 18px;"><span class="nav-logo-mark"></span><span class="wordmark"><span class="wordmark-main">NORTIQ</span><span class="wordmark-sub">LABS</span></span></div><p class="body" style="font-size: 13px; max-width: 320px; margin-bottom: 24px;">日本のDX、世界水準で巻き返す。<br>Web制作からAI・DX実装までの技術チーム。</p><button class="btn btn-primary btn-sm" type="button"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><path d="M22 6l-10 7L2 6"></path></svg>資料請求はこちら</button></div><div class="footer-col"><h4>制作実績</h4><ul><li><a href="/works">全実績一覧</a></li><li><a href="/works-clinic">クリニック・医療</a></li><li><a href="/works-realty">不動産</a></li><li><a href="/works-build">建築・工務店</a></li><li><a href="/works-hr">人材</a></li><li><a href="/works-retail">小売 / EC</a></li><li><a href="/works-infra">インフラ・製造</a></li><li><a href="/works-ai">AIスタートアップ</a></li><li><a href="/works-lp-corp">コーポレートLP</a></li><li><a href="/works-lp-recruit">採用LP</a></li><li><a href="/works-lp-ec">EC連動LP</a></li><li><a href="/works-video">動画制作事例</a></li></ul></div><div class="footer-col"><h4>機能・サービス</h4><ul><li><a href="/web">Web制作 機能一覧</a></li><li><a href="/chatbot">AIチャットボット 機能一覧</a></li><li><a href="/dx">DX・ML 機能一覧</a></li><li><a href="/feature-lpo">LP制作 / LPO</a></li><li><a href="/feature-recruit">採用専門サイト</a></li><li><a href="/feature-analytics">アクセス解析</a></li></ul><h4 style="margin-top: 28px;">自社プロダクト</h4><ul><li><a href="/product-vetonet">VetoNet</a></li><li><a href="/product-wpchat">WP AIチャットボット</a></li><li><a href="/product-tennis">Tennis フォームチェック</a></li></ul></div><div class="footer-col"><h4>サポート・コンサル</h4><ul><li><a href="/support">運用サポート</a></li><li><a href="/voice">ご利用会社様の声</a></li><li><a href="/diagnostic">サイト無料診断 (URL入力)</a></li><li><a href="/column">技術ブログ / コラム</a></li><li><a href="/news">お知らせ</a></li><li><a href="/subsidy">補助金活用相談</a></li><li><a href="/guidebook">DXガイドブック</a></li></ul><h4 style="margin-top: 28px;">業種別ソリューション</h4><ul><li><a href="/solution-clinic">クリニック・医療</a></li><li><a href="/solution-realty">不動産</a></li><li><a href="/solution-build">建築・工務店</a></li><li><a href="/solution-hr">人材</a></li><li><a href="/solution-retail">小売 / EC</a></li></ul><h4 style="margin-top: 28px;">会社</h4><ul><li><a href="/company">会社概要</a></li><li><a href="/staff">チーム / スタッフ</a></li><li><a href="/recruit">採用情報</a></li><li><a href="/pricing">料金プラン</a></li><li><a href="/sitemap">サイトマップ</a></li></ul></div></div><div class="footer-bottom"><span>© 2026 Nortiq Labs Inc. All rights reserved.</span><div class="row" style="gap: 24px;"><a href="/privacy" style="color: var(--text-3);">プライバシーポリシー</a><a href="/terms" style="color: var(--text-3);">利用規約</a><a href="/privacy-handling" style="color: var(--text-3);">個人情報の取扱い</a></div></div></div></footer><div class="modal-backdrop"><div class="modal" role="dialog" aria-modal="true"><button class="modal-close" aria-label="閉じる"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M6 18L18 6"></path></svg></button><div style="margin-bottom: 24px;"><div class="eyebrow eyebrow-accent" style="margin-bottom: 10px;">CONTACT</div><h3 class="display-s" style="margin-bottom: 8px;">資料請求・お問い合わせ</h3><p class="small">初回相談は無料です。営業日24時間以内にご返信します。</p></div><form novalidate=""><div class="field"><label>貴社名<span class="req">必須</span></label><input type="text" placeholder="株式会社○○" value=""></div><div class="field"><label>ご担当者名<span class="req">必須</span></label><input type="text" placeholder="山田 太郎" value=""></div><div class="field"><label>メールアドレス<span class="req">必須</span></label><input type="email" placeholder="you@example.com" value=""></div><div class="field"><label>電話番号<span class="req">必須</span></label><input type="tel" placeholder="03-XXXX-XXXX" value=""></div><div class="field"><label>カテゴリー<span class="req">必須</span></label><div class="cb-group"><label class=""><input type="checkbox">Web制作</label><label class=""><input type="checkbox">AIチャットボット</label><label class=""><input type="checkbox">DX・ML</label><label class=""><input type="checkbox">業務自動化</label><label class=""><input type="checkbox">LP制作</label><label class=""><input type="checkbox">採用サイト</label></div></div><div class="field"><label>お問い合わせ内容<span class="req">必須</span></label><div class="cb-group"><label class=""><input type="checkbox">新規HP制作</label><label class=""><input type="checkbox">HPリニューアル</label><label class=""><input type="checkbox">AIチャットボット導入</label><label class=""><input type="checkbox">DX・ML 実装</label><label class=""><input type="checkbox">業務自動化</label><label class=""><input type="checkbox">リスティング広告</label><label class=""><input type="checkbox">コンサルティング</label></div></div><div class="field"><label>ご相談内容<span class="any">任意</span></label><div class="cb-group"><label class=""><input type="checkbox">HPが無い</label><label class=""><input type="checkbox">問い合わせを増やしたい</label><label class=""><input type="checkbox">サービス資料がほしい</label><label class=""><input type="checkbox">無料診断</label><label class=""><input type="checkbox">デザインを改善したい</label><label class=""><input type="checkbox">SEOを上げたい</label><label class=""><input type="checkbox">AI活用したい</label><label class=""><input type="checkbox">業務効率化したい</label><label class=""><input type="checkbox">補助金活用を相談したい</label></div></div><div class="field"><label>本サイトを知ったきっかけ<span class="any">任意</span></label><select><option value="">選択してください</option><option value="Google検索">Google検索</option><option value="Yahoo検索">Yahoo検索</option><option value="ご紹介">ご紹介</option><option value="メール">メール</option><option value="DMチラシ">DMチラシ</option><option value="SNS (X/LinkedIn)">SNS (X/LinkedIn)</option><option value="以前から知っていた">以前から知っていた</option><option value="その他">その他</option></select></div><div class="field"><label>サイトURL<span class="any">任意</span></label><input type="text" placeholder="https://" value=""></div><div class="field"><label>その他ご質問<span class="any">任意</span></label><textarea placeholder="ご質問・ご相談がございましたらお気軽にご記入ください。"></textarea></div><div class="field field-check"><input type="checkbox" id="agree" style="margin-top: 2px;"><label for="agree" style="cursor: pointer;"><a href="#" style="color: var(--accent); text-decoration: underline;">個人情報の取り扱い</a>に同意します<span class="req">必須</span></label></div><div style="margin-top: 8px; text-align: center;"><button class="btn btn-primary btn-lg" type="submit">同意して送信する<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></button></div></form></div></div><nav class="sp-bottom-nav" aria-label="モバイル下部ナビ"><ul><li><a href="/"><span class="icn"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-8 9 8M5 10v10h14V10"></path></svg></span><span>トップ</span></a></li><li><a href="/works"><span class="icn"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect></svg></span><span>制作実績</span></a></li><li><a href="/pricing"><span class="icn"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4l8 11 8-11M7 13h10M7 17h10"></path></svg></span><span>料金</span></a></li><li><a><span class="icn"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><path d="M22 6l-10 7L2 6"></path></svg></span><span>資料請求</span></a></li><li><a href="/sitemap"><span class="icn"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M4 12h16M4 17h16"></path></svg></span><span>メニュー</span></a></li></ul></nav><div class="sticky-cta"><span class="pulse"></span><span>初回相談無料 · 営業日24h以内にご返信</span><button>資料請求 →</button><button class="sticky-cta-close" aria-label="閉じる"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M6 18L18 6"></path></svg></button></div></div>
+  <script src="/articles.js?v=mpn245p6" defer=""></script>
+  <script src="/app.bundle.js?v=mpn245p6" defer=""></script>
+
+
+</body></html>

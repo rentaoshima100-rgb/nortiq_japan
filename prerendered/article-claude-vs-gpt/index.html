@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="ja" style="--accent: hsl(354, 92%, 45%); --accent-hi: hsl(354, 95%, 52%); --accent-soft: hsl(354, 90%, 95%);"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Google tag (gtag.js) — GA4 + Google Ads conversion tracking -->
+  <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-EYTD1TWR7T"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-EYTD1TWR7T');
+    window.NORTIQ_CONV = { contact: null, diagnostic: null };
+  </script>
+  <title>Claude vs GPT 業務利用 比較ドシエ — Nortiq Labs</title>
+  <meta name="description" content="Claude vs GPT 業務利用 比較ドシエ ｜ Nortiq Labs の技術ブログ（AI活用）。">
+  <link rel="icon" href="/assets/nortiq-fav.png" type="image/png">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Nortiq Labs">
+  <meta property="og:title" content="Claude vs GPT 業務利用 比較ドシエ — Nortiq Labs">
+  <meta property="og:description" content="Claude vs GPT 業務利用 比較ドシエ ｜ Nortiq Labs の技術ブログ（AI活用）。">
+  <meta property="og:url" content="https://nortiqlab.com/article-claude-vs-gpt">
+  <meta property="og:image" content="https://nortiqlab.com/assets/og-image.png">
+  <meta property="og:locale" content="ja_JP">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Claude vs GPT 業務利用 比較ドシエ — Nortiq Labs">
+  <meta name="twitter:description" content="Claude vs GPT 業務利用 比較ドシエ ｜ Nortiq Labs の技術ブログ（AI活用）。">
+  <meta name="twitter:image" content="https://nortiqlab.com/assets/og-image.png">
+  <link rel="stylesheet" href="/styles.css?v=mpn245p6">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://nortiqlab.com/#org","name":"Nortiq Labs","url":"https://nortiqlab.com/","logo":"https://nortiqlab.com/assets/nortiq-mark.png","image":"https://nortiqlab.com/assets/og-image.png","description":"米国の技術水準を、日本の中小企業の武器に。Web制作・AIチャットボット・DX/ML実装まで、20社の支援実績を持つ技術チームが段階的に伴走するDXパートナーです。","slogan":"日本のDX、世界水準で巻き返す。","foundingDate":"2025","numberOfEmployees":5,"address":{"@type":"PostalAddress","addressCountry":"JP","postalCode":"604-0012","addressRegion":"京都府","addressLocality":"京都市中京区","streetAddress":"竪大恩寺町751"},"areaServed":{"@type":"Country","name":"Japan"},"knowsAbout":["Web制作","AIチャットボット","DX","機械学習","SEO","LP制作 / LPO","業務自動化","データ分析"],"founder":{"@type":"Person","name":"Renta Oshima","jobTitle":"Founder / Engineer","description":"米国 UC Berkeley で AI 研究。日本の中小企業向け DX 支援を起業。"}},{"@type":"WebSite","@id":"https://nortiqlab.com/#website","name":"Nortiq Labs","url":"https://nortiqlab.com/","publisher":{"@id":"https://nortiqlab.com/#org"},"inLanguage":"ja"},{"@type":"ProfessionalService","name":"Nortiq Labs","url":"https://nortiqlab.com/","description":"米国の技術水準を、日本の中小企業の武器に。Web制作・AIチャットボット・DX/ML実装まで、20社の支援実績を持つ技術チームが段階的に伴走するDXパートナーです。","areaServed":"JP","serviceType":["Web制作","AIチャットボット導入","DX・ML実装","補助金活用のDX導入相談"],"provider":{"@id":"https://nortiqlab.com/#org"}},{"@type":"FAQPage","@id":"https://nortiqlab.com/#faq","mainEntity":[{"@type":"Question","name":"Nortiq Labs はどんな会社ですか？","acceptedAnswer":{"@type":"Answer","text":"米国 UC Berkeley での AI 研究背景を持つ代表のもと、日本の経営課題に向き合うメンバーで構成された技術チームです。Web制作・AIチャットボット・DX/ML 実装まで、中小企業のDXを段階的に支援します。これまで20社の制作・支援実績があります（2025年・京都設立）。"}},{"@type":"Question","name":"Web制作の費用はどれくらいですか？","acceptedAnswer":{"@type":"Answer","text":"オリジナルデザインのWeb制作は30万円から承っています。ページ数・機能・要件に応じてお見積もりし、公開後の運用・改善まで伴走します。"}},{"@type":"Question","name":"AIチャットボットは導入できますか？","acceptedAnswer":{"@type":"Answer","text":"はい。WordPress連携のAI投稿アシスタントをはじめ、問い合わせ対応やブログ更新を自動化するAIチャットボットの導入を、実装の中身まで説明しながら支援します。"}},{"@type":"Question","name":"補助金は活用できますか？","acceptedAnswer":{"@type":"Answer","text":"IT導入補助金などの活用を視野に入れた DX 投資のご相談を承っています。なお、補助金申請の手続きサポート（登録 IT 導入支援事業者としての対応）は現在準備中です。"}},{"@type":"Question","name":"対応している業種は？","acceptedAnswer":{"@type":"Answer","text":"クリニック・医療、不動産、建築・工務店、人材、小売/EC、インフラ・製造、AIスタートアップなど、7業種以上の制作・支援実績があります。"}},{"@type":"Question","name":"制作後のサポートはありますか？","acceptedAnswer":{"@type":"Answer","text":"公開して終わりにはせず、運用・改善まで継続して伴走します。お問い合わせには営業日24時間以内にご返信します。"}},{"@type":"Question","name":"全国対応していますか？","acceptedAnswer":{"@type":"Answer","text":"はい。オンラインを中心に、全国のお客様に対応しています。"}}]}]}</script>
+  <script src="/assets/vendor/react.production.min.js?v=mpn245p6"></script>
+  <script src="/assets/vendor/react-dom.production.min.js?v=mpn245p6"></script>
+<link rel="canonical" href="https://nortiqlab.com/article-claude-vs-gpt"><script type="application/ld+json" id="route-ld">[{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"トップ","item":"https://nortiqlab.com/"},{"@type":"ListItem","position":2,"name":"コラム","item":"https://nortiqlab.com/column"},{"@type":"ListItem","position":3,"name":"Claude vs GPT 業務利用 比較ドシエ","item":"https://nortiqlab.com/article-claude-vs-gpt"}]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"Claude vs GPT 業務利用 比較ドシエ","description":"Claude vs GPT 業務利用 比較ドシエ ｜ Nortiq Labs の技術ブログ（AI活用）。","image":"https://nortiqlab.com/assets/blog-claude-vs-gpt.png","url":"https://nortiqlab.com/article-claude-vs-gpt","inLanguage":"ja","articleSection":"AI活用","datePublished":"2026-01-28","dateModified":"2026-01-28","author":{"@type":"Organization","@id":"https://nortiqlab.com/#org","name":"Nortiq Labs"},"publisher":{"@id":"https://nortiqlab.com/#org"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://nortiqlab.com/article-claude-vs-gpt"}}]</script></head>
+<body>
+  <div id="app"><header class="nav" role="banner"><div class="nav-inner"><a class="nav-logo" href="/" style="cursor: pointer;"><span class="nav-logo-mark"></span><span class="wordmark"><span class="wordmark-main">NORTIQ</span><span class="wordmark-sub">LABS</span></span></a><nav class="nav-links" aria-label="メインナビゲーション"><div class="nav-link-wrap"><a class="nav-link" href="/">トップ</a></div><div class="nav-link-wrap"><a class="nav-link">機能<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></a></div><div class="nav-link-wrap"><a class="nav-link">制作実績<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></a></div><div class="nav-link-wrap"><a class="nav-link">業種ソリューション<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></a></div><div class="nav-link-wrap"><a class="nav-link" href="/voice">ご利用会社様の声</a></div><div class="nav-link-wrap"><a class="nav-link" href="/support">サポート</a></div><div class="nav-link-wrap"><a class="nav-link" href="/pricing">料金プラン</a></div><div class="nav-link-wrap"><a class="nav-link" aria-current="page">コンテンツ<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></a></div><div class="nav-link-wrap"><a class="nav-link" href="/diagnostic">無料診断</a></div></nav><div class="nav-cta-wrap"><button class="btn btn-primary btn-sm" type="button"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><path d="M22 6l-10 7L2 6"></path></svg>メールでお問合せ</button><button class="hamburger" aria-label="メニューを開く" aria-expanded="false"><span></span><span></span><span></span></button></div></div><div class="nav-drawer"><div class="nav-drawer-panel"><div class="nav-drawer-head"><span class="nav-logo" style="font-size: 18px;"><span class="nav-logo-mark" aria-hidden="true"></span><span class="wordmark"><span class="wordmark-main">NORTIQ</span><span class="wordmark-sub">LABS</span></span></span><button class="drawer-close" aria-label="閉じる"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M6 18L18 6"></path></svg></button></div><nav class="nav-drawer-body"><a class="drawer-item" href="/"><span>トップ</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><div class="drawer-group"><button class="drawer-item drawer-group-head"><span>機能</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></button><div class="drawer-group-body"><div class="drawer-subgroup"><h5>サービス別 機能一覧</h5><a class="drawer-sub-item" href="/web"><span>Web制作 機能一覧</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/chatbot"><span>AIチャットボット 機能一覧</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/dx"><span>DX・ML 機能一覧</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></div><div class="drawer-subgroup"><h5>技術領域</h5><a class="drawer-sub-item" href="/feature-lpo"><span>LP制作 / LPO</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/feature-recruit"><span>採用専門サイト</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/feature-analytics"><span>アクセス解析カスタム実装</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/feature-cms"><span>CMS / 記事更新システム</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></div><div class="drawer-subgroup"><h5>自社プロダクト</h5><a class="drawer-sub-item" href="/product-vetonet"><span>VetoNet (AI Security)</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/product-wpchat"><span>WP AIチャットボット</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/product-tennis"><span>Tennis フォームチェック</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></div></div></div><div class="drawer-group"><button class="drawer-item drawer-group-head"><span>制作実績</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></button><div class="drawer-group-body"><div class="drawer-subgroup"><h5>業種から探す</h5><a class="drawer-sub-item" href="/works-clinic"><span>クリニック・医療</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/works-realty"><span>不動産</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/works-build"><span>建築・工務店</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/works-hr"><span>人材</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/works-retail"><span>小売 / EC</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/works-infra"><span>インフラ・製造</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/works-ai"><span>AIスタートアップ</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></div><div class="drawer-subgroup"><h5>強化LP別</h5><a class="drawer-sub-item" href="/works-lp-corp"><span>コーポレートサイト</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/works-lp-recruit"><span>採用LP</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/works-lp-ec"><span>EC連動LP</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></div><div class="drawer-subgroup"><h5>実績まとめ</h5><a class="drawer-sub-item" href="/works"><span>全実績一覧</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></div></div></div><div class="drawer-group"><button class="drawer-item drawer-group-head"><span>業種ソリューション</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></button><div class="drawer-group-body"><div class="drawer-subgroup"><h5>業種別パッケージ</h5><a class="drawer-sub-item" href="/solution-clinic"><span>クリニック・医療 DXパッケージ</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/solution-realty"><span>不動産 集客×管理パッケージ</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/solution-build"><span>建築 ブランド×案件管理</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/solution-hr"><span>人材 マッチング×集客</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/solution-retail"><span>小売・EC OMOパッケージ</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></div></div></div><a class="drawer-item" href="/voice"><span>ご利用会社様の声</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-item" href="/support"><span>サポート</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-item" href="/pricing"><span>料金プラン</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><div class="drawer-group"><button class="drawer-item drawer-group-head"><span>コンテンツ</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></button><div class="drawer-group-body"><div class="drawer-subgroup"><h5>メディア</h5><a class="drawer-sub-item" href="/column"><span>コラム / 技術ブログ</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/news"><span>お知らせ</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/guidebook"><span>DXガイドブック</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/subsidy"><span>補助金活用相談</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></div></div></div><a class="drawer-item" href="/diagnostic"><span>無料診断</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></nav><div class="nav-drawer-foot"><button class="btn btn-primary btn-lg" type="button" style="width: 100%;"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><path d="M22 6l-10 7L2 6"></path></svg>資料請求・お問い合わせ</button></div></div></div></header><div><main class="page-fade"><nav aria-label="Breadcrumb" style="padding: 14px 0px; border-bottom: 1px solid var(--border); background: var(--bg-2);"><div class="container"><ol class="row-tight" style="list-style: none; padding: 0px; margin: 0px; font-size: 12px; color: var(--text-3);"><li class="row-tight" style="gap: 8px;"><a href="/" style="cursor: pointer; color: var(--text-2);">トップ</a></li><li class="row-tight" style="gap: 8px;"><span style="color: var(--text-4);">›</span><a href="/column" style="cursor: pointer; color: var(--text-2);">コラム</a></li><li class="row-tight" style="gap: 8px;"><span style="color: var(--text-4);">›</span><span style="color: var(--text);">Claude vs GPT 業務利用 比較ドシエ</span></li></ol></div></nav><article><header style="padding-top: clamp(48px, 7vw, 90px); padding-bottom: 32px;"><div class="container" style="max-width: 820px;"><div class="row" style="gap: 10px; margin-bottom: 24px; color: var(--text-3); font-size: 13px; flex-wrap: wrap;"><span class="tag" style="color: var(--accent); border-color: var(--accent);">AI活用</span><span class="num">2026.01.28</span><span>·</span><span>11 min read</span><span>·</span><span>Nortiq Labs</span></div><h1 class="display-l fadein is-in" style="margin-bottom: 8px;">Claude vs GPT 業務利用 比較ドシエ</h1></div></header><div class="container" style="max-width: 880px; margin-bottom: 8px;"><picture><source srcset="/assets/blog-claude-vs-gpt.webp" type="image/webp"><img src="/assets/blog-claude-vs-gpt.png" alt="Claude vs GPT 業務利用 比較ドシエ" class="article-hero-img"></picture></div><div class="container" style="max-width: 780px; margin-top: 24px; margin-bottom: 80px;"><div class="article-prose article-body"><h2>TL;DR</h2>
+<ul>
+<li><strong>業務利用の総合的な「精度・信頼性」では、2026年5月時点で Anthropic Claude（Opus 4.7／Sonnet 4.6）が OpenAI GPT-5系（GPT-5.4／GPT-5.5）に対し、コーディング実務、長文ドキュメント理解、ハルシネーション抑制（特に「分からないと正直に言う」設計）、エンタープライズ採用、自然な日本語ビジネス文章 の5領域で優位</strong>。一方、GPT-5.5 は MMLU・Terminal-Bench 2.0・マルチモーダル統合では先行しており、純粋な「全部入り」の汎用性では依然 ChatGPT エコシステムが強い。</li>
+<li><strong>エンタープライズ市場のシェアは Claude が逆転済み</strong>：Menlo Ventures の 2025 年中間レポートで Anthropic が 32%・OpenAI が 25%（2023 年末は OpenAI 50%）。2026年4月の Ramp 支出データでは Anthropic 34.4% / OpenAI 32.3%。WSJ 報道（2026年3月19-20日）によれば、新規エンタープライズ AI 支出の <strong>73% が Anthropic に流入</strong>（OpenAI 社内で "code red" が発令されたと報じられた）。</li>
+<li><strong>一般ビジネスパーソンへの推奨</strong>：日常業務（文章作成・要約・メール・社内文書・契約書レビュー）では Claude を第一選択にし、画像生成・音声・最新Web検索・Microsoft 365 統合の場面では GPT-5系を併用する「両刀運用」が最も現実的。月額コスト合計は1人あたり $40〜80 程度で収まる。</li>
+</ul>
+<hr>
+<h2>Key Findings（記事執筆時に押さえるべき要点）</h2>
+<h3>1. 2025-2026 年の主要モデル世代マップ</h3>
+<ul>
+<li><strong>Claude系</strong>：Sonnet 4.5（2025年9月29日）→ Opus 4.5（2025年11月24日）→ Haiku 4.5 → Sonnet 4.6・Opus 4.6（2026年2月、Opus 4.6 は2月5日）→ <strong>Opus 4.7（2026年4月16日、現時点での一般公開最上位）</strong>。Anthropic公式 Series G 発表（2026年2月12日）に「In January alone, we launched more than thirty products and features, including Cowork」と明記されており、<strong>2026年1月だけで30以上の新製品・機能をリリース</strong>している驚異的な開発速度。</li>
+<li><strong>GPT系</strong>：GPT-5（2025年8月7日）→ GPT-5.2（2025年12月11日、コンテキスト 400K）→ GPT-5.3 Instant（2026年3月3日、デフォルト ChatGPT モデル化）→ GPT-5.4（2026年3月5日）→ <strong>GPT-5.5（2026年4月23日リリース、コードネーム "Spud"、GPT-4.5 以来の本格ベースモデル再学習）</strong>。</li>
+</ul>
+<h3>2. コーディング・エージェント（最も差が大きい領域）</h3>
+<ul>
+<li><strong>SWE-bench Verified</strong>（500件の実 GitHub 課題）：Opus 4.7 = <strong>87.6%</strong>、GPT-5.5 = <strong>88.7%</strong>、Sonnet 4.6 = <strong>79.6%</strong>、GPT-5.4 = 76.3%。ほぼ並ぶが GPT-5.5 がやや先行。</li>
+<li><strong>SWE-bench Pro</strong>（多言語・実務難易度高）：<strong>Opus 4.7 = 64.3%、GPT-5.5 = 58.6%、GPT-5.4 = 57.7%、Gemini 3.1 Pro = 54.2%</strong>。実務に近い難しい設定では <strong>Claude が明確リード</strong>。</li>
+<li><strong>業界エコシステムの採用シェア</strong>：Menlo Ventures の State of Generative AI レポートによれば、<strong>エンタープライズコーディング市場における Claude のシェアは42〜54%、OpenAI は21%</strong>。Cursor、GitHub Copilot、Devin（Cognition）、Replit、Lovable、Notion Agent、Figma Make など主要コーディング系製品が Claude をデフォルトに採用。</li>
+<li><strong>実機評価の代表例</strong>（Anthropic 公式 Opus 4.7 ローンチ資料に掲載）：<ul>
+<li>Devin（Cognition）：「Sonnet 4.5 で計画性能 +18%、エンドツーエンド評価 +12%、Sonnet 3.6 以来最大の伸び」</li>
+<li>Notion Agent：「Opus 4.7 は Opus 4.6 比で精度 +14%、ツール呼び出しエラーが 1/3」</li>
+<li>CodeRabbit：「Opus 4.7 は recall が +10% 改善、最も難しい PR で精度を維持しつつ recall 向上」</li>
+</ul>
+</li>
+<li><strong>30時間以上の連続自律コーディング</strong>が Sonnet 4.5 以降の Claude で可能になった点も大きい。</li>
+</ul>
+<h3>3. 推論・知識ベンチマーク</h3>
+<ul>
+<li><strong>MMLU</strong>：OpenAI 公式 GPT-5.5 システムカード（2026年4月23日）の自己申告値で <strong>92.4%</strong>（GPT-4 の 86.4% から伸長）。</li>
+<li><strong>GPQA Diamond</strong>（PhD 級科学知識）：Opus 4.7 = <strong>94.2%</strong>、GPT-5.4 Pro = 94.4%、Gemini 3.1 Pro = 94.3%。<strong>ほぼ飽和、誤差範囲</strong>。</li>
+<li><strong>ARC-AGI-2</strong>（新規問題解決能力）：<strong>Opus 4.6 = 68.8% で大幅リード</strong>（GPT-5.2 Pro = 54.2%、Gemini 3 Pro = 45.1%）。Opus 4.5 の 37.6% から +31.2 ポイントの飛躍は、Vellum.ai の独立分析で「フロンティアモデル更新における単一ベンチマーク最大級の改善のひとつ（one of the largest single-benchmark improvements in frontier model updates）」と評価された。</li>
+<li><strong>Humanity's Last Exam</strong>：GPT-5.5 = 41.4%（ツールなし）／52.2%（ツールあり）。Opus 4.7 = 40.0% / <strong>54.7%</strong>。<strong>ツール使用時は Claude が逆転</strong>。</li>
+<li><strong>Terminal-Bench 2.0</strong>：Vellum.ai の独立検証で「GPT-5.5 achieves state-of-the-art on Terminal-Bench 2.0 at 82.7%, leading Claude Opus 4.7 (69.4%) by over 13 points」と明記。<strong>コマンドライン操作系では GPT-5.5 が13ポイント以上の差で圧倒</strong>。</li>
+</ul>
+<h3>4. ハルシネーション（事実誤認）</h3>
+<p><strong>この領域は単一の数字で語れない</strong>ことを記事では強調すべき。ベンチマークによって結果が桁違いに変わる。</p>
+<ul>
+<li><strong>AA-Omniscience</strong>（「知らないことを正直に認めるか」を測定、CometAPI 2026年4月計測）：<strong>GPT-5.5 = 86%、Gemini 3.1 Pro = 50%、Claude Opus 4.7 = 36%</strong>。GPT-5.5 は AA-Omniscience の正答率も 57% と最高だが、「知らないこと」にも自信を持って答えてしまう傾向が際立つ。</li>
+<li><strong>Vectara</strong>（要約の忠実度ベンチマーク）：Claude Sonnet 4.6 = 10.6%、GPT-5.2-high = 10.8%、Claude Opus 4.6 = 12.2%（推論モデル全般が10%超え）。非推論モデルの Gemini 2.5 Flash-Lite が 3.3% と最良。</li>
+<li><strong>共通する第三者評価</strong>：Caylent（AWS パートナー）の内部評価は「Sonnet 4.5 は答えをでっち上げる代わりに『I don't know』と返す傾向が高い」と明言。MindStudio（2026年5月）：「Anthropic は具体的なハルシネーション削減率を主張しない一方、Claude は不確実性をフラグする頻度が高い。これはアーキテクチャ哲学の違い」。</li>
+<li><strong>HealthBench（医療）</strong>：GPT-5 + thinking モードで 1.6%（GPT-4o は 15.8%）。<strong>医療など特定領域では GPT-5系が強い</strong>。</li>
+<li><strong>ECRI 2026 健康技術ハザードリストで「医療における AI チャットボット誤用」が第1位</strong>にランクされており、業務利用では人間によるレビューが不可欠。</li>
+</ul>
+<h3>5. 長文・コンテキストウィンドウ</h3>
+<ul>
+<li><p><strong>Claude Opus 4.7／4.6・Sonnet 4.6</strong>：<strong>1M トークン</strong>（約75万語、約3,000 ページ相当）。2026年3月にロングコンテキスト料金プレミアム撤廃（旧 $10/$37.50 → 標準 $5/$25）、200K 超でも均一料金。</p>
+</li>
+<li><p><strong>GPT-5.4／5.5</strong>：1.05M トークン入力、出力 128K。ただし <strong>GPT-5.5 は 272K トークン超で入力2倍・出力1.5倍</strong>（OpenAI 公式 API ドキュメント明記）。</p>
+</li>
+<li><p><strong>品質（MRCR v2、複数情報抽出ベンチマーク）</strong>：</p>
+<ul>
+<li>Opus 4.6 = 256K で 93%、<strong>1M で 76%</strong></li>
+<li>GPT-5.2 Thinking = 256K で 98%、1M で 70%</li>
+<li>Gemini 3 Pro = 256K で 77%（フル長で大きく劣化）</li>
+</ul>
+<p>→ <strong>Claude は長文の終端まで品質維持率が高い</strong>点が実務での強み。Anthropic 公式は「1M 全域で 90% 検索精度」と報告。</p>
+</li>
+<li><p><strong>実務インパクト</strong>：200ページの契約書全体、社内ナレッジベース、月単位の顧客サポート履歴を分割せず一発で投入できる。RAG パイプラインを構築せずに済むケースが増える。</p>
+</li>
+</ul>
+<h3>6. 日本語処理</h3>
+<ul>
+<li><p><strong>Artificial Analysis Multilingual Index（Japanese, Global-MMLU-Lite ベース）の Top 5</strong>（2026年5月時点）：</p>
+<ol>
+<li><strong>Gemini 3.1 Pro Preview</strong>（Google）= <strong>94</strong></li>
+<li>Gemini 3 Pro Preview (high) = 93</li>
+<li><strong>Claude Opus 4.6 (max)</strong> = 93</li>
+<li>Claude Opus 4.6 = 93</li>
+<li><strong>Claude Sonnet 4.6 (max)</strong> = 93</li>
+</ol>
+<p>Artificial Analysis の Japanese ページの説明文（verbatim）：「The top 5 Japanese language AI models are Gemini 3.1 Pro Preview, Gemini 3 Pro Preview (high), Claude Opus 4.6 (max), Claude Opus 4.6, and Claude Sonnet 4.6 (max)」。<strong>GPT-5系は Top 5圏外</strong>（インタラクティブチャート内のみでテキスト表示なし）。</p>
+</li>
+<li><p><strong>日本語の "純粋なベンチマーク王者" は実は Gemini 3.1 Pro</strong>。Claude推し記事として書く場合、「日本語スコアでも僅差の上位群に必ず Claude が複数モデル入っており、かつビジネス日本語の敬語・トーン制御では複数の独立評価で高い実用評価」という事実ベースの表現が誠実。</p>
+</li>
+<li><p><strong>ビジネス日本語の品質に関する独立評価</strong>：</p>
+<ul>
+<li>explAIn（2026年4月）：「日本語の自然さ・文体の多様性・読んでいて疲れない文章という点では、Claude Mythos Preview（および Opus 4.7）が GPT-5.5 より優れているという評価が多い」</li>
+<li>tenbin.ai byGMO（2026年3月実機検証）：「Claude Sonnet 4.6 は丁寧に文字数まで自己申告する几帳面さ」「GPT-5.4 は速く効率的、Claudeは丁寧で実務的」</li>
+<li>myaifrontdesk：「Claudeは日本語ビジネス文脈で敬語と丁寧表現を効果的に扱う」「B2B SaaS 企業の日本市場進出に最適」</li>
+<li>GuruSup（2026年）：「Claudeは Japanese keigo (honorifics) の形式レベルを保持する点で Gemini を上回る — business メールに不可欠」</li>
+</ul>
+</li>
+</ul>
+<h3>7. 安全性・信頼性の設計思想</h3>
+<ul>
+<li><strong>Anthropic Constitutional AI</strong>：2026年1月22日に新しい「AI Constitution」を <strong>Creative Commons CC0</strong> ライセンス下で全文公開。安全性 → 倫理 → コンプライアンス → 有用性 の優先順位を階層的に明示。BISI（Bloomsbury Intelligence and Security Institute）：「the most comprehensive public framework yet for governing an advanced Artificial Intelligence (AI) system」。</li>
+<li><strong>Claude Sonnet 4.5 システムカード（Anthropic公式PDFで一次ソース確認済み）の実測値</strong>：<ul>
+<li>有害リクエストへの <strong>無害応答率：99.29%</strong>（Sonnet 4 = 98.22%、Opus 4.1 = 98.76% から統計的有意改善）</li>
+<li>良性リクエストの <strong>過剰拒否率：0.02%</strong>（Sonnet 4 = 0.15% から大幅低下）</li>
+<li>原文引用：「Single-turn evaluations for Claude Sonnet 4.5 showed statistically significant improvements in overall harmless response rate compared to Claude Sonnet 4 (99.29% vs. 98.22%)」</li>
+</ul>
+</li>
+<li><strong>Opus 4.5 の安全性主張（Anthropic公式）</strong>：「業界トップのプロンプトインジェクション耐性」「GPT-5.1 / Gemini 3 Pro より約10%少ない問題行動」。</li>
+<li><strong>OpenAI 側のカウンター</strong>：GPT-5.5 で「医療・法務・金融タスクで 50%+ のハルシネーション削減」を主張。ただし MindStudio の独立分析は「OpenAI 自己申告であり第三者検証は限定的、AA-Omniscience の独立計測では GPT-5.5 が86%でむしろ最も高い」と指摘。</li>
+</ul>
+<h3>8. エンタープライズ採用実績</h3>
+<ul>
+<li><strong>Menlo Ventures「2025 Mid-Year LLM Market Update」</strong>（150社のCTOクラス調査、2025年7月発表）：<ul>
+<li>エンタープライズ LLM 支出は半年で $3.5B → $8.4B に倍増</li>
+<li><strong>Anthropic 32%、OpenAI 25%、Google 20%、Meta Llama 9%、DeepSeek 1%</strong></li>
+<li>Tim Tully（Menlo Ventures パートナー）コメント：「Teams are prioritizing real performance in production. As enterprise LLM spend crosses $8 billion, Anthropic is capturing the majority share」</li>
+</ul>
+</li>
+<li><strong>Ramp 法人カード支出データ（2026年4月）</strong>：Anthropic 34.4% / OpenAI 32.3%。<strong>初めて Anthropic がリード</strong>。</li>
+<li><strong>Anthropic 公式（2026年2月12日 Series G 発表）</strong>：<ul>
+<li>年率収益 <strong>$14B</strong>（2025年12月末の $9B から約2か月で1.5倍）</li>
+<li>Series G で $30B 調達、ポストマネー評価額 <strong>$380B</strong></li>
+<li><strong>Fortune 10 のうち8社が Claude 顧客</strong></li>
+<li>年間 $1M 以上を支出する顧客が500社超（2年前は十数社）</li>
+<li>年間 $100K 以上の顧客が前年比 7倍</li>
+</ul>
+</li>
+<li><strong>OpenAI 側の規模</strong>：TechCrunch（2026年2月27日）報道「ChatGPT has reached 900 million weekly active users, OpenAI announced Friday」、Reuters/The Information（2026年3月4日）配信「OpenAI topped $25 billion in annualized revenue as of the end of last month」（前期 $21.4B から17%増）。Fortune 500 採用率は92〜93%。</li>
+<li><strong>WSJ 報道（2026年3月19-20日）</strong>：OpenAI 社内メモで「Anthropic が新規エンタープライズ AI 支出の 73% を獲得」と判明、社内 "code red" が発令されたとされる。</li>
+</ul>
+<h3>9. 日本市場での Claude 導入事例（記事の信頼性向上に有効）</h3>
+<ul>
+<li><strong>楽天（Rakuten）</strong>：Claude Code 導入で市場投入時間を <strong>24営業日 → 5日（79%削減）</strong>。複雑なコード修正で <strong>数値精度 99.9%</strong>、12.5M行の vLLM リファクタリングで <strong>7時間連続の自律コーディング</strong>。関連子会社では「クリティカルエラーを 97% 削減」。Yusuke Kaji（AI for Business 統括）公式コメント：「You can have five tasks running in parallel by delegating four to Claude Code while focusing on the remaining one」</li>
+<li><strong>クラスメソッド（Classmethod）</strong>：<strong>最大10倍の生産性向上</strong>、コーディング時間 <strong>90%削減</strong>、コードレビュー時間 <strong>80%削減</strong>、Google Apps Script タスクが 24時間→1時間（<strong>96%削減</strong>）、社内 OSS「rulesync」のコードベース <strong>99% を Claude Code が生成</strong></li>
+<li><strong>NEC（日本電気）</strong>：2026年4月23日発表で <strong>Anthropic の日本拠点初のグローバルパートナー</strong> に。Claude を <strong>NEC グループ約3万人にグローバル展開</strong>、金融・製造・自治体向けに Claude Cowork を共同開発。</li>
+<li><strong>野村総合研究所（NRI）</strong>：文書分析業務を「数時間から数分」に短縮（Anthropic 東京オフィス開設発表より）</li>
+<li><strong>Panasonic</strong>：2025年1月8日発表で業務・消費者向けアプリケーションに Claude を統合</li>
+</ul>
+<h3>10. 料金体系（2026年5月時点、API公式）</h3>
+<table>
+<thead>
+<tr>
+<th>モデル</th>
+<th>入力（$/1M）</th>
+<th>出力（$/1M）</th>
+<th>コンテキスト</th>
+<th>備考</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Claude Opus 4.7 / 4.6 / 4.5</strong></td>
+<td>$5</td>
+<td>$25</td>
+<td>1M</td>
+<td>プロンプトキャッシュで最大90%オフ、バッチ50%オフ。前世代Opus 4.1（$15/$75）から<strong>67%値下げ</strong></td>
+</tr>
+<tr>
+<td><strong>Claude Sonnet 4.6 / 4.5</strong></td>
+<td>$3</td>
+<td>$15</td>
+<td>1M（Sonnet 4.6）</td>
+<td>キャッシュ読み取りで最大90%オフ、Opus 4.5級性能を1/5価格で</td>
+</tr>
+<tr>
+<td><strong>Claude Haiku 4.5</strong></td>
+<td>$0.80</td>
+<td>$4.00</td>
+<td>200K</td>
+<td>高速・大量処理用</td>
+</tr>
+<tr>
+<td><strong>GPT-5.5</strong></td>
+<td>$5</td>
+<td>$30</td>
+<td>1M</td>
+<td><strong>272K超は入力2倍・出力1.5倍</strong>、データ所在地は+10%</td>
+</tr>
+<tr>
+<td><strong>GPT-5.4</strong></td>
+<td>$2.50</td>
+<td>$15</td>
+<td>1.05M</td>
+<td>コスパ良</td>
+</tr>
+<tr>
+<td><strong>GPT-5.2</strong></td>
+<td>$1.75</td>
+<td>$14</td>
+<td>400K</td>
+<td>レガシー</td>
+</tr>
+<tr>
+<td><strong>GPT-5 mini</strong></td>
+<td>$0.25</td>
+<td>-</td>
+<td>-</td>
+<td>低コスト用</td>
+</tr>
+</tbody></table>
+<p><strong>個人向けプラン</strong>：Claude Pro $20/月、ChatGPT Plus $20/月（同価格）。Claude Max は $100〜、ChatGPT Pro は $200。</p>
+<p><strong>コスパ評価</strong>：Sonnet 4.6 が Opus 4.5 級の性能を 1/5 の価格で提供している点が決定的。一般業務（要約・メール・文書作成）には Sonnet 4.6 が事実上のスイートスポット。</p>
+<hr>
+<h2>Details（記事に組み込める引用・素材）</h2>
+<h3>A. Claude の具体的な強み（Claude推し記事の論拠）</h3>
+<p><strong>A-1. 「人間らしい文章」評価の独立検証</strong></p>
+<ul>
+<li>Tactiq（2026年）：「Claude is widely regarded as the strongest AI for creative writing. It produces the most natural-sounding prose, handles voice and tone matching well, and maintains quality over long-form pieces」</li>
+<li>Missive（メール作成専用評価）：「Claude consistently produces the most human-sounding drafts. It's better at picking up on emotional cues in the original email and adjusting tone accordingly. If a customer sounds frustrated, Claude's draft acknowledges that frustration naturally rather than defaulting to a chipper 'Thanks for reaching out!'」</li>
+<li>AItomation Academy 5タスク実機テスト：「For the writing that actually represents you and your business — the writing clients see, the content your audience reads, the proposals that win or lose deals — Claude is the better tool」</li>
+<li>AI Vortex（法務領域）：「Claude writes better legal prose. Claude's legal documents follow logical IRAC-style organization naturally. Claude takes feedback and produces meaningfully different second drafts」</li>
+</ul>
+<p><strong>A-2. ハルシネーション抑制の設計哲学</strong></p>
+<ul>
+<li>Caylent 内部評価：「we've found that Sonnet 4.5 has a higher tendency to respond 'I don't know' instead of hallucinating an answer, and it's better at respecting instructions about the output」</li>
+<li>MindStudio：「What Claude Opus 4.6 does have is a well-documented approach to uncertainty. Claude is more likely than most models to say 'I don't know' or 'I'm not confident about this' rather than fabricate a confident answer」</li>
+</ul>
+<p><strong>A-3. 1Mコンテキストの実用品質</strong></p>
+<ul>
+<li>Anthropic 公式：「Opus 4.6 demonstrates reliable recall at extreme context lengths」「Opus 4.6 is much better at retrieving relevant information from large sets of documents」</li>
+<li>Martin Alderson（実機検証ブログ）：「You can see here that while GPT-5.4 and Gemini 3.1 Pro both have 1M context lengths, they quickly degrade past 256K - struggling to get above 50% match ratio at 1M length. This is a real problem for long running agentic tasks」</li>
+</ul>
+<h3>B. GPT-5系の強み（公平に触れるべき点）</h3>
+<ul>
+<li><strong>MMLU 92.4%（GPT-5.5）</strong>、<strong>Terminal-Bench 2.0 82.7%</strong>（Claude を 13 ポイント以上引き離す）でフロンティア</li>
+<li>マルチモーダル統合（DALL-E 画像生成、リアルタイム音声、Codex 統合）が完成度高い</li>
+<li>Microsoft 365 / Azure / Excel / Google Sheets との既存統合が深く、IT管理者の導入摩擦が小さい</li>
+<li>ChatGPT 利用者ベース：週間アクティブユーザー9億人（TechCrunch, 2026年2月27日）、年率収益 $25B（Reuters/The Information, 2026年3月4日）</li>
+<li>価格優位：GPT-5.4 は $2.50/$15 で、Claude Sonnet 4.6（$3/$15）より入力が安い</li>
+<li>HealthBench 等の医療領域では GPT-5 + thinking モードが圧倒（1.6%ハルシネーション）</li>
+</ul>
+<h3>C. ベンチマーク早見表（記事の表素材）</h3>
+<table>
+<thead>
+<tr>
+<th>評価項目</th>
+<th>Claude Opus 4.7</th>
+<th>Claude Sonnet 4.6</th>
+<th>GPT-5.5</th>
+<th>GPT-5.4</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>SWE-bench Verified</td>
+<td><strong>87.6%</strong></td>
+<td>79.6%</td>
+<td><strong>88.7%</strong></td>
+<td>76.3%</td>
+</tr>
+<tr>
+<td>SWE-bench Pro</td>
+<td><strong>64.3%</strong> ★</td>
+<td>53.4%(Opus 4.6)</td>
+<td>58.6%</td>
+<td>57.7%</td>
+</tr>
+<tr>
+<td>GPQA Diamond</td>
+<td>94.2%</td>
+<td>83.4%(Sonnet 4.5)</td>
+<td>~93%</td>
+<td>94.4%(Pro)</td>
+</tr>
+<tr>
+<td>Terminal-Bench 2.0</td>
+<td>69.4%</td>
+<td>-</td>
+<td><strong>82.7%</strong> ★</td>
+<td>75.1%</td>
+</tr>
+<tr>
+<td>OSWorld-Verified</td>
+<td><strong>78.0%</strong></td>
+<td>72.5%</td>
+<td>~78%</td>
+<td>75.0%</td>
+</tr>
+<tr>
+<td>MMLU</td>
+<td>-</td>
+<td>-</td>
+<td><strong>92.4%</strong> ★</td>
+<td>-</td>
+</tr>
+<tr>
+<td>MRCR @1M</td>
+<td><strong>76%</strong> ★</td>
+<td>-</td>
+<td>70%(@256K)</td>
+<td>-</td>
+</tr>
+<tr>
+<td>ARC-AGI-2</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>68.8%(Opus 4.6) vs 54.2%(5.2 Pro)</td>
+</tr>
+<tr>
+<td>AA-Omniscience hallucination</td>
+<td><strong>36%</strong> ★(低い)</td>
+<td>-</td>
+<td>86%</td>
+<td>-</td>
+</tr>
+<tr>
+<td>日本語(AA Multilingual Index)</td>
+<td>93(Top圏)</td>
+<td>93(Top5)</td>
+<td>Top5圏外</td>
+<td>Top5圏外</td>
+</tr>
+<tr>
+<td>コンテキスト</td>
+<td>1M</td>
+<td>1M</td>
+<td>1M(272K超は2倍)</td>
+<td>1.05M</td>
+</tr>
+<tr>
+<td>入力料金($/1M)</td>
+<td>$5</td>
+<td>$3</td>
+<td>$5</td>
+<td>$2.50</td>
+</tr>
+<tr>
+<td>出力料金($/1M)</td>
+<td>$25</td>
+<td>$15</td>
+<td>$30</td>
+<td>$15</td>
+</tr>
+</tbody></table>
+<p>★ = カテゴリリーダー</p>
+<h3>D. 業務シナリオ別の使い分け推奨</h3>
+<table>
+<thead>
+<tr>
+<th>業務タスク</th>
+<th>推奨モデル</th>
+<th>理由</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>社内文書・企画書の執筆</td>
+<td><strong>Claude Sonnet 4.6</strong></td>
+<td>自然な日本語、構成力、トーン制御</td>
+</tr>
+<tr>
+<td>長文契約書・規程の要約・レビュー</td>
+<td><strong>Claude Opus 4.7</strong></td>
+<td>1Mコンテキスト、長文末尾までの品質維持</td>
+</tr>
+<tr>
+<td>メール下書き・返信案</td>
+<td><strong>Claude Sonnet 4.6</strong></td>
+<td>感情ニュアンスの読み取り、敬語処理</td>
+</tr>
+<tr>
+<td>コード生成・コードレビュー</td>
+<td><strong>Claude Opus 4.7 / Sonnet 4.6</strong></td>
+<td>SWE-bench Pro 64.3%、業界シェア42-54%</td>
+</tr>
+<tr>
+<td>表計算・財務分析</td>
+<td><strong>Claude Opus 4.7</strong></td>
+<td>Excel連携、Finance Agent 64.4%</td>
+</tr>
+<tr>
+<td>マーケコピー、キャッチー表現</td>
+<td>GPT-5.4 / 5.5</td>
+<td>短文の流暢さ、ブレストの広がり</td>
+</tr>
+<tr>
+<td>画像生成・図解作成</td>
+<td><strong>GPT-5系（DALL-E統合）</strong></td>
+<td>Claude は画像生成非対応</td>
+</tr>
+<tr>
+<td>音声対話・リアルタイム翻訳</td>
+<td><strong>GPT-5系 / Gemini</strong></td>
+<td>Claude は音声入出力に弱い</td>
+</tr>
+<tr>
+<td>最新Web検索を伴うリサーチ</td>
+<td><strong>GPT-5系 / Gemini</strong></td>
+<td>統合された検索体験</td>
+</tr>
+<tr>
+<td>Microsoft 365 統合業務</td>
+<td><strong>GPT-5系（Copilot）</strong></td>
+<td>エコシステム深さ</td>
+</tr>
+</tbody></table>
+<hr>
+<h2>Recommendations（記事の構成案）</h2>
+<h3>推奨ストーリーライン（一般ビジネスパーソン向け）</h3>
+<p><strong>冒頭（300字）</strong>：「ChatGPTの陰でじわじわ存在感を増している『Claude』。実は2026年5月時点で、エンタープライズ市場のシェアは Claude が逆転している」という事実ベースの導入。</p>
+<p><strong>第1章：3つの数字で見る現状（800字）</strong></p>
+<ul>
+<li>32% vs 25%（Menlo Ventures エンタープライズシェア）</li>
+<li>42-54% vs 21%（コーディング市場シェア）</li>
+<li>73%（新規エンタープライズ AI 支出が Anthropic に流入）</li>
+</ul>
+<p><strong>第2章：性能ベンチマークの読み解き（1200字）</strong></p>
+<ul>
+<li>SWE-bench Pro / OSWorld / GPQA / MMLU を表で対比</li>
+<li>「ベンチマーク王者 = 業務最適とは限らない」というメッセージ</li>
+<li>ARC-AGI-2 で Opus 4.6 が大幅リードしている事実</li>
+</ul>
+<p><strong>第3章：実務で効く5つの差別化ポイント（1500字）</strong></p>
+<ol>
+<li>自然な文章品質（独立評価多数）</li>
+<li>長文1Mコンテキストの品質維持率</li>
+<li>ハルシネーション抑制の設計哲学（謙虚な Claude）</li>
+<li>Constitutional AI と CC0 公開（透明性）</li>
+<li>30時間連続自律タスクの安定性</li>
+</ol>
+<p><strong>第4章：日本企業の実例（800字）</strong></p>
+<ul>
+<li>楽天（79%時短）、クラスメソッド（10倍生産性）、NEC（3万人展開）、NRI、Panasonic</li>
+</ul>
+<p><strong>第5章：使い分けと料金（600字）</strong></p>
+<ul>
+<li>Sonnet 4.6 のコスパ</li>
+<li>GPT-5系を併用すべき場面（画像生成・音声・Office連携）</li>
+<li>個人月20ドルから始める現実的なロードマップ</li>
+</ul>
+<p><strong>結び（300字）</strong>：「全領域でClaude最強」ではなく、「業務利用の信頼性・品質という観点では今、Claude が一歩リードしている」という誠実な締め方が信頼性を高める。</p>
+<h3>記事タイトル候補</h3>
+<ul>
+<li>「ChatGPTだけでいい？業務利用で Claude を選ぶべき5つの理由【2026年版】」</li>
+<li>「実は法人市場でChatGPTを逆転 — Anthropic Claude がビジネス利用で選ばれる理由」</li>
+<li>「日本企業も続々採用：Claude が GPT-5系より業務に向いている本当の理由」</li>
+</ul>
+<hr>
+<h2>Caveats（記事執筆時に必ず注意すべき点）</h2>
+<ol>
+<li><p><strong>モデルの更新速度が極めて速い</strong>：本リサーチは2026年5月21日時点。Anthropic・OpenAI とも約6週間ごとに新モデルを投入しているため、執筆時点で必ず最新版を再確認すること。特に「Mythos Preview」「GPT-5.5 Pro」「Opus 4.7」の位置付けは2-3週間で陳腐化する可能性あり。</p>
+</li>
+<li><p><strong>ベンチマーク数値の出典リスク</strong>：OpenAI 自己申告（GPT-5.5 のハルシネーション 60% 削減）と独立計測（AA-Omniscience の 86%）で大きな乖離がある。各数値は出典（Anthropic 公式システムカード／OpenAI 公式／Artificial Analysis／Vellum／Vals.ai／Menlo Ventures など）を明記して提示すること。</p>
+</li>
+<li><p><strong>ハルシネーション率は計測手法で桁が変わる</strong>：「Claude Opus 4.6 = 4%」（Talkory.ai の独自500プロンプト評価）と「Claude Opus 4.6 = 12.2%」（Vectara 要約忠実度）は両方とも信頼できるが計測対象が違う。ベンチマーク名と計測方法をセットで提示。</p>
+</li>
+<li><p><strong>日本語ベンチマークのトップは実は Gemini 3.1 Pro</strong>：純粋な Global-MMLU-Lite Japanese スコアでは Gemini が首位。Claude推し記事として書く場合は、「Top 5 のうち3モデルが Claude」「ビジネス日本語の体裁・敬語・トーン制御では Claude が複数の独立評価で高評価」と表現するのが事実に忠実。「日本語性能で Claude が最強」と言い切るのは過剰。</p>
+</li>
+<li><p><strong>「Claude Mythos Preview」は限定公開</strong>：ベンチマーク表で時々最上位に現れるが、これは Anthropic が一般公開していない研究プレビューモデル。記事では Opus 4.7 を「現時点での一般公開最上位」として明確に扱うこと。</p>
+</li>
+<li><p><strong>GPT-5.5 のリリースは新しく（2026年4月23日）</strong>、業界での実機評価がまだ出揃っていない。古い比較表は GPT-5.4 ベースの可能性がある点に留意。</p>
+</li>
+<li><p><strong>エンタープライズシェアの数値（32%、34.4%、40%、73%）は計測対象が違う</strong>：</p>
+<ul>
+<li>32% = Menlo Ventures（推論支出ベース、2025年中間、150社調査）</li>
+<li>34.4% = Ramp（法人カード支出ベース、2026年4月）</li>
+<li>40% = Deep Research Global（推計、2026年）</li>
+<li>73% = WSJ 報道（新規エンタープライズ AI 支出のみ、2026年3月）</li>
+</ul>
+<p>それぞれ出典と計測対象を明示すること。混同して使うと数字の整合性が崩れる。</p>
+</li>
+<li><p><strong>「Claude推し」と「事実ベース」の両立</strong>：Claude が業務利用で多くの面で優位という根拠は十分にあるが、GPT-5.5 が MMLU・Terminal-Bench 2.0・マルチモーダル統合で先行している事実は認めるべき。誠実な比較こそ記事の信頼性を高める。一般読者は「全方位最強」より「ここが優れている／ここは負けている」という具体性を評価する。</p>
+</li>
+<li><p><strong>OpenAI を一方的に貶めない</strong>：ChatGPT のユーザーベース（週9億人）、年率収益$25B、Fortune 500 採用率92%、Azure・Microsoft 365 統合の深さは依然として圧倒的。「ChatGPTは終わり」ではなく「Claude の業務利用シェアが急伸している」というトーン推奨。</p>
+</li>
+<li><p><strong>Anthropic 評価額バブルへの留意</strong>：$380B 評価額に対する懐疑論（27倍年率収益マルチプル、margin expansion 仮定など）も存在することを念頭に置く。記事の主軸は「現在の性能と業務適性」に絞り、企業価値評価の議論には深入りしない方が一般読者向けには適切。</p>
+</li>
+</ol>
+<hr>
+<p><strong>主要出典一覧（記事執筆時の参照用、本文中の引用は省略可）</strong>：Anthropic 公式（claude-sonnet-4-5-system-card.pdf、Opus 4.5/4.6/4.7 ローンチ記事、Series G 発表）、OpenAI 公式（GPT-5.5 システムカード、API ドキュメント）、Artificial Analysis、Vellum.ai、Vals.ai、Menlo Ventures 2025 Mid-Year Report、TechCrunch、Reuters/The Information、Wall Street Journal、CometAPI、MindStudio、Caylent、CodeRabbit、DataCamp、Tactiq、Missive、AI Vortex、tenbin.ai、explAIn、claude.com/customers/rakuten、claude.com/customers/classmethod、NEC プレスリリース（2026年4月23日）、Bloomberg（Anthropic $9B revenue 報道）。</p>
+</div></div><section class="section-pad" style="background: var(--bg-2);"><div class="container" style="max-width: 880px;"><h3 class="display-s" style="margin-bottom: 24px;">関連記事</h3><div class="grid-3"><a class="article-card fadein is-in" href="/article-japan-dx" style="cursor: pointer;"><div class="ph ph-image ph-fit" style="aspect-ratio: 16 / 10; width: 100%;"><picture><source srcset="/assets/blog-japan-dx.webp" type="image/webp"><img src="/assets/blog-japan-dx.png" alt="なぜ日本のDXはアメリカに2〜3年遅れているのか"></picture></div><div class="article-meta"><span style="color: var(--accent);">DX 観察記</span><span class="article-meta-sep">·</span><span>2026.05.12</span></div><h3 class="article-title">なぜ日本のDXはアメリカに2〜3年遅れているのか</h3></a><a class="article-card fadein is-in" href="/article-vetonet" style="cursor: pointer;"><div class="ph ph-image ph-fit" style="aspect-ratio: 16 / 10; width: 100%;"><picture><source srcset="/assets/blog-vetonet.webp" type="image/webp"><img src="/assets/blog-vetonet.png" alt="VetoNet 開発の裏側 — AI agent security とは何か"></picture></div><div class="article-meta"><span style="color: var(--accent);">技術</span><span class="article-meta-sep">·</span><span>2026.04.28</span></div><h3 class="article-title">VetoNet 開発の裏側 — AI agent security とは何か</h3></a><a class="article-card fadein is-in" href="/article-wordpress-stall" style="cursor: pointer;"><div class="ph ph-image ph-fit" style="aspect-ratio: 16 / 10; width: 100%;"><picture><source srcset="/assets/blog-wordpress-stall.webp" type="image/webp"><img src="/assets/blog-wordpress-stall.png" alt="WordPress 更新が止まる本当の理由とその解決"></picture></div><div class="article-meta"><span style="color: var(--accent);">AI活用</span><span class="article-meta-sep">·</span><span>2026.03.30</span></div><h3 class="article-title">WordPress 更新が止まる本当の理由とその解決</h3></a></div></div></section></article><section class="t_inq_wrap fadein is-in"><div class="container"><h2>こうした観点をベースに、<br>貴社の DX を一緒に考えませんか。</h2><div class="t_inq_btns"><button class="btn btn-primary" type="button"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><path d="M22 6l-10 7L2 6"></path></svg>資料請求はこちら</button><button class="btn btn-primary" type="button"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><path d="M21 21l-4.35-4.35"></path></svg>ホームページ無料診断</button></div><p class="t_inq_time">営業日 24時間以内に担当者よりご返信します。</p></div></section></main></div><footer class="footer"><div class="container"><div class="footer-grid"><div class="footer-brand"><div class="nav-logo" style="margin-bottom: 18px;"><span class="nav-logo-mark"></span><span class="wordmark"><span class="wordmark-main">NORTIQ</span><span class="wordmark-sub">LABS</span></span></div><p class="body" style="font-size: 13px; max-width: 320px; margin-bottom: 24px;">日本のDX、世界水準で巻き返す。<br>Web制作からAI・DX実装までの技術チーム。</p><button class="btn btn-primary btn-sm" type="button"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><path d="M22 6l-10 7L2 6"></path></svg>資料請求はこちら</button></div><div class="footer-col"><h4>制作実績</h4><ul><li><a href="/works">全実績一覧</a></li><li><a href="/works-clinic">クリニック・医療</a></li><li><a href="/works-realty">不動産</a></li><li><a href="/works-build">建築・工務店</a></li><li><a href="/works-hr">人材</a></li><li><a href="/works-retail">小売 / EC</a></li><li><a href="/works-infra">インフラ・製造</a></li><li><a href="/works-ai">AIスタートアップ</a></li><li><a href="/works-lp-corp">コーポレートLP</a></li><li><a href="/works-lp-recruit">採用LP</a></li><li><a href="/works-lp-ec">EC連動LP</a></li><li><a href="/works-video">動画制作事例</a></li></ul></div><div class="footer-col"><h4>機能・サービス</h4><ul><li><a href="/web">Web制作 機能一覧</a></li><li><a href="/chatbot">AIチャットボット 機能一覧</a></li><li><a href="/dx">DX・ML 機能一覧</a></li><li><a href="/feature-lpo">LP制作 / LPO</a></li><li><a href="/feature-recruit">採用専門サイト</a></li><li><a href="/feature-analytics">アクセス解析</a></li></ul><h4 style="margin-top: 28px;">自社プロダクト</h4><ul><li><a href="/product-vetonet">VetoNet</a></li><li><a href="/product-wpchat">WP AIチャットボット</a></li><li><a href="/product-tennis">Tennis フォームチェック</a></li></ul></div><div class="footer-col"><h4>サポート・コンサル</h4><ul><li><a href="/support">運用サポート</a></li><li><a href="/voice">ご利用会社様の声</a></li><li><a href="/diagnostic">サイト無料診断 (URL入力)</a></li><li><a href="/column">技術ブログ / コラム</a></li><li><a href="/news">お知らせ</a></li><li><a href="/subsidy">補助金活用相談</a></li><li><a href="/guidebook">DXガイドブック</a></li></ul><h4 style="margin-top: 28px;">業種別ソリューション</h4><ul><li><a href="/solution-clinic">クリニック・医療</a></li><li><a href="/solution-realty">不動産</a></li><li><a href="/solution-build">建築・工務店</a></li><li><a href="/solution-hr">人材</a></li><li><a href="/solution-retail">小売 / EC</a></li></ul><h4 style="margin-top: 28px;">会社</h4><ul><li><a href="/company">会社概要</a></li><li><a href="/staff">チーム / スタッフ</a></li><li><a href="/recruit">採用情報</a></li><li><a href="/pricing">料金プラン</a></li><li><a href="/sitemap">サイトマップ</a></li></ul></div></div><div class="footer-bottom"><span>© 2026 Nortiq Labs Inc. All rights reserved.</span><div class="row" style="gap: 24px;"><a href="/privacy" style="color: var(--text-3);">プライバシーポリシー</a><a href="/terms" style="color: var(--text-3);">利用規約</a><a href="/privacy-handling" style="color: var(--text-3);">個人情報の取扱い</a></div></div></div></footer><div class="modal-backdrop"><div class="modal" role="dialog" aria-modal="true"><button class="modal-close" aria-label="閉じる"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M6 18L18 6"></path></svg></button><div style="margin-bottom: 24px;"><div class="eyebrow eyebrow-accent" style="margin-bottom: 10px;">CONTACT</div><h3 class="display-s" style="margin-bottom: 8px;">資料請求・お問い合わせ</h3><p class="small">初回相談は無料です。営業日24時間以内にご返信します。</p></div><form novalidate=""><div class="field"><label>貴社名<span class="req">必須</span></label><input type="text" placeholder="株式会社○○" value=""></div><div class="field"><label>ご担当者名<span class="req">必須</span></label><input type="text" placeholder="山田 太郎" value=""></div><div class="field"><label>メールアドレス<span class="req">必須</span></label><input type="email" placeholder="you@example.com" value=""></div><div class="field"><label>電話番号<span class="req">必須</span></label><input type="tel" placeholder="03-XXXX-XXXX" value=""></div><div class="field"><label>カテゴリー<span class="req">必須</span></label><div class="cb-group"><label class=""><input type="checkbox">Web制作</label><label class=""><input type="checkbox">AIチャットボット</label><label class=""><input type="checkbox">DX・ML</label><label class=""><input type="checkbox">業務自動化</label><label class=""><input type="checkbox">LP制作</label><label class=""><input type="checkbox">採用サイト</label></div></div><div class="field"><label>お問い合わせ内容<span class="req">必須</span></label><div class="cb-group"><label class=""><input type="checkbox">新規HP制作</label><label class=""><input type="checkbox">HPリニューアル</label><label class=""><input type="checkbox">AIチャットボット導入</label><label class=""><input type="checkbox">DX・ML 実装</label><label class=""><input type="checkbox">業務自動化</label><label class=""><input type="checkbox">リスティング広告</label><label class=""><input type="checkbox">コンサルティング</label></div></div><div class="field"><label>ご相談内容<span class="any">任意</span></label><div class="cb-group"><label class=""><input type="checkbox">HPが無い</label><label class=""><input type="checkbox">問い合わせを増やしたい</label><label class=""><input type="checkbox">サービス資料がほしい</label><label class=""><input type="checkbox">無料診断</label><label class=""><input type="checkbox">デザインを改善したい</label><label class=""><input type="checkbox">SEOを上げたい</label><label class=""><input type="checkbox">AI活用したい</label><label class=""><input type="checkbox">業務効率化したい</label><label class=""><input type="checkbox">補助金活用を相談したい</label></div></div><div class="field"><label>本サイトを知ったきっかけ<span class="any">任意</span></label><select><option value="">選択してください</option><option value="Google検索">Google検索</option><option value="Yahoo検索">Yahoo検索</option><option value="ご紹介">ご紹介</option><option value="メール">メール</option><option value="DMチラシ">DMチラシ</option><option value="SNS (X/LinkedIn)">SNS (X/LinkedIn)</option><option value="以前から知っていた">以前から知っていた</option><option value="その他">その他</option></select></div><div class="field"><label>サイトURL<span class="any">任意</span></label><input type="text" placeholder="https://" value=""></div><div class="field"><label>その他ご質問<span class="any">任意</span></label><textarea placeholder="ご質問・ご相談がございましたらお気軽にご記入ください。"></textarea></div><div class="field field-check"><input type="checkbox" id="agree" style="margin-top: 2px;"><label for="agree" style="cursor: pointer;"><a href="#" style="color: var(--accent); text-decoration: underline;">個人情報の取り扱い</a>に同意します<span class="req">必須</span></label></div><div style="margin-top: 8px; text-align: center;"><button class="btn btn-primary btn-lg" type="submit">同意して送信する<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></button></div></form></div></div><nav class="sp-bottom-nav" aria-label="モバイル下部ナビ"><ul><li><a href="/"><span class="icn"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-8 9 8M5 10v10h14V10"></path></svg></span><span>トップ</span></a></li><li><a href="/works"><span class="icn"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect></svg></span><span>制作実績</span></a></li><li><a href="/pricing"><span class="icn"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4l8 11 8-11M7 13h10M7 17h10"></path></svg></span><span>料金</span></a></li><li><a><span class="icn"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><path d="M22 6l-10 7L2 6"></path></svg></span><span>資料請求</span></a></li><li><a href="/sitemap"><span class="icn"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M4 12h16M4 17h16"></path></svg></span><span>メニュー</span></a></li></ul></nav><div class="sticky-cta"><span class="pulse"></span><span>初回相談無料 · 営業日24h以内にご返信</span><button>資料請求 →</button><button class="sticky-cta-close" aria-label="閉じる"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M6 18L18 6"></path></svg></button></div></div>
+  <script src="/articles.js?v=mpn245p6" defer=""></script>
+  <script src="/app.bundle.js?v=mpn245p6" defer=""></script>
+
+
+</body></html>
