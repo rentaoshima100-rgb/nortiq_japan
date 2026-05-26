@@ -11,7 +11,13 @@
     { "source": "/en/:path*", "destination": "/", "permanent": true }
   ],
   "rewrites": [
-    { "source": "/(.*)", "destination": "/app.html" }
+    { "source": "/(web|chatbot|dx|works|voice|support|pricing|diagnosis|quick-diagnosis|subsidy|guidebook|column|company|staff|sitemap|news|recruit|diagnostic|privacy|terms|privacy-handling|work-detail)", "destination": "/app.html" },
+    { "source": "/works-(clinic|realty|build|hr|retail|infra|ai)", "destination": "/app.html" },
+    { "source": "/works-lp-(corp|recruit|ec)", "destination": "/app.html" },
+    { "source": "/works-video", "destination": "/app.html" },
+    { "source": "/solution-(clinic|realty|build|hr|retail)", "destination": "/app.html" },
+    { "source": "/feature-(cms|lpo|recruit|analytics)", "destination": "/app.html" },
+    { "source": "/product-(vetonet|wpchat|tennis)", "destination": "/app.html" }
   ],
   "functions": {
     "api/diagnose.js": { "maxDuration": 30 },
