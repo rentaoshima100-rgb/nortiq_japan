@@ -28,6 +28,10 @@ WORKS_CATEGORIES.forEach(cat => {
     c: () => window.WorksPage, title: '制作実績 — Nortiq Labs', argName: 'category', argVal: cat,
   };
 });
+// Per-category titles so each works page is distinct from the index (avoids the
+// duplicate-title / duplicate-content problem flagged in Search Console).
+ROUTES['works-clinic'].title = 'クリニック・医療の制作実績 — Nortiq Labs';
+ROUTES['works-build'].title  = '建築・工務店の制作実績 — Nortiq Labs';
 
 // Generic pages — for any pageId not yet implemented
 const GENERIC_IDS = [];
@@ -36,15 +40,15 @@ GENERIC_IDS.forEach(id => {
 });
 
 // Product detail pages
-ROUTES['product-vetonet'] = { c: () => window.ProductVetoNetPage, title: 'VetoNet — Nortiq Labs' };
+ROUTES['product-vetonet'] = { c: () => window.ProductVetoNetPage, title: 'VetoNet｜AI Agent Security 研究開発プロダクト — Nortiq Labs' };
 ROUTES['product-wpchat']  = { c: () => window.ProductWPChatPage,  title: 'WP AIチャットボット — Nortiq Labs' };
-ROUTES['product-tennis']  = { c: () => window.ProductTennisPage,  title: 'Tennis フォームチェック — Nortiq Labs' };
+ROUTES['product-tennis']  = { c: () => window.ProductTennisPage,  title: 'テニスのフォームをAIで解析するアプリ｜33関節をスマホ動画で診断 — Nortiq Labs' };
 
 // Feature pages
-ROUTES['feature-cms']       = { c: () => window.FeatureCMSPage,       title: 'CMS / 記事更新 — Nortiq Labs' };
+ROUTES['feature-cms']       = { c: () => window.FeatureCMSPage,       title: 'CMS / 記事更新システム — Nortiq Labs' };
 ROUTES['feature-lpo']       = { c: () => window.FeatureLPOPage,       title: 'LP制作 / LPO — Nortiq Labs' };
-ROUTES['feature-recruit']   = { c: () => window.FeatureRecruitPage,   title: '採用専門サイト — Nortiq Labs' };
-ROUTES['feature-analytics'] = { c: () => window.FeatureAnalyticsPage, title: 'アクセス解析カスタム実装 — Nortiq Labs' };
+ROUTES['feature-recruit']   = { c: () => window.FeatureRecruitPage,   title: '採用専門サイトの制作 — Nortiq Labs' };
+ROUTES['feature-analytics'] = { c: () => window.FeatureAnalyticsPage, title: 'アクセス解析のカスタム実装 — Nortiq Labs' };
 
 // Works variant pages
 ['works-lp-corp', 'works-lp-recruit', 'works-lp-ec', 'works-video'].forEach(id => {
@@ -57,11 +61,11 @@ ROUTES['feature-analytics'] = { c: () => window.FeatureAnalyticsPage, title: '�
 });
 
 // News & Recruit
-ROUTES['news']    = { c: () => window.NewsPage,    title: 'お知らせ — Nortiq Labs' };
+ROUTES['news']    = { c: () => window.NewsPage,    title: 'お知らせ・最新情報 — Nortiq Labs' };
 ROUTES['recruit'] = { c: () => window.RecruitPage, title: '採用情報 — Nortiq Labs' };
 
 // NORTIQLAB Site Diagnostic — landing page
-ROUTES['diagnostic'] = { c: () => window.DiagnosticLPPage, title: 'NORTIQLAB サイト診断 — URLを入れるだけでSEO・AI可視性まで完全分析 [無料]' };
+ROUTES['diagnostic'] = { c: () => window.DiagnosticLPPage, title: 'NORTIQLAB サイト無料診断｜URLを入れるだけでSEO・AI可視性まで分析 — Nortiq Labs' };
 
 // Industry solutions
 ['clinic', 'realty', 'build', 'hr', 'retail'].forEach(k => {
@@ -80,6 +84,12 @@ Object.keys((typeof window !== 'undefined' && window.NORTIQ_ARTICLES) || {}).for
     argName: 'slug', argVal: slug,
   };
 });
+// SEO title override for the flagship DX article (keyword-extended over the bare
+// article headline). Guarded so it only applies when the article is registered.
+if (ROUTES['article-japan-dx']) {
+  ROUTES['article-japan-dx'].title =
+    'なぜ日本のDXはアメリカに2〜3年遅れているのか｜中小企業のための調査データ解説 — Nortiq Labs';
+}
 
 // URL <-> route id helpers
 function pathFor(id) {
@@ -104,7 +114,7 @@ const SEO_DESC = {
   voice: 'Nortiq Labsをご利用いただいた企業様の声。地域密着クリニックから不動産投資ブランドまで、長くご支援している顧客の評価をご紹介。',
   pricing: '料金プラン。Web制作30万円〜、AIチャットボット・DX実装まで、段階的に始められる明朗な料金体系をご案内します。',
   support: '公開後も伴走するサポート体制。営業日24時間以内のご返信で、Web・AI・DXの運用と改善を継続的にご支援します。',
-  diagnostic: 'URLを入れるだけで、サイトのテクニカルSEO・AI可視性・競合比較まで無料診断。NORTIQLABの専門家が改善提案までお届けします。',
+  diagnostic: 'URLを入れるだけでテクニカルSEO・オンページ・リンク切れ・AI可視性・競合比較を無料診断。認定エンジニアが改善提案まで添えてお届けします。登録不要・約60秒。',
   diagnosis: 'サイト無料診断。Nortiq独自のチェックリストで、現状のWeb課題を可視化し、改善の優先順位をご提案します。',
   subsidy: '補助金を活用したDX導入のご相談。IT導入補助金などの活用を視野に、DX投資の進め方をご相談いただけます。',
   guidebook: '中小企業のためのDXガイドブック（無料DL）。Web → AIチャットボット → DXまで、段階的な進め方を一冊にまとめました。',
@@ -112,20 +122,27 @@ const SEO_DESC = {
   company: 'Nortiq Labs 会社概要。米国のAI研究背景を持つエンジニアと、日本の経営課題に向き合うメンバーによる技術チームです。',
   staff: 'Nortiq Labsのチーム紹介。Founder / Computer Scientist / Data Scientist の三職能が、お客様1社にチーム編成で並走します。',
   recruit: 'Nortiq Labsの採用情報。米国の技術水準を、日本の中小企業の武器に。技術と現場の両輪で挑むメンバーを募集しています。',
-  'product-vetonet': 'VetoNet — AI agent security の研究開発プロダクト。Nortiq Labs が取り組む分散システム・セキュリティの技術をご紹介します。',
+  'product-vetonet': 'AI Agentの出力を7段階で多層検証する研究開発プロダクト。分散システム理論を応用したMulti-Agent検証・監査証跡・Red Teamで、業務にAIを導入する前のリスクを洗い出します。',
   'product-wpchat': 'WordPress AIチャットボット / AI投稿アシスタント。ブログ更新と問い合わせ対応を自動化し、運用負担を減らします。',
-  'product-tennis': 'テニスフォーム分析 SaaS。動画から姿勢・スイングをAIで解析する、Nortiq Labs の自社プロダクトです。',
+  'product-tennis': 'スマホ動画をAIが解析し、テニスのフォームの改善点を可視化する一般向けアプリ。MediaPipeで33関節を追跡してプロとの差分をスコア化する、自社開発のComputer Vision検証プロダクトです。',
   'feature-lpo': 'LP制作 / LPO 支援。コンバージョンを最大化するランディングページの設計・改善を、データに基づいて行います。',
-  'feature-recruit': '採用専門サイトの制作。コンセプト設計・社員撮影・エントリー導線まで、応募率を高める採用ブランドサイトを構築します。',
-  'feature-analytics': 'アクセス解析のカスタム実装。計測設計からダッシュボード構築まで、意思決定に効くデータ基盤をご提供します。',
+  'feature-recruit': '求める人材像の言語化から採用ブランドサイト・LP・エントリーフォーム、社員撮影・ATS連携まで一貫設計。応募率を平均+52%高める採用専門サイトを構築します。',
+  'feature-analytics': 'GA4・GSC・BigQuery・Looker Studioを統合し、経営判断に直結するKPIダッシュボードをカスタム実装。ファネル分析・流入元別LTV/ROAS・異常検知アラートまで設計します。',
+  'feature-cms': 'WordPress・Next.js+MDX・Headless CMSを運用体制に合わせ選定。AI投稿ツール連携で下書き生成・校正・公開予約まで自動化し、記事更新の工数を1/10に削減します。',
+  news: 'Nortiq Labsからの最新情報。WP AIチャットボットのバージョンアップ、VetoNet βの先行公開、Anthropic Claude API対応など、リリース・プレス情報をお届けします。',
+  'works-build': '大規模修繕のRenew Reuse Loop、不断水工法のRAKUYU-Zなど建築・工務店のWeb制作・採用支援事例。BtoB商談+210%等の成果につながったオリジナル制作を紹介します。',
+  'works-clinic': 'あおぞらFamily Clinic、AIRA CLINIC GINZA、白藍デンタル等のWeb制作・AIチャットボット導入事例。予約+110%・問い合わせ2.4倍の医療業界向け実績を掲載します。',
+  'article-japan-dx': 'IPA・経産省・OECD等の最新調査から、日本のDXが米国に遅れる構造的要因を3点に整理。中小企業が「段階的アプローチ」で人手不足と2025年の崖を越える現実解を解説します。',
 };
 function descFor(route) {
+  // Explicit per-route description wins (incl. SEO-tuned article descriptions).
+  if (SEO_DESC[route]) return SEO_DESC[route];
   if (route && route.indexOf('article-') === 0) {
     const slug = route.slice('article-'.length);
     const a = ((typeof window !== 'undefined' && window.NORTIQ_ARTICLES) || {})[slug];
     return a ? `${a.title} ｜ Nortiq Labs の技術ブログ（${a.category}）。` : DEFAULT_DESC;
   }
-  return SEO_DESC[route] || DEFAULT_DESC;
+  return DEFAULT_DESC;
 }
 function setMetaContent(selector, value) {
   const el = document.head.querySelector(selector);
@@ -133,29 +150,142 @@ function setMetaContent(selector, value) {
 }
 
 // Per-route structured data (injected into <head> on navigation; Google reads
-// the rendered DOM). BreadcrumbList on every subpage, Service on the service
-// pages, and Review/AggregateRating on the testimonials page.
+// the rendered DOM, and the prerender stage bakes it into the static HTML).
+// BreadcrumbList on every subpage + a page-specific primary node. Organization
+// (#org) and WebSite (#website) are fully defined in the static shell's @graph
+// (see build.js), so sub-page nodes only REFERENCE them by @id — provider /
+// publisher / author links resolve without re-declaring those nodes.
 const NORTIQ_ORG_ID = NORTIQ_SITE + '/#org';
+const NORTIQ_WEBSITE_ID = NORTIQ_SITE + '/#website';
+const ORG_REF = { '@id': NORTIQ_ORG_ID };
 const SERVICE_LD = {
   web: { name: 'Web制作', types: ['コーポレートサイト制作', 'LP制作', 'ブランドサイト制作'] },
   chatbot: { name: 'AIチャットボット導入', types: ['AIチャットボット', 'WordPress AI投稿アシスタント', '問い合わせ自動化'] },
   dx: { name: 'DX・ML実装', types: ['機械学習', 'データ分析', '業務自動化'] },
 };
+
+// Intermediate breadcrumb level (between トップ and the current page) for routes
+// whose parent is a real, linkable page. Routes absent here get a 2-level crumb.
+const CRUMB_PARENT = {
+  'works-build':       { name: '制作実績', id: 'works' },
+  'works-clinic':      { name: '制作実績', id: 'works' },
+  'feature-analytics': { name: '機能・サービス', id: 'web' },
+  'feature-cms':       { name: '機能・サービス', id: 'web' },
+  'feature-recruit':   { name: '機能・サービス', id: 'web' },
+};
+// Any article route nests under コラム (handled generically in routeLd).
+const ARTICLE_CRUMB_PARENT = { name: 'コラム', id: 'column' };
+
+// BLOG manifest dates are 'YYYY.MM.DD'; Article schema wants ISO 'YYYY-MM-DD'.
+function isoDate(d) { return (d || '').replace(/\./g, '-'); }
+
+// Page-specific primary schema (in addition to BreadcrumbList) for the routes
+// that need a dedicated @type. Returns null for routes handled elsewhere.
+function pageLd(route, url) {
+  const desc = descFor(route);
+  // Article routes (incl. #1 /article-japan-dx) → BlogPosting referencing #org.
+  if (route.indexOf('article-') === 0) {
+    const slug = route.slice('article-'.length);
+    const a = ((typeof window !== 'undefined' && window.NORTIQ_ARTICLES) || {})[slug];
+    if (!a) return null;
+    const img = a.img ? NORTIQ_SITE + '/' + String(a.img).replace(/^\//, '') : NORTIQ_SITE + '/assets/og-image.png';
+    const date = isoDate(a.date);
+    return {
+      '@context': 'https://schema.org', '@type': 'BlogPosting',
+      headline: a.title, description: desc, image: img, url,
+      inLanguage: 'ja', articleSection: a.category,
+      datePublished: date, dateModified: date,
+      author: { '@type': 'Organization', '@id': NORTIQ_ORG_ID, name: 'Nortiq Labs' },
+      publisher: ORG_REF,
+      mainEntityOfPage: { '@type': 'WebPage', '@id': url },
+    };
+  }
+  switch (route) {
+    case 'works-build':
+    case 'works-clinic': {
+      const cat = route.slice('works-'.length);
+      const works = ((typeof window !== 'undefined' && window.NORTIQ_WORKS) || []).filter((w) => w.category === cat);
+      const heading = route === 'works-build' ? '建築・工務店の制作実績' : 'クリニック・医療の制作実績';
+      return {
+        '@context': 'https://schema.org', '@type': 'CollectionPage',
+        name: heading, description: desc, url,
+        isPartOf: { '@id': NORTIQ_WEBSITE_ID }, publisher: ORG_REF,
+        mainEntity: {
+          '@type': 'ItemList',
+          itemListElement: works.map((w, i) => ({ '@type': 'ListItem', position: i + 1, name: w.title, url })),
+        },
+      };
+    }
+    case 'feature-analytics':
+    case 'feature-cms':
+    case 'feature-recruit': {
+      const svc = {
+        'feature-analytics': { name: 'アクセス解析のカスタム実装', type: 'Analytics Implementation' },
+        'feature-cms':       { name: 'CMS / 記事更新システム',     type: 'CMS Implementation' },
+        'feature-recruit':   { name: '採用専門サイトの制作',       type: 'Recruitment Website Development' },
+      }[route];
+      return {
+        '@context': 'https://schema.org', '@type': 'Service',
+        name: svc.name, serviceType: svc.type, description: desc, url, areaServed: 'JP',
+        provider: ORG_REF,
+      };
+    }
+    case 'diagnostic':
+      return {
+        '@context': 'https://schema.org', '@type': 'WebApplication',
+        name: 'NORTIQLAB サイト診断', url,
+        applicationCategory: 'SEO Analysis Tool', operatingSystem: 'Any (Web)',
+        offers: { '@type': 'Offer', price: '0', priceCurrency: 'JPY' },
+        featureList: ['テクニカルSEO', 'オンページ分析', 'リンク切れ検出', 'AI可視性チェック', '競合比較'],
+        provider: ORG_REF,
+      };
+    case 'news':
+      return {
+        '@context': 'https://schema.org', '@type': 'CollectionPage',
+        name: 'お知らせ・最新情報', description: desc, url,
+        isPartOf: { '@id': NORTIQ_WEBSITE_ID }, publisher: ORG_REF,
+      };
+    case 'product-tennis':
+      return {
+        '@context': 'https://schema.org', '@type': 'SoftwareApplication',
+        name: 'テニスフォーム分析アプリ', description: desc, url,
+        applicationCategory: 'SportsApplication', operatingSystem: 'Web (iOS / Android ブラウザ対応)',
+        offers: { '@type': 'Offer', price: '0', priceCurrency: 'JPY' },
+        provider: ORG_REF, publisher: ORG_REF,
+      };
+    case 'product-vetonet':
+      return {
+        '@context': 'https://schema.org', '@type': 'SoftwareApplication',
+        name: 'VetoNet', description: desc, url,
+        applicationCategory: 'SecurityApplication', operatingSystem: 'Web / Server',
+        softwareVersion: 'beta', applicationSuite: 'Nortiq Labs AI Agent Security',
+        provider: ORG_REF, publisher: ORG_REF,
+      };
+    default:
+      return null;
+  }
+}
+
 function routeLd(route) {
   const url = NORTIQ_SITE + pathFor(route);
   const meta = ROUTES[route] || ROUTES.top;
   const pageName = (meta.title || '').replace(/\s*[—｜|].*$/, '').trim() || 'Nortiq Labs';
   const out = [];
   if (route !== 'top') {
-    out.push({
-      '@context': 'https://schema.org', '@type': 'BreadcrumbList',
-      itemListElement: [
-        { '@type': 'ListItem', position: 1, name: 'トップ', item: NORTIQ_SITE + '/' },
-        { '@type': 'ListItem', position: 2, name: pageName, item: url },
-      ],
-    });
+    const crumbs = [{ '@type': 'ListItem', position: 1, name: 'トップ', item: NORTIQ_SITE + '/' }];
+    const parent = CRUMB_PARENT[route] || (route.indexOf('article-') === 0 ? ARTICLE_CRUMB_PARENT : null);
+    if (parent) {
+      crumbs.push({ '@type': 'ListItem', position: 2, name: parent.name, item: NORTIQ_SITE + pathFor(parent.id) });
+    }
+    crumbs.push({ '@type': 'ListItem', position: crumbs.length + 1, name: pageName, item: url });
+    out.push({ '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: crumbs });
   }
-  if (SERVICE_LD[route]) {
+  // Page-specific primary node (Article / CollectionPage / Service / WebApplication
+  // / SoftwareApplication). Falls back to the generic Service map for web/chatbot/dx.
+  const primary = pageLd(route, url);
+  if (primary) {
+    out.push(primary);
+  } else if (SERVICE_LD[route]) {
     const s = SERVICE_LD[route];
     out.push({
       '@context': 'https://schema.org', '@type': 'Service',
