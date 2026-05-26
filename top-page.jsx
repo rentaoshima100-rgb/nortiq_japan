@@ -469,7 +469,7 @@ function TopPage({ onNavigate, onContact }) {
               </div>
               <div className="grid-3" style={{ gap: 32 }}>
                 {arts.map((a) => (
-                  <a key={a.slug} className="article-card" style={{ cursor: 'pointer' }} onClick={() => onNavigate('article-' + a.slug)}>
+                  <a key={a.slug} className="article-card" style={{ cursor: 'pointer' }} {...navProps('article-' + a.slug, onNavigate)}>
                     <Placeholder label="" caption="" aspect="16/10" src={a.img} alt={a.title} fit/>
                     <div className="article-meta">
                       <span style={{ color: 'var(--accent)' }}>{a.category}</span>
@@ -674,7 +674,7 @@ function GalleryTabs({ onNavigate }) {
         </div>
         <div className="grid-3" style={{ marginTop: 32 }}>
           {data[tab].slice(0, 6).map((w, i) => (
-            <a key={i} className="card card-link fadein" data-delay={i * 80} style={{ padding: 0, overflow: 'hidden', cursor: 'pointer' }} onClick={() => onNavigate(w.route)}>
+            <a key={i} className="card card-link fadein" data-delay={i * 80} style={{ padding: 0, overflow: 'hidden', cursor: 'pointer' }} {...navProps(w.route, onNavigate)}>
               <Placeholder label="" caption="" aspect="16/10" src={w.img} alt={`${w.t}の制作実績`} fit/>
               <div style={{ padding: '20px 22px 22px' }}>
                 <div className="row" style={{ justifyContent: 'space-between', marginBottom: 12 }}>

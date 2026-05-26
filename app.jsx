@@ -100,6 +100,21 @@ function idFromPath(path) {
   return stripped === '' ? 'top' : stripped;
 }
 
+// Build props for an SPA-internal <a>: a REAL href (so crawlers see the link
+// and modifier-clicks open a new tab) plus an onClick that keeps client-side
+// routing for plain left-clicks. `nav` is the route handler in scope
+// (App's onNavigate, or Nav's navTo). `id` is a route id understood by pathFor.
+function navProps(id, nav) {
+  return {
+    href: pathFor(id),
+    onClick: (e) => {
+      if (e.defaultPrevented || e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return;
+      e.preventDefault();
+      nav(id);
+    },
+  };
+}
+
 // Per-route SEO metadata. Since this SPA serves one static index.html for every
 // route, canonical + description must be rewritten client-side on navigation so
 // each page gets its own (Google reads the rendered DOM). Falls back to default.
