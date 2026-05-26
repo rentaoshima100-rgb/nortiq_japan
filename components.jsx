@@ -21,6 +21,7 @@ const NAV_MEGA = [
         { id: 'feature-lpo',       label: 'LP制作 / LPO' },
         { id: 'feature-recruit',   label: '採用専門サイト' },
         { id: 'feature-analytics', label: 'アクセス解析カスタム実装' },
+        { id: 'feature-cms',       label: 'CMS / 記事更新システム' },
       ]},
       { heading: '自社プロダクト', links: [
         { id: 'product-vetonet',  label: 'VetoNet (AI Security)' },
