@@ -43,7 +43,10 @@ function buildArticles() {
     if (!fs.existsSync(mdPath)) { console.warn(`  ! missing ${a.slug}.md`); continue; }
     let md = fs.readFileSync(mdPath, 'utf8');
     // Drop the leading H1 (we render title/meta from the manifest in the page header).
-    md = md.replace(/^\s*#\s+.+\n+/, '');
+    // Tolerate CRLF line endings — on Windows checkouts (core.autocrlf=true) the
+    // markdown is \r\n, and `.` doesn't match \r, so a plain \n+ would never match
+    // and the H1 would leak into the body (duplicate heading).
+    md = md.replace(/^\s*#\s+.+(?:\r?\n)+/, '');
     const html = marked.parse(md);
     out[a.slug] = { slug: a.slug, title: a.title, category: a.category, date: a.date, read: a.read, img: a.img, html };
   }
