@@ -35,6 +35,14 @@ const ROUTES_ALLOWLIST = [
   '/news',
   '/product-tennis',
   '/product-vetonet',
+  // 5 existing top-level routes — meta lives in app.jsx (ROUTES / SEO_DESC /
+  // SERVICE_LD); adding them here bakes that meta into the INITIAL HTML so
+  // non-JS crawlers see per-page values instead of the homepage shell.
+  '/web',
+  '/chatbot',
+  '/dx',
+  '/works',
+  '/voice',
 ];
 
 // ------------------------------------------------------------------------------

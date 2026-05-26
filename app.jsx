@@ -4,11 +4,11 @@
 
 const ROUTES = {
   top:             { c: () => window.TopPage,             title: 'Nortiq Labs — 日本のDX、世界水準で巻き返す。' },
-  web:             { c: () => window.WebPage,             title: 'Web制作 — Nortiq Labs' },
-  chatbot:         { c: () => window.ChatbotPage,         title: 'AIチャットボット — Nortiq Labs' },
-  dx:              { c: () => window.DXPage,              title: 'DX・ML — Nortiq Labs' },
-  works:           { c: () => window.WorksPage,           title: '制作実績 — Nortiq Labs', argName: 'category', argVal: null },
-  voice:           { c: () => window.VoicePage,           title: 'ご利用会社様の声 — Nortiq Labs' },
+  web:             { c: () => window.WebPage,             title: 'Web制作｜WordPress・Next.jsで作る集客サイト（30万円〜） — Nortiq Labs' },
+  chatbot:         { c: () => window.ChatbotPage,         title: 'AIチャットボット｜WordPressのブログ更新を自動化する投稿ツール（10万円〜） — Nortiq Labs' },
+  dx:              { c: () => window.DXPage,              title: 'DX・ML実装｜機械学習・業務自動化・データ分析を初期投資ゼロで段階導入 — Nortiq Labs' },
+  works:           { c: () => window.WorksPage,           title: '制作実績｜7業種20社のWeb制作・DX支援事例 — Nortiq Labs', argName: 'category', argVal: null },
+  voice:           { c: () => window.VoicePage,           title: 'ご利用会社様の声｜20社の支援先が語る成果と伴走の評価 — Nortiq Labs' },
   support:         { c: () => window.SupportPage,         title: 'サポート — Nortiq Labs' },
   pricing:         { c: () => window.PricingPage,         title: '料金プラン — Nortiq Labs' },
   diagnosis:       { c: () => window.DiagnosisPage,       title: 'サイト無料診断 — Nortiq Labs' },
@@ -107,11 +107,11 @@ const NORTIQ_SITE = 'https://nortiqlab.com';
 const DEFAULT_DESC = '米国の技術水準を、日本の中小企業の武器に。Web制作・AIチャットボット・DX/ML実装まで、20社の支援実績を持つ技術チームが段階的に伴走するDXパートナーです。';
 const SEO_DESC = {
   top: DEFAULT_DESC,
-  web: 'オリジナルデザイン + AI運用付きWeb制作。20社の制作実績を持つ技術チームが、契約率を高めるコーポレート・LP・ブランドサイトを設計から運用まで一貫で支援します。',
-  chatbot: 'WordPressのブログ更新をAIで自動化するチャットボット導入支援。実装の中身まで説明しながら、SEO強化と問い合わせ増加を両立します。',
-  dx: '機械学習・データ分析・業務自動化で経営判断を加速するDX実装支援。米国大学発の技術チームが中小企業のDXを段階的に伴走します。',
-  works: 'Nortiq Labsの制作実績一覧。クリニック・不動産・組合・歯科・美容外来まで、20社のWeb制作とDX支援事例を掲載。',
-  voice: 'Nortiq Labsをご利用いただいた企業様の声。地域密着クリニックから不動産投資ブランドまで、長くご支援している顧客の評価をご紹介。',
+  web: 'WordPress・静的・Next.jsを目的別に選ぶ集客重視のWeb制作。WCAG 2.1 AA／Core Web Vitals Goodを標準実装し、コーポレート・LP・ブランドサイトを30万円〜、設計から公開後の運用改善まで一貫支援します。',
+  chatbot: 'WordPressのブログ更新が止まる課題を、自社開発のAIチャットボット投稿ツールで解決。質問するだけで記事を作成しWordPressへ自動投稿。既存導入先で記事1本の工数-87%・投稿頻度6.2倍・オーガニック流入1.8倍。10万円〜。',
+  dx: '機械学習・業務自動化・データ分析基盤・生成AI組み込みを、米国UC Berkeley研究背景の技術チームが伴走。Web/チャットボットからの初期投資ゼロで始め、PoC→本実装まで段階的にGO/NO-GO判断。50万円〜。',
+  works: 'クリニック・不動産・建築・人材・小売/EC・インフラ・AIの7業種20社のWeb制作・DX支援事例。予約+110%、問い合わせ2.4倍、BtoB商談+210%などの成果につながったオリジナル制作を業種別に掲載。',
+  voice: 'Web制作からAI・DXまでご利用いただいた20社の声。SEO流入1.8倍、現場工数38%減、採用応募52%増、商談化率4倍など、長期運用に伴走するNortiq Labsへの評価を業種横断で紹介します。',
   pricing: '料金プラン。Web制作30万円〜、AIチャットボット・DX実装まで、段階的に始められる明朗な料金体系をご案内します。',
   support: '公開後も伴走するサポート体制。営業日24時間以内のご返信で、Web・AI・DXの運用と改善を継続的にご支援します。',
   diagnostic: 'URLを入れるだけでテクニカルSEO・オンページ・リンク切れ・AI可視性・競合比較を無料診断。認定エンジニアが改善提案まで添えてお届けします。登録不要・約60秒。',
@@ -260,6 +260,28 @@ function pageLd(route, url) {
         applicationCategory: 'SecurityApplication', operatingSystem: 'Web / Server',
         softwareVersion: 'beta', applicationSuite: 'Nortiq Labs AI Agent Security',
         provider: ORG_REF, publisher: ORG_REF,
+      };
+    case 'works':
+      // Works index → CollectionPage whose ItemList is built from the same
+      // NORTIQ_WORKS source of truth the page renders (all categories).
+      return {
+        '@context': 'https://schema.org', '@type': 'CollectionPage',
+        name: '制作実績', description: desc, url,
+        isPartOf: { '@id': NORTIQ_WEBSITE_ID }, publisher: ORG_REF,
+        mainEntity: {
+          '@type': 'ItemList',
+          itemListElement: ((typeof window !== 'undefined' && window.NORTIQ_WORKS) || [])
+            .map((w, i) => ({ '@type': 'ListItem', position: i + 1, name: w.title, url })),
+        },
+      };
+    case 'voice':
+      // Testimonials are anonymized (initials, no ratings) → CollectionPage only.
+      // Review / AggregateRating intentionally avoided (unverifiable review rich
+      // results violate Google's policy), consistent with routeLd's note.
+      return {
+        '@context': 'https://schema.org', '@type': 'CollectionPage',
+        name: 'ご利用会社様の声', description: desc, url,
+        isPartOf: { '@id': NORTIQ_WEBSITE_ID }, publisher: ORG_REF,
       };
     default:
       return null;
