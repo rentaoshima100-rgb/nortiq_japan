@@ -165,6 +165,13 @@ const SEO_DESC = {
   'works-build': '大規模修繕のRenew Reuse Loop、不断水工法のRAKUYU-Zなど建築・工務店のWeb制作・採用支援事例。BtoB商談+210%等の成果につながったオリジナル制作を紹介します。',
   'works-clinic': 'あおぞらFamily Clinic、AIRA CLINIC GINZA、白藍デンタル等のWeb制作・AIチャットボット導入事例。予約+110%・問い合わせ2.4倍の医療業界向け実績を掲載します。',
   'article-japan-dx': 'IPA・経産省・OECD等の最新調査から、日本のDXが米国に遅れる構造的要因を3点に整理。中小企業が「段階的アプローチ」で人手不足と2025年の崖を越える現実解を解説します。',
+  'article-vetonet': 'AIエージェントは今や自律的にファイル操作・コマンド実行・決済まで行う。その出力を多層検証する自社開発ツールVetoNetの開発記。3,820通りの攻撃テストから見えたAIエージェントセキュリティの要点を、開発者目線で解説します。',
+  'article-wordpress-stall': '日本のオウンドメディアは約3割が更新停止、65.5%が半年以内に止まる。執筆負荷・ひとり広報・SEOの時間軸ギャップという構造を調査データで分解し、AI投稿アシスタントで更新を継続させる現実的な解決策を解説します。',
+  'article-core-web-vitals': 'LCP・INP・CLSはCrUX実ユーザーデータの75%タイルで判定され、Lighthouse満点でも「Good」が取れない理由がここにある。3指標すべてを満たすのはモバイルで48%。測ってから直すための実装手順を解説します。',
+  'article-clinic-web': '2026年のクリニック集客はE-E-A-T強化・MEO優位・医療広告ガイドライン対応の3点が同時に問われる。初診の集患手段1位はGoogle検索（51.3%）。AI検索時代に患者へ選ばれる医院サイトの作り方を調査データで解説します。',
+  'article-ai-poc': '生成AI PoCの約3分の2は本番運用に到達しない。失敗には目的の曖昧さ・ROIの非定量化・データ基盤の不在など再現性あるパターンがある。本実装まで進む案件との分岐点を、最新調査とGo/No-Go基準から解説します。',
+  'article-realty-lp': '不動産売却査定LPのCVRは2〜3%台、フォーム離脱率は約70%。ファーストビュー・売主心理に刺さるコピー・EFO・匿名AI査定の入口化など、反響を最大化する7つの必須要素を一つの設計思想で貫く方法を解説します。',
+  'article-claude-vs-gpt': '2026年5月時点の業務利用比較。Claude（Opus 4.7／Sonnet 4.6）はコーディング・長文理解・ハルシネーション抑制・日本語で優位、GPT-5.5は汎用性で先行。エンタープライズシェアと用途別の使い分けを解説します。',
   'works-realty': '不動産投資ブランドPLEAST（問合せ3.2×）、物件管理連動の投資物件専門サイト（反響2.7×）など、不動産業のWeb制作・SEO・DX実績を紹介します。',
   'works-hr': '外国人材組合Asia Exchange（応募+84%）、新卒採用ブランドAXIA（エントリー2.1×）、中途採用LP（応募1.6×）など、人材業界のWeb制作・AIチャットボット・LPO実績を紹介します。',
   'works-retail': 'キッチンカーpanza（SNS流入4.6×）、骨董店TAKETORAの越境EC（海外PV5.2×）、サブスクEC（解約率-32%）など、小売・ECのWeb制作・EC・DX実績を紹介します。',
@@ -193,6 +200,17 @@ function descFor(route) {
     return a ? `${a.title} ｜ Nortiq Labs の技術ブログ（${a.category}）。` : DEFAULT_DESC;
   }
   return DEFAULT_DESC;
+}
+// Per-route OG/Twitter share image. Article routes use their own eyecatch
+// (assets/blog-*.png, same image referenced by the BlogPosting JSON-LD); every
+// other route falls back to the site-wide og-image.png.
+function ogImageFor(route) {
+  if (route && route.indexOf('article-') === 0) {
+    const slug = route.slice('article-'.length);
+    const a = ((typeof window !== 'undefined' && window.NORTIQ_ARTICLES) || {})[slug];
+    if (a && a.img) return NORTIQ_SITE + '/' + String(a.img).replace(/^\//, '');
+  }
+  return NORTIQ_SITE + '/assets/og-image.png';
 }
 function setMetaContent(selector, value) {
   const el = document.head.querySelector(selector);
@@ -461,12 +479,15 @@ function App() {
     } else if (robots) {
       robots.setAttribute('content', 'index, follow');
     }
+    const ogImg = ogImageFor(route);
     setMetaContent('meta[name="description"]', desc);
     setMetaContent('meta[property="og:url"]', url);
     setMetaContent('meta[property="og:title"]', meta.title);
     setMetaContent('meta[property="og:description"]', desc);
+    setMetaContent('meta[property="og:image"]', ogImg);
     setMetaContent('meta[name="twitter:title"]', meta.title);
     setMetaContent('meta[name="twitter:description"]', desc);
+    setMetaContent('meta[name="twitter:image"]', ogImg);
     // Per-route structured data (Service / Review / BreadcrumbList).
     const oldLd = document.getElementById('route-ld');
     if (oldLd) oldLd.remove();
