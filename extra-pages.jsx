@@ -871,6 +871,12 @@ function DiagUrlForm({ buttonLabel = "無料で診断する", dark = false, onCo
         throw new Error(err.error || `HTTP ${res.status}`);
       }
       const data = await res.json();
+      // Diagnosis delivered → GA4 generate_lead (key event for Google Ads).
+      // Fires once per successful submission; the form unmounts during loading
+      // so a single submit can't re-fire. Guarded so analytics never breaks UI.
+      if (typeof window !== 'undefined' && typeof window.nqTrack === 'function') {
+        window.nqTrack('generate_lead', { lead_type: 'diagnosis', currency: 'JPY' }, 'diagnostic');
+      }
       await settle(() => { setResult(data); setStatus('done'); });
     } catch (err) {
       await settle(() => { setErrMsg(String(err.message || err)); setStatus('error'); });

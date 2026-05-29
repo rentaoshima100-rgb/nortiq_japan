@@ -119,8 +119,10 @@ async function sendInquiry(form, kind = 'main') {
     const e = await res.json().catch(() => ({}));
     throw new Error(e.error || `HTTP ${res.status}`);
   }
-  // Lead delivered → GA4 event + Google Ads conversion.
-  nqTrack('generate_lead', { form_kind: kind }, 'contact');
+  // Lead delivered → GA4 generate_lead (the single key event Google Ads
+  // optimizes on) + Google Ads conversion. lead_type='contact' covers every
+  // inquiry-form placement; form_kind keeps the placement for GA4 analysis.
+  nqTrack('generate_lead', { lead_type: 'contact', currency: 'JPY', form_kind: kind }, 'contact');
   return res.json().catch(() => ({ ok: true }));
 }
 
