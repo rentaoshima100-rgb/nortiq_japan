@@ -45,6 +45,7 @@ const ROUTES_ALLOWLIST = [
   '/voice',
   // --- Full route coverage (remaining nav/footer-linked routes) ---
   // Articles (BlogPosting; title/desc auto from article data)
+  '/article-figure-inventory',
   '/article-vetonet',
   '/article-wordpress-stall',
   '/article-core-web-vitals',

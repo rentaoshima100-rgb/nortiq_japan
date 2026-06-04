@@ -24,6 +24,7 @@ const JSX_FILES = [
 // Blog articles — markdown source in content/blog/ + display metadata.
 // Order = newest first (drives the column list).
 const BLOG = [
+  { slug: 'figure-inventory', category: 'DX 観察記', date: '2026.06.04', read: '7 min',  title: '「写真で見分けるアプリを作るだけ」のはずが、レジの選び直しまで行き着いた話', img: 'assets/blog-figure-inventory.png' },
   { slug: 'japan-dx',        category: 'DX 観察記', date: '2026.05.12', read: '8 min',  title: 'なぜ日本のDXはアメリカに2〜3年遅れているのか',          img: 'assets/blog-japan-dx.png' },
   { slug: 'vetonet',         category: '技術',       date: '2026.04.28', read: '12 min', title: 'VetoNet 開発の裏側 — AI agent security とは何か',        img: 'assets/blog-vetonet.png' },
   { slug: 'wordpress-stall', category: 'AI活用',     date: '2026.03.30', read: '7 min',  title: 'WordPress 更新が止まる本当の理由とその解決',            img: 'assets/blog-wordpress-stall.png' },
