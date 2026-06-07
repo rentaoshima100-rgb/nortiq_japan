@@ -76,7 +76,7 @@ const NAV_MEGA = [
       { heading: 'メディア', links: [
         { id: 'column',  label: 'コラム / 技術ブログ' },
         { id: 'news',    label: 'お知らせ' },
-        { id: 'guidebook', label: 'DXガイドブック' },
+        { id: 'guidebook', label: 'サービス紹介資料' },
         { id: 'subsidy',   label: '補助金活用相談' },
       ]},
     ],
@@ -466,7 +466,7 @@ function Footer({ onNavigate, onContact }) {
               <li><a {...navProps('column', onNavigate)}>技術ブログ / コラム</a></li>
               <li><a {...navProps('news', onNavigate)}>お知らせ</a></li>
               <li><a {...navProps('subsidy', onNavigate)}>補助金活用相談</a></li>
-              <li><a {...navProps('guidebook', onNavigate)}>DXガイドブック</a></li>
+              <li><a {...navProps('guidebook', onNavigate)}>サービス紹介資料</a></li>
             </ul>
             <h4 style={{ marginTop: 28 }}>業種別ソリューション</h4>
             <ul>

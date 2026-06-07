@@ -151,9 +151,9 @@ function TopPage({ onNavigate, onContact }) {
               <div className="promo-tag">無料DL</div>
               <div className="promo-num">02</div>
               <div className="promo-body">
-                <p className="promo-eyebrow">GUIDEBOOK</p>
-                <h3>中小企業のDX<br/>ガイドブック</h3>
-                <p className="promo-desc">Web → AIチャットボット → DXまで。段階的な進め方を一冊に。</p>
+                <p className="promo-eyebrow">SALES DECK</p>
+                <h3>Web制作<br/>サービス紹介資料</h3>
+                <p className="promo-desc">制作の進め方・実績・料金プラン・制作の流れを一冊に。</p>
               </div>
               <div className="promo-cta">ダウンロード <Icon name="arrow-right" size={14}/></div>
             </article>
