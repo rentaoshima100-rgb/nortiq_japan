@@ -35,6 +35,59 @@ const ROUTES_ALLOWLIST = [
   '/news',
   '/product-tennis',
   '/product-vetonet',
+  // 5 existing top-level routes — meta lives in app.jsx (ROUTES / SEO_DESC /
+  // SERVICE_LD); adding them here bakes that meta into the INITIAL HTML so
+  // non-JS crawlers see per-page values instead of the homepage shell.
+  '/web',
+  '/chatbot',
+  '/dx',
+  '/works',
+  '/voice',
+  // --- Full route coverage (remaining nav/footer-linked routes) ---
+  // Articles (BlogPosting; title/desc auto from article data)
+  '/article-vetonet',
+  '/article-wordpress-stall',
+  '/article-core-web-vitals',
+  '/article-clinic-web',
+  '/article-ai-poc',
+  '/article-realty-lp',
+  '/article-claude-vs-gpt',
+  // Works categories (CollectionPage + ItemList)
+  '/works-realty',
+  '/works-hr',
+  '/works-retail',
+  '/works-infra',
+  '/works-ai',
+  // Works LP / video variants (CollectionPage)
+  '/works-lp-corp',
+  '/works-lp-recruit',
+  '/works-lp-ec',
+  '/works-video',
+  // Industry solutions (Service)
+  '/solution-clinic',
+  '/solution-realty',
+  '/solution-build',
+  '/solution-hr',
+  '/solution-retail',
+  // Feature / product
+  '/feature-lpo',
+  '/product-wpchat',
+  // Company / content
+  '/company',
+  '/staff',
+  '/recruit',
+  '/support',
+  '/pricing',
+  '/column',
+  '/guidebook',
+  '/subsidy',
+  '/diagnosis',
+  // Legal (indexable, unique titles)
+  '/privacy',
+  '/terms',
+  '/privacy-handling',
+  // Utility (prerendered WITH noindex meta)
+  '/sitemap',
 ];
 
 // ------------------------------------------------------------------------------

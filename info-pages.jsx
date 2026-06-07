@@ -610,7 +610,7 @@ function ColumnPage({ onNavigate, onContact }) {
           </div>
           <div className="grid-3" style={{ gap: 32 }}>
             {shown.map((a) => (
-              <a key={a.slug} className="article-card" style={{ cursor: 'pointer' }} onClick={() => onNavigate('article-' + a.slug)}>
+              <a key={a.slug} className="article-card" style={{ cursor: 'pointer' }} {...navProps('article-' + a.slug, onNavigate)}>
                 <Placeholder label={a.img ? "" : a.category} caption={a.img ? "" : a.slug} aspect="16/10" src={a.img} alt={a.title} fit/>
                 <div className="article-meta">
                   <span style={{ color: 'var(--accent)' }}>{a.category}</span>
@@ -883,7 +883,7 @@ function SitemapCol({ heading, links, onNavigate }) {
       <ul className="sitemap-list">
         {links.map(l => (
           <li key={l.id}>
-            <a onClick={() => onNavigate(l.id)}>
+            <a {...navProps(l.id, onNavigate)}>
               {l.label}<Icon name="arrow-right" size={11}/>
             </a>
           </li>

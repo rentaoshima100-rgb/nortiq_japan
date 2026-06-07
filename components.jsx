@@ -21,6 +21,7 @@ const NAV_MEGA = [
         { id: 'feature-lpo',       label: 'LP制作 / LPO' },
         { id: 'feature-recruit',   label: '採用専門サイト' },
         { id: 'feature-analytics', label: 'アクセス解析カスタム実装' },
+        { id: 'feature-cms',       label: 'CMS / 記事更新システム' },
       ]},
       { heading: '自社プロダクト', links: [
         { id: 'product-vetonet',  label: 'VetoNet (AI Security)' },
@@ -118,8 +119,10 @@ async function sendInquiry(form, kind = 'main') {
     const e = await res.json().catch(() => ({}));
     throw new Error(e.error || `HTTP ${res.status}`);
   }
-  // Lead delivered → GA4 event + Google Ads conversion.
-  nqTrack('generate_lead', { form_kind: kind }, 'contact');
+  // Lead delivered → GA4 generate_lead (the single key event Google Ads
+  // optimizes on) + Google Ads conversion. lead_type='contact' covers every
+  // inquiry-form placement; form_kind keeps the placement for GA4 analysis.
+  nqTrack('generate_lead', { lead_type: 'contact', currency: 'JPY', form_kind: kind }, 'contact');
   return res.json().catch(() => ({ ok: true }));
 }
 
@@ -202,7 +205,7 @@ function Nav({ current, onNavigate, onContact, onSideForm }) {
   return (
     <header className="nav" role="banner">
       <div className="nav-inner">
-        <a className="nav-logo" onClick={() => navTo('top')} style={{ cursor: 'pointer' }}>
+        <a className="nav-logo" {...navProps('top', navTo)} style={{ cursor: 'pointer' }}>
           <span className="nav-logo-mark"></span>
           <span className="wordmark">
             <span className="wordmark-main">NORTIQ</span>
@@ -224,7 +227,7 @@ function Nav({ current, onNavigate, onContact, onSideForm }) {
                   className="nav-link"
                   aria-current={current === item.id ? 'page' : undefined}
                   aria-expanded={openMega === item.id ? 'true' : undefined}
-                  onClick={() => !hasMega && onNavigate(item.id)}
+                  {...(hasMega ? {} : navProps(item.id, onNavigate))}
                 >
                   {item.label}
                   {hasMega && <Icon name="arrow-down" size={11}/>}
@@ -238,7 +241,7 @@ function Nav({ current, onNavigate, onContact, onSideForm }) {
                           <ul>
                             {col.links.map(lk => (
                               <li key={lk.id}>
-                                <a onClick={() => { onNavigate(lk.id); setOpenMega(null); }}>
+                                <a {...navProps(lk.id, navTo)}>
                                   {lk.label}
                                   <Icon name="arrow-right" size={11}/>
                                 </a>
@@ -293,7 +296,7 @@ function Nav({ current, onNavigate, onContact, onSideForm }) {
               const exp = expandedSection === item.id;
               if (!hasSubs) {
                 return (
-                  <a key={item.id} className="drawer-item" onClick={() => navTo(item.id)}>
+                  <a key={item.id} className="drawer-item" {...navProps(item.id, navTo)}>
                     <span>{item.label}</span>
                     <Icon name="arrow-right" size={14}/>
                   </a>
@@ -310,7 +313,7 @@ function Nav({ current, onNavigate, onContact, onSideForm }) {
                       <div key={ci} className="drawer-subgroup">
                         <h5>{col.heading}</h5>
                         {col.links.map(lk => (
-                          <a key={lk.id} className="drawer-sub-item" onClick={() => navTo(lk.id)}>
+                          <a key={lk.id} className="drawer-sub-item" {...navProps(lk.id, navTo)}>
                             <span>{lk.label}</span>
                             <Icon name="arrow-right" size={12}/>
                           </a>
@@ -421,65 +424,65 @@ function Footer({ onNavigate, onContact }) {
           <div className="footer-col">
             <h4>制作実績</h4>
             <ul>
-              <li><a onClick={() => onNavigate('works')}>全実績一覧</a></li>
-              <li><a onClick={() => onNavigate('works-clinic')}>クリニック・医療</a></li>
-              <li><a onClick={() => onNavigate('works-realty')}>不動産</a></li>
-              <li><a onClick={() => onNavigate('works-build')}>建築・工務店</a></li>
-              <li><a onClick={() => onNavigate('works-hr')}>人材</a></li>
-              <li><a onClick={() => onNavigate('works-retail')}>小売 / EC</a></li>
-              <li><a onClick={() => onNavigate('works-infra')}>インフラ・製造</a></li>
-              <li><a onClick={() => onNavigate('works-ai')}>AIスタートアップ</a></li>
-              <li><a onClick={() => onNavigate('works-lp-corp')}>コーポレートLP</a></li>
-              <li><a onClick={() => onNavigate('works-lp-recruit')}>採用LP</a></li>
-              <li><a onClick={() => onNavigate('works-lp-ec')}>EC連動LP</a></li>
-              <li><a onClick={() => onNavigate('works-video')}>動画制作事例</a></li>
+              <li><a {...navProps('works', onNavigate)}>全実績一覧</a></li>
+              <li><a {...navProps('works-clinic', onNavigate)}>クリニック・医療</a></li>
+              <li><a {...navProps('works-realty', onNavigate)}>不動産</a></li>
+              <li><a {...navProps('works-build', onNavigate)}>建築・工務店</a></li>
+              <li><a {...navProps('works-hr', onNavigate)}>人材</a></li>
+              <li><a {...navProps('works-retail', onNavigate)}>小売 / EC</a></li>
+              <li><a {...navProps('works-infra', onNavigate)}>インフラ・製造</a></li>
+              <li><a {...navProps('works-ai', onNavigate)}>AIスタートアップ</a></li>
+              <li><a {...navProps('works-lp-corp', onNavigate)}>コーポレートLP</a></li>
+              <li><a {...navProps('works-lp-recruit', onNavigate)}>採用LP</a></li>
+              <li><a {...navProps('works-lp-ec', onNavigate)}>EC連動LP</a></li>
+              <li><a {...navProps('works-video', onNavigate)}>動画制作事例</a></li>
             </ul>
           </div>
 
           <div className="footer-col">
             <h4>機能・サービス</h4>
             <ul>
-              <li><a onClick={() => onNavigate('web')}>Web制作 機能一覧</a></li>
-              <li><a onClick={() => onNavigate('chatbot')}>AIチャットボット 機能一覧</a></li>
-              <li><a onClick={() => onNavigate('dx')}>DX・ML 機能一覧</a></li>
-              <li><a onClick={() => onNavigate('feature-lpo')}>LP制作 / LPO</a></li>
-              <li><a onClick={() => onNavigate('feature-recruit')}>採用専門サイト</a></li>
-              <li><a onClick={() => onNavigate('feature-analytics')}>アクセス解析</a></li>
+              <li><a {...navProps('web', onNavigate)}>Web制作 機能一覧</a></li>
+              <li><a {...navProps('chatbot', onNavigate)}>AIチャットボット 機能一覧</a></li>
+              <li><a {...navProps('dx', onNavigate)}>DX・ML 機能一覧</a></li>
+              <li><a {...navProps('feature-lpo', onNavigate)}>LP制作 / LPO</a></li>
+              <li><a {...navProps('feature-recruit', onNavigate)}>採用専門サイト</a></li>
+              <li><a {...navProps('feature-analytics', onNavigate)}>アクセス解析</a></li>
             </ul>
             <h4 style={{ marginTop: 28 }}>自社プロダクト</h4>
             <ul>
-              <li><a onClick={() => onNavigate('product-vetonet')}>VetoNet</a></li>
-              <li><a onClick={() => onNavigate('product-wpchat')}>WP AIチャットボット</a></li>
-              <li><a onClick={() => onNavigate('product-tennis')}>Tennis フォームチェック</a></li>
+              <li><a {...navProps('product-vetonet', onNavigate)}>VetoNet</a></li>
+              <li><a {...navProps('product-wpchat', onNavigate)}>WP AIチャットボット</a></li>
+              <li><a {...navProps('product-tennis', onNavigate)}>Tennis フォームチェック</a></li>
             </ul>
           </div>
 
           <div className="footer-col">
             <h4>サポート・コンサル</h4>
             <ul>
-              <li><a onClick={() => onNavigate('support')}>運用サポート</a></li>
-              <li><a onClick={() => onNavigate('voice')}>ご利用会社様の声</a></li>
-              <li><a onClick={() => onNavigate('diagnostic')}>サイト無料診断 (URL入力)</a></li>
-              <li><a onClick={() => onNavigate('column')}>技術ブログ / コラム</a></li>
-              <li><a onClick={() => onNavigate('news')}>お知らせ</a></li>
-              <li><a onClick={() => onNavigate('subsidy')}>補助金活用相談</a></li>
-              <li><a onClick={() => onNavigate('guidebook')}>サービス紹介資料</a></li>
+              <li><a {...navProps('support', onNavigate)}>運用サポート</a></li>
+              <li><a {...navProps('voice', onNavigate)}>ご利用会社様の声</a></li>
+              <li><a {...navProps('diagnostic', onNavigate)}>サイト無料診断 (URL入力)</a></li>
+              <li><a {...navProps('column', onNavigate)}>技術ブログ / コラム</a></li>
+              <li><a {...navProps('news', onNavigate)}>お知らせ</a></li>
+              <li><a {...navProps('subsidy', onNavigate)}>補助金活用相談</a></li>
+              <li><a {...navProps('guidebook', onNavigate)}>サービス紹介資料</a></li>
             </ul>
             <h4 style={{ marginTop: 28 }}>業種別ソリューション</h4>
             <ul>
-              <li><a onClick={() => onNavigate('solution-clinic')}>クリニック・医療</a></li>
-              <li><a onClick={() => onNavigate('solution-realty')}>不動産</a></li>
-              <li><a onClick={() => onNavigate('solution-build')}>建築・工務店</a></li>
-              <li><a onClick={() => onNavigate('solution-hr')}>人材</a></li>
-              <li><a onClick={() => onNavigate('solution-retail')}>小売 / EC</a></li>
+              <li><a {...navProps('solution-clinic', onNavigate)}>クリニック・医療</a></li>
+              <li><a {...navProps('solution-realty', onNavigate)}>不動産</a></li>
+              <li><a {...navProps('solution-build', onNavigate)}>建築・工務店</a></li>
+              <li><a {...navProps('solution-hr', onNavigate)}>人材</a></li>
+              <li><a {...navProps('solution-retail', onNavigate)}>小売 / EC</a></li>
             </ul>
             <h4 style={{ marginTop: 28 }}>会社</h4>
             <ul>
-              <li><a onClick={() => onNavigate('company')}>会社概要</a></li>
-              <li><a onClick={() => onNavigate('staff')}>チーム / スタッフ</a></li>
-              <li><a onClick={() => onNavigate('recruit')}>採用情報</a></li>
-              <li><a onClick={() => onNavigate('pricing')}>料金プラン</a></li>
-              <li><a onClick={() => onNavigate('sitemap')}>サイトマップ</a></li>
+              <li><a {...navProps('company', onNavigate)}>会社概要</a></li>
+              <li><a {...navProps('staff', onNavigate)}>チーム / スタッフ</a></li>
+              <li><a {...navProps('recruit', onNavigate)}>採用情報</a></li>
+              <li><a {...navProps('pricing', onNavigate)}>料金プラン</a></li>
+              <li><a {...navProps('sitemap', onNavigate)}>サイトマップ</a></li>
             </ul>
           </div>
         </div>
@@ -487,9 +490,9 @@ function Footer({ onNavigate, onContact }) {
         <div className="footer-bottom">
           <span>© 2026 Nortiq Labs Inc. All rights reserved.</span>
           <div className="row" style={{ gap: 24 }}>
-            <a onClick={() => onNavigate('privacy')} style={{ color: 'var(--text-3)' }}>プライバシーポリシー</a>
-            <a onClick={() => onNavigate('terms')} style={{ color: 'var(--text-3)' }}>利用規約</a>
-            <a onClick={() => onNavigate('privacy-handling')} style={{ color: 'var(--text-3)' }}>個人情報の取扱い</a>
+            <a {...navProps('privacy', onNavigate)} style={{ color: 'var(--text-3)' }}>プライバシーポリシー</a>
+            <a {...navProps('terms', onNavigate)} style={{ color: 'var(--text-3)' }}>利用規約</a>
+            <a {...navProps('privacy-handling', onNavigate)} style={{ color: 'var(--text-3)' }}>個人情報の取扱い</a>
           </div>
         </div>
       </div>
@@ -998,19 +1001,19 @@ function SPBottomNav({ onNavigate, onContact }) {
     <nav className="sp-bottom-nav" aria-label="モバイル下部ナビ">
       <ul>
         <li>
-          <a onClick={() => onNavigate('top')}>
+          <a {...navProps('top', onNavigate)}>
             <span className="icn"><Icon name="home" size={20}/></span>
             <span>トップ</span>
           </a>
         </li>
         <li>
-          <a onClick={() => onNavigate('works')}>
+          <a {...navProps('works', onNavigate)}>
             <span className="icn"><Icon name="grid" size={20}/></span>
             <span>制作実績</span>
           </a>
         </li>
         <li>
-          <a onClick={() => onNavigate('pricing')}>
+          <a {...navProps('pricing', onNavigate)}>
             <span className="icn"><Icon name="yen" size={20}/></span>
             <span>料金</span>
           </a>
@@ -1022,7 +1025,7 @@ function SPBottomNav({ onNavigate, onContact }) {
           </a>
         </li>
         <li>
-          <a onClick={() => onNavigate('sitemap')}>
+          <a {...navProps('sitemap', onNavigate)}>
             <span className="icn"><Icon name="menu" size={20}/></span>
             <span>メニュー</span>
           </a>
@@ -1112,7 +1115,7 @@ function Breadcrumb({ items, onNavigate }) {
             <li key={i} className="row-tight" style={{ gap: 8 }}>
               {i > 0 && <span style={{ color: 'var(--text-4)' }}>›</span>}
               {it.id ? (
-                <a onClick={() => onNavigate(it.id)} style={{ cursor: 'pointer', color: 'var(--text-2)' }}>{it.label}</a>
+                <a {...navProps(it.id, onNavigate)} style={{ cursor: 'pointer', color: 'var(--text-2)' }}>{it.label}</a>
               ) : (
                 <span style={{ color: 'var(--text)' }}>{it.label}</span>
               )}
