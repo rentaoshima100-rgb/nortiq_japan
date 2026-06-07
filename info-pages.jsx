@@ -531,46 +531,47 @@ function ProcessStep({ title, desc, n }) {
 function GuidebookPage({ onNavigate, onContact }) {
   return (
     <main className="page-fade">
-      <Breadcrumb items={[{ label: "トップ", id: "top" }, { label: "DXガイドブック" }]} onNavigate={onNavigate}/>
+      <Breadcrumb items={[{ label: "トップ", id: "top" }, { label: "サービス紹介資料" }]} onNavigate={onNavigate}/>
       <PageHero
-        eyebrow="GUIDEBOOK / DXガイドブック"
-        title={<>中小企業のための<br/>DXガイドブック。</>}
-        lede="Web 制作 → AIチャットボット → DX・ML の段階的な進め方を、すべての中小経営者に届けるためのフリーDLガイド (PDF・全56ページ)。"
-        badges={["全56ページ", "無料DL", "営業 / 経営者向け"]}
+        eyebrow="SALES DECK / サービス紹介資料"
+        title={<>成果につながる、<br/>コーポレートサイトを。</>}
+        lede="Nortiq Labs のWeb制作サービスをまとめた営業資料 (PDF・全11ページ)。制作の進め方・実績・料金プラン・制作の流れまで、これ一冊でご確認いただけます。"
+        badges={["全11ページ", "無料DL", "Web制作 / DX"]}
         onContact={onContact}
-        ctaLabel="ガイドブックを無料DLする"
+        ctaLabel="資料を無料DLする"
       />
       <section className="section-pad">
         <div className="container">
           <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: 56, alignItems: 'flex-start' }}>
             <div className="guidebook-viewer">
               <iframe
-                src="assets/Nortiq_DX_Guidebook.pdf#view=FitH"
-                title="中小企業のための DXガイドブック (全56ページ)"
+                src="assets/Nortiq_Service_Deck.pdf#view=FitH"
+                title="Nortiq Labs サービス紹介資料 (全11ページ)"
                 loading="lazy"
               />
             </div>
             <div>
-              <h3 className="display-s" style={{ marginBottom: 24 }}>目次 (抜粋)</h3>
+              <h3 className="display-s" style={{ marginBottom: 24 }}>掲載内容</h3>
               <ol style={{ paddingLeft: 20, lineHeight: 2.2, fontSize: 15 }}>
-                <li>日本のDX、世界水準で巻き返すために</li>
-                <li>段階的DXの考え方 (3-Step Funnel)</li>
-                <li>Web制作で実現する集客の最大化</li>
-                <li>AIチャットボットで効率化する業務</li>
-                <li>ML・DX で経営判断を高度化する</li>
-                <li>業種別の DX 成功事例 (7業種)</li>
-                <li>補助金活用の考え方</li>
-                <li>失敗しない外注パートナーの選び方</li>
+                <li>よくある課題 — 今のサイト、こんな状態になっていませんか</li>
+                <li>制作サービス — 設計から公開、その後の運用まで</li>
+                <li>制作実績・ポートフォリオ — 数字と事例</li>
+                <li>選ばれる理由 — シリコンバレー水準の技術を中小企業の現場に</li>
+                <li>料金プラン — ライト / スタンダード / プレミアム</li>
+                <li>制作の流れ — お問い合わせから最短で</li>
+                <li>成果の声</li>
+                <li>会社概要・代表 — チームと歩み</li>
+                <li>無料相談のご案内</li>
               </ol>
               <div className="row" style={{ marginTop: 32, gap: 14, flexWrap: 'wrap' }}>
-                <a className="btn btn-primary btn-lg" href="assets/Nortiq_DX_Guidebook.pdf" download>
+                <a className="btn btn-primary btn-lg" href="assets/Nortiq_Service_Deck.pdf" download>
                   <Icon name="arrow-down" size={16}/>無料ダウンロード (PDF)
                 </a>
-                <a className="btn btn-ghost btn-lg" href="assets/Nortiq_DX_Guidebook.pdf" target="_blank" rel="noopener">
+                <a className="btn btn-ghost btn-lg" href="assets/Nortiq_Service_Deck.pdf" target="_blank" rel="noopener">
                   別タブで全文を読む<Icon name="arrow-right" size={14}/>
                 </a>
               </div>
-              <p className="small text-mono" style={{ color: 'var(--text-3)', marginTop: 16 }}>PDF · 全56ページ · 約1.6MB</p>
+              <p className="small text-mono" style={{ color: 'var(--text-3)', marginTop: 16 }}>PDF · 全11ページ · 約4.7MB</p>
             </div>
           </div>
         </div>
@@ -852,7 +853,7 @@ function SitemapPage({ onNavigate, onContact }) {
             <SitemapCol heading="メディア・コンテンツ" onNavigate={onNavigate} links={[
               { id: 'column',         label: 'コラム / 技術ブログ' },
               { id: 'news',           label: 'お知らせ' },
-              { id: 'guidebook',      label: 'DXガイドブック' },
+              { id: 'guidebook',      label: 'サービス紹介資料' },
               { id: 'subsidy',        label: '補助金活用相談' },
             ]}/>
             <SitemapCol heading="ご案内" onNavigate={onNavigate} links={[
