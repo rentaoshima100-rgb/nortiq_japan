@@ -107,6 +107,37 @@ if (ROUTES['article-japan-dx']) {
   ROUTES['article-japan-dx'].title =
     'なぜ日本のDXはアメリカに2〜3年遅れているのか｜中小企業のための調査データ解説 — Nortiq Labs';
 }
+// SEO <title> overrides for the 2026 article series. Keyword-front-loaded and
+// already brand-suffixed (｜Nortiq Labs), so they REPLACE the default
+// "${headline} — Nortiq Labs" rather than double-stacking the brand. The page
+// headline (article.title / og:title) stays the reader-friendly version.
+const ARTICLE_SEO_TITLE = {
+  'article-website-launch-1month': 'ホームページ制作は最短1ヶ月で可能｜速さと品質を両立する方法｜Nortiq Labs',
+  'article-aio-llmo-reality-check': 'AIO・LLMO対策は本当に必要?日本のAI検索利用率の実態｜Nortiq Labs',
+  'article-multi-ai-parallel-productivity': 'AIは複数同時に使うから効率化できる｜利益率を上げる活用術｜Nortiq Labs',
+  'article-ai-literacy-mindset-shift': 'なぜAI導入は失敗するのか｜定着に必要な「思考の転換」とは｜Nortiq Labs',
+  'article-local-business-geo-meo': '口コミだけでは限界｜実店舗が今すぐやるWeb集客・MEO対策｜Nortiq Labs',
+  'article-btob-web-marketing': 'BtoBはWeb集客が最も効率的｜検索流入をリードに変える方法｜Nortiq Labs',
+  'article-office-work-automation': 'AIを使わない事務は人件費の無駄｜安全に自動化する方法｜Nortiq Labs',
+  'article-benchmark-competitor-success': '成功施策を真似ればWeb集客は成功する｜競合分析と著作権の境界｜Nortiq Labs',
+  'article-seo-aio-dual-strategy': 'SEOとAIO両睨みのコンテンツ戦略｜両方に効く共通の型とは｜Nortiq Labs',
+  'article-how-to-choose-web-agency': 'Web制作会社の選び方｜「安かろう悪かろう」の罠を避ける方法｜Nortiq Labs',
+};
+Object.keys(ARTICLE_SEO_TITLE).forEach((id) => { if (ROUTES[id]) ROUTES[id].title = ARTICLE_SEO_TITLE[id]; });
+// Punchy social-share titles (og:title / twitter:title) — shorter and stronger
+// than the SERP <title>. Falls back to the route title when absent.
+const OG_TITLE = {
+  'article-website-launch-1month': 'Web制作を最短1ヶ月で。速さと丁寧さは両立できる',
+  'article-aio-llmo-reality-check': 'AIO対策に踊らされる前に。日本人はまだAI検索を使っていない',
+  'article-multi-ai-parallel-productivity': 'AIは「複数同時に使う」から効率化できる',
+  'article-ai-literacy-mindset-shift': 'AIの使い方を教えるのは、想像以上に難しい',
+  'article-local-business-geo-meo': '「口コミだけ」では、もう競争にならない',
+  'article-btob-web-marketing': 'Web集客はまだまだ熱い。特にBtoBで最強',
+  'article-office-work-automation': 'AIを使わない＝無駄な労働。もう自動化できる',
+  'article-benchmark-competitor-success': 'うまくいっている施策を真似れば、集客は成功する',
+  'article-seo-aio-dual-strategy': 'SEOとAIO、両方に効く「共通の型」がある',
+  'article-how-to-choose-web-agency': '制作会社の選び方。「安かろう悪かろう」の罠',
+};
 
 // URL <-> route id helpers
 function pathFor(id) {
@@ -164,6 +195,16 @@ const SEO_DESC = {
   news: 'Nortiq Labsからの最新情報。WP AIチャットボットのバージョンアップ、VetoNet βの先行公開、Anthropic Claude API対応など、リリース・プレス情報をお届けします。',
   'works-build': '大規模修繕のRenew Reuse Loop、不断水工法のRAKUYU-Zなど建築・工務店のWeb制作・採用支援事例。BtoB商談+210%等の成果につながったオリジナル制作を紹介します。',
   'works-clinic': 'あおぞらFamily Clinic、AIRA CLINIC GINZA、白藍デンタル等のWeb制作・AIチャットボット導入事例。予約+110%・問い合わせ2.4倍の医療業界向け実績を掲載します。',
+  'article-website-launch-1month': '「来月までにサイトを公開したい」を叶えます。Web制作が通常2〜4ヶ月かかる理由と、AIを駆使して品質を保ちながら最短1ヶ月でローンチする方法を、京都のNortiq Labsが解説します。',
+  'article-aio-llmo-reality-check': 'GoogleのAI Overviewsで注目のAIO・LLMO対策。しかし現状の対策は効果が見えにくく陳腐化も早いのが実情です。日本人のAI検索利用率の最新データをもとに、中小企業が今やるべきことを冷静に解説します。',
+  'article-multi-ai-parallel-productivity': '「AIを使ったけど変わらなかった」のは使い方の問題です。契約書・コード・マーケを並行処理する複数AI活用で生産性は激変します。UC Berkeley出身チームが実践するAI活用術を、データとともに解説します。',
+  'article-ai-literacy-mindset-shift': 'アカウントを配っても現場でAIが使われない。中小企業の約6割がAIを活用できていない原因は、技術ではなく発想にあります。「どれだけ自分でやらないか」という思考転換と、定着のための進め方を解説します。',
+  'article-local-business-geo-meo': '「常連と紹介で回っているから大丈夫」は危険です。Googleビジネスプロフィール最適化で7倍のクリックを獲得できるデータも。実店舗が地域検索で見つけてもらうためのローカルSEO・MEO対策を解説します。',
+  'article-btob-web-marketing': 'SNS全盛でも、BtoBではWeb集客が最も費用対効果の高い手法です。自ら検索する高意欲層をリードに変える仕組みとは。ブログ運営で67%多いリードを得るデータをもとに、Nortiq Labsが解説します。',
+  'article-office-work-automation': '請求書作成やデータ入力、その事務作業の多くは自動化できます。情報漏洩が心配ならLlamaやgpt-ossをローカル運用すれば解決。AIを使わないことの本当のコストと、自動化の進め方を解説します。',
+  'article-benchmark-competitor-success': 'Web集客の正解はすでに市場にあります。競合の技術スタックや構造はBuiltWith等で調査可能です。著作権を守りながら成功施策を学び、自社のオリジナルへ昇華させる具体的な方法を解説します。',
+  'article-seo-aio-dual-strategy': '「SEOとAIOどちらに賭けるか」は誤った問いです。両方に効く共通施策があります。明確な見出し構造、結論先行、出典明示など、人にもAIにも評価されるコンテンツ設計を、最新研究をもとに解説します。',
+  'article-how-to-choose-web-agency': '格安ホームページ制作の裏側では、テンプレート流用や保守なしなどコスト削減の仕組みが働いています。失敗しない制作会社の見極め方と、安さの理由を見抜くための質問を、料金の目安とともに解説します。',
   'article-japan-dx': 'IPA・経産省・OECD等の最新調査から、日本のDXが米国に遅れる構造的要因を3点に整理。中小企業が「段階的アプローチ」で人手不足と2025年の崖を越える現実解を解説します。',
   'article-vetonet': 'AIエージェントは今や自律的にファイル操作・コマンド実行・決済まで行う。その出力を多層検証する自社開発ツールVetoNetの開発記。3,820通りの攻撃テストから見えたAIエージェントセキュリティの要点を、開発者目線で解説します。',
   'article-wordpress-stall': '日本のオウンドメディアは約3割が更新停止、65.5%が半年以内に止まる。執筆負荷・ひとり広報・SEOの時間軸ギャップという構造を調査データで分解し、AI投稿アシスタントで更新を継続させる現実的な解決策を解説します。',
@@ -211,6 +252,12 @@ function ogImageFor(route) {
     if (a && a.img) return NORTIQ_SITE + '/' + String(a.img).replace(/^\//, '');
   }
   return NORTIQ_SITE + '/assets/og-image.png';
+}
+// Social-share title for a route: punchy OG override when defined, else the
+// route's <title> (the prior behavior for every non-overridden route).
+function ogTitleFor(route) {
+  if (OG_TITLE[route]) return OG_TITLE[route];
+  return (ROUTES[route] || ROUTES.top).title;
 }
 function setMetaContent(selector, value) {
   const el = document.head.querySelector(selector);
@@ -482,10 +529,10 @@ function App() {
     const ogImg = ogImageFor(route);
     setMetaContent('meta[name="description"]', desc);
     setMetaContent('meta[property="og:url"]', url);
-    setMetaContent('meta[property="og:title"]', meta.title);
+    setMetaContent('meta[property="og:title"]', ogTitleFor(route));
     setMetaContent('meta[property="og:description"]', desc);
     setMetaContent('meta[property="og:image"]', ogImg);
-    setMetaContent('meta[name="twitter:title"]', meta.title);
+    setMetaContent('meta[name="twitter:title"]', ogTitleFor(route));
     setMetaContent('meta[name="twitter:description"]', desc);
     setMetaContent('meta[name="twitter:image"]', ogImg);
     // Per-route structured data (Service / Review / BreadcrumbList).

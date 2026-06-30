@@ -17,7 +17,8 @@
     { "source": "/works-video", "destination": "/app.html" },
     { "source": "/solution-(clinic|realty|build|hr|retail)", "destination": "/app.html" },
     { "source": "/feature-(cms|lpo|recruit|analytics)", "destination": "/app.html" },
-    { "source": "/product-(vetonet|wpchat|tennis)", "destination": "/app.html" }
+    { "source": "/product-(vetonet|wpchat|tennis)", "destination": "/app.html" },
+    { "source": "/article-(.*)", "destination": "/app.html" }
   ],
   "functions": {
     "api/diagnose.js": { "maxDuration": 30 },

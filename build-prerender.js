@@ -52,6 +52,17 @@ const ROUTES_ALLOWLIST = [
   '/article-ai-poc',
   '/article-realty-lp',
   '/article-claude-vs-gpt',
+  // 2026 article series (10 new posts)
+  '/article-website-launch-1month',
+  '/article-aio-llmo-reality-check',
+  '/article-multi-ai-parallel-productivity',
+  '/article-ai-literacy-mindset-shift',
+  '/article-local-business-geo-meo',
+  '/article-btob-web-marketing',
+  '/article-office-work-automation',
+  '/article-benchmark-competitor-success',
+  '/article-seo-aio-dual-strategy',
+  '/article-how-to-choose-web-agency',
   // Works categories (CollectionPage + ItemList)
   '/works-realty',
   '/works-hr',
@@ -167,7 +178,14 @@ async function main() {
     process.exit(1);
   }
   const shellHtml = fs.readFileSync(shellPath, 'utf8');
-  const allRoutes = ROUTES_ALLOWLIST.length ? ROUTES_ALLOWLIST : routesFromSitemap();
+  let allRoutes = ROUTES_ALLOWLIST.length ? ROUTES_ALLOWLIST : routesFromSitemap();
+  // PRERENDER_ONLY=/route-a,/route-b limits this run to a subset (re-snapshot a
+  // few routes without re-rendering — and re-versioning — the whole committed set).
+  const only = (process.env.PRERENDER_ONLY || '').split(',').map((s) => s.trim()).filter(Boolean);
+  if (only.length) {
+    allRoutes = allRoutes.filter((r) => only.includes(r));
+    console.log(`• PRERENDER_ONLY: limited to ${allRoutes.length} route(s)`);
+  }
 
   const { server, port } = await startServer(shellHtml);
   const browser = await chromium.launch();

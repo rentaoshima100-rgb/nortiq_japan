@@ -24,6 +24,16 @@ const JSX_FILES = [
 // Blog articles — markdown source in content/blog/ + display metadata.
 // Order = newest first (drives the column list).
 const BLOG = [
+  { slug: 'website-launch-1month',          category: 'Web制作',     date: '2026.06.27', read: '6 min', title: 'Webサイトを「最短1ヶ月」でローンチする — 速さと丁寧さは両立できる',            img: 'assets/blog-website-launch-1month.png' },
+  { slug: 'aio-llmo-reality-check',         category: 'SEO',         date: '2026.06.23', read: '7 min', title: 'AIO・LLMO対策に踊らされる前に — 日本人はまだAI検索をほとんど使っていない',     img: 'assets/blog-aio-llmo-reality-check.png' },
+  { slug: 'multi-ai-parallel-productivity', category: 'AI活用',      date: '2026.06.18', read: '6 min', title: 'AIは「複数同時に使う」から効率化できる — 毎日AIに触れる私たちだからわかること', img: 'assets/blog-multi-ai-parallel-productivity.png' },
+  { slug: 'ai-literacy-mindset-shift',      category: 'AI活用',      date: '2026.06.13', read: '6 min', title: 'AIの使い方を教えるのは、想像以上に難しい — 必要なのは「思考の転換」',          img: 'assets/blog-ai-literacy-mindset-shift.png' },
+  { slug: 'local-business-geo-meo',         category: 'SEO',         date: '2026.06.09', read: '6 min', title: 'ローカル店舗こそWeb集客を — 「口コミだけ」では、もう競争にならない',           img: 'assets/blog-local-business-geo-meo.png' },
+  { slug: 'btob-web-marketing',             category: 'マーケティング', date: '2026.06.04', read: '6 min', title: 'Web集客はまだまだ熱い — 特にBtoBでは最も効率の良い武器',                       img: 'assets/blog-btob-web-marketing.png' },
+  { slug: 'office-work-automation',         category: 'AI活用',      date: '2026.05.30', read: '6 min', title: 'AIを使わない＝無駄な労働 — 事務作業の多くは、もう自動化できる',                img: 'assets/blog-office-work-automation.png' },
+  { slug: 'benchmark-competitor-success',   category: 'マーケティング', date: '2026.05.26', read: '6 min', title: 'うまくいっている施策を真似れば、Web集客はどんなサービスでも成功する',          img: 'assets/blog-benchmark-competitor-success.png' },
+  { slug: 'seo-aio-dual-strategy',          category: 'SEO',         date: '2026.05.21', read: '7 min', title: 'SEOとAIO、両睨みのコンテンツ戦略 — どちらにも効く「共通の型」がある',          img: 'assets/blog-seo-aio-dual-strategy.png' },
+  { slug: 'how-to-choose-web-agency',       category: 'Web制作',     date: '2026.05.16', read: '6 min', title: '制作会社の選び方 — 「安かろう悪かろう」の罠を避ける',                          img: 'assets/blog-how-to-choose-web-agency.png' },
   { slug: 'japan-dx',        category: 'DX 観察記', date: '2026.05.12', read: '8 min',  title: 'なぜ日本のDXはアメリカに2〜3年遅れているのか',          img: 'assets/blog-japan-dx.png' },
   { slug: 'vetonet',         category: '技術',       date: '2026.04.28', read: '12 min', title: 'VetoNet 開発の裏側 — AI agent security とは何か',        img: 'assets/blog-vetonet.png' },
   { slug: 'wordpress-stall', category: 'AI活用',     date: '2026.03.30', read: '7 min',  title: 'WordPress 更新が止まる本当の理由とその解決',            img: 'assets/blog-wordpress-stall.png' },
