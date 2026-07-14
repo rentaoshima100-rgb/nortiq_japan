@@ -105,6 +105,19 @@ function nqTrack(eventName, params, convKey) {
 }
 if (typeof window !== 'undefined') window.nqTrack = nqTrack;
 
+// This is a single-page app: after the first load, navigation is pushState, so
+// gtag.js never sees a document load and sends no further page_view. Without
+// this, GA4 would only ever record the page a session landed on. The initial
+// page_view still comes from gtag('config') in <head> — App fires this one only
+// for route changes, so each view is counted exactly once.
+function nqPageView(params) {
+  try {
+    if (typeof window === 'undefined' || typeof window.gtag !== 'function') return;
+    window.gtag('event', 'page_view', params || {});
+  } catch (_) { /* analytics must never throw into the UI */ }
+}
+if (typeof window !== 'undefined') window.nqPageView = nqPageView;
+
 // -------------------- Contact delivery --------------------
 // All inquiry forms POST to the serverless function, which
 // sends a real email via Resend (no mail-client dependency). Throws on failure
