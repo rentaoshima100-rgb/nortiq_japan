@@ -371,7 +371,7 @@ async function build() {
 <html lang="ja">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1">${analyticsHead}
 <meta name="robots" content="noindex, follow">
 <title>ページが見つかりません (404) — Nortiq Labs</title>
 <link rel="icon" href="/assets/nortiq-fav.png">
@@ -399,6 +399,19 @@ async function build() {
     <a class="nf-ghost" href="/diagnostic">無料サイト診断</a>
   </div>
 </div></div>
+<script>
+  // The page_view for this hit lands under the 404 URL, which alone doesn't say
+  // where the dead link came from. This event carries the broken path + referrer
+  // so GA4 can list which links to fix.
+  try {
+    if (typeof gtag === 'function') {
+      gtag('event', 'page_not_found', {
+        broken_path: location.pathname + location.search,
+        referrer: document.referrer || '(direct)',
+      });
+    }
+  } catch (e) {}
+</script>
 </body>
 </html>
 `, 'utf8');

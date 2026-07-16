@@ -485,6 +485,10 @@ function App() {
   });
   const [contactOpen, setContactOpen] = React.useState(false);
   const [contactCategory, setContactCategory] = React.useState('');
+  // The <head> gtag('config') already sent a page_view for the document that
+  // loaded, so the route effect below must skip its first run or the landing
+  // page would be counted twice.
+  const landingViewSent = React.useRef(false);
 
   const defaults = /*EDITMODE-BEGIN*/{
     "accentHue": 354,
@@ -547,6 +551,17 @@ function App() {
       document.head.appendChild(s);
     }
     window.scrollTo({ top: 0, behavior: 'instant' });
+
+    // GA4 page_view for the SPA navigation that just happened. pushState/popstate
+    // have already updated window.location by the time this effect runs, and
+    // document.title is set above, so the hit carries the new page's identity.
+    if (landingViewSent.current) {
+      if (typeof window.nqPageView === 'function') {
+        window.nqPageView({ page_location: window.location.href, page_title: meta.title });
+      }
+    } else {
+      landingViewSent.current = true;
+    }
   }, [route]);
 
   // Global fadein observer — re-attached every route change after content mounts
