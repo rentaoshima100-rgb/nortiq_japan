@@ -63,6 +63,17 @@ const ROUTES_ALLOWLIST = [
   '/article-benchmark-competitor-success',
   '/article-seo-aio-dual-strategy',
   '/article-how-to-choose-web-agency',
+  // 2026 SMB series (10 new posts)
+  '/article-web-production-cost-guide',
+  '/article-website-renewal-guide',
+  '/article-website-not-converting',
+  '/article-llmo-basics-for-smb',
+  '/article-google-business-profile-meo',
+  '/article-listing-ads-cpc-roi',
+  '/article-page-speed-conversion',
+  '/article-ai-chatbot-introduction',
+  '/article-smb-dx-first-step',
+  '/article-subsidy-2026-digital-ai',
   // Works categories (CollectionPage + ItemList)
   '/works-realty',
   '/works-hr',

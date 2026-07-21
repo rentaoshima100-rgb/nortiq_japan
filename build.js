@@ -24,6 +24,16 @@ const JSX_FILES = [
 // Blog articles — markdown source in content/blog/ + display metadata.
 // Order = newest first (drives the column list).
 const BLOG = [
+  { slug: 'web-production-cost-guide',      category: 'Web制作',     date: '2026.07.17', read: '7 min', title: '【2026年最新】中小企業のホームページ制作費用の相場は？失敗しない発注ガイド',      img: 'assets/blog-web-production-cost-guide.png' },
+  { slug: 'website-renewal-guide',          category: 'Web制作',     date: '2026.07.15', read: '6 min', title: '失敗しないホームページリニューアルの進め方 — タイミングの見極めと発注チェックリスト', img: 'assets/blog-website-renewal-guide.png' },
+  { slug: 'website-not-converting',         category: 'Web制作',     date: '2026.07.13', read: '6 min', title: 'ホームページを作ったのに集客できない — 中小企業がやるべき5つの改善',             img: 'assets/blog-website-not-converting.png' },
+  { slug: 'llmo-basics-for-smb',            category: 'SEO',         date: '2026.07.11', read: '6 min', title: 'AI検索でアクセスは減る？中小企業がいま始めるべきLLMO対策の基本',                img: 'assets/blog-llmo-basics-for-smb.png' },
+  { slug: 'google-business-profile-meo',    category: 'SEO',         date: '2026.07.09', read: '6 min', title: '広告費0円から始める集客術 — Googleビジネスプロフィールで地域のお客様を増やす',    img: 'assets/blog-google-business-profile-meo.png' },
+  { slug: 'listing-ads-cpc-roi',            category: 'マーケティング', date: '2026.07.07', read: '6 min', title: 'リスティング広告のCPCが高すぎる？費用対効果を上げる5つの見直し',                img: 'assets/blog-listing-ads-cpc-roi.png' },
+  { slug: 'page-speed-conversion',          category: '技術',        date: '2026.07.04', read: '6 min', title: 'サイトが「遅い」だけで損してる — 表示速度の改善で問い合わせが増える理由',        img: 'assets/blog-page-speed-conversion.png' },
+  { slug: 'ai-chatbot-introduction',        category: 'AI活用',      date: '2026.07.02', read: '6 min', title: '問い合わせ対応の負担を減らす — 中小企業のAIチャットボット導入ステップと費用',      img: 'assets/blog-ai-chatbot-introduction.png' },
+  { slug: 'smb-dx-first-step',              category: 'DX 観察記',   date: '2026.06.30', read: '7 min', title: '中小企業のDXは何から始める？AI活用の「最初の一歩」と補助金の使い方',             img: 'assets/blog-smb-dx-first-step.png' },
+  { slug: 'subsidy-2026-digital-ai',        category: 'DX 観察記',   date: '2026.06.29', read: '6 min', title: 'IT導入補助金は2026年から名称変更 — ホームページ・AIツールは補助金の対象になる？', img: 'assets/blog-subsidy-2026-digital-ai.png' },
   { slug: 'website-launch-1month',          category: 'Web制作',     date: '2026.06.27', read: '6 min', title: 'Webサイトを「最短1ヶ月」でローンチする — 速さと丁寧さは両立できる',            img: 'assets/blog-website-launch-1month.png' },
   { slug: 'aio-llmo-reality-check',         category: 'SEO',         date: '2026.06.23', read: '7 min', title: 'AIO・LLMO対策に踊らされる前に — 日本人はまだAI検索をほとんど使っていない',     img: 'assets/blog-aio-llmo-reality-check.png' },
   { slug: 'multi-ai-parallel-productivity', category: 'AI活用',      date: '2026.06.18', read: '6 min', title: 'AIは「複数同時に使う」から効率化できる — 毎日AIに触れる私たちだからわかること', img: 'assets/blog-multi-ai-parallel-productivity.png' },
