@@ -63,6 +63,8 @@ const ROUTES_ALLOWLIST = [
   '/article-benchmark-competitor-success',
   '/article-seo-aio-dual-strategy',
   '/article-how-to-choose-web-agency',
+  // 2026 blog-bot pillar article
+  '/article-blog-bot',
   // 2026 SMB series (10 new posts)
   '/article-web-production-cost-guide',
   '/article-website-renewal-guide',

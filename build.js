@@ -24,6 +24,7 @@ const JSX_FILES = [
 // Blog articles — markdown source in content/blog/ + display metadata.
 // Order = newest first (drives the column list).
 const BLOG = [
+  { slug: 'blog-bot',                       category: 'AI活用',      date: '2026.07.23', read: '9 min', title: 'ブログボットとは？AIで記事を作成・投稿する仕組みと選び方【2026年版】',           img: 'assets/blog-blog-bot.png' },
   { slug: 'web-production-cost-guide',      category: 'Web制作',     date: '2026.07.17', read: '7 min', title: '【2026年最新】中小企業のホームページ制作費用の相場は？失敗しない発注ガイド',      img: 'assets/blog-web-production-cost-guide.png' },
   { slug: 'website-renewal-guide',          category: 'Web制作',     date: '2026.07.15', read: '6 min', title: '失敗しないホームページリニューアルの進め方 — タイミングの見極めと発注チェックリスト', img: 'assets/blog-website-renewal-guide.png' },
   { slug: 'website-not-converting',         category: 'Web制作',     date: '2026.07.13', read: '6 min', title: 'ホームページを作ったのに集客できない — 中小企業がやるべき5つの改善',             img: 'assets/blog-website-not-converting.png' },
@@ -249,8 +250,8 @@ async function build() {
   // forces browsers to fetch fresh files instead of serving a stale bundle.
   const ver = Date.now().toString(36);
   const SITE = 'https://nortiqlab.com';
-  const TITLE = 'Nortiq Labs — 日本のDX、世界水準で巻き返す。';
-  const DESC = '米国の技術水準を、日本の中小企業の武器に。Web制作・AIチャットボット・DX/ML実装まで、20社の支援実績を持つ技術チームが段階的に伴走するDXパートナーです。';
+  const TITLE = '京都のWeb制作・AI導入・DX支援｜Nortiq Labs';
+  const DESC = '京都のWeb制作×AI実装カンパニー。オリジナルデザインのホームページ制作からAIチャットボット導入、DXコンサルティングまで一気通貫で支援。初回相談無料・営業日24時間以内に返信します。';
   const OG_IMAGE = SITE + '/assets/og-image.png';
 
   // --- Analytics & conversion tracking ----------------------------------------

@@ -25,7 +25,7 @@ const NAV_MEGA = [
       ]},
       { heading: '自社プロダクト', links: [
         { id: 'product-vetonet',  label: 'VetoNet (AI Security)' },
-        { id: 'product-wpchat',   label: 'WP AIチャットボット' },
+        { id: 'product-wpchat',   label: 'ブログボット（AI投稿アシスタント）' },
         { id: 'product-tennis',   label: 'Tennis フォームチェック' },
       ]},
     ],
@@ -465,7 +465,7 @@ function Footer({ onNavigate, onContact }) {
             <h4 style={{ marginTop: 28 }}>自社プロダクト</h4>
             <ul>
               <li><a {...navProps('product-vetonet', onNavigate)}>VetoNet</a></li>
-              <li><a {...navProps('product-wpchat', onNavigate)}>WP AIチャットボット</a></li>
+              <li><a {...navProps('product-wpchat', onNavigate)}>ブログボット（AI投稿アシスタント）</a></li>
               <li><a {...navProps('product-tennis', onNavigate)}>Tennis フォームチェック</a></li>
             </ul>
           </div>

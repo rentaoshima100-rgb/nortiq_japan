@@ -560,7 +560,7 @@ function WorkDetailPage({ onNavigate, onContact }) {
               <ol style={{ paddingLeft: 0, listStyle: 'none', margin: 0 }}>
                 {[
                   { t: "Phase 1: Web リニューアル", d: "予約導線を意識したクリニック LP を WordPress + Reserva 連携で構築。スマホ最適化と Core Web Vitals Good を担保。" },
-                  { t: "Phase 2: AIチャットボット導入", d: "公開3ヶ月後に WP AIチャットボット 投稿ツールを導入。月4本の SEO 記事を院長監修で自動生成。" },
+                  { t: "Phase 2: AIチャットボット導入", d: "公開3ヶ月後にブログボット（AI投稿アシスタント）を導入。月4本の SEO 記事を院長監修で自動生成。" },
                   { t: "Phase 3: 運用最適化", d: "月次レビューで離脱地点を分析、フォーム設計の改善を繰り返しました。" },
                 ].map((p, i) => (
                   <li key={i} style={{ padding: '20px 0', borderBottom: '1px dashed var(--border)' }}>

@@ -674,7 +674,7 @@ function CompanyPage({ onNavigate, onContact }) {
             <li className="timeline-item fadein" data-delay="160">
               <div className="timeline-date">2025〜2026</div>
               <div className="timeline-content">
-                <h3>WP AIチャットボット 開発 / 業種横断で支援拡大</h3>
+                <h3>ブログボット（AI投稿アシスタント）開発 / 業種横断で支援拡大</h3>
                 <p>WordPress ブログ更新を AI で支援する内製プロダクトを開発。クリニック・不動産・建築・人材・小売・AIスタートアップ等、累計 20 社の制作・DX 支援を展開。</p>
               </div>
             </li>
@@ -817,7 +817,7 @@ function SitemapPage({ onNavigate, onContact }) {
             ]}/>
             <SitemapCol heading="自社プロダクト" onNavigate={onNavigate} links={[
               { id: 'product-vetonet', label: 'VetoNet (AI Security)' },
-              { id: 'product-wpchat', label: 'WP AIチャットボット' },
+              { id: 'product-wpchat', label: 'ブログボット（AI投稿アシスタント）' },
               { id: 'product-tennis', label: 'Tennis フォームチェック' },
             ]}/>
             <SitemapCol heading="業種ソリューション" onNavigate={onNavigate} links={[
@@ -902,7 +902,7 @@ const GENERIC_PAGES = {
   'feature-recruit':   { eyebrow: "FEATURE / 採用", title: "採用専門サイト", lede: "応募率を最大化する採用LP・コーポレートサイト。コピーから写真ディレクションまで。" },
   'feature-analytics': { eyebrow: "FEATURE / 解析", title: "アクセス解析カスタム実装", lede: "GA4 / GSC / 独自解析を統合し、経営判断に直結するダッシュボードをカスタム実装します。" },
   'product-vetonet':   { eyebrow: "PRODUCT / 研究開発", title: "VetoNet — AI Security", lede: "AI Agent の振る舞いを検証する研究開発プロダクト。Nortiq Labs の技術研究の柱。", badges: ["β preview", "Python / Rust", "AI Security"] },
-  'product-wpchat':    { eyebrow: "PRODUCT / 主力", title: "WP AIチャットボット 投稿ツール", lede: "WordPress ブログ更新が止まる、を解決。質問するだけで記事が書ける自社プロダクト。", badges: ["GA リリース", "TypeScript / Next.js", "OpenAI / Claude"] },
+  'product-wpchat':    { eyebrow: "PRODUCT / 主力", title: "ブログボット（AI投稿アシスタント）", lede: "WordPress ブログ更新が止まる、を解決。質問するだけで記事が書ける自社プロダクト。", badges: ["GA リリース", "TypeScript / Next.js", "OpenAI / Claude"] },
   'product-tennis':    { eyebrow: "PRODUCT / SaaS", title: "Tennis フォームチェック SaaS", lede: "Computer Vision を応用した、テニスフォーム分析 SaaS。一般ユーザー向けの自社プロダクト。", badges: ["Public beta", "MediaPipe", "FastAPI"] },
   'works-lp-corp':     { eyebrow: "WORKS / コーポレートLP", title: "コーポレートサイト 実績", lede: "上場準備・IRに耐える総合コーポレートサイトの制作実績を集約しました。" },
   'works-lp-recruit':  { eyebrow: "WORKS / 採用LP", title: "採用LP 実績", lede: "応募率を高める採用専門 LP の制作実績を集約しました。" },
