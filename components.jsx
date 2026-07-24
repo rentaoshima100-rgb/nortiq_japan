@@ -517,7 +517,7 @@ function Footer({ onNavigate, onContact }) {
 const CATEGORY_OPTIONS = ["Web制作", "AIチャットボット", "DX・ML", "業務自動化", "LP制作", "採用サイト"];
 const INQ_TYPE_OPTIONS = ["新規HP制作", "HPリニューアル", "AIチャットボット導入", "DX・ML 実装", "業務自動化", "リスティング広告", "コンサルティング"];
 const REASON_OPTIONS = ["HPが無い", "問い合わせを増やしたい", "サービス資料がほしい", "無料診断", "デザインを改善したい", "SEOを上げたい", "AI活用したい", "業務効率化したい", "補助金活用を相談したい"];
-const SOURCE_OPTIONS = ["Google検索", "Yahoo検索", "ご紹介", "メール", "DMチラシ", "SNS (X/LinkedIn)", "以前から知っていた", "その他"];
+const SOURCE_OPTIONS = ["Google検索", "Yahoo検索", "AIチャット (ChatGPT/Claude/Gemini等)", "ご紹介", "メール", "DMチラシ", "SNS (X/LinkedIn)", "以前から知っていた", "その他"];
 
 function ContactModal({ open, onClose, defaultCategory = '' }) {
   const initialForm = {
