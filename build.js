@@ -22,9 +22,18 @@ const JSX_FILES = [
 ];
 
 // Organization schema の sameAs (エンティティ対策: nortiq.ai 等との誤帰属防止)。
-// 自社管理プロファイルのURLを追加する: GBP、LinkedIn、X、Wantedly など。
-// TODO(人間): プロファイル作成後にURLを記入 (NAP表記は「Nortiq Labs（ノーティックラボ/京都）」で統一)
-const ORG_SAME_AS = [];
+// 自社が管理するプロファイルのURLだけを入れる (他社サイトの紹介ページ等は入れない)。
+//
+// TODO(人間): 下記のコメントを外し、実際のURLに差し替える。
+//   作成していないものは行ごと消してよい (空文字や仮URLは入れない)。
+//   NAP表記はすべてのプロファイルで「Nortiq Labs（ノーティックラボ/京都）」に統一する。
+const ORG_SAME_AS = [
+  // 'https://www.google.com/maps/place/?cid=<GBPのCID>',   // Googleビジネスプロフィール
+  // 'https://www.linkedin.com/company/<ページ名>',          // LinkedIn 会社ページ
+  // 'https://x.com/<アカウント名>',                          // X (旧Twitter)
+  // 'https://www.wantedly.com/companies/<会社ID>',          // Wantedly
+  // 'https://github.com/<組織名>',                           // GitHub Organization
+];
 
 // Blog articles — markdown source in content/blog/ + display metadata.
 // Order = newest first (drives the column list).
