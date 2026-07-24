@@ -701,6 +701,12 @@ function ArticleDetailPage({ onNavigate, onContact, slug }) {
 
         <div className="container" style={{ maxWidth: 780, marginTop: 24, marginBottom: 80 }}>
           <div className="article-prose article-body" dangerouslySetInnerHTML={{ __html: article.html }}/>
+          {article.supervised && (
+            <div style={{ marginTop: 40, padding: '16px 20px', background: 'var(--bg-2)', borderRadius: 10, fontSize: 13, color: 'var(--text-3)', lineHeight: 1.8 }}>
+              <div>監修: 大島蓮太（株式会社ノーティックラボ代表 / AIエンジニア）</div>
+              <div>本記事はAIを活用して制作しています</div>
+            </div>
+          )}
         </div>
 
         {related.length > 0 && (
