@@ -331,8 +331,9 @@ const CRUMB_PARENT = {
 // Any article route nests under コラム (handled generically in routeLd).
 const ARTICLE_CRUMB_PARENT = { name: 'コラム', id: 'column' };
 
-// FAQPage nodes for articles that carry a Q&A section (rich-result eligible).
-// Answers must mirror the visible article body verbatim (Google policy).
+// Retained for reference only — no longer emitted as FAQPage schema
+// (FAQ rich results were retired in June 2026). The visible Q&A in the article
+// body is what matters now, for AI search (LLMO) and coverage.
 const ARTICLE_FAQ = {
   'article-blog-bot': [
     { q: 'ブログボットは無料で使えますか？', a: '多くのツールに無料トライアルや無料プランがありますが、CMS連携や競合分析などの実務機能は有料プランに含まれるのが一般的です。まず無料枠で1記事作り、操作感と品質を確かめてから判断するのがおすすめです。' },
@@ -515,12 +516,9 @@ function routeLd(route) {
   // Page-specific primary node (Article / CollectionPage / Service / WebApplication
   // / SoftwareApplication). Falls back to the generic Service map for web/chatbot/dx.
   const primary = pageLd(route, url);
-  if (ARTICLE_FAQ[route]) {
-    out.push({
-      '@context': 'https://schema.org', '@type': 'FAQPage',
-      mainEntity: ARTICLE_FAQ[route].map((x) => ({ '@type': 'Question', name: x.q, acceptedAnswer: { '@type': 'Answer', text: x.a } })),
-    });
-  }
+  // FAQPage schema is intentionally NOT emitted. Google retired FAQ rich results
+  // (June 2026), so the markup no longer earns display and only adds payload.
+  // FAQ sections stay in the visible article body for LLMO and coverage.
   if (primary) {
     out.push(primary);
   } else if (SERVICE_LD[route]) {

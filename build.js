@@ -324,7 +324,10 @@ async function build() {
       },
       { '@type': 'WebSite', '@id': SITE + '/#website', name: 'Nortiq Labs', url: SITE + '/', publisher: { '@id': SITE + '/#org' }, inLanguage: 'ja' },
       { '@type': 'ProfessionalService', name: 'Nortiq Labs', url: SITE + '/', description: DESC, areaServed: 'JP', serviceType: ['Web制作', 'AIチャットボット導入', 'DX・ML実装', '補助金活用のDX導入相談'], provider: { '@id': SITE + '/#org' } },
-      { '@type': 'FAQPage', '@id': SITE + '/#faq', mainEntity: FAQ_QA.map((x) => ({ '@type': 'Question', name: x.q, acceptedAnswer: { '@type': 'Answer', text: x.a } })) },
+      // FAQPage は出力しない。Googleは2026年6月にFAQリッチリザルトを廃止したため、
+      // マークアップしても表示上の利得が無く、ペイロードが増えるだけになる。
+      // FAQ自体は本文に残す (AI検索=LLMOと網羅性のため)。
+      // Organization / WebSite / ProfessionalService / BreadcrumbList は維持する。
     ],
   }).replace(/</g, '\\u003c');
   // Production-mode React (smaller, faster) — no Babel runtime in the browser.
