@@ -29,6 +29,8 @@ const ORG_SAME_AS = [];
 // Blog articles — markdown source in content/blog/ + display metadata.
 // Order = newest first (drives the column list).
 // supervised: true → 記事ページに監修表記 (承認済みAI活用記事のみ。パイプラインが付与)
+// desc → meta description / og:description / BlogPosting.description に使う。
+//        未指定の記事は app.jsx の SEO_DESC か自動生成の定型文にフォールバックする
 const BLOG = [
   { slug: 'blog-bot',                       category: 'AI活用',      date: '2026.07.23', read: '9 min', title: 'ブログボットとは？AIで記事を作成・投稿する仕組みと選び方【2026年版】',           img: 'assets/blog-blog-bot.png' },
   { slug: 'web-production-cost-guide',      category: 'Web制作',     date: '2026.07.17', read: '7 min', title: '【2026年最新】中小企業のホームページ制作費用の相場は？失敗しない発注ガイド',      img: 'assets/blog-web-production-cost-guide.png' },
@@ -75,7 +77,7 @@ function buildArticles() {
     // and the H1 would leak into the body (duplicate heading).
     md = md.replace(/^\s*#\s+.+(?:\r?\n)+/, '');
     const html = marked.parse(md);
-    out[a.slug] = { slug: a.slug, title: a.title, category: a.category, date: a.date, read: a.read, img: a.img, supervised: !!a.supervised, html };
+    out[a.slug] = { slug: a.slug, title: a.title, category: a.category, date: a.date, read: a.read, img: a.img, supervised: !!a.supervised, desc: a.desc || '', html };
   }
   return out;
 }

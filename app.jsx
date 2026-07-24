@@ -275,7 +275,10 @@ function descFor(route) {
   if (route && route.indexOf('article-') === 0) {
     const slug = route.slice('article-'.length);
     const a = ((typeof window !== 'undefined' && window.NORTIQ_ARTICLES) || {})[slug];
-    return a ? `${a.title} ｜ Nortiq Labs の技術ブログ（${a.category}）。` : DEFAULT_DESC;
+    if (!a) return DEFAULT_DESC;
+    // 記事メタの desc (パイプラインが P-12 で生成し BLOG エントリに載せる) を優先。
+    // 無い記事は従来どおり定型文にフォールバックする
+    return a.desc || `${a.title} ｜ Nortiq Labs の技術ブログ（${a.category}）。`;
   }
   return DEFAULT_DESC;
 }
