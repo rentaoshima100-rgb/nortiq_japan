@@ -331,18 +331,6 @@ const CRUMB_PARENT = {
 // Any article route nests under コラム (handled generically in routeLd).
 const ARTICLE_CRUMB_PARENT = { name: 'コラム', id: 'column' };
 
-// Retained for reference only — no longer emitted as FAQPage schema
-// (FAQ rich results were retired in June 2026). The visible Q&A in the article
-// body is what matters now, for AI search (LLMO) and coverage.
-const ARTICLE_FAQ = {
-  'article-blog-bot': [
-    { q: 'ブログボットは無料で使えますか？', a: '多くのツールに無料トライアルや無料プランがありますが、CMS連携や競合分析などの実務機能は有料プランに含まれるのが一般的です。まず無料枠で1記事作り、操作感と品質を確かめてから判断するのがおすすめです。' },
-    { q: 'AIが書いた記事はSEOで不利になりますか？', a: 'AIを使ったこと自体で不利にはなりません。Googleは生成手段ではなくコンテンツの品質で評価すると明言しています。不利になるのは、価値の薄い記事を大量生成した場合です。人の確認と独自情報の追加を前提にすれば、AI活用はむしろ更新頻度と品質の両立に有効です。' },
-    { q: 'WordPress以外のCMSでも使えますか？', a: 'ツールによります。WordPress連携は多くのツールが対応していますが、独自CMSやヘッドレスCMSの場合はAPI連携の個別開発が必要になることがあります。当社ではCMS構築・記事更新システム開発として連携開発にも対応しています。' },
-    { q: '効果が出るまでどのくらいかかりますか？', a: '新規記事が検索結果で評価されるまで、一般に2〜4ヶ月かかります。ブログボットが短縮するのは「書く時間」であって「評価される時間」ではないため、最低3ヶ月は継続する前提で導入してください。' },
-  ],
-};
-
 // BLOG manifest dates are 'YYYY.MM.DD'; Article schema wants ISO 'YYYY-MM-DD'.
 function isoDate(d) { return (d || '').replace(/\./g, '-'); }
 
