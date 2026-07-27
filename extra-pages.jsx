@@ -560,7 +560,7 @@ function WorkDetailPage({ onNavigate, onContact }) {
               <ol style={{ paddingLeft: 0, listStyle: 'none', margin: 0 }}>
                 {[
                   { t: "Phase 1: Web リニューアル", d: "予約導線を意識したクリニック LP を WordPress + Reserva 連携で構築。スマホ最適化と Core Web Vitals Good を担保。" },
-                  { t: "Phase 2: AIチャットボット導入", d: "公開3ヶ月後に WP AIチャットボット 投稿ツールを導入。月4本の SEO 記事を院長監修で自動生成。" },
+                  { t: "Phase 2: AIチャットボット導入", d: "公開3ヶ月後にブログボット（AI投稿アシスタント）を導入。月4本の SEO 記事を院長監修で自動生成。" },
                   { t: "Phase 3: 運用最適化", d: "月次レビューで離脱地点を分析、フォーム設計の改善を繰り返しました。" },
                 ].map((p, i) => (
                   <li key={i} style={{ padding: '20px 0', borderBottom: '1px dashed var(--border)' }}>
@@ -701,6 +701,12 @@ function ArticleDetailPage({ onNavigate, onContact, slug }) {
 
         <div className="container" style={{ maxWidth: 780, marginTop: 24, marginBottom: 80 }}>
           <div className="article-prose article-body" dangerouslySetInnerHTML={{ __html: article.html }}/>
+          {article.supervised && (
+            <div style={{ marginTop: 40, padding: '16px 20px', background: 'var(--bg-2)', borderRadius: 10, fontSize: 13, color: 'var(--text-3)', lineHeight: 1.8 }}>
+              <div>監修: 大島蓮太（株式会社ノーティックラボ代表 / AIエンジニア）</div>
+              <div>本記事はAIを活用して制作しています</div>
+            </div>
+          )}
         </div>
 
         {related.length > 0 && (

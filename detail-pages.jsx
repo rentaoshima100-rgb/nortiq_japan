@@ -177,11 +177,11 @@ function ProductVetoNetPage({ onNavigate, onContact }) {
 function ProductWPChatPage({ onNavigate, onContact }) {
   return (
     <main className="page-fade">
-      <Breadcrumb items={[{ label: "トップ", id: "top" }, { label: "自社プロダクト" }, { label: "Nortiq AI 投稿アシスタント" }]} onNavigate={onNavigate}/>
+      <Breadcrumb items={[{ label: "トップ", id: "top" }, { label: "自社プロダクト" }, { label: "ブログボット（AI投稿アシスタント）" }]} onNavigate={onNavigate}/>
       <DetailHero
         tag="PRODUCT / 主力"
-        title={<>Nortiq AI<br/>投稿アシスタント。</>}
-        lede="「書ける気がしない」を、なくす。非技術ユーザー向けの AI 投稿アシスタント。普段の言葉で AI に伝えるだけで、要約・SEO最適化・競合分析まで対話形式で記事を整えます。"
+        title={<>ブログボット<br/>Nortiq AI 投稿アシスタント。</>}
+        lede="「書ける気がしない」を、なくすブログボット。非技術ユーザー向けの AI 投稿アシスタント（WordPress対応のAIブログ作成ツール）。普段の言葉で AI に伝えるだけで、要約・SEOチェック・競合分析まで対話形式で記事を整えます。"
         badges={["GA リリース", "非技術者対応", "対話型UI", "WordPress 連携可"]}
         onContact={() => onContact('chatbot')}
         visualLabel="UI DESIGN PROPOSAL"
@@ -200,6 +200,9 @@ function ProductWPChatPage({ onNavigate, onContact }) {
             <p className="section-sub fadein">FLOW · 8 STEPS</p>
             <p className="lede fadein" style={{ margin: '20px auto 0' }}>
               「書きたい」と思ってから「公開」までを 8 つの小さなステップに分割。AI が各段階で確認を取りながら進むため、勝手に投稿される心配がありません。
+            </p>
+            <p className="small fadein" style={{ margin: '12px auto 0', textAlign: 'center' }}>
+              ブログボットというツールカテゴリの全体像（仕組み・2タイプの違い・選び方）は<a {...navProps('article-blog-bot', onNavigate)} style={{ color: 'var(--accent)', textDecoration: 'underline' }}>解説記事</a>にまとめています。
             </p>
           </div>
           <div className="step8-strip">
@@ -641,7 +644,7 @@ function FeatureCMSPage({ onNavigate, onContact }) {
           </div>
           <BulletGrid items={[
             { title: "投稿テンプレート自動化", desc: "業種別の記事構成テンプレートを CMS に組み込み、空欄を埋めるだけで完成。" },
-            { title: "AI 下書き生成", desc: "WP AIチャットボットと連動し、トピックを指示するだけで下書きを生成。" },
+            { title: "AI 下書き生成", desc: "ブログボット（AI投稿アシスタント）と連動し、トピックを指示するだけで下書きを生成。" },
             { title: "校正 / 表記揺れ統一", desc: "投稿前の自動チェックで、社内表記ルールに合わせて自動校正。" },
             { title: "公開予約・SNS連携", desc: "公開と同時に X / LinkedIn / メルマガに自動配信。" },
           ]}/>

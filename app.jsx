@@ -3,21 +3,21 @@
 // ============================================================
 
 const ROUTES = {
-  top:             { c: () => window.TopPage,             title: 'Nortiq Labs — 日本のDX、世界水準で巻き返す。' },
-  web:             { c: () => window.WebPage,             title: 'Web制作｜WordPress・Next.jsで作る集客サイト（30万円〜） — Nortiq Labs' },
-  chatbot:         { c: () => window.ChatbotPage,         title: 'AIチャットボット｜WordPressのブログ更新を自動化する投稿ツール（10万円〜） — Nortiq Labs' },
-  dx:              { c: () => window.DXPage,              title: 'DX・ML実装｜機械学習・業務自動化・データ分析を初期投資ゼロで段階導入 — Nortiq Labs' },
-  works:           { c: () => window.WorksPage,           title: '制作実績｜7業種20社のWeb制作・DX支援事例 — Nortiq Labs', argName: 'category', argVal: null },
-  voice:           { c: () => window.VoicePage,           title: 'ご利用会社様の声｜20社の支援先が語る成果と伴走の評価 — Nortiq Labs' },
-  support:         { c: () => window.SupportPage,         title: 'サポート — Nortiq Labs' },
-  pricing:         { c: () => window.PricingPage,         title: '料金プラン — Nortiq Labs' },
+  top:             { c: () => window.TopPage,             title: '京都のWeb制作・AI導入・DX支援｜Nortiq Labs' },
+  web:             { c: () => window.WebPage,             title: 'ホームページ制作サービス・機能一覧｜Nortiq Labs' },
+  chatbot:         { c: () => window.ChatbotPage,         title: 'AIチャットボット導入サービス｜機能・料金・事例 — Nortiq Labs' },
+  dx:              { c: () => window.DXPage,              title: 'DX支援・機械学習（ML）実装サービス｜Nortiq Labs' },
+  works:           { c: () => window.WorksPage,           title: '制作実績一覧｜業種別のWeb制作・DX事例 — Nortiq Labs', argName: 'category', argVal: null },
+  voice:           { c: () => window.VoicePage,           title: '導入事例・お客様の声｜Nortiq Labs' },
+  support:         { c: () => window.SupportPage,         title: '運用サポート・保守プラン｜Nortiq Labs' },
+  pricing:         { c: () => window.PricingPage,         title: '料金プラン｜ホームページ制作・AI導入の費用 — Nortiq Labs' },
   diagnosis:       { c: () => window.DiagnosisPage,       title: 'サイト無料診断 — Nortiq Labs' },
   'quick-diagnosis': { c: () => window.QuickDiagnosisPage, title: 'クイック診断 — Nortiq Labs' },
-  subsidy:         { c: () => window.SubsidyPage,         title: '補助金活用相談 — Nortiq Labs' },
-  guidebook:       { c: () => window.GuidebookPage,       title: 'サービス紹介資料 — Nortiq Labs' },
-  column:          { c: () => window.ColumnPage,          title: 'コラム — Nortiq Labs' },
-  company:         { c: () => window.CompanyPage,         title: '会社概要 — Nortiq Labs' },
-  staff:           { c: () => window.StaffPage,           title: 'チーム — Nortiq Labs' },
+  subsidy:         { c: () => window.SubsidyPage,         title: '補助金を使ったホームページ制作・AI導入の相談｜Nortiq Labs' },
+  guidebook:       { c: () => window.GuidebookPage,       title: 'サービス紹介資料ダウンロード（無料）｜Nortiq Labs' },
+  column:          { c: () => window.ColumnPage,          title: 'コラム・技術ブログ｜AI・SEO・DXの実務知見 — Nortiq Labs' },
+  company:         { c: () => window.CompanyPage,         title: '会社概要｜株式会社ノーティックラボ（京都市）' },
+  staff:           { c: () => window.StaffPage,           title: 'チーム・スタッフ紹介｜Nortiq Labs' },
   sitemap:         { c: () => window.SitemapPage,         title: 'サイトマップ — Nortiq Labs' },
 };
 
@@ -30,13 +30,13 @@ WORKS_CATEGORIES.forEach(cat => {
 });
 // Per-category titles so each works page is distinct from the index (avoids the
 // duplicate-title / duplicate-content problem flagged in Search Console).
-ROUTES['works-clinic'].title = 'クリニック・医療の制作実績 — Nortiq Labs';
-ROUTES['works-build'].title  = '建築・工務店の制作実績 — Nortiq Labs';
-ROUTES['works-realty'].title = '不動産の制作実績｜投資ブランド・物件管理連動の事例 — Nortiq Labs';
-ROUTES['works-hr'].title     = '人材業界の制作実績｜採用ブランド・外国人材サイトの事例 — Nortiq Labs';
-ROUTES['works-retail'].title = '小売・ECの制作実績｜ブランドLP・越境EC・サブスクの事例 — Nortiq Labs';
-ROUTES['works-infra'].title  = 'インフラ・製造の制作実績｜技術サイト・電力サービスの事例 — Nortiq Labs';
-ROUTES['works-ai'].title     = 'AIスタートアップの制作実績｜SaaS・シードLPの事例 — Nortiq Labs';
+ROUTES['works-clinic'].title = 'クリニック・医療のホームページ制作実績｜Nortiq Labs';
+ROUTES['works-build'].title  = '建築・工務店のホームページ制作実績｜Nortiq Labs';
+ROUTES['works-realty'].title = '不動産会社のホームページ制作実績｜売却査定LP・物件サイト — Nortiq Labs';
+ROUTES['works-hr'].title     = '人材会社のホームページ制作実績｜Nortiq Labs';
+ROUTES['works-retail'].title = '小売・ECサイトの制作実績｜越境EC・OMO対応 — Nortiq Labs';
+ROUTES['works-infra'].title  = 'インフラ・製造業のホームページ制作実績｜Nortiq Labs';
+ROUTES['works-ai'].title     = 'AIスタートアップのサイト制作・開発実績｜Nortiq Labs';
 
 // Generic pages — for any pageId not yet implemented
 const GENERIC_IDS = [];
@@ -45,24 +45,24 @@ GENERIC_IDS.forEach(id => {
 });
 
 // Product detail pages
-ROUTES['product-vetonet'] = { c: () => window.ProductVetoNetPage, title: 'VetoNet｜AI Agent Security 研究開発プロダクト — Nortiq Labs' };
-ROUTES['product-wpchat']  = { c: () => window.ProductWPChatPage,  title: 'WP AIチャットボット — Nortiq Labs' };
+ROUTES['product-vetonet'] = { c: () => window.ProductVetoNetPage, title: 'VetoNet｜AIエージェント向けセキュリティミドルウェア — Nortiq Labs' };
+ROUTES['product-wpchat']  = { c: () => window.ProductWPChatPage,  title: 'ブログボット（AI投稿アシスタント）｜WordPress対応のAIブログ作成ツール — Nortiq Labs' };
 ROUTES['product-tennis']  = { c: () => window.ProductTennisPage,  title: 'テニスのフォームをAIで解析するアプリ｜33関節をスマホ動画で診断 — Nortiq Labs' };
 
 // Feature pages
-ROUTES['feature-cms']       = { c: () => window.FeatureCMSPage,       title: 'CMS / 記事更新システム — Nortiq Labs' };
-ROUTES['feature-lpo']       = { c: () => window.FeatureLPOPage,       title: 'LP制作 / LPO — Nortiq Labs' };
-ROUTES['feature-recruit']   = { c: () => window.FeatureRecruitPage,   title: '採用専門サイトの制作 — Nortiq Labs' };
-ROUTES['feature-analytics'] = { c: () => window.FeatureAnalyticsPage, title: 'アクセス解析のカスタム実装 — Nortiq Labs' };
+ROUTES['feature-cms']       = { c: () => window.FeatureCMSPage,       title: 'CMS構築・記事更新システム開発｜Nortiq Labs' };
+ROUTES['feature-lpo']       = { c: () => window.FeatureLPOPage,       title: 'LP制作・LPO（CVR改善）サービス｜Nortiq Labs' };
+ROUTES['feature-recruit']   = { c: () => window.FeatureRecruitPage,   title: '採用サイト制作｜応募が集まる採用専門サイトの設計 — Nortiq Labs' };
+ROUTES['feature-analytics'] = { c: () => window.FeatureAnalyticsPage, title: 'GA4カスタム実装・アクセス解析サービス｜Nortiq Labs' };
 
 // Works variant pages
 ['works-lp-corp', 'works-lp-recruit', 'works-lp-ec', 'works-video'].forEach(id => {
   ROUTES[id] = { c: () => window.WorksVariantPage, title: '制作実績 — Nortiq Labs', argName: 'pageId', argVal: id };
 });
-ROUTES['works-lp-corp'].title    = 'コーポレートサイトの制作実績｜エネ・SaaS・建設・製造の事例 — Nortiq Labs';
-ROUTES['works-lp-recruit'].title = '採用LPの制作実績｜新卒採用ブランドサイトの事例 — Nortiq Labs';
-ROUTES['works-lp-ec'].title      = 'EC連動LPの制作実績｜越境EC・実店舗送客の事例 — Nortiq Labs';
-ROUTES['works-video'].title      = '動画制作の実績｜動画SEO・配信基盤・ショート動画の事例 — Nortiq Labs';
+ROUTES['works-lp-corp'].title    = 'コーポレートサイト制作実績｜Nortiq Labs';
+ROUTES['works-lp-recruit'].title = '採用サイト・採用LP制作実績｜Nortiq Labs';
+ROUTES['works-lp-ec'].title      = 'EC連動LP制作実績｜Nortiq Labs';
+ROUTES['works-video'].title      = '動画制作事例｜ショート動画×SEO・Web活用 — Nortiq Labs';
 
 // Legal pages
 ['privacy', 'terms', 'privacy-handling'].forEach(id => {
@@ -73,21 +73,21 @@ ROUTES['terms'].title            = '利用規約 — Nortiq Labs';
 ROUTES['privacy-handling'].title = '個人情報の取扱いについて — Nortiq Labs';
 
 // News & Recruit
-ROUTES['news']    = { c: () => window.NewsPage,    title: 'お知らせ・最新情報 — Nortiq Labs' };
-ROUTES['recruit'] = { c: () => window.RecruitPage, title: '採用情報 — Nortiq Labs' };
+ROUTES['news']    = { c: () => window.NewsPage,    title: 'お知らせ｜Nortiq Labs' };
+ROUTES['recruit'] = { c: () => window.RecruitPage, title: '採用情報｜Nortiq Labsで働く — 京都のWeb×AIカンパニー' };
 
 // NORTIQLAB Site Diagnostic — landing page
-ROUTES['diagnostic'] = { c: () => window.DiagnosticLPPage, title: 'NORTIQLAB サイト無料診断｜URLを入れるだけでSEO・AI可視性まで分析 — Nortiq Labs' };
+ROUTES['diagnostic'] = { c: () => window.DiagnosticLPPage, title: 'ホームページ無料診断｜URL入力で改善点をチェック — Nortiq Labs' };
 
 // Industry solutions
 ['clinic', 'realty', 'build', 'hr', 'retail'].forEach(k => {
   ROUTES['solution-' + k] = { c: () => window.SolutionPage, title: '業種別ソリューション — Nortiq Labs', argName: 'pageId', argVal: 'solution-' + k };
 });
-ROUTES['solution-clinic'].title = 'クリニック・医療のDXパッケージ｜集客×予約×AI投稿 — Nortiq Labs';
+ROUTES['solution-clinic'].title = 'クリニック向けDX・Web集客パッケージ｜予約×MEO×AI対応 — Nortiq Labs';
 ROUTES['solution-realty'].title = '不動産業の集客×管理パッケージ｜売却査定LP・物件連動 — Nortiq Labs';
-ROUTES['solution-build'].title  = '建築・工務店のブランド×案件管理パッケージ — Nortiq Labs';
-ROUTES['solution-hr'].title     = '人材業界のマッチング×集客パッケージ｜ATS連携・採用LP — Nortiq Labs';
-ROUTES['solution-retail'].title = '小売・ECのOMOパッケージ｜Shopify・実店舗送客・BI分析 — Nortiq Labs';
+ROUTES['solution-build'].title  = '建築・工務店向けサイト制作×案件管理パッケージ｜Nortiq Labs';
+ROUTES['solution-hr'].title     = '人材業向けマッチングサイト構築×集客パッケージ｜Nortiq Labs';
+ROUTES['solution-retail'].title = 'Shopify OMOパッケージ｜店舗×ECの在庫・顧客統合 — Nortiq Labs';
 
 // Detail templates (single work / article example pages)
 ROUTES['work-detail']    = { c: () => window.WorkDetailPage,    title: '実績詳細 — Nortiq Labs' };
@@ -105,13 +105,18 @@ Object.keys((typeof window !== 'undefined' && window.NORTIQ_ARTICLES) || {}).for
 // article headline). Guarded so it only applies when the article is registered.
 if (ROUTES['article-japan-dx']) {
   ROUTES['article-japan-dx'].title =
-    'なぜ日本のDXはアメリカに2〜3年遅れているのか｜中小企業のための調査データ解説 — Nortiq Labs';
+    'なぜ日本のDXはアメリカに2〜3年遅れているのか｜要因と打ち手 — Nortiq Labs';
 }
 // SEO <title> overrides for the 2026 article series. Keyword-front-loaded and
 // already brand-suffixed (｜Nortiq Labs), so they REPLACE the default
 // "${headline} — Nortiq Labs" rather than double-stacking the brand. The page
 // headline (article.title / og:title) stays the reader-friendly version.
 const ARTICLE_SEO_TITLE = {
+  'article-blog-bot': 'ブログボットとは？AIで記事を作成・投稿する仕組みと選び方【2026年版】｜Nortiq Labs',
+  'article-vetonet': 'AI agent securityとは？VetoNet開発の裏側 — Nortiq Labs',
+  'article-wordpress-stall': 'WordPressのブログ更新が止まる本当の理由と解決策｜AI投稿という選択肢 — Nortiq Labs',
+  'article-core-web-vitals': 'Core Web Vitalsで「Good」を取る現実的な方法 — Nortiq Labs',
+  'article-claude-vs-gpt': 'Claude vs GPT 業務利用の比較｜複数AIの同時活用・使い分け — Nortiq Labs',
   'article-website-launch-1month': 'ホームページ制作は最短1ヶ月で可能｜速さと品質を両立する方法｜Nortiq Labs',
   'article-aio-llmo-reality-check': 'AIO・LLMO対策は本当に必要?日本のAI検索利用率の実態｜Nortiq Labs',
   'article-multi-ai-parallel-productivity': 'AIは複数同時に使うから効率化できる｜利益率を上げる活用術｜Nortiq Labs',
@@ -137,6 +142,7 @@ Object.keys(ARTICLE_SEO_TITLE).forEach((id) => { if (ROUTES[id]) ROUTES[id].titl
 // Punchy social-share titles (og:title / twitter:title) — shorter and stronger
 // than the SERP <title>. Falls back to the route title when absent.
 const OG_TITLE = {
+  'article-blog-bot': 'ブログボットとは？AIが書き、人が確認して公開する',
   'article-website-launch-1month': 'Web制作を最短1ヶ月で。速さと丁寧さは両立できる',
   'article-aio-llmo-reality-check': 'AIO対策に踊らされる前に。日本人はまだAI検索を使っていない',
   'article-multi-ai-parallel-productivity': 'AIは「複数同時に使う」から効率化できる',
@@ -187,32 +193,32 @@ function navProps(id, nav) {
 // route, canonical + description must be rewritten client-side on navigation so
 // each page gets its own (Google reads the rendered DOM). Falls back to default.
 const NORTIQ_SITE = 'https://nortiqlab.com';
-const DEFAULT_DESC = '米国の技術水準を、日本の中小企業の武器に。Web制作・AIチャットボット・DX/ML実装まで、20社の支援実績を持つ技術チームが段階的に伴走するDXパートナーです。';
+const DEFAULT_DESC = '京都のWeb制作×AI実装カンパニー。オリジナルデザインのホームページ制作からAIチャットボット導入、DXコンサルティングまで一気通貫で支援。初回相談無料・営業日24時間以内に返信します。';
 const SEO_DESC = {
   top: DEFAULT_DESC,
-  web: 'WordPress・静的・Next.jsを目的別に選ぶ集客重視のWeb制作。WCAG 2.1 AA／Core Web Vitals Goodを標準実装し、コーポレート・LP・ブランドサイトを30万円〜、設計から公開後の運用改善まで一貫支援します。',
-  chatbot: 'WordPressのブログ更新が止まる課題を、自社開発のAIチャットボット投稿ツールで解決。質問するだけで記事を作成しWordPressへ自動投稿。既存導入先で記事1本の工数-87%・投稿頻度6.2倍・オーガニック流入1.8倍。10万円〜。',
-  dx: '機械学習・業務自動化・データ分析基盤・生成AI組み込みを、米国UC Berkeley研究背景の技術チームが伴走。Web/チャットボットからの初期投資ゼロで始め、PoC→本実装まで段階的にGO/NO-GO判断。50万円〜。',
-  works: 'クリニック・不動産・建築・人材・小売/EC・インフラ・AIの7業種20社のWeb制作・DX支援事例。予約+110%、問い合わせ2.4倍、BtoB商談+210%などの成果につながったオリジナル制作を業種別に掲載。',
-  voice: 'Web制作からAI・DXまでご利用いただいた20社の声。SEO流入1.8倍、現場工数38%減、採用応募52%増、商談化率4倍など、長期運用に伴走するNortiq Labsへの評価を業種横断で紹介します。',
-  pricing: '料金プラン。Web制作30万円〜、AIチャットボット・DX実装まで、段階的に始められる明朗な料金体系をご案内します。',
-  support: '公開後も伴走するサポート体制。営業日24時間以内のご返信で、Web・AI・DXの運用と改善を継続的にご支援します。',
-  diagnostic: 'URLを入れるだけでテクニカルSEO・オンページ・リンク切れ・AI可視性・競合比較を無料診断。認定エンジニアが改善提案まで添えてお届けします。登録不要・約60秒。',
+  web: 'オリジナルデザインのホームページ制作。SEO設計・高速表示（Core Web Vitals対応）・CMS・アクセス解析まで標準対応。京都から全国のBtoB・店舗ビジネスを支援します。',
+  chatbot: '自社サイトのFAQ・問い合わせ対応を自動化するAIチャットボット導入。WordPress連携・LINE連携・自社データ学習に対応。導入10万円台から、京都のNortiq Labsが構築します。',
+  dx: 'PoCで終わらせないAI・機械学習の本実装。業務分析から要件定義、モデル構築、運用まで伴走。中小企業のDXを京都の技術チームが支援します。',
+  works: '宿泊リゾート、アンティークEC、建築、協同組合、不動産、ジムなど業種別の制作実績。デザイン・実装・成果までを事例ごとに公開しています。',
+  voice: 'Nortiq Labsのサービスをご利用いただいた企業様のインタビュー。導入前の課題、選んだ理由、導入後の変化を業種別に紹介します。',
+  pricing: 'ホームページ制作・AIチャットボット・DX支援の料金一覧。初期費用と月額運用を明記し、補助金活用のご相談も可能。京都・全国オンライン対応、初回相談は無料です。',
+  support: '公開後のサイト更新・セキュリティ保守・改善提案までカバーする運用サポート。月次レポートとGA4データに基づき、作って終わりにしない改善を続けます。',
+  diagnostic: 'サイトURLを入力するだけで、SEO・表示速度・導線の改善点を無料診断。営業日24時間以内に、具体的な改善レポートをお返しします。',
   diagnosis: 'サイト無料診断。Nortiq独自のチェックリストで、現状のWeb課題を可視化し、改善の優先順位をご提案します。',
-  subsidy: '補助金を活用したDX導入のご相談。IT導入補助金などの活用を視野に、DX投資の進め方をご相談いただけます。',
-  guidebook: 'Nortiq LabsのWeb制作サービス紹介資料（無料DL・全11ページ）。制作の進め方・実績・料金プラン・制作の流れまで一冊にまとめました。',
-  column: 'Nortiq Labsのコラム・技術ブログ。AI・SEO・DX・業種別の実務知見を、調査データに基づいてお届けします。',
-  company: 'Nortiq Labs 会社概要。米国のAI研究背景を持つエンジニアと、日本の経営課題に向き合うメンバーによる技術チームです。',
-  staff: 'Nortiq Labsのチーム紹介。Founder / Computer Scientist / Data Scientist の三職能が、お客様1社にチーム編成で並走します。',
-  recruit: 'Nortiq Labsの採用情報。米国の技術水準を、日本の中小企業の武器に。技術と現場の両輪で挑むメンバーを募集しています。',
-  'product-vetonet': 'AI Agentの出力を7段階で多層検証する研究開発プロダクト。分散システム理論を応用したMulti-Agent検証・監査証跡・Red Teamで、業務にAIを導入する前のリスクを洗い出します。',
-  'product-wpchat': 'WordPress AIチャットボット / AI投稿アシスタント。ブログ更新と問い合わせ対応を自動化し、運用負担を減らします。',
-  'product-tennis': 'スマホ動画をAIが解析し、テニスのフォームの改善点を可視化する一般向けアプリ。MediaPipeで33関節を追跡してプロとの差分をスコア化する、自社開発のComputer Vision検証プロダクトです。',
-  'feature-lpo': 'LP制作 / LPO 支援。コンバージョンを最大化するランディングページの設計・改善を、データに基づいて行います。',
-  'feature-recruit': '求める人材像の言語化から採用ブランドサイト・LP・エントリーフォーム、社員撮影・ATS連携まで一貫設計。応募率を平均+52%高める採用専門サイトを構築します。',
-  'feature-analytics': 'GA4・GSC・BigQuery・Looker Studioを統合し、経営判断に直結するKPIダッシュボードをカスタム実装。ファネル分析・流入元別LTV/ROAS・異常検知アラートまで設計します。',
-  'feature-cms': 'WordPress・Next.js+MDX・Headless CMSを運用体制に合わせ選定。AI投稿ツール連携で下書き生成・校正・公開予約まで自動化し、記事更新の工数を1/10に削減します。',
-  news: 'Nortiq Labsからの最新情報。WP AIチャットボットのバージョンアップ、VetoNet βの先行公開、Anthropic Claude API対応など、リリース・プレス情報をお届けします。',
+  subsidy: 'IT導入補助金・小規模事業者持続化補助金などを活用したホームページ制作・AIツール導入のご相談窓口。対象になるか、いくら補助されるかを無料で確認できます。',
+  guidebook: 'Web制作・AI導入・DX支援のサービス内容・料金・事例をまとめた資料を無料ダウンロード。社内検討・比較検討用にそのままお使いいただけます。',
+  column: '調査データに基づくAI・SEO・DX・業種別マーケティングの技術ブログ。一次情報と数値で裏づけた、現場で使える知見を発信しています。',
+  company: '株式会社ノーティックラボの会社概要。京都市を拠点に、Web制作・AI実装・DXコンサルティングを提供する技術チームです。所在地・代表・事業内容をご覧いただけます。',
+  staff: 'Nortiq Labsのメンバー紹介。エンジニアリング・デザイン・データサイエンスの専門領域と経歴を公開しています。',
+  recruit: 'Nortiq Labsの採用情報。Web制作・AI実装の現場で、企画から実装まで裁量を持って働けるポジションを募集しています。',
+  'product-vetonet': 'AIエージェントの危険なアクションを実行前に検証・拒否するセキュリティミドルウェアVetoNet。Nortiq LabsのR&Dプロダクトとして開発中。技術解説・開発の裏側も公開しています。',
+  'product-wpchat': '「書ける気がしない」をなくすブログボット。普段の言葉で伝えるだけでAIが要約・SEOチェック・競合分析まで対話形式でサポート。8ステップで迷わず公開、WordPress連携対応。',
+  'product-tennis': 'スマホで撮った動画をAIが解析し、テニスのフォーム改善点を可視化する無料アプリ（Public beta）。33関節をトラッキングしプロとの差分をスコア化。改善ポイントは具体的な言葉でフィードバックします。',
+  'feature-lpo': '反響を獲得するランディングページ制作と、公開後のLPO（CVR改善）。ファーストビュー設計・EFO・A/Bテストまで、データに基づく改善サイクルを回します。',
+  'feature-recruit': '求人媒体に頼らない採用サイト制作。求職者心理に基づくコンテンツ設計、Indeed・求人検索対応の構造化データ実装まで。中小企業の採用力を底上げします。',
+  'feature-analytics': 'GA4のイベント設計・キーイベント設定・Looker Studioダッシュボード構築まで。「計測できていない」を解消し、施策判断に使えるデータ基盤を実装します。',
+  'feature-cms': '自社で更新できるCMS・記事投稿システムの構築。WordPressからヘッドレスCMSまで、運用体制に合わせて設計。AI投稿アシスタントとの連携も可能です。',
+  news: 'Nortiq Labsからのお知らせ・リリース情報の一覧です。',
   'works-build': '大規模修繕のRenew Reuse Loop、不断水工法のRAKUYU-Zなど建築・工務店のWeb制作・採用支援事例。BtoB商談+210%等の成果につながったオリジナル制作を紹介します。',
   'works-clinic': 'あおぞらFamily Clinic、AIRA CLINIC GINZA、白藍デンタル等のWeb制作・AIチャットボット導入事例。予約+110%・問い合わせ2.4倍の医療業界向け実績を掲載します。',
   'article-website-launch-1month': '「来月までにサイトを公開したい」を叶えます。Web制作が通常2〜4ヶ月かかる理由と、AIを駆使して品質を保ちながら最短1ヶ月でローンチする方法を、京都のNortiq Labsが解説します。',
@@ -235,14 +241,15 @@ const SEO_DESC = {
   'article-ai-chatbot-introduction': 'AIチャットボットで問い合わせ対応を効率化したい中小企業向けに、できること・導入3ステップ・費用の目安・失敗しない選び方を解説。人手不足対策として今注目される理由も紹介します。',
   'article-smb-dx-first-step': '中小企業のDXは何から始めればいいのか。よくある3つの誤解を解き、紙のデジタル化からAI活用まで「最初の一歩」を3ステップで解説。補助金の使い方や優先順位の付け方も紹介します。',
   'article-subsidy-2026-digital-ai': '2026年から名称が変わる「デジタル化・AI導入補助金」を中小企業向けに解説。ホームページ制作やAIツールは対象になるのか、補助額・補助率、申請の流れと注意点も紹介します。',
-  'article-japan-dx': 'IPA・経産省・OECD等の最新調査から、日本のDXが米国に遅れる構造的要因を3点に整理。中小企業が「段階的アプローチ」で人手不足と2025年の崖を越える現実解を解説します。',
-  'article-vetonet': 'AIエージェントは今や自律的にファイル操作・コマンド実行・決済まで行う。その出力を多層検証する自社開発ツールVetoNetの開発記。3,820通りの攻撃テストから見えたAIエージェントセキュリティの要点を、開発者目線で解説します。',
-  'article-wordpress-stall': '日本のオウンドメディアは約3割が更新停止、65.5%が半年以内に止まる。執筆負荷・ひとり広報・SEOの時間軸ギャップという構造を調査データで分解し、AI投稿アシスタントで更新を継続させる現実的な解決策を解説します。',
-  'article-core-web-vitals': 'LCP・INP・CLSはCrUX実ユーザーデータの75%タイルで判定され、Lighthouse満点でも「Good」が取れない理由がここにある。3指標すべてを満たすのはモバイルで48%。測ってから直すための実装手順を解説します。',
-  'article-clinic-web': '2026年のクリニック集客はE-E-A-T強化・MEO優位・医療広告ガイドライン対応の3点が同時に問われる。初診の集患手段1位はGoogle検索（51.3%）。AI検索時代に患者へ選ばれる医院サイトの作り方を調査データで解説します。',
-  'article-ai-poc': '生成AI PoCの約3分の2は本番運用に到達しない。失敗には目的の曖昧さ・ROIの非定量化・データ基盤の不在など再現性あるパターンがある。本実装まで進む案件との分岐点を、最新調査とGo/No-Go基準から解説します。',
+  'article-blog-bot': 'ブログボットはAIが記事のネタ出しから執筆、SEOチェック、投稿までを支援するツールの総称。完全自動型と対話アシスト型の違い、Googleのスパムポリシーとの関係、失敗しない選び方5基準を実務目線で解説します。',
+  'article-japan-dx': '日米のDX格差はどこで生まれるのか。意思決定構造・人材・投資配分の違いをデータで比較し、日本の中小企業が今から巻き返すための現実的な打ち手を整理します。',
+  'article-vetonet': 'AIエージェントの暴走をどう防ぐか。実行前検証ミドルウェアVetoNetの設計思想とアーキテクチャを、開発の裏側とともに技術解説します。',
+  'article-wordpress-stall': 'ブログ更新が3ヶ月で止まる原因は意志ではなく仕組みにあります。更新が続かない構造的要因と、AI投稿アシスタント（ブログボット）で運用を仕組み化する方法を解説。',
+  'article-core-web-vitals': 'LCP・INP・CLSを実サイトで「Good」にするための優先順位。効果の大きい施策から順に、計測方法と改修コストの目安つきで解説します。',
+  'article-clinic-web': '初診の51%はGoogle検索から。AI検索時代のE-E-A-T・MEO・医療広告ガイドライン対応まで、n=15,715の調査データと最新規制動向でクリニック集患の全体像を解説します。',
+  'article-ai-poc': 'AI導入の多くがPoC止まりで終わる理由は技術ではなく設計にあります。本実装まで進んだ案件に共通する要件定義・データ整備・体制の条件を実例から整理します。',
   'article-realty-lp': '不動産売却査定LPのCVRは2〜3%台、フォーム離脱率は約70%。ファーストビュー・売主心理に刺さるコピー・EFO・匿名AI査定の入口化など、反響を最大化する7つの必須要素を一つの設計思想で貫く方法を解説します。',
-  'article-claude-vs-gpt': '2026年5月時点の業務利用比較。Claude（Opus 4.7／Sonnet 4.6）はコーディング・長文理解・ハルシネーション抑制・日本語で優位、GPT-5.5は汎用性で先行。エンタープライズシェアと用途別の使い分けを解説します。',
+  'article-claude-vs-gpt': 'ClaudeとGPTを業務でどう使い分けるか。文書作成・コーディング・分析それぞれの得意領域と、複数AIを同時に併用するワークフロー設計まで実務目線で比較します。',
   'works-realty': '不動産投資ブランドPLEAST（問合せ3.2×）、物件管理連動の投資物件専門サイト（反響2.7×）など、不動産業のWeb制作・SEO・DX実績を紹介します。',
   'works-hr': '外国人材組合Asia Exchange（応募+84%）、新卒採用ブランドAXIA（エントリー2.1×）、中途採用LP（応募1.6×）など、人材業界のWeb制作・AIチャットボット・LPO実績を紹介します。',
   'works-retail': 'キッチンカーpanza（SNS流入4.6×）、骨董店TAKETORAの越境EC（海外PV5.2×）、サブスクEC（解約率-32%）など、小売・ECのWeb制作・EC・DX実績を紹介します。',
@@ -251,12 +258,12 @@ const SEO_DESC = {
   'works-lp-corp': '再エネVOLTIO（資料DL2.4×）、AI SaaS Sable（問合せ+210%）、ML製品ATLAS（PoC申込2.6×）など、投資家・取引先・採用候補に伝わるコーポレートサイトの制作実績を紹介します。',
   'works-lp-recruit': '新卒採用ブランドサイトAXIA（マニフェスト型：エントリー2.4×／社員フィーチャー型：応募数3.6×）など、コンセプト設計から社員撮影・エントリー導線まで一貫構築した採用LP実績を紹介します。',
   'works-lp-ec': 'クラフト衣料のエディトリアルEC（客単価+24%）、骨董店TAKETORAのバイリンガル越境EC（海外売上2.2×）など、OMO設計・越境対応のEC送客LP制作実績を紹介します。',
-  'works-video': '院長インタビュー（視聴完了率+42%）、物件紹介の動画SEO（問い合わせ1.9×）、配信プラットフォーム構築（登録者+3.1k）など、撮影・編集・配信まで対応した動画制作事例を紹介します。',
-  'solution-clinic': '薬機法フィルター付きAI投稿・予約サイト・FAQボットを一体化したクリニック向けDXパッケージ。問い合わせ2.4×・予約+110%の事例。60〜180万円＋月額運用3〜8万円。',
-  'solution-realty': '売買・賃貸・売却査定・投資を導線別に最適化し、ATBB/レインズ等の物件管理と連動。月間PV3.1×・査定依頼+180%の事例。80〜300万円＋月額運用5〜15万円。',
-  'solution-build': '施工事例DBを軸にしたブランドサイトに、見積〜施工〜アフターの案件管理とOB顧客追客を一体化。工数-38%・受注+52%の事例。100〜400万円＋月額運用5〜20万円。',
-  'solution-hr': '新卒・中途・派遣・外国人材に対応し、求職者LP・求人企業サイト・ATS連携を最適化。応募+52%・エントリー2.1×の事例。150〜500万円＋月額運用10〜30万円。',
-  'solution-retail': 'Shopify/独自ECと実店舗在庫連動、POS+EC+メルマガ統合のLTV分析、AIレコメンドを一体化したOMOパッケージ。CVR1.8×・EC売上+210%の事例。200〜800万円＋月額運用10〜40万円。',
+  'works-video': 'サイト・SNS・広告で使う動画の制作事例。ショート動画をSEO・集客にどう活かすかの設計例も紹介。撮影から編集、掲載ページの実装までワンストップで対応します。',
+  'solution-clinic': 'クリニックの集患をWeb×DXで支援。医療広告ガイドライン準拠のサイト制作、Googleビジネスプロフィール（MEO）整備、AIチャットボット・Web予約連携までパッケージで提供します。',
+  'solution-realty': '売買・賃貸・売却査定・投資物件それぞれの導線を最適化したWebサイトと、物件管理データ連動の集客・追客システム。80万円〜、必要な機能だけ選んで導入できます。',
+  'solution-build': '施工品質が伝わるブランドサイトと、見積・案件管理のDXをセットで。大規模修繕・住宅・リフォーム各分野の制作実績に基づく、建築業特化のWebパッケージです。',
+  'solution-hr': '求人検索・スカウト・応募管理を備えたマッチングサイト構築と、SEO・広告での集客支援をワンストップで。人材紹介・派遣業のWeb基盤を短期間で立ち上げます。',
+  'solution-retail': 'Shopifyを軸に店舗とECの在庫・顧客・販促を統合するOMOパッケージ。POS連携、店舗受け取り、会員統合まで。小売・ECの「バラバラ運用」を一つにします。',
   'privacy': 'Nortiq Labs Inc. の個人情報保護方針。収集・利用目的、第三者提供、SOC 2 Type II準拠のセキュリティ、開示・訂正・削除請求、Cookieの取り扱いを定めています。',
   'terms': 'Nortiq Labs Inc. のサービス利用規約。適用範囲・契約の成立・利用者の義務・禁止事項・知的財産権・免責事項・準拠法および管轄について定めています。',
   'privacy-handling': 'Nortiq Labs Inc. における個人情報の利用目的、第三者提供、業務委託、開示請求の窓口など、個人情報の具体的な取扱いについて説明しています。',
@@ -268,7 +275,10 @@ function descFor(route) {
   if (route && route.indexOf('article-') === 0) {
     const slug = route.slice('article-'.length);
     const a = ((typeof window !== 'undefined' && window.NORTIQ_ARTICLES) || {})[slug];
-    return a ? `${a.title} ｜ Nortiq Labs の技術ブログ（${a.category}）。` : DEFAULT_DESC;
+    if (!a) return DEFAULT_DESC;
+    // 記事メタの desc (パイプラインが P-12 で生成し BLOG エントリに載せる) を優先。
+    // 無い記事は従来どおり定型文にフォールバックする
+    return a.desc || `${a.title} ｜ Nortiq Labs の技術ブログ（${a.category}）。`;
   }
   return DEFAULT_DESC;
 }
@@ -439,7 +449,7 @@ function pageLd(route, url) {
     case 'product-wpchat':
       return {
         '@context': 'https://schema.org', '@type': 'SoftwareApplication',
-        name: 'WP AIチャットボット', description: desc, url,
+        name: 'ブログボット（Nortiq AI投稿アシスタント）', description: desc, url,
         applicationCategory: 'BusinessApplication', operatingSystem: 'WordPress / Web',
         provider: ORG_REF, publisher: ORG_REF,
       };
@@ -494,6 +504,9 @@ function routeLd(route) {
   // Page-specific primary node (Article / CollectionPage / Service / WebApplication
   // / SoftwareApplication). Falls back to the generic Service map for web/chatbot/dx.
   const primary = pageLd(route, url);
+  // FAQPage schema is intentionally NOT emitted. Google retired FAQ rich results
+  // (June 2026), so the markup no longer earns display and only adds payload.
+  // FAQ sections stay in the visible article body for LLMO and coverage.
   if (primary) {
     out.push(primary);
   } else if (SERVICE_LD[route]) {

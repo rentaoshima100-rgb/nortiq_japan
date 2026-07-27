@@ -25,7 +25,7 @@ const NAV_MEGA = [
       ]},
       { heading: '自社プロダクト', links: [
         { id: 'product-vetonet',  label: 'VetoNet (AI Security)' },
-        { id: 'product-wpchat',   label: 'WP AIチャットボット' },
+        { id: 'product-wpchat',   label: 'ブログボット（AI投稿アシスタント）' },
         { id: 'product-tennis',   label: 'Tennis フォームチェック' },
       ]},
     ],
@@ -465,7 +465,7 @@ function Footer({ onNavigate, onContact }) {
             <h4 style={{ marginTop: 28 }}>自社プロダクト</h4>
             <ul>
               <li><a {...navProps('product-vetonet', onNavigate)}>VetoNet</a></li>
-              <li><a {...navProps('product-wpchat', onNavigate)}>WP AIチャットボット</a></li>
+              <li><a {...navProps('product-wpchat', onNavigate)}>ブログボット（AI投稿アシスタント）</a></li>
               <li><a {...navProps('product-tennis', onNavigate)}>Tennis フォームチェック</a></li>
             </ul>
           </div>
@@ -517,7 +517,7 @@ function Footer({ onNavigate, onContact }) {
 const CATEGORY_OPTIONS = ["Web制作", "AIチャットボット", "DX・ML", "業務自動化", "LP制作", "採用サイト"];
 const INQ_TYPE_OPTIONS = ["新規HP制作", "HPリニューアル", "AIチャットボット導入", "DX・ML 実装", "業務自動化", "リスティング広告", "コンサルティング"];
 const REASON_OPTIONS = ["HPが無い", "問い合わせを増やしたい", "サービス資料がほしい", "無料診断", "デザインを改善したい", "SEOを上げたい", "AI活用したい", "業務効率化したい", "補助金活用を相談したい"];
-const SOURCE_OPTIONS = ["Google検索", "Yahoo検索", "ご紹介", "メール", "DMチラシ", "SNS (X/LinkedIn)", "以前から知っていた", "その他"];
+const SOURCE_OPTIONS = ["Google検索", "Yahoo検索", "AIチャット (ChatGPT/Claude/Gemini等)", "ご紹介", "メール", "DMチラシ", "SNS (X/LinkedIn)", "以前から知っていた", "その他"];
 
 function ContactModal({ open, onClose, defaultCategory = '' }) {
   const initialForm = {

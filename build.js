@@ -21,9 +21,27 @@ const JSX_FILES = [
   'app.jsx',
 ];
 
+// Organization schema の sameAs (エンティティ対策: nortiq.ai 等との誤帰属防止)。
+// 自社が管理するプロファイルのURLだけを入れる (他社サイトの紹介ページ等は入れない)。
+//
+// TODO(人間): 下記のコメントを外し、実際のURLに差し替える。
+//   作成していないものは行ごと消してよい (空文字や仮URLは入れない)。
+//   NAP表記はすべてのプロファイルで「Nortiq Labs（ノーティックラボ/京都）」に統一する。
+const ORG_SAME_AS = [
+  // 'https://www.google.com/maps/place/?cid=<GBPのCID>',   // Googleビジネスプロフィール
+  // 'https://www.linkedin.com/company/<ページ名>',          // LinkedIn 会社ページ
+  // 'https://x.com/<アカウント名>',                          // X (旧Twitter)
+  // 'https://www.wantedly.com/companies/<会社ID>',          // Wantedly
+  // 'https://github.com/<組織名>',                           // GitHub Organization
+];
+
 // Blog articles — markdown source in content/blog/ + display metadata.
 // Order = newest first (drives the column list).
+// supervised: true → 記事ページに監修表記 (承認済みAI活用記事のみ。パイプラインが付与)
+// desc → meta description / og:description / BlogPosting.description に使う。
+//        未指定の記事は app.jsx の SEO_DESC か自動生成の定型文にフォールバックする
 const BLOG = [
+  { slug: 'blog-bot',                       category: 'AI活用',      date: '2026.07.23', read: '9 min', title: 'ブログボットとは？AIで記事を作成・投稿する仕組みと選び方【2026年版】',           img: 'assets/blog-blog-bot.png' },
   { slug: 'web-production-cost-guide',      category: 'Web制作',     date: '2026.07.17', read: '7 min', title: '【2026年最新】中小企業のホームページ制作費用の相場は？失敗しない発注ガイド',      img: 'assets/blog-web-production-cost-guide.png' },
   { slug: 'website-renewal-guide',          category: 'Web制作',     date: '2026.07.15', read: '6 min', title: '失敗しないホームページリニューアルの進め方 — タイミングの見極めと発注チェックリスト', img: 'assets/blog-website-renewal-guide.png' },
   { slug: 'website-not-converting',         category: 'Web制作',     date: '2026.07.13', read: '6 min', title: 'ホームページを作ったのに集客できない — 中小企業がやるべき5つの改善',             img: 'assets/blog-website-not-converting.png' },
@@ -68,7 +86,7 @@ function buildArticles() {
     // and the H1 would leak into the body (duplicate heading).
     md = md.replace(/^\s*#\s+.+(?:\r?\n)+/, '');
     const html = marked.parse(md);
-    out[a.slug] = { slug: a.slug, title: a.title, category: a.category, date: a.date, read: a.read, img: a.img, html };
+    out[a.slug] = { slug: a.slug, title: a.title, category: a.category, date: a.date, read: a.read, img: a.img, supervised: !!a.supervised, desc: a.desc || '', html };
   }
   return out;
 }
@@ -249,8 +267,8 @@ async function build() {
   // forces browsers to fetch fresh files instead of serving a stale bundle.
   const ver = Date.now().toString(36);
   const SITE = 'https://nortiqlab.com';
-  const TITLE = 'Nortiq Labs — 日本のDX、世界水準で巻き返す。';
-  const DESC = '米国の技術水準を、日本の中小企業の武器に。Web制作・AIチャットボット・DX/ML実装まで、20社の支援実績を持つ技術チームが段階的に伴走するDXパートナーです。';
+  const TITLE = '京都のWeb制作・AI導入・DX支援｜Nortiq Labs';
+  const DESC = '京都のWeb制作×AI実装カンパニー。オリジナルデザインのホームページ制作からAIチャットボット導入、DXコンサルティングまで一気通貫で支援。初回相談無料・営業日24時間以内に返信します。';
   const OG_IMAGE = SITE + '/assets/og-image.png';
 
   // --- Analytics & conversion tracking ----------------------------------------
@@ -299,12 +317,17 @@ async function build() {
         slogan: '日本のDX、世界水準で巻き返す。', foundingDate: '2025', numberOfEmployees: 5,
         address: { '@type': 'PostalAddress', addressCountry: 'JP', postalCode: '604-0012', addressRegion: '京都府', addressLocality: '京都市中京区', streetAddress: '竪大恩寺町751' },
         areaServed: { '@type': 'Country', name: 'Japan' },
+        alternateName: ['株式会社ノーティックラボ', 'ノーティックラボ'],
+        ...(ORG_SAME_AS.length ? { sameAs: ORG_SAME_AS } : {}),
         knowsAbout: ['Web制作', 'AIチャットボット', 'DX', '機械学習', 'SEO', 'LP制作 / LPO', '業務自動化', 'データ分析'],
         founder: { '@type': 'Person', name: 'Renta Oshima', jobTitle: 'Founder / Engineer', description: '米国 UC Berkeley で AI 研究。日本の中小企業向け DX 支援を起業。' },
       },
       { '@type': 'WebSite', '@id': SITE + '/#website', name: 'Nortiq Labs', url: SITE + '/', publisher: { '@id': SITE + '/#org' }, inLanguage: 'ja' },
       { '@type': 'ProfessionalService', name: 'Nortiq Labs', url: SITE + '/', description: DESC, areaServed: 'JP', serviceType: ['Web制作', 'AIチャットボット導入', 'DX・ML実装', '補助金活用のDX導入相談'], provider: { '@id': SITE + '/#org' } },
-      { '@type': 'FAQPage', '@id': SITE + '/#faq', mainEntity: FAQ_QA.map((x) => ({ '@type': 'Question', name: x.q, acceptedAnswer: { '@type': 'Answer', text: x.a } })) },
+      // FAQPage は出力しない。Googleは2026年6月にFAQリッチリザルトを廃止したため、
+      // マークアップしても表示上の利得が無く、ペイロードが増えるだけになる。
+      // FAQ自体は本文に残す (AI検索=LLMOと網羅性のため)。
+      // Organization / WebSite / ProfessionalService / BreadcrumbList は維持する。
     ],
   }).replace(/</g, '\\u003c');
   // Production-mode React (smaller, faster) — no Babel runtime in the browser.
@@ -375,6 +398,17 @@ async function build() {
     + `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n`
     + sitemapUrls + '\n'
     + `</urlset>\n`, 'utf8');
+
+  // IndexNow検証キー: リポジトリ直下の indexnow-key.txt (キー文字列1行) があれば
+  // dist/<key>.txt を配置する (新記事公開時のBing系への通知に使用。送信はパイプライン側)
+  const indexnowKeyPath = path.join(ROOT, 'indexnow-key.txt');
+  if (fs.existsSync(indexnowKeyPath)) {
+    const indexnowKey = fs.readFileSync(indexnowKeyPath, 'utf8').trim();
+    if (indexnowKey) {
+      fs.writeFileSync(path.join(DIST, indexnowKey + '.txt'), indexnowKey, 'utf8');
+      console.log('• emitting IndexNow key file');
+    }
+  }
 
   console.log('• emitting 404.html');
   fs.writeFileSync(path.join(DIST, '404.html'), `<!DOCTYPE html>

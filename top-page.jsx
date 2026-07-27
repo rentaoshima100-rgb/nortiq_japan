@@ -162,7 +162,7 @@ function TopPage({ onNavigate, onContact }) {
               <div className="promo-num">03</div>
               <div className="promo-body">
                 <p className="promo-eyebrow">AI PRODUCT</p>
-                <h3>WP AIチャットボット<br/>投稿ツール</h3>
+                <h3>ブログボット<br/>AI投稿アシスタント</h3>
                 <p className="promo-desc">質問するだけで記事が書ける、Nortiq Labs 内製プロダクト。</p>
               </div>
               <div className="promo-cta">プロダクト詳細 <Icon name="arrow-right" size={14}/></div>
@@ -227,7 +227,7 @@ function TopPage({ onNavigate, onContact }) {
             </div>
             <div className="bento-cell bento-4 fadein" data-delay="240" onClick={() => onNavigate('product-wpchat')}>
               <p className="bento-eyebrow">PRODUCT · 主力</p>
-              <h3 style={{ color: 'var(--video-accent)' }}>WP AIチャットボット</h3>
+              <h3 style={{ color: 'var(--video-accent)' }}>ブログボット</h3>
               <p>WordPress ブログ更新が止まる、を解決する内製プロダクト。月の運用工数を <strong style={{ color: 'var(--video-accent)' }}>1/10</strong> に。</p>
               <span className="bento-cta" style={{ color: 'var(--video-accent)' }}>製品詳細 <Icon name="arrow-right" size={14}/></span>
             </div>
