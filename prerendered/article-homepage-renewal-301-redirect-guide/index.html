@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="ja" style="--accent: hsl(354, 92%, 45%); --accent-hi: hsl(354, 95%, 52%); --accent-soft: hsl(354, 90%, 95%);"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Google tag (gtag.js) — GA4 + Google Ads conversion tracking -->
+  <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-EYTD1TWR7T"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-EYTD1TWR7T');
+    window.NORTIQ_CONV = { contact: null, diagnostic: null };
+  </script>
+  <title>URL移行で検索順位を下げない301リダイレクト完全ガイド — Nortiq Labs</title>
+  <meta name="description" content="ホームページリニューアル時の301リダイレクト設定手順を解説。URL移行で検索評価を引き継ぎ、順位下落を防ぐ具体的な方法と、よくある設定ミスの確認リストを紹介します。">
+  <link rel="icon" href="/assets/nortiq-fav.png" type="image/png">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Nortiq Labs">
+  <meta property="og:title" content="URL移行で検索順位を下げない301リダイレクト完全ガイド — Nortiq Labs">
+  <meta property="og:description" content="ホームページリニューアル時の301リダイレクト設定手順を解説。URL移行で検索評価を引き継ぎ、順位下落を防ぐ具体的な方法と、よくある設定ミスの確認リストを紹介します。">
+  <meta property="og:url" content="https://nortiqlab.com/article-homepage-renewal-301-redirect-guide">
+  <meta property="og:image" content="https://nortiqlab.com/assets/blog-default.png">
+  <meta property="og:locale" content="ja_JP">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="URL移行で検索順位を下げない301リダイレクト完全ガイド — Nortiq Labs">
+  <meta name="twitter:description" content="ホームページリニューアル時の301リダイレクト設定手順を解説。URL移行で検索評価を引き継ぎ、順位下落を防ぐ具体的な方法と、よくある設定ミスの確認リストを紹介します。">
+  <meta name="twitter:image" content="https://nortiqlab.com/assets/blog-default.png">
+  <link rel="stylesheet" href="/styles.css?v=ms46bx5x">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://nortiqlab.com/#org","name":"Nortiq Labs","url":"https://nortiqlab.com/","logo":"https://nortiqlab.com/assets/nortiq-mark.png","image":"https://nortiqlab.com/assets/og-image.png","description":"京都のWeb制作×AI実装カンパニー。オリジナルデザインのホームページ制作からAIチャットボット導入、DXコンサルティングまで一気通貫で支援。初回相談無料・営業日24時間以内に返信します。","slogan":"日本のDX、世界水準で巻き返す。","foundingDate":"2025","numberOfEmployees":5,"address":{"@type":"PostalAddress","addressCountry":"JP","postalCode":"604-0012","addressRegion":"京都府","addressLocality":"京都市中京区","streetAddress":"竪大恩寺町751"},"areaServed":{"@type":"Country","name":"Japan"},"alternateName":["株式会社ノーティックラボ","ノーティックラボ"],"knowsAbout":["Web制作","AIチャットボット","DX","機械学習","SEO","LP制作 / LPO","業務自動化","データ分析"],"founder":{"@type":"Person","name":"Renta Oshima","jobTitle":"Founder / Engineer","description":"米国 UC Berkeley で AI 研究。日本の中小企業向け DX 支援を起業。"}},{"@type":"WebSite","@id":"https://nortiqlab.com/#website","name":"Nortiq Labs","url":"https://nortiqlab.com/","publisher":{"@id":"https://nortiqlab.com/#org"},"inLanguage":"ja"},{"@type":"ProfessionalService","name":"Nortiq Labs","url":"https://nortiqlab.com/","description":"京都のWeb制作×AI実装カンパニー。オリジナルデザインのホームページ制作からAIチャットボット導入、DXコンサルティングまで一気通貫で支援。初回相談無料・営業日24時間以内に返信します。","areaServed":"JP","serviceType":["Web制作","AIチャットボット導入","DX・ML実装","補助金活用のDX導入相談"],"provider":{"@id":"https://nortiqlab.com/#org"}}]}</script>
+  <script src="/assets/vendor/react.production.min.js?v=ms46bx5x"></script>
+  <script src="/assets/vendor/react-dom.production.min.js?v=ms46bx5x"></script>
+<link rel="canonical" href="https://nortiqlab.com/article-homepage-renewal-301-redirect-guide"><script type="application/ld+json" id="route-ld">[{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"トップ","item":"https://nortiqlab.com/"},{"@type":"ListItem","position":2,"name":"コラム","item":"https://nortiqlab.com/column"},{"@type":"ListItem","position":3,"name":"URL移行で検索順位を下げない301リダイレクト完全ガイド","item":"https://nortiqlab.com/article-homepage-renewal-301-redirect-guide"}]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"URL移行で検索順位を下げない301リダイレクト完全ガイド","description":"ホームページリニューアル時の301リダイレクト設定手順を解説。URL移行で検索評価を引き継ぎ、順位下落を防ぐ具体的な方法と、よくある設定ミスの確認リストを紹介します。","image":"https://nortiqlab.com/assets/blog-default.png","url":"https://nortiqlab.com/article-homepage-renewal-301-redirect-guide","inLanguage":"ja","articleSection":"Web制作","datePublished":"2026-07-28","dateModified":"2026-07-28","author":{"@type":"Organization","@id":"https://nortiqlab.com/#org","name":"Nortiq Labs"},"publisher":{"@id":"https://nortiqlab.com/#org"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://nortiqlab.com/article-homepage-renewal-301-redirect-guide"}}]</script></head>
+<body>
+  <div id="app"><header class="nav" role="banner"><div class="nav-inner"><a class="nav-logo" href="/" style="cursor: pointer;"><span class="nav-logo-mark"></span><span class="wordmark"><span class="wordmark-main">NORTIQ</span><span class="wordmark-sub">LABS</span></span></a><nav class="nav-links" aria-label="メインナビゲーション"><div class="nav-link-wrap"><a class="nav-link" href="/">トップ</a></div><div class="nav-link-wrap"><a class="nav-link">機能<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></a></div><div class="nav-link-wrap"><a class="nav-link">制作実績<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></a></div><div class="nav-link-wrap"><a class="nav-link">業種ソリューション<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></a></div><div class="nav-link-wrap"><a class="nav-link" href="/voice">ご利用会社様の声</a></div><div class="nav-link-wrap"><a class="nav-link" href="/support">サポート</a></div><div class="nav-link-wrap"><a class="nav-link" href="/pricing">料金プラン</a></div><div class="nav-link-wrap"><a class="nav-link" aria-current="page">コンテンツ<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></a></div><div class="nav-link-wrap"><a class="nav-link" href="/diagnostic">無料診断</a></div></nav><div class="nav-cta-wrap"><button class="btn btn-primary btn-sm" type="button"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><path d="M22 6l-10 7L2 6"></path></svg>メールでお問合せ</button><button class="hamburger" aria-label="メニューを開く" aria-expanded="false"><span></span><span></span><span></span></button></div></div><div class="nav-drawer"><div class="nav-drawer-panel"><div class="nav-drawer-head"><span class="nav-logo" style="font-size: 18px;"><span class="nav-logo-mark" aria-hidden="true"></span><span class="wordmark"><span class="wordmark-main">NORTIQ</span><span class="wordmark-sub">LABS</span></span></span><button class="drawer-close" aria-label="閉じる"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M6 18L18 6"></path></svg></button></div><nav class="nav-drawer-body"><a class="drawer-item" href="/"><span>トップ</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><div class="drawer-group"><button class="drawer-item drawer-group-head"><span>機能</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></button><div class="drawer-group-body"><div class="drawer-subgroup"><h5>サービス別 機能一覧</h5><a class="drawer-sub-item" href="/web"><span>Web制作 機能一覧</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/chatbot"><span>AIチャットボット 機能一覧</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/dx"><span>DX・ML 機能一覧</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></div><div class="drawer-subgroup"><h5>技術領域</h5><a class="drawer-sub-item" href="/feature-lpo"><span>LP制作 / LPO</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/feature-recruit"><span>採用専門サイト</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/feature-analytics"><span>アクセス解析カスタム実装</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/feature-cms"><span>CMS / 記事更新システム</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></div><div class="drawer-subgroup"><h5>自社プロダクト</h5><a class="drawer-sub-item" href="/product-vetonet"><span>VetoNet (AI Security)</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/product-wpchat"><span>ブログボット（AI投稿アシスタント）</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/product-tennis"><span>Tennis フォームチェック</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></div></div></div><div class="drawer-group"><button class="drawer-item drawer-group-head"><span>制作実績</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></button><div class="drawer-group-body"><div class="drawer-subgroup"><h5>業種から探す</h5><a class="drawer-sub-item" href="/works-clinic"><span>クリニック・医療</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/works-realty"><span>不動産</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/works-build"><span>建築・工務店</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/works-hr"><span>人材</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/works-retail"><span>小売 / EC</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/works-infra"><span>インフラ・製造</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/works-ai"><span>AIスタートアップ</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></div><div class="drawer-subgroup"><h5>強化LP別</h5><a class="drawer-sub-item" href="/works-lp-corp"><span>コーポレートサイト</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/works-lp-recruit"><span>採用LP</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/works-lp-ec"><span>EC連動LP</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></div><div class="drawer-subgroup"><h5>実績まとめ</h5><a class="drawer-sub-item" href="/works"><span>全実績一覧</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></div></div></div><div class="drawer-group"><button class="drawer-item drawer-group-head"><span>業種ソリューション</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></button><div class="drawer-group-body"><div class="drawer-subgroup"><h5>業種別パッケージ</h5><a class="drawer-sub-item" href="/solution-clinic"><span>クリニック・医療 DXパッケージ</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/solution-realty"><span>不動産 集客×管理パッケージ</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/solution-build"><span>建築 ブランド×案件管理</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/solution-hr"><span>人材 マッチング×集客</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/solution-retail"><span>小売・EC OMOパッケージ</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></div></div></div><a class="drawer-item" href="/voice"><span>ご利用会社様の声</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-item" href="/support"><span>サポート</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-item" href="/pricing"><span>料金プラン</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><div class="drawer-group"><button class="drawer-item drawer-group-head"><span>コンテンツ</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></button><div class="drawer-group-body"><div class="drawer-subgroup"><h5>メディア</h5><a class="drawer-sub-item" href="/column"><span>コラム / 技術ブログ</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/news"><span>お知らせ</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/guidebook"><span>サービス紹介資料</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/subsidy"><span>補助金活用相談</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></div></div></div><a class="drawer-item" href="/diagnostic"><span>無料診断</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></nav><div class="nav-drawer-foot"><button class="btn btn-primary btn-lg" type="button" style="width: 100%;"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><path d="M22 6l-10 7L2 6"></path></svg>資料請求・お問い合わせ</button></div></div></div></header><div><main class="page-fade"><nav aria-label="Breadcrumb" style="padding: 14px 0px; border-bottom: 1px solid var(--border); background: var(--bg-2);"><div class="container"><ol class="row-tight" style="list-style: none; padding: 0px; margin: 0px; font-size: 12px; color: var(--text-3);"><li class="row-tight" style="gap: 8px;"><a href="/" style="cursor: pointer; color: var(--text-2);">トップ</a></li><li class="row-tight" style="gap: 8px;"><span style="color: var(--text-4);">›</span><a href="/column" style="cursor: pointer; color: var(--text-2);">コラム</a></li><li class="row-tight" style="gap: 8px;"><span style="color: var(--text-4);">›</span><span style="color: var(--text);">URL移行で検索順位を下げない301リダイレクト完全ガイド</span></li></ol></div></nav><article><header style="padding-top: clamp(48px, 7vw, 90px); padding-bottom: 32px;"><div class="container" style="max-width: 820px;"><div class="row" style="gap: 10px; margin-bottom: 24px; color: var(--text-3); font-size: 13px; flex-wrap: wrap;"><span class="tag" style="color: var(--accent); border-color: var(--accent);">Web制作</span><span class="num">2026.07.28</span><span>·</span><span>12 min read</span><span>·</span><span>Nortiq Labs</span></div><h1 class="display-l fadein is-in" style="margin-bottom: 8px;">URL移行で検索順位を下げない301リダイレクト完全ガイド</h1></div></header><div class="container" style="max-width: 880px; margin-bottom: 8px;"><picture><source srcset="/assets/blog-default.webp" type="image/webp"><img src="/assets/blog-default.png" alt="URL移行で検索順位を下げない301リダイレクト完全ガイド" class="article-hero-img"></picture></div><div class="container" style="max-width: 780px; margin-top: 24px; margin-bottom: 80px;"><div class="article-prose article-body"><h2>この記事の要点</h2>
+<ul>
+<li>リダイレクト設定は公開日当日ではなく、旧URLの全件棚卸しと新旧URL対応表（リダイレクトマップ）の作成から始めるのが正解です。</li>
+<li>301リダイレクトを正しく設定することで、旧URLに蓄積された検索エンジンの評価を新URLへ引き継げます。設定漏れや誤設定は検索順位の長期低下につながります。</li>
+<li>制作会社に依頼する場合も、リダイレクト対応範囲を事前に書面で確認することが、トラブル防止の最重要ポイントです。</li>
+</ul>
+<hr>
+<p>ホームページのリニューアルで最も見落とされがちな作業が、URL移行時のリダイレクト設定です。デザインや機能の改善に注力するあまり、公開直後に検索順位が大幅に下落するケースは少なくありません。</p>
+<p>本記事では、リニューアル前の準備からサーバ別の設定手順、公開後の確認作業まで、URL移行を失敗なく進めるための一連の手順を解説します。技術的な実装は制作会社に依頼する場合でも、発注前に仕組みと確認ポイントを把握しておくことで、設定漏れや認識齟齬を防げます。</p>
+<h2>まず何をすべきか？リニューアル前に着手する3つの準備</h2>
+<p>リダイレクト設定は公開日当日ではなく、旧URLの棚卸しと新URL対応表の作成から始めるのが正解です。この準備を怠ると、設定漏れや誤った転送先が生じ、公開後に検索順位が回復するまでの期間が長引く原因になります。</p>
+<p>リニューアル前に済ませるべき準備は次の3点です。</p>
+<ol>
+<li><strong>旧URLの全件洗い出し（クロール）</strong></li>
+<li><strong>新旧URL対応表（リダイレクトマップ）の作成</strong></li>
+<li><strong>廃止ページの扱いの確定</strong></li>
+</ol>
+<p>各手順を順に確認します。</p>
+<hr>
+<h3>旧URLを全件書き出すURLクロールの方法</h3>
+<p>旧サイトに存在するURLを漏れなく把握することが、リダイレクト設定の精度を左右します。</p>
+<p><strong>担当者が準備すべきもの</strong></p>
+<p>制作会社に依頼する場合でも、以下の2点を事前に用意しておくと作業がスムーズに進みます。</p>
+<table>
+<thead>
+<tr>
+<th>用意するもの</th>
+<th>具体的な内容</th>
+<th>備考</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>現行サイトのXMLサイトマップ</td>
+<td><code>/sitemap.xml</code> のURL</td>
+<td>なければ制作会社に確認</td>
+</tr>
+<tr>
+<td>Google Search Consoleのカバレッジレポート</td>
+<td>「有効」ステータスのURL一覧をCSVエクスポート</td>
+<td>権限があれば担当者でも取得可能</td>
+</tr>
+</tbody></table>
+<p><strong>制作会社に依頼する場合の確認ポイント</strong></p>
+<p>クロール作業は一般的にScreaming FrogやSitebulbといったツールを使います。担当者が自分で操作する必要はありませんが、以下の点を制作会社に書面で確認してください。</p>
+<ul>
+<li>クロール対象のURLは何件か（リスト化して共有してもらえるか）</li>
+<li>noindex・パスワード保護ページも含めて洗い出すか</li>
+<li>クロール完了後にURL一覧をCSV形式で納品してもらえるか</li>
+</ul>
+<blockquote>
+<p><strong>つまずきやすい点:</strong> ページネーション（<code>?page=2</code> など）や絞り込みURLが大量に存在するサイトでは、URLの件数が想定より大幅に増えることがあります。事前に制作会社と「管理対象とするURLの定義」を合意しておくと、対応表の作成コストを抑えられます。</p>
+</blockquote>
+<hr>
+<h3>新旧URL対応表（リダイレクトマップ）の作り方</h3>
+<p>リダイレクトマップとは、旧URLと新URLを1対1で対応させた表のことです。この表が完成して初めて、サーバやCMSへの設定作業に進めます。</p>
+<p><strong>基本フォーマット</strong></p>
+<table>
+<thead>
+<tr>
+<th>旧URL</th>
+<th>新URL</th>
+<th>ステータス</th>
+<th>優先度</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>/service/a.html</code></td>
+<td><code>/services/a/</code></td>
+<td>301（移行）</td>
+<td>高</td>
+</tr>
+<tr>
+<td><code>/blog/2020/01/post.html</code></td>
+<td><code>/blog/post-slug/</code></td>
+<td>301（移行）</td>
+<td>中</td>
+</tr>
+<tr>
+<td><code>/old-campaign/</code></td>
+<td><code>/</code>（トップページ）</td>
+<td>301（廃止→代替）</td>
+<td>低</td>
+</tr>
+<tr>
+<td><code>/temp-page/</code></td>
+<td>設定なし</td>
+<td>410（廃止・削除）</td>
+<td>低</td>
+</tr>
+</tbody></table>
+<p><strong>「ステータス」欄の使い分け</strong></p>
+<ul>
+<li><strong>301:</strong> 旧URLから新URLへ恒久的に転送する場合に使います。SEO評価を引き継ぐ標準的な選択です。</li>
+<li><strong>410:</strong> 転送先となる代替ページが存在せず、コンテンツを完全に廃止する場合に使います。404ではなく410を返すことで、検索エンジンにそのURLが意図的に削除されたことを明示できます。</li>
+</ul>
+<p>301と302の違いやSEO評価への影響については、次のセクションで詳しく説明します。</p>
+<p><strong>作成時の3ステップ</strong></p>
+<ol>
+<li>旧URLの全件リストをCSVで準備します（前項のクロール結果を使います）。所要時間の目安は、URLが100件以下であれば半日程度です。</li>
+<li>各旧URLに対して、新サイトの最も関連性が高いページを新URLとして割り当てます。担当者がコンテンツの内容を把握している場合は、制作会社とともに対応を確認すると精度が上がります。</li>
+<li>廃止ページで代替先が存在しないものは「410」と明記し、設定対象から除外します。</li>
+</ol>
+<blockquote>
+<p><strong>つまずきやすい点:</strong> 旧URLのすべてに新URLを対応させようとすると、関連性の薄いページへ無理やり転送するケースが生じます。関連性の低い転送先を設定しても検索エンジンの評価引き継ぎ効果は限定的です。代替先がなければ410にする判断を迷わず行うことが重要です。</p>
+</blockquote>
+<hr>
+<p><strong>3つ目の準備: 廃止ページの扱いを確定する</strong></p>
+<p>廃止ページとは、新サイトには掲載しないと決まったページのことです。リダイレクトマップを作る段階で、ページごとに次の3択から扱いを決めます。</p>
+<table>
+<thead>
+<tr>
+<th>扱い</th>
+<th>設定</th>
+<th>使う場面</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>新URLへ転送</td>
+<td>301リダイレクト</td>
+<td>同等の内容が新サイトに存在する</td>
+</tr>
+<tr>
+<td>完全廃止</td>
+<td>410 Gone</td>
+<td>内容が古く代替コンテンツもない</td>
+</tr>
+<tr>
+<td>暫定的にトップへ転送</td>
+<td>301（トップページ宛て）</td>
+<td>代替ページが後日公開予定の場合のみ</td>
+</tr>
+</tbody></table>
+<p>トップページへの一律転送は「廃止ページの一時措置」として機能しますが、関連性が低いためSEO評価の引き継ぎは期待できません。恒久的な対応としては使わないことを制作会社と合意しておいてください。</p>
+<h2>301リダイレクトとは？302との違いとSEOへの影響</h2>
+<p>301リダイレクトとは、旧URLへのアクセスを新URLへ恒久的に転送し、検索エンジンの評価を新URLに引き継がせる設定のことです。リニューアルでURLを変更する際にこの設定が抜けると、旧URLへの被リンクや検索評価が新URLに引き継がれず、順位が一時的に大きく下落するリスクがあります。</p>
+<hr>
+<h3>301と302の使い分け早見表</h3>
+<p>リダイレクトには複数の種類があり、目的によって使い分けが必要です。最もよく混同されるのが301と302です。</p>
+<table>
+<thead>
+<tr>
+<th>ステータスコード</th>
+<th>意味</th>
+<th>SEO評価の引き継ぎ</th>
+<th>主な用途</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>301</strong></td>
+<td>恒久的な転送</td>
+<td>引き継がれる</td>
+<td>URLリニューアル、ドメイン移行</td>
+</tr>
+<tr>
+<td><strong>302</strong></td>
+<td>一時的な転送</td>
+<td>原則引き継がれない</td>
+<td>メンテナンス中の一時退避、A/Bテスト</td>
+</tr>
+<tr>
+<td><strong>308</strong></td>
+<td>恒久的な転送（POSTメソッド保持）</td>
+<td>引き継がれる</td>
+<td>APIやフォームを含む恒久転送</td>
+</tr>
+<tr>
+<td><strong>307</strong></td>
+<td>一時的な転送（POSTメソッド保持）</td>
+<td>原則引き継がれない</td>
+<td>フォームを含む一時転送</td>
+</tr>
+</tbody></table>
+<p>ホームページリニューアルでURLを変更する場合は、原則として<strong>301</strong>を使います。302を誤って使うと、検索エンジンは「旧URLが正規のページ」と判断し続け、新URLにSEO評価が移らない状態が続きます。</p>
+<p>302が適切な場面は、「キャンペーン期間中だけ特定ページに転送する」「システムメンテナンス中に一時的に別URLへ誘導する」といった、元のURLに戻ることが前提の一時的な転送に限定されます。</p>
+<hr>
+<h3>リダイレクトを設定しないとSEO評価はどうなるか</h3>
+<p>301リダイレクトを設定せずにURLを変更した場合、検索エンジンには旧URLと新URLが「別々のページ」として認識されます。その結果、次の3つの問題が連鎖的に起きます。</p>
+<p><strong>1. 旧URLが404エラーとして扱われる</strong></p>
+<p>リダイレクト設定がなければ、旧URLへのアクセスはページが存在しない状態（404エラー）になります。検索エンジンのクローラは404を検出すると、一定期間経過後にそのURLをインデックスから除外します。</p>
+<p><strong>2. 被リンクの評価が失われる</strong></p>
+<p>他サイトから旧URLへ向けられていた被リンク（被リンクはSEOで「外部からの評価票」として機能する要素です）は、リダイレクト先がなければ新URLには引き継がれません。長年かけて積み上げた被リンクの効果がゼロになるリスクがあります。</p>
+<p><strong>3. 検索順位の回復に時間がかかる</strong></p>
+<p>新URLは公開直後には検索エンジンにとって「評価の積み上げがない新規ページ」として扱われます。301リダイレクトで評価を引き継いだ場合と比較して、元の順位水準に戻るまでの期間が長くなる傾向があります。具体的な回復期間はサイトの規模や被リンク状況によって異なるため、「必ず◯ヶ月以内に戻る」と断言できる数値はありません。</p>
+<p>なお、301リダイレクト設定後も検索順位がしばらく変動することは珍しくありません。Googleが新URLを認識・再評価するには一定のクロール期間が必要なためです。公開後の変動を「失敗」と誤認しないよう、Search Consoleで新URLのインデックス状況を継続的に確認することが重要です。確認方法は「公開後に必ず行う動作確認と検索エンジンへの通知手順」のセクションで詳述します。</p>
+<h2>サーバ別・CMS別の301リダイレクト設定手順</h2>
+<p>設定方法はサーバの種類とCMSによって異なるため、自社環境を確認してから着手することが重要です。以下では代表的な3つの環境ごとに、発注者として押さえておくべき確認ポイントと設定の概要を整理します。</p>
+<hr>
+<h3>Apacheサーバ（.htaccess）での設定</h3>
+<p>Apacheは国内のレンタルサーバの多くが採用しており、<code>.htaccess</code>というファイルに記述することでリダイレクトを制御します。</p>
+<p>制作会社に依頼する場合、以下の点を書面で確認してください。</p>
+<table>
+<thead>
+<tr>
+<th>確認項目</th>
+<th>確認の目的</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>.htaccess</code>の編集権限が与えられているか</td>
+<td>サーバ環境によっては制限されている場合があります</td>
+</tr>
+<tr>
+<td>リダイレクトマップをそのままコードに反映できるか</td>
+<td>URLの件数が多い場合、自動生成ツールを使うかどうかで工数が変わります</td>
+</tr>
+<tr>
+<td>設定後のステータスコード検証を誰が行うか</td>
+<td>全件が301を返すかどうかの確認作業を含めて依頼範囲に含めてください</td>
+</tr>
+</tbody></table>
+<p>技術担当者向けの補足として、個別URLのリダイレクトは <code>Redirect 301</code> ディレクティブで記述し、URLパターンをまとめて処理する場合は <code>RewriteRule</code> を使います。設定ファイルは上から順に評価されるため、記述の順序が意図しない動作を引き起こすことがあります。制作会社に依頼する際は「設定後に全URLのステータスコードを一覧で報告してほしい」と明示することをおすすめします。</p>
+<hr>
+<h3>Nginxサーバでの設定</h3>
+<p>Nginxはクラウドサーバ（AWS、Google Cloud等）や高トラフィックのサイトで採用されることが多い構成です。<code>.htaccess</code>は使わず、サーバの設定ファイル（<code>nginx.conf</code>または仮想ホスト設定ファイル）に直接記述します。</p>
+<p>発注者として把握しておくべき点は、<strong>Nginxの設定変更はサーバの再起動またはリロードが必要</strong>という点です。レンタルサーバではなくVPS・クラウド環境の場合、設定変更のたびに操作が必要になるため、公開当日の作業フローを事前に制作会社と確認してください。</p>
+<table>
+<thead>
+<tr>
+<th>確認項目</th>
+<th>確認の目的</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>サーバの管理権限が制作会社にあるか</td>
+<td>権限がない場合は別途インフラ担当者との連携が必要です</td>
+</tr>
+<tr>
+<td>設定変更後のリロード作業は誰が行うか</td>
+<td>公開タイミングの調整に関わります</td>
+</tr>
+<tr>
+<td>設定ファイルのバックアップ手順は確立されているか</td>
+<td>誤記述でサイト全体が停止するリスクがあります</td>
+</tr>
+</tbody></table>
+<hr>
+<h3>WordPressプラグインを使う場合の注意点</h3>
+<p>WordPressサイトのリニューアルでは、「Redirection」などのプラグインを使ってリダイレクトを設定するケースがあります。管理画面から操作できるため、技術的なハードルが低い反面、いくつかの制約があります。</p>
+<p><strong>プラグインによるリダイレクトの主な制約:</strong></p>
+<ol>
+<li><strong>リダイレクト処理のタイミングが遅い</strong>。サーバレベルではなくWordPressのPHP処理内で実行されるため、<code>.htaccess</code>や<code>nginx.conf</code>に直接書く場合と比べて処理が一段階増えます。URLの件数が多いサイトでは表示速度への影響を検討する必要があります。</li>
+<li><strong>WordPressが起動しないと動作しない</strong>。サーバエラーやWP本体の障害が発生した場合、リダイレクトも機能しなくなります。</li>
+<li><strong>プラグイン削除時にリダイレクト設定が失われる</strong>。設定のエクスポートと保管を必ず制作会社に依頼してください。</li>
+</ol>
+<p>これらの特性から、恒久的なURL移行には<code>.htaccess</code>またはNginx設定ファイルへの直接記述が技術的に望ましい選択です。プラグインは「一時的な転送」や「少数のURLの例外処理」に用途を限定するとリスクを抑えられます。</p>
+<blockquote>
+<p><strong>発注者向けの確認ポイント</strong>: 「リダイレクト設定にプラグインを使いますか？サーバ設定ファイルへの直接記述とどちらを推奨しますか？その理由を教えてください」と制作会社に質問することで、対応方針の適切さを判断できます。</p>
+</blockquote>
+<hr>
+<p>環境別の特性をまとめると次のとおりです。</p>
+<table>
+<thead>
+<tr>
+<th>環境</th>
+<th>設定場所</th>
+<th>発注者が確認すべき主なポイント</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Apacheサーバ</td>
+<td><code>.htaccess</code></td>
+<td>編集権限の有無、全件検証の実施</td>
+</tr>
+<tr>
+<td>Nginxサーバ</td>
+<td><code>nginx.conf</code>等</td>
+<td>管理権限の所在、リロード作業の担当</td>
+</tr>
+<tr>
+<td>WordPress（プラグイン）</td>
+<td>管理画面</td>
+<td>設定のエクスポート保管、速度への影響</td>
+</tr>
+</tbody></table>
+<p>具体的な設定ミスのパターンや、リダイレクトループ・チェーンリダイレクトの見分け方については後述します。</p>
+<h2>ドメイン移行を伴うリニューアルで追加すべき対応</h2>
+<p>ドメインごと変更する場合は、URL単位のリダイレクトに加えて、Google Search Consoleでの変更通知とサイトマップ再送信が必須です。URL単位の設定だけでは、検索エンジンへの「ドメインそのものが移転した」という通知が届かないため、評価の引き継ぎに余分な時間がかかります。</p>
+<hr>
+<h3>Google Search ConsoleのURL変更ツールの使い方</h3>
+<p>URL変更ツールとは、旧ドメインから新ドメインへの移転をGoogleに正式に申告するSearch Console上の機能です。サーバ側のリダイレクト設定を補完する役割を持ちます。</p>
+<p><strong>前提条件として確認すること</strong></p>
+<p>URL変更ツールを利用するには、以下の3点がすべて満たされていることが必要です。</p>
+<table>
+<thead>
+<tr>
+<th>条件</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>旧ドメインのプロパティ</td>
+<td>Search Consoleに所有権確認済み</td>
+</tr>
+<tr>
+<td>新ドメインのプロパティ</td>
+<td>Search Consoleに所有権確認済み</td>
+</tr>
+<tr>
+<td>リダイレクト設定</td>
+<td>旧ドメイン全体から新ドメインへの301リダイレクトが実装済み</td>
+</tr>
+</tbody></table>
+<p><strong>申請手順</strong></p>
+<ol>
+<li>Search Consoleで旧ドメインのプロパティを開きます。</li>
+<li>左メニューの「設定」→「アドレス変更」を選択します。</li>
+<li>移転先の新ドメインのプロパティを選択します。</li>
+<li>「確認してページを更新」ボタンを押し、301リダイレクトの実装をGoogleが自動検証するのを待ちます。</li>
+<li>検証が通過したら「サイトの移動」ボタンで申請を完了します。</li>
+</ol>
+<blockquote>
+<p><strong>発注者として確認すべき点:</strong> URL変更ツールの操作はSearch Consoleの所有権を持つアカウントでしか実施できません。制作会社が代行する場合、御社のSearch Consoleアカウントへのアクセス権限付与が必要になります。事前に権限付与の手続きを確認しておくことを推奨します。</p>
+</blockquote>
+<p>なお、Google公式ヘルプによると、URL変更ツールによる移転シグナルはGoogleが処理を完了するまでに数週間かかる場合があります（出典: Google Search Central「サイトの移動について」）。申請後も検索順位が即日変わるわけではないため、数週間単位での観察が必要です。</p>
+<p><strong>申請後に行うサイトマップ再送信</strong></p>
+<p>URL変更ツールの申請と合わせて、新ドメインのSearch Consoleから新しいサイトマップを送信します。手順は以下のとおりです。</p>
+<ol>
+<li>新ドメインのSearch Consoleプロパティを開きます。</li>
+<li>「サイトマップ」メニューから新サイトマップのURLを入力して送信します。</li>
+<li>ステータスが「成功しました」になったことを確認します。</li>
+</ol>
+<p>旧ドメインのサイトマップは削除する必要はありませんが、旧URL宛のサイトマップが残っていると混乱を招く場合があるため、制作会社に確認することを推奨します。</p>
+<hr>
+<h3>旧ドメインのDNS・サーバはいつまで維持すべきか</h3>
+<p>旧ドメインのサーバとDNS設定は、新ドメインへの移行後も一定期間維持する必要があります。理由は2つあります。1点目は、古いURLを記録しているブックマークや外部リンクから来るアクセスをリダイレクトで受け止めるためです。2点目は、検索エンジンが旧URLのインデックスを整理し終えるまで、クロールのリクエストが旧サーバに届き続けるためです。</p>
+<p><strong>維持期間の目安と根拠</strong></p>
+<p>維持期間については、案件の規模やサイトの被リンク数によって変わるため、一律の数字を断言することは適切ではありません。一般的に、リダイレクト設定を維持する期間は「Search Consoleの旧プロパティへのクリック数がほぼゼロになるまで」を目安にします。Search Consoleのパフォーマンスレポートで旧ドメイン宛のクリックとインプレッションをモニタリングし、数値が安定して低下した時点でサーバ縮小を検討することが現実的です。</p>
+<p><strong>コスト面での注意</strong></p>
+<p>旧ドメインのサーバ維持には費用がかかります。発注時の見積もりに旧サーバの維持費用が含まれているかどうかを確認してください。含まれていない場合、公開後に追加費用が発生することがあります。</p>
+<p><strong>DNS設定を変更するタイミング</strong></p>
+<p>DNSのTTL（Time to Live）とは、DNSレコードがキャッシュされる時間のことです。ドメイン移行前にTTLを短く設定しておくと、新しいDNS設定が世界中のサーバに伝播するまでの時間を短縮できます。この作業は制作会社またはドメイン管理事業者が担当することが多いため、「移行前にTTLを変更するか」を確認項目に加えてください。</p>
+<hr>
+<p><strong>このセクションで制作会社に確認すべき項目まとめ</strong></p>
+<table>
+<thead>
+<tr>
+<th>確認項目</th>
+<th>理由</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Search Consoleへのアクセス権限付与の手続き</td>
+<td>URL変更ツール申請に必要</td>
+</tr>
+<tr>
+<td>サイトマップ再送信の対応範囲に含まれているか</td>
+<td>公開後の評価引き継ぎに直結する</td>
+</tr>
+<tr>
+<td>旧ドメインのサーバ維持期間と費用の取り決め</td>
+<td>公開後の追加費用発生を防ぐ</td>
+</tr>
+<tr>
+<td>DNS TTLの事前変更対応</td>
+<td>移行時の伝播遅延を最小化する</td>
+</tr>
+</tbody></table>
+<p>リニューアル全体の発注フローや一般的なチェックリストは、<a href="/blog/renewal-guide">失敗しないホームページリニューアルの進め方</a>で詳しく解説しています。本記事ではリダイレクト・URL移行に固有の確認事項に絞って説明しています。</p>
+<h2>実装者が見てきた設定ミス上位5パターン</h2>
+<p>リダイレクト設定のミスは公開後しばらく気づかれないことが多く、発見が遅れるほど検索順位の回復に時間がかかります。ここでは、リニューアル案件で繰り返し発生しやすいミスのパターンを整理します。</p>
+<p>発注者側でこれらのパターンを事前に把握しておくことで、制作会社への確認や検収時のチェックに役立てられます。</p>
+<hr>
+<h3>よくある設定ミス上位5パターン</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>ミスのパターン</th>
+<th>発生しやすい状況</th>
+<th>検収時の確認ポイント</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>リダイレクトループ</td>
+<td>同一URL間で転送が循環している</td>
+<td>ブラウザでアクセスしてもページが表示されない</td>
+</tr>
+<tr>
+<td>2</td>
+<td>チェーンリダイレクト（多段転送）</td>
+<td>過去の移行設定が残ったまま重なっている</td>
+<td>旧URL→中間URL→新URLと2段階以上の転送になっている</td>
+</tr>
+<tr>
+<td>3</td>
+<td>設定漏れ（一部URLが404）</td>
+<td>URL数が多く対応表から抜け落ちた</td>
+<td>旧URLにアクセスして404が返る</td>
+</tr>
+<tr>
+<td>4</td>
+<td>canonicalタグとの競合</td>
+<td>リダイレクト先のURLが別URLをcanonicalに指定している</td>
+<td>Search Consoleのカバレッジレポートに警告が出る</td>
+</tr>
+<tr>
+<td>5</td>
+<td>httpとhttpsの混在</td>
+<td>httpsへの切り替えと同時リニューアルで設定が分散した</td>
+<td>http://旧URLへのアクセスが正しくhttps://新URLに届かない</td>
+</tr>
+</tbody></table>
+<hr>
+<h3>リダイレクトループとチェーンリダイレクトの見分け方</h3>
+<p><strong>リダイレクトループ</strong>とは、AがBへ、BがAへ転送するように設定が循環している状態です。ブラウザは「このページはリダイレクトが多すぎます」というエラーを表示し、ユーザもクローラも到達できなくなります。</p>
+<p><strong>チェーンリダイレクト</strong>とは、AがBへ、BがCへと2段階以上の転送が連なっている状態です。1回の転送で目的地に届かないため、クローラの処理効率が落ちます。Google公式ドキュメント（<a href="https://developers.google.com/search/docs/crawling-indexing/301-redirects?hl=ja">Googleの推奨するリダイレクトの実装</a>）では、リダイレクトチェーンは可能な限り1段階に収めることを推奨しています。</p>
+<p>発注者として確認すべき点は1点です。「すべての旧URLが1回の転送で新URLに届いているか」を制作会社に書面で確認し、公開前にステータスコードの一覧レポートを提出してもらいましょう。詳しい確認ツールの使い方はセクション6で解説します。</p>
+<hr>
+<h3>canonicalタグとの競合が起きるケース</h3>
+<p><strong>canonicalタグ</strong>とは、同じ内容のページが複数URLで存在するとき、検索エンジンに「こちらが正規のURLです」と伝えるタグです。</p>
+<p>リダイレクトとcanonicalが同時に設定されると、次のような競合が起きることがあります。</p>
+<ul>
+<li>旧URLから新URLへ301リダイレクトを設定した</li>
+<li>新URLのHTMLには、さらに別のURL（例: wwwあり版やhttps版）をcanonicalに指定している</li>
+<li>結果として、検索エンジンがどのURLを正規として扱えばよいか判断しにくくなる</li>
+</ul>
+<p>この状態は、Search Consoleのカバレッジレポートに「canonicalで指定されたページが選択されていません」などの警告として現れることがあります。</p>
+<p>リダイレクト先のURLとcanonicalタグが指すURLは一致させることが基本です。制作会社に依頼する際は「リダイレクト先のURLとcanonicalの一致確認を実施しているか」を確認事項の1つに加えてください。</p>
+<hr>
+<h3>httpとhttpsの混在（同時移行時のリスク）</h3>
+<p>httpsへの切り替えとURLリニューアルを同時に行う場合、次の4つのパターンすべてで転送が正しく動作するかを確認する必要があります。</p>
+<ol>
+<li><code>http://旧URL</code> → <code>https://新URL</code></li>
+<li><code>https://旧URL</code> → <code>https://新URL</code></li>
+<li><code>http://新URL</code> → <code>https://新URL</code></li>
+<li><code>https://新URL</code>（最終到達先）</li>
+</ol>
+<p>このうち1つでも設定が抜けると、古いURLを踏んだユーザやリンクからのアクセスが404になります。制作会社に納品物として「4パターンの転送確認結果」を求めるとよいでしょう。</p>
+<h2>公開後に必ず行う動作確認と検索エンジンへの通知手順</h2>
+<p>公開直後にリダイレクトの全件確認とSearch Consoleへのサイトマップ送信を完了させることで、評価の引き継ぎを最短化できます。公開後に「なんとなく確認した」で済ませると、設定漏れが数週間後に順位低下として表れるケースがあります。</p>
+<h3>ステータスコードの一括確認と制作会社への依頼事項</h3>
+<p>リダイレクトの動作確認は、旧URLが「1回の転送で」新URLに到達しているかどうかを全件チェックするのが基本です。制作会社に依頼している場合は、以下の確認レポートの提出を検収条件として明示してください。</p>
+<p><strong>制作会社に提出を求める確認レポートの内容</strong></p>
+<table>
+<thead>
+<tr>
+<th>確認項目</th>
+<th>期待する結果</th>
+<th>注意点</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>旧URLのHTTPステータスコード</td>
+<td>301</td>
+<td>302や200になっていないか</td>
+</tr>
+<tr>
+<td>リダイレクト先URL</td>
+<td>対応表どおりの新URL</td>
+<td>別ページに飛んでいないか</td>
+</tr>
+<tr>
+<td>リダイレクト回数（ホップ数）</td>
+<td>1回</td>
+<td>2回以上はチェーンリダイレクト疑い</td>
+</tr>
+<tr>
+<td>最終的なステータスコード</td>
+<td>200</td>
+<td>404や503になっていないか</td>
+</tr>
+<tr>
+<td>httpとhttpsの混在</td>
+<td>httpsで統一</td>
+<td>混在はセキュリティ警告の原因になる</td>
+</tr>
+</tbody></table>
+<p>自社内で確認する場合、ブラウザの開発者ツール（F12キー→ネットワークタブ）で個別URLのステータスコードを目視確認できます。対象URLが数十件以上ある場合は、制作会社がScreaming FrogやGSC APIなど一括チェックツールで出力したCSVレポートを受け取り、対応表と照合する方法が現実的です。</p>
+<p>リダイレクトループとチェーンリダイレクトの詳細な見分け方はセクション5（実装者が見てきた設定ミス上位5パターン）で解説しています。</p>
+<p><strong>発注者として確認すべきポイント（つまずきやすい点）</strong></p>
+<p>制作会社に確認する際、「リダイレクト設定は完了していますか」と聞くだけでは不十分です。「全旧URLのステータスコード一覧をCSVで提出してください」と具体的に依頼することで、設定漏れの見落としを防げます。</p>
+<h3>インデックス再登録リクエストのタイミングと優先順位</h3>
+<p>リダイレクト設定の動作確認が完了したら、次にSearch Consoleでの通知作業を行います。手順と優先順位は以下のとおりです。</p>
+<p><strong>公開後の通知作業（実施順）</strong></p>
+<ol>
+<li><p><strong>新URLのサイトマップを送信する</strong>（公開当日）
+Google Search Console の「サイトマップ」メニューから新しいサイトマップURLを送信します。既存のサイトマップURLが変わっていない場合も、再送信して更新を知らせてください。
+つまずきやすい点：旧サイトマップのURLをそのまま残しておくと、削除済みURLがGoogleに伝わりにくくなります。旧サイトマップは削除するか、新URLのみを含む内容に差し替えてください。</p>
+</li>
+<li><p><strong>優先度の高いURLをURL検査ツールでリクエストする</strong>（公開当日〜翌日）
+トップページ、サービスページ、流入数の多いブログ記事など、事業への影響が大きいページを優先してインデックス登録リクエストを送ります。Search ConsoleのURL検査ツールでURLを入力し、「インデックス登録をリクエスト」を選択してください。
+つまずきやすい点：全URLにリクエストを送ろうとすると作業が膨大になります。サイトマップ送信でGoogleに一括通知したうえで、重要ページのみ個別リクエストするのが現実的な優先順位です。</p>
+</li>
+<li><p><strong>ドメイン移行を伴う場合はURL変更ツールを使用する</strong>（公開当日）
+ドメインごと変更した場合の手順はセクション4（ドメイン移行を伴うリニューアルで追加すべき対応）で詳しく解説しています。</p>
+</li>
+<li><p><strong>Search Consoleのカバレッジレポートを1〜2週間後に確認する</strong>
+新URLが「インデックス済み」に移行しているか、旧URLが「リダイレクトされたページ」として処理されているかを確認します。「クロール済み・インデックス未登録」が多い場合はコンテンツ品質の問題が疑われるため、別途対応が必要です。</p>
+</li>
+</ol>
+<p><strong>確認スケジュールの目安</strong></p>
+<table>
+<thead>
+<tr>
+<th>タイミング</th>
+<th>確認内容</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>公開当日</td>
+<td>リダイレクト全件のステータスコード、サイトマップ送信、重要URL個別リクエスト</td>
+</tr>
+<tr>
+<td>公開1週間後</td>
+<td>Search Consoleカバレッジレポートでエラーがないか</td>
+</tr>
+<tr>
+<td>公開1か月後</td>
+<td>主要キーワードの検索順位の変動確認</td>
+</tr>
+<tr>
+<td>公開3か月後</td>
+<td>旧URLがGoogleのインデックスから消えているか</td>
+</tr>
+</tbody></table>
+<p>検索順位が戻るまでの期間はサイト規模や被リンクの質によって異なるため、一定の期間を見込んだうえで定点観測を続けることが重要です。ドメイン移行後の順位回復についてはFAQセクションで補足しています。</p>
+<hr>
+<p>リダイレクト設定の確認作業を制作会社任せにしてしまい、検収時に見落としが発覚するケースは少なくありません。当社（株式会社ノーティックラボ）では、累計20社以上のWeb制作・AI導入支援の経験をもとに、リニューアルプロジェクトでURL移行を扱う際の確認体制を次のセクションで詳しく説明します。</p>
+<h2>制作会社へ依頼する場合の確認事項と発注チェックリスト</h2>
+<p>リダイレクト設定は制作会社の作業範囲に明示されていないことがあるため、見積もり前に対応範囲を書面で確認することが不可欠です。</p>
+<p>一般的なリニューアルの発注プロセスや費用相場については<a href="/blog/website-renewal-guide">「失敗しないホームページリニューアルの進め方」</a>で詳しく解説しています。このセクションではURL移行・リダイレクト設定に固有の確認事項に絞ります。</p>
+<hr>
+<h3>発注前に質問すべき5項目</h3>
+<p>制作会社への発注前に、以下の5点をメールや仕様書で書面確認してください。口頭での確認は後のトラブル原因になります。</p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>確認項目</th>
+<th>確認が必要な理由</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td><strong>旧URLの全件クロールと新旧対応表の作成は作業に含まれるか</strong></td>
+<td>含まれない場合、設定漏れが発生してもベンダー起因の瑕疵として扱われない</td>
+</tr>
+<tr>
+<td>2</td>
+<td><strong>リダイレクト設定はサーバ設定ファイルへの直接記述か、WordPressプラグインか</strong></td>
+<td>プラグインのみの対応は恒久的移行として不十分なことがあります（詳細はセクション3を参照）</td>
+</tr>
+<tr>
+<td>3</td>
+<td><strong>公開後に全URLのステータスコードをCSVレポートで提出してもらえるか</strong></td>
+<td>301で転送されているか、ホップ数が1回かを数値で確認するためです</td>
+</tr>
+<tr>
+<td>4</td>
+<td><strong>旧ドメインのサーバ維持期間と費用はどのように扱うか</strong></td>
+<td>ドメイン移行を伴う場合、旧サーバの維持費が追加発生します（目安は「旧サイトのSearch Consoleクリック数がゼロになるまで」）</td>
+</tr>
+<tr>
+<td>5</td>
+<td><strong>Google Search ConsoleのURLアドレス変更通知とサイトマップ再送信は作業範囲に含まれるか</strong></td>
+<td>含まれない場合は御社側で対応が必要です</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p><strong>つまずきやすい点:</strong> 「SEO対策込み」とうたっている制作会社でも、リダイレクト設定の検収レポートを標準提供しているケースは多くありません。「301設定はします」と言われても、全件確認の証跡が出てくるかどうかは別問題です。事前に「CSVレポートの提出」を要件として明記してください。</p>
+</blockquote>
+<hr>
+<h3>Nortiq LabsがリニューアルでURL移行をどう扱うか</h3>
+<p>当社のWebリニューアル（300,000円から）では、URL移行・リダイレクト設定を以下のプロセスで標準対応しています。</p>
+<p><strong>公開前の工程</strong></p>
+<ol>
+<li>Screaming Frogを使った旧URLの全件クロール（対象ページ数に上限なし）</li>
+<li>新旧URL対応表の作成とクライアント確認</li>
+<li>サーバ設定ファイルへの直接記述（Apache: <code>.htaccess</code>、Nginx: <code>server</code>ブロック）</li>
+<li>ステージング環境での全件ステータスコード検証</li>
+</ol>
+<p><strong>公開後の工程</strong></p>
+<ol>
+<li>本番環境での全URLステータスコード確認</li>
+<li>CSVレポートの提出（URL・ステータスコード・リダイレクト先・ホップ数を列記）</li>
+<li>Google Search ConsoleへのURLアドレス変更通知とサイトマップ送信</li>
+</ol>
+<p>ドメイン移行を伴う案件では、旧ドメインのサーバ維持期間についても事前に合意書面を取り交わしています。</p>
+<p>代表はUC Berkeley Data Science在学中のAIエンジニアで、サーバ設定やクロール解析を自ら実装します。コンサルティングファームやWebディレクタへの再委託はなく、技術的な判断と実装を同一人物が担当するため、現場の確認齟齬が発生しません。</p>
+<hr>
+<p>御社のサイトがリニューアルを検討中であれば、現状のURL構造とSEO評価の引き継ぎ可否を無料で診断しています。公開前の段階からご相談いただくことで、設定漏れのリスクを事前に潰すことができます。</p>
+<p><a href="/diagnostic">無料診断を申し込む（所要10分）</a></p>
+<hr>
+<h2>よくあるご質問</h2>
+<p><strong>301リダイレクトを設定しないと検索順位はどうなりますか？</strong></p>
+<p>旧URLが404エラーになり、そのURLに蓄積されていた被リンク評価と検索エンジンの評価が新URLに引き継がれません。結果として、リニューアル後に検索順位が大幅に低下するリスクがあります。301リダイレクトを設定することで、評価の引き継ぎを最大化できます。</p>
+<p><strong>ドメイン移行後、検索順位が戻るまでどのくらいかかりますか？</strong></p>
+<p>設定が正しく完了している場合、Googleが新旧URLの関係を認識してインデックスを更新するまでの期間は案件ごとに異なります。サイト規模が大きいほど、または旧サイトのクロール頻度が低いほど時間がかかる傾向があります。Google Search Consoleのカバレッジレポートと検索パフォーマンスレポートで週単位のモニタリングを継続することが重要です。</p>
+<p><strong>WordPressのリニューアルで301リダイレクトはプラグインで対応できますか？</strong></p>
+<p>「Redirection」などのプラグインで設定自体は可能です。ただし、WordPress本体に障害が起きるとリダイレクトも機能しなくなるリスクがあります。恒久的な移行では、<code>.htaccess</code>などサーバ設定ファイルへの直接記述を推奨します。詳しくはセクション3の「WordPressプラグインを使う場合の注意点」を参照してください。</p>
+<p><strong>リダイレクト設定は制作会社に任せてよいですか？自社でやる必要はありますか？</strong></p>
+<p>サーバ設定ファイルの編集は制作会社に依頼することが現実的です。ただし、「依頼したから終わり」ではなく、CSVレポートを受け取り全URLが正しく転送されているかを発注者側で確認することが重要です。確認の観点は本記事のセクション6（公開後の動作確認）を参照してください。</p>
+<p><strong>httpsへの切り替えとURLリニューアルを同時に行う場合、注意点はありますか？</strong></p>
+<p>httpからhttpsへの切り替えと、URLパス構造の変更を同時に行うと、リダイレクトの組み合わせが複雑になります。「http → https」と「旧パス → 新パス」を1回の301で処理できるよう設定することが重要です。2回に分けると不要なリダイレクトチェーンが発生し、表示速度とクロール効率に悪影響が出ます。詳しくはセクション5の「リダイレクトチェーンの見分け方」を参照してください。</p>
+<p><strong>リダイレクト設定の費用はどのくらいかかりますか？</strong></p>
+<p>単独でのリダイレクト設定のみを依頼する場合の費用は、対象URL数や環境によって異なります。Nortiq Labsではリニューアル全体のプロジェクト（300,000円から）の中にURL移行対応を含めて提供しています。現在お使いのサーバ環境や対象URL数をお知らせいただければ、無料診断の中でお見積もりの目安をご案内できます。</p>
+<h2>関連リンク</h2>
+<ul>
+<li><a href="/diagnostic">ホームページリニューアルの無料診断</a></li>
+</ul>
+</div><div style="margin-top: 40px; padding: 16px 20px; background: var(--bg-2); border-radius: 10px; font-size: 13px; color: var(--text-3); line-height: 1.8;"><div>監修: 大島蓮太（株式会社ノーティックラボ代表 / AIエンジニア）</div><div>本記事はAIを活用して制作しています</div></div></div><section class="section-pad" style="background: var(--bg-2);"><div class="container" style="max-width: 880px;"><h3 class="display-s" style="margin-bottom: 24px;">関連記事</h3><div class="grid-3"><a class="article-card fadein is-in" href="/article-blog-bot" style="cursor: pointer;"><div class="ph ph-image ph-fit" style="aspect-ratio: 16 / 10; width: 100%;"><picture><source srcset="/assets/blog-blog-bot.webp" type="image/webp"><img src="/assets/blog-blog-bot.png" alt="ブログボットとは？AIで記事を作成・投稿する仕組みと選び方【2026年版】"></picture></div><div class="article-meta"><span style="color: var(--accent);">AI活用</span><span class="article-meta-sep">·</span><span>2026.07.23</span></div><h3 class="article-title">ブログボットとは？AIで記事を作成・投稿する仕組みと選び方【2026年版】</h3></a><a class="article-card fadein is-in" href="/article-web-production-cost-guide" style="cursor: pointer;"><div class="ph ph-image ph-fit" style="aspect-ratio: 16 / 10; width: 100%;"><picture><source srcset="/assets/blog-web-production-cost-guide.webp" type="image/webp"><img src="/assets/blog-web-production-cost-guide.png" alt="【2026年最新】中小企業のホームページ制作費用の相場は？失敗しない発注ガイド"></picture></div><div class="article-meta"><span style="color: var(--accent);">Web制作</span><span class="article-meta-sep">·</span><span>2026.07.17</span></div><h3 class="article-title">【2026年最新】中小企業のホームページ制作費用の相場は？失敗しない発注ガイド</h3></a><a class="article-card fadein is-in" href="/article-website-renewal-guide" style="cursor: pointer;"><div class="ph ph-image ph-fit" style="aspect-ratio: 16 / 10; width: 100%;"><picture><source srcset="/assets/blog-website-renewal-guide.webp" type="image/webp"><img src="/assets/blog-website-renewal-guide.png" alt="失敗しないホームページリニューアルの進め方 — タイミングの見極めと発注チェックリスト"></picture></div><div class="article-meta"><span style="color: var(--accent);">Web制作</span><span class="article-meta-sep">·</span><span>2026.07.15</span></div><h3 class="article-title">失敗しないホームページリニューアルの進め方 — タイミングの見極めと発注チェックリスト</h3></a></div></div></section></article><section class="t_inq_wrap fadein is-in"><div class="container"><h2>こうした観点をベースに、<br>貴社の DX を一緒に考えませんか。</h2><div class="t_inq_btns"><button class="btn btn-primary" type="button"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><path d="M22 6l-10 7L2 6"></path></svg>資料請求はこちら</button><button class="btn btn-primary" type="button"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><path d="M21 21l-4.35-4.35"></path></svg>ホームページ無料診断</button></div><p class="t_inq_time">営業日 24時間以内に担当者よりご返信します。</p></div></section></main></div><footer class="footer"><div class="container"><div class="footer-grid"><div class="footer-brand"><div class="nav-logo" style="margin-bottom: 18px;"><span class="nav-logo-mark"></span><span class="wordmark"><span class="wordmark-main">NORTIQ</span><span class="wordmark-sub">LABS</span></span></div><p class="body" style="font-size: 13px; max-width: 320px; margin-bottom: 24px;">日本のDX、世界水準で巻き返す。<br>Web制作からAI・DX実装までの技術チーム。</p><button class="btn btn-primary btn-sm" type="button"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><path d="M22 6l-10 7L2 6"></path></svg>資料請求はこちら</button></div><div class="footer-col"><h4>制作実績</h4><ul><li><a href="/works">全実績一覧</a></li><li><a href="/works-clinic">クリニック・医療</a></li><li><a href="/works-realty">不動産</a></li><li><a href="/works-build">建築・工務店</a></li><li><a href="/works-hr">人材</a></li><li><a href="/works-retail">小売 / EC</a></li><li><a href="/works-infra">インフラ・製造</a></li><li><a href="/works-ai">AIスタートアップ</a></li><li><a href="/works-lp-corp">コーポレートLP</a></li><li><a href="/works-lp-recruit">採用LP</a></li><li><a href="/works-lp-ec">EC連動LP</a></li><li><a href="/works-video">動画制作事例</a></li></ul></div><div class="footer-col"><h4>機能・サービス</h4><ul><li><a href="/web">Web制作 機能一覧</a></li><li><a href="/chatbot">AIチャットボット 機能一覧</a></li><li><a href="/dx">DX・ML 機能一覧</a></li><li><a href="/feature-lpo">LP制作 / LPO</a></li><li><a href="/feature-recruit">採用専門サイト</a></li><li><a href="/feature-analytics">アクセス解析</a></li></ul><h4 style="margin-top: 28px;">自社プロダクト</h4><ul><li><a href="/product-vetonet">VetoNet</a></li><li><a href="/product-wpchat">ブログボット（AI投稿アシスタント）</a></li><li><a href="/product-tennis">Tennis フォームチェック</a></li></ul></div><div class="footer-col"><h4>サポート・コンサル</h4><ul><li><a href="/support">運用サポート</a></li><li><a href="/voice">ご利用会社様の声</a></li><li><a href="/diagnostic">サイト無料診断 (URL入力)</a></li><li><a href="/column">技術ブログ / コラム</a></li><li><a href="/news">お知らせ</a></li><li><a href="/subsidy">補助金活用相談</a></li><li><a href="/guidebook">サービス紹介資料</a></li></ul><h4 style="margin-top: 28px;">業種別ソリューション</h4><ul><li><a href="/solution-clinic">クリニック・医療</a></li><li><a href="/solution-realty">不動産</a></li><li><a href="/solution-build">建築・工務店</a></li><li><a href="/solution-hr">人材</a></li><li><a href="/solution-retail">小売 / EC</a></li></ul><h4 style="margin-top: 28px;">会社</h4><ul><li><a href="/company">会社概要</a></li><li><a href="/staff">チーム / スタッフ</a></li><li><a href="/recruit">採用情報</a></li><li><a href="/pricing">料金プラン</a></li><li><a href="/sitemap">サイトマップ</a></li></ul></div></div><div class="footer-bottom"><span>© 2026 Nortiq Labs Inc. All rights reserved.</span><div class="row" style="gap: 24px;"><a href="/privacy" style="color: var(--text-3);">プライバシーポリシー</a><a href="/terms" style="color: var(--text-3);">利用規約</a><a href="/privacy-handling" style="color: var(--text-3);">個人情報の取扱い</a></div></div></div></footer><div class="modal-backdrop"><div class="modal" role="dialog" aria-modal="true"><button class="modal-close" aria-label="閉じる"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M6 18L18 6"></path></svg></button><div style="margin-bottom: 24px;"><div class="eyebrow eyebrow-accent" style="margin-bottom: 10px;">CONTACT</div><h3 class="display-s" style="margin-bottom: 8px;">資料請求・お問い合わせ</h3><p class="small">初回相談は無料です。営業日24時間以内にご返信します。</p></div><form novalidate=""><div class="field"><label>貴社名<span class="req">必須</span></label><input type="text" placeholder="株式会社○○" value=""></div><div class="field"><label>ご担当者名<span class="req">必須</span></label><input type="text" placeholder="山田 太郎" value=""></div><div class="field"><label>メールアドレス<span class="req">必須</span></label><input type="email" placeholder="you@example.com" value=""></div><div class="field"><label>電話番号<span class="req">必須</span></label><input type="tel" placeholder="03-XXXX-XXXX" value=""></div><div class="field"><label>カテゴリー<span class="req">必須</span></label><div class="cb-group"><label class=""><input type="checkbox">Web制作</label><label class=""><input type="checkbox">AIチャットボット</label><label class=""><input type="checkbox">DX・ML</label><label class=""><input type="checkbox">業務自動化</label><label class=""><input type="checkbox">LP制作</label><label class=""><input type="checkbox">採用サイト</label></div></div><div class="field"><label>お問い合わせ内容<span class="req">必須</span></label><div class="cb-group"><label class=""><input type="checkbox">新規HP制作</label><label class=""><input type="checkbox">HPリニューアル</label><label class=""><input type="checkbox">AIチャットボット導入</label><label class=""><input type="checkbox">DX・ML 実装</label><label class=""><input type="checkbox">業務自動化</label><label class=""><input type="checkbox">リスティング広告</label><label class=""><input type="checkbox">コンサルティング</label></div></div><div class="field"><label>ご相談内容<span class="any">任意</span></label><div class="cb-group"><label class=""><input type="checkbox">HPが無い</label><label class=""><input type="checkbox">問い合わせを増やしたい</label><label class=""><input type="checkbox">サービス資料がほしい</label><label class=""><input type="checkbox">無料診断</label><label class=""><input type="checkbox">デザインを改善したい</label><label class=""><input type="checkbox">SEOを上げたい</label><label class=""><input type="checkbox">AI活用したい</label><label class=""><input type="checkbox">業務効率化したい</label><label class=""><input type="checkbox">補助金活用を相談したい</label></div></div><div class="field"><label>本サイトを知ったきっかけ<span class="any">任意</span></label><select><option value="">選択してください</option><option value="Google検索">Google検索</option><option value="Yahoo検索">Yahoo検索</option><option value="AIチャット (ChatGPT/Claude/Gemini等)">AIチャット (ChatGPT/Claude/Gemini等)</option><option value="ご紹介">ご紹介</option><option value="メール">メール</option><option value="DMチラシ">DMチラシ</option><option value="SNS (X/LinkedIn)">SNS (X/LinkedIn)</option><option value="以前から知っていた">以前から知っていた</option><option value="その他">その他</option></select></div><div class="field"><label>サイトURL<span class="any">任意</span></label><input type="text" placeholder="https://" value=""></div><div class="field"><label>その他ご質問<span class="any">任意</span></label><textarea placeholder="ご質問・ご相談がございましたらお気軽にご記入ください。"></textarea></div><div class="field field-check"><input type="checkbox" id="agree" style="margin-top: 2px;"><label for="agree" style="cursor: pointer;"><a href="#" style="color: var(--accent); text-decoration: underline;">個人情報の取り扱い</a>に同意します<span class="req">必須</span></label></div><div style="margin-top: 8px; text-align: center;"><button class="btn btn-primary btn-lg" type="submit">同意して送信する<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></button></div></form></div></div><nav class="sp-bottom-nav" aria-label="モバイル下部ナビ"><ul><li><a href="/"><span class="icn"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-8 9 8M5 10v10h14V10"></path></svg></span><span>トップ</span></a></li><li><a href="/works"><span class="icn"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect></svg></span><span>制作実績</span></a></li><li><a href="/pricing"><span class="icn"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4l8 11 8-11M7 13h10M7 17h10"></path></svg></span><span>料金</span></a></li><li><a><span class="icn"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><path d="M22 6l-10 7L2 6"></path></svg></span><span>資料請求</span></a></li><li><a href="/sitemap"><span class="icn"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M4 12h16M4 17h16"></path></svg></span><span>メニュー</span></a></li></ul></nav><div class="sticky-cta"><span class="pulse"></span><span>初回相談無料 · 営業日24h以内にご返信</span><button>資料請求 →</button><button class="sticky-cta-close" aria-label="閉じる"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M6 18L18 6"></path></svg></button></div></div>
+  <script src="/articles.js?v=ms46bx5x" defer=""></script>
+  <script src="/app.bundle.js?v=ms46bx5x" defer=""></script>
+
+
+</body></html>
