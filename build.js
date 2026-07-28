@@ -41,7 +41,7 @@ const ORG_SAME_AS = [
 // desc → meta description / og:description / BlogPosting.description に使う。
 //        未指定の記事は app.jsx の SEO_DESC か自動生成の定型文にフォールバックする
 const BLOG = [
-  { slug: 'blog-bot',                       category: 'AI活用',      date: '2026.07.23', read: '9 min', title: 'ブログボットとは？AIで記事を作成・投稿する仕組みと選び方【2026年版】',           img: 'assets/blog-blog-bot.png' },
+  { slug: 'blog-bot',                       category: 'AI活用',      date: '2026.07.23', read: '9 min', title: 'ブログボットとは？AIで記事を作成・投稿する仕組みと選び方【2026年版】',           img: 'assets/blog-blog-bot.png', supervised: true},
   { slug: 'web-production-cost-guide',      category: 'Web制作',     date: '2026.07.17', read: '7 min', title: '【2026年最新】中小企業のホームページ制作費用の相場は？失敗しない発注ガイド',      img: 'assets/blog-web-production-cost-guide.png' },
   { slug: 'website-renewal-guide',          category: 'Web制作',     date: '2026.07.15', read: '6 min', title: '失敗しないホームページリニューアルの進め方 — タイミングの見極めと発注チェックリスト', img: 'assets/blog-website-renewal-guide.png' },
   { slug: 'website-not-converting',         category: 'Web制作',     date: '2026.07.13', read: '6 min', title: 'ホームページを作ったのに集客できない — 中小企業がやるべき5つの改善',             img: 'assets/blog-website-not-converting.png' },
