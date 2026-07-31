@@ -47,7 +47,7 @@ const BLOG = [
   { slug: 'website-renewal-guide',          category: 'Web制作',     date: '2026.07.15', read: '6 min', title: '失敗しないホームページリニューアルの進め方 — タイミングの見極めと発注チェックリスト', img: 'assets/blog-website-renewal-guide.png' },
   { slug: 'website-not-converting',         category: 'Web制作',     date: '2026.07.13', read: '6 min', title: 'ホームページを作ったのに集客できない — 中小企業がやるべき5つの改善',             img: 'assets/blog-website-not-converting.png' },
   { slug: 'llmo-basics-for-smb',            category: 'SEO',         date: '2026.07.11', read: '6 min', title: 'AI検索でアクセスは減る？中小企業がいま始めるべきLLMO対策の基本',                img: 'assets/blog-llmo-basics-for-smb.png' },
-  { slug: 'google-business-profile-meo',    category: 'SEO',         date: '2026.07.09', read: '6 min', title: '広告費0円から始める集客術 — Googleビジネスプロフィールで地域のお客様を増やす',    img: 'assets/blog-google-business-profile-meo.png' },
+  { slug: 'google-business-profile-meo',    category: 'SEO',         date: '2026.07.09', read: '6 min', title: '広告費0円から始める集客術 — Googleビジネスプロフィールで地域のお客様を増やす',    img: 'assets/blog-google-business-profile-meo.png', supervised: true},
   { slug: 'listing-ads-cpc-roi',            category: 'マーケティング', date: '2026.07.07', read: '6 min', title: 'リスティング広告のCPCが高すぎる？費用対効果を上げる5つの見直し',                img: 'assets/blog-listing-ads-cpc-roi.png' },
   { slug: 'page-speed-conversion',          category: '技術',        date: '2026.07.04', read: '6 min', title: 'サイトが「遅い」だけで損してる — 表示速度の改善で問い合わせが増える理由',        img: 'assets/blog-page-speed-conversion.png' },
   { slug: 'ai-chatbot-introduction',        category: 'AI活用',      date: '2026.07.02', read: '6 min', title: '問い合わせ対応の負担を減らす — 中小企業のAIチャットボット導入ステップと費用',      img: 'assets/blog-ai-chatbot-introduction.png' },
