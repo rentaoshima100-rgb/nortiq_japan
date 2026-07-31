@@ -55,7 +55,7 @@ const BLOG = [
   { slug: 'subsidy-2026-digital-ai',        category: 'DX 観察記',   date: '2026.06.29', read: '6 min', title: 'IT導入補助金は2026年から名称変更 — ホームページ・AIツールは補助金の対象になる？', img: 'assets/blog-subsidy-2026-digital-ai.png' },
   { slug: 'website-launch-1month',          category: 'Web制作',     date: '2026.06.27', read: '6 min', title: 'Webサイトを「最短1ヶ月」でローンチする — 速さと丁寧さは両立できる',            img: 'assets/blog-website-launch-1month.png', supervised: true},
   { slug: 'aio-llmo-reality-check',         category: 'SEO',         date: '2026.06.23', read: '7 min', title: 'AIO・LLMO対策に踊らされる前に — 日本人はまだAI検索をほとんど使っていない',     img: 'assets/blog-aio-llmo-reality-check.png' },
-  { slug: 'multi-ai-parallel-productivity', category: 'AI活用',      date: '2026.06.18', read: '6 min', title: 'AIは「複数同時に使う」から効率化できる — 毎日AIに触れる私たちだからわかること', img: 'assets/blog-multi-ai-parallel-productivity.png' },
+  { slug: 'multi-ai-parallel-productivity', category: 'AI活用',      date: '2026.06.18', read: '6 min', title: 'AIは「複数同時に使う」から効率化できる — 毎日AIに触れる私たちだからわかること', img: 'assets/blog-multi-ai-parallel-productivity.png', supervised: true},
   { slug: 'ai-literacy-mindset-shift',      category: 'AI活用',      date: '2026.06.13', read: '6 min', title: 'AIの使い方を教えるのは、想像以上に難しい — 必要なのは「思考の転換」',          img: 'assets/blog-ai-literacy-mindset-shift.png' },
   { slug: 'local-business-geo-meo',         category: 'SEO',         date: '2026.06.09', read: '6 min', title: 'ローカル店舗こそWeb集客を — 「口コミだけ」では、もう競争にならない',           img: 'assets/blog-local-business-geo-meo.png' },
   { slug: 'btob-web-marketing',             category: 'マーケティング', date: '2026.06.04', read: '6 min', title: 'Web集客はまだまだ熱い — 特にBtoBでは最も効率の良い武器',                       img: 'assets/blog-btob-web-marketing.png' },
