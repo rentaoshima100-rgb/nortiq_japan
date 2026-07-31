@@ -6,69 +6,138 @@
   "framework": null,
   "trailingSlash": false,
   "redirects": [
-    { "source": "/en", "destination": "/", "permanent": true },
-    { "source": "/en/", "destination": "/", "permanent": true },
-    { "source": "/en/:path*", "destination": "/", "permanent": true }
+    {
+      "source": "/en",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/en/",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/en/:path*",
+      "destination": "/",
+      "permanent": true
+    }
   ],
   "rewrites": [
-    { "source": "/(web|chatbot|dx|works|voice|support|pricing|diagnosis|quick-diagnosis|subsidy|guidebook|column|company|staff|sitemap|news|recruit|diagnostic|privacy|terms|privacy-handling|work-detail)", "destination": "/app.html" },
-    { "source": "/works-(clinic|realty|build|hr|retail|infra|ai)", "destination": "/app.html" },
-    { "source": "/works-lp-(corp|recruit|ec)", "destination": "/app.html" },
-    { "source": "/works-video", "destination": "/app.html" },
-    { "source": "/solution-(clinic|realty|build|hr|retail)", "destination": "/app.html" },
-    { "source": "/feature-(cms|lpo|recruit|analytics)", "destination": "/app.html" },
-    { "source": "/product-(vetonet|wpchat|tennis)", "destination": "/app.html" },
-    { "source": "/article-(.*)", "destination": "/app.html" }
+    {
+      "source": "/(web|chatbot|dx|works|voice|support|pricing|diagnosis|quick-diagnosis|subsidy|guidebook|column|company|staff|sitemap|news|recruit|diagnostic|privacy|terms|privacy-handling|work-detail)",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/works-(clinic|realty|build|hr|retail|infra|ai)",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/works-lp-(corp|recruit|ec)",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/works-video",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/solution-(clinic|realty|build|hr|retail)",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/feature-(cms|lpo|recruit|analytics)",
+      "destination": "/app.html"
+    },
+    {
+      "source": "/product-(vetonet|wpchat|tennis)",
+      "destination": "/app.html"
+    }
   ],
   "functions": {
-    "api/diagnose.js": { "maxDuration": 30 },
-    "api/contact.js": { "maxDuration": 15 }
+    "api/diagnose.js": {
+      "maxDuration": 30
+    },
+    "api/contact.js": {
+      "maxDuration": 15
+    }
   },
   "headers": [
     {
       "source": "/(.*)",
       "headers": [
-        { "key": "X-Content-Type-Options", "value": "nosniff" },
-        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
-        { "key": "Permissions-Policy", "value": "camera=(), microphone=(), geolocation=(), interest-cohort=()" },
-        { "key": "X-Frame-Options", "value": "SAMEORIGIN" },
-        { "key": "Strict-Transport-Security", "value": "max-age=63072000; includeSubDomains; preload" }
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        },
+        {
+          "key": "Permissions-Policy",
+          "value": "camera=(), microphone=(), geolocation=(), interest-cohort=()"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "SAMEORIGIN"
+        },
+        {
+          "key": "Strict-Transport-Security",
+          "value": "max-age=63072000; includeSubDomains; preload"
+        }
       ]
     },
     {
       "source": "/",
       "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=0, must-revalidate" }
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=0, must-revalidate"
+        }
       ]
     },
     {
       "source": "/index.html",
       "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=0, must-revalidate" }
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=0, must-revalidate"
+        }
       ]
     },
     {
       "source": "/assets/(.*)",
       "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
       ]
     },
     {
       "source": "/app.bundle.js",
       "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=0, must-revalidate" }
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=0, must-revalidate"
+        }
       ]
     },
     {
       "source": "/styles.css",
       "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=0, must-revalidate" }
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=0, must-revalidate"
+        }
       ]
     },
     {
       "source": "/articles.js",
       "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=0, must-revalidate" }
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=0, must-revalidate"
+        }
       ]
     }
   ]
