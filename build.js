@@ -41,6 +41,7 @@ const ORG_SAME_AS = [
 // desc → meta description / og:description / BlogPosting.description に使う。
 //        未指定の記事は app.jsx の SEO_DESC か自動生成の定型文にフォールバックする
 const BLOG = [
+  { slug: 'homepage-renewal-timing-checklist', category: 'Web制作', date: '2026.07.31', read: '11 min', title: 'ホームページリニューアルはいつ？見極め方を診断フロー付きで解説', img: 'assets/blog-default.png', desc: 'ホームページリニューアルのタイミングを5つのチェックリストで自己診断。客観的な判断基準と優先度、後回しにした場合のリスクを分かりやすく解説します。', supervised: true },
   { slug: 'system-development-outsourcing-cost-guide', category: '技術', date: '2026.07.31', read: '12 min', title: '社内システム開発の外注費用相場｜中小企業向け3つの選択肢', img: 'assets/blog-default.png', desc: '社内システムを外注開発する際の費用相場、スクラッチ・パッケージカスタマイズ・SaaS活用の3つの選択肢ごとのコスト比較、中小企業向けの発注先選定ポイントを解説します。', supervised: true },
   { slug: 'homepage-renewal-case-study-by-industry', category: 'Web制作', date: '2026.07.31', read: '12 min', title: 'ホームページリニューアル事例3業種別｜課題解決と成果を公開', img: 'assets/blog-default.png', desc: '製造業・士業・飲食3業種のホームページリニューアル事例を紹介。各企業の課題解決方法、得られた成果、実際の費用と工期をまとめました。業種別の設計ポイントも解説します。', supervised: true },
   { slug: 'homepage-renewal-301-redirect-guide', category: 'Web制作', date: '2026.07.28', read: '12 min', title: 'URL移行で検索順位を下げない301リダイレクト完全ガイド', img: 'assets/blog-default.png', desc: 'ホームページリニューアル時の301リダイレクト設定手順を解説。URL移行で検索評価を引き継ぎ、順位下落を防ぐ具体的な方法と、よくある設定ミスの確認リストを紹介します。', supervised: true },
