@@ -21,6 +21,10 @@ on:
       - "build.js"
       - "articles.js"
       - "build-prerender.js"
+      # メタ情報・構造化データ・ページ本体は *.jsx が生成する。ここを外していたため、
+      # app.jsx を直しても静的HTMLは古いまま配信され続ける状態だった
+      - "*.jsx"
+      - "styles.css"
   workflow_dispatch:
 
 concurrency:
