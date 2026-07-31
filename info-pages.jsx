@@ -616,6 +616,12 @@ function ColumnPage({ onNavigate, onContact }) {
                   <span style={{ color: 'var(--accent)' }}>{a.category}</span>
                   <span className="article-meta-sep">·</span>
                   <span>{a.date}</span>
+                  {a.updated && a.updated !== a.date && (
+                    <>
+                      <span className="article-meta-sep">·</span>
+                      <span>{a.updated} 更新</span>
+                    </>
+                  )}
                   <span className="article-meta-sep">·</span>
                   <span>{a.read} read</span>
                 </div>

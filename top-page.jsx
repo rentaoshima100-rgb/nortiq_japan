@@ -474,7 +474,7 @@ function TopPage({ onNavigate, onContact }) {
                     <div className="article-meta">
                       <span style={{ color: 'var(--accent)' }}>{a.category}</span>
                       <span className="article-meta-sep">·</span>
-                      <span>{a.date}</span>
+                      <span>{a.updated || a.date}{a.updated && a.updated !== a.date ? ' 更新' : ''}</span>
                     </div>
                     <h3 className="article-title">{a.title}</h3>
                   </a>
