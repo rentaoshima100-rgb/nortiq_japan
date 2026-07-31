@@ -364,8 +364,12 @@ async function build() {
   <meta name="twitter:image" content="${OG_IMAGE}">
   <link rel="stylesheet" href="styles.css?v=${ver}">
   <script type="application/ld+json">${jsonLd}</script>
-  <script src="assets/vendor/react.production.min.js?v=${ver}"></script>
-  <script src="assets/vendor/react-dom.production.min.js?v=${ver}"></script>
+  <!-- defer: この2本 (計約139KB) は head にあって描画をブロックしていた。
+       ページの初期表示はプリレンダ済みHTMLで完結するのでJSを待つ必要がない。
+       defer は文書順に実行されるため react → react-dom → articles.js →
+       app.bundle.js の順序は保たれる。 -->
+  <script src="assets/vendor/react.production.min.js?v=${ver}" defer></script>
+  <script src="assets/vendor/react-dom.production.min.js?v=${ver}" defer></script>
 </head>
 <body>
   <div id="app"></div>
