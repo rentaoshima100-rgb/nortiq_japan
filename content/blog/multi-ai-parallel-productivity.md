@@ -18,7 +18,7 @@
 
 たとえば1つのウィンドウで契約書のドラフトを作らせ、別のウィンドウでコードを書かせ、さらに別のウィンドウでマーケティング施策を立案させる。人間は各アウトプットをレビューして次の指示を出す「司令塔」に回るのです。
 
-Anthropicの「2026 Agentic Coding Trends Report」では、オーケストレータが専門エージェントを並行調整する「マルチエージェント・アーキテクチャ」が紹介されています（出典: Anthropic システムカード）。faros.aiの2026年レポートでは「2025年末時点で約85%の開発者がコーディングで日常的にAIツールを使っている」と報告されています。1つがAPIを実装し、別がテストを生成し、また別がドキュメントを更新する——複数AIの並行稼働が、生産性の新しい標準になりつつあります。
+Anthropicの「2026 Agentic Coding Trends Report」では、オーケストレータが専門エージェントを並行調整する「マルチエージェント・アーキテクチャ」が、2026年の主要な変化のひとつとして挙げられています（出典: [Anthropic「2026 Agentic Coding Trends Report」](https://resources.anthropic.com/2026-agentic-coding-trends-report)）。開発者側の実態としては、JetBrainsが194か国24,534名を対象に実施した調査で「開発者の85%がAIツールを日常的に使っている」と報告されています（出典: [JetBrains「The State of Developer Ecosystem 2025」](https://blog.jetbrains.com/research/2025/10/state-of-developer-ecosystem-2025/)、調査期間2025年4〜6月）。1つがAPIを実装し、別がテストを生成し、また別がドキュメントを更新する——複数AIの並行稼働が、生産性の新しい標準になりつつあります。
 
 ### 実際にどう並行させるか——3ウィンドウ構成の具体例
 
