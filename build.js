@@ -378,8 +378,8 @@ async function build() {
   // prerendered overlay below overwrites index.html but never app.html.
   // Strip the home canonical so non-prerendered routes don't appear to
   // canonicalize to "/" in raw HTML — the client adds the correct one per route.
-  fs.writeFileSync(path.join(DIST, 'app.html'),
-    html.replace(/\s*<link rel="canonical"[^>]*>/, ''), 'utf8');
+  const SPA_SHELL = html.replace(/\s*<link rel="canonical"[^>]*>/, '');
+  fs.writeFileSync(path.join(DIST, 'app.html'), SPA_SHELL, 'utf8');
 
   console.log('• emitting robots.txt + sitemap.xml');
   fs.writeFileSync(path.join(DIST, 'robots.txt'),
@@ -500,6 +500,27 @@ async function build() {
     console.log(`• overlaid prerendered/ → dist/ (${pages} page(s))`);
   } else {
     console.log('• prerendered/ absent — serving pure SPA shell');
+  }
+
+  // Fallback for articles that have no prerendered snapshot yet.
+  //
+  // Article URLs are served as real files (the blanket /article-(.*) rewrite was
+  // removed because it returned 200 for any made-up slug, i.e. a soft 404).
+  // But a freshly published article has no snapshot until the prerender workflow
+  // runs and Vercel rebuilds, so it hard-404s for several minutes — and forever
+  // if that workflow ever fails. Emit the SPA shell for those, so the article is
+  // at least reachable and renders client-side. Only slugs that really exist in
+  // BLOG get one, so unknown /article-xxx still 404s as it should.
+  let fallbacks = 0;
+  for (const slug of Object.keys(articles)) {
+    const dir = path.join(DIST, 'article-' + slug);
+    if (fs.existsSync(path.join(dir, 'index.html'))) continue;
+    fs.mkdirSync(dir, { recursive: true });
+    fs.writeFileSync(path.join(dir, 'index.html'), SPA_SHELL, 'utf8');
+    fallbacks++;
+  }
+  if (fallbacks) {
+    console.log(`• ${fallbacks} article(s) without a prerender snapshot → SPA shell fallback`);
   }
 
   console.log('\n✓ build complete → dist/');
