@@ -311,6 +311,9 @@ function setMetaContent(selector, value) {
 // (see build.js), so sub-page nodes only REFERENCE them by @id — provider /
 // publisher / author links resolve without re-declaring those nodes.
 const NORTIQ_ORG_ID = NORTIQ_SITE + '/#org';
+// 監修者。ノードの実体は静的シェルの @graph 側 (build.js の Organization.founder) にあり、
+// ここは @id 参照のみ。#org と同じ扱い。
+const NORTIQ_PERSON_ID = NORTIQ_SITE + '/#renta';
 const NORTIQ_WEBSITE_ID = NORTIQ_SITE + '/#website';
 const ORG_REF = { '@id': NORTIQ_ORG_ID };
 const SERVICE_LD = {
@@ -356,7 +359,12 @@ function pageLd(route, url) {
       datePublished: date, dateModified: modified,
       author: { '@type': 'Organization', '@id': NORTIQ_ORG_ID, name: 'Nortiq Labs' },
       publisher: ORG_REF,
-      mainEntityOfPage: { '@type': 'WebPage', '@id': url },
+      // 承認済み記事には可視の「監修: 大島蓮太」が出る (supervised フラグ)。
+      // 構造化データ側も揃える。reviewedBy は WebPage のプロパティなので
+      // BlogPosting 直下ではなく mainEntityOfPage に置く。
+      mainEntityOfPage: a.supervised
+        ? { '@type': 'WebPage', '@id': url, reviewedBy: { '@id': NORTIQ_PERSON_ID } }
+        : { '@type': 'WebPage', '@id': url },
     };
   }
   switch (route) {

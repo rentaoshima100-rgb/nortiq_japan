@@ -325,7 +325,9 @@ async function build() {
         alternateName: ['株式会社ノーティックラボ', 'ノーティックラボ'],
         ...(ORG_SAME_AS.length ? { sameAs: ORG_SAME_AS } : {}),
         knowsAbout: ['Web制作', 'AIチャットボット', 'DX', '機械学習', 'SEO', 'LP制作 / LPO', '業務自動化', 'データ分析'],
-        founder: { '@type': 'Person', name: 'Renta Oshima', jobTitle: 'Founder / Engineer', description: '米国 UC Berkeley で AI 研究。日本の中小企業向け DX 支援を起業。' },
+        // @id を付けて記事側から参照できるようにする。記事ページの reviewedBy が
+        // このノードを指すので、可視の「監修: 大島蓮太」と構造化データが一致する。
+        founder: { '@type': 'Person', '@id': SITE + '/#renta', name: 'Renta Oshima', alternateName: '大島蓮太', jobTitle: 'Founder / Engineer', worksFor: { '@id': SITE + '/#org' }, description: '米国 UC Berkeley で AI 研究。日本の中小企業向け DX 支援を起業。' },
       },
       { '@type': 'WebSite', '@id': SITE + '/#website', name: 'Nortiq Labs', url: SITE + '/', publisher: { '@id': SITE + '/#org' }, inLanguage: 'ja' },
       { '@type': 'ProfessionalService', name: 'Nortiq Labs', url: SITE + '/', description: DESC, areaServed: 'JP', serviceType: ['Web制作', 'AIチャットボット導入', 'DX・ML実装', '補助金活用のDX導入相談'], provider: { '@id': SITE + '/#org' } },
