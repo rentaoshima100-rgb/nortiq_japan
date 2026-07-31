@@ -41,6 +41,7 @@ const ORG_SAME_AS = [
 // desc → meta description / og:description / BlogPosting.description に使う。
 //        未指定の記事は app.jsx の SEO_DESC か自動生成の定型文にフォールバックする
 const BLOG = [
+  { slug: 'homepage-renewal-case-study-by-industry', category: 'Web制作', date: '2026.07.31', read: '12 min', title: 'ホームページリニューアル事例3業種別｜課題解決と成果を公開', img: 'assets/blog-default.png', desc: '製造業・士業・飲食3業種のホームページリニューアル事例を紹介。各企業の課題解決方法、得られた成果、実際の費用と工期をまとめました。業種別の設計ポイントも解説します。', supervised: true },
   { slug: 'homepage-renewal-301-redirect-guide', category: 'Web制作', date: '2026.07.28', read: '12 min', title: 'URL移行で検索順位を下げない301リダイレクト完全ガイド', img: 'assets/blog-default.png', desc: 'ホームページリニューアル時の301リダイレクト設定手順を解説。URL移行で検索評価を引き継ぎ、順位下落を防ぐ具体的な方法と、よくある設定ミスの確認リストを紹介します。', supervised: true },
   { slug: 'blog-bot',                       category: 'AI活用',      date: '2026.07.23', read: '9 min', title: 'ブログボットとは？AIで記事を作成・投稿する仕組みと選び方【2026年版】',           img: 'assets/blog-blog-bot.png', supervised: true},
   { slug: 'web-production-cost-guide',      category: 'Web制作',     date: '2026.07.17', read: '7 min', title: '【2026年最新】中小企業のホームページ制作費用の相場は？失敗しない発注ガイド',      img: 'assets/blog-web-production-cost-guide.png' },
