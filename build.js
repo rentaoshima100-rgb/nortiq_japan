@@ -378,7 +378,6 @@ async function build() {
   console.log('• emitting robots.txt + sitemap.xml');
   fs.writeFileSync(path.join(DIST, 'robots.txt'),
     `User-agent: *\nAllow: /\n\nSitemap: ${SITE}/sitemap.xml\n`, 'utf8');
-  const today = new Date().toISOString().slice(0, 10);
   const SITEMAP_ROUTES = [
     'top', 'web', 'chatbot', 'dx', 'works', 'voice', 'support', 'pricing',
     'diagnosis', 'subsidy', 'guidebook', 'column', 'company', 'staff', 'recruit',
@@ -388,13 +387,25 @@ async function build() {
     'works-infra', 'works-ai', 'solution-clinic', 'solution-realty',
     'solution-build', 'solution-hr', 'solution-retail',
     'works-lp-corp', 'works-lp-recruit', 'works-lp-ec', 'works-video',
-    'privacy', 'terms',
+    'privacy', 'terms', 'privacy-handling', 'sitemap',
     ...BLOG.map((b) => 'article-' + b.slug),
   ];
+  // lastmod は記事だけに出す。
+  //
+  // 以前は全URLにビルド実行日を入れていたため、記事を1本も触っていなくても毎ビルドで
+  // 全URLの lastmod が今日になっていた。lastmod が一貫して不正確なサイトでは
+  // Google はこの値自体を無視するので、「既存記事を改修して鮮度を回復する」という
+  // 運用の更新シグナルが届かなくなる。
+  // 記事は updated (改修日) を優先し、無ければ date (初出日) を使う。
+  // 固定ページは正確な更新日を持たないため lastmod を出さない (嘘の日付を書かない)。
+  // changefreq / priority は Google が利用しないため出力しない。
+  const articleLastmod = new Map(
+    BLOG.map((b) => ['article-' + b.slug, String(b.updated || b.date).replace(/\./g, '-')]),
+  );
   const sitemapUrls = SITEMAP_ROUTES.map((id) => {
     const loc = id === 'top' ? `${SITE}/` : `${SITE}/${id}`;
-    const priority = id === 'top' ? '1.0' : '0.8';
-    return `  <url><loc>${loc}</loc><lastmod>${today}</lastmod><changefreq>weekly</changefreq><priority>${priority}</priority></url>`;
+    const lastmod = articleLastmod.get(id);
+    return `  <url><loc>${loc}</loc>${lastmod ? `<lastmod>${lastmod}</lastmod>` : ''}</url>`;
   }).join('\n');
   fs.writeFileSync(path.join(DIST, 'sitemap.xml'),
     `<?xml version="1.0" encoding="UTF-8"?>\n`
