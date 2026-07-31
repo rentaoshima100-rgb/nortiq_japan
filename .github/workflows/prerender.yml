@@ -1,0 +1,61 @@
+# 記事の公開・改修で prerendered/ を自動再生成する。
+#
+# なぜ必要か:
+#   パイプラインの公開ワーカは、改稿を反映するとき古い prerendered スナップショットを
+#   削除する。残したままだと改稿前のHTMLが配信され続けるため、この削除は正しい。
+#   一方で再生成は `npm run build:full` をローカルで回す前提になっており、
+#   自動では走らない。結果、公開直後の記事は prerendered/ が欠けた状態になり、
+#   JSを実行しないクローラにはSPAシェル (約4.6KB) しか届かない。
+#   2026-07-31に実際に4本がこの状態で公開された。
+#
+# ループ防止:
+#   このワークフロー自身のコミットでは再実行しない (paths に prerendered/ を含めない +
+#   コミットメッセージで判定)。
+name: prerender (公開後の静的HTML再生成)
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "content/blog/**"
+      - "build.js"
+      - "articles.js"
+      - "build-prerender.js"
+  workflow_dispatch:
+
+concurrency:
+  group: prerender
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  prerender:
+    # 自分自身が作ったコミットでは回さない (無限ループ防止)
+    if: "!contains(github.event.head_commit.message, '[prerender]')"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      # build-prerender.js は playwright のヘッドレスChromiumで各ルートを描画する
+      - run: npx playwright install --with-deps chromium
+      - name: ビルド + プリレンダ
+        run: npm run build:full
+      - name: 差分があればコミット
+        run: |
+          set -euo pipefail
+          git config user.name "nortiq-prerender"
+          git config user.email "noreply@nortiqlab.com"
+          git add prerendered
+          if git diff --cached --quiet; then
+            echo "prerendered/ に差分なし"
+            exit 0
+          fi
+          CHANGED=$(git diff --cached --name-only | wc -l)
+          git commit -m "build: prerenderを再生成 (${CHANGED}ファイル) [prerender]"
+          git push
