@@ -345,6 +345,10 @@ async function build() {
   <link rel="icon" href="assets/nortiq-fav.png" type="image/png">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Nortiq Labs">
+  <!-- 記事ルートでは app.jsx が og:type を article に変え、下の2つに日付を入れる。
+       setMetaContent は既存要素しか書き換えないため、空のまま置いておく必要がある -->
+  <meta property="article:published_time" content="">
+  <meta property="article:modified_time" content="">
   <meta property="og:title" content="${TITLE}">
   <meta property="og:description" content="${DESC}">
   <meta property="og:url" content="${SITE}/">

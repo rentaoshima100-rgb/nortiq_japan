@@ -586,6 +586,15 @@ function App() {
     setMetaContent('meta[name="twitter:title"]', ogTitleFor(route));
     setMetaContent('meta[name="twitter:description"]', desc);
     setMetaContent('meta[name="twitter:image"]', ogImg);
+    // 記事ページは og:type を article にし、公開日・更新日を出す。
+    // 全ページ website のままだと、SNSもAI検索もこれを「記事」と認識しない。
+    const isArticle = route.indexOf('article-') === 0;
+    const art = isArticle
+      ? ((typeof window !== 'undefined' && window.NORTIQ_ARTICLES) || {})[route.slice('article-'.length)]
+      : null;
+    setMetaContent('meta[property="og:type"]', isArticle ? 'article' : 'website');
+    setMetaContent('meta[property="article:published_time"]', art ? isoDate(art.date) : '');
+    setMetaContent('meta[property="article:modified_time"]', art ? isoDate(art.updated || art.date) : '');
     // Per-route structured data (Service / Review / BreadcrumbList).
     const oldLd = document.getElementById('route-ld');
     if (oldLd) oldLd.remove();
