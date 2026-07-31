@@ -41,6 +41,7 @@ const ORG_SAME_AS = [
 // desc → meta description / og:description / BlogPosting.description に使う。
 //        未指定の記事は app.jsx の SEO_DESC か自動生成の定型文にフォールバックする
 const BLOG = [
+  { slug: 'ai-seo-article-quality-check', category: 'AI活用', date: '2026.07.31', read: '10 min', title: '生成AI記事のSEO品質管理｜公開前チェック5ステップ', img: 'assets/blog-default.png', desc: 'AI生成記事がGoogleで評価されない理由を解説。品質チェックの5ステップと、人手とAIの効果的な組み合わせ方で、工数を増やさずSEO品質を担保する運用方法を紹介します。', supervised: true },
   { slug: 'ios-nfc-felica-slow-fix', category: '技術', date: '2026.07.31', read: '9 min', title: 'iOS NFC FeliCa読み取りが遅い原因と解決法｜Info.plist設定ガイド', img: 'assets/blog-default.png', desc: 'iOSアプリのFeliCa読み取り遅延・タイムアウトの根本原因を解説。Info.plistのsystemCodes設定手順と、iOS 16/17/18での挙動差を含むハウツーガイドです。', supervised: true },
   { slug: 'homepage-renewal-timing-checklist', category: 'Web制作', date: '2026.07.31', read: '11 min', title: 'ホームページリニューアルはいつ？見極め方を診断フロー付きで解説', img: 'assets/blog-default.png', desc: 'ホームページリニューアルのタイミングを5つのチェックリストで自己診断。客観的な判断基準と優先度、後回しにした場合のリスクを分かりやすく解説します。', supervised: true },
   { slug: 'system-development-outsourcing-cost-guide', category: '技術', date: '2026.07.31', read: '12 min', title: '社内システム開発の外注費用相場｜中小企業向け3つの選択肢', img: 'assets/blog-default.png', desc: '社内システムを外注開発する際の費用相場、スクラッチ・パッケージカスタマイズ・SaaS活用の3つの選択肢ごとのコスト比較、中小企業向けの発注先選定ポイントを解説します。', supervised: true },
