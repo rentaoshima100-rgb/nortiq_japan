@@ -684,6 +684,12 @@ function ArticleDetailPage({ onNavigate, onContact, slug }) {
             <div className="row" style={{ gap: 10, marginBottom: 24, color: 'var(--text-3)', fontSize: 13, flexWrap: 'wrap' }}>
               <span className="tag" style={{ color: 'var(--accent)', borderColor: 'var(--accent)' }}>{article.category}</span>
               <span className="num">{article.date}</span>
+              {article.updated && article.updated !== article.date && (
+                <>
+                  <span>·</span>
+                  <span className="num">{article.updated} 更新</span>
+                </>
+              )}
               <span>·</span>
               <span>{article.read} read</span>
               <span>·</span>

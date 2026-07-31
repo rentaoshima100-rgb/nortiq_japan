@@ -345,11 +345,15 @@ function pageLd(route, url) {
     if (!a) return null;
     const img = a.img ? NORTIQ_SITE + '/' + String(a.img).replace(/^\//, '') : NORTIQ_SITE + '/assets/og-image.png';
     const date = isoDate(a.date);
+    // date は初出の公開日。改修で本文を書き換えても URL と初出日は変えないため、
+    // 更新日は別フィールド (updated) を BLOG 配列に持たせ、そちらを dateModified に使う。
+    // 両方を date から作っていた頃は、記事を改修しても鮮度の信号が Google に届かなかった。
+    const modified = a.updated ? isoDate(a.updated) : date;
     return {
       '@context': 'https://schema.org', '@type': 'BlogPosting',
       headline: a.title, description: desc, image: img, url,
       inLanguage: 'ja', articleSection: a.category,
-      datePublished: date, dateModified: date,
+      datePublished: date, dateModified: modified,
       author: { '@type': 'Organization', '@id': NORTIQ_ORG_ID, name: 'Nortiq Labs' },
       publisher: ORG_REF,
       mainEntityOfPage: { '@type': 'WebPage', '@id': url },
