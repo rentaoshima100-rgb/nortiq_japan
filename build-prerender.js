@@ -64,11 +64,11 @@ const ROUTES_ALLOWLIST = [
   '/article-aio-llmo-reality-check',
   '/article-multi-ai-parallel-productivity',
   '/article-ai-literacy-mindset-shift',
-  '/article-local-business-geo-meo',
+  // /article-local-business-geo-meo は google-business-profile-meo に統合し301 (2026-08-03)
   '/article-btob-web-marketing',
   '/article-office-work-automation',
   '/article-benchmark-competitor-success',
-  '/article-seo-aio-dual-strategy',
+  // /article-seo-aio-dual-strategy は llmo-basics-for-smb に統合し301 (2026-08-03)
   '/article-how-to-choose-web-agency',
   // 2026 blog-bot pillar article
   '/article-blog-bot',

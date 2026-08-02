@@ -31,4 +31,4 @@ Nortiq Labsは、技術スタック調査や競合のコンテンツ構造分析
 ## あわせて読みたい
 
 - [Web集客はまだまだ熱い — 特にBtoBでは最も効率の良い武器](/article-btob-web-marketing)
-- [SEOとAIO、両睨みのコンテンツ戦略 — どちらにも効く「共通の型」がある](/article-seo-aio-dual-strategy)
+- [AI検索でアクセスは減る？中小企業がいま始めるべきLLMO対策の基本](/article-llmo-basics-for-smb)

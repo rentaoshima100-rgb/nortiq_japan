@@ -24,5 +24,5 @@ Nortiq Labsは、Web制作からAI、DXへと段階的に伴走する「3段階�
 
 ## あわせて読みたい
 
-- [ローカル店舗こそWeb集客を — 「口コミだけ」では、もう競争にならない](/article-local-business-geo-meo)
-- [SEOとAIO、両睨みのコンテンツ戦略 — どちらにも効く「共通の型」がある](/article-seo-aio-dual-strategy)
+- [広告費0円から始める集客術 — Googleビジネスプロフィールで地域のお客様を増やす](/article-google-business-profile-meo)
+- [AI検索でアクセスは減る？中小企業がいま始めるべきLLMO対策の基本](/article-llmo-basics-for-smb)

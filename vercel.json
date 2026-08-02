@@ -20,6 +20,16 @@
       "source": "/en/:path*",
       "destination": "/",
       "permanent": true
+    },
+    {
+      "source": "/article-local-business-geo-meo",
+      "destination": "/article-google-business-profile-meo",
+      "permanent": true
+    },
+    {
+      "source": "/article-seo-aio-dual-strategy",
+      "destination": "/article-llmo-basics-for-smb",
+      "permanent": true
     }
   ],
   "rewrites": [
