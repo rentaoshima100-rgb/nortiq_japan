@@ -133,7 +133,10 @@ const ARTICLE_SEO_TITLE = {
   'article-llmo-basics-for-smb': 'LLMO対策とは｜費用をかけずに始めるAI検索対策の基本｜Nortiq Labs',
   'article-google-business-profile-meo': 'MEO対策の始め方｜Googleビジネスプロフィール最適化5ステップ｜Nortiq Labs',
   'article-listing-ads-cpc-roi': 'リスティング広告のCPCが高い原因｜費用対効果を上げる5つの見直し｜Nortiq Labs',
-  'article-page-speed-conversion': 'サイト表示速度の改善方法｜Core Web Vitalsと離脱率の関係｜Nortiq Labs',
+  // 「Core Web Vitals」を外した。/article-core-web-vitals と <title> がぶつかっており、
+  // 同じクエリで自社記事同士が競合していた。こちらは離脱・問い合わせへの影響を扱う
+  // 記事なので、技術指標名ではなく成果側の語を前に出す
+  'article-page-speed-conversion': 'サイトの表示速度と離脱率｜遅いと問い合わせが減る理由と改善策｜Nortiq Labs',
   'article-ai-chatbot-introduction': 'AIチャットボット導入の費用と手順｜中小企業の問い合わせ自動化｜Nortiq Labs',
   'article-smb-dx-first-step': '中小企業のDXは何から始める｜AI活用の最初の一歩と補助金｜Nortiq Labs',
   'article-subsidy-2026-digital-ai': 'デジタル化・AI導入補助金2026｜ホームページは対象になるか｜Nortiq Labs',
