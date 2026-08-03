@@ -41,6 +41,7 @@ const ORG_SAME_AS = [
 // desc → meta description / og:description / BlogPosting.description に使う。
 //        未指定の記事は app.jsx の SEO_DESC か自動生成の定型文にフォールバックする
 const BLOG = [
+  { slug: 'llm-guardrail-jailbreak-defense', category: 'AI活用', date: '2026.08.03', read: '12 min', title: 'LLMガードレール破られる原因と実装可能な3つの対策', img: 'assets/blog-default.png', desc: 'LLMのガードレールがプロンプトインジェクション、ジェイルブレイクで突破される原因の構造と、実務で実装できる3つの防御対策を解説します。失敗事例から自社構成の穴を発見できます。', supervised: true },
   { slug: 'cms-comparison-wordpress-small-business', category: 'Web制作', date: '2026.08.02', read: '9 min', title: 'WordPress他CMSを徹底比較｜失敗しない選び方5つのポイント', img: 'assets/blog-default.png', desc: 'WordPress・Wix・Squarespace・Jimdo等の主要CMSを機能・費用・保守性で横並び比較。中小企業の規模・業種に合ったCMS選定基準と導入後のリスク管理を解説します。', supervised: true },
   { slug: 'ai-seo-article-quality-check', category: 'AI活用', date: '2026.07.31', read: '10 min', title: '生成AI記事のSEO品質管理｜公開前チェック5ステップ', img: 'assets/blog-default.png', desc: 'AI生成記事がGoogleで評価されない理由を解説。品質チェックの5ステップと、人手とAIの効果的な組み合わせ方で、工数を増やさずSEO品質を担保する運用方法を紹介します。', supervised: true },
   { slug: 'ios-nfc-felica-slow-fix', category: '技術', date: '2026.07.31', read: '9 min', title: 'iOS NFC FeliCa読み取りが遅い原因と解決法｜Info.plist設定ガイド', img: 'assets/blog-default.png', desc: 'iOSアプリのFeliCa読み取り遅延・タイムアウトの根本原因を解説。Info.plistのsystemCodes設定手順と、iOS 16/17/18での挙動差を含むハウツーガイドです。', supervised: true },
