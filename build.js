@@ -41,6 +41,7 @@ const ORG_SAME_AS = [
 // desc → meta description / og:description / BlogPosting.description に使う。
 //        未指定の記事は app.jsx の SEO_DESC か自動生成の定型文にフォールバックする
 const BLOG = [
+  { slug: 'llm-overfitting-detection-prevention', category: 'AI活用', date: '2026.08.05', read: '12 min', title: 'LLM攻撃検出の機械学習モデル、過学習を防ぐ3つのステップ', img: 'assets/blog-default.png', desc: 'LLM攻撃検出用の機械学習分類器で過学習が発生しやすいステップを特定し、評価指標を用いた検出・防止方法を実装者視点で解説します。', supervised: true },
   { slug: 'ai-chatbot-industry-suitability', category: 'AI活用', date: '2026.08.05', read: '12 min', title: 'AIチャットボット業種別活用ガイド｜中小企業の導入判断', img: 'assets/blog-default.png', desc: '中小企業が本当にAIチャットボットを導入すべきかを業種別に判定。導入効果が出やすい業務パターンと失敗しやすい条件を比較し、予算・運用体制の現実を踏まえた検討基準を解説します。', supervised: true },
   { slug: 'homepage-renewal-cost-by-industry', category: 'Web制作', date: '2026.08.05', read: '10 min', title: 'ホームページリニューアル費用相場｜業種別の価格帯と決定要因', img: 'assets/blog-default.png', desc: 'ホームページリニューアルの費用相場を業種別に徹底解説。製造業・士業・飲食・小売など主要業種の価格帯と、費用を左右する要因をまとめました。予算決定の根拠づけにご活用ください。', supervised: true },
   { slug: 'in-house-system-outsourcing-cost', category: '技術', date: '2026.08.05', read: '11 min', title: '社内システム外注費用の相場と工数単価の見方｜失敗しない発注ガイド', img: 'assets/blog-default.png', desc: '社内システム外注の費用相場を機能・規模別に解説。見積書の工程・工数・単価の読み方から、中小企業の予算でも実現可能な開発範囲までをまとめました。', supervised: true },
