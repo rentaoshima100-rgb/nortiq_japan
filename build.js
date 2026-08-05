@@ -41,6 +41,7 @@ const ORG_SAME_AS = [
 // desc → meta description / og:description / BlogPosting.description に使う。
 //        未指定の記事は app.jsx の SEO_DESC か自動生成の定型文にフォールバックする
 const BLOG = [
+  { slug: 'homepage-renewal-cost-by-industry', category: 'Web制作', date: '2026.08.05', read: '10 min', title: 'ホームページリニューアル費用相場｜業種別の価格帯と決定要因', img: 'assets/blog-default.png', desc: 'ホームページリニューアルの費用相場を業種別に徹底解説。製造業・士業・飲食・小売など主要業種の価格帯と、費用を左右する要因をまとめました。予算決定の根拠づけにご活用ください。', supervised: true },
   { slug: 'in-house-system-outsourcing-cost', category: '技術', date: '2026.08.05', read: '11 min', title: '社内システム外注費用の相場と工数単価の見方｜失敗しない発注ガイド', img: 'assets/blog-default.png', desc: '社内システム外注の費用相場を機能・規模別に解説。見積書の工程・工数・単価の読み方から、中小企業の予算でも実現可能な開発範囲までをまとめました。', supervised: true },
   { slug: 'it-subsidy-homepage-eligibility-guide', category: 'Web制作', date: '2026.08.04', read: '8 min', title: 'IT導入補助金でホームページ制作は対象？補助率・申請方法を解説', img: 'assets/blog-default.png', desc: 'ホームページ制作・リニューアルがIT導入補助金の対象か、補助率・上限額・申請枠の種類を実例付きで解説。自社が対象事業者か確認する方法も紹介します。', supervised: true },
   { slug: 'llm-guardrail-jailbreak-defense', category: 'AI活用', date: '2026.08.03', read: '12 min', title: 'LLMガードレール破られる原因と実装可能な3つの対策', img: 'assets/blog-default.png', desc: 'LLMのガードレールがプロンプトインジェクション、ジェイルブレイクで突破される原因の構造と、実務で実装できる3つの防御対策を解説します。失敗事例から自社構成の穴を発見できます。', supervised: true },
