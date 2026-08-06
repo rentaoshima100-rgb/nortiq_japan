@@ -41,6 +41,7 @@ const ORG_SAME_AS = [
 // desc → meta description / og:description / BlogPosting.description に使う。
 //        未指定の記事は app.jsx の SEO_DESC か自動生成の定型文にフォールバックする
 const BLOG = [
+  { slug: 'homepage-production-cost-sme', category: 'Web制作', date: '2026.08.06', read: '10 min', title: 'ホームページ制作費用｜中小企業の予算別相場と補助金活用', img: 'assets/blog-default.png', desc: '中小企業向けホームページ制作費用の相場を予算帯別に解説。10万〜500万円の価格帯ごとに得られる機能・サービスを比較し、費用を抑えるポイントと補助金活用法を紹介します。', supervised: true },
   { slug: 'homepage-renewal-cost-guide', category: 'Web制作', date: '2026.08.05', read: '12 min', title: 'ホームページリニューアル費用|見積もり内訳と補助金', img: 'assets/blog-default.png', desc: '中小企業向けホームページリニューアルの費用相場を規模・内容別に解説。見積もりの妥当性判断に必要な内訳と変動要因、補助金活用方法までを網羅しています。', supervised: true },
   { slug: 'llm-overfitting-detection-prevention', category: 'AI活用', date: '2026.08.05', read: '12 min', title: 'LLM攻撃検出の機械学習モデル、過学習を防ぐ3つのステップ', img: 'assets/blog-default.png', desc: 'LLM攻撃検出用の機械学習分類器で過学習が発生しやすいステップを特定し、評価指標を用いた検出・防止方法を実装者視点で解説します。', supervised: true },
   { slug: 'ai-chatbot-industry-suitability', category: 'AI活用', date: '2026.08.05', read: '12 min', title: 'AIチャットボット業種別活用ガイド｜中小企業の導入判断', img: 'assets/blog-default.png', desc: '中小企業が本当にAIチャットボットを導入すべきかを業種別に判定。導入効果が出やすい業務パターンと失敗しやすい条件を比較し、予算・運用体制の現実を踏まえた検討基準を解説します。', supervised: true },
