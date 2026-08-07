@@ -24,6 +24,7 @@ const SITE = 'https://nortiqlab.com';
 // INITIAL HTML (SNS crawlers don't run JS, so client-side meta isn't enough).
 // Set to [] to prerender every sitemap URL.
 const ROUTES_ALLOWLIST = [
+  '/article-homepage-renewal-timing-guide',
   '/article-core-nfc-felica-system-code-limit',
   '/article-homepage-renewal-subsidy-guide',
   '/article-homepage-renewal-subsidy-cost-calculation',

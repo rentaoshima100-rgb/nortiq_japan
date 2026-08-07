@@ -41,6 +41,7 @@ const ORG_SAME_AS = [
 // desc → meta description / og:description / BlogPosting.description に使う。
 //        未指定の記事は app.jsx の SEO_DESC か自動生成の定型文にフォールバックする
 const BLOG = [
+  { slug: 'homepage-renewal-timing-guide', category: 'Web制作', date: '2026.08.07', read: '12 min', title: 'ホームページリニューアルは今が時期？中小企業向け診断ガイド', img: 'assets/blog-default.png', desc: '中小企業のホームページリニューアルタイミングについて、今動くべき5つの判断基準と、先延ばしのリスク、実行の最初のステップを解説します。', supervised: true },
   { slug: 'core-nfc-felica-system-code-limit', category: '技術', date: '2026.08.07', read: '12 min', title: 'iOS Core NFC FeliCaシステムコード上限数を版別に解説', img: 'assets/blog-default.png', desc: 'iOS 16/17/18/26版別に、Core NFCで登録可能なFeliCaシステムコード上限数を実測値付きで解説。検出時間への影響と設計指針を実装者向けにまとめています。', supervised: true },
   { slug: 'homepage-renewal-subsidy-guide', category: 'Web制作', date: '2026.08.07', read: '7 min', title: 'ホームページリニューアル補助金2026|種類・補助率・申請手順', img: 'assets/blog-default.png', desc: 'ホームページリニューアルに活用できる補助金の種類、補助率・上限額、対象条件、申請手順・必要書類を2026年版で完全解説。自社が対象になるかすぐわかります。', supervised: true },
   { slug: 'homepage-renewal-subsidy-cost-calculation', category: 'Web制作', date: '2026.08.07', read: '8 min', title: 'ホームページリニューアル費用の実質負担額|補助金で最大75%圧縮', img: 'assets/blog-default.png', desc: 'ホームページリニューアル費用の相場と補助金を組み合わせた実質負担額を具体的に解説。IT導入補助金など公的支援の補助率・上限額、申請要件、対象判定まで網羅。', supervised: true },
