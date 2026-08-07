@@ -41,6 +41,7 @@ const ORG_SAME_AS = [
 // desc → meta description / og:description / BlogPosting.description に使う。
 //        未指定の記事は app.jsx の SEO_DESC か自動生成の定型文にフォールバックする
 const BLOG = [
+  { slug: 'homepage-renewal-subsidy-guide', category: 'Web制作', date: '2026.08.07', read: '7 min', title: 'ホームページリニューアル補助金2026|種類・補助率・申請手順', img: 'assets/blog-default.png', desc: 'ホームページリニューアルに活用できる補助金の種類、補助率・上限額、対象条件、申請手順・必要書類を2026年版で完全解説。自社が対象になるかすぐわかります。', supervised: true },
   { slug: 'homepage-renewal-subsidy-cost-calculation', category: 'Web制作', date: '2026.08.07', read: '8 min', title: 'ホームページリニューアル費用の実質負担額|補助金で最大75%圧縮', img: 'assets/blog-default.png', desc: 'ホームページリニューアル費用の相場と補助金を組み合わせた実質負担額を具体的に解説。IT導入補助金など公的支援の補助率・上限額、申請要件、対象判定まで網羅。', supervised: true },
   { slug: 'homepage-production-cost-sme', category: 'Web制作', date: '2026.08.06', read: '10 min', title: 'ホームページ制作費用｜中小企業の予算別相場と補助金活用', img: 'assets/blog-default.png', desc: '中小企業向けホームページ制作費用の相場を予算帯別に解説。10万〜500万円の価格帯ごとに得られる機能・サービスを比較し、費用を抑えるポイントと補助金活用法を紹介します。', supervised: true },
   { slug: 'homepage-renewal-cost-guide', category: 'Web制作', date: '2026.08.05', read: '12 min', title: 'ホームページリニューアル費用|見積もり内訳と補助金', img: 'assets/blog-default.png', desc: '中小企業向けホームページリニューアルの費用相場を規模・内容別に解説。見積もりの妥当性判断に必要な内訳と変動要因、補助金活用方法までを網羅しています。', supervised: true },
