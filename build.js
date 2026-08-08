@@ -41,6 +41,7 @@ const ORG_SAME_AS = [
 // desc → meta description / og:description / BlogPosting.description に使う。
 //        未指定の記事は app.jsx の SEO_DESC か自動生成の定型文にフォールバックする
 const BLOG = [
+  { slug: 'ios-nfc-felica-detection-time-comparison', category: '技術', date: '2026.08.08', read: '12 min', title: 'iOS16～18のFeliCa検出時間を実測比較', img: 'assets/blog-default.png', desc: 'iOS16～18でFeliCa検出時間にどの程度の差があるのか実測で検証。Info.plistのシステムコード登録数が検出速度に与える影響と、iOS17の上限約148個の実装制約を詳しく解説します。', supervised: true },
   { slug: 'homepage-renewal-timing-guide', category: 'Web制作', date: '2026.08.07', read: '12 min', title: 'ホームページリニューアルは今が時期？中小企業向け診断ガイド', img: 'assets/blog-default.png', desc: '中小企業のホームページリニューアルタイミングについて、今動くべき5つの判断基準と、先延ばしのリスク、実行の最初のステップを解説します。', supervised: true },
   { slug: 'core-nfc-felica-system-code-limit', category: '技術', date: '2026.08.07', read: '12 min', title: 'iOS Core NFC FeliCaシステムコード上限数を版別に解説', img: 'assets/blog-default.png', desc: 'iOS 16/17/18/26版別に、Core NFCで登録可能なFeliCaシステムコード上限数を実測値付きで解説。検出時間への影響と設計指針を実装者向けにまとめています。', supervised: true },
   { slug: 'homepage-renewal-subsidy-guide', category: 'Web制作', date: '2026.08.07', read: '7 min', title: 'ホームページリニューアル補助金2026|種類・補助率・申請手順', img: 'assets/blog-default.png', desc: 'ホームページリニューアルに活用できる補助金の種類、補助率・上限額、対象条件、申請手順・必要書類を2026年版で完全解説。自社が対象になるかすぐわかります。', supervised: true },
