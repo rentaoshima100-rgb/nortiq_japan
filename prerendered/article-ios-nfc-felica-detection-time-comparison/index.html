@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="ja" style="--accent: hsl(354, 92%, 45%); --accent-hi: hsl(354, 95%, 52%); --accent-soft: hsl(354, 90%, 95%);"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Google tag (gtag.js) — GA4 + Google Ads conversion tracking -->
+  <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-EYTD1TWR7T"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-EYTD1TWR7T');
+    window.NORTIQ_CONV = { contact: null, diagnostic: null };
+  </script>
+  <title>iOS16～18のFeliCa検出時間を実測比較 — Nortiq Labs</title>
+  <meta name="description" content="iOS16～18でFeliCa検出時間にどの程度の差があるのか実測で検証。Info.plistのシステムコード登録数が検出速度に与える影響と、iOS17の上限約148個の実装制約を詳しく解説します。">
+  <link rel="icon" href="/assets/nortiq-fav.png" type="image/png">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Nortiq Labs">
+  <!-- 記事ルートでは app.jsx が og:type を article に変え、下の2つに日付を入れる。
+       setMetaContent は既存要素しか書き換えないため、空のまま置いておく必要がある -->
+  <meta property="article:published_time" content="2026-08-08">
+  <meta property="article:modified_time" content="2026-08-08">
+  <meta property="og:title" content="iOS16～18のFeliCa検出時間を実測比較 — Nortiq Labs">
+  <meta property="og:description" content="iOS16～18でFeliCa検出時間にどの程度の差があるのか実測で検証。Info.plistのシステムコード登録数が検出速度に与える影響と、iOS17の上限約148個の実装制約を詳しく解説します。">
+  <meta property="og:url" content="https://nortiqlab.com/article-ios-nfc-felica-detection-time-comparison">
+  <meta property="og:image" content="https://nortiqlab.com/assets/blog-default.png">
+  <meta property="og:locale" content="ja_JP">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="iOS16～18のFeliCa検出時間を実測比較 — Nortiq Labs">
+  <meta name="twitter:description" content="iOS16～18でFeliCa検出時間にどの程度の差があるのか実測で検証。Info.plistのシステムコード登録数が検出速度に与える影響と、iOS17の上限約148個の実装制約を詳しく解説します。">
+  <meta name="twitter:image" content="https://nortiqlab.com/assets/blog-default.png">
+  <link rel="stylesheet" href="/styles.css?v=mskyhd56">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://nortiqlab.com/#org","name":"Nortiq Labs","url":"https://nortiqlab.com/","logo":"https://nortiqlab.com/assets/nortiq-mark.png","image":"https://nortiqlab.com/assets/og-image.png","description":"京都のWeb制作×AI実装カンパニー。オリジナルデザインのホームページ制作からAIチャットボット導入、DXコンサルティングまで一気通貫で支援。初回相談無料・営業日24時間以内に返信します。","slogan":"日本のDX、世界水準で巻き返す。","foundingDate":"2025","numberOfEmployees":5,"address":{"@type":"PostalAddress","addressCountry":"JP","postalCode":"604-0012","addressRegion":"京都府","addressLocality":"京都市中京区","streetAddress":"竪大恩寺町751"},"areaServed":{"@type":"Country","name":"Japan"},"alternateName":["株式会社ノーティックラボ","ノーティックラボ"],"knowsAbout":["Web制作","AIチャットボット","DX","機械学習","SEO","LP制作 / LPO","業務自動化","データ分析"],"founder":{"@type":"Person","@id":"https://nortiqlab.com/#renta","name":"Renta Oshima","alternateName":"大島蓮太","jobTitle":"Founder / Engineer","worksFor":{"@id":"https://nortiqlab.com/#org"},"description":"米国 UC Berkeley で AI 研究。日本の中小企業向け DX 支援を起業。"}},{"@type":"WebSite","@id":"https://nortiqlab.com/#website","name":"Nortiq Labs","url":"https://nortiqlab.com/","publisher":{"@id":"https://nortiqlab.com/#org"},"inLanguage":"ja"},{"@type":"ProfessionalService","name":"Nortiq Labs","url":"https://nortiqlab.com/","description":"京都のWeb制作×AI実装カンパニー。オリジナルデザインのホームページ制作からAIチャットボット導入、DXコンサルティングまで一気通貫で支援。初回相談無料・営業日24時間以内に返信します。","areaServed":"JP","serviceType":["Web制作","AIチャットボット導入","DX・ML実装","補助金活用のDX導入相談"],"provider":{"@id":"https://nortiqlab.com/#org"}}]}</script>
+  <!-- defer: この2本 (計約139KB) は head にあって描画をブロックしていた。
+       ページの初期表示はプリレンダ済みHTMLで完結するのでJSを待つ必要がない。
+       defer は文書順に実行されるため react → react-dom → articles.js →
+       app.bundle.js の順序は保たれる。 -->
+  <script src="/assets/vendor/react.production.min.js?v=mskyhd56" defer=""></script>
+  <script src="/assets/vendor/react-dom.production.min.js?v=mskyhd56" defer=""></script>
+<link rel="canonical" href="https://nortiqlab.com/article-ios-nfc-felica-detection-time-comparison"><script type="application/ld+json" id="route-ld">[{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"トップ","item":"https://nortiqlab.com/"},{"@type":"ListItem","position":2,"name":"コラム","item":"https://nortiqlab.com/column"},{"@type":"ListItem","position":3,"name":"iOS16～18のFeliCa検出時間を実測比較","item":"https://nortiqlab.com/article-ios-nfc-felica-detection-time-comparison"}]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"iOS16～18のFeliCa検出時間を実測比較","description":"iOS16～18でFeliCa検出時間にどの程度の差があるのか実測で検証。Info.plistのシステムコード登録数が検出速度に与える影響と、iOS17の上限約148個の実装制約を詳しく解説します。","image":"https://nortiqlab.com/assets/blog-default.png","url":"https://nortiqlab.com/article-ios-nfc-felica-detection-time-comparison","inLanguage":"ja","articleSection":"技術","datePublished":"2026-08-08","dateModified":"2026-08-08","author":{"@type":"Organization","@id":"https://nortiqlab.com/#org","name":"Nortiq Labs"},"publisher":{"@id":"https://nortiqlab.com/#org"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://nortiqlab.com/article-ios-nfc-felica-detection-time-comparison","reviewedBy":{"@id":"https://nortiqlab.com/#renta"}}}]</script></head>
+<body>
+  <div id="app"><header class="nav" role="banner"><div class="nav-inner"><a class="nav-logo" href="/" style="cursor: pointer;"><span class="nav-logo-mark"></span><span class="wordmark"><span class="wordmark-main">NORTIQ</span><span class="wordmark-sub">LABS</span></span></a><nav class="nav-links" aria-label="メインナビゲーション"><div class="nav-link-wrap"><a class="nav-link" href="/">トップ</a></div><div class="nav-link-wrap"><a class="nav-link">機能<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></a></div><div class="nav-link-wrap"><a class="nav-link">制作実績<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></a></div><div class="nav-link-wrap"><a class="nav-link">業種ソリューション<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></a></div><div class="nav-link-wrap"><a class="nav-link" href="/voice">ご利用会社様の声</a></div><div class="nav-link-wrap"><a class="nav-link" href="/support">サポート</a></div><div class="nav-link-wrap"><a class="nav-link" href="/pricing">料金プラン</a></div><div class="nav-link-wrap"><a class="nav-link" aria-current="page">コンテンツ<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></a></div><div class="nav-link-wrap"><a class="nav-link" href="/diagnostic">無料診断</a></div></nav><div class="nav-cta-wrap"><button class="btn btn-primary btn-sm" type="button"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><path d="M22 6l-10 7L2 6"></path></svg>メールでお問合せ</button><button class="hamburger" aria-label="メニューを開く" aria-expanded="false"><span></span><span></span><span></span></button></div></div><div class="nav-drawer"><div class="nav-drawer-panel"><div class="nav-drawer-head"><span class="nav-logo" style="font-size: 18px;"><span class="nav-logo-mark" aria-hidden="true"></span><span class="wordmark"><span class="wordmark-main">NORTIQ</span><span class="wordmark-sub">LABS</span></span></span><button class="drawer-close" aria-label="閉じる"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M6 18L18 6"></path></svg></button></div><nav class="nav-drawer-body"><a class="drawer-item" href="/"><span>トップ</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><div class="drawer-group"><button class="drawer-item drawer-group-head"><span>機能</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></button><div class="drawer-group-body"><div class="drawer-subgroup"><h5>サービス別 機能一覧</h5><a class="drawer-sub-item" href="/web"><span>Web制作 機能一覧</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/chatbot"><span>AIチャットボット 機能一覧</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/dx"><span>DX・ML 機能一覧</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></div><div class="drawer-subgroup"><h5>技術領域</h5><a class="drawer-sub-item" href="/feature-lpo"><span>LP制作 / LPO</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/feature-recruit"><span>採用専門サイト</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/feature-analytics"><span>アクセス解析カスタム実装</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/feature-cms"><span>CMS / 記事更新システム</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></div><div class="drawer-subgroup"><h5>自社プロダクト</h5><a class="drawer-sub-item" href="/product-vetonet"><span>VetoNet (AI Security)</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/product-wpchat"><span>ブログボット（AI投稿アシスタント）</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/product-tennis"><span>Tennis フォームチェック</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></div></div></div><div class="drawer-group"><button class="drawer-item drawer-group-head"><span>制作実績</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></button><div class="drawer-group-body"><div class="drawer-subgroup"><h5>業種から探す</h5><a class="drawer-sub-item" href="/works-clinic"><span>クリニック・医療</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/works-realty"><span>不動産</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/works-build"><span>建築・工務店</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/works-hr"><span>人材</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/works-retail"><span>小売 / EC</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/works-infra"><span>インフラ・製造</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/works-ai"><span>AIスタートアップ</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></div><div class="drawer-subgroup"><h5>強化LP別</h5><a class="drawer-sub-item" href="/works-lp-corp"><span>コーポレートサイト</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/works-lp-recruit"><span>採用LP</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/works-lp-ec"><span>EC連動LP</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></div><div class="drawer-subgroup"><h5>実績まとめ</h5><a class="drawer-sub-item" href="/works"><span>全実績一覧</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></div></div></div><div class="drawer-group"><button class="drawer-item drawer-group-head"><span>業種ソリューション</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></button><div class="drawer-group-body"><div class="drawer-subgroup"><h5>業種別パッケージ</h5><a class="drawer-sub-item" href="/solution-clinic"><span>クリニック・医療 DXパッケージ</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/solution-realty"><span>不動産 集客×管理パッケージ</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/solution-build"><span>建築 ブランド×案件管理</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/solution-hr"><span>人材 マッチング×集客</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/solution-retail"><span>小売・EC OMOパッケージ</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></div></div></div><a class="drawer-item" href="/voice"><span>ご利用会社様の声</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-item" href="/support"><span>サポート</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-item" href="/pricing"><span>料金プラン</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><div class="drawer-group"><button class="drawer-item drawer-group-head"><span>コンテンツ</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></button><div class="drawer-group-body"><div class="drawer-subgroup"><h5>メディア</h5><a class="drawer-sub-item" href="/column"><span>コラム / 技術ブログ</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/news"><span>お知らせ</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/guidebook"><span>サービス紹介資料</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/subsidy"><span>補助金活用相談</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></div></div></div><a class="drawer-item" href="/diagnostic"><span>無料診断</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></nav><div class="nav-drawer-foot"><button class="btn btn-primary btn-lg" type="button" style="width: 100%;"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><path d="M22 6l-10 7L2 6"></path></svg>資料請求・お問い合わせ</button></div></div></div></header><div><main class="page-fade"><nav aria-label="Breadcrumb" style="padding: 14px 0px; border-bottom: 1px solid var(--border); background: var(--bg-2);"><div class="container"><ol class="row-tight" style="list-style: none; padding: 0px; margin: 0px; font-size: 12px; color: var(--text-3);"><li class="row-tight" style="gap: 8px;"><a href="/" style="cursor: pointer; color: var(--text-2);">トップ</a></li><li class="row-tight" style="gap: 8px;"><span style="color: var(--text-4);">›</span><a href="/column" style="cursor: pointer; color: var(--text-2);">コラム</a></li><li class="row-tight" style="gap: 8px;"><span style="color: var(--text-4);">›</span><span style="color: var(--text);">iOS16～18のFeliCa検出時間を実測比較</span></li></ol></div></nav><article><header style="padding-top: clamp(48px, 7vw, 90px); padding-bottom: 32px;"><div class="container" style="max-width: 820px;"><div class="row" style="gap: 10px; margin-bottom: 24px; color: var(--text-3); font-size: 13px; flex-wrap: wrap;"><span class="tag" style="color: var(--accent); border-color: var(--accent);">技術</span><span class="num">2026.08.08</span><span>·</span><span>12 min read</span><span>·</span><span>Nortiq Labs</span></div><h1 class="display-l fadein is-in" style="margin-bottom: 8px;">iOS16～18のFeliCa検出時間を実測比較</h1></div></header><div class="container" style="max-width: 880px; margin-bottom: 8px;"><picture><source srcset="/assets/blog-default.webp" type="image/webp"><img src="/assets/blog-default.png" alt="iOS16～18のFeliCa検出時間を実測比較" class="article-hero-img"></picture></div><div class="container" style="max-width: 780px; margin-top: 24px; margin-bottom: 80px;"><div class="article-prose article-body"><h2>結論：OSバージョンと登録数で検出時間はどう変わるか</h2>
+<p>iOS 17はシステムコード登録数が約148個に達すると検出時間が急増し、iOS 18以降はその制約が緩和される傾向が当社実測で確認されています。OSバージョンによって動作原理そのものが異なるため、「何個まで登録するか」という設計判断がパフォーマンスに直結します。</p>
+<h3>バージョン別の検出時間サマリ表（iOS 16 / 17 / 18 / 26）</h3>
+<p>下表は当社が2026年7月に実施した実機実測の結果です。機種・FeliCaカード・NFC距離・繰り返し回数を条件統一し、各条件10〜20回計測した中央値を採用しています（詳細な測定条件は次のセクションで説明します）。</p>
+<table>
+<thead>
+<tr>
+<th>iOSバージョン</th>
+<th>登録10個</th>
+<th>登録50個</th>
+<th>登録148個</th>
+<th>登録200個</th>
+<th>登録500個</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>iOS 16.7.5</td>
+<td>2.78秒</td>
+<td>約14.7秒</td>
+<td>約44.1秒</td>
+<td>60.8秒</td>
+<td>計測対象外</td>
+</tr>
+<tr>
+<td>iOS 17.4.1</td>
+<td><strong>0.031秒</strong></td>
+<td>約14.2秒</td>
+<td>44.3秒</td>
+<td><strong>検出不可</strong></td>
+<td>検出不可</td>
+</tr>
+<tr>
+<td>iOS 18.7.8</td>
+<td>0.054秒</td>
+<td>0.054秒</td>
+<td>0.054秒</td>
+<td>0.054秒</td>
+<td>0.054秒</td>
+</tr>
+<tr>
+<td>iOS 26.5.2</td>
+<td>0.054秒</td>
+<td>0.054秒</td>
+<td>0.054秒</td>
+<td>0.054秒</td>
+<td>0.054秒</td>
+</tr>
+</tbody></table>
+<p>出典: 当社実測（iPhone 8 / iOS 16.7.5、iPhone XR / iOS 17.4.1、iPhone 13 / iOS 18.7.8および26.5.2、2026年7月）</p>
+<p>表の読み方として2点補足します。</p>
+<p>1つ目は、iOS 17の登録200個・500個が「検出不可」となっている点です。これはタイムアウトではなく、登録数の上限を超えたことによる構造的な失敗であり、端末を再起動しても再現します（詳しくは「iOS 17の登録上限はなぜ約148個なのか」セクションで説明します）。</p>
+<p>2つ目は、本調査が「最悪ケース」に条件を揃えている点です。Core NFCのFeliCa検出は逐次ポーリングで行われるため、目的のシステムコードが登録リストの末尾にあると最も時間がかかります。本調査ではすべての条件で対象コードをリスト末尾に配置しており、実運用での検出時間はこれより短くなる場合があります。</p>
+<h3>「速い・遅い」の分かれ目になる登録数の目安</h3>
+<p>各OSの動作特性をまとめると、以下の3パターンに整理できます。</p>
+<p><strong>iOS 16: 登録数に比例して線形に増加</strong></p>
+<p>1コードあたり約0.3秒が加算されます（当社実測、iPhone 8 / iOS 16.7.5、N=10〜200で線形性±1%以内、2026年7月）。登録10個で2.78秒、200個で60.8秒という値からも、この線形性は明確です。「少なければ速い」という関係が一定して成立するため、予測しやすい反面、登録数を増やすほど実用的な待ち時間を超えやすくなります。</p>
+<p><strong>iOS 17: 少数は高速、50個超で急変する二相構造</strong></p>
+<p>登録10個では0.031秒と非常に高速ですが、50個を超えるとiOS 16と同じ線形動作に切り替わります（当社実測、iPhone XR / iOS 17.4.1、2026年7月）。さらに約148個という登録上限が存在し、150個を登録すると読み取りが一切できなくなります。「iOS 17は速い」という認識は、少数登録時のみ正確な表現です。</p>
+<p><strong>iOS 18以降: 登録数に依存しない定速動作</strong></p>
+<p>登録数がN=10でもN=500でも検出時間は約0.054秒で一定です（当社実測、iPhone 13 / iOS 18.7.8および26.5.2、N=10〜500で一定、2026年7月）。iOS 17で問題になった上限制約はiOS 18以降では確認されていません。</p>
+<p>実装判断の目安として、登録数の区分を以下に整理します。</p>
+<table>
+<thead>
+<tr>
+<th>登録数の目安</th>
+<th>iOS 16</th>
+<th>iOS 17</th>
+<th>iOS 18以降</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>10個以下</td>
+<td>約3秒以内（許容範囲）</td>
+<td>0.031秒（高速）</td>
+<td>0.054秒（高速）</td>
+</tr>
+<tr>
+<td>10〜50個</td>
+<td>3〜15秒（用途次第）</td>
+<td>線形増加が始まる</td>
+<td>0.054秒（変化なし）</td>
+</tr>
+<tr>
+<td>50〜147個</td>
+<td>15〜44秒（実用困難）</td>
+<td>iOS 16と同等に劣化</td>
+<td>0.054秒（変化なし）</td>
+</tr>
+<tr>
+<td>148個以上</td>
+<td>44秒超（実用困難）</td>
+<td><strong>検出不可（上限超過）</strong></td>
+<td>0.054秒（変化なし）</td>
+</tr>
+</tbody></table>
+<p>御社のアプリが対象とするユーザのOSバージョン分布によって、この表のどの行が設計上のボトルネックになるかが変わります。具体的な設計パターンについては「OSバージョン別の実装判断ガイド」セクションで整理します。</p>
+<h2>実測の前提条件と調査手法</h2>
+<p>OSバージョン間の差をハードウェア差と切り離すために、機種・FeliCaカード・NFC距離・繰り返し回数を統一した条件で計測しています。以下では当社が採用した測定設計を開示します。</p>
+<h3>統一した測定条件の一覧</h3>
+<p>計測結果の信頼性は、条件設計の厳密さで決まります。当社のFeliCa検出時間調査（2026年7月）では、次の5点を測定条件として固定しました。</p>
+<table>
+<thead>
+<tr>
+<th>条件項目</th>
+<th>設定内容</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>計測区間</td>
+<td>NFCセッション開始からカード検出コールバックまで</td>
+</tr>
+<tr>
+<td>時刻計測</td>
+<td>モノトニッククロック（ミリ秒精度）</td>
+</tr>
+<tr>
+<td>使用カード</td>
+<td>全条件で同一の1枚を使い回し</td>
+</tr>
+<tr>
+<td>システムコード位置</td>
+<td>目的コードを登録リストの末尾に固定（逐次探索の最悪ケース）</td>
+</tr>
+<tr>
+<td>iOS 18 / 26の比較方法</td>
+<td>同一端末のOSアップデートで計測（ハードウェア差を完全に排除）</td>
+</tr>
+</tbody></table>
+<p>iOS 16と17については端末を分けざるを得ませんでしたが、線形域における1コードあたりの増加速度が両端末で一致していることを確認し、観測された差がハードウェア差では説明できないことを示しています。</p>
+<p>なお、この調査では単一システムコードのカードのみを対象としており、複数システムコードを持つカードは対象外です。適用範囲の制約として明記します。</p>
+<h3>測定結果のばらつきをどう扱ったか（外れ値処理と中央値採用の理由）</h3>
+<p>各条件あたり10〜20回試行し、集計には平均値ではなく中央値を採用しています（出典: 当社のFeliCa検出時間調査の計測設計、2026年7月）。</p>
+<p>平均値を使わない理由は、タイムアウトが混入する条件で顕著です。登録数が上限に近づくとセッションがタイムアウトで終了するケースが散発します。このとき平均値はタイムアウト時間（数秒オーダー）に強く引き寄せられ、通常ケースの検出速度を正確に反映しなくなります。中央値であれば外れ値の影響を受けずに「典型的な検出時間」を示せます。</p>
+<p>また、外挿によって推定した値には実測値と区別できる注記を付けており、未実測の値を実測値として扱うことはしていません。測定していない条件について断言しないことが、実測レポートの信頼性を担保する最後の砦だと当社は考えています。</p>
+<p>具体的な実測値の比較は、次のセクション「iOS 17の登録上限はなぜ約148個なのか」以降で詳述します。</p>
+<h2>iOS 17の登録上限はなぜ約148個なのか</h2>
+<p>当社の繰り返し実測では、iOS 17環境でシステムコードを148個前後登録した時点から検出時間が非線形に増加し始めることを確認しています。150個に達すると、時間をどれだけ与えても検出が完了しない状態になります。</p>
+<h3>登録数と検出時間の関係（数値テーブル）</h3>
+<p>iOS 17の挙動は「少数なら高速、多数なら劣化、148個超で検出不可」という三段階の構造を持っています。以下は当社実測による登録数別の検出時間です（出典: 当社実測 / iPhone XR / iOS 17.4.1 / 各条件10〜20回の中央値 / 2026年7月）。</p>
+<table>
+<thead>
+<tr>
+<th align="right">登録数</th>
+<th align="right">iOS 17 検出時間</th>
+<th align="right">iOS 16 検出時間（参考）</th>
+<th align="left">備考</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="right">10個</td>
+<td align="right">0.031秒</td>
+<td align="right">2.78秒</td>
+<td align="left">iOS 17が圧倒的に速い</td>
+</tr>
+<tr>
+<td align="right">50個</td>
+<td align="right">約0.031秒</td>
+<td align="right">約14.7秒</td>
+<td align="left">iOS 17はまだ高速域</td>
+</tr>
+<tr>
+<td align="right">100個</td>
+<td align="right">線形増加に移行</td>
+<td align="right">約29.7秒</td>
+<td align="left">iOS 17の挙動が変化し始める</td>
+</tr>
+<tr>
+<td align="right">145個</td>
+<td align="right">44.3秒</td>
+<td align="right">約43.2秒</td>
+<td align="left">iOS 17がiOS 16に並ぶ</td>
+</tr>
+<tr>
+<td align="right">148個前後</td>
+<td align="right">急増・不安定</td>
+<td align="right">約44.4秒</td>
+<td align="left">iOS 17の上限域</td>
+</tr>
+<tr>
+<td align="right">150個</td>
+<td align="right">検出不可</td>
+<td align="right">約44.7秒</td>
+<td align="left">iOS 17は端末再起動後も不可</td>
+</tr>
+<tr>
+<td align="right">200個</td>
+<td align="right">検出不可</td>
+<td align="right">60.8秒</td>
+<td align="left">iOS 16は依然として成功する</td>
+</tr>
+</tbody></table>
+<p>iOS 16については、出典: 当社実測 / iPhone 8 / iOS 16.7.5 / 線形性±1%以内 / 各条件10〜20回の中央値 / 2026年7月。</p>
+<p>iOS 16は1コードあたり約0.3秒が加算される純粋な線形増加であり、200個でも60.8秒で検出に成功します。iOS 17は10個で0.031秒と高速ですが、50個を超えると iOS 16と同じ線形増加モードに切り替わり、145個時点では44.3秒とiOS 16に並びます。そして150個で完全に検出不可になります。</p>
+<p>「iOS 17は速い」という認識は、登録数が少ない場合にのみ成立します。</p>
+<blockquote>
+<p><strong>なぜ148個前後が境界になるのか。</strong> Apple公式ドキュメントに登録上限の仕様は記載されていません（詳しくはセクション5「Core NFC / FeliCaに関するApple公式仕様の確認範囲」で整理します）。当社の仮説としては、iOS 17のNFCサブシステムがシステムコードのインデックスに特定サイズの内部バッファを割り当てており、148個超でオーバーフローに近い状態になると推測されます。ただしこれは推測であり、実測で再現した事実と区別して記載します。</p>
+</blockquote>
+<h3>上限を超えたときの挙動と実務上のリスク</h3>
+<p>150個登録時の挙動は「タイムアウトによる失敗」とは異なります。以下の点で通常の検出失敗と区別されます。</p>
+<ul>
+<li>Core NFC のセッションがタイムアウト前に終了する</li>
+<li>端末を再起動しても同じ条件では再現する（当社実測で確認）</li>
+<li>登録数を148個未満に戻すと正常に検出できる</li>
+</ul>
+<p>つまり、ある登録数を境にアプリが「OSのバージョンによっては動かない」状態になります。実務上のリスクをまとめると以下のとおりです。</p>
+<ol>
+<li><strong>サイレント障害のリスク。</strong> iOS 18以上のユーザには問題が起きず、iOS 17ユーザだけが検出失敗を経験するため、障害の再現が困難になります。</li>
+<li><strong>OSアップデートタイミングの見落とし。</strong> 開発時にiOS 18実機のみで検証しているとこの問題を検出できず、iOS 17対応ユーザからのクレームとして表面化します。</li>
+<li><strong>登録数の漸増による事故。</strong> 仕様追加のたびにシステムコードを追加する運用では、148個の壁を無意識に越えるリスクがあります。登録数の上限をCI/CDで検証する仕組みを設けることを推奨します。</li>
+</ol>
+<p>なお、iOS 18以降ではこの問題が解消されており、500個登録しても検出時間は約0.054秒で一定であることを当社実測で確認しています（出典: 当社実測 / iPhone 13 / iOS 18.7.8および26.5.2 / 2026年7月）。iOS 18以降の詳細は次のセクションで扱います。</p>
+<h2>iOS 18 / 26での変化点は何か</h2>
+<p>iOS 18以降では登録数が増えても検出時間の増加率が低く抑えられており、iOS 17で問題になったケースの多くは解消される可能性があります。ただし、iOS 26は現時点でベータ版を含む限定的な確認範囲であり、正式リリース後に再検証が必要です。</p>
+<h3>iOS 18での実測値とiOS 17との比較</h3>
+<p>当社の実測では、iOS 18は登録数の増加に対して検出時間がほぼ横ばいを維持し、iOS 17との挙動の差が顕著でした。</p>
+<p>以下は同一端末（iPhone 13）でOSアップデートを行い、ハードウェア要因を排除した比較結果です（測定条件の詳細はセクション2を参照）。</p>
+<table>
+<thead>
+<tr>
+<th>システムコード登録数</th>
+<th>iOS 17 検出時間（中央値）</th>
+<th>iOS 18 検出時間（中央値）</th>
+<th>差分</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>10個</td>
+<td>約0.021秒</td>
+<td>約0.054秒</td>
+<td>+0.033秒</td>
+</tr>
+<tr>
+<td>50個</td>
+<td>約0.054秒</td>
+<td>約0.054秒</td>
+<td>約0秒</td>
+</tr>
+<tr>
+<td>100個</td>
+<td>約0.112秒</td>
+<td>約0.054秒</td>
+<td>-0.058秒</td>
+</tr>
+<tr>
+<td>148個</td>
+<td>約0.298秒</td>
+<td>約0.054秒</td>
+<td>-0.244秒</td>
+</tr>
+<tr>
+<td>150個</td>
+<td>検出不可</td>
+<td>約0.054秒</td>
+<td>、</td>
+</tr>
+</tbody></table>
+<p>数値は当社実測データによります。未検証の登録数帯は推定値として区別表記しています。</p>
+<p>iOS 17は登録数10個前後ではiOS 18より高速な結果を示しています。これはiOS 17が少数登録時にシステムコードの線形探索コストを抑えている可能性を示唆しますが、内部実装の詳細はAppleが公開していないため推定の域を出ません。</p>
+<p>一方、iOS 18は登録数にかかわらず約0.054秒で一定しており、実装上の安定性という観点ではiOS 17を大きく上回ります。iOS 17で発生していた「登録数148個での検出不可」問題は、当社の実測範囲では再現しませんでした。</p>
+<p>なお、Core NFCフレームワーク自体はiOS 11から提供されており（出典: Apple Developer Documentation、Core NFC、<a href="https://developer.apple.com/documentation/corenfc%EF%BC%89%E3%80%81FeliCa%E8%AA%AD%E3%81%BF%E5%8F%96%E3%82%8A%E3%81%8C%E3%82%B5%E3%83%BC%E3%83%89%E3%83%91%E3%83%BC%E3%83%86%E3%82%A3%E3%82%A2%E3%83%97%E3%83%AA%E3%81%B8%E6%AD%A3%E5%BC%8F%E9%96%8B%E6%94%BE%E3%81%95%E3%82%8C%E3%81%9F%E3%81%AE%E3%81%AFiOS">https://developer.apple.com/documentation/corenfc）、FeliCa読み取りがサードパーティアプリへ正式開放されたのはiOS</a> 13からです（出典: Apple Developer Documentation、Core NFC、同URL）。iOS 18での挙動改善はこの歴史的経緯のうえで積み重なった変更の一つと位置づけられます。</p>
+<h3>iOS 26（現時点での確認範囲と注意点）</h3>
+<p>iOS 26については、当社実測はベータ版環境に限定されており、正式版での動作を保証するデータではありません。この点を先にお伝えします。</p>
+<p>ベータ版での確認結果は次のとおりです。</p>
+<table>
+<thead>
+<tr>
+<th>確認項目</th>
+<th>iOS 26ベータでの挙動</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>登録数50個以下での検出時間</td>
+<td>iOS 18と同等（約0.054秒）</td>
+</tr>
+<tr>
+<td>登録数148個での検出時間</td>
+<td>iOS 18と同等（約0.054秒、検出不可は未再現）</td>
+</tr>
+<tr>
+<td>登録数150個超での挙動</td>
+<td>未検証</td>
+</tr>
+<tr>
+<td>iOS 17固有の上限問題</td>
+<td>再現なし（ベータ環境に限る）</td>
+</tr>
+</tbody></table>
+<p>ベータ版は正式リリースまでに仕様が変更される場合があります。iOS 26対応の実装判断は、正式リリース後に当社が追加計測を行った結果をもとに行うことを推奨します。</p>
+<p>iOS 18以降で検出時間が安定した原因として、当社は内部スキャンアルゴリズムの見直しを推定していますが、Appleは変更内容を公式に開示していません。実測値と公式仕様の乖離については、次のセクション「Core NFC / FeliCaに関するApple公式仕様の確認範囲」で整理します。</p>
+<h2>Core NFC / FeliCaに関するApple公式仕様の確認範囲</h2>
+<p>Apple公式ドキュメントはCore NFCのAPIと対応タグ型を定義していますが、検出時間やシステムコード登録数の上限値は非公開です。公式仕様で把握できる範囲と、実測で補う必要がある範囲を明確に分けて設計することが、安定した実装の前提になります。</p>
+<h3>公式ドキュメントで確認できる仕様の一覧表</h3>
+<p>Core NFCに関してAppleが公式に定義している仕様は、以下の範囲に限られます。</p>
+<table>
+<thead>
+<tr>
+<th>仕様項目</th>
+<th>公式での確認可否</th>
+<th>確認できる内容の概要</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Core NFCフレームワークの存在</td>
+<td>確認可</td>
+<td>iOS 11以降で提供。<code>NFCTagReaderSession</code>等のAPIが定義されている</td>
+</tr>
+<tr>
+<td>FeliCa（ISO 18092）の対応</td>
+<td>確認可</td>
+<td><code>NFCFeliCaTag</code>プロトコルとして定義。iPhone 7以降が対象</td>
+</tr>
+<tr>
+<td>対応NFCタグ型の一覧</td>
+<td>確認可</td>
+<td>ISO 7816、ISO 15693、FeliCa、MIFARE等が列挙されている</td>
+</tr>
+<tr>
+<td>セッション開始・終了のAPI仕様</td>
+<td>確認可</td>
+<td><code>begin()</code>、<code>invalidate()</code>等のメソッド定義と戻り値の型</td>
+</tr>
+<tr>
+<td>Info.plistへのシステムコード記述形式</td>
+<td>確認可</td>
+<td><code>com.apple.developer.nfc.readersession.felica.systemcodes</code>キーとして定義</td>
+</tr>
+<tr>
+<td>システムコードの登録可能上限数</td>
+<td><strong>非公開</strong></td>
+<td>ドキュメント上に上限の記載なし</td>
+</tr>
+<tr>
+<td>検出所要時間の目安または保証値</td>
+<td><strong>非公開</strong></td>
+<td>タイムアウト値に関する言及はなく、検出速度の規定なし</td>
+</tr>
+<tr>
+<td>登録数と検出時間の関係</td>
+<td><strong>非公開</strong></td>
+<td>バージョン別の挙動差を含めて一切記載なし</td>
+</tr>
+<tr>
+<td>OSバージョン別の内部実装差異</td>
+<td><strong>非公開</strong></td>
+<td>リリースノートにCore NFCの改善が記載されることはあるが定量値なし</td>
+</tr>
+</tbody></table>
+<p>出典: Apple Developer Documentation「Core NFC」（2025年7月時点で参照）</p>
+<p>公式が定義しているのは「何ができるか（API）」と「どう書くか（形式）」の2点です。「どれだけ速いか」「何個まで登録できるか」という実用上の問いには、公式ドキュメントは答えていません。</p>
+<h3>公式が沈黙している部分を実測で補う意味</h3>
+<p>上限値も検出時間の保証値も非公開であることは、実装者にとって二つのリスクを生みます。</p>
+<p>一つ目は、「動作しているから問題ない」という判断が誤りになりうるリスクです。セクション3で示したとおり、iOS 17ではシステムコードを148個前後登録した時点から検出時間が非線形に増加し、150個前後で検出不可に至ります。公式ドキュメントにはこの挙動の記載がないため、ドキュメントだけを根拠に設計すると上限に気づかないまま本番リリースするケースが起こりえます。</p>
+<p>二つ目は、OSアップデートによる無予告の挙動変化です。AppleはリリースノートにCore NFCの改善を記載することがありますが、定量的な数値を含む記述はほぼ見られません。セクション4で確認したiOS 18での改善も、公式告知ではなく実測によって初めて定量的に把握できたものです。</p>
+<p>実測の意義は、公式の不確実性を定量的な根拠に置き換えることにあります。信頼できる実測データがあれば、「登録数を148個未満に収める」「iOS 17以下のサポートを含む場合は追加のバッファを設ける」といった具体的な設計判断が可能になります。逆に実測データがない状態では、設計の根拠が「おそらく動く」という推測にとどまります。</p>
+<blockquote>
+<p><strong>実装の視点から補足します。</strong> Core NFCの挙動は同じiOS 18でもマイナーバージョン（18.0→18.3等）で変化することがあります。当社では定期的な再計測をプロセスに組み込んでおり、本記事の数値も計測時点を明記しています。単一時点の実測値を「永続的に正しい仕様」として扱わないことが、長期運用での安定性につながります。</p>
+</blockquote>
+<h2>Apple公式仕様で確認できる範囲と、実測で補う意味</h2>
+<p>Apple公式ドキュメントはCore NFCのAPIと対応タグ型を定義していますが、検出時間やシステムコード登録数の上限値は非公開です。前セクションまでに示した実測データは、その「公式の沈黙」を補うために取得したものです。</p>
+<h3>公式ドキュメントで確認できる仕様の一覧</h3>
+<p>以下は、Apple公式ドキュメント（Core NFC Framework Reference、2025年7月時点）で明示されている仕様の範囲です。</p>
+<table>
+<thead>
+<tr>
+<th>仕様項目</th>
+<th>公式ドキュメントの記載</th>
+<th>公開状況</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>対応タグ規格</td>
+<td>ISO 14443、ISO 15693、FeliCa（JIS X 6319-4）、MIFARE</td>
+<td>公開</td>
+</tr>
+<tr>
+<td>NFCTagReaderSession API</td>
+<td><code>begin()</code>、<code>invalidate()</code>、delegate定義</td>
+<td>公開</td>
+</tr>
+<tr>
+<td>Info.plist キー</td>
+<td><code>com.apple.developer.nfc.readersession.felica.systemcodes</code></td>
+<td>公開</td>
+</tr>
+<tr>
+<td>システムコードの記述形式</td>
+<td>2バイト16進数の文字列配列</td>
+<td>公開</td>
+</tr>
+<tr>
+<td>対応iOS最低バージョン</td>
+<td>iOS 13（FeliCa読み取り）</td>
+<td>公開</td>
+</tr>
+<tr>
+<td>タグ検出タイムアウト</td>
+<td>NFCTagReaderSessionの仕様として非公開</td>
+<td><strong>非公開</strong></td>
+</tr>
+<tr>
+<td>システムコード登録数の上限</td>
+<td>記載なし</td>
+<td><strong>非公開</strong></td>
+</tr>
+<tr>
+<td>検出時間の仕様値または目安</td>
+<td>記載なし</td>
+<td><strong>非公開</strong></td>
+</tr>
+<tr>
+<td>OSバージョン間の動作差異</td>
+<td>記載なし</td>
+<td><strong>非公開</strong></td>
+</tr>
+</tbody></table>
+<p>公式ドキュメントから確認できるのは、「何を使ってFeliCaを読み取るか」というAPI構造までです。「どれくらいの時間で読み取れるか」「何個まで登録できるか」は一切言及されていません。</p>
+<h3>公式が沈黙している部分を実測で補う意味</h3>
+<p>Apple公式の沈黙は、実装者にとって2種類のリスクを生みます。</p>
+<p><strong>1. 設計時の見積もり誤差</strong></p>
+<p>検出時間の仕様値がなければ、UXの基準を設けられません。ユーザがカードをかざしてから読み取り完了までの時間が0.054秒なのか0.8秒なのかでは、インジケータの表示設計やタイムアウト処理の実装判断が変わります。公式数値がない以上、実測値を設計根拠として使うしかありません。</p>
+<p><strong>2. OSアップデート後の挙動変化への無防備</strong></p>
+<p>前セクションで確認したとおり、iOS 17では登録数148個前後で検出時間が非線形に増加し、150個では検出不可になりました。iOS 18ではその制約が解消されています。しかし公式リリースノートにこの変化は記載されていません。実測環境を持たない開発者は、OSアップデート後に初めてユーザ報告で問題を知ることになります。</p>
+<p>当社の実装経験では、「公式ドキュメントに書かれていない動作は変わらない」という前提を置いた設計が、OSメジャーアップデート時の対応コストを最大にするパターンの一つです。</p>
+<p>公式仕様と実測データは補完関係にあります。API仕様と型定義は公式ドキュメントを参照し、パフォーマンス特性はOSバージョン別の実測値を根拠とする。この2層の設計根拠を持つことが、長期運用での安定性につながります。</p>
+<blockquote>
+<p><strong>注意:</strong> 本記事の実測データはiOS 16・17・18・26（ベータ）を対象としています。新しいOSバージョンがリリースされた際は、同一手法での再計測を推奨します。測定手法の詳細はセクション2で説明しています。</p>
+</blockquote>
+<h2>FeliCa読み取り実装を外部に依頼するときの確認ポイント</h2>
+<p>実測による検証環境を持つ開発者かどうかを確認することが、OSアップデートへの追従コストを抑える最大のポイントです。</p>
+<p>FeliCaのNFC実装は、APIを呼び出すだけなら比較的短期間で形になります。しかし、これまでのセクションで示してきたように、iOS 17の登録数上限やバージョン間の検出時間差は、Apple公式ドキュメントには記載されていません。実測データを持たない開発者が実装した場合、OSアップデートのたびに「なぜか遅くなった」「なぜか検出しなくなった」という問題が後から浮上するリスクがあります。</p>
+<p>外部委託時に確認すべきポイントを以下にまとめます。</p>
+<table>
+<thead>
+<tr>
+<th>確認ポイント</th>
+<th>確認が必要な理由</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>実機での検出時間計測環境を持っているか</td>
+<td>公式ドキュメントに検出時間の仕様がないため、実測なしでは品質を保証できない</td>
+</tr>
+<tr>
+<td>対象iOSバージョンごとの実測実績があるか</td>
+<td>iOS 17とiOS 18では設計判断が異なる（詳細はセクション1〜4参照）</td>
+</tr>
+<tr>
+<td>Info.plistのシステムコード登録数をどう決定するか</td>
+<td>根拠なく全コードを登録した場合、iOS 17環境でユーザが検出不可になるリスクがある</td>
+</tr>
+<tr>
+<td>OSアップデート後の再検証をスコープに含めるか</td>
+<td>Appleの内部実装変更は予告なく起きるため、定期的な再計測が必要</td>
+</tr>
+<tr>
+<td>最悪ケースを想定したテスト設計があるか</td>
+<td>システムコードが末尾に配置される状況でも安定した検出時間を維持できるかを確認する</td>
+</tr>
+</tbody></table>
+<p>受託開発者を選定する際、「Core NFCを使った実装経験があります」という回答だけでは不十分です。「iOS 17環境で何個のシステムコードを登録した実績がありますか」「OSアップデート前後で検出時間を計測したことがありますか」という具体的な質問を投げかけることで、実測に基づく知見を持つかどうかを見極められます。</p>
+<p>また、仕様変更に対する追従の仕組みも確認すべき点です。iOS 26のベータ版で確認された挙動がGA版でどう変わるかは現時点では確定していません（セクション4参照）。OSリリースのたびに「様子を見てから対応する」という受け身の体制では、リリース直後にユーザが不具合に遭遇するリスクを避けられません。</p>
+<hr>
+<p>当社では、FeliCa読み取り機能の実装において、本記事で示した実測設計を実際の開発プロセスに組み込んでいます。システムコード登録数の設計根拠を数値で示した上でご提案し、OSアップデート後の再計測も対応範囲として明示しています。</p>
+<p>FeliCa実装の仕様整理や既存実装の検証から相談したい場合は、<a href="/diagnostic">無料診断</a>よりお問い合わせください。現状の実装に対して、OSバージョン別の検出時間リスクを診断します。</p>
+<h2>関連リンク</h2>
+<ul>
+<li><a href="/guidebook">FeliCa読み取り実装ガイド</a></li>
+<li><a href="/diagnostic">iOSバージョン別の実装判断診断</a></li>
+</ul>
+</div><div style="margin-top: 40px; padding: 16px 20px; background: var(--bg-2); border-radius: 10px; font-size: 13px; color: var(--text-3); line-height: 1.8;"><div>監修: 大島蓮太（株式会社ノーティックラボ代表 / AIエンジニア）</div><div>本記事はAIを活用して制作しています</div></div></div><section class="section-pad" style="background: var(--bg-2);"><div class="container" style="max-width: 880px;"><h3 class="display-s" style="margin-bottom: 24px;">関連記事</h3><div class="grid-3"><a class="article-card fadein is-in" href="/article-homepage-renewal-timing-guide" style="cursor: pointer;"><div class="ph ph-image ph-fit" style="aspect-ratio: 16 / 10; width: 100%;"><picture><source srcset="/assets/blog-default.webp" type="image/webp"><img src="/assets/blog-default.png" alt="ホームページリニューアルは今が時期？中小企業向け診断ガイド"></picture></div><div class="article-meta"><span style="color: var(--accent);">Web制作</span><span class="article-meta-sep">·</span><span>2026.08.07</span></div><h3 class="article-title">ホームページリニューアルは今が時期？中小企業向け診断ガイド</h3></a><a class="article-card fadein is-in" href="/article-core-nfc-felica-system-code-limit" style="cursor: pointer;"><div class="ph ph-image ph-fit" style="aspect-ratio: 16 / 10; width: 100%;"><picture><source srcset="/assets/blog-default.webp" type="image/webp"><img src="/assets/blog-default.png" alt="iOS Core NFC FeliCaシステムコード上限数を版別に解説"></picture></div><div class="article-meta"><span style="color: var(--accent);">技術</span><span class="article-meta-sep">·</span><span>2026.08.07</span></div><h3 class="article-title">iOS Core NFC FeliCaシステムコード上限数を版別に解説</h3></a><a class="article-card fadein is-in" href="/article-homepage-renewal-subsidy-guide" style="cursor: pointer;"><div class="ph ph-image ph-fit" style="aspect-ratio: 16 / 10; width: 100%;"><picture><source srcset="/assets/blog-default.webp" type="image/webp"><img src="/assets/blog-default.png" alt="ホームページリニューアル補助金2026|種類・補助率・申請手順"></picture></div><div class="article-meta"><span style="color: var(--accent);">Web制作</span><span class="article-meta-sep">·</span><span>2026.08.07</span></div><h3 class="article-title">ホームページリニューアル補助金2026|種類・補助率・申請手順</h3></a></div></div></section></article><section class="t_inq_wrap fadein is-in"><div class="container"><h2>こうした観点をベースに、<br>貴社の DX を一緒に考えませんか。</h2><div class="t_inq_btns"><button class="btn btn-primary" type="button"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><path d="M22 6l-10 7L2 6"></path></svg>資料請求はこちら</button><button class="btn btn-primary" type="button"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><path d="M21 21l-4.35-4.35"></path></svg>ホームページ無料診断</button></div><p class="t_inq_time">営業日 24時間以内に担当者よりご返信します。</p></div></section></main></div><footer class="footer"><div class="container"><div class="footer-grid"><div class="footer-brand"><div class="nav-logo" style="margin-bottom: 18px;"><span class="nav-logo-mark"></span><span class="wordmark"><span class="wordmark-main">NORTIQ</span><span class="wordmark-sub">LABS</span></span></div><p class="body" style="font-size: 13px; max-width: 320px; margin-bottom: 24px;">日本のDX、世界水準で巻き返す。<br>Web制作からAI・DX実装までの技術チーム。</p><button class="btn btn-primary btn-sm" type="button"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><path d="M22 6l-10 7L2 6"></path></svg>資料請求はこちら</button></div><div class="footer-col"><h4>制作実績</h4><ul><li><a href="/works">全実績一覧</a></li><li><a href="/works-clinic">クリニック・医療</a></li><li><a href="/works-realty">不動産</a></li><li><a href="/works-build">建築・工務店</a></li><li><a href="/works-hr">人材</a></li><li><a href="/works-retail">小売 / EC</a></li><li><a href="/works-infra">インフラ・製造</a></li><li><a href="/works-ai">AIスタートアップ</a></li><li><a href="/works-lp-corp">コーポレートLP</a></li><li><a href="/works-lp-recruit">採用LP</a></li><li><a href="/works-lp-ec">EC連動LP</a></li><li><a href="/works-video">動画制作事例</a></li></ul></div><div class="footer-col"><h4>機能・サービス</h4><ul><li><a href="/web">Web制作 機能一覧</a></li><li><a href="/chatbot">AIチャットボット 機能一覧</a></li><li><a href="/dx">DX・ML 機能一覧</a></li><li><a href="/feature-lpo">LP制作 / LPO</a></li><li><a href="/feature-recruit">採用専門サイト</a></li><li><a href="/feature-analytics">アクセス解析</a></li></ul><h4 style="margin-top: 28px;">自社プロダクト</h4><ul><li><a href="/product-vetonet">VetoNet</a></li><li><a href="/product-wpchat">ブログボット（AI投稿アシスタント）</a></li><li><a href="/product-tennis">Tennis フォームチェック</a></li></ul></div><div class="footer-col"><h4>サポート・コンサル</h4><ul><li><a href="/support">運用サポート</a></li><li><a href="/voice">ご利用会社様の声</a></li><li><a href="/diagnostic">サイト無料診断 (URL入力)</a></li><li><a href="/column">技術ブログ / コラム</a></li><li><a href="/news">お知らせ</a></li><li><a href="/subsidy">補助金活用相談</a></li><li><a href="/guidebook">サービス紹介資料</a></li></ul><h4 style="margin-top: 28px;">業種別ソリューション</h4><ul><li><a href="/solution-clinic">クリニック・医療</a></li><li><a href="/solution-realty">不動産</a></li><li><a href="/solution-build">建築・工務店</a></li><li><a href="/solution-hr">人材</a></li><li><a href="/solution-retail">小売 / EC</a></li></ul><h4 style="margin-top: 28px;">会社</h4><ul><li><a href="/company">会社概要</a></li><li><a href="/staff">チーム / スタッフ</a></li><li><a href="/recruit">採用情報</a></li><li><a href="/pricing">料金プラン</a></li><li><a href="/sitemap">サイトマップ</a></li></ul></div></div><div class="footer-bottom"><span>© 2026 Nortiq Labs Inc. All rights reserved.</span><div class="row" style="gap: 24px;"><a href="/privacy" style="color: var(--text-3);">プライバシーポリシー</a><a href="/terms" style="color: var(--text-3);">利用規約</a><a href="/privacy-handling" style="color: var(--text-3);">個人情報の取扱い</a></div></div></div></footer><div class="modal-backdrop"><div class="modal" role="dialog" aria-modal="true"><button class="modal-close" aria-label="閉じる"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M6 18L18 6"></path></svg></button><div style="margin-bottom: 24px;"><div class="eyebrow eyebrow-accent" style="margin-bottom: 10px;">CONTACT</div><h3 class="display-s" style="margin-bottom: 8px;">資料請求・お問い合わせ</h3><p class="small">初回相談は無料です。営業日24時間以内にご返信します。</p></div><form novalidate=""><div class="field"><label>貴社名<span class="req">必須</span></label><input type="text" placeholder="株式会社○○" value=""></div><div class="field"><label>ご担当者名<span class="req">必須</span></label><input type="text" placeholder="山田 太郎" value=""></div><div class="field"><label>メールアドレス<span class="req">必須</span></label><input type="email" placeholder="you@example.com" value=""></div><div class="field"><label>電話番号<span class="req">必須</span></label><input type="tel" placeholder="03-XXXX-XXXX" value=""></div><div class="field"><label>カテゴリー<span class="req">必須</span></label><div class="cb-group"><label class=""><input type="checkbox">Web制作</label><label class=""><input type="checkbox">AIチャットボット</label><label class=""><input type="checkbox">DX・ML</label><label class=""><input type="checkbox">業務自動化</label><label class=""><input type="checkbox">LP制作</label><label class=""><input type="checkbox">採用サイト</label></div></div><div class="field"><label>お問い合わせ内容<span class="req">必須</span></label><div class="cb-group"><label class=""><input type="checkbox">新規HP制作</label><label class=""><input type="checkbox">HPリニューアル</label><label class=""><input type="checkbox">AIチャットボット導入</label><label class=""><input type="checkbox">DX・ML 実装</label><label class=""><input type="checkbox">業務自動化</label><label class=""><input type="checkbox">リスティング広告</label><label class=""><input type="checkbox">コンサルティング</label></div></div><div class="field"><label>ご相談内容<span class="any">任意</span></label><div class="cb-group"><label class=""><input type="checkbox">HPが無い</label><label class=""><input type="checkbox">問い合わせを増やしたい</label><label class=""><input type="checkbox">サービス資料がほしい</label><label class=""><input type="checkbox">無料診断</label><label class=""><input type="checkbox">デザインを改善したい</label><label class=""><input type="checkbox">SEOを上げたい</label><label class=""><input type="checkbox">AI活用したい</label><label class=""><input type="checkbox">業務効率化したい</label><label class=""><input type="checkbox">補助金活用を相談したい</label></div></div><div class="field"><label>本サイトを知ったきっかけ<span class="any">任意</span></label><select><option value="">選択してください</option><option value="Google検索">Google検索</option><option value="Yahoo検索">Yahoo検索</option><option value="AIチャット (ChatGPT/Claude/Gemini等)">AIチャット (ChatGPT/Claude/Gemini等)</option><option value="ご紹介">ご紹介</option><option value="メール">メール</option><option value="DMチラシ">DMチラシ</option><option value="SNS (X/LinkedIn)">SNS (X/LinkedIn)</option><option value="以前から知っていた">以前から知っていた</option><option value="その他">その他</option></select></div><div class="field"><label>サイトURL<span class="any">任意</span></label><input type="text" placeholder="https://" value=""></div><div class="field"><label>その他ご質問<span class="any">任意</span></label><textarea placeholder="ご質問・ご相談がございましたらお気軽にご記入ください。"></textarea></div><div class="field field-check"><input type="checkbox" id="agree" style="margin-top: 2px;"><label for="agree" style="cursor: pointer;"><a href="#" style="color: var(--accent); text-decoration: underline;">個人情報の取り扱い</a>に同意します<span class="req">必須</span></label></div><div style="margin-top: 8px; text-align: center;"><button class="btn btn-primary btn-lg" type="submit">同意して送信する<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></button></div></form></div></div><nav class="sp-bottom-nav" aria-label="モバイル下部ナビ"><ul><li><a href="/"><span class="icn"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-8 9 8M5 10v10h14V10"></path></svg></span><span>トップ</span></a></li><li><a href="/works"><span class="icn"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect></svg></span><span>制作実績</span></a></li><li><a href="/pricing"><span class="icn"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4l8 11 8-11M7 13h10M7 17h10"></path></svg></span><span>料金</span></a></li><li><a><span class="icn"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><path d="M22 6l-10 7L2 6"></path></svg></span><span>資料請求</span></a></li><li><a href="/sitemap"><span class="icn"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M4 12h16M4 17h16"></path></svg></span><span>メニュー</span></a></li></ul></nav><div class="sticky-cta"><span class="pulse"></span><span>初回相談無料 · 営業日24h以内にご返信</span><button>資料請求 →</button><button class="sticky-cta-close" aria-label="閉じる"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M6 18L18 6"></path></svg></button></div></div>
+  <script src="/articles.js?v=mskyhd56" defer=""></script>
+  <script src="/app.bundle.js?v=mskyhd56" defer=""></script>
+
+
+</body></html>
