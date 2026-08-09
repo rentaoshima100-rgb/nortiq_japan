@@ -41,6 +41,7 @@ const ORG_SAME_AS = [
 // desc → meta description / og:description / BlogPosting.description に使う。
 //        未指定の記事は app.jsx の SEO_DESC か自動生成の定型文にフォールバックする
 const BLOG = [
+  { slug: 'llm-guardrail-evaluation-method', category: 'AI活用', date: '2026.08.09', read: '12 min', title: 'LLMガードレールの攻撃検出精度を自社評価する方法', img: 'assets/blog-default.png', desc: 'LLMガードレールの攻撃検出精度を精度・再現率・F1スコアで自社測定する方法と、プロンプトインジェクション等の攻撃に対する社内テスト設計の手順、評価結果の解釈と運用改善への活かし方を解説します。', supervised: true },
   { slug: 'llm-guardrails-3-layer-architecture', category: 'AI活用', date: '2026.08.08', read: '12 min', title: 'LLM安全対策の3層ガードレール｜NeMo・OWASPに基づく実装手順', img: 'assets/blog-default.png', desc: 'LLMアプリの安全対策を入力・処理・出力の3層で実装する手順を解説。NeMo Guardrails・OWASPガイドラインに基づき、検出漏れや過検知を防ぐ設計方法を具体例で紹介します。', supervised: true },
   { slug: 'ios-nfc-felica-detection-time-comparison', category: '技術', date: '2026.08.08', read: '12 min', title: 'iOS16～18のFeliCa検出時間を実測比較', img: 'assets/blog-default.png', desc: 'iOS16～18でFeliCa検出時間にどの程度の差があるのか実測で検証。Info.plistのシステムコード登録数が検出速度に与える影響と、iOS17の上限約148個の実装制約を詳しく解説します。', supervised: true },
   { slug: 'homepage-renewal-timing-guide', category: 'Web制作', date: '2026.08.07', read: '12 min', title: 'ホームページリニューアルは今が時期？中小企業向け診断ガイド', img: 'assets/blog-default.png', desc: '中小企業のホームページリニューアルタイミングについて、今動くべき5つの判断基準と、先延ばしのリスク、実行の最初のステップを解説します。', supervised: true },
