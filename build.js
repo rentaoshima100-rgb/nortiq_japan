@@ -41,6 +41,7 @@ const ORG_SAME_AS = [
 // desc → meta description / og:description / BlogPosting.description に使う。
 //        未指定の記事は app.jsx の SEO_DESC か自動生成の定型文にフォールバックする
 const BLOG = [
+  { slug: 'llm-guardrail-evaluation-metrics', category: 'AI活用', date: '2026.08.10', read: '12 min', title: 'LLMガードレール評価の精度測定｜4つの指標と実装手順', img: 'assets/blog-default.png', desc: '自社LLMガードレールの有害出力検出精度を定量評価する方法を解説。精度・再現率・F1スコアなど4つの指標と測定手順、公的基準の活用法を実装ガイド付きで紹介します。', supervised: true },
   { slug: 'ios17-nfc-felica-system-code-limit', category: '技術', date: '2026.08.09', read: '11 min', title: 'iOS 17 FeliCa検出失敗の対策：システムコード上限値を把握する', img: 'assets/blog-default.png', desc: 'iOS 17でNFC FeliCaの読取が不安定になる原因は Info.plist へのシステムコード登録上限にあります。上限値の具体的な数値と超過時の挙動、安定読取のための実装修正方法を解説します。', supervised: true },
   { slug: 'llm-guardrail-evaluation-method', category: 'AI活用', date: '2026.08.09', read: '12 min', title: 'LLMガードレールの攻撃検出精度を自社評価する方法', img: 'assets/blog-default.png', desc: 'LLMガードレールの攻撃検出精度を精度・再現率・F1スコアで自社測定する方法と、プロンプトインジェクション等の攻撃に対する社内テスト設計の手順、評価結果の解釈と運用改善への活かし方を解説します。', supervised: true },
   { slug: 'llm-guardrails-3-layer-architecture', category: 'AI活用', date: '2026.08.08', read: '12 min', title: 'LLM安全対策の3層ガードレール｜NeMo・OWASPに基づく実装手順', img: 'assets/blog-default.png', desc: 'LLMアプリの安全対策を入力・処理・出力の3層で実装する手順を解説。NeMo Guardrails・OWASPガイドラインに基づき、検出漏れや過検知を防ぐ設計方法を具体例で紹介します。', supervised: true },
