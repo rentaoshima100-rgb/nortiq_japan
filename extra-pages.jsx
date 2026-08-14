@@ -984,7 +984,7 @@ function DiagnosticLPPage({ onNavigate, onContact }) {
         <div className="diag-wrap">
           <div className="diag-hero-inner">
             <span className="diag-badge">完全無料・登録不要</span>
-            <h1 className="diag-h1">URLを入れるだけで、<br/>サイトの<span className="hl">「本当の課題」</span>が見える。</h1>
+            <h1 className="diag-h1">URLを入れるだけで、<br/>サイトの<span className="hl">「本当の課題」</span><span className="nw">が見える。</span></h1>
             <p className="diag-hero-sub">テクニカルSEO・AI可視性・競合比較まで、NORTIQLAB の専門家が改善提案までお届けします。</p>
             <DiagUrlForm onContact={onContact}/>
             <p className="diag-social"><strong>登録不要</strong> ・ URLを入れるだけ ・ <strong>その場で結果表示</strong></p>

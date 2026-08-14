@@ -235,7 +235,7 @@ function SupportPage({ onNavigate, onContact }) {
         <div className="container">
           <SectionHead
             eyebrow="ALL INCLUDED / サポート範囲"
-            title="契約期間中、追加費用なく対応する範囲。"
+            title={<React.Fragment>契約期間中、追加費用なく<span className="nw">対応する範囲。</span></React.Fragment>}
           />
           <div className="grid-3">
             {[

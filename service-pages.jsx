@@ -102,7 +102,7 @@ function WebPage({ onNavigate, onContact }) {
         <div className="container">
           <SectionHead
             eyebrow="FEATURES / Nortiq Labs の Web 制作"
-            title="ただの Web 制作会社では、ありません。"
+            title={<React.Fragment>ただの Web 制作会社では、<span className="nw">ありません。</span></React.Fragment>}
             lede="3 段階ファネルを設計に組み込みつつ、Web 制作単体の発注も歓迎しています。"
           />
           <FeatureList items={[

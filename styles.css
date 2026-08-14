@@ -55,10 +55,14 @@
   --radius-lg: 10px;
   --radius-btn: 30px;
 
-  /* Shadow */
-  --shadow-sm: 0 0 5px rgba(204,204,204,0.6);
-  --shadow-md: 0 4px 12px rgba(0,0,0,0.06);
-  --shadow-lg: 0 0.5rem 0.5rem -0.5rem hsl(200 50% 20% / 20%);
+  /* Shadow — 2層(接地影 + 環境影)。単層の薄い影は面が浮かず平板に見える */
+  --shadow-sm: 0 1px 2px rgba(17,17,17,0.05), 0 4px 14px rgba(17,17,17,0.06);
+  --shadow-md: 0 2px 4px rgba(17,17,17,0.06), 0 10px 32px rgba(17,17,17,0.10);
+  --shadow-lg: 0 2px 6px rgba(17,17,17,0.07), 0 18px 48px rgba(17,17,17,0.14);
+
+  /* Motion — 全サイトでこの2つ以外のイージングを使わない */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-soft: cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 
 * { box-sizing: border-box; }
@@ -73,7 +77,7 @@ html, body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
-  font-size: 14px;
+  font-size: 15px;
   line-height: 1.8;
   letter-spacing: 0.02em;
   transition: background-color 200ms ease, color 200ms ease;
@@ -155,7 +159,11 @@ img { max-width: 100%; display: block; }
   margin: 0;
   color: var(--text);
   line-height: 1.3;
+  text-wrap: balance;
 }
+
+/* 見出し内の「語の途中で折り返したくない一続き」に付ける (例: ありません。/ 範囲。) */
+.nw { white-space: nowrap; }
 .section-sub {
   font-family: var(--font-wordmark);
   font-size: 13px;
@@ -839,16 +847,16 @@ picture { display: contents; }
 /* ================= fadein animations =================== */
 .fadein {
   opacity: 0;
-  transform: translateY(36px);
-  transition: opacity 1200ms cubic-bezier(0.2, 0.7, 0.2, 1), transform 1200ms cubic-bezier(0.2, 0.7, 0.2, 1);
+  transform: translateY(24px);
+  transition: opacity 700ms var(--ease-out), transform 700ms var(--ease-out);
 }
 .fadein.is-in {
   opacity: 1;
   transform: translateY(0);
 }
-.fadein-l { opacity: 0; transform: translateX(-40px); transition: opacity 1200ms ease, transform 1200ms ease; }
+.fadein-l { opacity: 0; transform: translateX(-32px); transition: opacity 700ms var(--ease-out), transform 700ms var(--ease-out); }
 .fadein-l.is-in { opacity: 1; transform: translateX(0); }
-.fadein-r { opacity: 0; transform: translateX(40px); transition: opacity 1200ms ease, transform 1200ms ease; }
+.fadein-r { opacity: 0; transform: translateX(32px); transition: opacity 700ms var(--ease-out), transform 700ms var(--ease-out); }
 .fadein-r.is-in { opacity: 1; transform: translateX(0); }
 
 /* ================= Hero =================== */
@@ -4138,4 +4146,20 @@ picture { display: contents; }
   .stats-ribbon-cell .num, .bento-num, .medaru .num { word-break: keep-all; }
   /* contact modal full-bleed-ish */
   .modal { padding: 20px 14px; }
+}
+
+/* ================= Reduced motion =================== */
+/* OS 側で「視差効果を減らす」を選んだ利用者には、装飾モーションを全て止める。
+   fadein 系は即座に表示状態へ倒す (JS が is-in を付ける前でも見えるように)。 */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .fadein, .fadein-l, .fadein-r {
+    opacity: 1 !important;
+    transform: none !important;
+  }
 }
