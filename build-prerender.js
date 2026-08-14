@@ -226,7 +226,11 @@ async function main() {
   }
 
   const { server, port } = await startServer(shellHtml);
-  const browser = await chromium.launch();
+  // CHROMIUM_PATH: ピン留めされた Playwright のブラウザが無い環境 (CI / リモート
+  // セッション等) で、既存の Chromium 実行体を指定して再ダウンロードを避ける
+  const browser = await chromium.launch(
+    process.env.CHROMIUM_PATH ? { executablePath: process.env.CHROMIUM_PATH } : {}
+  );
   const page = await browser.newPage({ viewport: { width: 1280, height: 1600 } });
 
   let ok = 0;
