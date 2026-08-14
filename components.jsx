@@ -1276,6 +1276,65 @@ function useCardSpotlight() {
     };
   }, []);
 }
+// -------------------- Particle network background (Canvas 2D) --------------------
+// ダークセクション用。画面外では描画を完全停止し、reduced-motion では描かない。
+function ParticleNet({ density = 55, link = 110 }) {
+  const ref = React.useRef(null);
+  React.useEffect(() => {
+    const canvas = ref.current;
+    if (!canvas) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const ctx = canvas.getContext('2d');
+    let pts = [], W = 0, H = 0, running = false, raf = 0;
+    const resize = () => {
+      const r = canvas.parentElement.getBoundingClientRect();
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      W = r.width; H = r.height;
+      canvas.width = W * dpr; canvas.height = H * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    };
+    const seed = () => {
+      pts = Array.from({ length: density }, () => ({
+        x: Math.random() * W, y: Math.random() * H,
+        vx: (Math.random() - 0.5) * 0.35, vy: (Math.random() - 0.5) * 0.35,
+      }));
+    };
+    const tick = () => {
+      if (!running) return;
+      ctx.clearRect(0, 0, W, H);
+      for (let i = 0; i < pts.length; i++) {
+        const a = pts[i];
+        a.x += a.vx; a.y += a.vy;
+        if (a.x < 0 || a.x > W) a.vx *= -1;
+        if (a.y < 0 || a.y > H) a.vy *= -1;
+        for (let j = i + 1; j < pts.length; j++) {
+          const b = pts[j];
+          const dx = a.x - b.x, dy = a.y - b.y, d = dx * dx + dy * dy;
+          if (d < link * link) {
+            ctx.strokeStyle = `rgba(230,0,18,${0.16 * (1 - d / (link * link))})`;
+            ctx.lineWidth = 1;
+            ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
+          }
+        }
+        ctx.fillStyle = 'rgba(255,255,255,0.32)';
+        ctx.beginPath(); ctx.arc(a.x, a.y, 1.4, 0, 6.283); ctx.fill();
+      }
+      raf = requestAnimationFrame(tick);
+    };
+    resize(); seed();
+    const onResize = () => { resize(); seed(); };
+    window.addEventListener('resize', onResize, { passive: true });
+    const obs = new IntersectionObserver((entries) => {
+      const vis = entries[0].isIntersecting;
+      if (vis && !running) { running = true; tick(); }
+      if (!vis && running) { running = false; cancelAnimationFrame(raf); }
+    }, { threshold: 0.05 });
+    obs.observe(canvas);
+    return () => { obs.disconnect(); window.removeEventListener('resize', onResize); cancelAnimationFrame(raf); };
+  }, [density, link]);
+  return <canvas ref={ref} className="particle-net" aria-hidden="true"/>;
+}
+
 // -------------------- Magnetic CTA (pointer-follow, fine pointers only) --------------------
 function useMagnetic() {
   React.useEffect(() => {
@@ -1318,6 +1377,7 @@ Object.assign(window, {
   useCardSpotlight,
   useFadeIn,
   useMagnetic,
+  ParticleNet,
   NAV_MEGA, PREFECTURES,
   CATEGORY_OPTIONS, INQ_TYPE_OPTIONS, REASON_OPTIONS, SOURCE_OPTIONS,
 });

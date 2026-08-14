@@ -195,7 +195,8 @@ function TopPage({ onNavigate, onContact }) {
       </section>
 
       {/* =========== BENTO: Inside Nortiq Labs =========== */}
-      <section className="section-pad bg-dots" style={{ position: 'relative' }}>
+      <section className="section-pad inside-dark" style={{ position: 'relative' }}>
+        <ParticleNet/>
         <span className="section-no">SECTION / 04 — INSIDE</span>
         <div className="container">
           <div className="section-head">
