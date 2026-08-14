@@ -288,7 +288,20 @@ img { max-width: 100%; display: block; }
   background: var(--accent);
   color: var(--accent-ink);
   border-color: var(--accent);
+  position: relative;
+  overflow: hidden;
 }
+/* hover 時に光沢が一度だけ走る */
+.btn-primary::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(105deg, transparent 42%, rgba(255,255,255,0.35) 50%, transparent 58%);
+  transform: translateX(-130%);
+  transition: transform 600ms ease;
+  pointer-events: none;
+}
+.btn-primary:hover::after { transform: translateX(130%); }
 .btn-primary:hover {
   background: var(--accent-soft);
   color: var(--accent);
@@ -865,29 +878,35 @@ picture { display: contents; }
   min-height: 640px;
   height: clamp(640px, 76vh, 820px);
   overflow: hidden;
-  background: var(--bg);
+  background:
+    radial-gradient(120% 90% at 85% 8%, var(--accent-soft-2) 0%, transparent 55%),
+    var(--bg);
   border-bottom: 4px solid var(--accent);
 }
+/* 実績スクリーンショットの「作品の壁」。perspective で奥へ倒し込み、
+   下端は veil (.main-wrap::after) で紙面へ溶かす。 */
 .main-bg {
   position: absolute;
-  inset: 0;
+  inset: -16% -10%;
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 24px;
-  padding: 24px;
-  opacity: 0.32;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  padding: 0;
+  opacity: 0.3;
+  transform: perspective(1100px) rotateX(22deg) rotateZ(-8deg);
+  transform-origin: 50% 32%;
   pointer-events: none;
 }
-/* JSX still emits 4 columns — only the first 2 are shown so each image gets
-   ~50vw of width and the landscape aspect ratio is preserved. */
-.main-bg .main-col:nth-child(n+3) { display: none; }
-.main-bg::after {
+/* コピーの背後に白のプールを敷き、下端は紙面へ溶かす */
+.main-wrap::after {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(90deg, var(--bg) 0%, transparent 18%, transparent 82%, var(--bg) 100%),
-              linear-gradient(180deg, var(--bg) 0%, transparent 12%, transparent 88%, var(--bg) 100%);
+  background: radial-gradient(640px 430px at 50% 44%, rgba(255,255,255,0.85) 0%, rgba(255,255,255,0.55) 45%, transparent 74%),
+              linear-gradient(90deg, var(--bg) 0%, transparent 16%, transparent 84%, var(--bg) 100%),
+              linear-gradient(180deg, rgba(255,255,255,0.3) 0%, transparent 28%, transparent 52%, var(--bg) 94%);
   pointer-events: none;
+  z-index: 1;
 }
 .main-col {
   position: relative;
@@ -905,7 +924,8 @@ picture { display: contents; }
   flex-shrink: 0;
   overflow: hidden;
   background: var(--bg-2);
-  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+  border: 1px solid var(--border);
+  box-shadow: 0 18px 40px rgba(17,17,17,0.14);
 }
 .main-col-img img {
   width: 100%;
@@ -974,6 +994,17 @@ picture { display: contents; }
   display: inline-block;
 }
 
+/* 見出しの行単位リビール (下から持ち上がる)。reduced-motion では即時表示 */
+.reveal-line { display: block; overflow: hidden; }
+.reveal-line > span {
+  display: inline-block;
+  transform: translateY(112%);
+  animation: line-up 0.9s var(--ease-out) forwards;
+}
+.reveal-line:nth-child(2) > span { animation-delay: 0.12s; }
+.reveal-line:nth-child(3) > span { animation-delay: 0.24s; }
+@keyframes line-up { to { transform: translateY(0); } }
+
 /* Hero wordmark (oversized stroke-only NORTIQ behind hero copy) */
 .main-wordmark-bg {
   position: absolute;
@@ -1028,10 +1059,12 @@ picture { display: contents; }
   max-width: 700px;
 }
 .medaru {
-  background: #fff;
-  border: 3px solid var(--accent);
-  border-radius: 999px;
-  padding: 20px 24px;
+  background: rgba(255,255,255,0.86);
+  backdrop-filter: blur(6px);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px 26px 14px;
+  box-shadow: var(--shadow-sm);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1042,9 +1075,12 @@ picture { display: contents; }
 .medaru::before {
   content: "";
   position: absolute;
-  inset: 4px;
-  border-radius: 999px;
-  border: 1px solid var(--accent-soft-3);
+  left: 0;
+  top: 14px;
+  bottom: 14px;
+  width: 3px;
+  border-radius: 0 2px 2px 0;
+  background: var(--accent);
   pointer-events: none;
 }
 .medaru .num {

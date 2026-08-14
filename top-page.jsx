@@ -23,6 +23,7 @@ function altFor(src) {
 function TopPage({ onNavigate, onContact }) {
   useFadeIn();
   useCardSpotlight();
+  useMagnetic();
   return (
     <main className="page-fade">
 
@@ -43,9 +44,9 @@ function TopPage({ onNavigate, onContact }) {
         <div className="main-inner">
           <div className="main-eyebrow fadein">NORTIQ LABS · KYOTO</div>
 
-          <h1 className="main-title fadein" data-delay="100">
-            日本のDX、<br/>
-            <span className="accent">世界水準で</span>巻き返す。
+          <h1 className="main-title">
+            <span className="reveal-line"><span>日本のDX、</span></span>
+            <span className="reveal-line"><span><span className="accent">世界水準で</span>巻き返す。</span></span>
           </h1>
 
           <ul className="main-box fadein" data-delay="200">
@@ -68,7 +69,7 @@ function TopPage({ onNavigate, onContact }) {
           </ul>
 
           <div className="main-cta-row fadein" data-delay="400">
-            <span className="btn-pulse" style={{ display: 'inline-block' }}>
+            <span className="btn-pulse btn-magnet" style={{ display: 'inline-block' }}>
               <Button variant="primary" size="lg" onClick={onContact} arrow>資料請求はこちら</Button>
             </span>
             <Button variant="ghost" size="lg" onClick={() => onNavigate('diagnostic')}><Icon name="search" size={14}/>ホームページ無料診断</Button>

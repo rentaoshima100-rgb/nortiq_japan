@@ -1256,6 +1256,31 @@ function useCardSpotlight() {
     return () => document.removeEventListener('mousemove', onMove);
   }, []);
 }
+// -------------------- Magnetic CTA (pointer-follow, fine pointers only) --------------------
+function useMagnetic() {
+  React.useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (!window.matchMedia('(pointer: fine)').matches) return;
+    const RADIUS = 90;
+    const onMove = (e) => {
+      document.querySelectorAll('.btn-magnet').forEach((el) => {
+        const r = el.getBoundingClientRect();
+        const dx = e.clientX - (r.left + r.width / 2);
+        const dy = e.clientY - (r.top + r.height / 2);
+        if (Math.hypot(dx, dy) < RADIUS + Math.max(r.width, r.height) / 2) {
+          el.style.transform = `translate(${dx * 0.18}px, ${dy * 0.18}px)`;
+          el.style.transition = 'transform 80ms linear';
+        } else if (el.style.transform) {
+          el.style.transform = '';
+          el.style.transition = 'transform 320ms cubic-bezier(0.22, 1, 0.36, 1)';
+        }
+      });
+    };
+    document.addEventListener('pointermove', onMove, { passive: true });
+    return () => document.removeEventListener('pointermove', onMove);
+  }, []);
+}
+
 function HashTag({ children, color = 'blue', big = false, onClick }) {
   return (
     <a className={`kw-pill c-${color}${big ? ' big' : ''}`} onClick={onClick}>
@@ -1272,6 +1297,7 @@ Object.assign(window, {
   ScrollProgress, Counter, StickyCTA, MixMarquee, TagCloud,
   useCardSpotlight,
   useFadeIn,
+  useMagnetic,
   NAV_MEGA, PREFECTURES,
   CATEGORY_OPTIONS, INQ_TYPE_OPTIONS, REASON_OPTIONS, SOURCE_OPTIONS,
 });
