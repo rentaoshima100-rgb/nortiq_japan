@@ -2181,6 +2181,15 @@ picture { display: contents; }
 }
 .card > *, .case-card > *, .pickup-card > *, .feature-trio-card > *, .support-card > * { position: relative; z-index: 1; }
 
+/* 3Dチルト対象 (useCardSpotlight が inline transform を書く)。
+   transform は短く、影は長めに追従させると「持ち上がってから落ち着く」質感になる */
+.case-card, .reason-card, .promo-card, .pickup-card {
+  transition: transform 160ms ease-out, box-shadow 320ms var(--ease-out), border-color 180ms ease, background 180ms ease;
+}
+.case-card:hover, .reason-card:hover, .promo-card:hover, .pickup-card:hover {
+  box-shadow: var(--shadow-lg);
+}
+
 /* ================= Diagonal divider =================== */
 .slant-top {
   position: relative;

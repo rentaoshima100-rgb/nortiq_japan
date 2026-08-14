@@ -1245,15 +1245,35 @@ function TagCloud({ tags, onTagClick }) {
 function useCardSpotlight() {
   React.useEffect(() => {
     const sel = '.card, .case-card, .pickup-card, .feature-trio-card, .support-card, .promo-card';
+    // 主要カードだけポインタ追従の3Dチルト。全カードに掛けると品位が落ちる
+    const tiltSel = '.case-card, .reason-card, .promo-card, .pickup-card';
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const fine = window.matchMedia('(pointer: fine)').matches;
     const onMove = (e) => {
-      const el = e.target.closest(sel);
+      const el = e.target.closest(`${sel}, .reason-card`);
       if (!el) return;
       const r = el.getBoundingClientRect();
-      el.style.setProperty('--mx', `${e.clientX - r.left}px`);
-      el.style.setProperty('--my', `${e.clientY - r.top}px`);
+      const x = e.clientX - r.left;
+      const y = e.clientY - r.top;
+      el.style.setProperty('--mx', `${x}px`);
+      el.style.setProperty('--my', `${y}px`);
+      if (!reduced && fine && el.matches(tiltSel)) {
+        const px = x / r.width - 0.5;
+        const py = y / r.height - 0.5;
+        el.style.transform =
+          `perspective(760px) rotateX(${(-py * 6).toFixed(2)}deg) rotateY(${(px * 8).toFixed(2)}deg) translateY(-4px)`;
+      }
+    };
+    const onOut = (e) => {
+      const el = e.target.closest(tiltSel);
+      if (el && !(e.relatedTarget && el.contains(e.relatedTarget))) el.style.transform = '';
     };
     document.addEventListener('mousemove', onMove, { passive: true });
-    return () => document.removeEventListener('mousemove', onMove);
+    document.addEventListener('mouseout', onOut, { passive: true });
+    return () => {
+      document.removeEventListener('mousemove', onMove);
+      document.removeEventListener('mouseout', onOut);
+    };
   }, []);
 }
 // -------------------- Magnetic CTA (pointer-follow, fine pointers only) --------------------
