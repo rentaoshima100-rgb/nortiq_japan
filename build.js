@@ -41,6 +41,7 @@ const ORG_SAME_AS = [
 // desc → meta description / og:description / BlogPosting.description に使う。
 //        未指定の記事は app.jsx の SEO_DESC か自動生成の定型文にフォールバックする
 const BLOG = [
+  { slug: 'in-house-system-cloud-migration-cost-guide', category: '技術', date: '2026.08.14', read: '12 min', title: '社内システムクラウド移行の失敗を防ぐ、発注ステップガイド', img: 'assets/blog-default.png', desc: '社内システムの外注開発とクラウド移行を同時検討する場合の費用感、判断基準、失敗しない発注ステップをわかりやすく解説。オンプレミス継続との比較も。', supervised: true },
   { slug: 'homepage-renewal-failure-causes-sme', category: 'Web制作', date: '2026.08.10', read: '10 min', title: 'ホームページリニューアル失敗の原因と対策｜中小企業向け事前チェック表', img: 'assets/blog-default.png', desc: '中小企業がホームページリニューアルで失敗する原因を、アクセス減・問い合わせ低下・費用超過など実例から解説。発注前チェックと対処法も紹介します。', supervised: true },
   { slug: 'llm-guardrail-evaluation-metrics', category: 'AI活用', date: '2026.08.10', read: '12 min', title: 'LLMガードレール評価の精度測定｜4つの指標と実装手順', img: 'assets/blog-default.png', desc: '自社LLMガードレールの有害出力検出精度を定量評価する方法を解説。精度・再現率・F1スコアなど4つの指標と測定手順、公的基準の活用法を実装ガイド付きで紹介します。', supervised: true },
   { slug: 'ios17-nfc-felica-system-code-limit', category: '技術', date: '2026.08.09', read: '11 min', title: 'iOS 17 FeliCa検出失敗の対策：システムコード上限値を把握する', img: 'assets/blog-default.png', desc: 'iOS 17でNFC FeliCaの読取が不安定になる原因は Info.plist へのシステムコード登録上限にあります。上限値の具体的な数値と超過時の挙動、安定読取のための実装修正方法を解説します。', supervised: true },
