@@ -611,7 +611,7 @@ function ColumnPage({ onNavigate, onContact }) {
           <div className="grid-3" style={{ gap: 32 }}>
             {shown.map((a) => (
               <a key={a.slug} className="article-card" style={{ cursor: 'pointer' }} {...navProps('article-' + a.slug, onNavigate)}>
-                <Placeholder label={a.img ? "" : a.category} caption={a.img ? "" : a.slug} aspect="16/10" src={a.img} alt={a.title} fit/>
+                <ArticleCover article={a}/>
                 <div className="article-meta">
                   <span style={{ color: 'var(--accent)' }}>{a.category}</span>
                   <span className="article-meta-sep">·</span>

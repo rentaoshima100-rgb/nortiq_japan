@@ -699,9 +699,13 @@ function ArticleDetailPage({ onNavigate, onContact, slug }) {
           </div>
         </header>
 
-        {article.img && (
+        {article.img && !/blog-default\.png$/.test(String(article.img)) ? (
           <div className="container" style={{ maxWidth: 880, marginBottom: 8 }}>
             <Picture src={article.img} alt={article.title} className="article-hero-img"/>
+          </div>
+        ) : (
+          <div className="container" style={{ maxWidth: 880, marginBottom: 8 }}>
+            <ArticleCover article={article} aspect="21/9"/>
           </div>
         )}
 
@@ -722,7 +726,7 @@ function ArticleDetailPage({ onNavigate, onContact, slug }) {
               <div className="grid-3">
                 {related.map((a) => (
                   <a key={a.slug} className="article-card fadein" style={{ cursor: 'pointer' }} {...navProps('article-' + a.slug, onNavigate)}>
-                    <Placeholder label={a.img ? "" : a.category} caption={a.img ? "" : a.slug} aspect="16/10" src={a.img} alt={a.title} fit/>
+                    <ArticleCover article={a}/>
                     <div className="article-meta">
                       <span style={{ color: 'var(--accent)' }}>{a.category}</span>
                       <span className="article-meta-sep">·</span>

@@ -2190,6 +2190,62 @@ picture { display: contents; }
   box-shadow: var(--shadow-lg);
 }
 
+/* ================= Article cover (designed default thumbnail) =================== */
+.article-cover {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 6px;
+  padding: 18px 20px 16px;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.06);
+  background:
+    radial-gradient(130% 130% at 88% -12%, var(--cov-a) 0%, transparent 52%),
+    linear-gradient(150deg, #191920 0%, #101014 100%);
+}
+/* 薄いグリッド (テック質感) */
+.article-cover::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+.article-cover > * { position: relative; }
+.article-cover-cat {
+  font-size: 10.5px;
+  letter-spacing: 0.14em;
+  font-weight: 700;
+  color: var(--cov-t);
+}
+.article-cover-title {
+  color: #fff;
+  font-weight: 700;
+  font-size: 15px;
+  line-height: 1.55;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.article-cover-brand {
+  font-family: var(--font-wordmark);
+  font-size: 9px;
+  letter-spacing: 0.22em;
+  color: rgba(255,255,255,0.38);
+  margin-top: 4px;
+}
+.article-cover.tone-red    { --cov-a: rgba(230,0,18,0.5);   --cov-t: #FF6B75; }
+.article-cover.tone-blue   { --cov-a: rgba(39,153,251,0.45); --cov-t: #6FBCFF; }
+.article-cover.tone-green  { --cov-a: rgba(31,138,91,0.5);  --cov-t: #55C695; }
+.article-cover.tone-gold   { --cov-a: rgba(201,154,46,0.5); --cov-t: #E5BE62; }
+.article-cover.tone-orange { --cov-a: rgba(229,138,42,0.5); --cov-t: #F0A85C; }
+.article-cover.tone-ink    { --cov-a: rgba(138,138,146,0.45); --cov-t: #B9B9C2; }
+
 /* ================= Inside dark section =================== */
 /* 白が続く紙面に「墨」の面を1枚入れて明暗のリズムを作る。背景は ParticleNet (Canvas) */
 .inside-dark { background: #101014; }

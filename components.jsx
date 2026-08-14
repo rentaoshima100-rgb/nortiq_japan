@@ -1276,6 +1276,34 @@ function useCardSpotlight() {
     };
   }, []);
 }
+// -------------------- Article cover (designed fallback for blog-default.png) --------------------
+// 既定サムネイル (真っ白な blog-default.png) は「画像切れ」に見えるため、
+// カテゴリ色×タイトル組版のカバーを HTML/CSS で描画する。実画像の記事はそのまま表示。
+const ARTICLE_COVER_TONES = {
+  'Web制作': 'red',
+  'AI活用': 'blue',
+  '技術': 'ink',
+  'SEO': 'green',
+  'DX 観察記': 'gold',
+  'DX観察記': 'gold',
+  'マーケティング': 'orange',
+};
+function ArticleCover({ article, aspect = '16/10' }) {
+  const isDefault = !article.img || /blog-default\.png$/.test(String(article.img));
+  if (!isDefault) {
+    return <Placeholder label="" caption="" aspect={aspect} src={article.img} alt={article.title} fit/>;
+  }
+  const tone = ARTICLE_COVER_TONES[article.category] || 'ink';
+  const shortTitle = String(article.title).split(/[｜|：]/)[0];
+  return (
+    <div className={`article-cover tone-${tone}`} style={{ aspectRatio: aspect.replace('/', ' / ') }} role="img" aria-label={article.title}>
+      <span className="article-cover-cat">{article.category}</span>
+      <span className="article-cover-title">{shortTitle}</span>
+      <span className="article-cover-brand">NORTIQ LABS · COLUMN</span>
+    </div>
+  );
+}
+
 // -------------------- Particle network background (Canvas 2D) --------------------
 // ダークセクション用。画面外では描画を完全停止し、reduced-motion では描かない。
 function ParticleNet({ density = 55, link = 110 }) {
@@ -1378,6 +1406,7 @@ Object.assign(window, {
   useFadeIn,
   useMagnetic,
   ParticleNet,
+  ArticleCover,
   NAV_MEGA, PREFECTURES,
   CATEGORY_OPTIONS, INQ_TYPE_OPTIONS, REASON_OPTIONS, SOURCE_OPTIONS,
 });

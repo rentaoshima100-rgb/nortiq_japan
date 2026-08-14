@@ -472,7 +472,7 @@ function TopPage({ onNavigate, onContact }) {
               <div className="grid-3" style={{ gap: 32 }}>
                 {arts.map((a) => (
                   <a key={a.slug} className="article-card" style={{ cursor: 'pointer' }} {...navProps('article-' + a.slug, onNavigate)}>
-                    <Placeholder label="" caption="" aspect="16/10" src={a.img} alt={a.title} fit/>
+                    <ArticleCover article={a}/>
                     <div className="article-meta">
                       <span style={{ color: 'var(--accent)' }}>{a.category}</span>
                       <span className="article-meta-sep">·</span>
