@@ -20,3 +20,6 @@ Thumbs.db
 # Env / local config
 .env
 .env.local
+
+# Review tooling output (screenshots)
+outputs/review-shots/

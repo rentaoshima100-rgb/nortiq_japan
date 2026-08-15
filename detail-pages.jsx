@@ -651,6 +651,7 @@ function FeatureCMSPage({ onNavigate, onContact }) {
         </div>
       </section>
 
+      <ExtraContent blocks={FEATURE_CONTENT['feature-cms']} onNavigate={onNavigate}/>
       <RedCTAStrip onContact={onContact} onNavigate={onNavigate}/>
     </main>
   );
@@ -705,6 +706,7 @@ function FeatureLPOPage({ onNavigate, onContact }) {
         </div>
       </section>
 
+      <ExtraContent blocks={FEATURE_CONTENT['feature-lpo']} onNavigate={onNavigate}/>
       <RedCTAStrip onContact={onContact} onNavigate={onNavigate}/>
     </main>
   );
@@ -746,6 +748,7 @@ function FeatureRecruitPage({ onNavigate, onContact }) {
         </div>
       </section>
 
+      <ExtraContent blocks={FEATURE_CONTENT['feature-recruit']} onNavigate={onNavigate}/>
       <RedCTAStrip onContact={onContact} onNavigate={onNavigate}/>
     </main>
   );
@@ -801,6 +804,7 @@ function FeatureAnalyticsPage({ onNavigate, onContact }) {
         </div>
       </section>
 
+      <ExtraContent blocks={FEATURE_CONTENT['feature-analytics']} onNavigate={onNavigate}/>
       <RedCTAStrip onContact={onContact} onNavigate={onNavigate}/>
     </main>
   );
@@ -896,6 +900,12 @@ function WorksVariantPage({ pageId, onNavigate, onContact }) {
           </div>
         </div>
       </section>
+      {pageId === 'works-video'
+        ? <CDCards title={VIDEO_KNOWHOW.title} sub={VIDEO_KNOWHOW.sub} items={VIDEO_KNOWHOW.items}/>
+        : <React.Fragment>
+            <CDCards title={LP_KNOWHOW.structure.title} sub={LP_KNOWHOW.structure.sub} items={LP_KNOWHOW.structure.items}/>
+            <CDCards title={LP_KNOWHOW.cvr.title} sub={LP_KNOWHOW.cvr.sub} items={LP_KNOWHOW.cvr.items}/>
+          </React.Fragment>}
       <RedCTAStrip onContact={onContact} onNavigate={onNavigate}/>
     </main>
   );

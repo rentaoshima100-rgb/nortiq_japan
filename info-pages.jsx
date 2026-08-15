@@ -23,6 +23,7 @@ const WORKS_DATA = [
   { id: 21, tag: "人材", category: "hr", title: "中途採用 LP (AXIA · 挑め、想定の外へ)", stat: "応募 1.6×", services: ["Web制作", "LPO"], img: "assets/lpo-axia-recruit.png" },
   { id: 9, tag: "小売", category: "retail", title: "京都のキッチンカー (panza) ブランドLP", stat: "SNS流入 4.6×", services: ["Web制作"], img: "assets/work-panza.png" },
   { id: 10, tag: "小売", category: "retail", title: "京都の骨董店 (TAKETORA) バイリンガルEC", stat: "海外PV 5.2×", services: ["Web制作", "EC"], img: "assets/work-taketora.png" },
+  { id: 22, tag: "小売", category: "retail", title: "中古フィギュア店の AI 在庫登録システム (TAKETORA)", stat: "AI同定 3層", services: ["iPadアプリ開発", "AI同定", "スマレジ連携"], img: null },
   { id: 11, tag: "小売", category: "retail", title: "ゴルフリゾート (COCOPA) のブランドサイト", stat: "予約 1.9×", services: ["Web制作"], img: "assets/work-cocopa.png" },
   { id: 12, tag: "小売", category: "retail", title: "サブスク EC のリピート率改善 (Quiet Objects · Spring Editorial)", stat: "解約率 -32%", services: ["DX・ML"], img: "assets/hero-01.png" },
   { id: 13, tag: "インフラ", category: "infra", title: "RAKUYU-Z 工法協会 サイト", stat: "信頼度評価 +", services: ["Web制作"], img: "assets/work-rakuyu.png" },
@@ -102,16 +103,17 @@ function WorksPage({ category, onNavigate, onContact }) {
           <div className="grid-3">
             {items.map(w => (
               <a key={w.id} className="card card-link" style={{ padding: 0, overflow: 'hidden', cursor: 'pointer' }}>
-                <Placeholder label={w.tag} caption={`case · #${String(w.id).padStart(3,'0')}`} aspect="16/10" src={w.img} alt={`${w.title}の制作実績`} fit/>
-                <div style={{ padding: '20px 22px 22px' }}>
-                  <div className="row" style={{ justifyContent: 'space-between', marginBottom: 12 }}>
+                <WorkShot work={w}/>
+                <div style={{ padding: '18px 22px 20px' }}>
+                  <div className="row" style={{ justifyContent: 'space-between', marginBottom: 10 }}>
                     <span className="tag">{w.tag}</span>
-                    <span className="small text-mono text-accent">{w.stat}</span>
+                    <span className="stat-pill">{w.stat}</span>
                   </div>
-                  <h3 style={{ fontSize: 16, fontWeight: 500, margin: 0, marginBottom: 12, lineHeight: 1.55 }}>{w.title}</h3>
+                  <h3 style={{ fontSize: 16, fontWeight: 700, margin: 0, marginBottom: 10, lineHeight: 1.6 }}>{w.title}</h3>
                   <div className="row-tight">
                     {w.services.map((s, i) => <span key={i} className="small text-mono" style={{ color: 'var(--text-3)' }}>· {s}</span>)}
                   </div>
+                  <span className="work-cta">実績の詳細を見る<Icon name="arrow-right" size={12}/></span>
                 </div>
               </a>
             ))}
@@ -134,6 +136,8 @@ function WorksPage({ category, onNavigate, onContact }) {
           </div>
         </section>
       )}
+
+      {category && <IndustrySections category={category} onNavigate={onNavigate}/>}
 
       <CTAStrip onContact={onContact} title="自社の業種に近い事例で、まず相談する。" sub="ヒアリングでヒアリング前に共有資料 (PDF) もお送りします。"/>
     </main>
@@ -235,7 +239,7 @@ function SupportPage({ onNavigate, onContact }) {
         <div className="container">
           <SectionHead
             eyebrow="ALL INCLUDED / サポート範囲"
-            title="契約期間中、追加費用なく対応する範囲。"
+            title={<React.Fragment>契約期間中、追加費用なく<span className="nw">対応する範囲。</span></React.Fragment>}
           />
           <div className="grid-3">
             {[
@@ -257,6 +261,8 @@ function SupportPage({ onNavigate, onContact }) {
           </div>
         </div>
       </section>
+
+      <ExtraContent blocks={SUPPORT_CONTENT} onNavigate={onNavigate}/>
 
       <CTAStrip onContact={onContact}/>
     </main>
@@ -322,6 +328,8 @@ function PricingPage({ onNavigate, onContact }) {
         </section>
       ))}
 
+      <ExtraContent blocks={PRICING_EXTRA} onNavigate={onNavigate}/>
+
       <CTAStrip onContact={onContact} title="プランの組み合わせ、ご相談ください。" sub="複数プランを段階導入する形での見積も可能です。補助金の活用も視野に、最適な投資計画をご相談いただけます。"/>
     </main>
   );
@@ -380,6 +388,8 @@ function DiagnosisPage({ onNavigate, onContact }) {
           </div>
         </div>
       </section>
+      <CDCards title={DIAGNOSIS_CONTENT.categories.title} sub={DIAGNOSIS_CONTENT.categories.sub} items={DIAGNOSIS_CONTENT.categories.items}/>
+
       <CTAStrip onContact={() => onContact('diagnosis')} title="3営業日後、レポートが届きます。" sub="フォーム送信から3営業日以内に、診断レポート (PDF) をメールでお送りします。"/>
     </main>
   );
@@ -497,6 +507,8 @@ function SubsidyPage({ onNavigate, onContact }) {
           </p>
         </div>
       </section>
+      <SubsidySections onNavigate={onNavigate} onContact={onContact}/>
+
       <CTAStrip onContact={() => onContact('subsidy')} title="補助金を活用したDX投資について、相談しませんか。" sub="初回相談は無料です。現状をうかがい、補助金活用を含めた進め方をご提案します。"/>
     </main>
   );
@@ -576,6 +588,9 @@ function GuidebookPage({ onNavigate, onContact }) {
           </div>
         </div>
       </section>
+      <CDCards title={GUIDEBOOK_CONTENT.who.title} sub={GUIDEBOOK_CONTENT.who.sub} items={GUIDEBOOK_CONTENT.who.items}/>
+      <CDSteps title={GUIDEBOOK_CONTENT.after.title} sub={GUIDEBOOK_CONTENT.after.sub} items={GUIDEBOOK_CONTENT.after.items}/>
+      <CDFaq title="よくある質問" items={GUIDEBOOK_CONTENT.faqs}/>
       <CTAStrip onContact={onContact}/>
     </main>
   );
@@ -611,7 +626,7 @@ function ColumnPage({ onNavigate, onContact }) {
           <div className="grid-3" style={{ gap: 32 }}>
             {shown.map((a) => (
               <a key={a.slug} className="article-card" style={{ cursor: 'pointer' }} {...navProps('article-' + a.slug, onNavigate)}>
-                <Placeholder label={a.img ? "" : a.category} caption={a.img ? "" : a.slug} aspect="16/10" src={a.img} alt={a.title} fit/>
+                <ArticleCover article={a}/>
                 <div className="article-meta">
                   <span style={{ color: 'var(--accent)' }}>{a.category}</span>
                   <span className="article-meta-sep">·</span>

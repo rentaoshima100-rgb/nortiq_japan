@@ -117,7 +117,7 @@ function NewsPage({ onNavigate, onContact }) {
         eyebrow="NEWS / お知らせ"
         title={<>Nortiq Labs<br/>からのお知らせ。</>}
         lede="プロダクトリリース・プレスリリース・メディア掲載など、Nortiq Labs からの最新情報をお届けします。"
-        badges={["毎週更新", "RSS 配信", "メルマガ購読可"]}
+        badges={["リリース情報", "プレス", "不定期更新"]}
         onContact={onContact}
       />
       <section className="section-pad">
@@ -241,6 +241,8 @@ function RecruitPage({ onNavigate, onContact }) {
           </div>
         </div>
       </section>
+
+      <ExtraContent blocks={RECRUIT_EXTRA} onNavigate={onNavigate}/>
 
       <RedCTAStrip onContact={onContact} onNavigate={onNavigate} title={<>気になるポジションがあれば、<br/>カジュアル面談から。</>}/>
     </main>
@@ -639,6 +641,8 @@ function WorkDetailPage({ onNavigate, onContact }) {
         </div>
       </section>
 
+      <SolutionExtra pageId={pageId} onNavigate={onNavigate}/>
+
       <RedCTAStrip onContact={onContact} onNavigate={onNavigate} title={<>同業種で、似た課題を解決しませんか。</>}/>
     </main>
   );
@@ -699,9 +703,13 @@ function ArticleDetailPage({ onNavigate, onContact, slug }) {
           </div>
         </header>
 
-        {article.img && (
+        {article.img && !/blog-default\.png$/.test(String(article.img)) ? (
           <div className="container" style={{ maxWidth: 880, marginBottom: 8 }}>
             <Picture src={article.img} alt={article.title} className="article-hero-img"/>
+          </div>
+        ) : (
+          <div className="container" style={{ maxWidth: 880, marginBottom: 8 }}>
+            <ArticleCover article={article} aspect="21/9"/>
           </div>
         )}
 
@@ -722,7 +730,7 @@ function ArticleDetailPage({ onNavigate, onContact, slug }) {
               <div className="grid-3">
                 {related.map((a) => (
                   <a key={a.slug} className="article-card fadein" style={{ cursor: 'pointer' }} {...navProps('article-' + a.slug, onNavigate)}>
-                    <Placeholder label={a.img ? "" : a.category} caption={a.img ? "" : a.slug} aspect="16/10" src={a.img} alt={a.title} fit/>
+                    <ArticleCover article={a}/>
                     <div className="article-meta">
                       <span style={{ color: 'var(--accent)' }}>{a.category}</span>
                       <span className="article-meta-sep">·</span>
@@ -984,7 +992,7 @@ function DiagnosticLPPage({ onNavigate, onContact }) {
         <div className="diag-wrap">
           <div className="diag-hero-inner">
             <span className="diag-badge">完全無料・登録不要</span>
-            <h1 className="diag-h1">URLを入れるだけで、<br/>サイトの<span className="hl">「本当の課題」</span>が見える。</h1>
+            <h1 className="diag-h1">URLを入れるだけで、<br/>サイトの<span className="hl">「本当の課題」</span><span className="nw">が見える。</span></h1>
             <p className="diag-hero-sub">テクニカルSEO・AI可視性・競合比較まで、NORTIQLAB の専門家が改善提案までお届けします。</p>
             <DiagUrlForm onContact={onContact}/>
             <p className="diag-social"><strong>登録不要</strong> ・ URLを入れるだけ ・ <strong>その場で結果表示</strong></p>

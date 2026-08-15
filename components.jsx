@@ -1245,17 +1245,165 @@ function TagCloud({ tags, onTagClick }) {
 function useCardSpotlight() {
   React.useEffect(() => {
     const sel = '.card, .case-card, .pickup-card, .feature-trio-card, .support-card, .promo-card';
+    // 主要カードだけポインタ追従の3Dチルト。全カードに掛けると品位が落ちる
+    const tiltSel = '.case-card, .reason-card, .promo-card, .pickup-card';
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const fine = window.matchMedia('(pointer: fine)').matches;
     const onMove = (e) => {
-      const el = e.target.closest(sel);
+      const el = e.target.closest(`${sel}, .reason-card`);
       if (!el) return;
       const r = el.getBoundingClientRect();
-      el.style.setProperty('--mx', `${e.clientX - r.left}px`);
-      el.style.setProperty('--my', `${e.clientY - r.top}px`);
+      const x = e.clientX - r.left;
+      const y = e.clientY - r.top;
+      el.style.setProperty('--mx', `${x}px`);
+      el.style.setProperty('--my', `${y}px`);
+      if (!reduced && fine && el.matches(tiltSel)) {
+        const px = x / r.width - 0.5;
+        const py = y / r.height - 0.5;
+        el.style.transform =
+          `perspective(760px) rotateX(${(-py * 6).toFixed(2)}deg) rotateY(${(px * 8).toFixed(2)}deg) translateY(-4px)`;
+      }
+    };
+    const onOut = (e) => {
+      const el = e.target.closest(tiltSel);
+      if (el && !(e.relatedTarget && el.contains(e.relatedTarget))) el.style.transform = '';
     };
     document.addEventListener('mousemove', onMove, { passive: true });
-    return () => document.removeEventListener('mousemove', onMove);
+    document.addEventListener('mouseout', onOut, { passive: true });
+    return () => {
+      document.removeEventListener('mousemove', onMove);
+      document.removeEventListener('mouseout', onOut);
+    };
   }, []);
 }
+// -------------------- Article cover (designed fallback for blog-default.png) --------------------
+// 既定サムネイル (真っ白な blog-default.png) は「画像切れ」に見えるため、
+// カテゴリ色×タイトル組版のカバーを HTML/CSS で描画する。実画像の記事はそのまま表示。
+const ARTICLE_COVER_TONES = {
+  'Web制作': 'red',
+  'AI活用': 'blue',
+  '技術': 'ink',
+  'SEO': 'green',
+  'DX 観察記': 'gold',
+  'DX観察記': 'gold',
+  'マーケティング': 'orange',
+  'DX・アプリ': 'red',
+  '自社プロダクト': 'blue',
+  '研究開発': 'ink',
+};
+function ArticleCover({ article, aspect = '16/10', brand = 'NORTIQ LABS · COLUMN' }) {
+  const isDefault = !article.img || /blog-default\.png$/.test(String(article.img));
+  if (!isDefault) {
+    return <Placeholder label="" caption="" aspect={aspect} src={article.img} alt={article.title} fit/>;
+  }
+  const tone = ARTICLE_COVER_TONES[article.category] || 'ink';
+  const shortTitle = String(article.title).split(/[｜|：]/)[0];
+  return (
+    <div className={`article-cover tone-${tone}`} style={{ aspectRatio: aspect.replace('/', ' / ') }} role="img" aria-label={article.title}>
+      <span className="article-cover-cat">{article.category}</span>
+      <span className="article-cover-title">{shortTitle}</span>
+      <span className="article-cover-brand">{brand}</span>
+    </div>
+  );
+}
+
+// -------------------- Work shot (browser-framed screenshot / designed cover) --------------------
+// 実績カードの画像部。スクショはブラウザ額装 (.shot-frame)、スクショの無い
+// アプリ・システム案件は ArticleCover と同系のデザイン済みカバーで描画する。
+function WorkShot({ work }) {
+  return (
+    <div className="shot-frame">
+      {work.img
+        ? <Placeholder label="" caption="" aspect="16/10" src={work.img} alt={`${work.title}の制作実績`} fit/>
+        : <ArticleCover article={{ img: null, category: work.tag, title: work.title }} aspect="16/10" brand="NORTIQ LABS · WORKS"/>}
+    </div>
+  );
+}
+
+// -------------------- Particle network background (Canvas 2D) --------------------
+// ダークセクション用。画面外では描画を完全停止し、reduced-motion では描かない。
+function ParticleNet({ density = 55, link = 110 }) {
+  const ref = React.useRef(null);
+  React.useEffect(() => {
+    const canvas = ref.current;
+    if (!canvas) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const ctx = canvas.getContext('2d');
+    let pts = [], W = 0, H = 0, running = false, raf = 0;
+    const resize = () => {
+      const r = canvas.parentElement.getBoundingClientRect();
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      W = r.width; H = r.height;
+      canvas.width = W * dpr; canvas.height = H * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    };
+    const seed = () => {
+      pts = Array.from({ length: density }, () => ({
+        x: Math.random() * W, y: Math.random() * H,
+        vx: (Math.random() - 0.5) * 0.35, vy: (Math.random() - 0.5) * 0.35,
+      }));
+    };
+    const tick = () => {
+      if (!running) return;
+      ctx.clearRect(0, 0, W, H);
+      for (let i = 0; i < pts.length; i++) {
+        const a = pts[i];
+        a.x += a.vx; a.y += a.vy;
+        if (a.x < 0 || a.x > W) a.vx *= -1;
+        if (a.y < 0 || a.y > H) a.vy *= -1;
+        for (let j = i + 1; j < pts.length; j++) {
+          const b = pts[j];
+          const dx = a.x - b.x, dy = a.y - b.y, d = dx * dx + dy * dy;
+          if (d < link * link) {
+            ctx.strokeStyle = `rgba(230,0,18,${0.16 * (1 - d / (link * link))})`;
+            ctx.lineWidth = 1;
+            ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
+          }
+        }
+        ctx.fillStyle = 'rgba(255,255,255,0.32)';
+        ctx.beginPath(); ctx.arc(a.x, a.y, 1.4, 0, 6.283); ctx.fill();
+      }
+      raf = requestAnimationFrame(tick);
+    };
+    resize(); seed();
+    const onResize = () => { resize(); seed(); };
+    window.addEventListener('resize', onResize, { passive: true });
+    const obs = new IntersectionObserver((entries) => {
+      const vis = entries[0].isIntersecting;
+      if (vis && !running) { running = true; tick(); }
+      if (!vis && running) { running = false; cancelAnimationFrame(raf); }
+    }, { threshold: 0.05 });
+    obs.observe(canvas);
+    return () => { obs.disconnect(); window.removeEventListener('resize', onResize); cancelAnimationFrame(raf); };
+  }, [density, link]);
+  return <canvas ref={ref} className="particle-net" aria-hidden="true"/>;
+}
+
+// -------------------- Magnetic CTA (pointer-follow, fine pointers only) --------------------
+function useMagnetic() {
+  React.useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (!window.matchMedia('(pointer: fine)').matches) return;
+    const RADIUS = 90;
+    const onMove = (e) => {
+      document.querySelectorAll('.btn-magnet').forEach((el) => {
+        const r = el.getBoundingClientRect();
+        const dx = e.clientX - (r.left + r.width / 2);
+        const dy = e.clientY - (r.top + r.height / 2);
+        if (Math.hypot(dx, dy) < RADIUS + Math.max(r.width, r.height) / 2) {
+          el.style.transform = `translate(${dx * 0.18}px, ${dy * 0.18}px)`;
+          el.style.transition = 'transform 80ms linear';
+        } else if (el.style.transform) {
+          el.style.transform = '';
+          el.style.transition = 'transform 320ms cubic-bezier(0.22, 1, 0.36, 1)';
+        }
+      });
+    };
+    document.addEventListener('pointermove', onMove, { passive: true });
+    return () => document.removeEventListener('pointermove', onMove);
+  }, []);
+}
+
 function HashTag({ children, color = 'blue', big = false, onClick }) {
   return (
     <a className={`kw-pill c-${color}${big ? ' big' : ''}`} onClick={onClick}>
@@ -1272,6 +1420,10 @@ Object.assign(window, {
   ScrollProgress, Counter, StickyCTA, MixMarquee, TagCloud,
   useCardSpotlight,
   useFadeIn,
+  useMagnetic,
+  ParticleNet,
+  ArticleCover,
+  WorkShot,
   NAV_MEGA, PREFECTURES,
   CATEGORY_OPTIONS, INQ_TYPE_OPTIONS, REASON_OPTIONS, SOURCE_OPTIONS,
 });
