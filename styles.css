@@ -4438,8 +4438,15 @@ picture { display: contents; }
   overflow: auto;
   background: #fff;
   position: relative;
+  /* 縮小した iframe の内側スクロールはタッチで動かないので、
+     ステージ側を慣性スクロールさせる */
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
 }
-.showcase-scaler { position: relative; overflow: hidden; }
+.showcase-track { position: relative; }
+/* スクロールしても画面ぶんの窓は上に貼り付いたまま。
+   動かすのは器（track）で、位置は JS が中身に伝える */
+.showcase-scaler { position: sticky; top: 0; overflow: hidden; }
 .showcase-iframe {
   border: 0;
   background: #fff;
