@@ -2190,6 +2190,70 @@ picture { display: contents; }
   box-shadow: var(--shadow-lg);
 }
 
+/* ================= Work card v2 (browser-framed shots) =================== */
+/* 実績スクショを「ブラウザの中」に見せる額装。Web屋の実績であることが一目で伝わる */
+.shot-frame {
+  position: relative;
+  background: #E9E9EE;
+  padding-top: 26px;
+  overflow: hidden;
+  border-bottom: 1px solid var(--border);
+}
+.shot-frame::before {
+  content: "";
+  position: absolute;
+  top: 9px;
+  left: 12px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #D8574A;
+  box-shadow: 13px 0 0 #E3A73F, 26px 0 0 #58A667;
+  z-index: 1;
+}
+.shot-frame::after {
+  content: "";
+  position: absolute;
+  top: 6px;
+  left: 52px;
+  right: 12px;
+  height: 14px;
+  border-radius: 7px;
+  background: #fff;
+  opacity: 0.85;
+  z-index: 1;
+}
+.shot-frame img { transition: transform 700ms var(--ease-out); }
+.card-link:hover .shot-frame img,
+.case-card:hover .shot-frame img { transform: scale(1.045); }
+
+.stat-pill {
+  display: inline-flex;
+  align-items: baseline;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-family: var(--font-latin);
+  font-weight: 700;
+  font-size: 12.5px;
+  font-variant-numeric: tabular-nums;
+  padding: 3px 12px;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+.work-cta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px dashed var(--border);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--accent);
+}
+.card-link .work-cta svg { transition: transform 220ms var(--ease-out); }
+.card-link:hover .work-cta svg { transform: translateX(4px); }
+
 /* ================= Article cover (designed default thumbnail) =================== */
 .article-cover {
   position: relative;

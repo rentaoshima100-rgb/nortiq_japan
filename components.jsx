@@ -1287,8 +1287,11 @@ const ARTICLE_COVER_TONES = {
   'DX 観察記': 'gold',
   'DX観察記': 'gold',
   'マーケティング': 'orange',
+  'DX・アプリ': 'red',
+  '自社プロダクト': 'blue',
+  '研究開発': 'ink',
 };
-function ArticleCover({ article, aspect = '16/10' }) {
+function ArticleCover({ article, aspect = '16/10', brand = 'NORTIQ LABS · COLUMN' }) {
   const isDefault = !article.img || /blog-default\.png$/.test(String(article.img));
   if (!isDefault) {
     return <Placeholder label="" caption="" aspect={aspect} src={article.img} alt={article.title} fit/>;
@@ -1299,7 +1302,20 @@ function ArticleCover({ article, aspect = '16/10' }) {
     <div className={`article-cover tone-${tone}`} style={{ aspectRatio: aspect.replace('/', ' / ') }} role="img" aria-label={article.title}>
       <span className="article-cover-cat">{article.category}</span>
       <span className="article-cover-title">{shortTitle}</span>
-      <span className="article-cover-brand">NORTIQ LABS · COLUMN</span>
+      <span className="article-cover-brand">{brand}</span>
+    </div>
+  );
+}
+
+// -------------------- Work shot (browser-framed screenshot / designed cover) --------------------
+// 実績カードの画像部。スクショはブラウザ額装 (.shot-frame)、スクショの無い
+// アプリ・システム案件は ArticleCover と同系のデザイン済みカバーで描画する。
+function WorkShot({ work }) {
+  return (
+    <div className="shot-frame">
+      {work.img
+        ? <Placeholder label="" caption="" aspect="16/10" src={work.img} alt={`${work.title}の制作実績`} fit/>
+        : <ArticleCover article={{ img: null, category: work.tag, title: work.title }} aspect="16/10" brand="NORTIQ LABS · WORKS"/>}
     </div>
   );
 }
@@ -1407,6 +1423,7 @@ Object.assign(window, {
   useMagnetic,
   ParticleNet,
   ArticleCover,
+  WorkShot,
   NAV_MEGA, PREFECTURES,
   CATEGORY_OPTIONS, INQ_TYPE_OPTIONS, REASON_OPTIONS, SOURCE_OPTIONS,
 });

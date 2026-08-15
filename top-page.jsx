@@ -116,7 +116,9 @@ function TopPage({ onNavigate, onContact }) {
               { tag: "建築・リニューアル", title: "建物リニューアル × 大規模修繕の総合刷新", q: "工数が38%減って、現場が回り始めた。", author: "代表 S.W.", img: "assets/work-renewal.png" },
             ].map((c, i) => (
               <article key={i} className="case-card fadein" data-delay={i * 150}>
-                <Placeholder label={c.tag} caption="case study" aspect="16/10" src={c.img} alt={`${c.title}の導入実績`} fit/>
+                <div className="shot-frame">
+                  <Placeholder label={c.tag} caption="case study" aspect="16/10" src={c.img} alt={`${c.title}の導入実績`} fit/>
+                </div>
                 <div className="case-card-body">
                   <div className="row" style={{ justifyContent: 'flex-end', marginBottom: 14 }}>
                     <span className="small text-mono" style={{ color: 'var(--text-3)' }}>CASE / {String(i+1).padStart(2,'0')}</span>
@@ -614,7 +616,7 @@ function FeatureTrioCard({ vertical, titlePrefix, titleSuffix, sub, desc, price,
 }
 
 function GalleryTabs({ onNavigate }) {
-  const tabs2 = ["クリニック", "不動産", "建築", "人材", "コーポレート"];
+  const tabs2 = ["クリニック", "不動産", "建築", "人材", "コーポレート", "AI・DX"];
   const [tab, setTab] = React.useState(0);
   const data = [
     [
@@ -657,6 +659,14 @@ function GalleryTabs({ onNavigate }) {
       { tag: "コーポレート", t: "メーカーのコーポレート再構築", stat: "PV 1.6×", route: 'works-lp-corp', img: "assets/work-rakuyu.png" },
       { tag: "コーポレート", t: "コンサルファームのサービス紹介", stat: "DL +260%", route: 'works-lp-corp' },
     ],
+    [
+      { tag: "DX・アプリ", t: "中古フィギュア店の AI 在庫登録システム (TAKETORA)", stat: "AI同定 3層", route: 'works-retail' },
+      { tag: "自社プロダクト", t: "ブログボット — AI投稿アシスタント", stat: "運用工数 1/10", route: 'product-wpchat', img: "assets/blog-blog-bot.png" },
+      { tag: "研究開発", t: "VetoNet — AI エージェント検証レイヤ", stat: "白書公開予定", route: 'product-vetonet', img: "assets/vetonet-dashboard.png" },
+      { tag: "自社プロダクト", t: "テニスフォームの AI 解析 SaaS", stat: "33関節 解析", route: 'product-tennis' },
+      { tag: "小売", t: "サブスク EC のリピート率改善", stat: "解約率 -32%", route: 'works-retail', img: "assets/hero-01.png" },
+      { tag: "不動産", t: "投資物件専門サイト × 物件管理", stat: "反響 2.7×", route: 'works-realty', img: "assets/work-pleast.png" },
+    ],
   ];
   return (
     <section className="section-pad">
@@ -677,13 +687,14 @@ function GalleryTabs({ onNavigate }) {
         <div className="grid-3" style={{ marginTop: 32 }}>
           {data[tab].slice(0, 6).map((w, i) => (
             <a key={i} className="card card-link fadein" data-delay={i * 80} style={{ padding: 0, overflow: 'hidden', cursor: 'pointer' }} {...navProps(w.route, onNavigate)}>
-              <Placeholder label="" caption="" aspect="16/10" src={w.img} alt={`${w.t}の制作実績`} fit/>
-              <div style={{ padding: '20px 22px 22px' }}>
-                <div className="row" style={{ justifyContent: 'space-between', marginBottom: 12 }}>
+              <WorkShot work={{ img: w.img, title: w.t, tag: w.tag }}/>
+              <div style={{ padding: '18px 22px 20px' }}>
+                <div className="row" style={{ justifyContent: 'space-between', marginBottom: 10 }}>
                   <span className="tag">{w.tag}</span>
-                  <span className="small text-mono text-accent" style={{ fontWeight: 700 }}>{w.stat}</span>
+                  <span className="stat-pill">{w.stat}</span>
                 </div>
-                <h3 style={{ fontSize: 15, fontWeight: 700, margin: 0, lineHeight: 1.55 }}>{w.t}</h3>
+                <h3 style={{ fontSize: 15, fontWeight: 700, margin: 0, lineHeight: 1.6 }}>{w.t}</h3>
+                <span className="work-cta">実績の詳細を見る<Icon name="arrow-right" size={12}/></span>
               </div>
             </a>
           ))}

@@ -23,6 +23,7 @@ const WORKS_DATA = [
   { id: 21, tag: "人材", category: "hr", title: "中途採用 LP (AXIA · 挑め、想定の外へ)", stat: "応募 1.6×", services: ["Web制作", "LPO"], img: "assets/lpo-axia-recruit.png" },
   { id: 9, tag: "小売", category: "retail", title: "京都のキッチンカー (panza) ブランドLP", stat: "SNS流入 4.6×", services: ["Web制作"], img: "assets/work-panza.png" },
   { id: 10, tag: "小売", category: "retail", title: "京都の骨董店 (TAKETORA) バイリンガルEC", stat: "海外PV 5.2×", services: ["Web制作", "EC"], img: "assets/work-taketora.png" },
+  { id: 22, tag: "小売", category: "retail", title: "中古フィギュア店の AI 在庫登録システム (TAKETORA)", stat: "AI同定 3層", services: ["iPadアプリ開発", "AI同定", "スマレジ連携"], img: null },
   { id: 11, tag: "小売", category: "retail", title: "ゴルフリゾート (COCOPA) のブランドサイト", stat: "予約 1.9×", services: ["Web制作"], img: "assets/work-cocopa.png" },
   { id: 12, tag: "小売", category: "retail", title: "サブスク EC のリピート率改善 (Quiet Objects · Spring Editorial)", stat: "解約率 -32%", services: ["DX・ML"], img: "assets/hero-01.png" },
   { id: 13, tag: "インフラ", category: "infra", title: "RAKUYU-Z 工法協会 サイト", stat: "信頼度評価 +", services: ["Web制作"], img: "assets/work-rakuyu.png" },
@@ -102,16 +103,17 @@ function WorksPage({ category, onNavigate, onContact }) {
           <div className="grid-3">
             {items.map(w => (
               <a key={w.id} className="card card-link" style={{ padding: 0, overflow: 'hidden', cursor: 'pointer' }}>
-                <Placeholder label={w.tag} caption={`case · #${String(w.id).padStart(3,'0')}`} aspect="16/10" src={w.img} alt={`${w.title}の制作実績`} fit/>
-                <div style={{ padding: '20px 22px 22px' }}>
-                  <div className="row" style={{ justifyContent: 'space-between', marginBottom: 12 }}>
+                <WorkShot work={w}/>
+                <div style={{ padding: '18px 22px 20px' }}>
+                  <div className="row" style={{ justifyContent: 'space-between', marginBottom: 10 }}>
                     <span className="tag">{w.tag}</span>
-                    <span className="small text-mono text-accent">{w.stat}</span>
+                    <span className="stat-pill">{w.stat}</span>
                   </div>
-                  <h3 style={{ fontSize: 16, fontWeight: 500, margin: 0, marginBottom: 12, lineHeight: 1.55 }}>{w.title}</h3>
+                  <h3 style={{ fontSize: 16, fontWeight: 700, margin: 0, marginBottom: 10, lineHeight: 1.6 }}>{w.title}</h3>
                   <div className="row-tight">
                     {w.services.map((s, i) => <span key={i} className="small text-mono" style={{ color: 'var(--text-3)' }}>· {s}</span>)}
                   </div>
+                  <span className="work-cta">実績の詳細を見る<Icon name="arrow-right" size={12}/></span>
                 </div>
               </a>
             ))}
