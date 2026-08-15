@@ -708,17 +708,27 @@ function ShowcaseViewer() {
           <button className="showcase-close" onClick={() => setView(null)} aria-label="閉じる">×</button>
         </div>
         <div className="showcase-stage" ref={stageRef}>
-          <iframe
-            className="showcase-iframe"
-            src={view.url}
-            title={view.title || '制作実績プレビュー'}
+          {/* transform はレイアウト幅を変えないので、縮小後の実寸を持つ器で包む
+              (これが無いと iframe の 1440px がそのまま残り横スクロールになる) */}
+          <div
+            className="showcase-scaler"
             style={{
-              width: SHOWCASE_DESIGN_W + 'px',
-              height: Math.round(fit.h) + 'px',
-              transform: `scale(${fit.scale})`,
-              transformOrigin: 'top left',
+              width: Math.round(SHOWCASE_DESIGN_W * fit.scale) + 'px',
+              height: Math.round(fit.h * fit.scale) + 'px',
             }}
-          />
+          >
+            <iframe
+              className="showcase-iframe"
+              src={view.url}
+              title={view.title || '制作実績プレビュー'}
+              style={{
+                width: SHOWCASE_DESIGN_W + 'px',
+                height: Math.round(fit.h) + 'px',
+                transform: `scale(${fit.scale})`,
+                transformOrigin: 'top left',
+              }}
+            />
+          </div>
         </div>
       </div>
     </div>

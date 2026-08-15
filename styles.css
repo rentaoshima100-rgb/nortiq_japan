@@ -4439,6 +4439,7 @@ picture { display: contents; }
   background: #fff;
   position: relative;
 }
+.showcase-scaler { position: relative; overflow: hidden; }
 .showcase-iframe {
   border: 0;
   background: #fff;
