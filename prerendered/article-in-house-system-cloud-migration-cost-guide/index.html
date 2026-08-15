@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="ja" style="--accent: hsl(354, 92%, 45%); --accent-hi: hsl(354, 95%, 52%); --accent-soft: hsl(354, 90%, 95%);"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Google tag (gtag.js) — GA4 + Google Ads conversion tracking -->
+  <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-EYTD1TWR7T"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-EYTD1TWR7T');
+    window.NORTIQ_CONV = { contact: null, diagnostic: null };
+  </script>
+  <title>社内システムクラウド移行の失敗を防ぐ、発注ステップガイド — Nortiq Labs</title>
+  <meta name="description" content="社内システムの外注開発とクラウド移行を同時検討する場合の費用感、判断基準、失敗しない発注ステップをわかりやすく解説。オンプレミス継続との比較も。">
+  <link rel="icon" href="/assets/nortiq-fav.png" type="image/png">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Nortiq Labs">
+  <!-- 記事ルートでは app.jsx が og:type を article に変え、下の2つに日付を入れる。
+       setMetaContent は既存要素しか書き換えないため、空のまま置いておく必要がある -->
+  <meta property="article:published_time" content="2026-08-14">
+  <meta property="article:modified_time" content="2026-08-14">
+  <meta property="og:title" content="社内システムクラウド移行の失敗を防ぐ、発注ステップガイド — Nortiq Labs">
+  <meta property="og:description" content="社内システムの外注開発とクラウド移行を同時検討する場合の費用感、判断基準、失敗しない発注ステップをわかりやすく解説。オンプレミス継続との比較も。">
+  <meta property="og:url" content="https://nortiqlab.com/article-in-house-system-cloud-migration-cost-guide">
+  <meta property="og:image" content="https://nortiqlab.com/assets/blog-default.png">
+  <meta property="og:locale" content="ja_JP">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="社内システムクラウド移行の失敗を防ぐ、発注ステップガイド — Nortiq Labs">
+  <meta name="twitter:description" content="社内システムの外注開発とクラウド移行を同時検討する場合の費用感、判断基準、失敗しない発注ステップをわかりやすく解説。オンプレミス継続との比較も。">
+  <meta name="twitter:image" content="https://nortiqlab.com/assets/blog-default.png">
+  <link rel="stylesheet" href="/styles.css?v=mstix9av">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://nortiqlab.com/#org","name":"Nortiq Labs","url":"https://nortiqlab.com/","logo":"https://nortiqlab.com/assets/nortiq-mark.png","image":"https://nortiqlab.com/assets/og-image.png","description":"京都のWeb制作×AI実装カンパニー。オリジナルデザインのホームページ制作からAIチャットボット導入、DXコンサルティングまで一気通貫で支援。初回相談無料・営業日24時間以内に返信します。","slogan":"日本のDX、世界水準で巻き返す。","foundingDate":"2025","numberOfEmployees":5,"address":{"@type":"PostalAddress","addressCountry":"JP","postalCode":"604-0012","addressRegion":"京都府","addressLocality":"京都市中京区","streetAddress":"竪大恩寺町751"},"areaServed":{"@type":"Country","name":"Japan"},"alternateName":["株式会社ノーティックラボ","ノーティックラボ"],"knowsAbout":["Web制作","AIチャットボット","DX","機械学習","SEO","LP制作 / LPO","業務自動化","データ分析"],"founder":{"@type":"Person","@id":"https://nortiqlab.com/#renta","name":"Renta Oshima","alternateName":"大島蓮太","jobTitle":"Founder / Engineer","worksFor":{"@id":"https://nortiqlab.com/#org"},"description":"米国 UC Berkeley で AI 研究。日本の中小企業向け DX 支援を起業。"}},{"@type":"WebSite","@id":"https://nortiqlab.com/#website","name":"Nortiq Labs","url":"https://nortiqlab.com/","publisher":{"@id":"https://nortiqlab.com/#org"},"inLanguage":"ja"},{"@type":"ProfessionalService","name":"Nortiq Labs","url":"https://nortiqlab.com/","description":"京都のWeb制作×AI実装カンパニー。オリジナルデザインのホームページ制作からAIチャットボット導入、DXコンサルティングまで一気通貫で支援。初回相談無料・営業日24時間以内に返信します。","areaServed":"JP","serviceType":["Web制作","AIチャットボット導入","DX・ML実装","補助金活用のDX導入相談"],"provider":{"@id":"https://nortiqlab.com/#org"}}]}</script>
+  <!-- defer: この2本 (計約139KB) は head にあって描画をブロックしていた。
+       ページの初期表示はプリレンダ済みHTMLで完結するのでJSを待つ必要がない。
+       defer は文書順に実行されるため react → react-dom → articles.js →
+       app.bundle.js の順序は保たれる。 -->
+  <script src="/assets/vendor/react.production.min.js?v=mstix9av" defer=""></script>
+  <script src="/assets/vendor/react-dom.production.min.js?v=mstix9av" defer=""></script>
+<link rel="canonical" href="https://nortiqlab.com/article-in-house-system-cloud-migration-cost-guide"><script type="application/ld+json" id="route-ld">[{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"トップ","item":"https://nortiqlab.com/"},{"@type":"ListItem","position":2,"name":"コラム","item":"https://nortiqlab.com/column"},{"@type":"ListItem","position":3,"name":"社内システムクラウド移行の失敗を防ぐ、発注ステップガイド","item":"https://nortiqlab.com/article-in-house-system-cloud-migration-cost-guide"}]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"社内システムクラウド移行の失敗を防ぐ、発注ステップガイド","description":"社内システムの外注開発とクラウド移行を同時検討する場合の費用感、判断基準、失敗しない発注ステップをわかりやすく解説。オンプレミス継続との比較も。","image":"https://nortiqlab.com/assets/blog-default.png","url":"https://nortiqlab.com/article-in-house-system-cloud-migration-cost-guide","inLanguage":"ja","articleSection":"技術","datePublished":"2026-08-14","dateModified":"2026-08-14","author":{"@type":"Organization","@id":"https://nortiqlab.com/#org","name":"Nortiq Labs"},"publisher":{"@id":"https://nortiqlab.com/#org"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://nortiqlab.com/article-in-house-system-cloud-migration-cost-guide","reviewedBy":{"@id":"https://nortiqlab.com/#renta"}}}]</script></head>
+<body>
+  <div id="app"><header class="nav" role="banner"><div class="nav-inner"><a class="nav-logo" href="/" style="cursor: pointer;"><span class="nav-logo-mark"></span><span class="wordmark"><span class="wordmark-main">NORTIQ</span><span class="wordmark-sub">LABS</span></span></a><nav class="nav-links" aria-label="メインナビゲーション"><div class="nav-link-wrap"><a class="nav-link" href="/">トップ</a></div><div class="nav-link-wrap"><a class="nav-link">機能<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></a></div><div class="nav-link-wrap"><a class="nav-link">制作実績<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></a></div><div class="nav-link-wrap"><a class="nav-link">業種ソリューション<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></a></div><div class="nav-link-wrap"><a class="nav-link" href="/voice">ご利用会社様の声</a></div><div class="nav-link-wrap"><a class="nav-link" href="/support">サポート</a></div><div class="nav-link-wrap"><a class="nav-link" href="/pricing">料金プラン</a></div><div class="nav-link-wrap"><a class="nav-link" aria-current="page">コンテンツ<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></a></div><div class="nav-link-wrap"><a class="nav-link" href="/diagnostic">無料診断</a></div></nav><div class="nav-cta-wrap"><button class="btn btn-primary btn-sm" type="button"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><path d="M22 6l-10 7L2 6"></path></svg>メールでお問合せ</button><button class="hamburger" aria-label="メニューを開く" aria-expanded="false"><span></span><span></span><span></span></button></div></div><div class="nav-drawer"><div class="nav-drawer-panel"><div class="nav-drawer-head"><span class="nav-logo" style="font-size: 18px;"><span class="nav-logo-mark" aria-hidden="true"></span><span class="wordmark"><span class="wordmark-main">NORTIQ</span><span class="wordmark-sub">LABS</span></span></span><button class="drawer-close" aria-label="閉じる"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M6 18L18 6"></path></svg></button></div><nav class="nav-drawer-body"><a class="drawer-item" href="/"><span>トップ</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><div class="drawer-group"><button class="drawer-item drawer-group-head"><span>機能</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></button><div class="drawer-group-body"><div class="drawer-subgroup"><h5>サービス別 機能一覧</h5><a class="drawer-sub-item" href="/web"><span>Web制作 機能一覧</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/chatbot"><span>AIチャットボット 機能一覧</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/dx"><span>DX・ML 機能一覧</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></div><div class="drawer-subgroup"><h5>技術領域</h5><a class="drawer-sub-item" href="/feature-lpo"><span>LP制作 / LPO</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/feature-recruit"><span>採用専門サイト</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/feature-analytics"><span>アクセス解析カスタム実装</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/feature-cms"><span>CMS / 記事更新システム</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></div><div class="drawer-subgroup"><h5>自社プロダクト</h5><a class="drawer-sub-item" href="/product-vetonet"><span>VetoNet (AI Security)</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/product-wpchat"><span>ブログボット（AI投稿アシスタント）</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/product-tennis"><span>Tennis フォームチェック</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></div></div></div><div class="drawer-group"><button class="drawer-item drawer-group-head"><span>制作実績</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></button><div class="drawer-group-body"><div class="drawer-subgroup"><h5>業種から探す</h5><a class="drawer-sub-item" href="/works-clinic"><span>クリニック・医療</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/works-realty"><span>不動産</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/works-build"><span>建築・工務店</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/works-hr"><span>人材</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/works-retail"><span>小売 / EC</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/works-infra"><span>インフラ・製造</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/works-ai"><span>AIスタートアップ</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></div><div class="drawer-subgroup"><h5>強化LP別</h5><a class="drawer-sub-item" href="/works-lp-corp"><span>コーポレートサイト</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/works-lp-recruit"><span>採用LP</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/works-lp-ec"><span>EC連動LP</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></div><div class="drawer-subgroup"><h5>実績まとめ</h5><a class="drawer-sub-item" href="/works"><span>全実績一覧</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></div></div></div><div class="drawer-group"><button class="drawer-item drawer-group-head"><span>業種ソリューション</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></button><div class="drawer-group-body"><div class="drawer-subgroup"><h5>業種別パッケージ</h5><a class="drawer-sub-item" href="/solution-clinic"><span>クリニック・医療 DXパッケージ</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/solution-realty"><span>不動産 集客×管理パッケージ</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/solution-build"><span>建築 ブランド×案件管理</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/solution-hr"><span>人材 マッチング×集客</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/solution-retail"><span>小売・EC OMOパッケージ</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></div></div></div><a class="drawer-item" href="/voice"><span>ご利用会社様の声</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-item" href="/support"><span>サポート</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-item" href="/pricing"><span>料金プラン</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><div class="drawer-group"><button class="drawer-item drawer-group-head"><span>コンテンツ</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></button><div class="drawer-group-body"><div class="drawer-subgroup"><h5>メディア</h5><a class="drawer-sub-item" href="/column"><span>コラム / 技術ブログ</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/news"><span>お知らせ</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/guidebook"><span>サービス紹介資料</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/subsidy"><span>補助金活用相談</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></div></div></div><a class="drawer-item" href="/diagnostic"><span>無料診断</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></nav><div class="nav-drawer-foot"><button class="btn btn-primary btn-lg" type="button" style="width: 100%;"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><path d="M22 6l-10 7L2 6"></path></svg>資料請求・お問い合わせ</button></div></div></div></header><div><main class="page-fade"><nav aria-label="Breadcrumb" style="padding: 14px 0px; border-bottom: 1px solid var(--border); background: var(--bg-2);"><div class="container"><ol class="row-tight" style="list-style: none; padding: 0px; margin: 0px; font-size: 12px; color: var(--text-3);"><li class="row-tight" style="gap: 8px;"><a href="/" style="cursor: pointer; color: var(--text-2);">トップ</a></li><li class="row-tight" style="gap: 8px;"><span style="color: var(--text-4);">›</span><a href="/column" style="cursor: pointer; color: var(--text-2);">コラム</a></li><li class="row-tight" style="gap: 8px;"><span style="color: var(--text-4);">›</span><span style="color: var(--text);">社内システムクラウド移行の失敗を防ぐ、発注ステップガイド</span></li></ol></div></nav><article><header style="padding-top: clamp(48px, 7vw, 90px); padding-bottom: 32px;"><div class="container" style="max-width: 820px;"><div class="row" style="gap: 10px; margin-bottom: 24px; color: var(--text-3); font-size: 13px; flex-wrap: wrap;"><span class="tag" style="color: var(--accent); border-color: var(--accent);">技術</span><span class="num">2026.08.14</span><span>·</span><span>12 min read</span><span>·</span><span>Nortiq Labs</span></div><h1 class="display-l fadein is-in" style="margin-bottom: 8px;">社内システムクラウド移行の失敗を防ぐ、発注ステップガイド</h1></div></header><div class="container" style="max-width: 880px; margin-bottom: 8px;"><picture><source srcset="/assets/blog-default.webp" type="image/webp"><img src="/assets/blog-default.png" alt="社内システムクラウド移行の失敗を防ぐ、発注ステップガイド" class="article-hero-img"></picture></div><div class="container" style="max-width: 780px; margin-top: 24px; margin-bottom: 80px;"><div class="article-prose article-body"><h2>まず何から始める？外注とクラウド移行の判断を誤る前にやること</h2>
+<p>最初にすべきことは、現行システムの「運用コスト」と「業務依存度」を数値で把握することです。この2軸が揃わないと、外注・クラウドいずれの選択肢でも費用が読めません。</p>
+<p>外注開発・クラウド移行・オンプレミス継続の3つの選択肢は、それぞれ初期費用とランニングコストの構造が根本的に異なります。判断の順序を誤ると、移行後に「想定外のコストが発生した」「業務が止まった」というリスクが高まります。まず現状を数値化することが、すべての出発点です。</p>
+<h3>現行システムの棚卸チェックリスト</h3>
+<p>以下の項目を確認し、数値を埋めてください。すべて埋まらなくても、空欄が多い項目ほど「見えていないコスト」が潜んでいると考えてください。</p>
+<table>
+<thead>
+<tr>
+<th>カテゴリ</th>
+<th>確認項目</th>
+<th>記入欄</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>インフラコスト</strong></td>
+<td>サーバ・ネットワーク機器の年間保守費用</td>
+<td>円/年</td>
+</tr>
+<tr>
+<td><strong>インフラコスト</strong></td>
+<td>次回ハードウェア更新の予定時期と概算費用</td>
+<td>年・円</td>
+</tr>
+<tr>
+<td><strong>ライセンス</strong></td>
+<td>OS・ミドルウェア・アプリのライセンス年額</td>
+<td>円/年</td>
+</tr>
+<tr>
+<td><strong>人的コスト</strong></td>
+<td>社内SE・情シスが当該システムに費やす月間工数</td>
+<td>時間/月</td>
+</tr>
+<tr>
+<td><strong>業務依存度</strong></td>
+<td>1日停止した場合の業務影響範囲（部門数・売上影響）</td>
+<td>部門数・概算額</td>
+</tr>
+<tr>
+<td><strong>業務依存度</strong></td>
+<td>現行システムと連携している他システム数</td>
+<td>件</td>
+</tr>
+<tr>
+<td><strong>保守状況</strong></td>
+<td>ベンダのサポート終了予定日</td>
+<td>年月</td>
+</tr>
+<tr>
+<td><strong>データ量</strong></td>
+<td>移行対象データの総量（DBサイズ・ファイルサイズ）</td>
+<td>GB/TB</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p><strong>実装者視点の注意点:</strong> 「業務依存度」の欄で連携システム数が5件を超える場合は要注意です。連携先ごとにデータ形式・API仕様・認証方式が異なるため、移行工数が非線形に増加します。IPA「ソフトウェア開発分析データ集2022」が5,546件のプロジェクトを集計した結果でも、生産性の中央値は9.1FP/人月にとどまっており、連携要件が複雑な案件では見積もりが大幅にブレる要因になります（出典: IPA「ソフトウェア開発分析データ集2022」）。</p>
+</blockquote>
+<h3>「外注」と「クラウド移行」を同時検討すべき3つのシグナル</h3>
+<p>以下のいずれかに該当する場合、外注開発とクラウド移行を切り離して考えるよりも、同時に設計したほうがコストと手戻りを抑えられます。</p>
+<ol>
+<li><p><strong>ハードウェアの更新時期が3年以内に迫っている</strong>
+サーバ買い替え費用をそのまま支出するより、クラウド移行コストと比較検討するタイミングです。オンプレミスへの再投資は、その後5〜7年の固定費を確定させる意思決定でもあります。</p>
+</li>
+<li><p><strong>現行システムのベンダサポートが終了している、または終了予定が確定している</strong>
+サポート切れのOSやミドルウェアを抱えたまま外注スクラッチ開発を進めると、新システムが完成するまでの空白期間にセキュリティリスクが生じます。</p>
+</li>
+<li><p><strong>利用者数やデータ量が今後2〜3年で大きく変動する見込みがある</strong>
+クラウドはリソースを需要に応じて増減できるため、成長期や繁忙期の波に対してオンプレミスより柔軟に対応できます。総務省「令和6年通信利用動向調査（企業編）」によると、国内企業全体のクラウドサービス利用率はすでに77.0%に達しており（出典: 総務省「令和6年通信利用動向調査報告書（企業編）」）、クラウドを前提とした設計は業界標準に近づいています。従業者数300人未満の中小企業に限っても72.4%がクラウドを利用しており（出典: 総務省「令和5年通信利用動向調査（企業編）」）、活用の選択肢として現実的なフェーズにあります。</p>
+</li>
+</ol>
+<p>上記3つのシグナルがいずれも該当しない場合は、現行システムの部分改修や既存SaaSの追加導入といったより低コストの選択肢を先に検討することをお勧めします。外注開発とクラウド移行のコスト構造の詳細については、次のセクションで比較します。</p>
+<h2>外注開発・クラウド移行・オンプレ継続の費用構造はどう違う？</h2>
+<p>3つの選択肢は初期費用だけでなくランニングコストの構造が根本的に異なるため、5年間の総所有コスト（TCO）で比較しないと判断を誤ります。</p>
+<p>TCOとは、Total Cost of Ownershipの略で、導入費用だけでなく運用・保守・廃棄までを含む総費用のことです。初期費用だけを比べると「オンプレミス継続が安い」と見えても、5年スパンでは逆転するケースが少なくありません。</p>
+<h3>選択肢別TCO比較表（初期・年間・5年トータル）</h3>
+<p>以下の表は、従業員50名規模・比較的シンプルな業務システム（勤怠・在庫管理など）を想定した概算です。案件の規模・要件により数値は大きく変動します。詳細な費用相場の内訳については、既存の「社内システム外注費用の相場と工数単価の見方」を合わせて参照してください。</p>
+<table>
+<thead>
+<tr>
+<th>選択肢</th>
+<th>初期費用の目安</th>
+<th>年間ランニングコストの目安</th>
+<th>5年TCOの目安</th>
+<th>費用構造の特徴</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>オンプレミス継続</td>
+<td>ハード更新時：100万円〜300万円</td>
+<td>保守・運用人件費：50万円〜150万円</td>
+<td>350万円〜1,050万円</td>
+<td>更新タイミングに費用が集中する</td>
+</tr>
+<tr>
+<td>クラウド移行（SaaS/IaaS活用）</td>
+<td>移行・設定費：50万円〜200万円</td>
+<td>サービス利用料＋運用：30万円〜100万円</td>
+<td>200万円〜700万円</td>
+<td>初期を抑えられるが利用料が積み上がる</td>
+</tr>
+<tr>
+<td>外注スクラッチ開発</td>
+<td>開発費：100万円〜2,000万円以上</td>
+<td>保守・運用：30万円〜120万円</td>
+<td>250万円〜2,600万円以上</td>
+<td>初期が大きく、要件次第で振れ幅が広い</td>
+</tr>
+</tbody></table>
+<p>外注スクラッチ開発の費用振れ幅が大きい理由の一つは、生産性の差にあります。IPA「ソフトウェア開発分析データ集2022」が5,546件のプロジェクトを集計した結果、国内ソフトウェア開発の生産性中央値は9.1FP（ファンクションポイント）/人月と報告されています。御社の要件が複雑になるほど必要なFP数が増え、工数と費用がそれに比例して膨らみます。</p>
+<p>なお、費用構造を比較するうえで「外注は割高」と思われがちですが、社内エンジニアを雇用・育成するコストや、障害対応の機会損失を含めると、外注のTCOが有利になるケースもあります。</p>
+<h3>中小企業の実態：IPA・総務省データが示す費用分布</h3>
+<p>外注とクラウド移行の費用感をつかむには、業界全体の実態データを参照することが有効です。</p>
+<p><strong>クラウド移行の普及状況</strong></p>
+<p>総務省「令和6年通信利用動向調査（企業編）」によると、国内企業全体のクラウドサービス利用率は2024年時点で77.0%に達しています。一方、総務省「令和5年通信利用動向調査（企業編）」では、従業者数300人未満の中小規模企業のクラウド利用率は72.4%と報告されています。利用率の数字は高い水準に見えますが、活用用途はメール・グループウェアなど汎用ツールが中心で、基幹業務への適用はまだ限定的です。</p>
+<p><strong>小規模外注プロジェクトの工期・工数の実態</strong></p>
+<p>比較的小さな業務システムを外注する場合の規模感として参考になるのが、IPA「ソフトウェア開発データ白書2018-2019 情報通信業編」のデータです。100FP未満の小規模プロジェクト238件を集計した結果、平均工期は3.9か月、平均工数は6.2人月と記録されています。</p>
+<p>この数値を費用に換算するイメージを以下に示します。</p>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>参考値</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>平均工期（小規模プロジェクト、100FP未満）</td>
+<td>3.9か月</td>
+</tr>
+<tr>
+<td>平均工数（同上）</td>
+<td>6.2人月</td>
+</tr>
+<tr>
+<td>月単価の目安（受託開発エンジニア）</td>
+<td>60万円〜100万円（案件により変動）</td>
+</tr>
+<tr>
+<td>概算開発費（6.2人月×単価）</td>
+<td>370万円〜620万円</td>
+</tr>
+</tbody></table>
+<p>出典: IPA「ソフトウェア開発データ白書2018-2019 情報通信業編」</p>
+<p>月単価はスキルセット・地域・エンジニア体制により大きく変動します。上記はあくまで規模感を把握するための参考値です。</p>
+<p><strong>TCO比較で見落とされやすい視点</strong></p>
+<p>3択の比較でよく見落とされるのは、移行や開発に伴う「社内工数」です。プロジェクト管理・要件整理・テスト確認・従業員トレーニングに費やす内部人件費は見積書には載りません。しかし、担当者が3か月間の業務時間の30%をプロジェクトに割くだけで、実質的な追加コストは数十万円規模になります。費用対効果の試算方法と隠れコストの詳細は、次のセクションで具体的な計算手順と合わせて解説します。</p>
+<h2>費用対効果の判断基準はどう設定する？</h2>
+<p>費用対効果の判断には「業務時間削減×時間単価×従業員数×5年」で試算する回収期間モデルが有効です。当社の提案データでは、回収目安を3年以内に設定した案件の意思決定が最もスムーズに進んでいます。</p>
+<h3>回収期間モデルの計算手順</h3>
+<p>回収期間は「投資額÷年間削減効果」で算出します。以下のステップで順番に数値を埋めてください。</p>
+<p><strong>ステップ1: 投資額を確定する（所要時間の目安: 1〜2日）</strong></p>
+<p>外注費・クラウド利用料・社内工数・移行期間中の並行稼働コストを合算します。社内工数は「時間単価×担当者数×想定稼働時間」で換算してください。この工程でつまずきやすい点は、社内担当者の工数を「無料」として計上しないことです。人件費を省くと投資額が過小評価され、後で回収期間の計算が狂います。</p>
+<p><strong>ステップ2: 年間削減効果を試算する（所要時間の目安: 半日）</strong></p>
+<table>
+<thead>
+<tr>
+<th>削減項目</th>
+<th>計算式</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>業務時間削減</td>
+<td>削減時間/月 × 時間単価 × 対象人数 × 12か月</td>
+</tr>
+<tr>
+<td>インフラ・保守費削減</td>
+<td>現行の年間コスト − 移行後の年間コスト</td>
+</tr>
+<tr>
+<td>トラブル対応工数削減</td>
+<td>現行の月間障害対応時間 × 時間単価 × 12か月</td>
+</tr>
+</tbody></table>
+<p>金額が不明な項目は「案件により変動します」として保守的に除外し、確実に見込める効果だけで試算してください。</p>
+<p><strong>ステップ3: 回収期間を判定する（所要時間の目安: 30分）</strong></p>
+<pre><code>回収期間（年）= 投資額 ÷ 年間削減効果
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>回収期間</th>
+<th>判定</th>
+<th>推奨アクション</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>2年以内</td>
+<td>投資対効果が高い</td>
+<td>早期着手を検討</td>
+</tr>
+<tr>
+<td>2〜3年</td>
+<td>標準的な水準</td>
+<td>条件を確認のうえ推進</td>
+</tr>
+<tr>
+<td>4〜5年</td>
+<td>リスクが高まる</td>
+<td>要件の絞り込みを先行する</td>
+</tr>
+<tr>
+<td>5年超</td>
+<td>投資判断を見直す</td>
+<td>部分改修など低コスト代替を再検討</td>
+</tr>
+</tbody></table>
+<p><strong>ステップ4: 5年TCOと対比する（所要時間の目安: 半日）</strong></p>
+<p>セクション2で整理した5年TCOと、ステップ3の回収期間を並べます。「回収は3年以内だが5年TCOはオンプレ継続より高い」というケースでは、業務効率化以外の便益（属人化リスクの解消、採用競争力など）を定性的に補足してください。</p>
+<p>なお、投資判断の背景として押さえておきたいのが実装規模の感覚値です。IPA「ソフトウェア開発データ白書2018-2019 情報通信業編」によると、小規模プロジェクト（開発規模100FP未満）の平均工期は3.9か月、平均工数は6.2人月です。「半年で完成するだろう」と楽観的に想定している案件でも、工数ベースで見ると社内リソースへの負荷が予想を超えるケースがあります。</p>
+<p>また、外注費の妥当性を検証する際にはIPA「ソフトウェア開発分析データ集2022」が参考になります。5,546プロジェクトの集計値として、国内ソフトウェア開発の生産性中央値は9.1FP/人月と報告されています。見積書に記載された工数がこの水準から大きく乖離している場合は、その理由を発注前に確認してください。</p>
+<h3>判断を難しくする「隠れコスト」4項目</h3>
+<p>計算モデルに載りにくいコストが4つあります。これらを見落とすと、実際の回収期間が試算より1〜2年延びることがあります。</p>
+<ol>
+<li><p><strong>移行期間中の並行稼働コスト</strong>
+旧システムと新システムを同時に動かす期間（一般に1〜3か月程度）は、インフラ費用がほぼ二重にかかります。移行完了前にコストを一方に絞ることは技術的に難しいため、最初から予算に組み込んでください。</p>
+</li>
+<li><p><strong>従業員の習熟コスト</strong>
+新システムへの切り替え後、業務スピードが一時的に落ちる期間があります。特にクラウドへの移行は操作UIが変わることが多く、教育・マニュアル整備にかかる人時間は見積もりに含まれないことがほとんどです。</p>
+</li>
+<li><p><strong>データ移行・クレンジングコスト</strong>
+既存データをクラウドや新システムに移行する前に、文字コードの統一・重複レコードの削除・フォーマット変換が必要になるケースがあります。この工程は発注後に「想定外」として追加費用が発生しやすい箇所です。実装者として断言できますが、データ移行の工数はほぼ例外なく当初見積もりより膨らみます。</p>
+</li>
+<li><p><strong>クラウド利用料の変動リスク</strong>
+クラウドサービスは従量課金が基本のため、データ量・アクセス数の増加とともに月額コストが上昇します。総務省「令和6年通信利用動向調査報告書（企業編）」によると、2024年時点で国内企業全体の77.0%がクラウドサービスを利用しており（出典: 総務省「令和6年通信利用動向調査報告書（企業編）」）、採用実績は十分あります。一方で、移行後2〜3年でデータ量が倍増するケースでは、想定月額の1.5〜2倍に達することも珍しくありません。契約前にスケールアップ時の料金体系を必ず確認してください。</p>
+</li>
+</ol>
+<p>なお、従業者数300人未満の中小規模企業では72.4%がクラウドを利用しているものの（出典: 総務省「令和5年通信利用動向調査（企業編）」）、基幹業務への適用は汎用ツールと比べて限定的です。「他社が使っているから」という理由だけでクラウド移行を決定するのではなく、回収期間モデルと隠れコストを合わせて判断してください。</p>
+<h2>外注先にクラウド移行を依頼するとき、仕様書に何を書くべきか？</h2>
+<p>仕様書に「クラウドサービス名」だけを書いても見積もりはブレます。移行対象データ量・連携システム数・可用性要件の3点を数値で記載することで、見積もり精度が大幅に上がります。</p>
+<p>外注先が見積もりを作る際、最も判断に迷うのは「どこまで移行するか」の境界線です。この境界を仕様書で数値化しておくことが、後工程の追加費用を防ぐ最短経路です。</p>
+<hr>
+<h3>発注仕様書テンプレート：クラウド移行編の必須項目</h3>
+<p>以下の項目を仕様書に記載することで、複数の外注先から比較可能な見積もりを取れるようになります。</p>
+<table>
+<thead>
+<tr>
+<th>カテゴリ</th>
+<th>記載項目</th>
+<th>記載例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>移行対象</strong></td>
+<td>データベースのレコード件数と容量</td>
+<td>受注テーブル：800万件・120GB</td>
+</tr>
+<tr>
+<td><strong>移行対象</strong></td>
+<td>ファイルストレージの総容量</td>
+<td>帳票PDFほか：3.2TB</td>
+</tr>
+<tr>
+<td><strong>連携</strong></td>
+<td>連携している社内・外部システム数</td>
+<td>会計ソフト、ECカート、メール配信：計3システム</td>
+</tr>
+<tr>
+<td><strong>連携</strong></td>
+<td>連携方式（API、バッチ、CSV手動等）</td>
+<td>会計ソフトはCSV日次連携、ECはREST API</td>
+</tr>
+<tr>
+<td><strong>可用性</strong></td>
+<td>許容ダウンタイム（月次・年次）</td>
+<td>計画停止：月1回2時間以内、障害停止：年間4時間以内</td>
+</tr>
+<tr>
+<td><strong>可用性</strong></td>
+<td>データバックアップの頻度と保存期間</td>
+<td>日次バックアップ・90日保持</td>
+</tr>
+<tr>
+<td><strong>セキュリティ</strong></td>
+<td>個人情報の有無と件数</td>
+<td>顧客情報15,000件（氏名・住所・購買履歴）</td>
+</tr>
+<tr>
+<td><strong>セキュリティ</strong></td>
+<td>準拠が必要な規格・社内ポリシ</td>
+<td>プライバシーマーク取得済・通信はTLS1.2以上</td>
+</tr>
+<tr>
+<td><strong>移行方式</strong></td>
+<td>並行稼働期間の要否</td>
+<td>旧システムとの並行稼働：2週間以内で完結させたい</td>
+</tr>
+<tr>
+<td><strong>移行方式</strong></td>
+<td>ロールバック（切り戻し）の要件</td>
+<td>本番移行後72時間以内は旧環境に戻せること</td>
+</tr>
+<tr>
+<td><strong>予算・期間</strong></td>
+<td>予算レンジと希望稼働開始日</td>
+<td>上限300万円・2026年4月1日稼働</td>
+</tr>
+</tbody></table>
+<p>この表の空欄が多いほど、見積もりに「条件確認費」や「調査費」が上乗せされやすくなります。把握できていない項目は「未確認・調査費用を見積もりに含めてほしい」と明示する方が誠実な発注です。</p>
+<hr>
+<h3>実装者が実際にハマる：要件定義で抜けがちな非機能要件</h3>
+<p>機能要件（何ができるか）は洗い出されやすい一方、非機能要件（どのくらいの品質で動くか）は仕様書から抜け落ちがちです。移行後に追加費用が発生する場合、原因の多くはこの領域に集中しています。</p>
+<p><strong>見落とされやすい非機能要件のチェックリスト</strong></p>
+<ol>
+<li><p><strong>レスポンスタイム要件</strong>
+記載例：「一覧検索画面は5,000件でも3秒以内に表示されること」。この数値がないと、外注先は最低限の構成で見積もります。本番環境で遅延が発生した後に対処すると、インデックス設計やキャッシュ層の追加工数が別途発生します。</p>
+</li>
+<li><p><strong>同時アクセス数の想定</strong>
+記載例：「月末締め処理時に最大50名が同時アクセスする」。ピーク時のトラフィックを伝えないと、通常時に最適化されたインスタンスサイズが採用され、繁忙期に性能劣化が起きます。</p>
+</li>
+<li><p><strong>クラウドリージョンと法規制</strong>
+個人情報を扱うシステムでは、データの保存先リージョンを指定する必要があります。医療・金融分野では国内リージョン限定が求められるケースがあります。指定を怠ると、外注先はコストの低い海外リージョンを選択することがあります。</p>
+</li>
+<li><p><strong>移行後の運用引き継ぎ範囲</strong>
+「本番稼働までが外注スコープ」なのか「稼働後1年の運用保守も含む」のかを仕様書に明記してください。曖昧なままでは、障害発生時に「それは運用範囲外です」という回答が返ってくるリスクがあります。運用保守の詳細は次のセクションで扱います。</p>
+</li>
+</ol>
+<blockquote>
+<p><strong>実装者視点の注意点</strong>
+クラウド移行では「既存のオンプレミス構成をそのままリフト（Lift）するか」「クラウドに合わせてアーキテクチャを最適化（Shift）するか」で工数が大きく変わります。リフトは移行コストが低い代わりにクラウドのコスト最適化効果が小さく、シフトは設計工数がかかる代わりに運用コストを後から削減しやすくなります。仕様書の段階でどちらの方針を採るか外注先と合意しておくことが、追加費用を防ぐ実務上の急所です。</p>
+</blockquote>
+<h2>外注先を選ぶ際のチェックポイントは？</h2>
+<p>クラウド移行を伴う外注では「設計・実装・運用」を一気通貫で担えるかどうかが最重要です。設計だけ得意な会社に移行後の運用保守を任せると、障害時に対応できないリスクがあります。</p>
+<h3>外注先評価シート：6項目の確認リスト</h3>
+<p>以下の6項目を、候補会社ごとに確認してください。口頭の回答ではなく、過去の実績資料や提案書で裏付けを取ることが原則です。</p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>確認項目</th>
+<th>確認方法</th>
+<th>注意点</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>クラウド移行の実装実績がある</td>
+<td>事例資料・参考先企業名を提示してもらう</td>
+<td>「構築支援」のみで移行未経験の会社が混在する</td>
+</tr>
+<tr>
+<td>2</td>
+<td>利用予定クラウドの認定資格を保有している</td>
+<td>AWS認定・Google Cloud認定などの資格証を確認</td>
+<td>資格保有者が担当するかどうかも確認する</td>
+</tr>
+<tr>
+<td>3</td>
+<td>要件定義から運用保守まで一社で担える</td>
+<td>契約書の対象範囲を確認</td>
+<td>設計と実装で会社が分かれる再委託構造に注意</td>
+</tr>
+<tr>
+<td>4</td>
+<td>非機能要件（可用性・セキュリティ）を提案書に明記している</td>
+<td>RFPへの回答内容を精査</td>
+<td>機能要件しか書かれていない提案は設計力不足のサイン</td>
+</tr>
+<tr>
+<td>5</td>
+<td>障害発生時の対応フローと連絡体制がある</td>
+<td>SLA（サービスレベル合意）文書を提示してもらう</td>
+<td>SLAが契約に含まれていない場合は個別に要求する</td>
+</tr>
+<tr>
+<td>6</td>
+<td>御社の業種・業務に近い事例がある</td>
+<td>同規模・同業種の導入事例を1件以上確認</td>
+<td>業務知識がないと要件ヒアリングで抜け漏れが生じやすい</td>
+</tr>
+</tbody></table>
+<p>実装者の経験から見ると、項目3の「再委託構造」は特に見落とされやすい点です。一次請けが要件定義を担い、実装を二次請けに丸投げするケースでは、仕様の伝達ロスが発生しやすく、移行後の障害時に責任の所在が曖昧になります。契約前に「実装を担当するのはどの会社のどのチームか」を明示するよう求めてください。</p>
+<h3>コンサル会社・SIer・開発会社の特性比較</h3>
+<p>クラウド移行の外注先は大きく3類型に分かれます。それぞれ得意領域と限界が異なるため、御社の課題フェーズに合った会社を選ぶことが重要です。</p>
+<table>
+<thead>
+<tr>
+<th>類型</th>
+<th>主な得意領域</th>
+<th>限界・注意点</th>
+<th>向いているケース</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>コンサル会社</td>
+<td>現状分析・戦略策定・ベンダ選定支援</td>
+<td>自社では実装しないため移行後の技術サポートは別会社が必要</td>
+<td>何から始めるべきか整理したい段階</td>
+</tr>
+<tr>
+<td>SIer（システムインテグレータ）</td>
+<td>大規模システムの設計・調達・プロジェクト管理</td>
+<td>小規模案件はコストが割高になりやすく、対応に時間がかかる場合がある</td>
+<td>既存の基幹システムとの連携が複雑な中堅企業</td>
+</tr>
+<tr>
+<td>開発会社（Web系・クラウドネイティブ系）</td>
+<td>クラウドサービスを活用した実装・内製化支援</td>
+<td>プロジェクト管理体制が会社規模によって差がある</td>
+<td>スピード重視・コスト重視の中小企業</td>
+</tr>
+</tbody></table>
+<p>3類型の中で中小企業がクラウド移行の外注先として選ぶ場合、実装まで一社で担える開発会社が費用と品質のバランスを取りやすい選択肢になることが多いです。ただし、移行対象システムが基幹業務（会計・在庫・販売管理など）に深く関わる場合は、SIerの調整力が必要になるケースもあります。</p>
+<p>コンサル会社を最初のフェーズで使い、実装フェーズで開発会社に引き継ぐ「二段構え」の発注は、引き継ぎコストと認識のズレが生まれやすいため、原則として同一会社でまかなえる範囲で選定することを優先してください。</p>
+<callout type="note">
+外注先の「クラウド対応」という言葉は定義が広く、「クラウド上に既存システムをそのまま移す（リフト）」だけを指す会社と、「クラウドの機能を活かして業務を再設計する（リファクタ）」まで担える会社では、提供価値に大きな差があります。提案依頼時に「どのレベルの移行を想定しているか」を明示し、回答の深さで技術力を見極めてください。
+</callout>
+
+<h2>クラウド移行プロジェクトの進め方：5ステップ</h2>
+<p>移行プロジェクトは「現状分析→方式設計→パイロット移行→本番移行→運用定着」の5段階で進めると、手戻りとコスト超過を防ぎやすくなります。各ステップを省略・圧縮することがトラブルの最大原因です。</p>
+<h3>各ステップの所要期間とつまずきやすい点</h3>
+<p>プロジェクト全体の期間は、対象システムの規模にもよりますが、小規模（ユーザ数30名以下・連携システム3本以下）で4〜6か月、中規模で6〜12か月が現実的な目安です。</p>
+<table>
+<thead>
+<tr>
+<th>ステップ</th>
+<th>作業内容</th>
+<th>目安期間</th>
+<th>つまずきやすい点</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1. 現状分析</td>
+<td>移行対象の棚卸・依存関係の可視化</td>
+<td>2〜4週間</td>
+<td>ドキュメントが存在せず現行システムの動作を逆読みするケースが多い</td>
+</tr>
+<tr>
+<td>2. 方式設計</td>
+<td>移行方式の選定・非機能要件の定義</td>
+<td>3〜6週間</td>
+<td>リフト・リシフト・リファクタの区別が曖昧なまま設計が進む</td>
+</tr>
+<tr>
+<td>3. パイロット移行</td>
+<td>非本番環境での試験移行・動作検証</td>
+<td>3〜8週間</td>
+<td>「本番で問題が出たら直す」という判断でスキップされがち</td>
+</tr>
+<tr>
+<td>4. 本番移行</td>
+<td>データ移行・切り替え・旧環境の停止</td>
+<td>1〜4週間</td>
+<td>切り替えタイミングの決定権者が不在で直前に判断が止まる</td>
+</tr>
+<tr>
+<td>5. 運用定着</td>
+<td>監視設定・運用手順書整備・社内教育</td>
+<td>2〜4週間</td>
+<td>移行完了と勘違いして運用設計が後回しになる</td>
+</tr>
+</tbody></table>
+<p>各ステップの期間はスムーズに進んだ場合の目安です。ステップ1で現行システムのドキュメントが揃っていない場合、分析だけで当初想定の倍以上かかるケースがあります。</p>
+<p><strong>リフト・リシフト・リファクタの違い</strong></p>
+<p>方式設計（ステップ2）でよく混乱するのが移行方式の選択です。それぞれの意味は以下のとおりです。</p>
+<ul>
+<li><strong>リフト（Lift）</strong>: 現行システムをそのままクラウド上の仮想マシンに移す。改修なし。コストは低いが、クラウドのメリットを活かしにくい</li>
+<li><strong>リシフト（Re-shift）</strong>: 最小限の改修を加えてクラウドに最適化する。部分的なマネージドサービスへの置き換えを含む</li>
+<li><strong>リファクタ（Refactor）</strong>: アーキテクチャから再設計してクラウドネイティブに作り直す。効果は大きいが、外注スクラッチ開発と同等のコストがかかる</li>
+</ul>
+<p>中小企業の最初のクラウド移行では、リフトまたはリシフトを選択し、運用が安定してからリファクタを検討するのが現実的です。</p>
+<hr>
+<h3>パイロット移行で必ず確認すべき3つの動作検証</h3>
+<p>パイロット移行（ステップ3）は、本番移行のリスクを下げる最重要フェーズです。以下の3点を検証しないまま本番に進むと、切り替え後に重大障害が発生する確率が高くなります。</p>
+<p><strong>1. データ整合性の検証</strong></p>
+<p>移行後のデータベースレコード数・チェックサム値を移行前と突き合わせます。「見た目が同じ」だけでは不十分で、文字コードの変換ミスやNULL値の扱いの差異がアプリケーション側のエラーとして後から顕在化します。</p>
+<p>確認するポイントは以下のとおりです。</p>
+<ul>
+<li>移行前後のレコード件数が完全に一致するか</li>
+<li>文字コード（UTF-8/Shift-JIS等）の変換が正しく行われているか</li>
+<li>日付型・数値型のデータ精度が維持されているか</li>
+</ul>
+<p><strong>2. 連携システムとの疎通検証</strong></p>
+<p>社内の基幹システムは、会計ソフト・在庫管理・メールサーバなど複数のシステムと連携しています。クラウド移行でIPアドレスやホスト名が変わると、連携先が疎通できなくなるケースがあります。</p>
+<p>連携先をリスト化し、パイロット環境から全連携先への接続テストを必ず実施してください。特にファイアウォールの送信元IPアドレス制限を連携先が設けている場合、事前の申請が必要です。</p>
+<p><strong>3. 負荷時の応答速度の検証</strong></p>
+<p>通常時の動作確認だけでは不十分です。月末の締め処理や繁忙期など、アクセスが集中するタイミングを想定した負荷テストを実施します。</p>
+<p>クラウドでは同一物理ホスト上の他テナントの影響を受ける「ノイジーネイバー問題」が発生することがあります。想定の2〜3倍の負荷をかけた状態でのレスポンスタイムを計測し、サービスレベル要件（セクション4で設定した可用性要件）と照合してください。</p>
+<hr>
+<p><strong>実装者から見たステップ4（本番移行）の注意点</strong></p>
+<p>本番切り替えで最も多いトラブルは、「誰が切り替えのGoサインを出すか」が決まっていないことです。技術的な準備が完了していても、業務責任者・経営者・外注先の三者の承認が揃わないと切り替えを実行できず、メンテナンス時間枠を超過するケースがあります。</p>
+<p>切り替え実行前に、以下をドキュメントで合意しておくことを強く推奨します。</p>
+<ul>
+<li>切り替え実行のGo/NoGoを判断する責任者の氏名と連絡先</li>
+<li>切り替え開始から完了までの最大許容時間（タイムボックス）</li>
+<li>切り替えに失敗した場合のロールバック手順と判断基準</li>
+</ul>
+<p>ロールバック手順が存在しない状態で本番切り替えを実行することは、規模にかかわらず避けてください。旧環境はデータ同期が確認できるまで停止しないことが原則です。</p>
+<h2>補助金・税制優遇は活用できる？判断前に確認する制度の概要</h2>
+<p>IT導入補助金など中小企業向けの支援制度が存在しますが、対象要件・補助率・申請時期は年度ごとに変わるため、必ず公募要領の一次情報を確認してください。制度の有無を前提に予算計画を立てると、採択されなかった場合に計画全体が崩れるリスクがあります。</p>
+<h3>主な支援制度の種類と特徴</h3>
+<p>中小企業がシステム外注やクラウド移行を検討する際に関係しうる支援制度は、大きく3類型に分かれます。</p>
+<table>
+<thead>
+<tr>
+<th>制度類型</th>
+<th>概要</th>
+<th>主な管轄</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>IT導入補助金</td>
+<td>ITツール・ソフトウェアの導入費用を一部補助</td>
+<td>中小企業庁（経済産業省）</td>
+</tr>
+<tr>
+<td>省力化投資補助金</td>
+<td>人手不足解消を目的とした設備・システム投資を支援</td>
+<td>中小企業庁（経済産業省）</td>
+</tr>
+<tr>
+<td>中小企業デジタル化応援隊事業</td>
+<td>専門家によるIT活用支援（支援内容・実施有無は年度により異なる）</td>
+<td>中小企業庁</td>
+</tr>
+<tr>
+<td>各都道府県の補助制度</td>
+<td>地域独自の中小企業DX支援（内容・金額は自治体ごとに異なる）</td>
+<td>各都道府県・市区町村</td>
+</tr>
+</tbody></table>
+<p>金額・補助率・対象経費の詳細は年度ごとに改定されます。本記事では制度名と類型の紹介にとどめ、具体的な数値は各制度の公募要領を直接参照してください。</p>
+<h3>制度を活用する前に確認すべき3点</h3>
+<p>補助金を計画に組み込む前に、以下の3点を必ず確認します。順番を間違えると申請資格を失うことがあります。</p>
+<ol>
+<li><p><strong>公募時期と申請スケジュール</strong>　補助金は公募期間が限られており、システム発注後に申請できない制度もあります。「先に発注して後から申請」は多くの制度で不可です。スケジュールを先に確認してからプロジェクト計画を立てます。</p>
+</li>
+<li><p><strong>対象経費の範囲</strong>　クラウド利用料、外注開発費、コンサルティング費用のいずれが対象かは制度によって異なります。自社が想定する支出が対象経費に含まれるかを公募要領で確認します。</p>
+</li>
+<li><p><strong>申請主体と認定要件</strong>　IT導入補助金であれば「IT導入支援事業者」として登録された事業者経由でのみ申請できます。任意の外注先に発注すれば補助の対象になるわけではない点に注意が必要です。</p>
+</li>
+</ol>
+<h3>補助金を「前提」にしない計画を立てる理由</h3>
+<p>補助金の採択は確約されません。採択率は制度・年度・申請内容によって変動し、不採択になるリスクは常に存在します。</p>
+<p>補助金なしでも投資回収の見通しが立つプロジェクトを優先し、制度は「採択されればコスト削減になる」という位置づけで活用するのが堅実です。補助金ありきで予算計画を組むと、不採択時に投資判断を最初からやり直すことになります。</p>
+<p>税制優遇については、中小企業投資促進税制や経営強化税制など、設備投資に関連する制度が存在します。適用可否は税理士または税務署に確認することを推奨します。</p>
+<hr>
+<p>補助金・税制優遇の活用検討は、プロジェクトの費用構造が固まった段階で行うのが効果的です。御社の投資計画と制度要件が合致するかどうか、まず現状のシステム課題と投資規模を整理することから始めると判断がしやすくなります。</p>
+<p>当社では初回の無料診断で、システム外注・クラウド移行の費用感と支援制度の活用可能性について概算の整理をお手伝いしています。<a href="/diagnostic">無料診断はこちら（/diagnostic）</a>からお申し込みいただけます。</p>
+<h2>関連リンク</h2>
+<ul>
+<li><a href="/subsidy">クラウド移行で活用できる補助金制度を確認</a></li>
+<li><a href="/guidebook">社内システムクラウド移行の発注ステップガイド</a></li>
+</ul>
+</div><div style="margin-top: 40px; padding: 16px 20px; background: var(--bg-2); border-radius: 10px; font-size: 13px; color: var(--text-3); line-height: 1.8;"><div>監修: 大島蓮太（株式会社ノーティックラボ代表 / AIエンジニア）</div><div>本記事はAIを活用して制作しています</div></div></div><section class="section-pad" style="background: var(--bg-2);"><div class="container" style="max-width: 880px;"><h3 class="display-s" style="margin-bottom: 24px;">関連記事</h3><div class="grid-3"><a class="article-card fadein is-in" href="/article-homepage-renewal-failure-causes-sme" style="cursor: pointer;"><div class="ph ph-image ph-fit" style="aspect-ratio: 16 / 10; width: 100%;"><picture><source srcset="/assets/blog-default.webp" type="image/webp"><img src="/assets/blog-default.png" alt="ホームページリニューアル失敗の原因と対策｜中小企業向け事前チェック表"></picture></div><div class="article-meta"><span style="color: var(--accent);">Web制作</span><span class="article-meta-sep">·</span><span>2026.08.10</span></div><h3 class="article-title">ホームページリニューアル失敗の原因と対策｜中小企業向け事前チェック表</h3></a><a class="article-card fadein is-in" href="/article-llm-guardrail-evaluation-metrics" style="cursor: pointer;"><div class="ph ph-image ph-fit" style="aspect-ratio: 16 / 10; width: 100%;"><picture><source srcset="/assets/blog-default.webp" type="image/webp"><img src="/assets/blog-default.png" alt="LLMガードレール評価の精度測定｜4つの指標と実装手順"></picture></div><div class="article-meta"><span style="color: var(--accent);">AI活用</span><span class="article-meta-sep">·</span><span>2026.08.10</span></div><h3 class="article-title">LLMガードレール評価の精度測定｜4つの指標と実装手順</h3></a><a class="article-card fadein is-in" href="/article-ios17-nfc-felica-system-code-limit" style="cursor: pointer;"><div class="ph ph-image ph-fit" style="aspect-ratio: 16 / 10; width: 100%;"><picture><source srcset="/assets/blog-default.webp" type="image/webp"><img src="/assets/blog-default.png" alt="iOS 17 FeliCa検出失敗の対策：システムコード上限値を把握する"></picture></div><div class="article-meta"><span style="color: var(--accent);">技術</span><span class="article-meta-sep">·</span><span>2026.08.09</span></div><h3 class="article-title">iOS 17 FeliCa検出失敗の対策：システムコード上限値を把握する</h3></a></div></div></section></article><section class="t_inq_wrap fadein is-in"><div class="container"><h2>こうした観点をベースに、<br>貴社の DX を一緒に考えませんか。</h2><div class="t_inq_btns"><button class="btn btn-primary" type="button"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><path d="M22 6l-10 7L2 6"></path></svg>資料請求はこちら</button><button class="btn btn-primary" type="button"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><path d="M21 21l-4.35-4.35"></path></svg>ホームページ無料診断</button></div><p class="t_inq_time">営業日 24時間以内に担当者よりご返信します。</p></div></section></main></div><footer class="footer"><div class="container"><div class="footer-grid"><div class="footer-brand"><div class="nav-logo" style="margin-bottom: 18px;"><span class="nav-logo-mark"></span><span class="wordmark"><span class="wordmark-main">NORTIQ</span><span class="wordmark-sub">LABS</span></span></div><p class="body" style="font-size: 13px; max-width: 320px; margin-bottom: 24px;">日本のDX、世界水準で巻き返す。<br>Web制作からAI・DX実装までの技術チーム。</p><button class="btn btn-primary btn-sm" type="button"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><path d="M22 6l-10 7L2 6"></path></svg>資料請求はこちら</button></div><div class="footer-col"><h4>制作実績</h4><ul><li><a href="/works">全実績一覧</a></li><li><a href="/works-clinic">クリニック・医療</a></li><li><a href="/works-realty">不動産</a></li><li><a href="/works-build">建築・工務店</a></li><li><a href="/works-hr">人材</a></li><li><a href="/works-retail">小売 / EC</a></li><li><a href="/works-infra">インフラ・製造</a></li><li><a href="/works-ai">AIスタートアップ</a></li><li><a href="/works-lp-corp">コーポレートLP</a></li><li><a href="/works-lp-recruit">採用LP</a></li><li><a href="/works-lp-ec">EC連動LP</a></li><li><a href="/works-video">動画制作事例</a></li></ul></div><div class="footer-col"><h4>機能・サービス</h4><ul><li><a href="/web">Web制作 機能一覧</a></li><li><a href="/chatbot">AIチャットボット 機能一覧</a></li><li><a href="/dx">DX・ML 機能一覧</a></li><li><a href="/feature-lpo">LP制作 / LPO</a></li><li><a href="/feature-recruit">採用専門サイト</a></li><li><a href="/feature-analytics">アクセス解析</a></li></ul><h4 style="margin-top: 28px;">自社プロダクト</h4><ul><li><a href="/product-vetonet">VetoNet</a></li><li><a href="/product-wpchat">ブログボット（AI投稿アシスタント）</a></li><li><a href="/product-tennis">Tennis フォームチェック</a></li></ul></div><div class="footer-col"><h4>サポート・コンサル</h4><ul><li><a href="/support">運用サポート</a></li><li><a href="/voice">ご利用会社様の声</a></li><li><a href="/diagnostic">サイト無料診断 (URL入力)</a></li><li><a href="/column">技術ブログ / コラム</a></li><li><a href="/news">お知らせ</a></li><li><a href="/subsidy">補助金活用相談</a></li><li><a href="/guidebook">サービス紹介資料</a></li></ul><h4 style="margin-top: 28px;">業種別ソリューション</h4><ul><li><a href="/solution-clinic">クリニック・医療</a></li><li><a href="/solution-realty">不動産</a></li><li><a href="/solution-build">建築・工務店</a></li><li><a href="/solution-hr">人材</a></li><li><a href="/solution-retail">小売 / EC</a></li></ul><h4 style="margin-top: 28px;">会社</h4><ul><li><a href="/company">会社概要</a></li><li><a href="/staff">チーム / スタッフ</a></li><li><a href="/recruit">採用情報</a></li><li><a href="/pricing">料金プラン</a></li><li><a href="/sitemap">サイトマップ</a></li></ul></div></div><div class="footer-bottom"><span>© 2026 Nortiq Labs Inc. All rights reserved.</span><div class="row" style="gap: 24px;"><a href="/privacy" style="color: var(--text-3);">プライバシーポリシー</a><a href="/terms" style="color: var(--text-3);">利用規約</a><a href="/privacy-handling" style="color: var(--text-3);">個人情報の取扱い</a></div></div></div></footer><div class="modal-backdrop"><div class="modal" role="dialog" aria-modal="true"><button class="modal-close" aria-label="閉じる"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M6 18L18 6"></path></svg></button><div style="margin-bottom: 24px;"><div class="eyebrow eyebrow-accent" style="margin-bottom: 10px;">CONTACT</div><h3 class="display-s" style="margin-bottom: 8px;">資料請求・お問い合わせ</h3><p class="small">初回相談は無料です。営業日24時間以内にご返信します。</p></div><form novalidate=""><div class="field"><label>貴社名<span class="req">必須</span></label><input type="text" placeholder="株式会社○○" value=""></div><div class="field"><label>ご担当者名<span class="req">必須</span></label><input type="text" placeholder="山田 太郎" value=""></div><div class="field"><label>メールアドレス<span class="req">必須</span></label><input type="email" placeholder="you@example.com" value=""></div><div class="field"><label>電話番号<span class="req">必須</span></label><input type="tel" placeholder="03-XXXX-XXXX" value=""></div><div class="field"><label>カテゴリー<span class="req">必須</span></label><div class="cb-group"><label class=""><input type="checkbox">Web制作</label><label class=""><input type="checkbox">AIチャットボット</label><label class=""><input type="checkbox">DX・ML</label><label class=""><input type="checkbox">業務自動化</label><label class=""><input type="checkbox">LP制作</label><label class=""><input type="checkbox">採用サイト</label></div></div><div class="field"><label>お問い合わせ内容<span class="req">必須</span></label><div class="cb-group"><label class=""><input type="checkbox">新規HP制作</label><label class=""><input type="checkbox">HPリニューアル</label><label class=""><input type="checkbox">AIチャットボット導入</label><label class=""><input type="checkbox">DX・ML 実装</label><label class=""><input type="checkbox">業務自動化</label><label class=""><input type="checkbox">リスティング広告</label><label class=""><input type="checkbox">コンサルティング</label></div></div><div class="field"><label>ご相談内容<span class="any">任意</span></label><div class="cb-group"><label class=""><input type="checkbox">HPが無い</label><label class=""><input type="checkbox">問い合わせを増やしたい</label><label class=""><input type="checkbox">サービス資料がほしい</label><label class=""><input type="checkbox">無料診断</label><label class=""><input type="checkbox">デザインを改善したい</label><label class=""><input type="checkbox">SEOを上げたい</label><label class=""><input type="checkbox">AI活用したい</label><label class=""><input type="checkbox">業務効率化したい</label><label class=""><input type="checkbox">補助金活用を相談したい</label></div></div><div class="field"><label>本サイトを知ったきっかけ<span class="any">任意</span></label><select><option value="">選択してください</option><option value="Google検索">Google検索</option><option value="Yahoo検索">Yahoo検索</option><option value="AIチャット (ChatGPT/Claude/Gemini等)">AIチャット (ChatGPT/Claude/Gemini等)</option><option value="ご紹介">ご紹介</option><option value="メール">メール</option><option value="DMチラシ">DMチラシ</option><option value="SNS (X/LinkedIn)">SNS (X/LinkedIn)</option><option value="以前から知っていた">以前から知っていた</option><option value="その他">その他</option></select></div><div class="field"><label>サイトURL<span class="any">任意</span></label><input type="text" placeholder="https://" value=""></div><div class="field"><label>その他ご質問<span class="any">任意</span></label><textarea placeholder="ご質問・ご相談がございましたらお気軽にご記入ください。"></textarea></div><div class="field field-check"><input type="checkbox" id="agree" style="margin-top: 2px;"><label for="agree" style="cursor: pointer;"><a href="#" style="color: var(--accent); text-decoration: underline;">個人情報の取り扱い</a>に同意します<span class="req">必須</span></label></div><div style="margin-top: 8px; text-align: center;"><button class="btn btn-primary btn-lg" type="submit">同意して送信する<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></button></div></form></div></div><nav class="sp-bottom-nav" aria-label="モバイル下部ナビ"><ul><li><a href="/"><span class="icn"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-8 9 8M5 10v10h14V10"></path></svg></span><span>トップ</span></a></li><li><a href="/works"><span class="icn"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect></svg></span><span>制作実績</span></a></li><li><a href="/pricing"><span class="icn"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4l8 11 8-11M7 13h10M7 17h10"></path></svg></span><span>料金</span></a></li><li><a><span class="icn"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><path d="M22 6l-10 7L2 6"></path></svg></span><span>資料請求</span></a></li><li><a href="/sitemap"><span class="icn"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M4 12h16M4 17h16"></path></svg></span><span>メニュー</span></a></li></ul></nav><div class="sticky-cta"><span class="pulse"></span><span>初回相談無料 · 営業日24h以内にご返信</span><button>資料請求 →</button><button class="sticky-cta-close" aria-label="閉じる"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M6 18L18 6"></path></svg></button></div></div>
+  <script src="/articles.js?v=mstix9av" defer=""></script>
+  <script src="/app.bundle.js?v=mstix9av" defer=""></script>
+
+
+</body></html>
