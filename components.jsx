@@ -706,7 +706,7 @@ function ContactModal({ open, onClose, defaultCategory = '' }) {
               <div className="field field-check">
                 <input type="checkbox" id="agree" checked={form.agree} onChange={onChange('agree')} style={{ marginTop: 2 }}/>
                 <label htmlFor="agree" style={{ cursor: 'pointer' }}>
-                  <a href="#" style={{ color: 'var(--accent)', textDecoration: 'underline' }}>個人情報の取り扱い</a>に同意します<span className="req">必須</span>
+                  <a href="/privacy-handling" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)', textDecoration: 'underline' }}>個人情報の取り扱い</a>に同意します<span className="req">必須</span>
                   {errors.agree && <div className="err">{errors.agree}</div>}
                 </label>
               </div>
@@ -989,7 +989,7 @@ function SideTabForm() {
               <div className="field field-check">
                 <input type="checkbox" id="side-agree" checked={form.agree} onChange={onChange('agree')} style={{ marginTop: 2 }} required/>
                 <label htmlFor="side-agree" style={{ cursor: 'pointer' }}>
-                  <a href="#" style={{ color: 'var(--accent)' }}>個人情報の取り扱い</a>に同意します
+                  <a href="/privacy-handling" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)' }}>個人情報の取り扱い</a>に同意します
                 </label>
               </div>
               {failed && (

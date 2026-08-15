@@ -4431,11 +4431,18 @@ picture { display: contents; }
   line-height: 1;
   cursor: pointer;
 }
-.showcase-iframe {
+/* ステージ: デスクトップ設計のサイトを縮小表示する器 */
+.showcase-stage {
   flex: 1;
-  width: 100%;
+  min-height: 0;
+  overflow: auto;
+  background: #fff;
+  position: relative;
+}
+.showcase-iframe {
   border: 0;
   background: #fff;
+  display: block;
 }
 @media (max-width: 640px) {
   .showcase-overlay { padding: 0; }
