@@ -117,7 +117,7 @@ function NewsPage({ onNavigate, onContact }) {
         eyebrow="NEWS / お知らせ"
         title={<>Nortiq Labs<br/>からのお知らせ。</>}
         lede="プロダクトリリース・プレスリリース・メディア掲載など、Nortiq Labs からの最新情報をお届けします。"
-        badges={["毎週更新", "RSS 配信", "メルマガ購読可"]}
+        badges={["リリース情報", "プレス", "不定期更新"]}
         onContact={onContact}
       />
       <section className="section-pad">
@@ -241,6 +241,8 @@ function RecruitPage({ onNavigate, onContact }) {
           </div>
         </div>
       </section>
+
+      <ExtraContent blocks={RECRUIT_EXTRA} onNavigate={onNavigate}/>
 
       <RedCTAStrip onContact={onContact} onNavigate={onNavigate} title={<>気になるポジションがあれば、<br/>カジュアル面談から。</>}/>
     </main>
@@ -638,6 +640,8 @@ function WorkDetailPage({ onNavigate, onContact }) {
           </div>
         </div>
       </section>
+
+      <SolutionExtra pageId={pageId} onNavigate={onNavigate}/>
 
       <RedCTAStrip onContact={onContact} onNavigate={onNavigate} title={<>同業種で、似た課題を解決しませんか。</>}/>
     </main>

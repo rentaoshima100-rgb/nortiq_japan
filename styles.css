@@ -4346,3 +4346,9 @@ picture { display: contents; }
     transform: none !important;
   }
 }
+
+/* ================= Content-data tables =================== */
+.cd-table { border-collapse: collapse; width: 100%; min-width: 640px; font-size: 13.5px; background: #fff; }
+.cd-table th, .cd-table td { text-align: left; padding: 12px 16px; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.8; }
+.cd-table tr:last-child td { border-bottom: 0; }
+.cd-table th { font-size: 11px; letter-spacing: 0.1em; color: var(--text-3); background: var(--bg-2); white-space: nowrap; }

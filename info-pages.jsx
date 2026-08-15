@@ -137,6 +137,8 @@ function WorksPage({ category, onNavigate, onContact }) {
         </section>
       )}
 
+      {category && <IndustrySections category={category} onNavigate={onNavigate}/>}
+
       <CTAStrip onContact={onContact} title="自社の業種に近い事例で、まず相談する。" sub="ヒアリングでヒアリング前に共有資料 (PDF) もお送りします。"/>
     </main>
   );
@@ -260,6 +262,8 @@ function SupportPage({ onNavigate, onContact }) {
         </div>
       </section>
 
+      <ExtraContent blocks={SUPPORT_CONTENT} onNavigate={onNavigate}/>
+
       <CTAStrip onContact={onContact}/>
     </main>
   );
@@ -324,6 +328,8 @@ function PricingPage({ onNavigate, onContact }) {
         </section>
       ))}
 
+      <ExtraContent blocks={PRICING_EXTRA} onNavigate={onNavigate}/>
+
       <CTAStrip onContact={onContact} title="プランの組み合わせ、ご相談ください。" sub="複数プランを段階導入する形での見積も可能です。補助金の活用も視野に、最適な投資計画をご相談いただけます。"/>
     </main>
   );
@@ -382,6 +388,8 @@ function DiagnosisPage({ onNavigate, onContact }) {
           </div>
         </div>
       </section>
+      <CDCards title={DIAGNOSIS_CONTENT.categories.title} sub={DIAGNOSIS_CONTENT.categories.sub} items={DIAGNOSIS_CONTENT.categories.items}/>
+
       <CTAStrip onContact={() => onContact('diagnosis')} title="3営業日後、レポートが届きます。" sub="フォーム送信から3営業日以内に、診断レポート (PDF) をメールでお送りします。"/>
     </main>
   );
@@ -499,6 +507,8 @@ function SubsidyPage({ onNavigate, onContact }) {
           </p>
         </div>
       </section>
+      <SubsidySections onNavigate={onNavigate} onContact={onContact}/>
+
       <CTAStrip onContact={() => onContact('subsidy')} title="補助金を活用したDX投資について、相談しませんか。" sub="初回相談は無料です。現状をうかがい、補助金活用を含めた進め方をご提案します。"/>
     </main>
   );
@@ -578,6 +588,9 @@ function GuidebookPage({ onNavigate, onContact }) {
           </div>
         </div>
       </section>
+      <CDCards title={GUIDEBOOK_CONTENT.who.title} sub={GUIDEBOOK_CONTENT.who.sub} items={GUIDEBOOK_CONTENT.who.items}/>
+      <CDSteps title={GUIDEBOOK_CONTENT.after.title} sub={GUIDEBOOK_CONTENT.after.sub} items={GUIDEBOOK_CONTENT.after.items}/>
+      <CDFaq title="よくある質問" items={GUIDEBOOK_CONTENT.faqs}/>
       <CTAStrip onContact={onContact}/>
     </main>
   );

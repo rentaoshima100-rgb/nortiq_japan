@@ -13,6 +13,7 @@ const DIST = path.join(ROOT, 'dist');
 const JSX_FILES = [
   'tweaks-panel.jsx',
   'components.jsx',
+  'content-data.jsx',
   'top-page.jsx',
   'service-pages.jsx',
   'info-pages.jsx',
