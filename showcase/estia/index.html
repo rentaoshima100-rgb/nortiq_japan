@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script>window.__resources = {"https://unpkg.com/react@18.3.1/umd/react.production.min.js": "/assets/vendor/react.production.min.js","https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js": "/assets/vendor/react-dom.production.min.js","https://unpkg.com/@babel/standalone@7.29.0/babel.min.js": "/assets/vendor/babel.min.js"};</script>
-<script src="./support.js"></script>
+<script src="/showcase/estia/support.js"></script>
 </head>
 <body>
 <x-dc>
@@ -20,7 +20,7 @@ a:hover{color:#E2C982;}
 select{outline:none;}
 select option{background:#13223A;color:#EDEAE3;}
 </style>
-<script src="./image-slot.js"></script>
+<script src="/showcase/estia/image-slot.js"></script>
 </helmet>
 <div style="min-width:1280px;">
 
@@ -63,7 +63,7 @@ select option{background:#13223A;color:#EDEAE3;}
     </div>
   </div>
   <div style="flex:1;min-width:0;overflow:hidden;position:relative;background:#0A1322;">
-    <image-slot id="v2-hero" shape="rect" src="uploads/Gemini_Generated_Image_e4xtk2e4xtk2e4xt.jpg" placeholder="東京の夜景写真をドロップ"></image-slot>
+    <image-slot id="v2-hero" shape="rect" src="/showcase/estia/uploads/Gemini_Generated_Image_e4xtk2e4xtk2e4xt.jpg" placeholder="東京の夜景写真をドロップ"></image-slot>
     <div style="position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg,#0F1B2D 0%,rgba(15,27,45,.55) 14%,rgba(15,27,45,0) 42%);"></div>
   </div>
 </section>
@@ -286,7 +286,7 @@ select option{background:#13223A;color:#EDEAE3;}
 }">
 class Component extends DCLogic {
   renderVals() {
-    const U = 'uploads/Gemini_Generated_Image_';
+    const U = '/showcase/estia/uploads/Gemini_Generated_Image_';
     const all = [
       { id: 1, no: '01', isNew: true,  img: U + 'tlaal0tlaal0tlaa.jpg', name: '恵比寿三丁目 一棟レジデンス', loc: 'JR山手線「恵比寿」駅', spec: 'RC造 地上9階 総戸数18戸', price: '3億4,800万円', yield: '4.2%', age: '築9年', walk: '徒歩4分' },
       { id: 2, no: '02', isNew: false, img: U + 'qnl3sbqnl3sbqnl3.jpg', name: '中目黒 一棟マンション', loc: '東急東横線「中目黒」駅', spec: 'RC造 地上7階 総戸数14戸', price: '2億9,800万円', yield: '4.6%', age: '築12年', walk: '徒歩6分' },
