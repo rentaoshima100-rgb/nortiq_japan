@@ -16,6 +16,7 @@ const WORKS_DATA = [
   { id: 20, tag: "クリニック", category: "clinic", title: "美容外来のブランドサイト (クマ取り専門外来)", stat: "予約離脱 -42%", services: ["Web制作"], img: "assets/hero-06.png" },
   { id: 3, tag: "不動産", category: "realty", title: "新時代の不動産投資ブランド構築 (PLEAST)", stat: "問合せ 3.2×", services: ["Web制作", "SEO"], img: "assets/work-pleast.png" },
   { id: 4, tag: "不動産", category: "realty", title: "投資物件専門サイト × 物件管理 (ESTIA PARTNERS)", stat: "反響 2.7×", services: ["Web制作", "DX"], img: "assets/work-estia.png", demo: "/showcase/estia/" },
+  { id: 23, tag: "不動産", category: "realty", title: "賃貸オーナー向け管理ポータル (オーナーズデスク)", stat: "工数 -45%", services: ["業務システム", "UI設計", "ロゴ・VI"], img: "assets/work-ownersdesk.png", demo: "/showcase/ownersdesk/" },
   { id: 5, tag: "建築", category: "build", title: "大規模修繕・建物リニューアル (Renew Reuse Loop)", stat: "問合せ 2.6×", services: ["Web制作", "Recruit"], img: "assets/work-renewal.png" },
   { id: 6, tag: "建築", category: "build", title: "不断水水替工法のテクニカルサイト (RAKUYU-Z)", stat: "BtoB商談 +210%", services: ["Web制作"], img: "assets/work-rakuyu.png" },
   { id: 7, tag: "人材", category: "hr", title: "外国人材組合 (Asia Exchange Cooperative) サイト", stat: "応募 +84%", services: ["Web制作", "AIチャットボット"], img: "assets/work-asia-exchange.png" },

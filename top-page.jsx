@@ -630,7 +630,7 @@ function GalleryTabs({ onNavigate }) {
     [
       { tag: "不動産", t: "新時代の不動産投資ブランド (PLEAST)", stat: "問合せ 3.2×", route: 'works-realty', img: "assets/work-pleast.png" },
       { tag: "不動産", t: "投資物件専門サイト × 物件管理 (ESTIA PARTNERS)", stat: "反響 2.7×", route: 'works-realty', img: "assets/work-estia.png", demo: "/showcase/estia/" },
-      { tag: "不動産", t: "賃貸オーナー向け管理ポータル", stat: "工数 -45%", route: 'works-realty' },
+      { tag: "不動産", t: "賃貸オーナー向け管理ポータル (オーナーズデスク)", stat: "工数 -45%", route: 'works-realty', img: "assets/work-ownersdesk.png", demo: "/showcase/ownersdesk/" },
       { tag: "不動産", t: "売却査定LPの刷新", stat: "査定依頼 +180%", route: 'works-realty' },
       { tag: "不動産", t: "中古リノベ専門のブランドサイト", stat: "問合せ 2.1×", route: 'works-realty', img: "assets/work-renewal.png" },
       { tag: "不動産", t: "テナント仲介のコーポレート", stat: "成約 +33%", route: 'works-realty' },
