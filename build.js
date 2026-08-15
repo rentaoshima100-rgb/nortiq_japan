@@ -276,6 +276,29 @@ async function build() {
   console.log('• copying assets/');
   copyDir(path.join(ROOT, 'assets'), path.join(DIST, 'assets'));
 
+  // showcase/ — 実績ショーケースサイト (自己完結の静的HTML群)。
+  // 同一ドメイン (/showcase/<name>/) で配信し、実績カードのサイト内モーダルから
+  // iframe 表示する。本体と検索上で競合しないよう、HTML には noindex を注入する。
+  const SHOWCASE = path.join(ROOT, 'showcase');
+  if (fs.existsSync(SHOWCASE)) {
+    const dest = path.join(DIST, 'showcase');
+    copyDir(SHOWCASE, dest);
+    const injectNoindex = (dir) => {
+      for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+        const p = path.join(dir, entry.name);
+        if (entry.isDirectory()) { injectNoindex(p); continue; }
+        if (!/\.html?$/i.test(entry.name)) continue;
+        let html = fs.readFileSync(p, 'utf8');
+        if (!/name=["']robots["']/i.test(html)) {
+          html = html.replace(/<head([^>]*)>/i, '<head$1>\n<meta name="robots" content="noindex, nofollow">');
+          fs.writeFileSync(p, html);
+        }
+      }
+    };
+    injectNoindex(dest);
+    console.log('• copied showcase/ (noindex injected)');
+  }
+
   console.log('• optimizing dist/assets images');
   await optimizeImages(path.join(DIST, 'assets'));
 

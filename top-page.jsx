@@ -622,50 +622,50 @@ function GalleryTabs({ onNavigate }) {
     [
       { tag: "クリニック", t: "地域密着型クリニックのリニューアル (あおぞら Family Clinic)", stat: "問い合わせ 2.4×", route: 'works-clinic', img: "assets/work-aozora-family.png" },
       { tag: "クリニック", t: "内科クリニックの予約サイト構築 (あおぞら内科クリニック)", stat: "予約 +83%", route: 'works-clinic', img: "assets/work-aozora-naika.png" },
+      { tag: "クリニック", t: "クリニックグループのコーポレート (Tokyo Clinic Group)", stat: "応募 1.9×", route: 'works-clinic', img: "assets/work-tokyoclinic.png", demo: "/showcase/tokyoclinic/" },
       { tag: "クリニック", t: "皮膚科ブランドサイト × 集客連動 (AIRA CLINIC GINZA)", stat: "PV 2.7×", route: 'works-clinic', img: "assets/hero-05.png" },
       { tag: "クリニック", t: "歯科医院の総合 LP 構築 (白藍 HAKURAN DENTAL)", stat: "予約 +110%", route: 'works-clinic', img: "assets/hero-04.png" },
       { tag: "クリニック", t: "美容外来のブランドサイト (クマ取り専門外来)", stat: "予約離脱 -42%", route: 'works-clinic', img: "assets/hero-06.png" },
-      { tag: "クリニック", t: "クリニックグループのコーポレート (Tokyo Clinic Group)", stat: "応募 1.9×", route: 'works-clinic', img: "assets/case-clinic-doctor.png" },
     ],
     [
-      { tag: "不動産", t: "新時代の不動産投資ブランド (PLEAST)", stat: "問合せ 3.2×", route: 'works-realty', img: "assets/work-pleast.png" },
-      { tag: "不動産", t: "投資物件専門サイト × 物件管理", stat: "反響 2.7×", route: 'works-realty', img: "assets/work-pleast.png" },
-      { tag: "不動産", t: "賃貸オーナー向け管理ポータル", stat: "工数 -45%", route: 'works-realty' },
-      { tag: "不動産", t: "売却査定LPの刷新", stat: "査定依頼 +180%", route: 'works-realty' },
-      { tag: "不動産", t: "中古リノベ専門のブランドサイト", stat: "問合せ 2.1×", route: 'works-realty', img: "assets/work-renewal.png" },
-      { tag: "不動産", t: "テナント仲介のコーポレート", stat: "成約 +33%", route: 'works-realty' },
+      { tag: "不動産", t: "投資物件専門サイト × 物件管理 (ESTIA PARTNERS)", stat: "反響 2.7×", route: 'works-realty', img: "assets/work-estia.png", demo: "/showcase/estia/" },
+      { tag: "不動産", t: "賃貸オーナー向け管理ポータル (オーナーズデスク)", stat: "工数 -45%", route: 'works-realty', img: "assets/work-ownersdesk.png", demo: "/showcase/ownersdesk/" },
+      { tag: "不動産", t: "売却査定LPの刷新 (うちいくら？)", stat: "査定依頼 +180%", route: 'works-realty', img: "assets/work-uchiikura.png", demo: "/showcase/uchiikura/" },
+      { tag: "不動産", t: "中古リノベ専門のブランドサイト (RENOVE STORY)", stat: "問合せ 2.1×", route: 'works-realty', img: "assets/work-renovestory.png", demo: "/showcase/renovestory/" },
+      { tag: "不動産", t: "都心売買仲介の集客サイト (TOKYO HOMES AGENT)", stat: "反響 2.4×", route: 'works-realty', img: "assets/work-tokyohomes.png", demo: "/showcase/tokyohomes/" },
+      { tag: "不動産", t: "新時代の不動産投資ブランド構築 (PLEAST)", stat: "問合せ 3.2×", route: 'works-realty', img: "assets/work-pleast.png" },
     ],
     [
-      { tag: "建築", t: "大規模修繕・建物リニューアル (建設グループ)", stat: "問合せ 2.6×", route: 'works-build', img: "assets/work-renewal.png" },
+      { tag: "建築", t: "大規模修繕・建物リニューアル (Renew Reuse Loop)", stat: "問合せ 2.6×", route: 'works-build', img: "assets/work-renewal.png" },
       { tag: "建築", t: "不断水水替工法 RAKUYU-Z テクニカルサイト", stat: "BtoB商談 +210%", route: 'works-build', img: "assets/work-rakuyu.png" },
-      { tag: "建築", t: "注文住宅メーカーの集客サイト", stat: "資料請求 2.6×", route: 'works-build', img: "assets/work-renewal.png" },
-      { tag: "建築", t: "設計事務所のポートフォリオ刷新", stat: "問合せ 1.8×", route: 'works-build' },
-      { tag: "建築", t: "外構工事会社のローカル SEO", stat: "MEO 1位", route: 'works-build' },
-      { tag: "建築", t: "建材メーカーの製品 LP", stat: "BtoB 商談化 3.4×", route: 'works-build', img: "assets/work-rakuyu.png" },
+      { tag: "建築", t: "注文住宅メーカーの集客サイト (木香の家)", stat: "資料請求 2.6×", route: 'works-build', img: "assets/work-mokka.png", demo: "/showcase/mokka/" },
+      { tag: "建築", t: "設計事務所のポートフォリオ刷新 (ARAI ARCHITECTS)", stat: "問合せ 1.8×", route: 'works-build', img: "assets/work-araiarch.png", demo: "/showcase/araiarch/" },
+      { tag: "建築", t: "外構工事会社のローカルSEO (グリーンゲート京都)", stat: "MEO 1位", route: 'works-build', img: "assets/work-greengate.png", demo: "/showcase/greengate/" },
+      { tag: "建築", t: "建材メーカーの製品LP (THERMOX)", stat: "BtoB商談化 3.4×", route: 'works-build', img: "assets/work-thermox.png", demo: "/showcase/thermox/" },
     ],
     [
       { tag: "人材", t: "外国人材組合の総合ブランドサイト", stat: "応募 +84%", route: 'works-hr', img: "assets/work-asia-exchange.png" },
       { tag: "人材", t: "新卒採用ブランドサイト構築 (AXIA · NEW GRADUATES)", stat: "エントリー 2.1×", route: 'works-hr', img: "assets/hero-07.png" },
-      { tag: "人材", t: "中途採用LP + リスティング連動", stat: "応募単価 -38%", route: 'works-hr' },
-      { tag: "人材", t: "派遣会社の登録LP", stat: "登録 1.7×", route: 'works-hr' },
-      { tag: "人材", t: "外国人材紹介の英日バイリンガル", stat: "海外PV 4×", route: 'works-hr', img: "assets/work-asia-exchange.png" },
-      { tag: "人材", t: "業界特化型エージェント刷新", stat: "成約 +44%", route: 'works-hr' },
+      { tag: "人材", t: "IT企業の中途採用LP (NEXTCODE · JOIN US)", stat: "応募単価 -38%", route: 'works-hr', img: "assets/work-nextcode.png", demo: "/showcase/nextcode/" },
+      { tag: "人材", t: "派遣会社の登録LP (ワークリンク関西)", stat: "登録 1.7×", route: 'works-hr', img: "assets/work-worklink.png", demo: "/showcase/worklink/" },
+      { tag: "人材", t: "外国人材紹介の英日バイリンガル (BRIDGE WORKS JAPAN)", stat: "海外PV 4×", route: 'works-hr', img: "assets/work-bridgeworks.png", demo: "/showcase/bridgeworks/" },
+      { tag: "人材", t: "業界特化型エージェント刷新 (メディキャリア)", stat: "成約 +44%", route: 'works-hr', img: "assets/work-medicareer.png", demo: "/showcase/medicareer/" },
     ],
     [
       { tag: "コーポレート", t: "ゴルフリゾート (COCOPA) のブランドサイト", stat: "予約 1.9×", route: 'works-lp-corp', img: "assets/work-cocopa.png" },
       { tag: "コーポレート", t: "京都のキッチンカー (panza) ブランドLP", stat: "SNS流入 4.6×", route: 'works-lp-corp', img: "assets/work-panza.png" },
       { tag: "コーポレート", t: "京都の骨董店 (TAKETORA) バイリンガルEC", stat: "海外PV 5.2×", route: 'works-lp-corp', img: "assets/work-taketora.png" },
-      { tag: "コーポレート", t: "AIスタートアップのシード期 LP", stat: "商談化率 4.2×", route: 'works-ai' },
-      { tag: "コーポレート", t: "メーカーのコーポレート再構築", stat: "PV 1.6×", route: 'works-lp-corp', img: "assets/work-rakuyu.png" },
-      { tag: "コーポレート", t: "コンサルファームのサービス紹介", stat: "DL +260%", route: 'works-lp-corp' },
+      { tag: "コーポレート", t: "テナント仲介のコーポレート (京町テナント商事)", stat: "成約 +33%", route: 'works-realty', img: "assets/work-kyomachi.png", demo: "/showcase/kyomachi/" },
+      { tag: "コーポレート", t: "精密部品メーカーの再構築 (京西精機)", stat: "PV 1.6×", route: 'works-infra', img: "assets/work-kyosai.png", demo: "/showcase/kyosai/" },
+      { tag: "コーポレート", t: "コンサルファームのサービス紹介 (衿立パートナーズ)", stat: "DL +260%", route: 'works-infra', img: "assets/work-eritate.png", demo: "/showcase/eritate/" },
     ],
     [
       { tag: "DX・アプリ", t: "中古フィギュア店の AI 在庫登録システム (TAKETORA)", stat: "AI同定 3層", route: 'works-retail' },
       { tag: "自社プロダクト", t: "ブログボット — AI投稿アシスタント", stat: "運用工数 1/10", route: 'product-wpchat', img: "assets/blog-blog-bot.png" },
       { tag: "研究開発", t: "VetoNet — AI エージェント検証レイヤ", stat: "白書公開予定", route: 'product-vetonet', img: "assets/vetonet-dashboard.png" },
-      { tag: "自社プロダクト", t: "テニスフォームの AI 解析 SaaS", stat: "33関節 解析", route: 'product-tennis' },
-      { tag: "小売", t: "サブスク EC のリピート率改善", stat: "解約率 -32%", route: 'works-retail', img: "assets/hero-01.png" },
-      { tag: "不動産", t: "投資物件専門サイト × 物件管理", stat: "反響 2.7×", route: 'works-realty', img: "assets/work-pleast.png" },
+      { tag: "AI", t: "AIスタートアップのシード期 LP (Sable)", stat: "商談化率 4.2×", route: 'works-ai', img: "assets/work-sable.png", demo: "/showcase/sable/" },
+      { tag: "AI", t: "BtoB SaaS のサービスサイト (ATLAS ML Engine)", stat: "問合せ +210%", route: 'works-ai', img: "assets/work-atlas.png", demo: "/showcase/atlas/" },
+      { tag: "小売", t: "サブスク EC のリピート率改善 (Quiet Objects)", stat: "解約率 -32%", route: 'works-retail', img: "assets/work-quietobjects.png", demo: "/showcase/quietobjects/" },
     ],
   ];
   return (
@@ -686,7 +686,8 @@ function GalleryTabs({ onNavigate }) {
         </div>
         <div className="grid-3" style={{ marginTop: 32 }}>
           {data[tab].slice(0, 6).map((w, i) => (
-            <a key={i} className="card card-link fadein" data-delay={i * 80} style={{ padding: 0, overflow: 'hidden', cursor: 'pointer' }} {...navProps(w.route, onNavigate)}>
+            <a key={i} className="card card-link fadein" data-delay={i * 80} style={{ padding: 0, overflow: 'hidden', cursor: 'pointer' }}
+               {...(w.demo ? { onClick: (e) => { e.preventDefault(); openShowcase(w.demo, w.t); } } : navProps(w.route, onNavigate))}>
               <WorkShot work={{ img: w.img, title: w.t, tag: w.tag }}/>
               <div style={{ padding: '18px 22px 20px' }}>
                 <div className="row" style={{ justifyContent: 'space-between', marginBottom: 10 }}>
@@ -694,7 +695,7 @@ function GalleryTabs({ onNavigate }) {
                   <span className="stat-pill">{w.stat}</span>
                 </div>
                 <h3 style={{ fontSize: 15, fontWeight: 700, margin: 0, lineHeight: 1.6 }}>{w.t}</h3>
-                <span className="work-cta">実績の詳細を見る<Icon name="arrow-right" size={12}/></span>
+                <span className="work-cta">{w.demo ? 'サイトをこの場で見る' : '実績の詳細を見る'}<Icon name="arrow-right" size={12}/></span>
               </div>
             </a>
           ))}

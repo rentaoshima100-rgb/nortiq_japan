@@ -821,10 +821,10 @@ const LP_DATA = {
     lede: "投資家・取引先・採用候補者に伝わる総合コーポレートサイトの制作実績。エネルギー・SaaS・建設・製造・人材まで、業種を問わずブランドと情報設計を両立させます。",
     badges: ["ブランディング", "情報設計", "多言語対応", "IR / 採用対応"],
     items: [
-      { tag: "コーポレート", t: "再エネ発電のスマートエネルギー企業サイト", stat: "資料DL 2.4×", img: "assets/work-voltio.png" },
-      { tag: "コーポレート", t: "AIエージェント SaaS のプロダクト/会社サイト", stat: "問合せ +210%", img: "assets/work-sable.png" },
+      { tag: "コーポレート", t: "再エネ発電のスマートエネルギー企業サイト", stat: "資料DL 2.4×", img: "assets/work-voltio.png", demo: "/showcase/voltio/" },
+      { tag: "コーポレート", t: "AIエージェント SaaS のプロダクト/会社サイト", stat: "問合せ +210%", img: "assets/work-sable.png", demo: "/showcase/sable/" },
       { tag: "コーポレート", t: "大規模修繕・建物リニューアル企業のブランドサイト", stat: "現地調査依頼 1.8×", img: "assets/work-renewal.png" },
-      { tag: "コーポレート", t: "ML推論エンジンのエンタープライズ製品サイト", stat: "PoC申込 2.6×", img: "assets/work-atlas.png" },
+      { tag: "コーポレート", t: "ML推論エンジンのエンタープライズ製品サイト", stat: "PoC申込 2.6×", img: "assets/work-atlas.png", demo: "/showcase/atlas/" },
       { tag: "コーポレート", t: "外国人材・育成就労 組合のコーポレートサイト", stat: "受入相談 +", img: "assets/work-asia-exchange.png" },
     ],
   },
@@ -844,7 +844,7 @@ const LP_DATA = {
     lede: "実店舗・ブランドとオンライン販売を連動させる EC 送客 LP の制作実績。越境 EC や実店舗送客まで、購買導線を一気通貫で設計します。",
     badges: ["OMO設計", "越境EC対応", "実店舗送客"],
     items: [
-      { tag: "EC連動", t: "クラフト・衣料ブランドのエディトリアル EC", stat: "客単価 +24%", img: "assets/work-quiet-objects.png" },
+      { tag: "EC連動", t: "クラフト・衣料ブランドのエディトリアル EC", stat: "客単価 +24%", img: "assets/work-quietobjects.png", demo: "/showcase/quietobjects/" },
       { tag: "EC連動", t: "京都・骨董店「TAKETORA」のバイリンガル越境EC", stat: "海外売上 2.2×", img: "assets/work-taketora.png" },
     ],
   },
@@ -886,14 +886,16 @@ function WorksVariantPage({ pageId, onNavigate, onContact }) {
           </div>
           <div className="grid-3">
             {m.items.map((w, i) => (
-              <a key={i} className="card card-link fadein" data-delay={i * 60} style={{ padding: 0, overflow: 'hidden', cursor: 'pointer' }}>
-                <Placeholder label={w.tag} caption={`case · #${String(i + 1).padStart(3,'0')}`} aspect="16/10" src={w.img} alt={`${w.t}の制作実績`} fit/>
-                <div style={{ padding: '20px 22px 22px' }}>
-                  <div className="row" style={{ justifyContent: 'space-between', marginBottom: 12 }}>
+              <a key={i} className={`card fadein${w.demo ? ' card-link' : ''}`} data-delay={i * 60} style={{ padding: 0, overflow: 'hidden', cursor: w.demo ? 'pointer' : 'default' }}
+                 onClick={w.demo ? (e) => { e.preventDefault(); openShowcase(w.demo, w.t); } : undefined}>
+                <WorkShot work={{ img: w.img, title: w.t, tag: w.tag }}/>
+                <div style={{ padding: '18px 22px 20px' }}>
+                  <div className="row" style={{ justifyContent: 'space-between', marginBottom: 10 }}>
                     <span className="tag">{w.tag}</span>
-                    <span className="small text-mono text-accent" style={{ fontWeight: 700 }}>{w.stat}</span>
+                    <span className="stat-pill">{w.stat}</span>
                   </div>
-                  <h3 style={{ fontSize: 15, fontWeight: 700, margin: 0, lineHeight: 1.55 }}>{w.t}</h3>
+                  <h3 style={{ fontSize: 15, fontWeight: 700, margin: 0, lineHeight: 1.6 }}>{w.t}</h3>
+                  {w.demo && <span className="work-cta">サイトをこの場で見る<Icon name="arrow-right" size={12}/></span>}
                 </div>
               </a>
             ))}

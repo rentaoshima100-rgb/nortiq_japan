@@ -14,22 +14,38 @@ const WORKS_DATA = [
   { id: 18, tag: "クリニック", category: "clinic", title: "皮膚科ブランドサイト × 集客連動 (AIRA CLINIC GINZA)", stat: "PV 2.7×", services: ["Web制作", "SEO"], img: "assets/hero-05.png" },
   { id: 19, tag: "クリニック", category: "clinic", title: "歯科医院の総合 LP 構築 (白藍 HAKURAN DENTAL)", stat: "予約 +110%", services: ["Web制作"], img: "assets/hero-04.png" },
   { id: 20, tag: "クリニック", category: "clinic", title: "美容外来のブランドサイト (クマ取り専門外来)", stat: "予約離脱 -42%", services: ["Web制作"], img: "assets/hero-06.png" },
+  { id: 25, tag: "クリニック", category: "clinic", title: "クリニックグループのコーポレート (Tokyo Clinic Group)", stat: "応募 1.9×", services: ["Web制作", "採用"], img: "assets/work-tokyoclinic.png", demo: "/showcase/tokyoclinic/" },
   { id: 3, tag: "不動産", category: "realty", title: "新時代の不動産投資ブランド構築 (PLEAST)", stat: "問合せ 3.2×", services: ["Web制作", "SEO"], img: "assets/work-pleast.png" },
-  { id: 4, tag: "不動産", category: "realty", title: "投資物件専門サイト × 物件管理", stat: "反響 2.7×", services: ["Web制作", "DX"], img: "assets/work-pleast.png" },
+  { id: 4, tag: "不動産", category: "realty", title: "投資物件専門サイト × 物件管理 (ESTIA PARTNERS)", stat: "反響 2.7×", services: ["Web制作", "DX"], img: "assets/work-estia.png", demo: "/showcase/estia/" },
+  { id: 23, tag: "不動産", category: "realty", title: "賃貸オーナー向け管理ポータル (オーナーズデスク)", stat: "工数 -45%", services: ["業務システム", "UI設計", "ロゴ・VI"], img: "assets/work-ownersdesk.png", demo: "/showcase/ownersdesk/" },
+  { id: 24, tag: "不動産", category: "realty", title: "売却査定LPの刷新 (うちいくら？)", stat: "査定依頼 +180%", services: ["LP制作", "LPO", "EFO"], img: "assets/work-uchiikura.png", demo: "/showcase/uchiikura/" },
+  { id: 26, tag: "不動産", category: "realty", title: "中古リノベ専門のブランドサイト (RENOVE STORY)", stat: "問合せ 2.1×", services: ["Web制作", "ブランディング"], img: "assets/work-renovestory.png", demo: "/showcase/renovestory/" },
+  { id: 27, tag: "不動産", category: "realty", title: "都心売買仲介の集客サイト (TOKYO HOMES AGENT)", stat: "反響 2.4×", services: ["Web制作", "SEO"], img: "assets/work-tokyohomes.png", demo: "/showcase/tokyohomes/" },
+  { id: 28, tag: "不動産", category: "realty", title: "テナント仲介のコーポレート (京町テナント商事)", stat: "成約 +33%", services: ["Web制作"], img: "assets/work-kyomachi.png", demo: "/showcase/kyomachi/" },
   { id: 5, tag: "建築", category: "build", title: "大規模修繕・建物リニューアル (Renew Reuse Loop)", stat: "問合せ 2.6×", services: ["Web制作", "Recruit"], img: "assets/work-renewal.png" },
   { id: 6, tag: "建築", category: "build", title: "不断水水替工法のテクニカルサイト (RAKUYU-Z)", stat: "BtoB商談 +210%", services: ["Web制作"], img: "assets/work-rakuyu.png" },
+  { id: 29, tag: "建築", category: "build", title: "注文住宅メーカーの集客サイト (木香の家)", stat: "資料請求 2.6×", services: ["Web制作", "ブランディング"], img: "assets/work-mokka.png", demo: "/showcase/mokka/" },
+  { id: 30, tag: "建築", category: "build", title: "設計事務所のポートフォリオ刷新 (ARAI ARCHITECTS)", stat: "問合せ 1.8×", services: ["Web制作"], img: "assets/work-araiarch.png", demo: "/showcase/araiarch/" },
+  { id: 31, tag: "建築", category: "build", title: "外構工事会社のローカルSEOサイト (グリーンゲート京都)", stat: "MEO 1位", services: ["Web制作", "MEO"], img: "assets/work-greengate.png", demo: "/showcase/greengate/" },
+  { id: 32, tag: "建築", category: "build", title: "建材メーカーの製品LP (THERMOX)", stat: "BtoB商談化 3.4×", services: ["LP制作", "技術資料"], img: "assets/work-thermox.png", demo: "/showcase/thermox/" },
   { id: 7, tag: "人材", category: "hr", title: "外国人材組合 (Asia Exchange Cooperative) サイト", stat: "応募 +84%", services: ["Web制作", "AIチャットボット"], img: "assets/work-asia-exchange.png" },
   { id: 8, tag: "人材", category: "hr", title: "新卒採用ブランドサイト構築 (AXIA · NEW GRADUATES)", stat: "エントリー 2.1×", services: ["Web制作", "AIチャットボット"], img: "assets/hero-07.png" },
   { id: 21, tag: "人材", category: "hr", title: "中途採用 LP (AXIA · 挑め、想定の外へ)", stat: "応募 1.6×", services: ["Web制作", "LPO"], img: "assets/lpo-axia-recruit.png" },
+  { id: 33, tag: "人材", category: "hr", title: "IT企業の中途採用LP (NEXTCODE · JOIN US)", stat: "応募単価 -38%", services: ["LP制作", "採用広報"], img: "assets/work-nextcode.png", demo: "/showcase/nextcode/" },
+  { id: 34, tag: "人材", category: "hr", title: "派遣会社の登録LP (ワークリンク関西)", stat: "登録 1.7×", services: ["LP制作", "EFO"], img: "assets/work-worklink.png", demo: "/showcase/worklink/" },
+  { id: 35, tag: "人材", category: "hr", title: "外国人材紹介の英日バイリンガル (BRIDGE WORKS JAPAN)", stat: "海外PV 4×", services: ["Web制作", "多言語"], img: "assets/work-bridgeworks.png", demo: "/showcase/bridgeworks/" },
+  { id: 36, tag: "人材", category: "hr", title: "業界特化型エージェント刷新 (メディキャリア)", stat: "成約 +44%", services: ["Web制作", "LPO"], img: "assets/work-medicareer.png", demo: "/showcase/medicareer/" },
   { id: 9, tag: "小売", category: "retail", title: "京都のキッチンカー (panza) ブランドLP", stat: "SNS流入 4.6×", services: ["Web制作"], img: "assets/work-panza.png" },
   { id: 10, tag: "小売", category: "retail", title: "京都の骨董店 (TAKETORA) バイリンガルEC", stat: "海外PV 5.2×", services: ["Web制作", "EC"], img: "assets/work-taketora.png" },
-  { id: 22, tag: "小売", category: "retail", title: "中古フィギュア店の AI 在庫登録システム (TAKETORA)", stat: "AI同定 3層", services: ["iPadアプリ開発", "AI同定", "スマレジ連携"], img: null },
   { id: 11, tag: "小売", category: "retail", title: "ゴルフリゾート (COCOPA) のブランドサイト", stat: "予約 1.9×", services: ["Web制作"], img: "assets/work-cocopa.png" },
-  { id: 12, tag: "小売", category: "retail", title: "サブスク EC のリピート率改善 (Quiet Objects · Spring Editorial)", stat: "解約率 -32%", services: ["DX・ML"], img: "assets/hero-01.png" },
+  { id: 12, tag: "小売", category: "retail", title: "サブスク EC のリピート率改善 (Quiet Objects)", stat: "解約率 -32%", services: ["Web制作", "DX・ML"], img: "assets/work-quietobjects.png", demo: "/showcase/quietobjects/" },
+  { id: 22, tag: "小売", category: "retail", title: "中古フィギュア店の AI 在庫登録システム (TAKETORA)", stat: "AI同定 3層", services: ["iPadアプリ開発", "AI同定", "スマレジ連携"], img: null },
   { id: 13, tag: "インフラ", category: "infra", title: "RAKUYU-Z 工法協会 サイト", stat: "信頼度評価 +", services: ["Web制作"], img: "assets/work-rakuyu.png" },
-  { id: 14, tag: "インフラ", category: "infra", title: "電力会社のサービスサイト刷新 (VOLTIO スマートエネルギー)", stat: "PV 2.1×", services: ["Web制作", "アクセス解析"], img: "assets/hero-03.png" },
-  { id: 15, tag: "AI", category: "ai", title: "AIスタートアップのシード期 LP (Sable · SEED 2026)", stat: "商談化率 4.2×", services: ["Web制作"], img: "assets/hero-02.png" },
-  { id: 16, tag: "AI", category: "ai", title: "BtoB SaaS のサービスサイト (ATLAS ML Engine)", stat: "問合せ +210%", services: ["Web制作", "AIチャットボット"], img: "assets/hero-08.png" },
+  { id: 14, tag: "インフラ", category: "infra", title: "電力会社のサービスサイト刷新 (VOLTIO スマートエネルギー)", stat: "PV 2.1×", services: ["Web制作", "アクセス解析"], img: "assets/work-voltio.png", demo: "/showcase/voltio/" },
+  { id: 37, tag: "インフラ", category: "infra", title: "精密部品メーカーのコーポレート再構築 (京西精機)", stat: "PV 1.6×", services: ["Web制作", "採用"], img: "assets/work-kyosai.png", demo: "/showcase/kyosai/" },
+  { id: 38, tag: "インフラ", category: "infra", title: "コンサルファームのサービス紹介 (衿立パートナーズ)", stat: "DL +260%", services: ["Web制作", "ホワイトペーパー"], img: "assets/work-eritate.png", demo: "/showcase/eritate/" },
+  { id: 15, tag: "AI", category: "ai", title: "AIスタートアップのシード期 LP (Sable)", stat: "商談化率 4.2×", services: ["LP制作", "ロゴ・VI"], img: "assets/work-sable.png", demo: "/showcase/sable/" },
+  { id: 16, tag: "AI", category: "ai", title: "BtoB SaaS のサービスサイト (ATLAS ML Engine)", stat: "問合せ +210%", services: ["Web制作", "AIチャットボット"], img: "assets/work-atlas.png", demo: "/showcase/atlas/" },
   { id: 17, tag: "AI", category: "ai", title: "ML エンジン PoC LP (AI ツール解説サービス)", stat: "デモ申込 5.6×", services: ["Web制作"], img: "assets/work-ai-toolpicks.jpg" },
 ];
 
@@ -102,7 +118,8 @@ function WorksPage({ category, onNavigate, onContact }) {
         <div className="container">
           <div className="grid-3">
             {items.map(w => (
-              <a key={w.id} className="card card-link" style={{ padding: 0, overflow: 'hidden', cursor: 'pointer' }}>
+              <a key={w.id} className={`card${w.demo ? ' card-link' : ''}`} style={{ padding: 0, overflow: 'hidden', cursor: w.demo ? 'pointer' : 'default' }}
+                 onClick={w.demo ? (e) => { e.preventDefault(); openShowcase(w.demo, w.title); } : undefined}>
                 <WorkShot work={w}/>
                 <div style={{ padding: '18px 22px 20px' }}>
                   <div className="row" style={{ justifyContent: 'space-between', marginBottom: 10 }}>
@@ -113,7 +130,7 @@ function WorksPage({ category, onNavigate, onContact }) {
                   <div className="row-tight">
                     {w.services.map((s, i) => <span key={i} className="small text-mono" style={{ color: 'var(--text-3)' }}>· {s}</span>)}
                   </div>
-                  <span className="work-cta">実績の詳細を見る<Icon name="arrow-right" size={12}/></span>
+                  {w.demo && <span className="work-cta">サイトをこの場で見る<Icon name="arrow-right" size={12}/></span>}
                 </div>
               </a>
             ))}

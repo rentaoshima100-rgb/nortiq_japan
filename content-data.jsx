@@ -646,7 +646,97 @@ function SubsidySections({ onNavigate, onContact }) {
   );
 }
 
+// ============================================================
+// Showcase viewer — 実績サイトをページ遷移なしでサイト内モーダル表示
+// 閉じている間は null を返し DOM に何も出さない (プリレンダー済みHTMLを変えない)。
+// 開く側は openShowcase(url, title) を呼ぶだけ。
+// ============================================================
+function openShowcase(url, title) {
+  window.dispatchEvent(new CustomEvent('nq:showcase', { detail: { url, title } }));
+}
+// 実績サイトはデスクトップ幅 (1280〜1440px) で設計されている。モーダルの実寸を
+// そのまま iframe に与えると、狭いノートPCでは横あふれして「つぶれた」見た目になる。
+// 常に DESIGN_W で描画し、CSS transform で縮小して収める (端末プレビュー方式)。
+const SHOWCASE_DESIGN_W = 1440;
+// PC/タブレットでは縮小しすぎると読めないので下限を設ける (下回る分は横スクロール)。
+// スマホでは逆に「全体が入る」ほうが価値があるため下限を外して完全に収める。
+const SHOWCASE_MIN_SCALE = 0.45;
+const SHOWCASE_NARROW = 760;
+function ShowcaseViewer() {
+  const [view, setView] = React.useState(null); // { url, title }
+  const stageRef = React.useRef(null);
+  const [fit, setFit] = React.useState({ scale: 1, h: 900 });
+
+  React.useEffect(() => {
+    const onOpen = (e) => setView(e.detail);
+    const onKey = (e) => { if (e.key === 'Escape') setView(null); };
+    window.addEventListener('nq:showcase', onOpen);
+    window.addEventListener('keydown', onKey);
+    return () => { window.removeEventListener('nq:showcase', onOpen); window.removeEventListener('keydown', onKey); };
+  }, []);
+
+  React.useEffect(() => {
+    document.body.style.overflow = view ? 'hidden' : '';
+    return () => { document.body.style.overflow = ''; };
+  }, [view]);
+
+  React.useEffect(() => {
+    if (!view) return;
+    const el = stageRef.current;
+    if (!el) return;
+    const measure = () => {
+      const r = el.getBoundingClientRect();
+      if (!r.width || !r.height) return;
+      const raw = Math.min(1, r.width / SHOWCASE_DESIGN_W);
+      const scale = r.width < SHOWCASE_NARROW ? raw : Math.max(SHOWCASE_MIN_SCALE, raw);
+      setFit({ scale, h: r.height / scale });
+    };
+    measure();
+    const ro = new ResizeObserver(measure);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, [view]);
+
+  if (!view) return null;
+  return (
+    <div className="showcase-overlay" onClick={() => setView(null)} role="dialog" aria-modal="true" aria-label={`制作実績プレビュー: ${view.title || ''}`}>
+      <div className="showcase-frame" onClick={(e) => e.stopPropagation()}>
+        <div className="showcase-bar">
+          <span className="showcase-dots" aria-hidden="true"></span>
+          <span className="showcase-url">{view.title || view.url}</span>
+          <a className="showcase-open" href={view.url} target="_blank" rel="noopener noreferrer">別タブで開く</a>
+          <button className="showcase-close" onClick={() => setView(null)} aria-label="閉じる">×</button>
+        </div>
+        <div className="showcase-stage" ref={stageRef}>
+          {/* transform はレイアウト幅を変えないので、縮小後の実寸を持つ器で包む
+              (これが無いと iframe の 1440px がそのまま残り横スクロールになる) */}
+          <div
+            className="showcase-scaler"
+            style={{
+              width: Math.round(SHOWCASE_DESIGN_W * fit.scale) + 'px',
+              height: Math.round(fit.h * fit.scale) + 'px',
+            }}
+          >
+            <iframe
+              className="showcase-iframe"
+              src={view.url}
+              title={view.title || '制作実績プレビュー'}
+              style={{
+                width: SHOWCASE_DESIGN_W + 'px',
+                height: Math.round(fit.h) + 'px',
+                transform: `scale(${fit.scale})`,
+                transformOrigin: 'top left',
+              }}
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 Object.assign(window, {
+  openShowcase, ShowcaseViewer,
   INDUSTRY_CONTENT, LP_KNOWHOW, VIDEO_KNOWHOW, SUBSIDY_CONTENT, GUIDEBOOK_CONTENT,
   DIAGNOSIS_CONTENT, FEATURE_CONTENT, SOLUTION_CONTENT, SUPPORT_CONTENT, PRICING_EXTRA, RECRUIT_EXTRA,
   CDCards, CDSteps, CDFaq, CDLaws, RelatedColumns, IndustrySections, ExtraContent, SolutionExtra, SubsidySections,
