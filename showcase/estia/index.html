@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>window.__resources = {"https://unpkg.com/react@18.3.1/umd/react.production.min.js": "/assets/vendor/react.production.min.js","https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js": "/assets/vendor/react-dom.production.min.js","https://unpkg.com/@babel/standalone@7.29.0/babel.min.js": "/assets/vendor/babel.min.js"};</script>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous">
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@400;500;600;700&family=Zen+Kaku+Gothic+New:wght@300;400;500&display=swap" rel="stylesheet" media="print" onload="this.media=&quot;all&quot;">
+<style>
+html,body{margin:0;padding:0;background:#0F1B2D;color:#EDEAE3;font-family:'Zen Kaku Gothic New',sans-serif;-webkit-font-smoothing:antialiased;}
+a{color:#C9A44C;text-decoration:none;}
+a:hover{color:#E2C982;}
+::selection{background:rgba(201,164,76,.3);}
+select{outline:none;}
+select option{background:#13223A;color:#EDEAE3;}
+</style>
+<script src="./image-slot.js"></script>
+</helmet>
+<div style="min-width:1280px;">
+
+<header style="position:sticky;top:0;background:#0F1B2D;border-bottom:1px solid rgba(255,255,255,.08);display:flex;align-items:stretch;justify-content:space-between;padding-left:40px;z-index:60;">
+  <a href="#top" style="display:flex;align-items:center;font-family:'Shippori Mincho B1',serif;font-size:17px;letter-spacing:.28em;color:#EDEAE3;">ESTIA <span style="color:#C9A44C;margin-left:.28em;">PARTNERS</span></a>
+  <nav style="display:flex;align-items:stretch;gap:40px;">
+    <a href="#listings" style="display:flex;align-items:center;font-size:13px;letter-spacing:.16em;color:#B4BECC;">物件を探す</a>
+    <a href="#management" style="display:flex;align-items:center;font-size:13px;letter-spacing:.16em;color:#B4BECC;">賃貸管理</a>
+    <a href="#" style="display:flex;align-items:center;font-size:13px;letter-spacing:.16em;color:#B4BECC;">会社案内</a>
+    <a href="#" style="display:flex;align-items:center;margin-left:16px;padding:22px 40px;font-size:13px;letter-spacing:.24em;color:#0F1B2D;background:#C9A44C;transition:background .25s;" style-hover="background:#DDBB68;">無料相談</a>
+  </nav>
+</header>
+
+<main>
+
+<section id="top" data-screen-label="ヒーロー" style="display:flex;height:700px;">
+  <div style="width:43%;min-width:470px;background:#0F1B2D;display:flex;flex-direction:column;padding:54px 52px 0 56px;">
+    <div style="display:flex;align-items:center;gap:14px;">
+      <span style="font-size:10px;letter-spacing:.42em;color:#C9A44C;">ESTIA PARTNERS</span>
+      <span style="flex:1;height:1px;background:rgba(255,255,255,.12);"></span>
+      <span style="font-size:10px;letter-spacing:.2em;color:#78859A;">TOKYO</span>
+    </div>
+    <div style="flex:1;display:flex;flex-direction:column;justify-content:center;padding-bottom:20px;">
+      <h1 style="margin:0 0 30px;font-family:'Shippori Mincho B1',serif;font-weight:500;font-size:47px;line-height:1.7;letter-spacing:.12em;color:#F4F1E9;">資産価値で選ぶ、<br>東京の一棟。</h1>
+      <p style="margin:0;max-width:400px;font-size:14px;font-weight:300;line-height:2.3;letter-spacing:.08em;color:#9DA9B9;">駅近・希少立地の一棟収益不動産を、収益性と資産性の両面から精査してご紹介します。</p>
+    </div>
+    <div style="display:flex;gap:44px;padding:0 0 40px;">
+      <div>
+        <div style="font-size:9px;letter-spacing:.24em;color:#78859A;margin-bottom:5px;">取扱棟数</div>
+        <div style="font-family:'Shippori Mincho B1',serif;font-size:21px;letter-spacing:.04em;color:#EDEAE3;">128<span style="font-size:12px;color:#93A0B1;margin-left:3px;">棟</span></div>
+      </div>
+      <div>
+        <div style="font-size:9px;letter-spacing:.24em;color:#78859A;margin-bottom:5px;">平均利回り</div>
+        <div style="font-family:'Shippori Mincho B1',serif;font-size:21px;letter-spacing:.04em;color:#EDEAE3;">5.1<span style="font-size:12px;color:#93A0B1;margin-left:3px;">%</span></div>
+      </div>
+      <div>
+        <div style="font-size:9px;letter-spacing:.24em;color:#78859A;margin-bottom:5px;">最終更新</div>
+        <div style="font-family:'Shippori Mincho B1',serif;font-size:21px;letter-spacing:.04em;color:#EDEAE3;">2026.08.14</div>
+      </div>
+    </div>
+  </div>
+  <div style="flex:1;min-width:0;overflow:hidden;position:relative;background:#0A1322;">
+    <image-slot id="v2-hero" shape="rect" src="uploads/Gemini_Generated_Image_e4xtk2e4xtk2e4xt.jpg" placeholder="東京の夜景写真をドロップ"></image-slot>
+    <div style="position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg,#0F1B2D 0%,rgba(15,27,45,.55) 14%,rgba(15,27,45,0) 42%);"></div>
+  </div>
+</section>
+
+<section data-screen-label="検索バー" style="background:#0A1322;border-top:1px solid rgba(201,164,76,.45);border-bottom:1px solid rgba(255,255,255,.07);display:flex;align-items:stretch;">
+  <div style="flex:1;display:grid;grid-template-columns:1fr 1.3fr 1fr;">
+    <div style="padding:22px 34px 20px;border-right:1px solid rgba(255,255,255,.08);">
+      <div style="font-size:9px;letter-spacing:.3em;color:#C9A44C;margin-bottom:9px;">想定利回り</div>
+      <div style="position:relative;">
+        <select style="width:100%;appearance:none;-webkit-appearance:none;background:transparent;border:none;color:#EDEAE3;font-family:'Zen Kaku Gothic New',sans-serif;font-size:15px;letter-spacing:.1em;padding:0 22px 0 0;cursor:pointer;">
+          <option>指定なし</option><option>4.0%以上</option><option>5.0%以上</option><option>6.0%以上</option><option>7.0%以上</option>
+        </select>
+        <span style="position:absolute;right:0;top:50%;transform:translateY(-50%);pointer-events:none;color:#C9A44C;font-size:9px;">▾</span>
+      </div>
+    </div>
+    <div style="padding:22px 34px 20px;border-right:1px solid rgba(255,255,255,.08);">
+      <div style="font-size:9px;letter-spacing:.3em;color:#C9A44C;margin-bottom:9px;">エリア</div>
+      <div style="position:relative;">
+        <select style="width:100%;appearance:none;-webkit-appearance:none;background:transparent;border:none;color:#EDEAE3;font-family:'Zen Kaku Gothic New',sans-serif;font-size:15px;letter-spacing:.1em;padding:0 22px 0 0;cursor:pointer;">
+          <option>東京23区すべて</option><option>港区・渋谷区・目黒区</option><option>新宿区・文京区・千代田区</option><option>品川区・大田区</option><option>世田谷区・杉並区・中野区</option><option>台東区・墨田区・江東区</option>
+        </select>
+        <span style="position:absolute;right:0;top:50%;transform:translateY(-50%);pointer-events:none;color:#C9A44C;font-size:9px;">▾</span>
+      </div>
+    </div>
+    <div style="padding:22px 34px 20px;">
+      <div style="font-size:9px;letter-spacing:.3em;color:#C9A44C;margin-bottom:9px;">価格帯</div>
+      <div style="position:relative;">
+        <select style="width:100%;appearance:none;-webkit-appearance:none;background:transparent;border:none;color:#EDEAE3;font-family:'Zen Kaku Gothic New',sans-serif;font-size:15px;letter-spacing:.1em;padding:0 22px 0 0;cursor:pointer;">
+          <option>指定なし</option><option>〜1億円</option><option>1億〜3億円</option><option>3億〜5億円</option><option>5億〜10億円</option><option>10億円〜</option>
+        </select>
+        <span style="position:absolute;right:0;top:50%;transform:translateY(-50%);pointer-events:none;color:#C9A44C;font-size:9px;">▾</span>
+      </div>
+    </div>
+  </div>
+  <button onClick="{{ onSearch }}" style="border:none;cursor:pointer;background:#C9A44C;color:#0F1B2D;width:230px;font-family:'Zen Kaku Gothic New',sans-serif;font-size:13px;font-weight:500;letter-spacing:.32em;transition:background .25s;" style-hover="background:#DDBB68;">検索する</button>
+</section>
+
+<section id="listings" data-screen-label="物件一覧" style="padding:120px 56px 130px;">
+  <div style="display:flex;align-items:flex-end;justify-content:space-between;padding-bottom:26px;border-bottom:1px solid rgba(255,255,255,.1);margin-bottom:56px;">
+    <div style="display:flex;align-items:baseline;gap:22px;">
+      <span style="font-family:'Shippori Mincho B1',serif;font-size:13px;letter-spacing:.1em;color:#C9A44C;">01</span>
+      <h2 style="margin:0;font-family:'Shippori Mincho B1',serif;font-weight:500;font-size:30px;letter-spacing:.16em;color:#F4F1E9;">厳選一棟収益物件</h2>
+    </div>
+    <div style="display:flex;align-items:baseline;gap:24px;">
+      <span style="font-size:11px;letter-spacing:.16em;color:#78859A;">該当 128 棟</span>
+      <a href="#" style="font-size:12px;letter-spacing:.18em;color:#C9A44C;">一覧を見る　→</a>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:44px;margin-bottom:76px;">
+    <sc-for list="{{ featured }}" as="p" hint-placeholder-count="2">
+      <div style="cursor:pointer;">
+        <div style="position:relative;height:320px;background:#0A1322;margin-bottom:26px;">
+          <image-slot id="v2-feat-{{ p.id }}" shape="rect" src="{{ p.img }}" placeholder="物件外観写真"></image-slot>
+          <sc-if value="{{ p.isNew }}" hint-placeholder-val="{{ false }}">
+            <div style="position:absolute;top:18px;left:18px;background:#C9A44C;color:#0F1B2D;font-size:9px;font-weight:500;letter-spacing:.26em;padding:6px 13px;pointer-events:none;">NEW</div>
+          </sc-if>
+        </div>
+        <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:12px;">
+          <div style="font-family:'Shippori Mincho B1',serif;font-size:20px;font-weight:500;letter-spacing:.12em;color:#F4F1E9;">{{ p.name }}</div>
+          <div style="font-family:'Shippori Mincho B1',serif;font-size:24px;font-weight:600;letter-spacing:.04em;color:#E2C982;">{{ p.price }}</div>
+        </div>
+        <div style="font-size:12px;letter-spacing:.08em;line-height:1.9;color:#93A0B1;padding-bottom:20px;border-bottom:1px solid rgba(255,255,255,.1);">{{ p.loc }}／{{ p.spec }}</div>
+        <div style="display:flex;padding-top:18px;gap:0;">
+          <div style="flex:1;">
+            <div style="font-size:9px;letter-spacing:.22em;color:#78859A;margin-bottom:6px;">表面利回り</div>
+            <div style="font-family:'Shippori Mincho B1',serif;font-size:19px;color:#C9A44C;letter-spacing:.04em;">{{ p.yield }}</div>
+          </div>
+          <div style="flex:1;">
+            <div style="font-size:9px;letter-spacing:.22em;color:#78859A;margin-bottom:6px;">築年数</div>
+            <div style="font-family:'Shippori Mincho B1',serif;font-size:19px;color:#EDEAE3;letter-spacing:.04em;">{{ p.age }}</div>
+          </div>
+          <div style="flex:1;">
+            <div style="font-size:9px;letter-spacing:.22em;color:#78859A;margin-bottom:6px;">駅徒歩</div>
+            <div style="font-family:'Shippori Mincho B1',serif;font-size:19px;color:#EDEAE3;letter-spacing:.04em;">{{ p.walk }}</div>
+          </div>
+        </div>
+      </div>
+    </sc-for>
+  </div>
+
+  <div style="display:flex;align-items:baseline;gap:20px;margin-bottom:22px;">
+    <span style="font-size:10px;letter-spacing:.3em;color:#78859A;">その他の掲載物件</span>
+    <span style="flex:1;height:1px;background:rgba(255,255,255,.1);"></span>
+  </div>
+  <div style="display:flex;flex-direction:column;">
+    <sc-for list="{{ indexRows }}" as="p" hint-placeholder-count="4">
+      <div style="display:grid;grid-template-columns:44px 128px 1fr 150px 96px 88px 88px 30px;align-items:center;gap:22px;padding:18px 12px;border-bottom:1px solid rgba(255,255,255,.08);cursor:pointer;transition:background .2s;" style-hover="background:rgba(201,164,76,.06);">
+        <div style="font-family:'Shippori Mincho B1',serif;font-size:12px;color:#5F6C7E;letter-spacing:.08em;">{{ p.no }}</div>
+        <div style="height:76px;background:#0A1322;">
+          <image-slot id="v2-row-{{ p.id }}" shape="rect" src="{{ p.img }}" placeholder="外観"></image-slot>
+        </div>
+        <div>
+          <div style="font-family:'Shippori Mincho B1',serif;font-size:16px;letter-spacing:.1em;color:#F4F1E9;margin-bottom:6px;">{{ p.name }}</div>
+          <div style="font-size:11px;letter-spacing:.06em;color:#78859A;">{{ p.loc }}／{{ p.spec }}</div>
+        </div>
+        <div style="text-align:right;font-family:'Shippori Mincho B1',serif;font-size:19px;font-weight:600;color:#E2C982;letter-spacing:.04em;">{{ p.price }}</div>
+        <div style="text-align:right;">
+          <div style="font-size:9px;letter-spacing:.18em;color:#78859A;margin-bottom:4px;">利回り</div>
+          <div style="font-family:'Shippori Mincho B1',serif;font-size:15px;color:#C9A44C;">{{ p.yield }}</div>
+        </div>
+        <div style="text-align:right;">
+          <div style="font-size:9px;letter-spacing:.18em;color:#78859A;margin-bottom:4px;">築年</div>
+          <div style="font-family:'Shippori Mincho B1',serif;font-size:15px;color:#EDEAE3;">{{ p.age }}</div>
+        </div>
+        <div style="text-align:right;">
+          <div style="font-size:9px;letter-spacing:.18em;color:#78859A;margin-bottom:4px;">駅徒歩</div>
+          <div style="font-family:'Shippori Mincho B1',serif;font-size:15px;color:#EDEAE3;">{{ p.walk }}</div>
+        </div>
+        <div style="text-align:right;color:#C9A44C;font-size:13px;">→</div>
+      </div>
+    </sc-for>
+  </div>
+</section>
+
+<section id="management" data-screen-label="管理サービス" style="background:#0A1322;border-top:1px solid rgba(255,255,255,.07);padding:120px 56px 130px;">
+  <div style="display:grid;grid-template-columns:minmax(360px,1fr) 1.15fr;gap:88px;align-items:start;margin-bottom:88px;">
+    <div style="display:flex;align-items:baseline;gap:22px;">
+      <span style="font-family:'Shippori Mincho B1',serif;font-size:13px;letter-spacing:.1em;color:#C9A44C;">02</span>
+      <h2 style="margin:0;font-family:'Shippori Mincho B1',serif;font-weight:500;font-size:30px;line-height:1.8;letter-spacing:.16em;color:#F4F1E9;">保有後も、<br>資産価値を守る管理を。</h2>
+    </div>
+    <div>
+      <p style="margin:0 0 40px;font-size:14px;font-weight:300;line-height:2.4;letter-spacing:.1em;color:#B4BECC;">ご購入いただいた後の賃貸管理まで、私たちが一貫して担います。募集・審査から月次レポート、長期修繕のご提案まで、オーナー様の資産運用を静かに支え続けます。</p>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:32px;">
+        <div style="border-top:1px solid rgba(201,164,76,.4);padding-top:18px;">
+          <div style="font-family:'Shippori Mincho B1',serif;font-size:15px;letter-spacing:.1em;color:#F4F1E9;margin-bottom:10px;">入居率98%超</div>
+          <div style="font-size:11px;letter-spacing:.06em;line-height:1.95;color:#8A97A8;">独自の募集ネットワークと審査体制で、空室期間を最小限に抑えます。</div>
+        </div>
+        <div style="border-top:1px solid rgba(201,164,76,.4);padding-top:18px;">
+          <div style="font-family:'Shippori Mincho B1',serif;font-size:15px;letter-spacing:.1em;color:#F4F1E9;margin-bottom:10px;">月次レポート</div>
+          <div style="font-size:11px;letter-spacing:.06em;line-height:1.95;color:#8A97A8;">収支・入退去・対応履歴を毎月PDFでお届けします。</div>
+        </div>
+        <div style="border-top:1px solid rgba(201,164,76,.4);padding-top:18px;">
+          <div style="font-family:'Shippori Mincho B1',serif;font-size:15px;letter-spacing:.1em;color:#F4F1E9;margin-bottom:10px;">修繕とバリューアップ</div>
+          <div style="font-size:11px;letter-spacing:.06em;line-height:1.95;color:#8A97A8;">長期修繕計画と賃料改善のご提案で、建物の価値を維持します。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="border:1px solid rgba(255,255,255,.1);background:#0F1B2D;">
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:20px 32px;border-bottom:1px solid rgba(255,255,255,.09);">
+      <div style="font-size:11px;letter-spacing:.26em;color:#B4BECC;">オーナー月次レポート</div>
+      <div style="font-family:'Shippori Mincho B1',serif;font-size:13px;letter-spacing:.12em;color:#C9A44C;">2026.07</div>
+    </div>
+    <div style="display:grid;grid-template-columns:300px 1fr 250px;">
+      <div style="padding:36px 32px 34px;border-right:1px solid rgba(255,255,255,.09);">
+        <div style="font-size:9px;letter-spacing:.26em;color:#78859A;margin-bottom:14px;">管理物件全体の入居率</div>
+        <div style="display:flex;align-items:baseline;gap:12px;margin-bottom:8px;">
+          <span style="font-family:'Shippori Mincho B1',serif;font-size:56px;font-weight:600;line-height:1;color:#F4F1E9;letter-spacing:.02em;">98.6<span style="font-size:24px;color:#C9A44C;margin-left:2px;">%</span></span>
+        </div>
+        <div style="font-size:11px;letter-spacing:.1em;color:#7FA98A;margin-bottom:26px;">前月比 +0.4pt</div>
+        <div style="display:flex;flex-direction:column;gap:14px;">
+          <div style="display:flex;justify-content:space-between;align-items:baseline;">
+            <span style="font-size:10px;letter-spacing:.16em;color:#78859A;">月額賃料収入</span>
+            <span style="font-family:'Shippori Mincho B1',serif;font-size:17px;color:#EDEAE3;">¥2,184,000</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:baseline;">
+            <span style="font-size:10px;letter-spacing:.16em;color:#78859A;">賃料回収率</span>
+            <span style="font-family:'Shippori Mincho B1',serif;font-size:17px;color:#EDEAE3;">100.0%</span>
+          </div>
+        </div>
+      </div>
+      <sc-if value="{{ showOccupancyChart }}" hint-placeholder-val="{{ true }}">
+        <div style="padding:36px 40px 34px;border-right:1px solid rgba(255,255,255,.09);">
+          <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:26px;">
+            <span style="font-size:9px;letter-spacing:.26em;color:#78859A;">入居率の推移（直近12ヶ月）</span>
+            <span style="font-size:9px;letter-spacing:.16em;color:#5F6C7E;">95 – 100%</span>
+          </div>
+          <div style="display:flex;align-items:flex-end;gap:10px;height:118px;">
+            <sc-for list="{{ bars }}" as="b" hint-placeholder-count="12">
+              <div style="flex:1;display:flex;flex-direction:column;justify-content:flex-end;height:100%;gap:8px;">
+                <div style="height:{{ b.h }};background:{{ b.c }};"></div>
+                <div style="font-size:8px;letter-spacing:.1em;color:#5F6C7E;text-align:center;">{{ b.m }}</div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </sc-if>
+      <div style="padding:24px 28px 22px;display:flex;flex-direction:column;justify-content:center;">
+        <div style="font-size:9px;letter-spacing:.26em;color:#78859A;margin-bottom:12px;">ダウンロード</div>
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:11px 0;border-top:1px solid rgba(255,255,255,.08);cursor:pointer;" style-hover="color:#E2C982;">
+          <span style="font-size:11px;letter-spacing:.08em;color:#B4BECC;">月次収支レポート</span><span style="color:#C9A44C;font-size:11px;">PDF ↓</span>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:11px 0;border-top:1px solid rgba(255,255,255,.08);cursor:pointer;" style-hover="color:#E2C982;">
+          <span style="font-size:11px;letter-spacing:.08em;color:#B4BECC;">入退去サマリー</span><span style="color:#C9A44C;font-size:11px;">PDF ↓</span>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:11px 0;border-top:1px solid rgba(255,255,255,.08);border-bottom:1px solid rgba(255,255,255,.08);cursor:pointer;" style-hover="color:#E2C982;">
+          <span style="font-size:11px;letter-spacing:.08em;color:#B4BECC;">修繕対応履歴</span><span style="color:#C9A44C;font-size:11px;">PDF ↓</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top:48px;">
+    <a href="#" style="display:inline-block;border:1px solid rgba(201,164,76,.7);padding:16px 44px;font-size:12px;letter-spacing:.28em;color:#E2C982;transition:background .25s,color .25s;" style-hover="background:#C9A44C;color:#0F1B2D;">管理サービスの詳細</a>
+  </div>
+</section>
+
+<footer data-screen-label="フッター" style="padding:56px 56px 48px;border-top:1px solid rgba(255,255,255,.07);display:flex;justify-content:space-between;align-items:flex-start;">
+  <div>
+    <div style="font-family:'Shippori Mincho B1',serif;font-size:15px;letter-spacing:.3em;color:#EDEAE3;margin-bottom:16px;">ESTIA <span style="color:#C9A44C;">PARTNERS</span></div>
+    <div style="font-size:11px;letter-spacing:.08em;line-height:2;color:#6E7C8E;">株式会社エスティア・パートナーズ<br>宅地建物取引業免許　東京都知事（3）第000000号</div>
+  </div>
+  <div style="text-align:right;">
+    <div style="display:flex;gap:26px;justify-content:flex-end;margin-bottom:20px;">
+      <a href="#listings" style="font-size:11px;letter-spacing:.14em;color:#93A0B1;">物件を探す</a>
+      <a href="#management" style="font-size:11px;letter-spacing:.14em;color:#93A0B1;">賃貸管理</a>
+      <a href="#" style="font-size:11px;letter-spacing:.14em;color:#93A0B1;">プライバシーポリシー</a>
+    </div>
+    <div style="font-size:10px;letter-spacing:.18em;color:#55626F;">© 2026 ESTIA PARTNERS Inc.</div>
+  </div>
+</footer>
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{
+  &quot;rowCount&quot;: { &quot;editor&quot;: &quot;range&quot;, &quot;default&quot;: 4, &quot;min&quot;: 1, &quot;max&quot;: 4, &quot;step&quot;: 1, &quot;unit&quot;: &quot;件&quot;, &quot;tsType&quot;: &quot;number&quot;, &quot;section&quot;: &quot;物件一覧&quot; },
+  &quot;showOccupancyChart&quot;: { &quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: true, &quot;tsType&quot;: &quot;boolean&quot;, &quot;section&quot;: &quot;管理サービス&quot; }
+}">
+class Component extends DCLogic {
+  renderVals() {
+    const U = 'uploads/Gemini_Generated_Image_';
+    const all = [
+      { id: 1, no: '01', isNew: true,  img: U + 'tlaal0tlaal0tlaa.jpg', name: '恵比寿三丁目 一棟レジデンス', loc: 'JR山手線「恵比寿」駅', spec: 'RC造 地上9階 総戸数18戸', price: '3億4,800万円', yield: '4.2%', age: '築9年', walk: '徒歩4分' },
+      { id: 2, no: '02', isNew: false, img: U + 'qnl3sbqnl3sbqnl3.jpg', name: '中目黒 一棟マンション', loc: '東急東横線「中目黒」駅', spec: 'RC造 地上7階 総戸数14戸', price: '2億9,800万円', yield: '4.6%', age: '築12年', walk: '徒歩6分' },
+      { id: 3, no: '03', isNew: false, img: U + 'a4r3lna4r3lna4r3.jpg', name: '神楽坂 一棟レジデンス', loc: '東京メトロ東西線「神楽坂」駅', spec: 'RC造 地上6階 総戸数12戸', price: '2億4,500万円', yield: '4.8%', age: '築15年', walk: '徒歩3分' },
+      { id: 4, no: '04', isNew: true,  img: U + 'nbui97nbui97nbui.jpg', name: '蔵前 一棟マンション', loc: '都営浅草線「蔵前」駅', spec: '鉄骨造 地上8階 総戸数20戸', price: '1億9,800万円', yield: '5.6%', age: '築18年', walk: '徒歩5分' },
+      { id: 5, no: '05', isNew: false, img: U + '1crdmu1crdmu1crd.jpg', name: '学芸大学 一棟アパート', loc: '東急東横線「学芸大学」駅', spec: '木造 地上3階 総戸数9戸', price: '1億2,600万円', yield: '6.1%', age: '築6年', walk: '徒歩7分' },
+      { id: 6, no: '06', isNew: false, img: U + 'xbwea8xbwea8xbwe.jpg', name: '門前仲町 一棟マンション', loc: '東京メトロ東西線「門前仲町」駅', spec: 'RC造 地上10階 総戸数24戸', price: '3億8,000万円', yield: '5.2%', age: '築21年', walk: '徒歩4分' }
+    ];
+    const rowCount = this.props.rowCount ?? 4;
+    const months = ['08','09','10','11','12','01','02','03','04','05','06','07'];
+    const vals = [96.2, 96.8, 97.1, 96.5, 97.4, 97.0, 97.9, 98.1, 97.6, 98.2, 98.2, 98.6];
+    const bars = vals.map((v, i) => ({
+      h: Math.round(((v - 95) / 5) * 100) + '%',
+      c: i === vals.length - 1 ? '#C9A44C' : 'rgba(201,164,76,.3)',
+      m: months[i]
+    }));
+    return {
+      featured: all.slice(0, 2),
+      indexRows: all.slice(2, 2 + rowCount),
+      bars,
+      showOccupancyChart: this.props.showOccupancyChart ?? true,
+      onSearch: () => {
+        const el = document.getElementById('listings');
+        if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 20, behavior: 'smooth' });
+      }
+    };
+  }
+}
+</script>
+</body>
+</html>

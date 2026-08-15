@@ -15,7 +15,7 @@ const WORKS_DATA = [
   { id: 19, tag: "クリニック", category: "clinic", title: "歯科医院の総合 LP 構築 (白藍 HAKURAN DENTAL)", stat: "予約 +110%", services: ["Web制作"], img: "assets/hero-04.png" },
   { id: 20, tag: "クリニック", category: "clinic", title: "美容外来のブランドサイト (クマ取り専門外来)", stat: "予約離脱 -42%", services: ["Web制作"], img: "assets/hero-06.png" },
   { id: 3, tag: "不動産", category: "realty", title: "新時代の不動産投資ブランド構築 (PLEAST)", stat: "問合せ 3.2×", services: ["Web制作", "SEO"], img: "assets/work-pleast.png" },
-  { id: 4, tag: "不動産", category: "realty", title: "投資物件専門サイト × 物件管理", stat: "反響 2.7×", services: ["Web制作", "DX"], img: "assets/work-pleast.png" },
+  { id: 4, tag: "不動産", category: "realty", title: "投資物件専門サイト × 物件管理 (ESTIA PARTNERS)", stat: "反響 2.7×", services: ["Web制作", "DX"], img: "assets/work-estia.png", demo: "/showcase/estia/" },
   { id: 5, tag: "建築", category: "build", title: "大規模修繕・建物リニューアル (Renew Reuse Loop)", stat: "問合せ 2.6×", services: ["Web制作", "Recruit"], img: "assets/work-renewal.png" },
   { id: 6, tag: "建築", category: "build", title: "不断水水替工法のテクニカルサイト (RAKUYU-Z)", stat: "BtoB商談 +210%", services: ["Web制作"], img: "assets/work-rakuyu.png" },
   { id: 7, tag: "人材", category: "hr", title: "外国人材組合 (Asia Exchange Cooperative) サイト", stat: "応募 +84%", services: ["Web制作", "AIチャットボット"], img: "assets/work-asia-exchange.png" },
@@ -102,7 +102,8 @@ function WorksPage({ category, onNavigate, onContact }) {
         <div className="container">
           <div className="grid-3">
             {items.map(w => (
-              <a key={w.id} className="card card-link" style={{ padding: 0, overflow: 'hidden', cursor: 'pointer' }}>
+              <a key={w.id} className="card card-link" style={{ padding: 0, overflow: 'hidden', cursor: 'pointer' }}
+                 onClick={w.demo ? (e) => { e.preventDefault(); openShowcase(w.demo, w.title); } : undefined}>
                 <WorkShot work={w}/>
                 <div style={{ padding: '18px 22px 20px' }}>
                   <div className="row" style={{ justifyContent: 'space-between', marginBottom: 10 }}>
@@ -113,7 +114,7 @@ function WorksPage({ category, onNavigate, onContact }) {
                   <div className="row-tight">
                     {w.services.map((s, i) => <span key={i} className="small text-mono" style={{ color: 'var(--text-3)' }}>· {s}</span>)}
                   </div>
-                  <span className="work-cta">実績の詳細を見る<Icon name="arrow-right" size={12}/></span>
+                  <span className="work-cta">{w.demo ? 'サイトをこの場で見る' : '実績の詳細を見る'}<Icon name="arrow-right" size={12}/></span>
                 </div>
               </a>
             ))}

@@ -711,6 +711,7 @@ function App() {
       {tweaks.showSideTab !== false && <SideTabForm/>}
       {tweaks.showSPBottom !== false && <SPBottomNav onNavigate={handleNavigate} onContact={() => handleContact()} />}
       <StickyCTA onContact={() => handleContact()} threshold={900}/>
+      <ShowcaseViewer/>
 
       {window.TweaksPanel && (
         <window.TweaksPanel title="Tweaks">

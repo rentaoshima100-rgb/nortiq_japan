@@ -629,7 +629,7 @@ function GalleryTabs({ onNavigate }) {
     ],
     [
       { tag: "不動産", t: "新時代の不動産投資ブランド (PLEAST)", stat: "問合せ 3.2×", route: 'works-realty', img: "assets/work-pleast.png" },
-      { tag: "不動産", t: "投資物件専門サイト × 物件管理", stat: "反響 2.7×", route: 'works-realty', img: "assets/work-pleast.png" },
+      { tag: "不動産", t: "投資物件専門サイト × 物件管理 (ESTIA PARTNERS)", stat: "反響 2.7×", route: 'works-realty', img: "assets/work-estia.png", demo: "/showcase/estia/" },
       { tag: "不動産", t: "賃貸オーナー向け管理ポータル", stat: "工数 -45%", route: 'works-realty' },
       { tag: "不動産", t: "売却査定LPの刷新", stat: "査定依頼 +180%", route: 'works-realty' },
       { tag: "不動産", t: "中古リノベ専門のブランドサイト", stat: "問合せ 2.1×", route: 'works-realty', img: "assets/work-renewal.png" },
@@ -686,7 +686,8 @@ function GalleryTabs({ onNavigate }) {
         </div>
         <div className="grid-3" style={{ marginTop: 32 }}>
           {data[tab].slice(0, 6).map((w, i) => (
-            <a key={i} className="card card-link fadein" data-delay={i * 80} style={{ padding: 0, overflow: 'hidden', cursor: 'pointer' }} {...navProps(w.route, onNavigate)}>
+            <a key={i} className="card card-link fadein" data-delay={i * 80} style={{ padding: 0, overflow: 'hidden', cursor: 'pointer' }}
+               {...(w.demo ? { onClick: (e) => { e.preventDefault(); openShowcase(w.demo, w.t); } } : navProps(w.route, onNavigate))}>
               <WorkShot work={{ img: w.img, title: w.t, tag: w.tag }}/>
               <div style={{ padding: '18px 22px 20px' }}>
                 <div className="row" style={{ justifyContent: 'space-between', marginBottom: 10 }}>
@@ -694,7 +695,7 @@ function GalleryTabs({ onNavigate }) {
                   <span className="stat-pill">{w.stat}</span>
                 </div>
                 <h3 style={{ fontSize: 15, fontWeight: 700, margin: 0, lineHeight: 1.6 }}>{w.t}</h3>
-                <span className="work-cta">実績の詳細を見る<Icon name="arrow-right" size={12}/></span>
+                <span className="work-cta">{w.demo ? 'サイトをこの場で見る' : '実績の詳細を見る'}<Icon name="arrow-right" size={12}/></span>
               </div>
             </a>
           ))}

@@ -646,7 +646,45 @@ function SubsidySections({ onNavigate, onContact }) {
   );
 }
 
+// ============================================================
+// Showcase viewer — 実績サイトをページ遷移なしでサイト内モーダル表示
+// 閉じている間は null を返し DOM に何も出さない (プリレンダー済みHTMLを変えない)。
+// 開く側は openShowcase(url, title) を呼ぶだけ。
+// ============================================================
+function openShowcase(url, title) {
+  window.dispatchEvent(new CustomEvent('nq:showcase', { detail: { url, title } }));
+}
+function ShowcaseViewer() {
+  const [view, setView] = React.useState(null); // { url, title }
+  React.useEffect(() => {
+    const onOpen = (e) => setView(e.detail);
+    const onKey = (e) => { if (e.key === 'Escape') setView(null); };
+    window.addEventListener('nq:showcase', onOpen);
+    window.addEventListener('keydown', onKey);
+    return () => { window.removeEventListener('nq:showcase', onOpen); window.removeEventListener('keydown', onKey); };
+  }, []);
+  React.useEffect(() => {
+    document.body.style.overflow = view ? 'hidden' : '';
+    return () => { document.body.style.overflow = ''; };
+  }, [view]);
+  if (!view) return null;
+  return (
+    <div className="showcase-overlay" onClick={() => setView(null)} role="dialog" aria-modal="true" aria-label={`制作実績プレビュー: ${view.title || ''}`}>
+      <div className="showcase-frame" onClick={(e) => e.stopPropagation()}>
+        <div className="showcase-bar">
+          <span className="showcase-dots" aria-hidden="true"></span>
+          <span className="showcase-url">{view.title || view.url}</span>
+          <a className="showcase-open" href={view.url} target="_blank" rel="noopener noreferrer">別タブで開く</a>
+          <button className="showcase-close" onClick={() => setView(null)} aria-label="閉じる">×</button>
+        </div>
+        <iframe className="showcase-iframe" src={view.url} title={view.title || '制作実績プレビュー'}/>
+      </div>
+    </div>
+  );
+}
+
 Object.assign(window, {
+  openShowcase, ShowcaseViewer,
   INDUSTRY_CONTENT, LP_KNOWHOW, VIDEO_KNOWHOW, SUBSIDY_CONTENT, GUIDEBOOK_CONTENT,
   DIAGNOSIS_CONTENT, FEATURE_CONTENT, SOLUTION_CONTENT, SUPPORT_CONTENT, PRICING_EXTRA, RECRUIT_EXTRA,
   CDCards, CDSteps, CDFaq, CDLaws, RelatedColumns, IndustrySections, ExtraContent, SolutionExtra, SubsidySections,
