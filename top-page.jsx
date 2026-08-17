@@ -55,7 +55,7 @@ function TopPage({ onNavigate, onContact }) {
 
           <ul className="main-medaru fadein" data-delay="300">
             <li className="medaru">
-              <div className="num"><Counter to={20} suffix="" className=""/><sup>社+</sup></div>
+              <div className="num"><Counter to={30} suffix="" className=""/><sup>社+</sup></div>
               <div className="lbl">制作・支援実績</div>
             </li>
             <li className="medaru">
@@ -79,7 +79,7 @@ function TopPage({ onNavigate, onContact }) {
 
       {/* =========== Mix marquee (stats + values) =========== */}
       <MixMarquee items={[
-        { num: "20+", text: "Companies Supported" },
+        { num: "30+", text: "Companies Supported" },
         { num: "5", text: "Team Members" },
         { num: "2025", text: "Founded" },
         { num: "24h", text: "Response SLA" },
@@ -211,7 +211,7 @@ function TopPage({ onNavigate, onContact }) {
           <div className="bento">
             <div className="bento-cell bento-1 fadein" onClick={() => onNavigate('voice')}>
               <p className="bento-eyebrow">CLIENTS / 03</p>
-              <div className="bento-num"><Counter to={20} suffix="+" className=""/></div>
+              <div className="bento-num"><Counter to={30} suffix="+" className=""/></div>
               <h3 style={{ fontSize: 28, fontWeight: 900, lineHeight: 1.3, marginBottom: 12 }}>
                 20 社の<br/>制作・DX 支援実績。
               </h3>
