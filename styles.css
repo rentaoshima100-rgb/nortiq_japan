@@ -4535,3 +4535,11 @@ picture { display: contents; }
 @media (max-width: 640px) {
   .sys-card { padding: 20px 18px; }
 }
+
+/* 業種ソリューションの実績カード (4件を並べる) */
+.grid-cases {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+}
+@media (min-width: 1100px) { .grid-cases { grid-template-columns: repeat(4, 1fr); } }

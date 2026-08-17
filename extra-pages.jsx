@@ -271,9 +271,10 @@ const SOLUTION_DATA = {
       { t: "ブログAI投稿", d: "薬機法フィルター付きの AI 投稿ツールで月4本の SEO 記事を自動生成。" },
     ],
     cases: [
-      { tag: "内科", t: "ブログ更新が止まっていた医院の集客刷新", stat: "問い合わせ 2.4×" },
-      { tag: "皮膚科", t: "皮膚科ブランドサイト × 集客連動", stat: "PV 2.7×" },
-      { tag: "歯科", t: "歯科医院の総合 LP 構築", stat: "予約 +110%" },
+      { tag: "内科", t: "あおぞら内科クリニックの予約サイト構築", stat: "予約 +83%", img: "assets/work-aozora-naika.png" },
+      { tag: "皮膚科", t: "皮膚科ブランドサイト × 集客連動 (AIRA CLINIC GINZA)", stat: "PV 2.7×", img: "assets/hero-05.png" },
+      { tag: "歯科", t: "歯科医院の総合 LP 構築 (白藍 HAKURAN DENTAL)", stat: "予約 +110%", img: "assets/hero-04.png" },
+      { tag: "グループ", t: "クリニックグループのコーポレート (Tokyo Clinic Group)", stat: "応募 1.9×", img: "assets/work-tokyoclinic.png", demo: "/showcase/tokyoclinic/" },
     ],
     price: "60〜180 万円 + 月額運用 3〜8 万円",
   },
@@ -295,9 +296,10 @@ const SOLUTION_DATA = {
       { t: "オーナー向け管理ポータル", d: "賃貸オーナー向けの管理状況可視化ポータルを別立てで構築。" },
     ],
     cases: [
-      { tag: "売買", t: "都内仲介の集客サイト構築", stat: "月間PV 3.1×" },
-      { tag: "売却", t: "売却査定LPの刷新", stat: "査定依頼 +180%" },
-      { tag: "賃貸", t: "賃貸オーナー向け管理ポータル", stat: "工数 -45%" },
+      { tag: "売買", t: "都心売買仲介の集客サイト (TOKYO HOMES AGENT)", stat: "反響 2.4×", img: "assets/work-tokyohomes.png", demo: "/showcase/tokyohomes/" },
+      { tag: "売却", t: "売却査定LPの刷新 (うちいくら？)", stat: "査定依頼 +180%", img: "assets/work-uchiikura.png", demo: "/showcase/uchiikura/" },
+      { tag: "賃貸", t: "賃貸オーナー向け管理ポータル (オーナーズデスク)", stat: "工数 -45%", img: "assets/work-ownersdesk.png", demo: "/showcase/ownersdesk/" },
+      { tag: "投資", t: "投資物件専門サイト × 物件管理 (ESTIA PARTNERS)", stat: "反響 2.7×", img: "assets/work-estia.png", demo: "/showcase/estia/" },
     ],
     price: "80〜300 万円 + 月額運用 5〜15 万円",
   },
@@ -319,9 +321,10 @@ const SOLUTION_DATA = {
       { t: "AI記事投稿", d: "建築用語ベースの SEO 記事を AI 投稿ツールで自動生成。" },
     ],
     cases: [
-      { tag: "工務店", t: "工務店のブランド × 案件管理", stat: "工数 -38%" },
-      { tag: "リフォーム", t: "リフォーム会社の総合ブランド刷新", stat: "受注 +52%" },
-      { tag: "設計事務所", t: "設計事務所のポートフォリオ刷新", stat: "問合せ 1.8×" },
+      { tag: "注文住宅", t: "注文住宅メーカーの集客サイト (木香の家)", stat: "資料請求 2.6×", img: "assets/work-mokka.png", demo: "/showcase/mokka/" },
+      { tag: "リフォーム", t: "大規模修繕・建物リニューアル (Renew Reuse Loop)", stat: "問合せ 2.6×", img: "assets/work-renewal.png" },
+      { tag: "設計事務所", t: "設計事務所のポートフォリオ刷新 (ARAI ARCHITECTS)", stat: "問合せ 1.8×", img: "assets/work-araiarch.png", demo: "/showcase/araiarch/" },
+      { tag: "外構", t: "外構工事会社のローカルSEOサイト (グリーンゲート京都)", stat: "MEO 1位", img: "assets/work-greengate.png", demo: "/showcase/greengate/" },
     ],
     price: "100〜400 万円 + 月額運用 5〜20 万円",
   },
@@ -343,9 +346,10 @@ const SOLUTION_DATA = {
       { t: "AI記事投稿", d: "キャリア論・業界動向・転職ノウハウを AI 投稿ツールで継続発信。" },
     ],
     cases: [
-      { tag: "中途", t: "中堅人材会社のマッチング刷新", stat: "応募 +52%" },
-      { tag: "新卒", t: "新卒採用ブランドサイト構築", stat: "エントリー 2.1×" },
-      { tag: "外国人材", t: "外国人材紹介のバイリンガル", stat: "海外PV 4×" },
+      { tag: "中途", t: "IT企業の中途採用LP (NEXTCODE · JOIN US)", stat: "応募単価 -38%", img: "assets/work-nextcode.png", demo: "/showcase/nextcode/" },
+      { tag: "新卒", t: "新卒採用ブランドサイト構築 (AXIA · NEW GRADUATES)", stat: "エントリー 2.1×", img: "assets/hero-07.png" },
+      { tag: "外国人材", t: "外国人材紹介の英日バイリンガル (BRIDGE WORKS JAPAN)", stat: "海外PV 4×", img: "assets/work-bridgeworks.png", demo: "/showcase/bridgeworks/" },
+      { tag: "エージェント", t: "業界特化型エージェント刷新 (メディキャリア)", stat: "成約 +44%", img: "assets/work-medicareer.png", demo: "/showcase/medicareer/" },
     ],
     price: "150〜500 万円 + 月額運用 10〜30 万円",
   },
@@ -367,9 +371,10 @@ const SOLUTION_DATA = {
       { t: "AI 商品レコメンド", d: "購買履歴ベースのレコメンドエンジンをサイトに実装。" },
     ],
     cases: [
-      { tag: "セレクト", t: "セレクトショップの EC 連携", stat: "CVR 1.8×" },
-      { tag: "OMO", t: "実店舗 EC 統合 OMO 基盤", stat: "EC売上 +210%" },
-      { tag: "サブスク", t: "サブスク EC のリピート率改善", stat: "解約率 -32%" },
+      { tag: "越境EC", t: "京都の骨董店 (TAKETORA) バイリンガルEC", stat: "海外PV 5.2×", img: "assets/work-taketora.png" },
+      { tag: "サブスク", t: "サブスク EC のリピート率改善 (Quiet Objects)", stat: "解約率 -32%", img: "assets/work-quietobjects.png", demo: "/showcase/quietobjects/" },
+      { tag: "AI在庫", t: "中古フィギュア店の AI 在庫登録システム (TAKETORA)", stat: "AI同定 3層", img: "assets/work-taketora-ai.png" },
+      { tag: "ブランド", t: "ゴルフリゾート (COCOPA) のブランドサイト", stat: "予約 1.9×", img: "assets/work-cocopa.png" },
     ],
     price: "200〜800 万円 + 月額運用 10〜40 万円",
   },
@@ -438,16 +443,18 @@ function SolutionPage({ pageId, onNavigate, onContact }) {
             <h2 className="section-title fadein">{m.label}の制作実績</h2>
             <p className="section-sub fadein">CASES</p>
           </div>
-          <div className="grid-3">
+          <div className="grid-cases">
             {m.cases.map((c, i) => (
-              <a key={i} className="card card-link fadein" data-delay={i * 120} style={{ padding: 0, overflow: 'hidden', cursor: 'pointer' }}>
-                <Placeholder label={c.tag} caption="case" aspect="16/10"/>
-                <div style={{ padding: '20px 22px 22px' }}>
-                  <div className="row" style={{ justifyContent: 'space-between', marginBottom: 12 }}>
+              <a key={i} className={`card fadein${c.demo ? ' card-link' : ''}`} data-delay={i * 100} style={{ padding: 0, overflow: 'hidden', cursor: c.demo ? 'pointer' : 'default' }}
+                 onClick={c.demo ? (e) => { e.preventDefault(); openShowcase(c.demo, c.t); } : undefined}>
+                <WorkShot work={{ img: c.img, title: c.t, tag: c.tag }}/>
+                <div style={{ padding: '18px 22px 20px' }}>
+                  <div className="row" style={{ justifyContent: 'space-between', marginBottom: 10 }}>
                     <span className="tag">{c.tag}</span>
-                    <span className="small text-mono text-accent" style={{ fontWeight: 700 }}>{c.stat}</span>
+                    <span className="stat-pill">{c.stat}</span>
                   </div>
                   <h3 style={{ fontSize: 15, fontWeight: 700, margin: 0, lineHeight: 1.6 }}>{c.t}</h3>
+                  {c.demo && <span className="work-cta">サイトをこの場で見る<Icon name="arrow-right" size={12}/></span>}
                 </div>
               </a>
             ))}

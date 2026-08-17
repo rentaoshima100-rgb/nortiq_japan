@@ -39,7 +39,7 @@ const WORKS_DATA = [
   { id: 10, tag: "小売", category: "retail", title: "京都の骨董店 (TAKETORA) バイリンガルEC", stat: "海外PV 5.2×", services: ["Web制作", "EC"], img: "assets/work-taketora.png" },
   { id: 11, tag: "小売", category: "retail", title: "ゴルフリゾート (COCOPA) のブランドサイト", stat: "予約 1.9×", services: ["Web制作"], img: "assets/work-cocopa.png" },
   { id: 12, tag: "小売", category: "retail", title: "サブスク EC のリピート率改善 (Quiet Objects)", stat: "解約率 -32%", services: ["Web制作", "DX・ML"], img: "assets/work-quietobjects.png", demo: "/showcase/quietobjects/" },
-  { id: 22, tag: "小売", category: "retail", title: "中古フィギュア店の AI 在庫登録システム (TAKETORA)", stat: "AI同定 3層", services: ["iPadアプリ開発", "AI同定", "スマレジ連携"], img: null },
+  { id: 22, tag: "小売", category: "retail", title: "中古フィギュア店の AI 在庫登録システム (TAKETORA)", stat: "AI同定 3層", services: ["iPadアプリ開発", "AI同定", "スマレジ連携"], img: "assets/work-taketora-ai.png" },
   { id: 13, tag: "インフラ", category: "infra", title: "RAKUYU-Z 工法協会 サイト", stat: "信頼度評価 +", services: ["Web制作"], img: "assets/work-rakuyu.png" },
   { id: 14, tag: "インフラ", category: "infra", title: "電力会社のサービスサイト刷新 (VOLTIO スマートエネルギー)", stat: "PV 2.1×", services: ["Web制作", "アクセス解析"], img: "assets/work-voltio.png", demo: "/showcase/voltio/" },
   { id: 37, tag: "インフラ", category: "infra", title: "精密部品メーカーのコーポレート再構築 (京西精機)", stat: "PV 1.6×", services: ["Web制作", "採用"], img: "assets/work-kyosai.png", demo: "/showcase/kyosai/" },
