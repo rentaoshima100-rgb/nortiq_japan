@@ -33,6 +33,7 @@ const ARTICLE_ROUTES = (() => {
 })();
 
 const ROUTES_ALLOWLIST = [
+  '/article-llm-guardrail-bypass-cases',
   ...ARTICLE_ROUTES,
   '/article-internal-system-outsourcing-requirements-checklist',
   '/article-in-house-system-cloud-migration-cost-guide',
