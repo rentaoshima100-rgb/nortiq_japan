@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="ja" style="--accent: hsl(354, 92%, 45%); --accent-hi: hsl(354, 95%, 52%); --accent-soft: hsl(354, 90%, 95%);"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Google tag (gtag.js) — GA4 + Google Ads conversion tracking -->
+  <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-EYTD1TWR7T"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-EYTD1TWR7T');
+    window.NORTIQ_CONV = { contact: null, diagnostic: null };
+  </script>
+  <title>LLMガードレール自社構築 vs クラウドAPI、中小企業向け費用比較 — Nortiq Labs</title>
+  <meta name="description" content="LLMガードレールの自社構築とクラウドAPI利用について、中小企業向けに費用・工数・精度を実例で比較。エンジニア数や予算別の最適な選択肢を解説します。">
+  <link rel="icon" href="/assets/nortiq-fav.png" type="image/png">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Nortiq Labs">
+  <!-- 記事ルートでは app.jsx が og:type を article に変え、下の2つに日付を入れる。
+       setMetaContent は既存要素しか書き換えないため、空のまま置いておく必要がある -->
+  <meta property="article:published_time" content="2026-08-17">
+  <meta property="article:modified_time" content="2026-08-17">
+  <meta property="og:title" content="LLMガードレール自社構築 vs クラウドAPI、中小企業向け費用比較 — Nortiq Labs">
+  <meta property="og:description" content="LLMガードレールの自社構築とクラウドAPI利用について、中小企業向けに費用・工数・精度を実例で比較。エンジニア数や予算別の最適な選択肢を解説します。">
+  <meta property="og:url" content="https://nortiqlab.com/article-llm-guardrail-inhouse-vs-cloud-api">
+  <meta property="og:image" content="https://nortiqlab.com/assets/blog-default.png">
+  <meta property="og:locale" content="ja_JP">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="LLMガードレール自社構築 vs クラウドAPI、中小企業向け費用比較 — Nortiq Labs">
+  <meta name="twitter:description" content="LLMガードレールの自社構築とクラウドAPI利用について、中小企業向けに費用・工数・精度を実例で比較。エンジニア数や予算別の最適な選択肢を解説します。">
+  <meta name="twitter:image" content="https://nortiqlab.com/assets/blog-default.png">
+  <link rel="stylesheet" href="/styles.css?v=msxvcuyw">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://nortiqlab.com/#org","name":"Nortiq Labs","url":"https://nortiqlab.com/","logo":"https://nortiqlab.com/assets/nortiq-mark.png","image":"https://nortiqlab.com/assets/og-image.png","description":"京都のWeb制作×AI実装カンパニー。オリジナルデザインのホームページ制作からAIチャットボット導入、DXコンサルティングまで一気通貫で支援。初回相談無料・営業日24時間以内に返信します。","slogan":"日本のDX、世界水準で巻き返す。","foundingDate":"2025","numberOfEmployees":5,"address":{"@type":"PostalAddress","addressCountry":"JP","postalCode":"604-0012","addressRegion":"京都府","addressLocality":"京都市中京区","streetAddress":"竪大恩寺町751"},"areaServed":{"@type":"Country","name":"Japan"},"alternateName":["株式会社ノーティックラボ","ノーティックラボ"],"knowsAbout":["Web制作","AIチャットボット","DX","機械学習","SEO","LP制作 / LPO","業務自動化","データ分析"],"founder":{"@type":"Person","@id":"https://nortiqlab.com/#renta","name":"Renta Oshima","alternateName":"大島蓮太","jobTitle":"Founder / Engineer","worksFor":{"@id":"https://nortiqlab.com/#org"},"description":"米国 UC Berkeley で AI 研究。日本の中小企業向け DX 支援を起業。"}},{"@type":"WebSite","@id":"https://nortiqlab.com/#website","name":"Nortiq Labs","url":"https://nortiqlab.com/","publisher":{"@id":"https://nortiqlab.com/#org"},"inLanguage":"ja"},{"@type":"ProfessionalService","name":"Nortiq Labs","url":"https://nortiqlab.com/","description":"京都のWeb制作×AI実装カンパニー。オリジナルデザインのホームページ制作からAIチャットボット導入、DXコンサルティングまで一気通貫で支援。初回相談無料・営業日24時間以内に返信します。","areaServed":"JP","serviceType":["Web制作","AIチャットボット導入","DX・ML実装","補助金活用のDX導入相談"],"provider":{"@id":"https://nortiqlab.com/#org"}}]}</script>
+  <!-- defer: この2本 (計約139KB) は head にあって描画をブロックしていた。
+       ページの初期表示はプリレンダ済みHTMLで完結するのでJSを待つ必要がない。
+       defer は文書順に実行されるため react → react-dom → articles.js →
+       app.bundle.js の順序は保たれる。 -->
+  <script src="/assets/vendor/react.production.min.js?v=msxvcuyw" defer=""></script>
+  <script src="/assets/vendor/react-dom.production.min.js?v=msxvcuyw" defer=""></script>
+<link rel="canonical" href="https://nortiqlab.com/article-llm-guardrail-inhouse-vs-cloud-api"><script type="application/ld+json" id="route-ld">[{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"トップ","item":"https://nortiqlab.com/"},{"@type":"ListItem","position":2,"name":"コラム","item":"https://nortiqlab.com/column"},{"@type":"ListItem","position":3,"name":"LLMガードレール自社構築 vs クラウドAPI、中小企業向け費用比較","item":"https://nortiqlab.com/article-llm-guardrail-inhouse-vs-cloud-api"}]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"LLMガードレール自社構築 vs クラウドAPI、中小企業向け費用比較","description":"LLMガードレールの自社構築とクラウドAPI利用について、中小企業向けに費用・工数・精度を実例で比較。エンジニア数や予算別の最適な選択肢を解説します。","image":"https://nortiqlab.com/assets/blog-default.png","url":"https://nortiqlab.com/article-llm-guardrail-inhouse-vs-cloud-api","inLanguage":"ja","articleSection":"AI活用","datePublished":"2026-08-17","dateModified":"2026-08-17","author":{"@type":"Organization","@id":"https://nortiqlab.com/#org","name":"Nortiq Labs"},"publisher":{"@id":"https://nortiqlab.com/#org"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://nortiqlab.com/article-llm-guardrail-inhouse-vs-cloud-api","reviewedBy":{"@id":"https://nortiqlab.com/#renta"}}}]</script></head>
+<body>
+  <div id="app"><header class="nav" role="banner"><div class="nav-inner"><a class="nav-logo" href="/" style="cursor: pointer;"><span class="nav-logo-mark"></span><span class="wordmark"><span class="wordmark-main">NORTIQ</span><span class="wordmark-sub">LABS</span></span></a><nav class="nav-links" aria-label="メインナビゲーション"><div class="nav-link-wrap"><a class="nav-link" href="/">トップ</a></div><div class="nav-link-wrap"><a class="nav-link">機能<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></a></div><div class="nav-link-wrap"><a class="nav-link">制作実績<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></a></div><div class="nav-link-wrap"><a class="nav-link">業種ソリューション<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></a></div><div class="nav-link-wrap"><a class="nav-link" href="/voice">ご利用会社様の声</a></div><div class="nav-link-wrap"><a class="nav-link" href="/support">サポート</a></div><div class="nav-link-wrap"><a class="nav-link" href="/pricing">料金プラン</a></div><div class="nav-link-wrap"><a class="nav-link" aria-current="page">コンテンツ<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></a></div><div class="nav-link-wrap"><a class="nav-link" href="/diagnostic">無料診断</a></div></nav><div class="nav-cta-wrap"><button class="btn btn-primary btn-sm" type="button"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><path d="M22 6l-10 7L2 6"></path></svg>メールでお問合せ</button><button class="hamburger" aria-label="メニューを開く" aria-expanded="false"><span></span><span></span><span></span></button></div></div><div class="nav-drawer"><div class="nav-drawer-panel"><div class="nav-drawer-head"><span class="nav-logo" style="font-size: 18px;"><span class="nav-logo-mark" aria-hidden="true"></span><span class="wordmark"><span class="wordmark-main">NORTIQ</span><span class="wordmark-sub">LABS</span></span></span><button class="drawer-close" aria-label="閉じる"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M6 18L18 6"></path></svg></button></div><nav class="nav-drawer-body"><a class="drawer-item" href="/"><span>トップ</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><div class="drawer-group"><button class="drawer-item drawer-group-head"><span>機能</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></button><div class="drawer-group-body"><div class="drawer-subgroup"><h5>サービス別 機能一覧</h5><a class="drawer-sub-item" href="/web"><span>Web制作 機能一覧</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/chatbot"><span>AIチャットボット 機能一覧</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/dx"><span>DX・ML 機能一覧</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></div><div class="drawer-subgroup"><h5>技術領域</h5><a class="drawer-sub-item" href="/feature-lpo"><span>LP制作 / LPO</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/feature-recruit"><span>採用専門サイト</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/feature-analytics"><span>アクセス解析カスタム実装</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/feature-cms"><span>CMS / 記事更新システム</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></div><div class="drawer-subgroup"><h5>自社プロダクト</h5><a class="drawer-sub-item" href="/product-vetonet"><span>VetoNet (AI Security)</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/product-wpchat"><span>ブログボット（AI投稿アシスタント）</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/product-tennis"><span>Tennis フォームチェック</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></div></div></div><div class="drawer-group"><button class="drawer-item drawer-group-head"><span>制作実績</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></button><div class="drawer-group-body"><div class="drawer-subgroup"><h5>業種から探す</h5><a class="drawer-sub-item" href="/works-clinic"><span>クリニック・医療</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/works-realty"><span>不動産</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/works-build"><span>建築・工務店</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/works-hr"><span>人材</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/works-retail"><span>小売 / EC</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/works-infra"><span>インフラ・製造</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/works-ai"><span>AIスタートアップ</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></div><div class="drawer-subgroup"><h5>強化LP別</h5><a class="drawer-sub-item" href="/works-lp-corp"><span>コーポレートサイト</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/works-lp-recruit"><span>採用LP</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/works-lp-ec"><span>EC連動LP</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></div><div class="drawer-subgroup"><h5>実績まとめ</h5><a class="drawer-sub-item" href="/works"><span>全実績一覧</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></div></div></div><div class="drawer-group"><button class="drawer-item drawer-group-head"><span>業種ソリューション</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></button><div class="drawer-group-body"><div class="drawer-subgroup"><h5>業種別パッケージ</h5><a class="drawer-sub-item" href="/solution-clinic"><span>クリニック・医療 DXパッケージ</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/solution-realty"><span>不動産 集客×管理パッケージ</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/solution-build"><span>建築 ブランド×案件管理</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/solution-hr"><span>人材 マッチング×集客</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/solution-retail"><span>小売・EC OMOパッケージ</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></div></div></div><a class="drawer-item" href="/voice"><span>ご利用会社様の声</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-item" href="/support"><span>サポート</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-item" href="/pricing"><span>料金プラン</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><div class="drawer-group"><button class="drawer-item drawer-group-head"><span>コンテンツ</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></button><div class="drawer-group-body"><div class="drawer-subgroup"><h5>メディア</h5><a class="drawer-sub-item" href="/column"><span>コラム / 技術ブログ</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/news"><span>お知らせ</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/guidebook"><span>サービス紹介資料</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/subsidy"><span>補助金活用相談</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></div></div></div><a class="drawer-item" href="/diagnostic"><span>無料診断</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></nav><div class="nav-drawer-foot"><button class="btn btn-primary btn-lg" type="button" style="width: 100%;"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><path d="M22 6l-10 7L2 6"></path></svg>資料請求・お問い合わせ</button></div></div></div></header><div><main class="page-fade"><nav aria-label="Breadcrumb" style="padding: 14px 0px; border-bottom: 1px solid var(--border); background: var(--bg-2);"><div class="container"><ol class="row-tight" style="list-style: none; padding: 0px; margin: 0px; font-size: 12px; color: var(--text-3);"><li class="row-tight" style="gap: 8px;"><a href="/" style="cursor: pointer; color: var(--text-2);">トップ</a></li><li class="row-tight" style="gap: 8px;"><span style="color: var(--text-4);">›</span><a href="/column" style="cursor: pointer; color: var(--text-2);">コラム</a></li><li class="row-tight" style="gap: 8px;"><span style="color: var(--text-4);">›</span><span style="color: var(--text);">LLMガードレール自社構築 vs クラウドAPI、中小企業向け費用比較</span></li></ol></div></nav><article><header style="padding-top: clamp(48px, 7vw, 90px); padding-bottom: 32px;"><div class="container" style="max-width: 820px;"><div class="row" style="gap: 10px; margin-bottom: 24px; color: var(--text-3); font-size: 13px; flex-wrap: wrap;"><span class="tag" style="color: var(--accent); border-color: var(--accent);">AI活用</span><span class="num">2026.08.17</span><span>·</span><span>12 min read</span><span>·</span><span>Nortiq Labs</span></div><h1 class="display-l fadein is-in" style="margin-bottom: 8px;">LLMガードレール自社構築 vs クラウドAPI、中小企業向け費用比較</h1></div></header><div class="container" style="max-width: 880px; margin-bottom: 8px;"><div class="article-cover tone-blue" role="img" aria-label="LLMガードレール自社構築 vs クラウドAPI、中小企業向け費用比較" style="aspect-ratio: 21 / 9;"><span class="article-cover-cat">AI活用</span><span class="article-cover-title">LLMガードレール自社構築 vs クラウドAPI、中小企業向け費用比較</span><span class="article-cover-brand">NORTIQ LABS · COLUMN</span></div></div><div class="container" style="max-width: 780px; margin-top: 24px; margin-bottom: 80px;"><div class="article-prose article-body"><h2>この記事の要点</h2>
+<ul>
+<li>エンジニアが社内にいない・予算が限られている場合は、クラウドAPIから始めるのが現実的な順序です</li>
+<li>自社構築は業界固有のポリシー反映や機密データの外部送信ゼロが必要になった時点で検討します</li>
+<li>費用・精度・運用負荷・向く企業規模の4軸で比較し、御社の状況に合った選択肢を選びます</li>
+</ul>
+<hr>
+<p>生成AIチャットボットを業務に導入したとき、「不適切な回答をユーザに返してしまった」「機密情報に触れる質問にそのまま答えてしまった」といったリスクが現実の問題として浮上します。その対策として注目されているのが「LLMガードレール」です。</p>
+<p>ガードレールの実装方法は大きく2つに分かれます。OpenAIやMicrosoftが提供するクラウドAPIを使う方法と、自社のエンジニアがゼロから設計・構築する方法です。どちらが御社に合っているかは、エンジニアの有無・予算・扱うデータの機密レベルによって決まります。</p>
+<p>この記事では、2つのアプローチを費用・精度・運用負荷・向く企業規模の4軸で比較し、中小企業のDX担当者が「どちらを選ぶか」を判断できる材料を提供します。</p>
+<h2>LLMガードレールとは何か？</h2>
+<p>LLMガードレールとは、大規模言語モデルの入出力を監視し、有害コンテンツ・機密漏洩・意図しない応答をシステム側でブロックする安全制御の仕組みです。チャットボットがどれほど高精度なモデルを使っていても、ガードレールがなければ不適切な回答や情報漏洩を防ぐ手段がありません。</p>
+<hr>
+<h3>なぜ中小企業にもガードレールが必要なのか</h3>
+<p>「大企業の話では」と感じるかもしれませんが、リスクの所在は企業規模と無関係です。</p>
+<p>中小企業基盤整備機構が2026年3月に公表した「中小企業のAI等の利活用に係る実態調査」では、中小企業のAI導入における課題として「セキュリティ・情報漏洩リスク」が上位に挙がっています。ガードレールの不在そのものが、AI活用推進の障壁になっている実態が示されています（出典: 中小企業基盤整備機構「中小企業のAI等の利活用に係る実態調査」2026年3月）。</p>
+<p>また、総務省「令和7年版 情報通信白書」によると、国内企業の生成AI利用率は約13.4%にとどまっています（出典: 総務省 令和7年版 情報通信白書「企業におけるAI利用の現状」）。裏を返せば、これから導入を進める企業が大多数を占めており、導入初期にガードレールの設計を誤ると、後から作り直すコストが発生します。</p>
+<p>生成AIチャットボットを業務に組み込む時点で、以下のリスクが生じます。</p>
+<table>
+<thead>
+<tr>
+<th>リスク区分</th>
+<th>具体例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>有害コンテンツ生成</td>
+<td>差別的・暴力的な表現を含む回答を出力する</td>
+</tr>
+<tr>
+<td>機密情報の漏洩</td>
+<td>社内文書の内容をユーザに不用意に開示する</td>
+</tr>
+<tr>
+<td>プロンプトインジェクション</td>
+<td>悪意ある入力でシステムプロンプトを上書きされる</td>
+</tr>
+<tr>
+<td>誤情報の拡散</td>
+<td>根拠のない情報を事実として回答する</td>
+</tr>
+</tbody></table>
+<p>これらはいずれも、モデルの性能ではなく「制御の仕組み」で防ぐ問題です。ガードレールはその制御層にあたります。</p>
+<hr>
+<h3>国内規制と公的ガイドラインが示す要件</h3>
+<p>現時点で法的拘束力を持つ専用の国内規制はありませんが、実質的な行動規範として参照すべき公的ガイドラインが複数存在します。</p>
+<p>**総務省・経済産業省「AI事業者ガイドライン（第1.1版）」**は、AIを開発・提供・利用するすべての事業者を対象とし、リスクに応じた安全管理措置の実施を求めています。法的義務ではないものの、国内でLLMを業務利用する事業者にとって実質的な参照基準です（出典: IPA AI事業者ガイドライン検討会）。</p>
+<p>**IPAが2024年9月に公開した「AIセーフティに関する評価観点ガイド」**は、生成AIの安全性を「有害コンテンツ生成」「プライバシー侵害」「誤情報拡散」などの観点から体系的に整理しており、ガードレール設計の参照基準として直接活用できます（出典: IPA プレスリリース、2024年9月18日）。</p>
+<p>さらに**IPAの「テキスト生成AIの導入・運用ガイドライン（2024年7月）」**は、入力プロンプトのサニタイズ、出力のフィルタリング、ログの保持といった実装上の手順を具体的に示しており、自社構築・クラウドAPIのいずれを選ぶ場合も設計の出発点として参照する価値があります（出典: IPA 産業サイバーセキュリティセンター、2024年7月）。</p>
+<p>これらのガイドラインに共通する考え方は、「入力と出力の両方を制御すること」です。一方向だけのフィルタリングでは不十分であり、両端を抑える設計がガードレールの基本要件となります。具体的なアーキテクチャの詳細は後述のセクション（自社構築を選ぶ場合のメリットと注意点）で整理します。</p>
+<h2>自社構築とクラウドAPIの比較表</h2>
+<p>費用・精度・運用負荷・向く企業規模の4軸で整理すると、クラウドAPIは初期費用を抑えやすく、自社構築はカスタマイズ幅と長期コスト管理で優位に立ちます。</p>
+<h3>主要クラウドAPIの料金・機能の概要</h3>
+<p>まず、代表的な2つのクラウドAPIについて確認します。</p>
+<p><strong>OpenAI Moderation API</strong>は、すべてのOpenAIアカウントで無料で利用できます。OpenAI Help Centerは「ModerationエンドポイントはすべてのOpenAIアカウントで無料で利用できます」と明記しています（出典: OpenAI Help Center「Moderationエンドポイントは無料で利用できますか？」）。ヘイトスピーチ・暴力・性的コンテンツなど主要カテゴリのフィルタリングを追加コストなしで組み込める点は、予算の限られた中小企業にとって現実的な選択肢です。</p>
+<p><strong>Azure AI Content Safety</strong>は、テキスト分析を従量課金で提供しており、月5,000レコードまでは無料で利用できます（出典: Azure AI Content Safety 価格ページ、Microsoft公式）。小規模な検証や月間リクエスト数が少ない業務用途であれば、実質コストゼロで試行できます。なお、無料枠を超えた場合の料金は変動するため、最新の料金は公式サイトでご確認ください。</p>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>OpenAI Moderation API</th>
+<th>Azure AI Content Safety</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>基本料金</td>
+<td>無料</td>
+<td>月5,000レコードまで無料、以降は従量課金</td>
+</tr>
+<tr>
+<td>対応コンテンツ</td>
+<td>テキスト（ヘイト・暴力・性的等）</td>
+<td>テキスト・画像（多カテゴリ）</td>
+</tr>
+<tr>
+<td>組み込み難易度</td>
+<td>低（数行のコードで実装可）</td>
+<td>低〜中（Azure環境が前提）</td>
+</tr>
+<tr>
+<td>カスタムポリシー</td>
+<td>対応していない</td>
+<td>限定的に対応</td>
+</tr>
+<tr>
+<td>データ送信先</td>
+<td>OpenAIのサーバ</td>
+<td>Microsoftのサーバ</td>
+</tr>
+</tbody></table>
+<p>カスタムポリシーやデータ主権の詳細については、次のセクションで掘り下げます。</p>
+<h3>自社構築の工数と維持コストの目安</h3>
+<p>自社構築は、ゼロから設計する場合と既存のOSSフレームワークを活用する場合で工数が大きく異なります。以下はあくまで目安であり、要件や社内エンジニアのスキルセットによって変動します。</p>
+<table>
+<thead>
+<tr>
+<th>フェーズ</th>
+<th>概要</th>
+<th>目安工数</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>設計・調査</td>
+<td>禁止カテゴリの定義、ポリシー文書の整備</td>
+<td>2〜4週間</td>
+</tr>
+<tr>
+<td>実装（入力フィルタ）</td>
+<td>プロンプトサニタイズ、禁止ワード検知ロジック</td>
+<td>2〜4週間</td>
+</tr>
+<tr>
+<td>実装（出力フィルタ）</td>
+<td>応答の後処理、ログ記録の仕組み</td>
+<td>2〜3週間</td>
+</tr>
+<tr>
+<td>精度評価・チューニング</td>
+<td>テストデータ作成、過検知・見逃しの調整</td>
+<td>2〜4週間</td>
+</tr>
+<tr>
+<td>運用・保守（継続）</td>
+<td>ポリシー更新、モデル変更への追従</td>
+<td>月2〜8時間程度</td>
+</tr>
+</tbody></table>
+<p>初期実装だけで2〜3ヶ月の工数がかかるケースが多く、専任のエンジニアが社内にいない場合は現実的なハードルが高くなります。また、LLMのモデルバージョンが更新されるたびにガードレールの挙動を再評価する必要があり、「作って終わり」ではない継続的な運用コストも見込む必要があります。</p>
+<hr>
+<p>4軸をまとめると次のとおりです。</p>
+<table>
+<thead>
+<tr>
+<th>比較軸</th>
+<th>クラウドAPI</th>
+<th>自社構築</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>初期費用</td>
+<td>低（無料〜従量課金）</td>
+<td>高（設計・実装工数が主なコスト）</td>
+</tr>
+<tr>
+<td>カスタマイズ精度</td>
+<td>低〜中（汎用カテゴリのみ）</td>
+<td>高（業界固有ポリシーを反映可）</td>
+</tr>
+<tr>
+<td>運用負荷</td>
+<td>低（API呼び出しのみ）</td>
+<td>高（継続的な評価・保守が必要）</td>
+</tr>
+<tr>
+<td>向く企業規模</td>
+<td>エンジニアなし・小〜中規模</td>
+<td>エンジニアあり・機密要件がある企業</td>
+</tr>
+</tbody></table>
+<p>総務省「令和7年版 情報通信白書」によると、国内企業の生成AI利用率は約13.4%にとどまっています（出典: 総務省 令和7年版 情報通信白書「企業におけるAI利用の現状」）。導入後の安全管理の整備が普及の次のステップとなるなか、どちらの方式が御社の現在地に合うかを見極めることが重要です。</p>
+<h2>自社構築を選ぶ場合のメリットと注意点は？</h2>
+<p>自社構築は、業界固有のポリシー反映・社内データの外部送信ゼロ・長期的なランニングコスト抑制が可能です。ただし、3層アーキテクチャの設計と継続的な精度管理に相応の工数がかかるため、導入前に実装負荷を正確に把握しておく必要があります。</p>
+<p>自社構築が向くのは、機密性の高い情報を扱うため外部APIにデータを送信できない場合や、業界特有の禁止語句・応答ポリシーをきめ細かく制御したい場合です。反対に、エンジニアリソースが確保できない段階で自社構築から始めると、精度管理が追いつかず運用破綻するリスクがあります。</p>
+<hr>
+<h3>3層アーキテクチャ（入力層・処理層・出力層）の役割</h3>
+<p>3層アーキテクチャとは、ユーザの入力とLLMの出力をそれぞれ独立したフィルタ層で検査し、処理の途中経路も制御する設計パターンです。特定ベンダー独自の概念ではなく、業界標準ツールが実際に採用している構成です。</p>
+<p>NVIDIA NeMo Guardrailsの公式ドキュメントによると、同ツールは入力レール（Input Rails）・対話レール（Dialog Rails）・検索レール（Retrieval Rails）・出力レール（Output Rails）という多層インターセプト構造を実装しています。「入力層・処理層・出力層」の3層設計は、この構成を実務で整理した呼称です（出典: NVIDIA NeMo Guardrails公式ドキュメント、<a href="https://docs.nvidia.com/nemo/microservices/latest/guardrails/concepts/architecture.html%EF%BC%89%E3%80%82">https://docs.nvidia.com/nemo/microservices/latest/guardrails/concepts/architecture.html）。</a></p>
+<p>同ドキュメントでは、入力チェックと出力チェックに同一コンポーネント（Topic Control NIM）を前後で二回適用する設計が紹介されています。入力がチェックを通過した場合のみLLMが出力を生成し、その出力も同じコンポーネントで再検査されます。最小構成から始める際の参考になる設計です。</p>
+<p>各層の役割を整理すると、次のとおりです。</p>
+<table>
+<thead>
+<tr>
+<th>層</th>
+<th>主な役割</th>
+<th>実装例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>入力層</td>
+<td>有害コンテンツ・ジェイルブレイク検知、プロンプトインジェクション対策</td>
+<td>キーワードフィルタ、分類モデル、NeMo Input Rails</td>
+</tr>
+<tr>
+<td>処理層</td>
+<td>会話フロー制御、検索結果の安全性確認（RAG利用時）</td>
+<td>Dialog Rails、Retrieval Rails</td>
+</tr>
+<tr>
+<td>出力層</td>
+<td>幻覚・領域逸脱の検知、スキーマ検証、応答モデレーション</td>
+<td>NeMo Output Rails、スキーマバリデータ</td>
+</tr>
+</tbody></table>
+<p>Datadogのベストプラクティス解説では、出力層でスキーマ検証と関連性チェックを実施することが推奨されています。たとえば社内インフラ向けのLLMエージェントであれば、生成物がTerraformまたはCloudFormationの対象リソースのみを含むかを出力層で自動検証できます（出典: Datadog、<a href="https://www.datadoghq.com/blog/llm-guardrails-best-practices/%EF%BC%89%E3%80%82">https://www.datadoghq.com/blog/llm-guardrails-best-practices/）。</a></p>
+<p>プロンプトインジェクション対策については、OWASP Top 10 for LLM Applications（2025年版）が多層防御（Defense in Depth）を必須と位置づけています。具体的には、入力検証・出力フィルタリング・権限制限・機微な操作への人間による確認（Human-in-the-Loop）の組み合わせが推奨されています。プロンプトインジェクションはLLMの設計に起因する脆弱性でありパッチでは解決できないため、3層すべてで制御を重ねる必要があります（出典: OWASP Top 10 for LLM Applications 2025解説、<a href="https://aembit.io/blog/owasp-top-10-llm-risks-explained/%EF%BC%89%E3%80%82">https://aembit.io/blog/owasp-top-10-llm-risks-explained/）。</a></p>
+<p>また、自社構築で3層設計を社内ルールやリスク管理に落とし込む際は、IPA（独立行政法人情報処理推進機構）が2024年7月に公開した「テキスト生成AIの導入・運用ガイドライン」が国内向けの一次資料として参照できます。同ガイドラインはRAG導入で新たに発生するセキュリティリスクにも言及しており、検索層（Retrieval Rails）の設計根拠としても活用できます（出典: IPA「テキスト生成AIの導入・運用ガイドライン」2024年7月、<a href="https://www.ipa.go.jp/jinzai/ics/core_human_resource/final_project/2024/generative-ai-guideline.html%EF%BC%89%E3%80%82">https://www.ipa.go.jp/jinzai/ics/core_human_resource/final_project/2024/generative-ai-guideline.html）。</a></p>
+<p>なお、3層アーキテクチャの詳細な実装手順は別記事「LLM安全対策の3層ガードレール｜NeMo・OWASPに基づく実装手順」で解説しています。本セクションでは意思決定に必要な設計概念の把握にとどめます。</p>
+<hr>
+<h3>精度評価指標と過検知・見逃しのトレードオフ</h3>
+<p>自社構築のガードレールは、リリース後も継続的に精度を測定・改善しなければ安全水準を維持できません。精度評価を省略すると、有害コンテンツを見逃すか、正常な業務入力を過剰にブロックするかのどちらかの問題が顕在化します。</p>
+<p>業界で用いられる主要な評価指標は次の3つです。</p>
+<table>
+<thead>
+<tr>
+<th>指標</th>
+<th>意味</th>
+<th>自社構築での判断基準のめやす</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Precision（適合率）</td>
+<td>ブロックしたうち本当に有害だった割合</td>
+<td>低いと正常な入力を過剰ブロック（業務妨害リスク）</td>
+</tr>
+<tr>
+<td>Recall（再現率）</td>
+<td>有害コンテンツのうち実際に検知できた割合</td>
+<td>低いと危険な入力を見逃す（安全リスク）</td>
+</tr>
+<tr>
+<td>F1スコア</td>
+<td>PrecisionとRecallの調和平均</td>
+<td>総合的な精度の比較・目標設定に使う</td>
+</tr>
+</tbody></table>
+<p>TrueFoundryが公開したベンチマーク比較レポート「Benchmarking LLM Guardrail Providers: A Data-Driven Comparison」では、複数のガードレールプロバイダを同一条件で評価しており、ツールごとにPrecision・Recall・F1スコアが大きく異なることが示されています（出典: TrueFoundry、<a href="https://www.truefoundry.com/blog/benchmarking-llm-guardrail-providers%EF%BC%89%E3%80%82%E6%8E%A1%E7%94%A8%E3%83%84%E3%83%BC%E3%83%AB%E3%81%AE%E9%81%B8%E5%AE%9A%E6%AE%B5%E9%9A%8E%E3%81%A7%E3%81%93%E3%81%AE%E5%B7%AE%E3%82%92%E7%A2%BA%E8%AA%8D%E3%81%99%E3%82%8B%E3%81%93%E3%81%A8%E3%81%8C%E9%87%8D%E8%A6%81%E3%81%A7%E3%81%99%E3%80%82">https://www.truefoundry.com/blog/benchmarking-llm-guardrail-providers）。採用ツールの選定段階でこの差を確認することが重要です。</a></p>
+<p>NVIDIA NeMo Guardrailsの公式評価ドキュメントは、ガードレール性能の測定軸としてTrue Positive Rate（真陽性率、TPR）とFalse Positive Rate（偽陽性率、FPR）の2指標を主軸に規定しています。評価用データセットに対する応答を自動採点する手順も公開されており、再現性のある精度測定が可能な設計になっています（出典: NVIDIA NeMo Guardrails公式評価ドキュメント「Evaluate NeMo Guardrails Library Performance」、<a href="https://docs.nvidia.com/nemo/guardrails/latest/evaluation/evaluate-guardrails.html%EF%BC%89%E3%80%82%E5%90%8C%E3%83%84%E3%83%BC%E3%83%AB%E3%81%AFGitHub%E3%81%A76,500%E3%82%B9%E3%82%BF%E3%83%BC%E4%BB%A5%E4%B8%8A%E3%82%92%E7%8D%B2%E5%BE%97%E3%81%97%E3%81%A6%E3%81%8A%E3%82%8A%E3%80%81%E3%82%AA%E3%83%BC%E3%83%97%E3%83%B3%E3%82%BD%E3%83%BC%E3%82%B9%E3%81%AE%E3%82%AC%E3%83%BC%E3%83%89%E3%83%AC%E3%83%BC%E3%83%AB%E5%AE%9F%E8%A3%85%E3%81%AE%E4%B8%AD%E3%81%A7%E5%BA%83%E3%81%8F%E5%8F%82%E7%85%A7%E3%81%95%E3%82%8C%E3%81%A6%E3%81%84%E3%82%8B%E5%AE%9F%E7%B8%BE%E3%81%8C%E3%81%82%E3%82%8A%E3%81%BE%E3%81%99%EF%BC%88%E5%87%BA%E5%85%B8">https://docs.nvidia.com/nemo/guardrails/latest/evaluation/evaluate-guardrails.html）。同ツールはGitHubで6,500スター以上を獲得しており、オープンソースのガードレール実装の中で広く参照されている実績があります（出典</a>: OpenLegion「AI Guardrails: Input/Output Controls, Platform Enforcement, and LLM Safety」、<a href="https://www.openlegion.ai/en/learn/ai-agent-guardrails%EF%BC%89%E3%80%82">https://www.openlegion.ai/en/learn/ai-agent-guardrails）。</a></p>
+<p>一方、OpenAIのModeration APIについては、2024年に新モデル「omni-moderation-latest」が公開され、テキストに加えて画像のモデレーションにも対応しました（出典: OpenAI公式ブログ「Upgrading the Moderation API with our new multimodal moderation model」、<a href="https://openai.com/index/upgrading-the-moderation-api-with-our-new-multimodal-moderation-model/%EF%BC%89%E3%80%82%E3%82%AF%E3%83%A9%E3%82%A6%E3%83%89API%E3%81%A8%E3%81%AE%E7%B2%BE%E5%BA%A6%E6%AF%94%E8%BC%83%E3%81%AB%E3%81%8A%E3%81%84%E3%81%A6%E3%81%AF%E3%80%81%E8%87%AA%E7%A4%BE%E6%A7%8B%E7%AF%89%E3%81%8C%E5%BF%85%E3%81%9A%E3%81%97%E3%82%82%E5%84%AA%E4%BD%8D%E3%81%A8%E3%81%AF%E8%A8%80%E3%81%88%E3%81%9A%E3%80%81%E3%82%AB%E3%82%B9%E3%82%BF%E3%83%9E%E3%82%A4%E3%82%BA%E3%81%AE%E5%BF%85%E8%A6%81%E6%80%A7%E3%81%8C%E3%81%82%E3%82%8B%E3%81%8B%E3%81%A9%E3%81%86%E3%81%8B%E3%81%8C%E9%81%B8%E6%8A%9E%E3%81%AE%E6%9C%AC%E8%B3%AA%E7%9A%84%E3%81%AA%E5%9F%BA%E6%BA%96%E3%81%A8%E3%81%AA%E3%82%8A%E3%81%BE%E3%81%99%E3%80%82">https://openai.com/index/upgrading-the-moderation-api-with-our-new-multimodal-moderation-model/）。クラウドAPIとの精度比較においては、自社構築が必ずしも優位とは言えず、カスタマイズの必要性があるかどうかが選択の本質的な基準となります。</a></p>
+<p>過検知と見逃しのトレードオフは、閾値の調整で制御できますが、閾値を緩めると見逃しが増え、厳しくすると過検知が増えるという反比例の関係があります。業務用途では「過検知による業務妨害」を先に評価し、許容できる水準に閾値を設定してから見逃しリスクを別途モニタリングする順序が現実的です。</p>
+<p>精度を実務レベルで担保するには、リリース前後のテストが不可欠です。BudEcosystemの調査では、実務上の主要なテスト手法として、ユニットテスト・レッドチーミング・ファジングの3アプローチが整理されています（出典: BudEcosystem「A Survey on LLM Guardrails: Part 2」、<a href="https://budecosystem.com/llm-guardrails-guardrail-testing-validating-tools-and-frameworks/%EF%BC%89%E3%80%82%E7%89%B9%E3%81%AB%E3%80%81%E6%94%BB%E6%92%83%E8%80%85%E3%81%8C%E6%84%8F%E5%9B%B3%E7%9A%84%E3%81%AB%E3%83%95%E3%82%A3%E3%83%AB%E3%82%BF%E3%82%92%E5%9B%9E%E9%81%BF%E3%81%97%E3%82%88%E3%81%86%E3%81%A8%E3%81%99%E3%82%8B%E3%82%B1%E3%83%BC%E3%82%B9%E3%81%B8%E3%81%AE%E5%AF%BE%E7%AD%96%E3%81%A8%E3%81%97%E3%81%A6%E3%81%AF%E3%80%81%E3%83%AC%E3%83%83%E3%83%89%E3%83%81%E3%83%BC%E3%83%9F%E3%83%B3%E3%82%B0%E3%81%8C%E6%9C%89%E5%8A%B9%E3%81%A7%E3%81%99%E3%80%82">https://budecosystem.com/llm-guardrails-guardrail-testing-validating-tools-and-frameworks/）。特に、攻撃者が意図的にフィルタを回避しようとするケースへの対策としては、レッドチーミングが有効です。</a></p>
+<p>敵対的攻撃への耐性については、2024年11月に公開されたarxiv論文「Evaluating the Robustness of Large Language Model Safety Guardrails Against Adversarial Attacks」が系統的な評価を報告しており、攻撃手法によって防御成功率が大きく変動することが示されています（出典: arxiv、<a href="https://arxiv.org/html/2511.22047%EF%BC%89%E3%80%82%E8%87%AA%E7%A4%BE%E6%A7%8B%E7%AF%89%E3%81%AE%E5%A0%B4%E5%90%88%E3%81%AF%E3%81%93%E3%81%86%E3%81%97%E3%81%9F%E6%94%BB%E6%92%83%E3%83%91%E3%82%BF%E3%83%BC%E3%83%B3%E3%82%92%E6%83%B3%E5%AE%9A%E3%81%97%E3%81%9F%E3%83%86%E3%82%B9%E3%83%88%E3%82%92%E5%AE%9A%E6%9C%9F%E7%9A%84%E3%81%AB%E5%AE%9F%E6%96%BD%E3%81%99%E3%82%8B%E9%81%8B%E7%94%A8%E4%BD%93%E5%88%B6%E3%81%8C%E5%BF%85%E8%A6%81%E3%81%A7%E3%81%99%E3%80%82">https://arxiv.org/html/2511.22047）。自社構築の場合はこうした攻撃パターンを想定したテストを定期的に実施する運用体制が必要です。</a></p>
+<p>精度評価の具体的な手順については、別記事「LLMガードレール評価の精度測定｜4つの指標と実装手順」で詳しく解説しています。本記事では自社構築を選ぶ判断材料として概観にとどめます。</p>
+<p>なお、Guardrails AIは2024年9月にシリーズAで750万ドルを調達し、コミュニティ製バリデータが500件以上公開されています（出典: OpenLegion「AI Guardrails: Input/Output Controls, Platform Enforcement, and LLM Safety」、<a href="https://www.openlegion.ai/en/learn/ai-agent-guardrails%EF%BC%89%E3%80%82%E8%87%AA%E7%A4%BE%E6%A7%8B%E7%AF%89%E3%81%AE%E5%AE%9F%E8%A3%85%E3%82%B3%E3%82%B9%E3%83%88%E3%82%92%E6%8A%91%E3%81%88%E3%81%9F%E3%81%84%E5%A0%B4%E5%90%88%E3%80%81%E3%81%93%E3%81%86%E3%81%97%E3%81%9F%E3%82%AA%E3%83%BC%E3%83%97%E3%83%B3%E3%82%BD%E3%83%BC%E3%82%B9%E3%81%AE%E3%83%90%E3%83%AA%E3%83%87%E3%83%BC%E3%82%BF%E3%82%92%E6%B4%BB%E7%94%A8%E3%81%99%E3%82%8B%E9%81%B8%E6%8A%9E%E8%82%A2%E3%82%82%E6%A4%9C%E8%A8%8E%E3%81%AB%E5%80%A4%E3%81%97%E3%81%BE%E3%81%99%E3%80%82">https://www.openlegion.ai/en/learn/ai-agent-guardrails）。自社構築の実装コストを抑えたい場合、こうしたオープンソースのバリデータを活用する選択肢も検討に値します。</a></p>
+<hr>
+<card classname="my-8 border-l-4 border-primary p-6">
+**御社のガードレール要件を整理するお手伝いができます**
+
+<p>自社構築とクラウドAPIのどちらが適切かは、扱うデータの機密レベル・必要なカスタマイズ範囲・社内エンジニアの体制によって変わります。当社では、実装者の立場から要件整理と方式選定を無料でご相談いただける診断を提供しています。</p>
+<p><a href="/diagnostic">無料診断を受ける →</a>
+</p>
+<h2>企業タイプ別おすすめの選択肢</h2>
+<p>社内エンジニアの有無・月間リクエスト数・扱う情報の機密レベルの3点で、どちらが適切かがほぼ決まります。この3軸を確認するだけで、選択肢は自然と絞られます。</p>
+<table>
+<thead>
+<tr>
+<th>判断軸</th>
+<th>クラウドAPIが向く</th>
+<th>自社構築が向く</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>社内エンジニア</td>
+<td>いない、または1名以下</td>
+<td>2名以上かつLLM実装経験あり</td>
+</tr>
+<tr>
+<td>月間リクエスト数</td>
+<td>小規模（数千件以下）</td>
+<td>大規模（数万件以上）または将来的に増加が見込まれる</td>
+</tr>
+<tr>
+<td>情報の機密レベル</td>
+<td>一般情報・社外公開可</td>
+<td>個人情報・機密情報・外部送信不可のデータを含む</td>
+</tr>
+<tr>
+<td>カスタムポリシー</td>
+<td>標準カテゴリで十分</td>
+<td>業界固有の禁止ワードや社内規程への準拠が必要</td>
+</tr>
+<tr>
+<td>立ち上げ期限</td>
+<td>数週間以内に稼働させたい</td>
+<td>2〜3か月の設計・実装期間を確保できる</td>
+</tr>
+</tbody></table>
+<h3>ケースA: エンジニアなし・月間リクエスト小規模</h3>
+<p><strong>クラウドAPIから始めるのが現実的な選択です。</strong></p>
+<p>専任エンジニアがいない状態で自社構築を選ぶと、設計・実装だけでなく運用監視や精度改善の工数も外部委託に依存することになります。コストが想定を超えやすく、運用が形骸化するリスクが高まります。</p>
+<p>この段階では以下の構成が現実的です。</p>
+<ol>
+<li><strong>OpenAI Moderation APIを無償で組み込む</strong>: ヘイトスピーチ・性的コンテンツ・暴力などの標準カテゴリは無償でカバーできます。</li>
+<li><strong>プロンプト設計でポリシーを補完する</strong>: 禁止事項や応答範囲をシステムプロンプトに明記し、ガードレールの一部を代替します。</li>
+<li><strong>月間リクエスト数と誤検知率を記録する</strong>: 将来の自社構築移行を判断するためのベースライン計測として機能します。</li>
+</ol>
+<p>クラウドAPIの制約（カスタムポリシーの限界・データ外部送信）が業務上の問題になった時点で、初めて自社構築への移行を検討するフローが合理的です。</p>
+<hr>
+<h3>ケースB: エンジニアあり・機密情報を扱う・要件が独自</h3>
+<p><strong>自社構築が中長期的に優位になるケースです。</strong></p>
+<p>医療・法務・人事など、特定の業界固有の用語や社内規程をガードレールに反映させる必要がある場合、クラウドAPIの標準カテゴリでは対応しきれない場面が出てきます。また、入出力のログを外部サービスに送信できない契約上の制約がある企業も、自社構築を選ぶ理由になります。</p>
+<p>この場合の判断基準を整理します。</p>
+<ul>
+<li><strong>エンジニアが2名以上おり、LLM関連の実装経験がある</strong>: 3層アーキテクチャ（入力層・処理層・出力層）の設計と継続的なモデル更新を社内で回せる体制が前提になります。詳細な実装手順については「LLM安全対策の3層ガードレール｜NeMo・OWASPに基づく実装手順」を参照してください。</li>
+<li><strong>月間リクエスト数が数万件を超える、または増加が見込まれる</strong>: クラウドAPIの従量課金が積み上がるフェーズでは、自社構築の固定的な運用コストが経済的に有利になります。</li>
+<li><strong>精度評価を自社でコントロールしたい</strong>: 過検知（誤ブロック）と見逃しのバランスは業務文脈によって最適値が異なります。精度指標の詳細は前セクションで触れた通りです。</li>
+</ul>
+<p>ただし、エンジニアが1名のみの場合は注意が必要です。1人の担当者に設計・実装・運用・精度改善が集中すると、異動や退職で運用が止まるリスクが生じます。この場合は部分的な外部委託または段階的なクラウドAPI併用も選択肢に入ります。</p>
+<hr>
+<p>自社の状況がケースAとケースBの中間に当てはまる場合、まずクラウドAPIで稼働させ、リクエスト数・コスト・カスタマイズ要件の変化を6か月程度モニタリングしてから移行を判断するのが失敗の少ないアプローチです。</p>
+<h2>導入前に確認すべき5つのチェックポイント</h2>
+<p>選択肢を絞る前に、データの外部送信可否・必要な禁止カテゴリの種類・社内の運用体制・将来の拡張計画・コンプライアンス要件の5点を確認してください。</p>
+<p>これらを事前に明確にすることで、導入後に「想定していたリスクをカバーできない」「運用リソースが足りなかった」という判断ミスを防げます。</p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>チェック項目</th>
+<th>確認すべき問い</th>
+<th>判断への影響</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>データの外部送信可否</td>
+<td>入力テキストを外部サーバへ送ってよいか</td>
+<td>不可ならクラウドAPIは原則選外</td>
+</tr>
+<tr>
+<td>2</td>
+<td>必要な禁止カテゴリの種類</td>
+<td>業界固有の用語・ポリシーが含まれるか</td>
+<td>固有カテゴリが多いほど自社構築が有利</td>
+</tr>
+<tr>
+<td>3</td>
+<td>社内の運用体制</td>
+<td>継続的に管理できるエンジニアが何名いるか</td>
+<td>0名ならクラウドAPI、2名以上なら自社構築が現実的</td>
+</tr>
+<tr>
+<td>4</td>
+<td>将来の拡張計画</td>
+<td>月間リクエスト数が今後大幅に増える見込みか</td>
+<td>高スケールが見込まれるなら自社構築の長期コストが有利</td>
+</tr>
+<tr>
+<td>5</td>
+<td>コンプライアンス要件</td>
+<td>業界規制・社内ポリシーに具体的な実装要件があるか</td>
+<td>要件が厳格なほど自社設計の自由度が必要</td>
+</tr>
+</tbody></table>
+<h3>チェックポイント1: データの外部送信可否</h3>
+<p>この項目が最初のフィルタです。入力テキストに個人情報・顧客情報・営業機密が含まれる可能性があるなら、クラウドAPIへの送信を許可するかどうかを情報システム部門や法務部門と先に確認してください。</p>
+<p>許可が取れない場合、クラウドAPIは選択肢から外れます。オンプレミスまたは自社クラウド環境内で完結する自社構築が唯一の現実解になります。</p>
+<h3>チェックポイント2: 必要な禁止カテゴリの種類</h3>
+<p>OpenAI Moderation APIやAzure AI Content Safetyが標準でカバーするのは、ヘイトスピーチ・暴力・性的コンテンツなどの汎用カテゴリです。これで十分であれば、クラウドAPIを即日試用できます。</p>
+<p>一方、医療・金融・製造業など業界固有の禁止表現や社内ポリシーを反映したい場合は、汎用APIでは対応できないカテゴリが必ず発生します。禁止項目リストをあらかじめ書き出し、標準カテゴリとの差分を確認してください。</p>
+<h3>チェックポイント3: 社内の運用体制</h3>
+<p>自社構築後のガードレールは「一度設定すれば終わり」ではありません。モデルの出力傾向は時間とともに変化し、禁止カテゴリの追加や精度の再評価を定期的に行う必要があります。</p>
+<p>専任または兼任でも継続して対応できるエンジニアがいない場合、自社構築は導入直後はよくても6〜12か月後に管理が形骸化するリスクがあります。運用フローと担当者をセットで設計できるかどうかを必ず確認してください。</p>
+<h3>チェックポイント4: 将来の拡張計画</h3>
+<p>月間リクエスト数が現時点で小さくても、チャットボットの対象ユーザを社外に広げる・複数部署に展開するといった計画がある場合、クラウドAPIのコストは規模に比例して増加します。</p>
+<p>1年後・3年後のリクエスト数を概算し、その時点でのクラウドAPI費用と自社構築の維持コストを比較してから判断すると、初期選択の失敗を減らせます。スケール計画が不明確な段階では、クラウドAPIから始めて6か月モニタリングする方法が現実的です（詳しくはセクション6「企業タイプ別おすすめの選択肢」の中間ケースを参照してください）。</p>
+<h3>チェックポイント5: コンプライアンス要件</h3>
+<p>業界によっては、AIシステムの入出力管理に関して規制上の要件が存在する場合があります。適用される法令・ガイドラインを所管部門と確認し、要件が具体的な実装仕様を求めているかどうかを確かめてください。</p>
+<p>要件が「ログを保存する」「特定カテゴリをブロックする」といった明確な仕様を含む場合、それをクラウドAPIの標準機能で満たせるか、自社構築が必要かを要件定義の段階で判断することが重要です。後から設計を変更すると工数が大幅に増えます。</p>
+<hr>
+<p>この5点を整理すると、多くの場合は自然とどちらが適切かが見えてきます。迷いが残る場合や、社内だけでは判断が難しい場合は、実装経験を持つエンジニアに要件整理から相談することを検討してください。</p>
+<p>&lt;Cta
+  heading="どちらが御社に適しているか、一緒に整理します"
+  body="当社では、LLMガードレールの要件定義から実装までをAIエンジニアが直接担当します。クラウドAPIと自社構築のどちらが適切かを、御社のエンジニアリソース・月間リクエスト数・コンプライアンス要件をもとに無料で診断します。"
+  primaryLink={{ href: "/diagnostic", label: "無料診断を申し込む" }}
+  secondaryLink={{ href: "/contact", label: "まず相談する" }}
+/&gt;</p>
+<h2>関連リンク</h2>
+<ul>
+<li><a href="/guidebook">LLM導入前のガードレール選定ガイド</a></li>
+<li><a href="/pricing">クラウドAPI型・自社構築型の費用体系比較</a></li>
+<li><a href="/diagnostic">あなたの企業に適したLLMガードレール選択診断</a></li>
+</ul>
+</card></div><div style="margin-top: 40px; padding: 16px 20px; background: var(--bg-2); border-radius: 10px; font-size: 13px; color: var(--text-3); line-height: 1.8;"><div>監修: 大島蓮太（株式会社ノーティックラボ代表 / AIエンジニア）</div><div>本記事はAIを活用して制作しています</div></div></div><section class="section-pad" style="background: var(--bg-2);"><div class="container" style="max-width: 880px;"><h3 class="display-s" style="margin-bottom: 24px;">関連記事</h3><div class="grid-3"><a class="article-card fadein is-in" href="/article-llm-guardrail-bypass-cases" style="cursor: pointer;"><div class="article-cover tone-blue" role="img" aria-label="LLMガードレール突破の実例5選｜バイパス手法と対策" style="aspect-ratio: 16 / 10;"><span class="article-cover-cat">AI活用</span><span class="article-cover-title">LLMガードレール突破の実例5選</span><span class="article-cover-brand">NORTIQ LABS · COLUMN</span></div><div class="article-meta"><span style="color: var(--accent);">AI活用</span><span class="article-meta-sep">·</span><span>2026.08.17</span></div><h3 class="article-title">LLMガードレール突破の実例5選｜バイパス手法と対策</h3></a><a class="article-card fadein is-in" href="/article-wordpress-vs-nextjs-comparison" style="cursor: pointer;"><div class="article-cover tone-red" role="img" aria-label="WordPress と Next.js（静的生成）を比較｜表示速度・SEO・保守で選ぶ" style="aspect-ratio: 16 / 10;"><span class="article-cover-cat">Web制作</span><span class="article-cover-title">WordPress と Next.js（静的生成）を比較</span><span class="article-cover-brand">NORTIQ LABS · COLUMN</span></div><div class="article-meta"><span style="color: var(--accent);">Web制作</span><span class="article-meta-sep">·</span><span>2026.08.16</span></div><h3 class="article-title">WordPress と Next.js（静的生成）を比較｜表示速度・SEO・保守で選ぶ</h3></a><a class="article-card fadein is-in" href="/article-system-development-company-selection" style="cursor: pointer;"><div class="article-cover tone-ink" role="img" aria-label="システム開発会社の選び方｜失敗しない比較チェックリスト" style="aspect-ratio: 16 / 10;"><span class="article-cover-cat">技術</span><span class="article-cover-title">システム開発会社の選び方</span><span class="article-cover-brand">NORTIQ LABS · COLUMN</span></div><div class="article-meta"><span style="color: var(--accent);">技術</span><span class="article-meta-sep">·</span><span>2026.08.16</span></div><h3 class="article-title">システム開発会社の選び方｜失敗しない比較チェックリスト</h3></a></div></div></section></article><section class="t_inq_wrap fadein is-in"><div class="container"><h2>こうした観点をベースに、<br>貴社の DX を一緒に考えませんか。</h2><div class="t_inq_btns"><button class="btn btn-primary" type="button"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><path d="M22 6l-10 7L2 6"></path></svg>資料請求はこちら</button><button class="btn btn-primary" type="button"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><path d="M21 21l-4.35-4.35"></path></svg>ホームページ無料診断</button></div><p class="t_inq_time">営業日 24時間以内に担当者よりご返信します。</p></div></section></main></div><footer class="footer"><div class="container"><div class="footer-grid"><div class="footer-brand"><div class="nav-logo" style="margin-bottom: 18px;"><span class="nav-logo-mark"></span><span class="wordmark"><span class="wordmark-main">NORTIQ</span><span class="wordmark-sub">LABS</span></span></div><p class="body" style="font-size: 13px; max-width: 320px; margin-bottom: 24px;">日本のDX、世界水準で巻き返す。<br>Web制作からAI・DX実装までの技術チーム。</p><button class="btn btn-primary btn-sm" type="button"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><path d="M22 6l-10 7L2 6"></path></svg>資料請求はこちら</button></div><div class="footer-col"><h4>制作実績</h4><ul><li><a href="/works">全実績一覧</a></li><li><a href="/works-clinic">クリニック・医療</a></li><li><a href="/works-realty">不動産</a></li><li><a href="/works-build">建築・工務店</a></li><li><a href="/works-hr">人材</a></li><li><a href="/works-retail">小売 / EC</a></li><li><a href="/works-infra">インフラ・製造</a></li><li><a href="/works-ai">AIスタートアップ</a></li><li><a href="/works-lp-corp">コーポレートLP</a></li><li><a href="/works-lp-recruit">採用LP</a></li><li><a href="/works-lp-ec">EC連動LP</a></li><li><a href="/works-video">動画制作事例</a></li></ul></div><div class="footer-col"><h4>機能・サービス</h4><ul><li><a href="/web">Web制作 機能一覧</a></li><li><a href="/chatbot">AIチャットボット 機能一覧</a></li><li><a href="/dx">DX・ML 機能一覧</a></li><li><a href="/feature-lpo">LP制作 / LPO</a></li><li><a href="/feature-recruit">採用専門サイト</a></li><li><a href="/feature-analytics">アクセス解析</a></li></ul><h4 style="margin-top: 28px;">自社プロダクト</h4><ul><li><a href="/product-vetonet">VetoNet</a></li><li><a href="/product-wpchat">ブログボット（AI投稿アシスタント）</a></li><li><a href="/product-tennis">Tennis フォームチェック</a></li></ul></div><div class="footer-col"><h4>サポート・コンサル</h4><ul><li><a href="/support">運用サポート</a></li><li><a href="/voice">ご利用会社様の声</a></li><li><a href="/diagnostic">サイト無料診断 (URL入力)</a></li><li><a href="/column">技術ブログ / コラム</a></li><li><a href="/news">お知らせ</a></li><li><a href="/subsidy">補助金活用相談</a></li><li><a href="/guidebook">サービス紹介資料</a></li></ul><h4 style="margin-top: 28px;">業種別ソリューション</h4><ul><li><a href="/solution-clinic">クリニック・医療</a></li><li><a href="/solution-realty">不動産</a></li><li><a href="/solution-build">建築・工務店</a></li><li><a href="/solution-hr">人材</a></li><li><a href="/solution-retail">小売 / EC</a></li></ul><h4 style="margin-top: 28px;">会社</h4><ul><li><a href="/company">会社概要</a></li><li><a href="/staff">チーム / スタッフ</a></li><li><a href="/recruit">採用情報</a></li><li><a href="/pricing">料金プラン</a></li><li><a href="/sitemap">サイトマップ</a></li></ul></div></div><div class="footer-bottom"><span>© 2026 Nortiq Labs Inc. All rights reserved.</span><div class="row" style="gap: 24px;"><a href="/privacy" style="color: var(--text-3);">プライバシーポリシー</a><a href="/terms" style="color: var(--text-3);">利用規約</a><a href="/privacy-handling" style="color: var(--text-3);">個人情報の取扱い</a></div></div></div></footer><div class="modal-backdrop"><div class="modal" role="dialog" aria-modal="true"><button class="modal-close" aria-label="閉じる"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M6 18L18 6"></path></svg></button><div style="margin-bottom: 24px;"><div class="eyebrow eyebrow-accent" style="margin-bottom: 10px;">CONTACT</div><h3 class="display-s" style="margin-bottom: 8px;">資料請求・お問い合わせ</h3><p class="small">初回相談は無料です。営業日24時間以内にご返信します。</p></div><form novalidate=""><div class="field"><label>貴社名<span class="req">必須</span></label><input type="text" placeholder="株式会社○○" value=""></div><div class="field"><label>ご担当者名<span class="req">必須</span></label><input type="text" placeholder="山田 太郎" value=""></div><div class="field"><label>メールアドレス<span class="req">必須</span></label><input type="email" placeholder="you@example.com" value=""></div><div class="field"><label>電話番号<span class="req">必須</span></label><input type="tel" placeholder="03-XXXX-XXXX" value=""></div><div class="field"><label>カテゴリー<span class="req">必須</span></label><div class="cb-group"><label class=""><input type="checkbox">Web制作</label><label class=""><input type="checkbox">AIチャットボット</label><label class=""><input type="checkbox">DX・ML</label><label class=""><input type="checkbox">業務自動化</label><label class=""><input type="checkbox">LP制作</label><label class=""><input type="checkbox">採用サイト</label></div></div><div class="field"><label>お問い合わせ内容<span class="req">必須</span></label><div class="cb-group"><label class=""><input type="checkbox">新規HP制作</label><label class=""><input type="checkbox">HPリニューアル</label><label class=""><input type="checkbox">AIチャットボット導入</label><label class=""><input type="checkbox">DX・ML 実装</label><label class=""><input type="checkbox">業務自動化</label><label class=""><input type="checkbox">リスティング広告</label><label class=""><input type="checkbox">コンサルティング</label></div></div><div class="field"><label>ご相談内容<span class="any">任意</span></label><div class="cb-group"><label class=""><input type="checkbox">HPが無い</label><label class=""><input type="checkbox">問い合わせを増やしたい</label><label class=""><input type="checkbox">サービス資料がほしい</label><label class=""><input type="checkbox">無料診断</label><label class=""><input type="checkbox">デザインを改善したい</label><label class=""><input type="checkbox">SEOを上げたい</label><label class=""><input type="checkbox">AI活用したい</label><label class=""><input type="checkbox">業務効率化したい</label><label class=""><input type="checkbox">補助金活用を相談したい</label></div></div><div class="field"><label>本サイトを知ったきっかけ<span class="any">任意</span></label><select><option value="">選択してください</option><option value="Google検索">Google検索</option><option value="Yahoo検索">Yahoo検索</option><option value="AIチャット (ChatGPT/Claude/Gemini等)">AIチャット (ChatGPT/Claude/Gemini等)</option><option value="ご紹介">ご紹介</option><option value="メール">メール</option><option value="DMチラシ">DMチラシ</option><option value="SNS (X/LinkedIn)">SNS (X/LinkedIn)</option><option value="以前から知っていた">以前から知っていた</option><option value="その他">その他</option></select></div><div class="field"><label>サイトURL<span class="any">任意</span></label><input type="text" placeholder="https://" value=""></div><div class="field"><label>その他ご質問<span class="any">任意</span></label><textarea placeholder="ご質問・ご相談がございましたらお気軽にご記入ください。"></textarea></div><div class="field field-check"><input type="checkbox" id="agree" style="margin-top: 2px;"><label for="agree" style="cursor: pointer;"><a href="/privacy-handling" target="_blank" rel="noopener noreferrer" style="color: var(--accent); text-decoration: underline;">個人情報の取り扱い</a>に同意します<span class="req">必須</span></label></div><div style="margin-top: 8px; text-align: center;"><button class="btn btn-primary btn-lg" type="submit">同意して送信する<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></button></div></form></div></div><nav class="sp-bottom-nav" aria-label="モバイル下部ナビ"><ul><li><a href="/"><span class="icn"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-8 9 8M5 10v10h14V10"></path></svg></span><span>トップ</span></a></li><li><a href="/works"><span class="icn"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect></svg></span><span>制作実績</span></a></li><li><a href="/pricing"><span class="icn"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4l8 11 8-11M7 13h10M7 17h10"></path></svg></span><span>料金</span></a></li><li><a><span class="icn"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><path d="M22 6l-10 7L2 6"></path></svg></span><span>資料請求</span></a></li><li><a href="/sitemap"><span class="icn"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M4 12h16M4 17h16"></path></svg></span><span>メニュー</span></a></li></ul></nav><div class="sticky-cta"><span class="pulse"></span><span>初回相談無料 · 営業日24h以内にご返信</span><button>資料請求 →</button><button class="sticky-cta-close" aria-label="閉じる"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M6 18L18 6"></path></svg></button></div></div>
+  <script src="/articles.js?v=msxvcuyw" defer=""></script>
+  <script src="/app.bundle.js?v=msxvcuyw" defer=""></script>
+
+
+</body></html>
