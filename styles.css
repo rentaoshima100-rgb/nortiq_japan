@@ -4358,8 +4358,10 @@ picture { display: contents; }
   position: fixed;
   inset: 0;
   z-index: 200;
-  background: rgba(16,16,20,0.72);
-  backdrop-filter: blur(4px);
+  /* backdrop-filter は使わない。実績サイトを描き替えるたびに背景のぼかしを
+     取り直すため、スクロール中のフレーム間隔が実測で 77ms → 32ms と
+     2.4倍も違った。ぼかしの代わりに背景を濃くして手前と分ける */
+  background: rgba(16,16,20,0.84);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -4435,18 +4437,12 @@ picture { display: contents; }
 .showcase-stage {
   flex: 1;
   min-height: 0;
-  overflow: auto;
+  /* スクロールするのは iframe 自身 (zoom で縮めているのでタッチでも普通に動く)。
+     ここは器なので隠すだけ */
+  overflow: hidden;
   background: #fff;
   position: relative;
-  /* 縮小した iframe の内側スクロールはタッチで動かないので、
-     ステージ側を慣性スクロールさせる */
-  -webkit-overflow-scrolling: touch;
-  overscroll-behavior: contain;
 }
-.showcase-track { position: relative; }
-/* スクロールしても画面ぶんの窓は上に貼り付いたまま。
-   動かすのは器（track）で、位置は JS が中身に伝える */
-.showcase-scaler { position: sticky; top: 0; overflow: hidden; }
 .showcase-iframe {
   border: 0;
   background: #fff;

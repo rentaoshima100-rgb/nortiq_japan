@@ -833,17 +833,7 @@ const SHOWCASE_NARROW = 760;
 function ShowcaseViewer() {
   const [view, setView] = React.useState(null); // { url, title }
   const stageRef = React.useRef(null);
-  const frameRef = React.useRef(null);
   const [fit, setFit] = React.useState({ scale: 1, h: 900 });
-  // 中身の高さ（iframe は画面ぶんに固定しているので、この値は暴れない）
-  const [innerH, setInnerH] = React.useState(0);
-
-  // 外側の器のスクロール量を中身に渡す
-  const onStageScroll = React.useCallback((e) => {
-    const win = frameRef.current && frameRef.current.contentWindow;
-    if (!win) return;
-    win.scrollTo(0, e.currentTarget.scrollTop / (fit.scale || 1));
-  }, [fit.scale]);
 
   React.useEffect(() => {
     const onOpen = (e) => setView(e.detail);
@@ -875,35 +865,6 @@ function ShowcaseViewer() {
     return () => ro.disconnect();
   }, [view]);
 
-  // 中身の高さを測る。同一ドメインなので contentDocument を読める。
-  // 画像・フォントの後読みで伸びるので数回ぶん拾う。読めなければ 0 のままで、
-  // その場合はスクロールぶんを作らない（＝ヒーローだけは必ず出る）。
-  React.useEffect(() => {
-    if (!view) return;
-    setInnerH(0);
-    if (stageRef.current) stageRef.current.scrollTop = 0;
-    const read = () => {
-      try {
-        const doc = frameRef.current && frameRef.current.contentDocument;
-        if (!doc || !doc.body) return;
-        const h = Math.max(doc.body.scrollHeight, doc.documentElement.scrollHeight);
-        if (h > 0) setInnerH((prev) => (Math.abs(prev - h) > 8 ? h : prev));
-      } catch { /* 読めない構成では従来どおり */ }
-    };
-    const node = frameRef.current;
-    if (node) node.addEventListener('load', read);
-    const timer = setInterval(read, 600);
-    const stop = setTimeout(() => clearInterval(timer), 9000);
-    return () => {
-      if (node) node.removeEventListener('load', read);
-      clearInterval(timer);
-      clearTimeout(stop);
-    };
-  }, [view]);
-
-  // 器の高さ = 縮小後の中身の高さ。これがスクロールできる距離になる
-  const trackH = innerH ? innerH * fit.scale : fit.h * fit.scale;
-
   if (!view) return null;
   return (
     <div className="showcase-overlay" onClick={() => setView(null)} role="dialog" aria-modal="true" aria-label={`制作実績プレビュー: ${view.title || ''}`}>
@@ -914,41 +875,30 @@ function ShowcaseViewer() {
           <a className="showcase-open" href={view.url} target="_blank" rel="noopener noreferrer">別タブで開く</a>
           <button className="showcase-close" onClick={() => setView(null)} aria-label="閉じる">×</button>
         </div>
-        <div className="showcase-stage" ref={stageRef} onScroll={onStageScroll}>
+        <div className="showcase-stage" ref={stageRef}>
           {/*
-            スクロールは「外側の器」でやり、中身に位置を伝える。
-            縮小した iframe の内側スクロールはスマホのタッチで一切動かず、
-            ヒーローから先に進めない（＝下が真っ黒で壊れて見える）ため。
+            縮小には transform ではなく zoom を使う。
 
-            iframe 自身の高さは画面ぶんに固定しておく。中身の高さに合わせて
-            伸ばすと、100vh のセクションがその高さまで育ってまた伸びる、を
-            繰り返して止まらなくなる。
+            transform は見た目だけを縮めるのでレイアウト箱が 1440px のまま残り、
+            (1) 横スクロールが出る (2) 変形した iframe の内側スクロールがタッチで
+            一切動かない、という二つの問題が出る。後者を回避するために外側で
+            スクロールさせて中へ位置を渡す方式を採っていたが、スクロールのたびに
+            iframe 全体を描き直すため実測で 11FPS まで落ちていた。
+
+            zoom はレイアウトごと縮むので、内側のビューポートは 1440px のまま
+            (デスクトップ版のデザインが出る) で、スクロールはブラウザ本来の
+            ものがそのまま効く。実測でフレーム間隔の中央値 27ms → 19.5ms。
           */}
-          <div className="showcase-track" style={{ height: Math.round(trackH) + 'px' }}>
-            {/* transform はレイアウト幅を変えないので、縮小後の実寸を持つ器で包む
-                (これが無いと iframe の 1440px がそのまま残り横スクロールになる) */}
-            <div
-              className="showcase-scaler"
-              style={{
-                width: Math.round(SHOWCASE_DESIGN_W * fit.scale) + 'px',
-                height: Math.round(fit.h * fit.scale) + 'px',
-              }}
-            >
-              <iframe
-                ref={frameRef}
-                className="showcase-iframe"
-                src={view.url}
-                title={view.title || '制作実績プレビュー'}
-                scrolling="no"
-                style={{
-                  width: SHOWCASE_DESIGN_W + 'px',
-                  height: Math.round(fit.h) + 'px',
-                  transform: `scale(${fit.scale})`,
-                  transformOrigin: 'top left',
-                }}
-              />
-            </div>
-          </div>
+          <iframe
+            className="showcase-iframe"
+            src={view.url}
+            title={view.title || '制作実績プレビュー'}
+            style={{
+              width: SHOWCASE_DESIGN_W + 'px',
+              height: Math.round(fit.h) + 'px',
+              zoom: fit.scale,
+            }}
+          />
         </div>
       </div>
     </div>
