@@ -458,6 +458,8 @@ function SolutionPage({ pageId, onNavigate, onContact }) {
         </div>
       </section>
 
+      <SolutionExtra pageId={pageId} onNavigate={onNavigate}/>
+
       <section className="section-pad-sm" style={{ background: 'var(--bg-2)' }}>
         <div className="container">
           <h3 className="display-s" style={{ textAlign: 'center', marginBottom: 28 }}>他の業種ソリューション</h3>
@@ -641,7 +643,6 @@ function WorkDetailPage({ onNavigate, onContact }) {
         </div>
       </section>
 
-      <SolutionExtra pageId={pageId} onNavigate={onNavigate}/>
 
       <RedCTAStrip onContact={onContact} onNavigate={onNavigate} title={<>同業種で、似た課題を解決しませんか。</>}/>
     </main>
