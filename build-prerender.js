@@ -23,7 +23,17 @@ const SITE = 'https://nortiqlab.com';
 // Homepage + the 10 sub-pages whose <head> must carry page-specific meta in the
 // INITIAL HTML (SNS crawlers don't run JS, so client-side meta isn't enough).
 // Set to [] to prerender every sitemap URL.
+// 記事は build.js の BLOG から自動で拾う (追加のたびにここへ書き足す必要をなくす)。
+// 記事以外の固定ページは下のリストで管理する。
+const ARTICLE_ROUTES = (() => {
+  const src = fs.readFileSync(path.join(__dirname, 'build.js'), 'utf8');
+  const m = src.match(/const BLOG = \[([\s\S]*?)\n\];/);
+  if (!m) return [];
+  return [...m[1].matchAll(/slug: '([^']+)'/g)].map((x) => '/article-' + x[1]);
+})();
+
 const ROUTES_ALLOWLIST = [
+  ...ARTICLE_ROUTES,
   '/article-internal-system-outsourcing-requirements-checklist',
   '/article-in-house-system-cloud-migration-cost-guide',
   '/article-homepage-renewal-failure-causes-sme',
