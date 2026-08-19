@@ -33,6 +33,7 @@ const ARTICLE_ROUTES = (() => {
 })();
 
 const ROUTES_ALLOWLIST = [
+  '/article-site-renewal-process-guide',
   '/article-llm-guardrail-inhouse-vs-cloud-api',
   '/article-llm-guardrail-bypass-cases',
   ...ARTICLE_ROUTES,

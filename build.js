@@ -42,6 +42,7 @@ const ORG_SAME_AS = [
 // desc → meta description / og:description / BlogPosting.description に使う。
 //        未指定の記事は app.jsx の SEO_DESC か自動生成の定型文にフォールバックする
 const BLOG = [
+  { slug: 'site-renewal-process-guide', category: 'Web制作', date: '2026.08.19', read: '12 min', title: 'サイトリニューアルの進め方｜5つのフェーズと成功チェックリスト', img: 'assets/blog-default.png', desc: 'サイトリニューアルの進め方を着手から公開まで5つのフェーズで解説。各段階での役割分担、判断基準、失敗防止チェックリストを網羅し、プロジェクト成功に必要な全手順をご紹介します。', supervised: true },
   { slug: 'llm-guardrail-inhouse-vs-cloud-api', category: 'AI活用', date: '2026.08.17', read: '12 min', title: 'LLMガードレール自社構築 vs クラウドAPI、中小企業向け費用比較', img: 'assets/blog-default.png', desc: 'LLMガードレールの自社構築とクラウドAPI利用について、中小企業向けに費用・工数・精度を実例で比較。エンジニア数や予算別の最適な選択肢を解説します。', supervised: true },
   { slug: 'llm-guardrail-bypass-cases', category: 'AI活用', date: '2026.08.17', read: '12 min', title: 'LLMガードレール突破の実例5選｜バイパス手法と対策', img: 'assets/blog-default.png', desc: 'LLMガードレールが実際に突破された事例5選を解説。ソーシャルエンジニアリングなどの根本原因と、自社チャットボット・社内システムの脆弱性診断方法を紹介します。', supervised: true },
   { slug: 'wordpress-vs-nextjs-comparison', category: 'Web制作', date: '2026.08.16', read: '11 min', title: 'WordPress と Next.js（静的生成）を比較｜表示速度・SEO・保守で選ぶ', img: 'assets/blog-default.png', desc: 'WordPressとNext.js静的生成を表示速度・SEO・保守・更新のしやすさで比較。中小企業がどちらを選ぶべきかの判断基準を、実際に両方を運用した経験から解説します。', supervised: true },
