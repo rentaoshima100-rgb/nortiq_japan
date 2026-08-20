@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="ja" style="--accent: hsl(354, 92%, 45%); --accent-hi: hsl(354, 95%, 52%); --accent-soft: hsl(354, 90%, 95%);"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Google tag (gtag.js) — GA4 + Google Ads conversion tracking -->
+  <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-EYTD1TWR7T"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-EYTD1TWR7T');
+    window.NORTIQ_CONV = { contact: null, diagnostic: null };
+  </script>
+  <title>Web制作のRFP作り方｜記載項目・テンプレート付き — Nortiq Labs</title>
+  <meta name="description" content="Web制作のRFP（提案依頼書）の作り方を解説。必須記載項目、構成、すぐに使えるテンプレートを掲載。複数社から比較可能な提案を引き出すコツも紹介します。">
+  <link rel="icon" href="/assets/nortiq-fav.png" type="image/png">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Nortiq Labs">
+  <!-- 記事ルートでは app.jsx が og:type を article に変え、下の2つに日付を入れる。
+       setMetaContent は既存要素しか書き換えないため、空のまま置いておく必要がある -->
+  <meta property="article:published_time" content="2026-08-20">
+  <meta property="article:modified_time" content="2026-08-20">
+  <meta property="og:title" content="Web制作のRFP作り方｜記載項目・テンプレート付き — Nortiq Labs">
+  <meta property="og:description" content="Web制作のRFP（提案依頼書）の作り方を解説。必須記載項目、構成、すぐに使えるテンプレートを掲載。複数社から比較可能な提案を引き出すコツも紹介します。">
+  <meta property="og:url" content="https://nortiqlab.com/article-rfp-template-web-design">
+  <meta property="og:image" content="https://nortiqlab.com/assets/blog-default.png">
+  <meta property="og:locale" content="ja_JP">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Web制作のRFP作り方｜記載項目・テンプレート付き — Nortiq Labs">
+  <meta name="twitter:description" content="Web制作のRFP（提案依頼書）の作り方を解説。必須記載項目、構成、すぐに使えるテンプレートを掲載。複数社から比較可能な提案を引き出すコツも紹介します。">
+  <meta name="twitter:image" content="https://nortiqlab.com/assets/blog-default.png">
+  <link rel="stylesheet" href="/styles.css?v=mt23orql">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://nortiqlab.com/#org","name":"Nortiq Labs","url":"https://nortiqlab.com/","logo":"https://nortiqlab.com/assets/nortiq-mark.png","image":"https://nortiqlab.com/assets/og-image.png","description":"京都のWeb制作×AI実装カンパニー。オリジナルデザインのホームページ制作からAIチャットボット導入、DXコンサルティングまで一気通貫で支援。初回相談無料・営業日24時間以内に返信します。","slogan":"日本のDX、世界水準で巻き返す。","foundingDate":"2025","numberOfEmployees":5,"address":{"@type":"PostalAddress","addressCountry":"JP","postalCode":"604-0012","addressRegion":"京都府","addressLocality":"京都市中京区","streetAddress":"竪大恩寺町751"},"areaServed":{"@type":"Country","name":"Japan"},"alternateName":["株式会社ノーティックラボ","ノーティックラボ"],"knowsAbout":["Web制作","AIチャットボット","DX","機械学習","SEO","LP制作 / LPO","業務自動化","データ分析"],"founder":{"@type":"Person","@id":"https://nortiqlab.com/#renta","name":"Renta Oshima","alternateName":"大島蓮太","jobTitle":"Founder / Engineer","worksFor":{"@id":"https://nortiqlab.com/#org"},"description":"米国 UC Berkeley で AI 研究。日本の中小企業向け DX 支援を起業。"}},{"@type":"WebSite","@id":"https://nortiqlab.com/#website","name":"Nortiq Labs","url":"https://nortiqlab.com/","publisher":{"@id":"https://nortiqlab.com/#org"},"inLanguage":"ja"},{"@type":"ProfessionalService","name":"Nortiq Labs","url":"https://nortiqlab.com/","description":"京都のWeb制作×AI実装カンパニー。オリジナルデザインのホームページ制作からAIチャットボット導入、DXコンサルティングまで一気通貫で支援。初回相談無料・営業日24時間以内に返信します。","areaServed":"JP","serviceType":["Web制作","AIチャットボット導入","DX・ML実装","補助金活用のDX導入相談"],"provider":{"@id":"https://nortiqlab.com/#org"}}]}</script>
+  <!-- defer: この2本 (計約139KB) は head にあって描画をブロックしていた。
+       ページの初期表示はプリレンダ済みHTMLで完結するのでJSを待つ必要がない。
+       defer は文書順に実行されるため react → react-dom → articles.js →
+       app.bundle.js の順序は保たれる。 -->
+  <script src="/assets/vendor/react.production.min.js?v=mt23orql" defer=""></script>
+  <script src="/assets/vendor/react-dom.production.min.js?v=mt23orql" defer=""></script>
+<link rel="canonical" href="https://nortiqlab.com/article-rfp-template-web-design"><script type="application/ld+json" id="route-ld">[{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"トップ","item":"https://nortiqlab.com/"},{"@type":"ListItem","position":2,"name":"コラム","item":"https://nortiqlab.com/column"},{"@type":"ListItem","position":3,"name":"Web制作のRFP作り方","item":"https://nortiqlab.com/article-rfp-template-web-design"}]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"Web制作のRFP作り方｜記載項目・テンプレート付き","description":"Web制作のRFP（提案依頼書）の作り方を解説。必須記載項目、構成、すぐに使えるテンプレートを掲載。複数社から比較可能な提案を引き出すコツも紹介します。","image":"https://nortiqlab.com/assets/blog-default.png","url":"https://nortiqlab.com/article-rfp-template-web-design","inLanguage":"ja","articleSection":"Web制作","datePublished":"2026-08-20","dateModified":"2026-08-20","author":{"@type":"Organization","@id":"https://nortiqlab.com/#org","name":"Nortiq Labs"},"publisher":{"@id":"https://nortiqlab.com/#org"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://nortiqlab.com/article-rfp-template-web-design","reviewedBy":{"@id":"https://nortiqlab.com/#renta"}}}]</script></head>
+<body>
+  <div id="app"><header class="nav" role="banner"><div class="nav-inner"><a class="nav-logo" href="/" style="cursor: pointer;"><span class="nav-logo-mark"></span><span class="wordmark"><span class="wordmark-main">NORTIQ</span><span class="wordmark-sub">LABS</span></span></a><nav class="nav-links" aria-label="メインナビゲーション"><div class="nav-link-wrap"><a class="nav-link" href="/">トップ</a></div><div class="nav-link-wrap"><a class="nav-link">機能<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></a></div><div class="nav-link-wrap"><a class="nav-link">制作実績<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></a></div><div class="nav-link-wrap"><a class="nav-link">業種ソリューション<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></a></div><div class="nav-link-wrap"><a class="nav-link" href="/voice">ご利用会社様の声</a></div><div class="nav-link-wrap"><a class="nav-link" href="/support">サポート</a></div><div class="nav-link-wrap"><a class="nav-link" href="/pricing">料金プラン</a></div><div class="nav-link-wrap"><a class="nav-link" aria-current="page">コンテンツ<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></a></div><div class="nav-link-wrap"><a class="nav-link" href="/diagnostic">無料診断</a></div></nav><div class="nav-cta-wrap"><button class="btn btn-primary btn-sm" type="button"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><path d="M22 6l-10 7L2 6"></path></svg>メールでお問合せ</button><button class="hamburger" aria-label="メニューを開く" aria-expanded="false"><span></span><span></span><span></span></button></div></div><div class="nav-drawer"><div class="nav-drawer-panel"><div class="nav-drawer-head"><span class="nav-logo" style="font-size: 18px;"><span class="nav-logo-mark" aria-hidden="true"></span><span class="wordmark"><span class="wordmark-main">NORTIQ</span><span class="wordmark-sub">LABS</span></span></span><button class="drawer-close" aria-label="閉じる"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M6 18L18 6"></path></svg></button></div><nav class="nav-drawer-body"><a class="drawer-item" href="/"><span>トップ</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><div class="drawer-group"><button class="drawer-item drawer-group-head"><span>機能</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></button><div class="drawer-group-body"><div class="drawer-subgroup"><h5>サービス別 機能一覧</h5><a class="drawer-sub-item" href="/web"><span>Web制作 機能一覧</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/chatbot"><span>AIチャットボット 機能一覧</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/dx"><span>DX・ML 機能一覧</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></div><div class="drawer-subgroup"><h5>技術領域</h5><a class="drawer-sub-item" href="/feature-lpo"><span>LP制作 / LPO</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/feature-recruit"><span>採用専門サイト</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/feature-analytics"><span>アクセス解析カスタム実装</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/feature-cms"><span>CMS / 記事更新システム</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></div><div class="drawer-subgroup"><h5>自社プロダクト</h5><a class="drawer-sub-item" href="/product-vetonet"><span>VetoNet (AI Security)</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/product-wpchat"><span>ブログボット（AI投稿アシスタント）</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/product-tennis"><span>Tennis フォームチェック</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></div></div></div><div class="drawer-group"><button class="drawer-item drawer-group-head"><span>制作実績</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></button><div class="drawer-group-body"><div class="drawer-subgroup"><h5>業種から探す</h5><a class="drawer-sub-item" href="/works-clinic"><span>クリニック・医療</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/works-realty"><span>不動産</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/works-build"><span>建築・工務店</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/works-hr"><span>人材</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/works-retail"><span>小売 / EC</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/works-infra"><span>インフラ・製造</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/works-ai"><span>AIスタートアップ</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></div><div class="drawer-subgroup"><h5>強化LP別</h5><a class="drawer-sub-item" href="/works-lp-corp"><span>コーポレートサイト</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/works-lp-recruit"><span>採用LP</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/works-lp-ec"><span>EC連動LP</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></div><div class="drawer-subgroup"><h5>実績まとめ</h5><a class="drawer-sub-item" href="/works"><span>全実績一覧</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></div></div></div><div class="drawer-group"><button class="drawer-item drawer-group-head"><span>業種ソリューション</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></button><div class="drawer-group-body"><div class="drawer-subgroup"><h5>業種別パッケージ</h5><a class="drawer-sub-item" href="/solution-clinic"><span>クリニック・医療 DXパッケージ</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/solution-realty"><span>不動産 集客×管理パッケージ</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/solution-build"><span>建築 ブランド×案件管理</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/solution-hr"><span>人材 マッチング×集客</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/solution-retail"><span>小売・EC OMOパッケージ</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></div></div></div><a class="drawer-item" href="/voice"><span>ご利用会社様の声</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-item" href="/support"><span>サポート</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-item" href="/pricing"><span>料金プラン</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><div class="drawer-group"><button class="drawer-item drawer-group-head"><span>コンテンツ</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></button><div class="drawer-group-body"><div class="drawer-subgroup"><h5>メディア</h5><a class="drawer-sub-item" href="/column"><span>コラム / 技術ブログ</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/news"><span>お知らせ</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/guidebook"><span>サービス紹介資料</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/subsidy"><span>補助金活用相談</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></div></div></div><a class="drawer-item" href="/diagnostic"><span>無料診断</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></nav><div class="nav-drawer-foot"><button class="btn btn-primary btn-lg" type="button" style="width: 100%;"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><path d="M22 6l-10 7L2 6"></path></svg>資料請求・お問い合わせ</button></div></div></div></header><div><main class="page-fade"><nav aria-label="Breadcrumb" style="padding: 14px 0px; border-bottom: 1px solid var(--border); background: var(--bg-2);"><div class="container"><ol class="row-tight" style="list-style: none; padding: 0px; margin: 0px; font-size: 12px; color: var(--text-3);"><li class="row-tight" style="gap: 8px;"><a href="/" style="cursor: pointer; color: var(--text-2);">トップ</a></li><li class="row-tight" style="gap: 8px;"><span style="color: var(--text-4);">›</span><a href="/column" style="cursor: pointer; color: var(--text-2);">コラム</a></li><li class="row-tight" style="gap: 8px;"><span style="color: var(--text-4);">›</span><span style="color: var(--text);">Web制作のRFP作り方｜記載項目・テンプレート付き</span></li></ol></div></nav><article><header style="padding-top: clamp(48px, 7vw, 90px); padding-bottom: 32px;"><div class="container" style="max-width: 820px;"><div class="row" style="gap: 10px; margin-bottom: 24px; color: var(--text-3); font-size: 13px; flex-wrap: wrap;"><span class="tag" style="color: var(--accent); border-color: var(--accent);">Web制作</span><span class="num">2026.08.20</span><span>·</span><span>12 min read</span><span>·</span><span>Nortiq Labs</span></div><h1 class="display-l fadein is-in" style="margin-bottom: 8px;">Web制作のRFP作り方｜記載項目・テンプレート付き</h1></div></header><div class="container" style="max-width: 880px; margin-bottom: 8px;"><div class="article-cover tone-red" role="img" aria-label="Web制作のRFP作り方｜記載項目・テンプレート付き" style="aspect-ratio: 21 / 9;"><span class="article-cover-cat">Web制作</span><span class="article-cover-title">Web制作のRFP作り方</span><span class="article-cover-brand">NORTIQ LABS · COLUMN</span></div></div><div class="container" style="max-width: 780px; margin-top: 24px; margin-bottom: 80px;"><div class="article-prose article-body"><h2>RFP（提案依頼書）とは何か、なぜWeb制作に必要か？</h2>
+<p>RFP（提案依頼書）とは、発注者が複数の制作会社に対して同一条件で提案を求めるための文書で、比較可能な見積もりを得るための前提条件です。IPA（情報処理推進機構）の学習教材「調達計画・実施」によれば、RFPは実際の調達フェーズで交付される公式文書であり、複数のベンダから条件を揃えた提案書を取得することで、比較検討の公平性と透明性を高める役割を担います（出典：IPA学習教材「調達計画・実施、RFI、RFPなど」）。</p>
+<h3>口頭・メール発注との違い</h3>
+<p>口頭やメールで制作会社に相談した場合、各社が「それぞれの解釈」で見積もりを作るため、返ってきた金額を横並びで比べることができません。RFPを使えば、全社が同じ前提条件で提案を組むため、価格差の原因が「仕様の違い」ではなく「各社のアプローチと実力の違い」に絞り込めます。</p>
+<table>
+<thead>
+<tr>
+<th>比較軸</th>
+<th>口頭・メール発注</th>
+<th>RFPによる発注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>提案の前提条件</td>
+<td>各社が独自解釈</td>
+<td>全社が同一条件</td>
+</tr>
+<tr>
+<td>見積もりの比較可能性</td>
+<td>低い（仕様がバラバラ）</td>
+<td>高い</td>
+</tr>
+<tr>
+<td>認識ズレのリスク</td>
+<td>大きい</td>
+<td>小さい</td>
+</tr>
+<tr>
+<td>発注者の準備工数</td>
+<td>少ない</td>
+<td>中程度（1〜2週間）</td>
+</tr>
+<tr>
+<td>選定後のトラブル</td>
+<td>発生しやすい</td>
+<td>発生しにくい</td>
+</tr>
+</tbody></table>
+<h3>RFPがないと起きる3つのリスク</h3>
+<p>Web制作の発注においてRFPを省略すると、以下の3つのリスクが実務上よく発生します。</p>
+<ol>
+<li><strong>見積もりが揃わない。</strong> 各社が想定する仕様や工数の前提が異なるため、A社は500,000円、B社は1,500,000円という結果になっても、その差が「品質の差」なのか「仕様解釈の差」なのか判断できません。</li>
+<li><strong>要件の言語化が後回しになる。</strong> 「なんとなく新しくしたい」という状態で発注すると、制作開始後に追加要件が次々と発生し、追加費用と納期遅延の原因になります。</li>
+<li><strong>社内合意が取りにくくなる。</strong> 制作会社の選定根拠を経営層や関係部署に説明する際、RFPと評価軸が存在しないと判断の透明性を示せません。</li>
+</ol>
+<p>こうした発注リスクは、中小企業でとくに顕在化しやすい課題です。総務省「令和5年版情報通信白書」では、日本企業のデジタル化水準が米国・欧州主要国と比較して低い傾向にあることが各国比較データで示されており、中小企業層でその傾向がより顕著とされています（出典：総務省「令和5年版情報通信白書」各国企業のデジタル化の状況）。また、中小企業庁「2021年版中小企業白書」第2節では、中小企業のデジタルツール導入状況に企業規模間で格差があり、小規模企業での導入が特に遅れていることが示されています（出典：中小企業庁「2021年版中小企業白書」第2節）。</p>
+<p>一方、中小企業庁「2022年版中小企業白書」第2節によれば、データ利活用に取り組む中小企業ほど売上高や生産性の改善効果が確認されています（出典：中小企業庁「2022年版中小企業白書」第2節）。Webサイトを起点とした情報発信や問い合わせ獲得も、こうした取り組みの一部です。適切なRFPで発注の質を上げることは、Webサイトへの投資対効果を高める最初のステップと言えます。</p>
+<p>なお、本記事の対象は<strong>ホームページ・LP・コーポレートサイト等のWeb制作</strong>に限定しています。基幹システムや業務アプリの外注を検討している場合は、要件定義や発注チェックリストに関する別の記事を参照してください。RFPの具体的な記載項目とテンプレートは次のセクション以降で詳述します。</p>
+<h2>何から始めるか：RFP作成の全体フローと所要時間</h2>
+<p>まず「サイトの目的と成果指標の言語化」から着手し、情報収集から完成まで1〜2週間を見込むと現実的です。最初から記載項目を埋めようとすると、目的と機能要件が混同してしまい、後工程で大きく書き直すことになります。</p>
+<hr>
+<h3>5つのステップと各所要時間の目安</h3>
+<p>RFP作成は以下の5ステップで進めます。各ステップの所要時間はあくまで目安であり、社内関係者の数や承認フローによって変動します。</p>
+<table>
+<thead>
+<tr>
+<th>ステップ</th>
+<th>作業内容</th>
+<th>所要時間の目安</th>
+<th>つまずきやすい点</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1. 目的・課題の言語化</td>
+<td>「なぜ今作るのか」「解決したい課題は何か」を文章化する</td>
+<td>1〜2日</td>
+<td>担当者の主観と経営層の意図がずれていることに気づかず進めてしまう</td>
+</tr>
+<tr>
+<td>2. 成果指標（KPI）の設定</td>
+<td>完成後に測定する数値目標を決める（例：問い合わせ数、直帰率）</td>
+<td>半日〜1日</td>
+<td>KPIを「ページビュー数」だけにしてしまい、ビジネス成果と結びつかない</td>
+</tr>
+<tr>
+<td>3. 機能・技術要件の整理</td>
+<td>Must／Wantに分けて必要な機能を列挙する</td>
+<td>1〜2日</td>
+<td>実現手段（How）まで書きすぎて特定ベンダの仕様に引き寄せられる</td>
+</tr>
+<tr>
+<td>4. 予算・納期の確定</td>
+<td>上限予算とマストの公開日を社内決裁する</td>
+<td>1〜3日</td>
+<td>決裁に時間がかかりステップ5が詰まる</td>
+</tr>
+<tr>
+<td>5. ドキュメント化・レビュー</td>
+<td>テンプレートに沿って清書し、関係者で最終確認する</td>
+<td>1〜2日</td>
+<td>表現の揺れや記載漏れが残ったまま送付してしまう</td>
+</tr>
+</tbody></table>
+<p><strong>合計の目安：5〜10営業日（1〜2週間）</strong></p>
+<p>ステップ1と2は内部の議論を要するため、思っているより時間がかかります。外部の制作会社に声をかける前に、この2ステップを社内で完結させておくことが重要です。</p>
+<hr>
+<h3>つまずきやすいポイント：目的と機能要件の混同</h3>
+<p>RFP作成で最もよく起きる失敗は、「目的」と「機能要件」を同じ欄に混在させてしまうことです。</p>
+<ul>
+<li><strong>目的（Why）の例</strong>：「新規顧客からの問い合わせを月10件増やしたい」</li>
+<li><strong>機能要件（What）の例</strong>：「問い合わせフォームとチャットボットを設置したい」</li>
+<li><strong>実現手段（How）の例</strong>：「WordPressのContact Form 7を使う」</li>
+</ul>
+<p>実務解説資料が共通して指摘するように、RFPでは「What」を中心に書き、「How」はベンダの提案に委ねることが推奨されています。「How」まで指定すると、特定のCMSや実装手段を前提にした見積もりしか返ってこず、各社の提案を比較する意味が薄れます（参照：customedia「０から分かる！RFP（提案依頼書）の書き方解説」<a href="https://service.customedia.co.jp/marketing/rfpcommentary/%EF%BC%89%E3%80%82">https://service.customedia.co.jp/marketing/rfpcommentary/）。</a></p>
+<p>また、中小企業庁「2021年版中小企業白書」（第2節）では、中小企業のデジタルツール導入状況には企業規模間で格差があり、特に小規模企業での導入が遅れていることが示されています（出典：中小企業庁「2021年版中小企業白書」第2節 <a href="https://www.chusho.meti.go.jp/pamflet/hakusyo/2021/chusho/b2_2_2.html%EF%BC%89%E3%80%82Web%E5%88%B6%E4%BD%9C%E3%81%AE%E7%99%BA%E6%B3%A8%E7%B5%8C%E9%A8%93%E3%81%8C%E5%B0%91%E3%81%AA%E3%81%84%E4%BC%81%E6%A5%AD%E3%81%8C%E5%A4%9A%E3%81%84%E8%83%8C%E6%99%AF%E3%82%92%E8%B8%8F%E3%81%BE%E3%81%88%E3%82%8B%E3%81%A8%E3%80%81%E3%82%B9%E3%83%86%E3%83%83%E3%83%971%E3%80%9C2%E3%81%AE%E3%80%8C%E7%9B%AE%E7%9A%84%E3%81%AE%E8%A8%80%E8%AA%9E%E5%8C%96%E3%80%8D%E3%81%AB%E6%99%82%E9%96%93%E3%82%92%E5%89%B2%E3%81%8F%E3%81%93%E3%81%A8%E3%81%8C%E3%80%81%E7%99%BA%E6%B3%A8%E5%85%A8%E4%BD%93%E3%81%AE%E5%93%81%E8%B3%AA%E3%82%92%E5%B7%A6%E5%8F%B3%E3%81%97%E3%81%BE%E3%81%99%E3%80%82">https://www.chusho.meti.go.jp/pamflet/hakusyo/2021/chusho/b2_2_2.html）。Web制作の発注経験が少ない企業が多い背景を踏まえると、ステップ1〜2の「目的の言語化」に時間を割くことが、発注全体の品質を左右します。</a></p>
+<p>さらに総務省「令和5年版情報通信白書」によれば、日本企業のデジタル化水準は米国・欧州主要国と比較して低い傾向にあり、中小企業層ではその傾向がより顕著とされています（出典：総務省「令和5年版情報通信白書」各国企業のデジタル化の状況 <a href="https://www.soumu.go.jp/johotsusintokei/whitepaper/ja/r05/html/nd24b210.html%EF%BC%89%E3%80%82%E3%81%93%E3%81%AE%E3%82%88%E3%81%86%E3%81%AA%E7%8A%B6%E6%B3%81%E4%B8%8B%E3%81%A7%E3%82%82%E3%80%81RFP%E3%81%A8%E3%81%84%E3%81%86%E6%A7%8B%E9%80%A0%E5%8C%96%E3%81%95%E3%82%8C%E3%81%9F%E6%96%87%E6%9B%B8%E3%82%92%E4%BD%BF%E3%81%86%E3%81%93%E3%81%A8%E3%81%A7%E3%80%81%E7%99%BA%E6%B3%A8%E3%81%AE%E7%B5%8C%E9%A8%93%E5%80%A4%E3%81%AB%E4%BE%9D%E5%AD%98%E3%81%9B%E3%81%9A%E3%81%AB%E6%AF%94%E8%BC%83%E5%8F%AF%E8%83%BD%E3%81%AA%E6%8F%90%E6%A1%88%E3%82%92%E5%BC%95%E3%81%8D%E5%87%BA%E3%81%9B%E3%81%BE%E3%81%99%E3%80%82">https://www.soumu.go.jp/johotsusintokei/whitepaper/ja/r05/html/nd24b210.html）。このような状況下でも、RFPという構造化された文書を使うことで、発注の経験値に依存せずに比較可能な提案を引き出せます。</a></p>
+<p>「どの機能が必要か」の整理に行き詰まった場合は、次のセクションで解説する標準記載項目の一覧表を参照してください。各項目の書き方と記載例も合わせて示します。</p>
+<h2>Web制作RFPの標準記載項目一覧</h2>
+<p>IPA等の公的資料が示す標準構成に基づくと、RFPには「会社概要」「現状と課題」「目的・目標」「機能要件」「納期・予算」「選定基準」など10項目前後が最低限必要です。これらが揃っていない場合、制作会社は前提を自己補完せざるを得ず、提案の比較可能性が下がります。</p>
+<h3>必須項目と任意項目の区分け表</h3>
+<p>記載項目は「必須（Missing があると提案できない）」と「任意（あれば提案精度が上がる）」に分けて考えると整理しやすくなります。</p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>項目名</th>
+<th>区分</th>
+<th>目的</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>会社・組織概要</td>
+<td>必須</td>
+<td>事業規模・業種を制作会社が把握するための前提情報</td>
+</tr>
+<tr>
+<td>2</td>
+<td>現状のサイト情報</td>
+<td>必須</td>
+<td>既存URL、月間PV、CMS環境など現況の共有</td>
+</tr>
+<tr>
+<td>3</td>
+<td>課題・背景</td>
+<td>必須</td>
+<td>なぜ今制作・リニューアルするのかの文脈</td>
+</tr>
+<tr>
+<td>4</td>
+<td>目的・達成目標（KPI）</td>
+<td>必須</td>
+<td>「何を実現したいか」の言語化（前セクション参照）</td>
+</tr>
+<tr>
+<td>5</td>
+<td>ターゲットユーザ</td>
+<td>必須</td>
+<td>想定読者・顧客の属性と行動パターン</td>
+</tr>
+<tr>
+<td>6</td>
+<td>機能要件</td>
+<td>必須</td>
+<td>実装が必要な機能の一覧と優先度</td>
+</tr>
+<tr>
+<td>7</td>
+<td>非機能要件</td>
+<td>必須</td>
+<td>表示速度、セキュリティ、アクセシビリティ等の品質基準</td>
+</tr>
+<tr>
+<td>8</td>
+<td>技術・インフラ要件</td>
+<td>必須</td>
+<td>使用CMS、サーバ環境、連携システムの指定または要望</td>
+</tr>
+<tr>
+<td>9</td>
+<td>予算上限</td>
+<td>必須</td>
+<td>詳しくは後述しますが、上限額の明示が原則</td>
+</tr>
+<tr>
+<td>10</td>
+<td>納期・スケジュール</td>
+<td>必須</td>
+<td>公開希望日と絶対締め切りの両方</td>
+</tr>
+<tr>
+<td>11</td>
+<td>提案書の提出形式</td>
+<td>必須</td>
+<td>送付方法、ページ数制限、提出期限</td>
+</tr>
+<tr>
+<td>12</td>
+<td>選定基準・配点</td>
+<td>必須</td>
+<td>評価軸の透明化（詳しくは後述します）</td>
+</tr>
+<tr>
+<td>13</td>
+<td>参考サイト</td>
+<td>任意</td>
+<td>デザイントーン・機能の参考として提示</td>
+</tr>
+<tr>
+<td>14</td>
+<td>競合・業界情報</td>
+<td>任意</td>
+<td>差別化ポイントを制作会社が把握するための補足</td>
+</tr>
+<tr>
+<td>15</td>
+<td>保守・運用方針</td>
+<td>任意</td>
+<td>公開後の更新体制や契約継続の意向</td>
+</tr>
+</tbody></table>
+<h3>各項目の書き方と記載例</h3>
+<p>各項目で「よく書かれる不十分な例」と「推奨する書き方」を対比します。</p>
+<p><strong>1. 課題・背景</strong></p>
+<ul>
+<li>不十分な例：「サイトが古くなったので作り直したい」</li>
+<li>推奨する書き方：「現サイトはスマートフォン非対応のため、モバイルからの直帰率が高く、問い合わせ数が月平均XX件にとどまっている。競合他社と比較してコンバージョン率の改善が急務となっている。」</li>
+</ul>
+<p>数値がなくても構いませんが、「何に困っているか」を具体的な状況として書くことで、制作会社は的外れな提案を避けられます。</p>
+<p><strong>2. 機能要件</strong></p>
+<p>機能要件は「実装してほしい機能」と「優先度」をセットにして一覧化します。優先度は「必須（Must）」「あれば望ましい（Want）」「将来対応可（Future）」の3段階が使いやすい区分です。</p>
+<table>
+<thead>
+<tr>
+<th>機能</th>
+<th>優先度</th>
+<th>備考</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>お問い合わせフォーム</td>
+<td>Must</td>
+<td>自動返信メール付き</td>
+</tr>
+<tr>
+<td>採用情報の更新（CMS）</td>
+<td>Must</td>
+<td>担当者がノーコードで更新できること</td>
+</tr>
+<tr>
+<td>ブログ・お知らせ機能</td>
+<td>Want</td>
+<td>画像アップロード対応</td>
+</tr>
+<tr>
+<td>多言語対応（英語）</td>
+<td>Future</td>
+<td>第2フェーズでの実装を想定</td>
+</tr>
+<tr>
+<td>会員ログイン機能</td>
+<td>対象外</td>
+<td>今回のスコープ外</td>
+</tr>
+</tbody></table>
+<p>「対象外」も明示するのが重要なポイントです。スコープが曖昧だと、制作会社は安全側に見積もりを積み増す傾向があります。</p>
+<p><strong>3. 選定基準</strong></p>
+<p>評価軸と配点の書き方は後のセクションで詳しく扱いますが、RFP内には少なくとも「何を重視して選定するか」を箇条書きで記載してください。評価軸がないと、制作会社は「価格を下げることが最善策」と判断し、提案の質より価格競争に寄りやすくなります。</p>
+<h3>技術要件欄の落とし穴：CMS・サーバ環境の明記</h3>
+<p>技術要件は、記載漏れが最もコスト誤差につながる項目です。同じ「サイト制作」でも、CMS構成やサーバ環境によって開発工数が大きく変動します。</p>
+<p>確認して記載すべき技術的情報は以下のとおりです。</p>
+<ol>
+<li><strong>現在使用しているCMS</strong>（WordPress、Wix、独自開発など）。移行を伴う場合はデータ移行の有無も明記する。</li>
+<li><strong>サーバ・ホスティング環境</strong>（レンタルサーバ、AWS、Vercelなど）。御社側で契約を維持するか、制作会社に手配を委ねるかも指定する。</li>
+<li><strong>既存システムとの連携</strong>（SalesforceなどCRM、在庫管理システム、予約システムなど）。APIの有無が実装難易度を左右する。</li>
+<li><strong>ドメインの管理状況</strong>（お名前.comなどのレジストラ情報と、担当者が変更権限を持っているか）。</li>
+<li><strong>SSL証明書の対応</strong>（現在の証明書の種別と更新方法）。</li>
+</ol>
+<p>特にWordPressを指定する場合、「子テーマを使うか」「ページビルダの有無」「プラグイン制限の有無」まで記載できると、見積もり精度がさらに上がります。WordPressはプラグイン構成によって同じ機能でも開発工数が数倍変わることがあるためです。</p>
+<p>また「サーバは制作会社に任せる」と記載するだけでは不十分です。初期費用に含めるのか、月額費用として別途請求されるのか、契約主体はどちらになるのかを事前に確認・明記しておくと、提案書受領後の条件確認往復を減らせます。</p>
+<h2>そのままコピーして使えるRFPテンプレート</h2>
+<p>以下のテンプレートは標準的なWeb制作RFPの構成に準拠しており、御社の情報を埋めるだけで提案依頼に使える形式です。前セクションで整理した12項目の記載内容を、実際のドキュメントとして出力できる状態にまとめています。</p>
+<blockquote>
+<p><strong>一次情報の参考として:</strong> 総務省「令和6年 通信利用動向調査報告書（企業編）」（情報流通行政局）が示すとおり、国内企業のホームページ開設率は依然高水準を維持しています。同調査の令和4年版では従業者数別・資本金額別の開設状況が集計されており、規模が小さい企業ほど開設率が低い傾向が確認できます（出典: 総務省「令和4年 通信利用動向調査報告書（企業編）」問2(1) ホームページの開設状況）。規模を問わず、はじめてWeb制作を外注する際ほど、RFPという形式知が選定精度を左右します。</p>
+</blockquote>
+<h3>テンプレート全文（Markdown形式）</h3>
+<p>以下をそのままコピーし、<code>【 】</code>内を御社の情報に置き換えてください。</p>
+<hr>
+<pre><code class="language-markdown"># Web制作 提案依頼書（RFP）
+
+発行日: 【20XX年XX月XX日】
+発行者: 【会社名・担当部署・担当者名】
+提案期限: 【20XX年XX月XX日 XX:00まで】
+
+---
+
+## 1. 会社概要
+
+- 会社名:【正式社名】
+- 所在地:【都道府県・市区町村】
+- 事業内容:【主力事業を2〜3文で】
+- 従業員数:【XX名】
+- 現在のWebサイトURL:【https://example.com（なければ「なし」）】
+
+---
+
+## 2. プロジェクトの背景と現状の課題
+
+【現在のサイトまたはWeb施策の状況と、そこに感じている課題を3〜5文で記載する。
+例: 現サイトは20XX年に制作したもので、スマートフォン非対応のため離脱率が高い状態です。
+また問い合わせフォームが分かりにくく、月間問い合わせ件数がXX件にとどまっています。】
+
+---
+
+## 3. プロジェクトの目的と達成目標（KPI）
+
+| 目的 | 達成目標（KPI） | 計測方法 |
+|------|----------------|---------|
+|【例: 問い合わせ数の増加】|【月XX件以上】|【Googleアナリティクス】|
+|【例: ブランド認知向上】|【直帰率XX%以下】|【同上】|
+
+---
+
+## 4. 制作スコープ（対象範囲）
+
+- 対象: 【新規制作 / リニューアル / 部分改修】
+- ページ数の目安: 【XX〜XXページ（トップ、会社概要、サービス、採用、お問い合わせ等）】
+- 対象外: 【例: ロゴ制作、コピーライティング（テキストは自社支給）】
+
+---
+
+## 5. 機能要件
+
+| 機能 | 優先度（高・中・低） | 備考 |
+|------|---------------------|------|
+|【例: レスポンシブデザイン】|高|スマートフォン・タブレット対応|
+|【例: お問い合わせフォーム】|高|自動返信メール付き|
+|【例: ブログ・お知らせ更新機能】|中|担当者が自己更新できること|
+|【例: 採用情報ページ】|低|将来的に追加予定|
+
+---
+
+## 6. 技術要件
+
+- CMS: 【WordPress / 指定なし / 既存CMSを継続使用（〇〇）】
+- サーバ: 【指定なし / 自社契約のレンタルサーバを使用（〇〇社）】
+- ドメイン: 【継続使用 / 新規取得】
+- SSL: 【対応必須】
+- 外部システム連携: 【例: Salesforce、Kintone、なし】
+- アクセス解析: 【Googleアナリティクス4を導入・引き継ぎ】
+
+---
+
+## 7. デザイン要件
+
+- トンマナ: 【例: 清潔感・信頼感を重視。堅すぎず、親しみやすい印象】
+- 参考サイト（良い例）: 【URL1】【URL2】
+- 参考サイト（避けたい例）: 【URL3】
+- 支給素材: 【ロゴデータ（あり）/ 写真（一部あり・追加撮影は要相談）】
+
+---
+
+## 8. コンテンツ（原稿・素材）の分担
+
+| 項目 | 発注者 | 制作会社 |
+|------|--------|---------|
+|テキスト原稿|支給|レビュー・校正|
+|写真・画像|一部支給|必要に応じてストック素材使用|
+|動画|なし|対象外|
+|イラスト・アイコン|なし|制作会社に委託|
+
+---
+
+## 9. 予算と納期
+
+- 予算上限: 【XXX万円（税込）】
+  ※上限を超える場合は、スコープ調整の代替案を提案してください
+- 公開希望日: 【20XX年XX月】
+- マスト締め切り: 【20XX年XX月XX日（例: 展示会・イベントに合わせた絶対期限）】
+- 納期がマストである理由: 【例: 特になし / 〇〇イベントに合わせる必要がある】
+
+---
+
+## 10. 保守・運用サポート
+
+- 公開後のサポート: 【必要 / 不要 / 要相談】
+- 更新作業の依頼先: 【自社で更新 / 制作会社に依頼】
+- セキュリティアップデート対応: 【含めてほしい / 自社対応】
+
+---
+
+## 11. 選定基準と評価軸
+
+提案内容は以下の軸で評価します（詳細は後述の評価シートを参照）。
+
+| 評価軸 | 配点 |
+|--------|------|
+|提案内容の課題理解度|30点|
+|デザイン・UXの提案品質|25点|
+|技術力・実績|20点|
+|費用対効果|15点|
+|サポート体制|10点|
+|合計|100点|
+
+---
+
+## 12. 提出物と提案フォーマット
+
+提案書に含めてほしい内容:
+
+1. 御社概要（実績含む）
+2. 課題の理解と提案方針
+3. サイトマップ案（ページ構成）
+4. デザインイメージ（ラフスケッチ・参考事例等）
+5. 機能・技術仕様の提案
+6. 見積書（項目別の内訳を明示）
+7. スケジュール（マイルストーン単位）
+8. 保守・運用プランと費用
+
+提出方法: 【メール添付 / Googleドライブ共有 / 指定フォームから提出】
+提出先: 【担当者名・メールアドレス】
+
+---
+
+## 13. スケジュール（選定プロセス）
+
+| ステップ | 日程 |
+|----------|------|
+|RFP送付|20XX年XX月XX日|
+|質問受付期限|20XX年XX月XX日|
+|質問回答（一括）|20XX年XX月XX日|
+|提案書提出期限|20XX年XX月XX日|
+|プレゼン・ヒアリング|20XX年XX月XX日〜|
+|発注先決定・通知|20XX年XX月XX日|
+
+---
+
+## 14. 秘密保持と取り扱い
+
+本RFPに含まれる情報は、提案目的以外への使用を禁止します。
+提案に参加された場合も、選定結果にかかわらず守秘義務を遵守してください。
+
+---
+
+*提案に関するご質問は【質問受付期限】までに【担当者メールアドレス】へご連絡ください。*
+*質問とその回答は、参加全社に同時開示します。*
+</code></pre>
+<hr>
+<h3>項目ごとの記入ガイド</h3>
+<p>テンプレート内で特に入力に迷いやすい項目を補足します。</p>
+<h4>3. 目的とKPIの書き方</h4>
+<p>KPIは「問い合わせ数を増やしたい」ではなく、「月間XX件以上」と数値で書きます。現状値が不明な場合は「現状: 月XX件、目標: その1.5倍」の形式にすると、制作会社が提案に具体性を持たせやすくなります。</p>
+<h4>5. 機能要件の優先度</h4>
+<p>「高・中・低」の3段階で優先度を明示することが重要です。優先度が未記載だと、制作会社が全機能を必須と解釈して見積もりが膨らむ場合があります。「低」の機能は「フェーズ2以降での対応も可」と注記すると、提案の幅が広がります。</p>
+<h4>6. 技術要件の記載精度</h4>
+<p>CMSとサーバの記載はとりわけ見積もり精度に直結します。「指定なし」とだけ書くと、制作会社ごとに異なるシステムを前提とした提案になり、費用の比較が困難になります。既存サーバを継続使用する場合は契約しているサービス名（例: エックスサーバ、ConoHa等）を必ず記載してください。</p>
+<h4>9. 予算と納期の二重構造</h4>
+<p>予算欄に「要相談」とだけ書くことは避けてください。予算の書き方と発生するリスクの詳細は次のセクション「予算・納期の書き方」で解説します。</p>
+<h4>14. 秘密保持の扱い</h4>
+<p>正式な秘密保持契約（NDA）が必要な場合は、RFP内に「提案参加の条件としてNDA締結を求める」と明記し、NDA書類を別添付で送付します。テンプレート内の一文は最低限の口頭表明として機能しますが、法的効力は限定的です。重要な自社情報（売上データ、未公開製品情報等）を開示する場合は必ずNDAを締結してください。</p>
+<h2>予算・納期の書き方：制作会社が答えやすい表現とは？</h2>
+<p>予算は「上限額」を明示し、納期は「公開希望日」と「マストの締め切り」を分けて記載すると、制作会社側が現実的な提案を組みやすくなります。この2項目の書き方ひとつで、受け取る提案の精度が大きく変わります。</p>
+<h3>予算非公開が招くミスマッチの構造</h3>
+<p>予算を伏せる発注者は少なくありません。「先に金額を出すと足元を見られる」という懸念からです。ただ、この判断が提案品質を下げる原因になりやすい点は押さえておく必要があります。</p>
+<p>制作会社は予算の手がかりがないと、提案の規模感を独自に推定します。その結果、50万円を想定した提案と500万円を想定した提案が混在し、ページ数・機能・デザイン品質のどれもが揃わない提案書が届くことになります。価格差の原因が「各社の実力の違い」ではなく「前提の違い」になってしまい、公平な比較ができません。</p>
+<p>予算を開示することへの抵抗感は自然です。ただ、RFPにおける予算明示は「この金額しか払わない」という宣言ではなく、「この規模感で考えてほしい」というスコープ設定の役割を果たします。</p>
+<p>制作会社の視点で整理すると、次のような対応の違いが生まれます。</p>
+<table>
+<thead>
+<tr>
+<th>予算の書き方</th>
+<th>制作会社側の受け取り方</th>
+<th>発注者が得られる提案の質</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>非公開・要相談</td>
+<td>規模感を独自推測。提案に大きなばらつきが出る</td>
+<td>比較が困難</td>
+</tr>
+<tr>
+<td>「できるだけ安く」</td>
+<td>最小構成を前提とした見積もりになりやすい</td>
+<td>期待を下回る可能性が高い</td>
+</tr>
+<tr>
+<td>「上限100万円（税抜）」</td>
+<td>100万円以内で最大の成果を出す提案を組む</td>
+<td>実現可能な提案が揃う</td>
+</tr>
+<tr>
+<td>「80〜120万円を想定」</td>
+<td>レンジ内で複数案を用意するケースもある</td>
+<td>選択肢が広がる</td>
+</tr>
+</tbody></table>
+<p>予算帯の記載に迷う場合は、「この金額では何ができないか」を制作会社に問う形にするのも有効です。「予算100万円（税抜）の範囲で実現できる範囲と、できない範囲を明示してください」という一文を添えるだけで、提案の具体性が上がります。</p>
+<h3>Web制作費用の価格帯と予算設定の考え方</h3>
+<p>予算の上限額を決めるには、一般的な制作費用の価格帯を知ることが前提になります。以下は規模感の目安です。案件の個別事情により大きく変動するため、あくまで初期設定の参考としてください。</p>
+<table>
+<thead>
+<tr>
+<th>サイトの種類・規模</th>
+<th>費用感の目安（税抜）</th>
+<th>主な含まれる作業</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>小規模ホームページ（5〜10ページ）</td>
+<td>30〜80万円程度</td>
+<td>デザイン、コーディング、基本CMS設定</td>
+</tr>
+<tr>
+<td>中規模コーポレートサイト（20〜50ページ）</td>
+<td>80〜200万円程度</td>
+<td>上記＋ライティング、SEO設定、テスト</td>
+</tr>
+<tr>
+<td>ECサイト・会員機能付き</td>
+<td>150〜500万円程度</td>
+<td>決済連携、システム開発、セキュリティ対応</td>
+</tr>
+<tr>
+<td>大規模リニューアル</td>
+<td>300万円〜</td>
+<td>要件定義、設計、移行作業を含む場合が多い</td>
+</tr>
+</tbody></table>
+<p>当社（株式会社ノーティックラボ）のWeb制作は300,000円からを起点としており、目的と機能を整理したRFPをいただくことで、予算帯に合わせた最適な構成をご提案しています。</p>
+<p><strong>納期の書き方についても同じ考え方が適用されます。</strong> 「できるだけ早く」は制作会社にとって意思決定の根拠になりません。以下の2点を区別して記載してください。</p>
+<ol>
+<li><strong>公開希望日</strong>: 理想として設定している公開タイミング（例：「2026年4月1日の新年度に合わせて公開したい」）</li>
+<li><strong>マストの締め切り</strong>: 絶対に間に合わせなければならない期限と、その理由（例：「展示会出展日の2026年3月15日までは必須。それ以前でも問題なし」）</li>
+</ol>
+<p>締め切りの理由を添えることで、制作会社はスケジュールの調整余地を把握できます。「マスト日に間に合わせるために何を削るか」の判断も、発注者と制作会社が一緒に考えられるようになります。</p>
+<p><strong>予算・納期の記載でよくある失敗パターン</strong>をまとめます。</p>
+<ul>
+<li>予算を非公開にしたまま「品質の高い提案を求める」と記載する（制作会社が規模感を掴めない）</li>
+<li>納期を「ASAP」「なるべく早め」と書く（制作側の工数計画が立てられない）</li>
+<li>予算に「制作費のみ」を記載し、保守・ライセンス・写真素材費を含めていない（後から追加費用が発生する）</li>
+<li>消費税の内税・外税を明記しない（見積もりの比較が難しくなる）</li>
+</ul>
+<p>RFPの予算欄には、「制作費（税抜）◯◯万円を上限とします。保守費用・ドメイン・サーバ費用は別途協議とします」のように、対象範囲と税区分をセットで明示することをお勧めします。</p>
+<hr>
+<p>御社のRFPにどの価格帯・スコープが適切かを判断するには、現状の課題と目的を整理することが先決です。当社では、発注前の無料診断を通じて「何をRFPに書けばよいか」のご相談をお受けしています。</p>
+<p><a href="/diagnostic">無料診断を受ける（所要約10分）</a></p>
+<h2>発注前に確認したいチェックリスト</h2>
+<p>RFP送付前に10項目を自己点検することで、制作会社への往復質問を減らし、選定期間を短縮できます。提案を受け取った後に「記載漏れがあった」と気づくと、全社への追加連絡が必要になり、選定スケジュールが遅れます。送付前の30分の確認が、その後の数週間を左右します。</p>
+<h3>チェックリスト10項目</h3>
+<p>以下の項目をすべて確認してからRFPを送付してください。</p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>確認項目</th>
+<th>チェックポイント</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>プロジェクトの目的が1文で書けているか</td>
+<td>「〜のために〜を制作する」の形で表現できているか</td>
+</tr>
+<tr>
+<td>2</td>
+<td>成果指標（KPI）が数値で記載されているか</td>
+<td>「増やしたい」ではなく「月間問い合わせ数を10件から30件へ」の形か</td>
+</tr>
+<tr>
+<td>3</td>
+<td>必須機能と任意機能を区別しているか</td>
+<td>「あれば嬉しい」と「なければ困る」を混在させていないか</td>
+</tr>
+<tr>
+<td>4</td>
+<td>予算の上限額を明示しているか</td>
+<td>「応相談」「要相談」になっていないか</td>
+</tr>
+<tr>
+<td>5</td>
+<td>納期を「希望日」と「マスト締め切り」に分けているか</td>
+<td>理由も添えているか（例: 展示会に合わせて）</td>
+</tr>
+<tr>
+<td>6</td>
+<td>現行サイトのURL、または「新規」の明記があるか</td>
+<td>CMS・サーバ環境の引き継ぎ有無も記載されているか</td>
+</tr>
+<tr>
+<td>7</td>
+<td>外部システムとの連携要件が書かれているか</td>
+<td>CRM、予約システム、ECプラットフォームなど接続先を列挙しているか</td>
+</tr>
+<tr>
+<td>8</td>
+<td>コンテンツの分担方針が明記されているか</td>
+<td>テキスト・画像の提供側（自社 or 制作会社）を決めているか</td>
+</tr>
+<tr>
+<td>9</td>
+<td>選定基準・評価軸をRFP内に記載しているか</td>
+<td>提案会社が「何を重視して提案すべきか」を把握できるか</td>
+</tr>
+<tr>
+<td>10</td>
+<td>提出期限と問い合わせ窓口が明記されているか</td>
+<td>担当者名・メールアドレスが入っているか</td>
+</tr>
+</tbody></table>
+<h3>送付前に整備しておくと提案精度が上がる付帯資料</h3>
+<p>以下の資料をRFPと一緒に提供できると、制作会社が前提の補完に時間を使わず、提案の中身に集中できます。</p>
+<ul>
+<li><strong>競合・参考サイトのURL（3〜5件）</strong>: デザインや構成の方向性を示す。「このサイトのような雰囲気」と一言添えると伝わりやすい</li>
+<li><strong>現行サイトのアクセス解析データ（直近3〜6か月）</strong>: GA4やSearch Consoleのエクスポートで十分。現状把握の手間を省ける</li>
+<li><strong>会社のロゴ・ブランドカラーのガイドライン</strong>: 表紙デザインや配色提案の精度が上がる</li>
+<li><strong>承認フロー図または組織図</strong>: 誰がどの段階で承認するかが分かると、制作会社はスケジュールを現実的に設計できる</li>
+</ul>
+<h3>見落としやすいポイント：「誰が窓口か」の明示</h3>
+<p>実装者の経験上、最も返信対応に手間がかかるのは「担当者が複数いて、誰に質問すべきか不明な場合」です。RFPには必ず1名を主担当として明記し、質問の受付期限も設定してください。「質問は〇月〇日までにinfo@〜宛にお送りください」という一文があるだけで、制作会社側の動き方が変わります。</p>
+<hr>
+<p>RFPを整備した段階で、御社のプロジェクトが具体的に動き始めます。ノーティックラボでは、はじめての外注でも比較検討できるよう、30分の無料診断で「御社の要件をRFPに整理する」ところからサポートしています。</p>
+<p><a href="/diagnostic">無料診断を申し込む →</a></p>
+<h2>関連リンク</h2>
+<ul>
+<li><a href="/guidebook">Web制作の発注ガイド</a></li>
+<li><a href="/pricing">ホームページ制作費用の相場</a></li>
+<li><a href="/diagnostic">Web制作の必要性を診断する</a></li>
+</ul>
+</div><div style="margin-top: 40px; padding: 16px 20px; background: var(--bg-2); border-radius: 10px; font-size: 13px; color: var(--text-3); line-height: 1.8;"><div>監修: 大島蓮太（株式会社ノーティックラボ代表 / AIエンジニア）</div><div>本記事はAIを活用して制作しています</div></div></div><section class="section-pad" style="background: var(--bg-2);"><div class="container" style="max-width: 880px;"><h3 class="display-s" style="margin-bottom: 24px;">関連記事</h3><div class="grid-3"><a class="article-card fadein is-in" href="/article-site-renewal-process-guide" style="cursor: pointer;"><div class="article-cover tone-red" role="img" aria-label="サイトリニューアルの進め方｜5つのフェーズと成功チェックリスト" style="aspect-ratio: 16 / 10;"><span class="article-cover-cat">Web制作</span><span class="article-cover-title">サイトリニューアルの進め方</span><span class="article-cover-brand">NORTIQ LABS · COLUMN</span></div><div class="article-meta"><span style="color: var(--accent);">Web制作</span><span class="article-meta-sep">·</span><span>2026.08.19</span></div><h3 class="article-title">サイトリニューアルの進め方｜5つのフェーズと成功チェックリスト</h3></a><a class="article-card fadein is-in" href="/article-llm-guardrail-inhouse-vs-cloud-api" style="cursor: pointer;"><div class="article-cover tone-blue" role="img" aria-label="LLMガードレール自社構築 vs クラウドAPI、中小企業向け費用比較" style="aspect-ratio: 16 / 10;"><span class="article-cover-cat">AI活用</span><span class="article-cover-title">LLMガードレール自社構築 vs クラウドAPI、中小企業向け費用比較</span><span class="article-cover-brand">NORTIQ LABS · COLUMN</span></div><div class="article-meta"><span style="color: var(--accent);">AI活用</span><span class="article-meta-sep">·</span><span>2026.08.17</span></div><h3 class="article-title">LLMガードレール自社構築 vs クラウドAPI、中小企業向け費用比較</h3></a><a class="article-card fadein is-in" href="/article-llm-guardrail-bypass-cases" style="cursor: pointer;"><div class="article-cover tone-blue" role="img" aria-label="LLMガードレール突破の実例5選｜バイパス手法と対策" style="aspect-ratio: 16 / 10;"><span class="article-cover-cat">AI活用</span><span class="article-cover-title">LLMガードレール突破の実例5選</span><span class="article-cover-brand">NORTIQ LABS · COLUMN</span></div><div class="article-meta"><span style="color: var(--accent);">AI活用</span><span class="article-meta-sep">·</span><span>2026.08.17</span></div><h3 class="article-title">LLMガードレール突破の実例5選｜バイパス手法と対策</h3></a></div></div></section></article><section class="t_inq_wrap fadein is-in"><div class="container"><h2>こうした観点をベースに、<br>貴社の DX を一緒に考えませんか。</h2><div class="t_inq_btns"><button class="btn btn-primary" type="button"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><path d="M22 6l-10 7L2 6"></path></svg>資料請求はこちら</button><button class="btn btn-primary" type="button"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><path d="M21 21l-4.35-4.35"></path></svg>ホームページ無料診断</button></div><p class="t_inq_time">営業日 24時間以内に担当者よりご返信します。</p></div></section></main></div><footer class="footer"><div class="container"><div class="footer-grid"><div class="footer-brand"><div class="nav-logo" style="margin-bottom: 18px;"><span class="nav-logo-mark"></span><span class="wordmark"><span class="wordmark-main">NORTIQ</span><span class="wordmark-sub">LABS</span></span></div><p class="body" style="font-size: 13px; max-width: 320px; margin-bottom: 24px;">日本のDX、世界水準で巻き返す。<br>Web制作からAI・DX実装までの技術チーム。</p><button class="btn btn-primary btn-sm" type="button"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><path d="M22 6l-10 7L2 6"></path></svg>資料請求はこちら</button></div><div class="footer-col"><h4>制作実績</h4><ul><li><a href="/works">全実績一覧</a></li><li><a href="/works-clinic">クリニック・医療</a></li><li><a href="/works-realty">不動産</a></li><li><a href="/works-build">建築・工務店</a></li><li><a href="/works-hr">人材</a></li><li><a href="/works-retail">小売 / EC</a></li><li><a href="/works-infra">インフラ・製造</a></li><li><a href="/works-ai">AIスタートアップ</a></li><li><a href="/works-lp-corp">コーポレートLP</a></li><li><a href="/works-lp-recruit">採用LP</a></li><li><a href="/works-lp-ec">EC連動LP</a></li><li><a href="/works-video">動画制作事例</a></li></ul></div><div class="footer-col"><h4>機能・サービス</h4><ul><li><a href="/web">Web制作 機能一覧</a></li><li><a href="/chatbot">AIチャットボット 機能一覧</a></li><li><a href="/dx">DX・ML 機能一覧</a></li><li><a href="/feature-lpo">LP制作 / LPO</a></li><li><a href="/feature-recruit">採用専門サイト</a></li><li><a href="/feature-analytics">アクセス解析</a></li></ul><h4 style="margin-top: 28px;">自社プロダクト</h4><ul><li><a href="/product-vetonet">VetoNet</a></li><li><a href="/product-wpchat">ブログボット（AI投稿アシスタント）</a></li><li><a href="/product-tennis">Tennis フォームチェック</a></li></ul></div><div class="footer-col"><h4>サポート・コンサル</h4><ul><li><a href="/support">運用サポート</a></li><li><a href="/voice">ご利用会社様の声</a></li><li><a href="/diagnostic">サイト無料診断 (URL入力)</a></li><li><a href="/column">技術ブログ / コラム</a></li><li><a href="/news">お知らせ</a></li><li><a href="/subsidy">補助金活用相談</a></li><li><a href="/guidebook">サービス紹介資料</a></li></ul><h4 style="margin-top: 28px;">業種別ソリューション</h4><ul><li><a href="/solution-clinic">クリニック・医療</a></li><li><a href="/solution-realty">不動産</a></li><li><a href="/solution-build">建築・工務店</a></li><li><a href="/solution-hr">人材</a></li><li><a href="/solution-retail">小売 / EC</a></li></ul><h4 style="margin-top: 28px;">会社</h4><ul><li><a href="/company">会社概要</a></li><li><a href="/staff">チーム / スタッフ</a></li><li><a href="/recruit">採用情報</a></li><li><a href="/pricing">料金プラン</a></li><li><a href="/sitemap">サイトマップ</a></li></ul></div></div><div class="footer-bottom"><span>© 2026 Nortiq Labs Inc. All rights reserved.</span><div class="row" style="gap: 24px;"><a href="/privacy" style="color: var(--text-3);">プライバシーポリシー</a><a href="/terms" style="color: var(--text-3);">利用規約</a><a href="/privacy-handling" style="color: var(--text-3);">個人情報の取扱い</a></div></div></div></footer><div class="modal-backdrop"><div class="modal" role="dialog" aria-modal="true"><button class="modal-close" aria-label="閉じる"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M6 18L18 6"></path></svg></button><div style="margin-bottom: 24px;"><div class="eyebrow eyebrow-accent" style="margin-bottom: 10px;">CONTACT</div><h3 class="display-s" style="margin-bottom: 8px;">資料請求・お問い合わせ</h3><p class="small">初回相談は無料です。営業日24時間以内にご返信します。</p></div><form novalidate=""><div class="field"><label>貴社名<span class="req">必須</span></label><input type="text" placeholder="株式会社○○" value=""></div><div class="field"><label>ご担当者名<span class="req">必須</span></label><input type="text" placeholder="山田 太郎" value=""></div><div class="field"><label>メールアドレス<span class="req">必須</span></label><input type="email" placeholder="you@example.com" value=""></div><div class="field"><label>電話番号<span class="req">必須</span></label><input type="tel" placeholder="03-XXXX-XXXX" value=""></div><div class="field"><label>カテゴリー<span class="req">必須</span></label><div class="cb-group"><label class=""><input type="checkbox">Web制作</label><label class=""><input type="checkbox">AIチャットボット</label><label class=""><input type="checkbox">DX・ML</label><label class=""><input type="checkbox">業務自動化</label><label class=""><input type="checkbox">LP制作</label><label class=""><input type="checkbox">採用サイト</label></div></div><div class="field"><label>お問い合わせ内容<span class="req">必須</span></label><div class="cb-group"><label class=""><input type="checkbox">新規HP制作</label><label class=""><input type="checkbox">HPリニューアル</label><label class=""><input type="checkbox">AIチャットボット導入</label><label class=""><input type="checkbox">DX・ML 実装</label><label class=""><input type="checkbox">業務自動化</label><label class=""><input type="checkbox">リスティング広告</label><label class=""><input type="checkbox">コンサルティング</label></div></div><div class="field"><label>ご相談内容<span class="any">任意</span></label><div class="cb-group"><label class=""><input type="checkbox">HPが無い</label><label class=""><input type="checkbox">問い合わせを増やしたい</label><label class=""><input type="checkbox">サービス資料がほしい</label><label class=""><input type="checkbox">無料診断</label><label class=""><input type="checkbox">デザインを改善したい</label><label class=""><input type="checkbox">SEOを上げたい</label><label class=""><input type="checkbox">AI活用したい</label><label class=""><input type="checkbox">業務効率化したい</label><label class=""><input type="checkbox">補助金活用を相談したい</label></div></div><div class="field"><label>本サイトを知ったきっかけ<span class="any">任意</span></label><select><option value="">選択してください</option><option value="Google検索">Google検索</option><option value="Yahoo検索">Yahoo検索</option><option value="AIチャット (ChatGPT/Claude/Gemini等)">AIチャット (ChatGPT/Claude/Gemini等)</option><option value="ご紹介">ご紹介</option><option value="メール">メール</option><option value="DMチラシ">DMチラシ</option><option value="SNS (X/LinkedIn)">SNS (X/LinkedIn)</option><option value="以前から知っていた">以前から知っていた</option><option value="その他">その他</option></select></div><div class="field"><label>サイトURL<span class="any">任意</span></label><input type="text" placeholder="https://" value=""></div><div class="field"><label>その他ご質問<span class="any">任意</span></label><textarea placeholder="ご質問・ご相談がございましたらお気軽にご記入ください。"></textarea></div><div class="field field-check"><input type="checkbox" id="agree" style="margin-top: 2px;"><label for="agree" style="cursor: pointer;"><a href="/privacy-handling" target="_blank" rel="noopener noreferrer" style="color: var(--accent); text-decoration: underline;">個人情報の取り扱い</a>に同意します<span class="req">必須</span></label></div><div style="margin-top: 8px; text-align: center;"><button class="btn btn-primary btn-lg" type="submit">同意して送信する<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></button></div></form></div></div><nav class="sp-bottom-nav" aria-label="モバイル下部ナビ"><ul><li><a href="/"><span class="icn"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-8 9 8M5 10v10h14V10"></path></svg></span><span>トップ</span></a></li><li><a href="/works"><span class="icn"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect></svg></span><span>制作実績</span></a></li><li><a href="/pricing"><span class="icn"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4l8 11 8-11M7 13h10M7 17h10"></path></svg></span><span>料金</span></a></li><li><a><span class="icn"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><path d="M22 6l-10 7L2 6"></path></svg></span><span>資料請求</span></a></li><li><a href="/sitemap"><span class="icn"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M4 12h16M4 17h16"></path></svg></span><span>メニュー</span></a></li></ul></nav><div class="sticky-cta"><span class="pulse"></span><span>初回相談無料 · 営業日24h以内にご返信</span><button>資料請求 →</button><button class="sticky-cta-close" aria-label="閉じる"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M6 18L18 6"></path></svg></button></div></div>
+  <script src="/articles.js?v=mt23orql" defer=""></script>
+  <script src="/app.bundle.js?v=mt23orql" defer=""></script>
+
+
+</body></html>
