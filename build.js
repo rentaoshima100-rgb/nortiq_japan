@@ -124,17 +124,15 @@ const BLOG = [
   { slug: 'how-to-choose-web-agency',       category: 'Web制作',     date: '2026.05.16', read: '6 min', title: '制作会社の選び方 — 「安かろう悪かろう」の罠を避ける',                          img: 'assets/blog-how-to-choose-web-agency.png' },
   { slug: 'japan-dx',        category: 'DX 観察記', date: '2026.05.12', read: '8 min',  title: 'なぜ日本のDXはアメリカに2〜3年遅れているのか',          img: 'assets/blog-japan-dx.png' },
   { slug: 'vetonet',         category: '技術',       date: '2026.04.28', read: '12 min', title: 'VetoNet 開発の裏側 — AI agent security とは何か',        img: 'assets/blog-vetonet.png' },
-  // noindex: claude-vs-gpt と同型。本文が「Details（記事LP導線に沿った整理）」
-  // 「Recommendations（記事LPコピー設計への提案）」「Caveats（記事執筆時の重要な注意点）」
-  // という執筆者向けの指示書のまま公開されていたため退避。
-  { slug: 'wordpress-stall', category: 'AI活用',     date: '2026.03.30', read: '7 min',  title: 'WordPress 更新が止まる本当の理由とその解決',            img: 'assets/blog-wordpress-stall.png', noindex: true },
+  { slug: 'wordpress-stall', category: 'AI活用',     date: '2026.03.30', updated: '2026.09.01', read: '7 min',  title: 'WordPress 更新が止まる本当の理由とその解決',            img: 'assets/blog-wordpress-stall.png' },
   { slug: 'core-web-vitals', category: '技術',       date: '2026.03.18', read: '10 min', title: 'Core Web Vitals の「Good」を現実的に取得する',           img: 'assets/blog-core-web-vitals.png' },
   { slug: 'clinic-web',      category: '業種別',     date: '2026.03.05', read: '8 min',  title: 'クリニックのWeb集客 2026年版 完全ガイド',                img: 'assets/blog-clinic-web.png' },
   { slug: 'ai-poc',          category: 'DX 観察記', date: '2026.02.22', read: '9 min',  title: 'PoCで終わるAI案件と、本実装まで進むAI案件の違い',        img: 'assets/blog-ai-poc.png' },
   { slug: 'realty-lp',       category: '業種別',     date: '2026.02.10', read: '6 min',  title: '不動産売却査定LPで反響を獲得する7つの必須要素',          img: 'assets/blog-realty-lp.png' },
-  // noindex: 本文が記事ではなく社内リサーチメモ (構成案・記事タイトル候補・執筆時の注意)
-  // のまま公開されていたため退避。書き直すか削除するまで一覧にも sitemap にも出さない。
-  { slug: 'claude-vs-gpt',   category: 'AI活用',     date: '2026.01.28', read: '11 min', title: 'Claude vs GPT 業務利用 比較ドシエ',                       img: 'assets/blog-claude-vs-gpt.png', noindex: true },
+  // date は 2026.01.28 から修正。本文が扱うのは2026年4月公開のモデルまでで、
+  // 調査時点も2026年5月のため、公開日が本文より前という矛盾が出ていた。
+  // title も「比較ドシエ」という内部用語をやめ、title / H1 / BlogPosting headline を揃えた。
+  { slug: 'claude-vs-gpt',   category: 'AI活用',     date: '2026.05.21', updated: '2026.09.01', read: '11 min', title: 'Claude vs GPT 業務利用の比較｜複数AIの同時活用・使い分け', img: 'assets/blog-claude-vs-gpt.png' },
 ];
 
 // 公開前チェック — 記事本文に「執筆者向けの指示書」が残ったまま公開されるのを止める。
