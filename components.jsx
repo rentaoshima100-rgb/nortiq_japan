@@ -184,19 +184,31 @@ function listedArticles() {
 }
 
 // -------------------- useFadeIn hook --------------------
+// スクロールに合わせたフェードイン。
+// 「初期状態は表示、まだ画面に入っていない要素だけを隠す」方向で動かす。
+// 以前は CSS 側の初期値が opacity: 0 で、is-in が付くまで何も見えなかったため、
+// ハイドレーションが遅い端末や IntersectionObserver が発火しない環境では
+// セクションが白紙のまま残っていた (プリレンダ済みHTMLは見えているのに、
+// React が描画し直した瞬間に消える)。
 function useFadeIn() {
   React.useEffect(() => {
+    const reveal = (el) => { el.classList.remove('fx-pending'); el.classList.add('is-in'); };
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(e => {
         if (e.isIntersecting) {
           const delay = parseInt(e.target.dataset.delay) || 0;
-          setTimeout(() => e.target.classList.add('is-in'), delay);
+          setTimeout(() => reveal(e.target), delay);
           observer.unobserve(e.target);
         }
       });
     }, { rootMargin: '0px 0px -10% 0px', threshold: 0.1 });
+    // ビューポート高が取れない環境 (0 が返る) では演出を諦めて全て表示する。
+    const vh = window.innerHeight || document.documentElement.clientHeight || 0;
     document.querySelectorAll('.fadein, .fadein-l, .fadein-r').forEach(el => {
-      if (!el.classList.contains('is-in')) observer.observe(el);
+      if (el.classList.contains('is-in')) return;
+      if (!vh || el.getBoundingClientRect().top < vh) { reveal(el); return; }
+      el.classList.add('fx-pending');
+      observer.observe(el);
     });
     return () => observer.disconnect();
   });
@@ -1085,7 +1097,9 @@ function RedCTAStrip({ onContact, onNavigate, title }) {
   return (
     <section className="t_inq_wrap fadein">
       <div className="container">
-        <h2>{title || (<>オリジナルデザインのWeb制作 × AI運用<br/>まずは無料で資料請求</>)}</h2>
+        {/* br だけだとSPで3行になり、br を消すだけだと「AI運用まずは無料で」と
+            2つのフレーズが繋がってしまう。フレーズ単位の .phrase で分ける。 */}
+        <h2>{title || (<><span className="phrase">オリジナルデザインのWeb制作 × AI運用</span>{' '}<span className="phrase">まずは無料で資料請求</span></>)}</h2>
         <div className="t_inq_btns">
           <Button onClick={onContact}><Icon name="mail" size={14}/>資料請求はこちら</Button>
           <Button to="diagnostic" nav={onNavigate}><Icon name="search" size={14}/>ホームページ無料診断</Button>

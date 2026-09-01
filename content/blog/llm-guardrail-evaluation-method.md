@@ -8,7 +8,7 @@
 
 攻撃カテゴリの基準として、まずOWASP GenAI Security Projectの分類を参照することを推奨します。
 
-2025年版「OWASP Top 10 for LLM Applications」では、プロンプトインジェクションがリスク第1位（LLM01:2025）に位置づけられています。同文書はプロンプトインジェクションを「直接インジェクション」と「間接インジェクション」の2カテゴリに分類しており、自社の評価テストセットを設計する際のカテゴリ基準として直接活用できます（出典: OWASP GenAI Security Project「LLM01:2025 Prompt Injection」https://genai.owasp.org/llmrisk/llm01-prompt-injection/）。
+2025年版「OWASP Top 10 for LLM Applications」では、プロンプトインジェクションがリスク第1位（LLM01:2025）に位置づけられています。同文書はプロンプトインジェクションを「直接インジェクション」と「間接インジェクション」の2カテゴリに分類しており、自社の評価テストセットを設計する際のカテゴリ基準として直接活用できます（出典: OWASP GenAI Security Project[「LLM01:2025 Prompt Injection」](https://genai.owasp.org/llmrisk/llm01-prompt-injection/)）。
 
 | 攻撃カテゴリ | 概要 | 自社評価での優先度 |
 |---|---|---|
@@ -18,7 +18,7 @@
 | データ漏洩誘導 | システムプロンプトや学習データを引き出す | 中 |
 | 有害コンテンツ生成 | フィルタ対象のコンテンツを迂回して生成させる | リスク許容度に応じて設定 |
 
-OWASPの分類に加え、国内の一次資料としてIPA（独立行政法人情報処理推進機構）の「テキスト生成AIの導入・運用ガイドライン」（2024年7月）も参照する価値があります。同ガイドラインはプロンプトインジェクションへの運用対策を具体的に記載しており、社内規程の策定根拠として使用できます（出典: IPA「テキスト生成AIの導入・運用ガイドライン」2024年7月、https://www.ipa.go.jp/jinzai/ics/core_human_resource/final_project/2024/f55m8k0000003spo-att/f55m8k0000003svn.pdf）。
+OWASPの分類に加え、国内の一次資料としてIPA（独立行政法人情報処理推進機構）の「テキスト生成AIの導入・運用ガイドライン」（2024年7月）も参照する価値があります。同ガイドラインはプロンプトインジェクションへの運用対策を具体的に記載しており、社内規程の策定根拠として使用できます（出典: [IPA「テキスト生成AIの導入・運用ガイドライン」2024年7月](https://www.ipa.go.jp/jinzai/ics/core_human_resource/final_project/2024/f55m8k0000003spo-att/f55m8k0000003svn.pdf)）。
 
 OWASPとIPAの分類を社内リスク分類に落とし込んだ上で、評価対象とする攻撃カテゴリを文書化します。この文書が、後の評価スコアを解釈する際の「測定の前提」になります。
 
@@ -26,7 +26,7 @@ OWASPとIPAの分類を社内リスク分類に落とし込んだ上で、評価
 
 評価スコープは「入力層・処理層・出力層」の3層で切り分けると、測定対象が明確になります。
 
-この3層設計は特定ベンダー独自の概念ではなく、業界標準ツールが採用する構成です。NVIDIA NeMo Guardrailsは、入力レール（Input Rails）・対話レール（Dialog Rails）・出力レール（Output Rails）という多層インターセプト構造を公式に実装しており、入力チェックと出力チェックには同一コンポーネントが前後で動作します（出典: NVIDIA NeMo Guardrails 公式ドキュメント、https://docs.nvidia.com/nemo/microservices/latest/guardrails/concepts/architecture.html）。同ツールはGitHubで6,500以上のスターを獲得しており、実務での採用実績が確認できます（出典: OpenLegion「AI Guardrails: Input/Output Controls, Platform Enforcement, and LLM Safety」https://www.openlegion.ai/en/learn/ai-agent-guardrails）。
+この3層設計は特定ベンダー独自の概念ではなく、業界標準ツールが採用する構成です。NVIDIA NeMo Guardrailsは、入力レール（Input Rails）・対話レール（Dialog Rails）・出力レール（Output Rails）という多層インターセプト構造を公式に実装しており、入力チェックと出力チェックには同一コンポーネントが前後で動作します（出典: [NVIDIA NeMo Guardrails 公式ドキュメント](https://docs.nvidia.com/nemo/microservices/latest/guardrails/concepts/architecture.html)）。同ツールはGitHubで6,500以上のスターを獲得しており、実務での採用実績が確認できます（出典: OpenLegion[「AI Guardrails: Input/Output Controls, Platform Enforcement, and LLM Safety」](https://www.openlegion.ai/en/learn/ai-agent-guardrails)）。
 
 各層で評価すべき内容は以下のとおりです。
 
@@ -36,11 +36,11 @@ OWASPとIPAの分類を社内リスク分類に落とし込んだ上で、評価
 | 処理層 | 会話フロー制御、トピック逸脱検知 | 多段階の誘導攻撃 |
 | 出力層 | スキーマ検証、関連性チェック、有害コンテンツフィルタ | 間接インジェクション経由の情報漏洩、幻覚誘導 |
 
-Datadogのベストプラクティスでは、出力層でのスキーマ検証と関連性チェックが、曖昧な入力や幻覚によってLLMが担当領域から逸脱するケースへの対処に有効であると示されています（出典: Datadog、https://www.datadoghq.com/blog/llm-guardrails-best-practices/）。
+Datadogのベストプラクティスでは、出力層でのスキーマ検証と関連性チェックが、曖昧な入力や幻覚によってLLMが担当領域から逸脱するケースへの対処に有効であると示されています（出典: [Datadog](https://www.datadoghq.com/blog/llm-guardrails-best-practices/)）。
 
 評価スコープを3層で定義した後は、自社システムのどの層にガードレールが実装されているかをアーキテクチャ図と照合します。実装されていない層があれば、そこは評価対象ではなくリスク未対処領域として別途記録します。
 
-> **実装者視点の注意点:** 間接インジェクション（添付ファイルや外部データソース経由）はスコープから外れやすく、入力層のみを評価した場合に検出漏れが生じます。日経クロステックの検証では、論文PDF内に埋め込んだ秘密プロンプトでガードレールを回避できるケースが実証されています（出典: 日経クロステック「LLMのガードレールは万能か、『論文PDF内の秘密プロンプト』で検証」https://xtech.nikkei.com/atcl/nxt/column/18/03336/091600001/ ※有料記事の可能性あり）。RAGや外部ツール連携を使用している場合は、処理層・出力層を必ずスコープに含めてください。
+> **実装者視点の注意点:** 間接インジェクション（添付ファイルや外部データソース経由）はスコープから外れやすく、入力層のみを評価した場合に検出漏れが生じます。日経クロステックの検証では、論文PDF内に埋め込んだ秘密プロンプトでガードレールを回避できるケースが実証されています（出典: 日経クロステック[「LLMのガードレールは万能か、『論文PDF内の秘密プロンプト』で検証」](https://xtech.nikkei.com/atcl/nxt/column/18/03336/091600001/) ※有料記事の可能性あり）。RAGや外部ツール連携を使用している場合は、処理層・出力層を必ずスコープに含めてください。
 
 3層の評価スコープを定義した後、各層に対応する評価指標の選び方を次のセクションで整理します。
 
@@ -64,7 +64,7 @@ Datadogのベストプラクティスでは、出力層でのスキーマ検証�
 
 セクション1で整理した評価スコープの3層（入力層・処理層・出力層）ごとに、この3指標をそれぞれ計算することを推奨します。層をまたいで集計すると、どこで検出が崩れているかの特定が困難になります。
 
-なお、OWASP GenAI Security Projectの「Top 10 for LLM Applications 2025」では、プロンプトインジェクションがリスク第1位（LLM01:2025）に位置づけられています（出典: OWASP GenAI Security Project「LLM01:2025 Prompt Injection」https://genai.owasp.org/llmrisk/llm01-prompt-injection/）。この分類を踏まえると、プロンプトインジェクション単体のRecallは、F1スコアとは別に必ず単独で把握しておくべき指標です。
+なお、OWASP GenAI Security Projectの「Top 10 for LLM Applications 2025」では、プロンプトインジェクションがリスク第1位（LLM01:2025）に位置づけられています（出典: OWASP GenAI Security Project[「LLM01:2025 Prompt Injection」](https://genai.owasp.org/llmrisk/llm01-prompt-injection/)）。この分類を踏まえると、プロンプトインジェクション単体のRecallは、F1スコアとは別に必ず単独で把握しておくべき指標です。
 
 ---
 

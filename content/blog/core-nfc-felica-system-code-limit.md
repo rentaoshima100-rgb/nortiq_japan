@@ -6,7 +6,7 @@ FeliCaシステムコードとは、SuicaやPASMO、社員証など各サービ�
 
 ### Core NFCにおけるFeliCaポーリングの仕組み
 
-Core NFCによるFeliCa読み取りは、iOS 13から対応しています（出典: Apple Developer Documentation「Core NFC」https://developer.apple.com/documentation/corenfc、およびWWDC 2020セッション10209「Core NFC Enhancements」）。
+Core NFCによるFeliCa読み取りは、iOS 13から対応しています（出典: Apple Developer Documentation[「Core NFC」](https://developer.apple.com/documentation/corenfc)、およびWWDC 2020セッション10209「Core NFC Enhancements」）。
 
 読み取りの流れは以下のとおりです。
 
@@ -18,7 +18,7 @@ Core NFCによるFeliCa読み取りは、iOS 13から対応しています（出
 
 ### システムコードを登録しないと何が起きるか
 
-システムコードの登録には2箇所への記載が必要です。エンタイトルメントファイル（`.entitlements`）とInfo.plistの両方に`com.apple.developer.nfc.readersession.felica.systemcodes`キーを追加しなければなりません（出典: Apple Developer Forumsスレッド#685809「NFC (entitlements)」https://developer.apple.com/forums/thread/685809、スレッド#781710「NFCTagReaderSession - Missing required entitlement」https://developer.apple.com/forums/thread/781710）。
+システムコードの登録には2箇所への記載が必要です。エンタイトルメントファイル（`.entitlements`）とInfo.plistの両方に`com.apple.developer.nfc.readersession.felica.systemcodes`キーを追加しなければなりません（出典: Apple Developer Forumsスレッド#685809[「NFC (entitlements)」](https://developer.apple.com/forums/thread/685809)、スレッド#781710[「NFCTagReaderSession - Missing required entitlement」](https://developer.apple.com/forums/thread/781710)）。
 
 どちらか一方が欠けた場合の挙動を整理すると、以下のようになります。
 

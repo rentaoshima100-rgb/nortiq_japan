@@ -6,7 +6,7 @@ Core Web Vitalsとは、Googleが定めるページ体験の品質指標で、LC
 
 ### LCP・INP・CLSそれぞれの定義と合格基準値
 
-3指標の意味と合格基準は次のとおりです（出典: Google Search Central「Core Web Vitals」公式ドキュメント、https://web.dev/articles/vitals）。
+3指標の意味と合格基準は次のとおりです（出典: [Google Search Central「Core Web Vitals」公式ドキュメント](https://web.dev/articles/vitals)）。
 
 | 指標 | 正式名称 | 意味 | 良好（Good）の基準 |
 |------|----------|------|--------------------|

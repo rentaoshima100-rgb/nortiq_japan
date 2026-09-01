@@ -96,7 +96,7 @@ Azure AI Content Safety（以下、Content Safety）とは、テキストや画�
 | テキストモデレーション | F0（無料） | 無料（上限あり） | Microsoft Azure公式料金ページ |
 | テキストモデレーション | S0（有料） | 1.50米ドル／1,000レコード | Microsoft Azure公式料金ページ（2025年時点） |
 
-> 出典: Microsoft Azure公式料金ページ「Azure AI Content Safety 価格」（https://azure.microsoft.com/ja-jp/pricing/details/cognitive-services/content-safety/）。最新の単価は公式ページを直接ご確認ください。
+> 出典: Microsoft Azure公式料金ページ[「Azure AI Content Safety 価格」](https://azure.microsoft.com/ja-jp/pricing/details/cognitive-services/content-safety/)。最新の単価は公式ページを直接ご確認ください。
 
 1レコードはAPIへの1リクエスト（1件の入力テキスト）に相当します。月間10,000件のリクエストであれば、Content Safety単体で約15.00米ドルの追加コストが発生する計算です。
 
@@ -107,7 +107,7 @@ Azure AI Content Safety（以下、Content Safety）とは、テキストや画�
 | GPT-4o | 2.50米ドル／1Mトークン | 10.00米ドル／1Mトークン |
 | GPT-4o mini | 0.15米ドル／1Mトークン | 0.60米ドル／1Mトークン |
 
-> 出典: Leograph MEDIA FORUM「すべてのOpenAI APIモデル・料金・レート制限を一覧まとめ」（https://www.leograph.co.jp/leograph-media-forum/openai-api-models-pricing-ratelimits/）ほか複数メディアがOpenAI公式料金ページを引用。
+> 出典: Leograph MEDIA FORUM[「すべてのOpenAI APIモデル・料金・レート制限を一覧まとめ」](https://www.leograph.co.jp/leograph-media-forum/openai-api-models-pricing-ratelimits/)ほか複数メディアがOpenAI公式料金ページを引用。
 
 Azureでは一定量以上を安定的に消費する場合、プロビジョンドスループットユニット（PTU）と呼ばれる固定料金オプションも選択できます。PTUとは、処理スループットをあらかじめ予約する月額固定の契約形態で、使用量が予測可能な業務に向いています。PTUとContent Safetyを組み合わせた場合の総コストは案件の規模と要件により大きく変動するため、導入前に試算シミュレーションを行うことを推奨します。
 
@@ -122,7 +122,7 @@ Content Safetyの料金だけを見ると「割高」に感じる場合があり
 - **仮想ネットワーク統合（Private Endpoint）**: インターネット経由でなく社内ネットワーク経由でAPIを呼び出す構成が可能で、ゼロトラストアーキテクチャとの親和性が高くなります。
 - **Azure Active Directory（Entra ID）との認証統合**: 既存の社内IDに権限管理を統合でき、API鍵の個別管理リスクを低減できます。
 
-IPA（情報処理推進機構）は「AI利用者のためのセキュリティ豆知識」（https://www.ipa.go.jp/digital/ai/security/ai_security_tips.html）の中で、業務用生成AIへの機密情報・個人情報入力に伴うリスクを指摘しています。こうしたリスクへの対応コストを含めて考えると、Azureの付加価値は月額のContent Safety料金以上の意味を持ちます。
+IPA（情報処理推進機構）は[「AI利用者のためのセキュリティ豆知識」](https://www.ipa.go.jp/digital/ai/security/ai_security_tips.html)の中で、業務用生成AIへの機密情報・個人情報入力に伴うリスクを指摘しています。こうしたリスクへの対応コストを含めて考えると、Azureの付加価値は月額のContent Safety料金以上の意味を持ちます。
 
 ガードレールの設計方針（どの層でどこまで遮断するか）については、OpenAI直接利用との比較表を次セクションで示します。
 

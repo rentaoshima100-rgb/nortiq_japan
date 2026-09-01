@@ -24,8 +24,10 @@
   --border-hi: #CCCCCC;
   --text: #111111;
   --text-2: #333333;
-  --text-3: #999999;
-  --text-4: #999999;
+  /* #999999 は白背景に対しコントラスト 2.85:1 で WCAG AA (4.5:1) を大きく下回っていた。
+     #757575 は 4.6:1。補助テキスト・キャプション・タグの大半がこの2トークンを参照している。 */
+  --text-3: #757575;
+  --text-4: #757575;
   --accent: #E60012;
   --accent-2: #E93F48;
   --accent-hi: #FF1A2D;
@@ -734,7 +736,7 @@ picture { display: contents; }
   gap: 6px;
 }
 .field label .req {
-  font-size: 10px;
+  font-size: 12px;
   color: #fff;
   background: var(--accent);
   padding: 2px 6px;
@@ -785,8 +787,10 @@ picture { display: contents; }
 .cb-group label {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  padding: 10px 14px;
+  gap: 8px;
+  /* タップ領域を 44px 確保 (WCAG 2.5.5 / iOS ヒューマンインターフェースガイドライン) */
+  min-height: 44px;
+  padding: 11px 14px;
   background: var(--bg);
   border: 1px solid var(--border-hi);
   border-radius: 3px;
@@ -797,7 +801,7 @@ picture { display: contents; }
   font-weight: 500;
 }
 .cb-group label:hover { border-color: var(--accent); color: var(--accent); }
-.cb-group input { margin: 0; accent-color: var(--accent); }
+.cb-group input { margin: 0; accent-color: var(--accent); width: 18px; height: 18px; flex-shrink: 0; }
 .cb-group label.checked {
   border-color: var(--accent);
   background: var(--accent-soft);
@@ -858,18 +862,19 @@ picture { display: contents; }
 .row-tight { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
 
 /* ================= fadein animations =================== */
-.fadein {
-  opacity: 0;
-  transform: translateY(24px);
+/* 初期状態は「表示」。以前は opacity: 0 が初期値だったため、ハイドレーションが遅い端末や
+   IntersectionObserver が発火しない環境 (iframe 等) でセクションが白紙のまま残っていた。
+   JS 側 (useFadeIn) は「まだ画面に入っていない要素」にだけ .fx-pending を付けて隠す。 */
+.fadein, .fadein-l, .fadein-r {
+  opacity: 1;
+  transform: none;
   transition: opacity 700ms var(--ease-out), transform 700ms var(--ease-out);
 }
-.fadein.is-in {
-  opacity: 1;
-  transform: translateY(0);
-}
-.fadein-l { opacity: 0; transform: translateX(-32px); transition: opacity 700ms var(--ease-out), transform 700ms var(--ease-out); }
-.fadein-l.is-in { opacity: 1; transform: translateX(0); }
-.fadein-r { opacity: 0; transform: translateX(32px); transition: opacity 700ms var(--ease-out), transform 700ms var(--ease-out); }
+.fadein.fx-pending   { opacity: 0; transform: translateY(24px); }
+.fadein-l.fx-pending { opacity: 0; transform: translateX(-32px); }
+.fadein-r.fx-pending { opacity: 0; transform: translateX(32px); }
+.fadein.is-in   { opacity: 1; transform: translateY(0); }
+.fadein-l.is-in,
 .fadein-r.is-in { opacity: 1; transform: translateX(0); }
 
 /* ================= Hero =================== */
@@ -3091,7 +3096,9 @@ picture { display: contents; }
   .price-card { padding: 22px 18px; }
   .price-amount { font-size: 26px; }
   .modal { padding: 22px 16px; }
-  .field input, .field select, .field textarea { padding: 10px 12px; font-size: 13px; }
+  /* 16px 未満だと iOS Safari がフォーカス時にページを自動ズームし、
+     入力のたびにレイアウトが飛ぶ。16px は下げないこと。 */
+  .field input, .field select, .field textarea { padding: 10px 12px; font-size: 16px; }
   .big-form-wrap { padding: 18px 14px; }
   .quote-card { padding: 18px; }
   .quote-card .quote-body { font-size: 13px; }
@@ -4565,3 +4572,48 @@ picture { display: contents; }
   gap: 20px;
 }
 @media (min-width: 1100px) { .grid-cases { grid-template-columns: repeat(4, 1fr); } }
+
+/* ================= 日本語組版・折り返し (2026-09 レイアウト監査対応) =================
+   これらが未設定 (ブラウザ既定値のまま) だったため、次の状態になっていた。
+     - 出典の裸URLや <code> が1単語として扱われ、375px で最大 +320px はみ出す。
+       html, body の overflow-x: hidden で隠れるだけなので「読めない」状態だった
+     - 「制作会社」「単体」のように単語の途中で改行される
+     - 見出しの最終行に1文字だけ残る (孤立文字) が56ページで23件
+   要素セレクタで当てているため、個別クラスの指定 (.step8-pill-t の keep-all 等) は
+   これまで通り優先される。 */
+h1, h2, h3, h4, h5, p, li, dt, dd, td, th, blockquote, figcaption, label {
+  word-break: auto-phrase;    /* 文節単位で折り返す。非対応ブラウザは従来動作のまま */
+  line-break: strict;         /* 禁則処理を厳格に */
+  overflow-wrap: break-word;  /* 長い英数字列は最終手段として折る */
+}
+h1, h2, h3,
+.display-xl, .display-l, .display-m, .display-s, .section-title, .main-title {
+  text-wrap: balance;         /* 孤立文字の解消 */
+}
+
+/* デスクトップ用に入れた <br> は、SPでは自然改行と衝突して行数を増やすだけになる。
+   2つの独立したフレーズを繋いでいた箇所は .phrase で分けてあるので、
+   br を落としても文がつながって読めなくなることはない。 */
+@media (max-width: 639px) {
+  h1 br, h2 br, h3 br,
+  .lede br, .display-xl br, .display-l br, .display-m br { display: none; }
+}
+/* SPでは折り返し単位、640px以上では従来どおり改行して2行に見せる */
+.phrase { display: inline-block; }
+@media (min-width: 640px) { .phrase { display: block; } }
+
+/* ---- 記事本文 ---- */
+.article-body a { overflow-wrap: anywhere; word-break: break-all; }
+.article-body code { overflow-wrap: anywhere; word-break: break-all; }
+/* table には display:block; overflow-x:auto が既にあるが、セルに最小幅が無いため
+   幅が足りないと横スクロールにならずカラムが潰れ、「入／力／層」と1文字ずつ
+   縦に積まれていた。最小幅を与えて初めて overflow-x が効く。 */
+@media (max-width: 900px) {
+  .article-body th, .article-body td { min-width: 110px; }
+}
+/* 全73記事にあった 9〜11px の判読しづらいメタ表記を底上げ */
+.article-cover-brand, .article-meta { font-size: 12px; }
+
+/* ---- はみ出し予防 ---- */
+video, iframe { max-width: 100%; }
+.nav-drawer { overflow: hidden; }

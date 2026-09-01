@@ -6,11 +6,11 @@ iOS 17 で FeliCa が読めなくなった場合、最初に疑うべきは Info
 
 ### Core NFC で FeliCa を読み取る仕組みの概要
 
-Core NFC とは、Apple が iOS 13 から FeliCa 読み取りに対応したフレームワークです（出典: Apple Developer Documentation「Core NFC」https://developer.apple.com/documentation/corenfc、および WWDC 2020 セッション 10209「Core NFC Enhancements」）。
+Core NFC とは、Apple が iOS 13 から FeliCa 読み取りに対応したフレームワークです（出典: Apple Developer Documentation[「Core NFC」](https://developer.apple.com/documentation/corenfc)、および WWDC 2020 セッション 10209「Core NFC Enhancements」）。
 
 FeliCa 読み取りの流れは次のとおりです。
 
-1. **設定の準備**: エンタイトルメントファイル（`.entitlements`）と Info.plist の**2箇所**に `com.apple.developer.nfc.readersession.felica.systemcodes` キーを記載し、読み取り対象のシステムコードを文字列配列として列挙する。どちらか一方が欠けると「Missing required entitlement」エラーが発生します（出典: Apple Developer Forums スレッド #685809「NFC (entitlements)」https://developer.apple.com/forums/thread/685809、スレッド #781710「NFCTagReaderSession - Missing required entitlement」https://developer.apple.com/forums/thread/781710）。
+1. **設定の準備**: エンタイトルメントファイル（`.entitlements`）と Info.plist の**2箇所**に `com.apple.developer.nfc.readersession.felica.systemcodes` キーを記載し、読み取り対象のシステムコードを文字列配列として列挙する。どちらか一方が欠けると「Missing required entitlement」エラーが発生します（出典: Apple Developer Forums スレッド #685809[「NFC (entitlements)」](https://developer.apple.com/forums/thread/685809)、スレッド #781710[「NFCTagReaderSession - Missing required entitlement」](https://developer.apple.com/forums/thread/781710)）。
 2. **セッション開始**: `NFCTagReaderSession` を初期化し、デリゲートで `NFCFeliCaTag` プロトコルのメソッドを実装する。
 3. **ポーリングと検出**: セッション開始後、端末が NFC フィールドを有効化し、登録済みシステムコードを持つタグを検出する。
 4. **データ取得**: タグ検出後、`currentSystemCode` や `currentIDm` を取得してアプリのロジックへ渡す。

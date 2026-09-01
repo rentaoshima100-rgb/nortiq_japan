@@ -1,6 +1,7 @@
 // Build script: pre-compile JSX, minify, copy assets, emit dist/index.html
 const fs = require('fs');
 const path = require('path');
+const crypto = require('crypto');
 const babel = require('@babel/core');
 const { minify } = require('terser');
 const { marked } = require('marked');
@@ -169,6 +170,25 @@ function assertNoDraftScaffolding(entry, md) {
   );
 }
 
+// 記事本文のレイアウト事故を公開前に知らせる (2026-09 レイアウト監査)。
+// CSS 側 (.article-body a の overflow-wrap / th,td の min-width) で表示は破綻しなく
+// なったが、元のフォーマットを直したほうが読みやすいので警告だけ出す。
+// 裸URLは375pxで最大 +320px はみ出していた原因、表は4カラムを超えると
+// SPで各カラムが潰れて1文字ずつ縦積みになる。
+function warnArticleLayoutRisks(entry, md) {
+  const where = 'content/blog/' + entry.slug + '.md';
+  const body = md.replace(/`[^`]*`/g, '');   // コードスパンは対象外
+  const bare = (body.match(/(^|[^(\[])https?:[/][/][^\s)<>|`」）]+/g) || []).length;
+  if (bare) {
+    console.warn('  ! ' + where + ': 裸のURL ' + bare + '件 — [表示名](URL) 形式にすると折り返せる');
+  }
+  const cols = (md.match(/^[|].*[|]$/gm) || []).map((row) => row.split('|').length - 2);
+  const widest = cols.length ? Math.max.apply(null, cols) : 0;
+  if (widest > 4) {
+    console.warn('  ! ' + where + ': 表の最大カラム数 ' + widest + ' — SPでは4カラム以内を推奨');
+  }
+}
+
 marked.setOptions({ gfm: true, breaks: false, headerIds: false, mangle: false });
 
 function buildArticles() {
@@ -178,6 +198,7 @@ function buildArticles() {
     if (!fs.existsSync(mdPath)) { console.warn(`  ! missing ${a.slug}.md`); continue; }
     let md = fs.readFileSync(mdPath, 'utf8');
     assertNoDraftScaffolding(a, md);
+    warnArticleLayoutRisks(a, md);
     // Drop the leading H1 (we render title/meta from the manifest in the page header).
     // Tolerate CRLF line endings — on Windows checkouts (core.autocrlf=true) the
     // markdown is \r\n, and `.` doesn't match \r, so a plain \n+ would never match
@@ -388,7 +409,19 @@ async function build() {
   console.log('• emitting dist/index.html');
   // Cache-busting version token — appended to local asset URLs so each deploy
   // forces browsers to fetch fresh files instead of serving a stale bundle.
-  const ver = Date.now().toString(36);
+  // アセットのキャッシュバスター。
+  // 以前は Date.now() だったため、内容が同じでもビルドのたびに値が変わり、
+  // プリレンダ済みHTML (ローカル/CIのビルド時に生成) とデプロイ時に生成される
+  // app.html とで ?v= が食い違っていた。実害として、静的HTMLとReact描画で
+  // 実績数字が違う (27社+ → 30社+ に切り替わる) 状態が本番で発生していた。
+  // 内容から導出すれば、同じ内容のビルドは必ず同じ値になる。
+  const ver = (() => {
+    const h = crypto.createHash('sha256');
+    for (const f of ['app.bundle.js', 'articles.js', 'styles.css']) {
+      h.update(fs.readFileSync(path.join(DIST, f)));
+    }
+    return h.digest('hex').slice(0, 10);
+  })();
   const SITE = 'https://nortiqlab.com';
   const TITLE = '京都のWeb制作・AI導入・DX支援｜Nortiq Labs';
   const DESC = '京都のWeb制作×AI実装カンパニー。オリジナルデザインのホームページ制作からAIチャットボット導入、DXコンサルティングまで一気通貫で支援。初回相談無料・営業日24時間以内に返信します。';
@@ -626,6 +659,15 @@ async function build() {
     };
     overlay(PRERENDERED, DIST);
     console.log(`• overlaid prerendered/ → dist/ (${pages} page(s))`);
+    // ver は内容から導出しているので、スナップショット側の ?v= が今回のビルドと
+    // 食い違う = prerendered/ が古い。古いまま配信すると、クローラとJS無効環境には
+    // 前回の内容が、ブラウザには今回の内容が届く (中身が食い違う) 状態になる。
+    const snapshot = fs.readFileSync(path.join(DIST, 'index.html'), 'utf8');
+    const snapVer = (snapshot.match(/styles[.]css[?]v=([a-z0-9]+)/) || [])[1];
+    if (snapVer && snapVer !== ver) {
+      console.warn(`  ! prerendered/ が古い (snapshot ?v=${snapVer} / build ?v=${ver})`);
+      console.warn('    npm run build:full で prerendered/ を再生成してコミットしてください。');
+    }
   } else {
     console.log('• prerendered/ absent — serving pure SPA shell');
   }

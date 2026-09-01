@@ -107,7 +107,7 @@ IPA「AIセーフティに関するレッドチーミング手法ガイド」は
 
 ### NeMo Guardrailsによる入力レール設定手順
 
-NeMo Guardrailsの入力レール（Input Rails）は、ユーザのメッセージがLLM本体に到達する前にコンテンツモデレーションとジェイルブレイク検知を実行するコンポーネントです（出典：NVIDIA NeMo Guardrails 公式ドキュメント、https://docs.nvidia.com/nemo/microservices/latest/guardrails/concepts/architecture.html）。
+NeMo Guardrailsの入力レール（Input Rails）は、ユーザのメッセージがLLM本体に到達する前にコンテンツモデレーションとジェイルブレイク検知を実行するコンポーネントです（出典：[NVIDIA NeMo Guardrails 公式ドキュメント](https://docs.nvidia.com/nemo/microservices/latest/guardrails/concepts/architecture.html)）。
 
 実装は以下の手順で進めます。
 
@@ -122,13 +122,13 @@ NeMo Guardrailsの入力レール（Input Rails）は、ユーザのメッセー
 
 NeMo GuardrailsのColangフローとOpenAI等のシステムプロンプトは、それぞれが独立したルールセットとして動作します。たとえばシステムプロンプトで「ユーザが求めれば役割外のトピックも回答してよい」と記述している場合、Colangで定義したトピック制限フローがシステムプロンプト側に上書きされる形になり、制限が実質的に無効化されることがあります。設計時には「システムプロンプトはLLMの応答スタイルのみ制御し、ポリシー制御はColangに一元化する」という役割分担を明文化しておくことが重要です。
 
-なお、GitHubスター数が6,500以上に達しているNeMo Guardrailsは（参考値：OpenLegion「AI Guardrails: Input/Output Controls, Platform Enforcement, and LLM Safety」、https://www.openlegion.ai/en/learn/ai-agent-guardrails）、同様の目的を持つGuardrails AIと並んで実務採用が進んでいます。Guardrails AIは2024年9月に750万ドルのシリーズAを調達しており、コミュニティが公開するバリデータは500件以上に達しています（出典：同上）。御社のスタックがAzure OpenAIやAWS Bedrockに依存している場合は、クラウドネイティブのモデレーションAPIとの組み合わせも検討に値します。
+なお、GitHubスター数が6,500以上に達しているNeMo Guardrailsは（参考値：OpenLegion[「AI Guardrails: Input/Output Controls, Platform Enforcement, and LLM Safety」](https://www.openlegion.ai/en/learn/ai-agent-guardrails)）、同様の目的を持つGuardrails AIと並んで実務採用が進んでいます。Guardrails AIは2024年9月に750万ドルのシリーズAを調達しており、コミュニティが公開するバリデータは500件以上に達しています（出典：同上）。御社のスタックがAzure OpenAIやAWS Bedrockに依存している場合は、クラウドネイティブのモデレーションAPIとの組み合わせも検討に値します。
 
 ---
 
 ### OWASP LLM Top 10 2025が示す入力バリデーションの要点
 
-OWASP Top 10 for LLM Applications（2025年版）では、プロンプトインジェクションが2版連続で首位に位置づけられています。LLMは命令とデータを同一チャネルで分離なく処理するため、この脆弱性はパッチで根絶できず、LLMの設計そのものに起因します（出典：OWASP Top 10 for LLM Applications 2025解説、https://aembit.io/blog/owasp-top-10-llm-risks-explained/）。
+OWASP Top 10 for LLM Applications（2025年版）では、プロンプトインジェクションが2版連続で首位に位置づけられています。LLMは命令とデータを同一チャネルで分離なく処理するため、この脆弱性はパッチで根絶できず、LLMの設計そのものに起因します（出典：[OWASP Top 10 for LLM Applications 2025解説](https://aembit.io/blog/owasp-top-10-llm-risks-explained/)）。
 
 OWASPが推奨する入力バリデーションの要点を整理します。
 

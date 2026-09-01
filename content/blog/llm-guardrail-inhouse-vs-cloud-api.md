@@ -114,7 +114,7 @@ LLMガードレールとは、大規模言語モデルの入出力を監視し�
 
 3層アーキテクチャとは、ユーザの入力とLLMの出力をそれぞれ独立したフィルタ層で検査し、処理の途中経路も制御する設計パターンです。特定ベンダー独自の概念ではなく、業界標準ツールが実際に採用している構成です。
 
-NVIDIA NeMo Guardrailsの公式ドキュメントによると、同ツールは入力レール（Input Rails）・対話レール（Dialog Rails）・検索レール（Retrieval Rails）・出力レール（Output Rails）という多層インターセプト構造を実装しています。「入力層・処理層・出力層」の3層設計は、この構成を実務で整理した呼称です（出典: NVIDIA NeMo Guardrails公式ドキュメント、https://docs.nvidia.com/nemo/microservices/latest/guardrails/concepts/architecture.html）。
+NVIDIA NeMo Guardrailsの公式ドキュメントによると、同ツールは入力レール（Input Rails）・対話レール（Dialog Rails）・検索レール（Retrieval Rails）・出力レール（Output Rails）という多層インターセプト構造を実装しています。「入力層・処理層・出力層」の3層設計は、この構成を実務で整理した呼称です（出典: [NVIDIA NeMo Guardrails公式ドキュメント](https://docs.nvidia.com/nemo/microservices/latest/guardrails/concepts/architecture.html)）。
 
 同ドキュメントでは、入力チェックと出力チェックに同一コンポーネント（Topic Control NIM）を前後で二回適用する設計が紹介されています。入力がチェックを通過した場合のみLLMが出力を生成し、その出力も同じコンポーネントで再検査されます。最小構成から始める際の参考になる設計です。
 
@@ -126,11 +126,11 @@ NVIDIA NeMo Guardrailsの公式ドキュメントによると、同ツールは�
 | 処理層 | 会話フロー制御、検索結果の安全性確認（RAG利用時） | Dialog Rails、Retrieval Rails |
 | 出力層 | 幻覚・領域逸脱の検知、スキーマ検証、応答モデレーション | NeMo Output Rails、スキーマバリデータ |
 
-Datadogのベストプラクティス解説では、出力層でスキーマ検証と関連性チェックを実施することが推奨されています。たとえば社内インフラ向けのLLMエージェントであれば、生成物がTerraformまたはCloudFormationの対象リソースのみを含むかを出力層で自動検証できます（出典: Datadog、https://www.datadoghq.com/blog/llm-guardrails-best-practices/）。
+Datadogのベストプラクティス解説では、出力層でスキーマ検証と関連性チェックを実施することが推奨されています。たとえば社内インフラ向けのLLMエージェントであれば、生成物がTerraformまたはCloudFormationの対象リソースのみを含むかを出力層で自動検証できます（出典: [Datadog](https://www.datadoghq.com/blog/llm-guardrails-best-practices/)）。
 
-プロンプトインジェクション対策については、OWASP Top 10 for LLM Applications（2025年版）が多層防御（Defense in Depth）を必須と位置づけています。具体的には、入力検証・出力フィルタリング・権限制限・機微な操作への人間による確認（Human-in-the-Loop）の組み合わせが推奨されています。プロンプトインジェクションはLLMの設計に起因する脆弱性でありパッチでは解決できないため、3層すべてで制御を重ねる必要があります（出典: OWASP Top 10 for LLM Applications 2025解説、https://aembit.io/blog/owasp-top-10-llm-risks-explained/）。
+プロンプトインジェクション対策については、OWASP Top 10 for LLM Applications（2025年版）が多層防御（Defense in Depth）を必須と位置づけています。具体的には、入力検証・出力フィルタリング・権限制限・機微な操作への人間による確認（Human-in-the-Loop）の組み合わせが推奨されています。プロンプトインジェクションはLLMの設計に起因する脆弱性でありパッチでは解決できないため、3層すべてで制御を重ねる必要があります（出典: [OWASP Top 10 for LLM Applications 2025解説](https://aembit.io/blog/owasp-top-10-llm-risks-explained/)）。
 
-また、自社構築で3層設計を社内ルールやリスク管理に落とし込む際は、IPA（独立行政法人情報処理推進機構）が2024年7月に公開した「テキスト生成AIの導入・運用ガイドライン」が国内向けの一次資料として参照できます。同ガイドラインはRAG導入で新たに発生するセキュリティリスクにも言及しており、検索層（Retrieval Rails）の設計根拠としても活用できます（出典: IPA「テキスト生成AIの導入・運用ガイドライン」2024年7月、https://www.ipa.go.jp/jinzai/ics/core_human_resource/final_project/2024/generative-ai-guideline.html）。
+また、自社構築で3層設計を社内ルールやリスク管理に落とし込む際は、IPA（独立行政法人情報処理推進機構）が2024年7月に公開した「テキスト生成AIの導入・運用ガイドライン」が国内向けの一次資料として参照できます。同ガイドラインはRAG導入で新たに発生するセキュリティリスクにも言及しており、検索層（Retrieval Rails）の設計根拠としても活用できます（出典: [IPA「テキスト生成AIの導入・運用ガイドライン」2024年7月](https://www.ipa.go.jp/jinzai/ics/core_human_resource/final_project/2024/generative-ai-guideline.html)）。
 
 なお、3層アーキテクチャの詳細な実装手順は別記事「LLM安全対策の3層ガードレール｜NeMo・OWASPに基づく実装手順」で解説しています。本セクションでは意思決定に必要な設計概念の把握にとどめます。
 
@@ -148,21 +148,21 @@ Datadogのベストプラクティス解説では、出力層でスキーマ検�
 | Recall（再現率） | 有害コンテンツのうち実際に検知できた割合 | 低いと危険な入力を見逃す（安全リスク） |
 | F1スコア | PrecisionとRecallの調和平均 | 総合的な精度の比較・目標設定に使う |
 
-TrueFoundryが公開したベンチマーク比較レポート「Benchmarking LLM Guardrail Providers: A Data-Driven Comparison」では、複数のガードレールプロバイダを同一条件で評価しており、ツールごとにPrecision・Recall・F1スコアが大きく異なることが示されています（出典: TrueFoundry、https://www.truefoundry.com/blog/benchmarking-llm-guardrail-providers）。採用ツールの選定段階でこの差を確認することが重要です。
+TrueFoundryが公開したベンチマーク比較レポート「Benchmarking LLM Guardrail Providers: A Data-Driven Comparison」では、複数のガードレールプロバイダを同一条件で評価しており、ツールごとにPrecision・Recall・F1スコアが大きく異なることが示されています（出典: [TrueFoundry](https://www.truefoundry.com/blog/benchmarking-llm-guardrail-providers)）。採用ツールの選定段階でこの差を確認することが重要です。
 
-NVIDIA NeMo Guardrailsの公式評価ドキュメントは、ガードレール性能の測定軸としてTrue Positive Rate（真陽性率、TPR）とFalse Positive Rate（偽陽性率、FPR）の2指標を主軸に規定しています。評価用データセットに対する応答を自動採点する手順も公開されており、再現性のある精度測定が可能な設計になっています（出典: NVIDIA NeMo Guardrails公式評価ドキュメント「Evaluate NeMo Guardrails Library Performance」、https://docs.nvidia.com/nemo/guardrails/latest/evaluation/evaluate-guardrails.html）。同ツールはGitHubで6,500スター以上を獲得しており、オープンソースのガードレール実装の中で広く参照されている実績があります（出典: OpenLegion「AI Guardrails: Input/Output Controls, Platform Enforcement, and LLM Safety」、https://www.openlegion.ai/en/learn/ai-agent-guardrails）。
+NVIDIA NeMo Guardrailsの公式評価ドキュメントは、ガードレール性能の測定軸としてTrue Positive Rate（真陽性率、TPR）とFalse Positive Rate（偽陽性率、FPR）の2指標を主軸に規定しています。評価用データセットに対する応答を自動採点する手順も公開されており、再現性のある精度測定が可能な設計になっています（出典: NVIDIA NeMo Guardrails公式評価ドキュメント[「Evaluate NeMo Guardrails Library Performance」](https://docs.nvidia.com/nemo/guardrails/latest/evaluation/evaluate-guardrails.html)）。同ツールはGitHubで6,500スター以上を獲得しており、オープンソースのガードレール実装の中で広く参照されている実績があります（出典: OpenLegion[「AI Guardrails: Input/Output Controls, Platform Enforcement, and LLM Safety」](https://www.openlegion.ai/en/learn/ai-agent-guardrails)）。
 
-一方、OpenAIのModeration APIについては、2024年に新モデル「omni-moderation-latest」が公開され、テキストに加えて画像のモデレーションにも対応しました（出典: OpenAI公式ブログ「Upgrading the Moderation API with our new multimodal moderation model」、https://openai.com/index/upgrading-the-moderation-api-with-our-new-multimodal-moderation-model/）。クラウドAPIとの精度比較においては、自社構築が必ずしも優位とは言えず、カスタマイズの必要性があるかどうかが選択の本質的な基準となります。
+一方、OpenAIのModeration APIについては、2024年に新モデル「omni-moderation-latest」が公開され、テキストに加えて画像のモデレーションにも対応しました（出典: OpenAI公式ブログ[「Upgrading the Moderation API with our new multimodal moderation model」](https://openai.com/index/upgrading-the-moderation-api-with-our-new-multimodal-moderation-model/)）。クラウドAPIとの精度比較においては、自社構築が必ずしも優位とは言えず、カスタマイズの必要性があるかどうかが選択の本質的な基準となります。
 
 過検知と見逃しのトレードオフは、閾値の調整で制御できますが、閾値を緩めると見逃しが増え、厳しくすると過検知が増えるという反比例の関係があります。業務用途では「過検知による業務妨害」を先に評価し、許容できる水準に閾値を設定してから見逃しリスクを別途モニタリングする順序が現実的です。
 
-精度を実務レベルで担保するには、リリース前後のテストが不可欠です。BudEcosystemの調査では、実務上の主要なテスト手法として、ユニットテスト・レッドチーミング・ファジングの3アプローチが整理されています（出典: BudEcosystem「A Survey on LLM Guardrails: Part 2」、https://budecosystem.com/llm-guardrails-guardrail-testing-validating-tools-and-frameworks/）。特に、攻撃者が意図的にフィルタを回避しようとするケースへの対策としては、レッドチーミングが有効です。
+精度を実務レベルで担保するには、リリース前後のテストが不可欠です。BudEcosystemの調査では、実務上の主要なテスト手法として、ユニットテスト・レッドチーミング・ファジングの3アプローチが整理されています（出典: [BudEcosystem「A Survey on LLM Guardrails: Part 2」](https://budecosystem.com/llm-guardrails-guardrail-testing-validating-tools-and-frameworks/)）。特に、攻撃者が意図的にフィルタを回避しようとするケースへの対策としては、レッドチーミングが有効です。
 
-敵対的攻撃への耐性については、2024年11月に公開されたarxiv論文「Evaluating the Robustness of Large Language Model Safety Guardrails Against Adversarial Attacks」が系統的な評価を報告しており、攻撃手法によって防御成功率が大きく変動することが示されています（出典: arxiv、https://arxiv.org/html/2511.22047）。自社構築の場合はこうした攻撃パターンを想定したテストを定期的に実施する運用体制が必要です。
+敵対的攻撃への耐性については、2024年11月に公開されたarxiv論文「Evaluating the Robustness of Large Language Model Safety Guardrails Against Adversarial Attacks」が系統的な評価を報告しており、攻撃手法によって防御成功率が大きく変動することが示されています（出典: [arxiv](https://arxiv.org/html/2511.22047)）。自社構築の場合はこうした攻撃パターンを想定したテストを定期的に実施する運用体制が必要です。
 
 精度評価の具体的な手順については、別記事「LLMガードレール評価の精度測定｜4つの指標と実装手順」で詳しく解説しています。本記事では自社構築を選ぶ判断材料として概観にとどめます。
 
-なお、Guardrails AIは2024年9月にシリーズAで750万ドルを調達し、コミュニティ製バリデータが500件以上公開されています（出典: OpenLegion「AI Guardrails: Input/Output Controls, Platform Enforcement, and LLM Safety」、https://www.openlegion.ai/en/learn/ai-agent-guardrails）。自社構築の実装コストを抑えたい場合、こうしたオープンソースのバリデータを活用する選択肢も検討に値します。
+なお、Guardrails AIは2024年9月にシリーズAで750万ドルを調達し、コミュニティ製バリデータが500件以上公開されています（出典: OpenLegion[「AI Guardrails: Input/Output Controls, Platform Enforcement, and LLM Safety」](https://www.openlegion.ai/en/learn/ai-agent-guardrails)）。自社構築の実装コストを抑えたい場合、こうしたオープンソースのバリデータを活用する選択肢も検討に値します。
 
 ---
 
