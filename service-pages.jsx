@@ -23,12 +23,12 @@ function FeatureList({ items }) {
   return (
     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 1, background: 'var(--border)', border: '1px solid var(--border)', borderRadius: 'var(--radius-lg)', overflow: 'hidden' }}>
       {items.map((it, i) => (
-        <div key={i} style={{ background: 'var(--bg)', padding: 36 }}>
-          <div className="row" style={{ marginBottom: 20, justifyContent: 'space-between' }}>
+        <div key={i} style={{ background: 'var(--bg)', padding: 32 }}>
+          <div className="row" style={{ marginBottom: 16, justifyContent: 'space-between' }}>
             <span className="step-num">/ {String(i + 1).padStart(2, '0')}</span>
             <span style={{ color: 'var(--accent)' }}><Icon name="check" size={18} stroke={1.8}/></span>
           </div>
-          <h3 className="display-s" style={{ fontSize: 22, marginBottom: 10 }}>{it.title}</h3>
+          <h3 className="display-s" style={{ fontSize: 22, marginBottom: 12 }}>{it.title}</h3>
           <p className="body" style={{ fontSize: 14 }}>{it.desc}</p>
         </div>
       ))}
@@ -88,8 +88,8 @@ function WebPage({ onNavigate, onContact }) {
       {/* PAINS */}
       <section className="section-pad-sm">
         <div className="container">
-          <div className="eyebrow" style={{ marginBottom: 18 }}>PROBLEMS / こんな課題ありませんか</div>
-          <h2 className="display-m" style={{ marginBottom: 56, maxWidth: 880 }}>
+          <div className="eyebrow" style={{ marginBottom: 16 }}>PROBLEMS / こんな課題ありませんか</div>
+          <h2 className="display-m" style={{ marginBottom: 48, maxWidth: 880 }}>
             「作っただけ」のサイトで止まっていませんか?
           </h2>
           <PainList items={[
@@ -203,7 +203,7 @@ function WebPage({ onNavigate, onContact }) {
         <div className="container">
           <div className="row" style={{ justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 48 }}>
             <div>
-              <div className="eyebrow" style={{ marginBottom: 18 }}>WORKS / Web 制作の実績</div>
+              <div className="eyebrow" style={{ marginBottom: 16 }}>WORKS / Web 制作の実績</div>
               <h2 className="display-m">業種を超えて、つくってきました。</h2>
             </div>
             <Button variant="text">すべての実績を見る<Icon name="arrow-right" size={13}/></Button>
@@ -219,10 +219,10 @@ function WebPage({ onNavigate, onContact }) {
       {/* NEXT STEP */}
       <section className="section-pad" style={{ background: 'var(--bg-2)', borderTop: '1px solid var(--border)', borderBottom: '1px solid var(--border)' }}>
         <div className="container">
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 56, alignItems: 'center' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 48, alignItems: 'center' }}>
             <div>
-              <div className="eyebrow eyebrow-accent" style={{ marginBottom: 18 }}>NEXT STEP / 段階的に</div>
-              <h2 className="display-m" style={{ marginBottom: 20 }}>
+              <div className="eyebrow eyebrow-accent" style={{ marginBottom: 16 }}>NEXT STEP / 段階的に</div>
+              <h2 className="display-m" style={{ marginBottom: 16 }}>
                 サイト公開後、AIチャットボットで<br/>さらに効率化できます。
               </h2>
               <p className="lede">
@@ -242,7 +242,7 @@ function WebPage({ onNavigate, onContact }) {
         <div className="container">
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: 64, alignItems: 'flex-start' }}>
             <div>
-              <div className="eyebrow" style={{ marginBottom: 18 }}>FAQ / よくある質問</div>
+              <div className="eyebrow" style={{ marginBottom: 16 }}>FAQ / よくある質問</div>
               <h2 className="display-m">不安は、先に解消。</h2>
             </div>
             <FAQ items={[
@@ -267,7 +267,7 @@ function ProcessStep({ title, desc }) {
     <li className="process-item">
       <div className="process-num text-mono"></div>
       <div>
-        <h3 style={{ fontSize: 19, fontWeight: 500, margin: 0, marginBottom: 6 }}>{title}</h3>
+        <h3 style={{ fontSize: 19, fontWeight: 500, margin: 0, marginBottom: 8 }}>{title}</h3>
         <p className="body" style={{ fontSize: 14, margin: 0 }}>{desc}</p>
       </div>
     </li>
@@ -297,8 +297,8 @@ function ChatbotPage({ onNavigate, onContact }) {
       {/* SPIRAL OF DECLINE */}
       <section className="section-pad-sm">
         <div className="container">
-          <div className="eyebrow" style={{ marginBottom: 18 }}>THE SPIRAL / 衰退の連鎖</div>
-          <h2 className="display-m" style={{ marginBottom: 56, maxWidth: 880 }}>
+          <div className="eyebrow" style={{ marginBottom: 16 }}>THE SPIRAL / 衰退の連鎖</div>
+          <h2 className="display-m" style={{ marginBottom: 48, maxWidth: 880 }}>
             ブログが止まると、問い合わせも止まります。
           </h2>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 16, alignItems: 'stretch' }}>
@@ -328,13 +328,13 @@ function ChatbotPage({ onNavigate, onContact }) {
       {/* SOLUTION */}
       <section className="section-pad" style={{ background: 'var(--bg-2)', borderTop: '1px solid var(--border)', borderBottom: '1px solid var(--border)' }}>
         <div className="container">
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.2fr', gap: 80, alignItems: 'center' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.2fr', gap: 64, alignItems: 'center' }}>
             <div>
-              <div className="eyebrow eyebrow-accent" style={{ marginBottom: 18 }}>SOLUTION / 解決策</div>
+              <div className="eyebrow eyebrow-accent" style={{ marginBottom: 16 }}>SOLUTION / 解決策</div>
               <h2 className="display-m" style={{ marginBottom: 24 }}>
                 質問するだけで、<br/>記事が書けます。
               </h2>
-              <p className="lede" style={{ marginBottom: 28 }}>
+              <p className="lede" style={{ marginBottom: 24 }}>
                 AIチャットボットに質問しながら骨子を作り、本文展開、WordPress 投稿までを自動化。<span style={{ color: 'var(--text)' }}>月 2 本のブログ運用が、月 1 時間で回せます。</span>
               </p>
               <div className="stack-m" style={{ marginBottom: 32 }}>
@@ -372,21 +372,21 @@ function ChatbotPage({ onNavigate, onContact }) {
       {/* CASE STUDY */}
       <section className="section-pad" style={{ background: 'var(--bg-2)', borderTop: '1px solid var(--border)', borderBottom: '1px solid var(--border)' }}>
         <div className="container">
-          <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: 80, alignItems: 'flex-start' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: 64, alignItems: 'flex-start' }}>
             <div>
-              <div className="eyebrow" style={{ marginBottom: 18 }}>CASE / 導入事例</div>
-              <h2 className="display-m" style={{ marginBottom: 28 }}>
+              <div className="eyebrow" style={{ marginBottom: 16 }}>CASE / 導入事例</div>
+              <h2 className="display-m" style={{ marginBottom: 24 }}>
                 Web 制作後、半年で <span className="text-accent">AIチャットボット</span> も導入されたお客様
               </h2>
               <p className="lede" style={{ marginBottom: 24 }}>
                 クリニック (東京・院長 50代) のケース。Web 制作のリニューアルから半年運用した後、ブログ更新が完全に止まっていることに気付き AIチャットボットを追加導入。
               </p>
-              <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 14, marginTop: 24 }}>
+              <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 16, marginTop: 24 }}>
                 <CaseLine label="導入前のブログ更新" before="3ヶ月で 0 本" after="月 4 本"/>
                 <CaseLine label="記事 1 本の工数" before="3〜5 時間" after="20 分"/>
                 <CaseLine label="オンライン予約数" before="月 28 件" after="月 51 件"/>
               </ul>
-              <div style={{ marginTop: 36 }}>
+              <div style={{ marginTop: 32 }}>
                 <Button variant="text">事例の詳細を見る<Icon name="arrow-right" size={13}/></Button>
               </div>
             </div>
@@ -417,9 +417,9 @@ function ChatbotPage({ onNavigate, onContact }) {
       {/* TECH UNDER THE HOOD */}
       <section className="section-pad" style={{ background: 'var(--bg-2)', borderTop: '1px solid var(--border)', borderBottom: '1px solid var(--border)' }}>
         <div className="container">
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 80, alignItems: 'flex-start' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 64, alignItems: 'flex-start' }}>
             <div>
-              <div className="eyebrow" style={{ marginBottom: 18 }}>UNDER THE HOOD / 技術的な裏側</div>
+              <div className="eyebrow" style={{ marginBottom: 16 }}>UNDER THE HOOD / 技術的な裏側</div>
               <h2 className="display-m" style={{ marginBottom: 24 }}>
                 「ChatGPT を使うだけ」<br/>では、ありません。
               </h2>
@@ -434,7 +434,7 @@ function ChatbotPage({ onNavigate, onContact }) {
             </div>
             <div className="stack-m">
               <div className="card" style={{ padding: 24, background: 'var(--bg)' }}>
-                <div className="eyebrow" style={{ marginBottom: 14 }}>STACK</div>
+                <div className="eyebrow" style={{ marginBottom: 16 }}>STACK</div>
                 <div className="row-tight" style={{ gap: 8 }}>
                   {["TypeScript", "Next.js", "OpenAI", "Anthropic Claude", "Pinecone", "LangChain", "WordPress REST API", "Vercel"].map(s => (
                     <span key={s} className="tag" style={{ background: 'var(--surface)' }}>{s}</span>
@@ -442,17 +442,17 @@ function ChatbotPage({ onNavigate, onContact }) {
                 </div>
               </div>
               <div className="card" style={{ padding: 24, background: 'var(--bg)' }}>
-                <div className="eyebrow" style={{ marginBottom: 14 }}>SECURITY</div>
-                <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 10 }}>
-                  <li className="body" style={{ fontSize: 14, display: 'flex', gap: 10 }}>
+                <div className="eyebrow" style={{ marginBottom: 16 }}>SECURITY</div>
+                <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 12 }}>
+                  <li className="body" style={{ fontSize: 14, display: 'flex', gap: 12 }}>
                     <span className="text-accent" style={{ marginTop: 4 }}><Icon name="check" size={13} stroke={2}/></span>
                     顧客データは学習に使用しない契約 (OpenAI / Anthropic 経由)
                   </li>
-                  <li className="body" style={{ fontSize: 14, display: 'flex', gap: 10 }}>
+                  <li className="body" style={{ fontSize: 14, display: 'flex', gap: 12 }}>
                     <span className="text-accent" style={{ marginTop: 4 }}><Icon name="check" size={13} stroke={2}/></span>
                     全データを国内データセンター (AWS Tokyo) で処理
                   </li>
-                  <li className="body" style={{ fontSize: 14, display: 'flex', gap: 10 }}>
+                  <li className="body" style={{ fontSize: 14, display: 'flex', gap: 12 }}>
                     <span className="text-accent" style={{ marginTop: 4 }}><Icon name="check" size={13} stroke={2}/></span>
                     SOC 2 Type II 準拠の運用フロー
                   </li>
@@ -468,7 +468,7 @@ function ChatbotPage({ onNavigate, onContact }) {
         <div className="container">
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: 64, alignItems: 'flex-start' }}>
             <div>
-              <div className="eyebrow" style={{ marginBottom: 18 }}>FAQ / よくある質問</div>
+              <div className="eyebrow" style={{ marginBottom: 16 }}>FAQ / よくある質問</div>
               <h2 className="display-m">気になる点を、先に。</h2>
             </div>
             <FAQ items={[
@@ -545,9 +545,9 @@ function DXPage({ onNavigate, onContact }) {
       {/* WHY STAGED */}
       <section className="section-pad" style={{ background: 'var(--bg-2)', borderTop: '1px solid var(--border)', borderBottom: '1px solid var(--border)' }}>
         <div className="container">
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.2fr', gap: 80, alignItems: 'center' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.2fr', gap: 64, alignItems: 'center' }}>
             <div>
-              <div className="eyebrow eyebrow-accent" style={{ marginBottom: 18 }}>VS AI 開発専業会社</div>
+              <div className="eyebrow eyebrow-accent" style={{ marginBottom: 16 }}>VS AI 開発専業会社</div>
               <h2 className="display-m">
                 <span className="text-accent">初期投資ゼロ</span>で<br/>スタートできます。
               </h2>
@@ -695,9 +695,9 @@ function ComparisonRow({ label, them, us, last }) {
 function CoverageCard({ icon, title, desc, tags }) {
   return (
     <div style={{ background: 'var(--bg)', padding: 32, borderRight: '1px solid var(--border)', borderBottom: '1px solid var(--border)' }}>
-      <div style={{ color: 'var(--accent)', marginBottom: 20 }}>{icon}</div>
-      <h3 style={{ fontSize: 19, fontWeight: 500, margin: 0, marginBottom: 10 }}>{title}</h3>
-      <p className="body" style={{ fontSize: 14, marginBottom: 20 }}>{desc}</p>
+      <div style={{ color: 'var(--accent)', marginBottom: 16 }}>{icon}</div>
+      <h3 style={{ fontSize: 19, fontWeight: 500, margin: 0, marginBottom: 12 }}>{title}</h3>
+      <p className="body" style={{ fontSize: 14, marginBottom: 16 }}>{desc}</p>
       <div className="row-tight">
         {tags.map(t => <span key={t} className="tag" style={{ background: 'var(--surface)' }}>{t}</span>)}
       </div>
@@ -708,12 +708,12 @@ function CoverageCard({ icon, title, desc, tags }) {
 function PhaseCard({ n, name, duration, cost, desc }) {
   return (
     <div className="card">
-      <div className="row" style={{ justifyContent: 'space-between', marginBottom: 18 }}>
+      <div className="row" style={{ justifyContent: 'space-between', marginBottom: 16 }}>
         <span className="step-num">{n}</span>
         <span className="tag">{duration}</span>
       </div>
       <h3 style={{ fontSize: 22, fontWeight: 600, margin: 0, marginBottom: 8, letterSpacing: '-0.01em' }}>{name}</h3>
-      <div className="num" style={{ fontSize: 17, fontWeight: 500, color: 'var(--accent)', marginBottom: 14 }}>{cost}</div>
+      <div className="num" style={{ fontSize: 17, fontWeight: 500, color: 'var(--accent)', marginBottom: 16 }}>{cost}</div>
       <p className="body" style={{ fontSize: 13, margin: 0 }}>{desc}</p>
     </div>
   );
@@ -724,9 +724,9 @@ function TeamCard({ role, name, desc, tags, src }) {
     <div className="card">
       <Placeholder label={src ? "" : role.split(' · ')[0]} caption="" aspect="4/5" src={src} alt={`Nortiq Labs ${role} ${name}`}/>
       <div style={{ marginTop: 24 }}>
-        <p className="small text-mono" style={{ color: 'var(--text-3)', marginBottom: 6 }}>{role}</p>
+        <p className="small text-mono" style={{ color: 'var(--text-3)', marginBottom: 8 }}>{role}</p>
         <h3 style={{ fontSize: 20, fontWeight: 600, margin: 0, marginBottom: 12, letterSpacing: '-0.01em' }}>{name}</h3>
-        <p className="body" style={{ fontSize: 14, marginBottom: 18 }}>{desc}</p>
+        <p className="body" style={{ fontSize: 14, marginBottom: 16 }}>{desc}</p>
         <div className="row-tight">
           {tags.map(t => <span key={t} className="tag" style={{ background: 'var(--bg-2)' }}>{t}</span>)}
         </div>

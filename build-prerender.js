@@ -272,6 +272,18 @@ async function main() {
         expectedCanonical,
         { timeout: 15000 },
       ).catch(() => {});
+      // 記事ページは本文を /articles/<slug>.js から遅延読み込みするので、
+      // 本文が入る前にスナップショットを撮らないよう明示的に待つ。
+      if (route.indexOf('/article-') === 0) {
+        await page.waitForFunction(
+          () => {
+            const el = document.querySelector('.article-body');
+            return !!el && el.textContent.trim().length > 200;
+          },
+          undefined,
+          { timeout: 15000 },
+        ).catch(() => { console.warn('  ! 本文の読み込み待ちがタイムアウト: ' + route); });
+      }
       // Reveal fade-in elements so the snapshot is visible even before JS runs.
       await page.evaluate(() => {
         document.querySelectorAll('.fadein, .fadein-l, .fadein-r').forEach((el) => el.classList.add('is-in'));

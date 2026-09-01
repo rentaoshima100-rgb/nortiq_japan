@@ -183,6 +183,40 @@ function listedArticles() {
   return Object.values(store).filter((a) => !a.noindex);
 }
 
+// 記事本文 (html) は articles.js から切り離し、1記事1ファイル (/articles/<slug>.js) で配る。
+// - プリレンダ済みの記事ページには、この loader が挿した <script defer> がそのまま
+//   焼き込まれているため、初回表示では app.bundle.js より先に本文が読み込まれる
+//   (React が描画する時点で既に手元にあるので、本文が一瞬消えることはない)。
+// - コラム一覧などからのSPA遷移では、ここで動的に読み込む。
+function useArticleHtml(slug) {
+  const read = React.useCallback(() => {
+    if (typeof window === 'undefined' || !window.NORTIQ_ARTICLE_HTML) return null;
+    return window.NORTIQ_ARTICLE_HTML[slug] || null;
+  }, [slug]);
+  const [html, setHtml] = React.useState(read);
+  React.useEffect(() => {
+    const cached = read();
+    setHtml(cached);
+    if (cached) return;
+    const sel = 'script[data-article="' + slug + '"]';
+    let el = document.querySelector(sel);
+    if (!el) {
+      el = document.createElement('script');
+      el.src = '/articles/' + slug + '.js';
+      // async=false + defer で、プリレンダのスナップショットに defer 付きで残り、
+      // 実際のページ読み込みでは文書順 (= app.bundle.js より前) に実行される。
+      el.async = false;
+      el.defer = true;
+      el.setAttribute('data-article', slug);
+      document.head.appendChild(el);
+    }
+    const done = () => setHtml(read());
+    el.addEventListener('load', done);
+    return () => el.removeEventListener('load', done);
+  }, [slug, read]);
+  return html;
+}
+
 // -------------------- useFadeIn hook --------------------
 // スクロールに合わせたフェードイン。
 // 「初期状態は表示、まだ画面に入っていない要素だけを隠す」方向で動かす。
@@ -443,7 +477,7 @@ function Footer({ onNavigate, onContact }) {
       <div className="container">
         <div className="footer-grid">
           <div className="footer-brand">
-            <div className="nav-logo" style={{ marginBottom: 18 }}>
+            <div className="nav-logo" style={{ marginBottom: 16 }}>
               <span className="nav-logo-mark"></span>
               <span className="wordmark">
                 <span className="wordmark-main">NORTIQ</span>
@@ -487,7 +521,7 @@ function Footer({ onNavigate, onContact }) {
               <li><a {...navProps('feature-recruit', onNavigate)}>採用専門サイト</a></li>
               <li><a {...navProps('feature-analytics', onNavigate)}>アクセス解析</a></li>
             </ul>
-            <h4 style={{ marginTop: 28 }}>自社プロダクト</h4>
+            <h4 style={{ marginTop: 24 }}>自社プロダクト</h4>
             <ul>
               <li><a {...navProps('product-vetonet', onNavigate)}>VetoNet</a></li>
               <li><a {...navProps('product-wpchat', onNavigate)}>ブログボット（AI投稿アシスタント）</a></li>
@@ -506,7 +540,7 @@ function Footer({ onNavigate, onContact }) {
               <li><a {...navProps('subsidy', onNavigate)}>補助金活用相談</a></li>
               <li><a {...navProps('guidebook', onNavigate)}>サービス紹介資料</a></li>
             </ul>
-            <h4 style={{ marginTop: 28 }}>業種別ソリューション</h4>
+            <h4 style={{ marginTop: 24 }}>業種別ソリューション</h4>
             <ul>
               <li><a {...navProps('solution-clinic', onNavigate)}>クリニック・医療</a></li>
               <li><a {...navProps('solution-realty', onNavigate)}>不動産</a></li>
@@ -514,7 +548,7 @@ function Footer({ onNavigate, onContact }) {
               <li><a {...navProps('solution-hr', onNavigate)}>人材</a></li>
               <li><a {...navProps('solution-retail', onNavigate)}>小売 / EC</a></li>
             </ul>
-            <h4 style={{ marginTop: 28 }}>会社</h4>
+            <h4 style={{ marginTop: 24 }}>会社</h4>
             <ul>
               <li><a {...navProps('company', onNavigate)}>会社概要</a></li>
               <li><a {...navProps('staff', onNavigate)}>チーム / スタッフ</a></li>
@@ -625,7 +659,7 @@ function ContactModal({ open, onClose, defaultCategory = '' }) {
               <Icon name="check" size={24} stroke={2}/>
             </div>
             <h3 className="display-s" style={{ marginBottom: 12 }}>送信が完了しました</h3>
-            <p className="body" style={{ marginBottom: 28, fontSize: 14 }}>
+            <p className="body" style={{ marginBottom: 24, fontSize: 14 }}>
               お問い合わせありがとうございます。<br/>
               営業日 24 時間以内に担当者よりご返信します。
             </p>
@@ -644,7 +678,7 @@ function ContactModal({ open, onClose, defaultCategory = '' }) {
             <p className="body" style={{ marginBottom: 12, fontSize: 14 }}>
               通信エラーが発生しました。お手数ですが、もう一度お試しください。
             </p>
-            <p className="small" style={{ color: 'var(--text-3)', marginBottom: 28 }}>
+            <p className="small" style={{ color: 'var(--text-3)', marginBottom: 24 }}>
               解決しない場合は、お手数ですが時間をおいて再度お試しください。
             </p>
             <Button variant="primary" onClick={() => setStage('form')}>フォームに戻る</Button>
@@ -652,7 +686,7 @@ function ContactModal({ open, onClose, defaultCategory = '' }) {
         ) : (
           <>
             <div style={{ marginBottom: 24 }}>
-              <div className="eyebrow eyebrow-accent" style={{ marginBottom: 10 }}>CONTACT</div>
+              <div className="eyebrow eyebrow-accent" style={{ marginBottom: 12 }}>CONTACT</div>
               <h3 className="display-s" style={{ marginBottom: 8 }}>資料請求・お問い合わせ</h3>
               <p className="small">初回相談は無料です。営業日24時間以内にご返信します。</p>
             </div>
@@ -803,7 +837,7 @@ function BigInlineForm() {
 
   if (done) {
     return (
-      <div className="big-form-wrap" style={{ textAlign: 'center', padding: 56 }}>
+      <div className="big-form-wrap" style={{ textAlign: 'center', padding: 48 }}>
         <div style={{ width: 56, height: 56, borderRadius: '50%', background: 'var(--accent-soft)', color: 'var(--accent)', display: 'grid', placeItems: 'center', margin: '0 auto 20px' }}>
           <Icon name="check" size={24} stroke={2}/>
         </div>
@@ -1018,7 +1052,7 @@ function SideTabForm() {
                 </label>
               </div>
               {failed && (
-                <p className="err" style={{ marginBottom: 10 }}>
+                <p className="err" style={{ marginBottom: 12 }}>
                   送信に失敗しました。時間をおいて再度お試しください。
                 </p>
               )}
@@ -1078,13 +1112,13 @@ function SPBottomNav({ onNavigate, onContact }) {
 function SectionHead({ eyebrow, title, lede, align = 'center', en }) {
   return (
     <header style={{
-      marginBottom: 56,
+      marginBottom: 48,
       textAlign: align,
       maxWidth: align === 'center' ? 760 : undefined,
       marginLeft: align === 'center' ? 'auto' : 0,
       marginRight: align === 'center' ? 'auto' : 0,
     }} className="fadein">
-      {eyebrow && <div className="eyebrow" style={{ marginBottom: 14 }}>{eyebrow}</div>}
+      {eyebrow && <div className="eyebrow" style={{ marginBottom: 16 }}>{eyebrow}</div>}
       <h2 className="section-title">{title}</h2>
       {en && <p className="section-sub">{en}</p>}
       {lede && <p className="lede" style={{ marginTop: 24, marginLeft: align === 'center' ? 'auto' : 0, marginRight: align === 'center' ? 'auto' : 0 }}>{lede}</p>}
@@ -1129,19 +1163,19 @@ function PageHero({ eyebrow, title, sub, lede, badges, onContact, ctaLabel = "�
       <div className="container" style={{ position: 'relative', zIndex: 2 }}>
         <div style={{ maxWidth: 1100 }}>
           {eyebrow && (
-            <div className="main-eyebrow fadein" style={{ marginBottom: 22 }}>
+            <div className="main-eyebrow fadein" style={{ marginBottom: 24 }}>
               {eyebrow}
             </div>
           )}
           <h1 className="display-xl fadein" data-delay="100" style={{ marginBottom: sub ? 12 : 28 }}>{title}</h1>
-          {sub && <p className="display-l fadein" data-delay="150" style={{ marginBottom: 28 }}>{sub}</p>}
-          {lede && <p className="lede fadein" data-delay="200" style={{ marginBottom: 30, maxWidth: 720 }}>{lede}</p>}
+          {sub && <p className="display-l fadein" data-delay="150" style={{ marginBottom: 24 }}>{sub}</p>}
+          {lede && <p className="lede fadein" data-delay="200" style={{ marginBottom: 32, maxWidth: 720 }}>{lede}</p>}
           {badges && (
             <div className="row fadein" data-delay="300" style={{ marginBottom: 32 }}>
               {badges.map((b, i) => <span key={i} className="tag">{b}</span>)}
             </div>
           )}
-          <div className="row fadein" data-delay="400" style={{ gap: 14 }}>
+          <div className="row fadein" data-delay="400" style={{ gap: 16 }}>
             <Button variant="primary" size="lg" onClick={onContact} arrow>{ctaLabel}</Button>
             {subCtaTo && nav && (
               <Button variant="ghost" size="lg" to={subCtaTo} nav={nav}>{subCta}<Icon name="arrow-right" size={14}/></Button>

@@ -11,17 +11,17 @@ function DetailHero({ tag, title, lede, badges, onContact, ctaLabel = "資料請
   return (
     <section style={{ paddingTop: 'clamp(56px, 8vw, 100px)', paddingBottom: 'clamp(48px, 6vw, 80px)', borderBottom: '4px solid var(--accent)' }}>
       <div className="container">
-        <div style={{ display: 'grid', gridTemplateColumns: '1.1fr 1fr', gap: 56, alignItems: 'center' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '1.1fr 1fr', gap: 48, alignItems: 'center' }}>
           <div>
-            <div className="main-eyebrow fadein" style={{ marginBottom: 22 }}>{tag}</div>
-            <h1 className="display-xl fadein" data-delay="100" style={{ marginBottom: 28 }}>{title}</h1>
-            <p className="lede fadein" data-delay="200" style={{ marginBottom: 30, maxWidth: 620 }}>{lede}</p>
+            <div className="main-eyebrow fadein" style={{ marginBottom: 24 }}>{tag}</div>
+            <h1 className="display-xl fadein" data-delay="100" style={{ marginBottom: 24 }}>{title}</h1>
+            <p className="lede fadein" data-delay="200" style={{ marginBottom: 32, maxWidth: 620 }}>{lede}</p>
             {badges && (
               <div className="row fadein" data-delay="300" style={{ marginBottom: 32 }}>
                 {badges.map((b, i) => <span key={i} className="tag">{b}</span>)}
               </div>
             )}
-            <div className="row fadein" data-delay="400" style={{ gap: 14 }}>
+            <div className="row fadein" data-delay="400" style={{ gap: 16 }}>
               <Button variant="primary" size="lg" onClick={onContact} arrow>{ctaLabel}</Button>
               {subCtaTo && nav && (
                 <Button variant="ghost" size="lg" to={subCtaTo} nav={nav}>{subCta}<Icon name="arrow-right" size={14}/></Button>
@@ -49,11 +49,11 @@ function BulletGrid({ items }) {
     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 1, background: 'var(--border)', border: '1px solid var(--border)', borderRadius: 'var(--radius-lg)', overflow: 'hidden' }}>
       {items.map((it, i) => (
         <div key={i} className="fadein" data-delay={i * 80} style={{ background: '#fff', padding: '32px 36px' }}>
-          <div className="row" style={{ marginBottom: 14, justifyContent: 'space-between' }}>
+          <div className="row" style={{ marginBottom: 16, justifyContent: 'space-between' }}>
             <span className="step-num">/ {String(i + 1).padStart(2, '0')}</span>
             <span style={{ color: 'var(--accent)' }}><Icon name="check" size={18} stroke={2}/></span>
           </div>
-          <h3 style={{ fontSize: 19, fontWeight: 700, margin: 0, marginBottom: 10 }}>{it.title}</h3>
+          <h3 style={{ fontSize: 19, fontWeight: 700, margin: 0, marginBottom: 12 }}>{it.title}</h3>
           <p className="body" style={{ fontSize: 13.5, margin: 0 }}>{it.desc}</p>
         </div>
       ))}
@@ -65,11 +65,11 @@ function StatGrid({ stats }) {
   return (
     <div style={{ display: 'grid', gridTemplateColumns: `repeat(${stats.length}, 1fr)`, gap: 1, background: 'var(--border)', border: '1px solid var(--border)', borderRadius: 'var(--radius-lg)', overflow: 'hidden' }}>
       {stats.map((s, i) => (
-        <div key={i} style={{ background: '#fff', padding: 36 }}>
+        <div key={i} style={{ background: '#fff', padding: 32 }}>
           <div className="bignum" style={{ fontSize: 48 }}>
             {s.num}<span style={{ fontSize: 22, color: 'var(--accent-2)', marginLeft: 4 }}>{s.unit}</span>
           </div>
-          <div style={{ marginTop: 14, fontSize: 14, fontWeight: 600, color: 'var(--text)' }}>{s.label}</div>
+          <div style={{ marginTop: 16, fontSize: 14, fontWeight: 600, color: 'var(--text)' }}>{s.label}</div>
           <div className="small">{s.sub}</div>
         </div>
       ))}
@@ -80,7 +80,7 @@ function StatGrid({ stats }) {
 function StackBlock({ stack }) {
   return (
     <div className="card" style={{ padding: 24 }}>
-      <div className="eyebrow" style={{ marginBottom: 14 }}>TECH STACK</div>
+      <div className="eyebrow" style={{ marginBottom: 16 }}>TECH STACK</div>
       <div className="row-tight" style={{ gap: 8 }}>
         {stack.map(s => <span key={s} className="tag tag-neutral">{s}</span>)}
       </div>
@@ -134,17 +134,17 @@ function ProductVetoNetPage({ onNavigate, onContact }) {
           <div className="grid-3">
             <div className="card fadein">
               <div className="bignum" style={{ fontSize: 36 }}>01<sub style={{ fontSize: 14, color: 'var(--accent-2)' }}>phase</sub></div>
-              <h3 style={{ fontSize: 17, marginTop: 12, marginBottom: 6, fontWeight: 700 }}>三層の検証アーキテクチャを設計中</h3>
+              <h3 style={{ fontSize: 17, marginTop: 12, marginBottom: 8, fontWeight: 700 }}>三層の検証アーキテクチャを設計中</h3>
               <p className="body" style={{ fontSize: 13, margin: 0 }}>入力検証 / モデル出力検証 / 人間レビューを直列に挟む、多層的な検証レイヤを試作しています。各層が異なる粒度で AI の判断を捕捉する構造を目指しています。</p>
             </div>
             <div className="card fadein" data-delay="120">
               <div className="bignum" style={{ fontSize: 36 }}>02<sub style={{ fontSize: 14, color: 'var(--accent-2)' }}>phase</sub></div>
-              <h3 style={{ fontSize: 17, marginTop: 12, marginBottom: 6, fontWeight: 700 }}>社内 PoC を反復中</h3>
+              <h3 style={{ fontSize: 17, marginTop: 12, marginBottom: 8, fontWeight: 700 }}>社内 PoC を反復中</h3>
               <p className="body" style={{ fontSize: 13, margin: 0 }}>外部公開や商用導入の前に、Nortiq 内部で運用する AI ツールへ組み込み、検出率・偽陽性率・運用負荷を計測しています。実運用に耐えるオーバヘッドかどうかを最優先で検証中。</p>
             </div>
             <div className="card fadein" data-delay="240">
               <div className="bignum" style={{ fontSize: 36 }}>03<sub style={{ fontSize: 14, color: 'var(--accent-2)' }}>phase</sub></div>
-              <h3 style={{ fontSize: 17, marginTop: 12, marginBottom: 6, fontWeight: 700 }}>Whitepaper で段階公開</h3>
+              <h3 style={{ fontSize: 17, marginTop: 12, marginBottom: 8, fontWeight: 700 }}>Whitepaper で段階公開</h3>
               <p className="body" style={{ fontSize: 13, margin: 0 }}>完成を待たず、設計思想、脅威モデル、評価指標を順次ホワイトペーパとして公開していく予定です。クローズドな研究ではなく、コミュニティと議論しながら磨いていく方針です。</p>
             </div>
           </div>
@@ -156,7 +156,7 @@ function ProductVetoNetPage({ onNavigate, onContact }) {
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 48, alignItems: 'flex-start' }}>
             <Placeholder label="" caption="architecture · validation layers" aspect="4/3" src="assets/vetonet-architecture.png" fit/>
             <div>
-              <h3 className="display-s" style={{ marginBottom: 20 }}>技術的詳細</h3>
+              <h3 className="display-s" style={{ marginBottom: 16 }}>技術的詳細</h3>
               <p className="body" style={{ marginBottom: 24 }}>
                 Multi-Agent システム上に Veto Agent を別立てで実装し、他の Agent の出力を 7 種類の検証器に通します。検証器は Rust で実装された高速モジュール (構文・形式・コスト系のルールベース検証) と、Python の LLM ベース検証器 (事実性・一貫性・業務適合の意味論的検証) の組み合わせ。前段で安価に弾けるものは Rust 層で落とし、判断が必要なものだけを LLM 層に流すことで、レイテンシとコストのバランスを取っています。
               </p>
@@ -288,11 +288,11 @@ function ProductWPChatPage({ onNavigate, onContact }) {
             <h2 className="section-title fadein">3つのバリエーション</h2>
             <p className="section-sub fadein">VARIATIONS · PC × 2 + MOBILE</p>
           </div>
-          <div className="grid-3" style={{ gap: 20 }}>
+          <div className="grid-3" style={{ gap: 16 }}>
             <div className="variation-card fadein">
               <div className="variation-label">A · CLASSIC SPLIT</div>
               <h3>クラシック分割</h3>
-              <p className="small text-mono" style={{ color: 'var(--text-3)', marginBottom: 14 }}>Notion風 / 2カラム / ライブプレビュー</p>
+              <p className="small text-mono" style={{ color: 'var(--text-3)', marginBottom: 16 }}>Notion風 / 2カラム / ライブプレビュー</p>
               <Placeholder label="Variation A" caption="classic-split.png" aspect="16/10" src="assets/pdf/loop-ai-04.png" fit/>
               <ul className="variation-bullets">
                 <li>上部の進捗ピル列 (8ステップ)</li>
@@ -306,7 +306,7 @@ function ProductWPChatPage({ onNavigate, onContact }) {
             <div className="variation-card fadein featured" data-delay="120">
               <div className="variation-label" style={{ color: 'var(--accent)' }}>B · STEP-BY-STEP</div>
               <h3>ステップガイド型</h3>
-              <p className="small text-mono" style={{ color: 'var(--text-3)', marginBottom: 14 }}>ガイド付き / 8ステップ / 競合分析</p>
+              <p className="small text-mono" style={{ color: 'var(--text-3)', marginBottom: 16 }}>ガイド付き / 8ステップ / 競合分析</p>
               <Placeholder label="Variation B" caption="step-guide.png" aspect="16/10" src="assets/pdf/loop-ai-06.png" fit/>
               <ul className="variation-bullets">
                 <li>左の大きなステップサイドバー</li>
@@ -321,7 +321,7 @@ function ProductWPChatPage({ onNavigate, onContact }) {
             <div className="variation-card fadein" data-delay="240">
               <div className="variation-label">C · ON-THE-GO</div>
               <h3>モバイル版 (iPhone)</h3>
-              <p className="small text-mono" style={{ color: 'var(--text-3)', marginBottom: 14 }}>チャット型 / タブ切替 / 親指で完結</p>
+              <p className="small text-mono" style={{ color: 'var(--text-3)', marginBottom: 16 }}>チャット型 / タブ切替 / 親指で完結</p>
               <Placeholder label="Variation C" caption="mobile.png" aspect="16/10" src="assets/pdf/loop-ai-08.png" fit/>
               <ul className="variation-bullets">
                 <li>細い 8 本の進捗バー (STEP 03 / 08 表記)</li>
@@ -370,7 +370,7 @@ function ProductWPChatPage({ onNavigate, onContact }) {
               <div className="seo-num">CARD / 03</div>
               <h3>キーワード候補</h3>
               <p>月間検索数 + 競合強さ付きで 5〜10 件を提案。タップで選択 / 解除でき、選んだキーワードは記事全体に反映。</p>
-              <div className="row-tight" style={{ gap: 6, marginTop: 12 }}>
+              <div className="row-tight" style={{ gap: 8, marginTop: 12 }}>
                 {["在宅勤務 集中力", "リモートワーク 効率", "おうち時間 仕事術"].map(k => <span key={k} className="tag">{k}</span>)}
               </div>
             </div>
@@ -630,8 +630,8 @@ function FeatureCMSPage({ onNavigate, onContact }) {
               { t: "Headless CMS", g: "規模拡大想定", d: "複数チャネル配信、多言語対応、CMS と画面実装を分離したい場合。" },
             ].map((s, i) => (
               <div key={i} className="card fadein" data-delay={i * 120}>
-                <span className="tag" style={{ marginBottom: 14, display: 'inline-block' }}>{s.g}</span>
-                <h3 style={{ fontSize: 22, fontWeight: 700, marginBottom: 10 }}>{s.t}</h3>
+                <span className="tag" style={{ marginBottom: 16, display: 'inline-block' }}>{s.g}</span>
+                <h3 style={{ fontSize: 22, fontWeight: 700, marginBottom: 12 }}>{s.t}</h3>
                 <p className="body" style={{ fontSize: 13.5, margin: 0 }}>{s.d}</p>
               </div>
             ))}
@@ -784,7 +784,7 @@ function FeatureAnalyticsPage({ onNavigate, onContact }) {
           </div>
           <div className="grid-2" style={{ gap: 32 }}>
             <div className="card" style={{ background: 'var(--bg-2)' }}>
-              <div className="step-num" style={{ marginBottom: 14, color: 'var(--text-3)' }}>標準実装</div>
+              <div className="step-num" style={{ marginBottom: 16, color: 'var(--text-3)' }}>標準実装</div>
               <h3 style={{ fontSize: 20, marginBottom: 16, color: 'var(--text-3)' }}>GA4 だけを入れた状態</h3>
               <ul style={{ listStyle: 'none', padding: 0, margin: 0, color: 'var(--text-3)' }}>
                 <li style={{ padding: '8px 0', borderBottom: '1px dashed var(--border)' }}>· ページビュー / セッション数</li>
@@ -793,7 +793,7 @@ function FeatureAnalyticsPage({ onNavigate, onContact }) {
               </ul>
             </div>
             <div className="card" style={{ borderColor: 'var(--accent)', background: 'var(--accent-soft)' }}>
-              <div className="step-num" style={{ marginBottom: 14 }}>Nortiq カスタム実装</div>
+              <div className="step-num" style={{ marginBottom: 16 }}>Nortiq カスタム実装</div>
               <h3 style={{ fontSize: 20, marginBottom: 16 }}>事業数値に紐付くダッシュボード</h3>
               <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
                 <li style={{ padding: '8px 0', borderBottom: '1px dashed var(--accent)' }}>✓ カスタムイベント (CRMと紐付け)</li>
@@ -893,7 +893,7 @@ function WorksVariantPage({ pageId, onNavigate, onContact }) {
                  onClick={w.demo ? (e) => { e.preventDefault(); openShowcase(w.demo, w.t); } : undefined}>
                 <WorkShot work={{ img: w.img, title: w.t, tag: w.tag }}/>
                 <div style={{ padding: '18px 22px 20px' }}>
-                  <div className="row" style={{ justifyContent: 'space-between', marginBottom: 10 }}>
+                  <div className="row" style={{ justifyContent: 'space-between', marginBottom: 12 }}>
                     <span className="tag">{w.tag}</span>
                     <span className="stat-pill">{w.stat}</span>
                   </div>

@@ -190,7 +190,7 @@ function RecruitPage({ onNavigate, onContact }) {
             ].map((v, i) => (
               <div key={i} className="card fadein" data-delay={i * 80} style={{ padding: 32 }}>
                 <div className="bignum" style={{ fontSize: 32, marginBottom: 16 }}>{v.n}</div>
-                <h3 style={{ fontSize: 18, fontWeight: 700, marginBottom: 10 }}>{v.t}</h3>
+                <h3 style={{ fontSize: 18, fontWeight: 700, marginBottom: 12 }}>{v.t}</h3>
                 <p className="body" style={{ fontSize: 13, margin: 0 }}>{v.d}</p>
               </div>
             ))}
@@ -235,7 +235,7 @@ function RecruitPage({ onNavigate, onContact }) {
               { t: "産休・育休", d: "男女問わず取得実績多数。復帰サポートも。" },
               { t: "20% Research Time", d: "業務時間の20%を研究開発に充てられる制度。" },
             ].map((b, i) => (
-              <div key={i} className="card fadein" data-delay={i * 60} style={{ padding: 22 }}>
+              <div key={i} className="card fadein" data-delay={i * 60} style={{ padding: 24 }}>
                 <h3 style={{ fontSize: 15, fontWeight: 700, marginBottom: 8 }}>{b.t}</h3>
                 <p className="body" style={{ fontSize: 12.5, margin: 0 }}>{b.d}</p>
               </div>
@@ -424,14 +424,14 @@ function SolutionPage({ pageId, onNavigate, onContact }) {
               <span className="highlight">{m.price}</span>
             </p>
           </div>
-          <div className="grid-2" style={{ gap: 20 }}>
+          <div className="grid-2" style={{ gap: 16 }}>
             {m.solutions.map((s, i) => (
               <div key={i} className="card fadein" data-delay={i * 100}>
                 <div className="row" style={{ marginBottom: 16 }}>
                   <span className="step-num">/ {String(i + 1).padStart(2, '0')}</span>
                   <span className="text-accent"><Icon name="check" size={18} stroke={2}/></span>
                 </div>
-                <h3 style={{ fontSize: 20, fontWeight: 700, marginBottom: 10 }}>{s.t}</h3>
+                <h3 style={{ fontSize: 20, fontWeight: 700, marginBottom: 12 }}>{s.t}</h3>
                 <p className="body" style={{ fontSize: 14, margin: 0 }}>{s.d}</p>
               </div>
             ))}
@@ -451,7 +451,7 @@ function SolutionPage({ pageId, onNavigate, onContact }) {
                  onClick={c.demo ? (e) => { e.preventDefault(); openShowcase(c.demo, c.t); } : undefined}>
                 <WorkShot work={{ img: c.img, title: c.t, tag: c.tag }}/>
                 <div style={{ padding: '18px 22px 20px' }}>
-                  <div className="row" style={{ justifyContent: 'space-between', marginBottom: 10 }}>
+                  <div className="row" style={{ justifyContent: 'space-between', marginBottom: 12 }}>
                     <span className="tag">{c.tag}</span>
                     <span className="stat-pill">{c.stat}</span>
                   </div>
@@ -471,8 +471,8 @@ function SolutionPage({ pageId, onNavigate, onContact }) {
 
       <section className="section-pad-sm" style={{ background: 'var(--bg-2)' }}>
         <div className="container">
-          <h3 className="display-s" style={{ textAlign: 'center', marginBottom: 28 }}>他の業種ソリューション</h3>
-          <div className="row" style={{ justifyContent: 'center', gap: 10, flexWrap: 'wrap' }}>
+          <h3 className="display-s" style={{ textAlign: 'center', marginBottom: 24 }}>他の業種ソリューション</h3>
+          <div className="row" style={{ justifyContent: 'center', gap: 12, flexWrap: 'wrap' }}>
             {Object.entries(SOLUTION_DATA).filter(([k]) => k !== key).map(([k, v]) => (
               <Button key={k} variant="ghost" size="sm" to={'solution-' + k} nav={onNavigate}>{v.label}<Icon name="arrow-right" size={13}/></Button>
             ))}
@@ -500,7 +500,7 @@ function WorkDetailPage({ onNavigate, onContact }) {
 
       <section style={{ paddingTop: 'clamp(48px, 7vw, 90px)', paddingBottom: 'clamp(40px, 6vw, 72px)' }}>
         <div className="container">
-          <div className="row" style={{ marginBottom: 20, gap: 8 }}>
+          <div className="row" style={{ marginBottom: 16, gap: 8 }}>
             <span className="tag tag-on-accent">クリニック</span>
             <span className="tag">Web制作</span>
             <span className="tag">AIチャットボット</span>
@@ -541,14 +541,14 @@ function WorkDetailPage({ onNavigate, onContact }) {
         <div className="container">
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: 64, alignItems: 'flex-start' }}>
             <div>
-              <div className="eyebrow eyebrow-accent" style={{ marginBottom: 14 }}>CHALLENGE</div>
+              <div className="eyebrow eyebrow-accent" style={{ marginBottom: 16 }}>CHALLENGE</div>
               <h2 className="section-title" style={{ paddingBottom: 0 }}>抱えていた課題</h2>
             </div>
             <div className="stack-m">
               <p className="body">
                 10年以上前に制作したサイトのまま運用が止まっており、スマホ対応もできていない状態でした。Google 検索からの流入はほぼゼロ、新規患者の獲得チャネルが口コミだけに偏っていました。
               </p>
-              <ul style={{ paddingLeft: 20, lineHeight: 2.1 }}>
+              <ul style={{ paddingLeft: 16, lineHeight: 2.1 }}>
                 <li>スマホで予約までたどり着けないレイアウト</li>
                 <li>ブログを更新する余裕がスタッフになく、SEO 順位が後退</li>
                 <li>問い合わせのうち、診療時間外の電話が多く、機会損失が発生</li>
@@ -563,7 +563,7 @@ function WorkDetailPage({ onNavigate, onContact }) {
         <div className="container">
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: 64, alignItems: 'flex-start' }}>
             <div>
-              <div className="eyebrow eyebrow-accent" style={{ marginBottom: 14 }}>APPROACH</div>
+              <div className="eyebrow eyebrow-accent" style={{ marginBottom: 16 }}>APPROACH</div>
               <h2 className="section-title" style={{ paddingBottom: 0 }}>Nortiq のアプローチ</h2>
             </div>
             <div className="stack-m">
@@ -577,8 +577,8 @@ function WorkDetailPage({ onNavigate, onContact }) {
                   { t: "Phase 3: 運用最適化", d: "月次レビューで離脱地点を分析、フォーム設計の改善を繰り返しました。" },
                 ].map((p, i) => (
                   <li key={i} style={{ padding: '20px 0', borderBottom: '1px dashed var(--border)' }}>
-                    <div className="step-num" style={{ marginBottom: 6 }}>PHASE / 0{i + 1}</div>
-                    <h3 style={{ fontSize: 17, fontWeight: 700, margin: 0, marginBottom: 6 }}>{p.t}</h3>
+                    <div className="step-num" style={{ marginBottom: 8 }}>PHASE / 0{i + 1}</div>
+                    <h3 style={{ fontSize: 17, fontWeight: 700, margin: 0, marginBottom: 8 }}>{p.t}</h3>
                     <p className="body" style={{ fontSize: 14, margin: 0 }}>{p.d}</p>
                   </li>
                 ))}
@@ -607,13 +607,13 @@ function WorkDetailPage({ onNavigate, onContact }) {
         <div className="container">
           <div style={{ maxWidth: 780, margin: '0 auto' }}>
             <div className="card" style={{ padding: 48 }}>
-              <div className="eyebrow eyebrow-accent" style={{ marginBottom: 14 }}>VOICE / クライアント様の声</div>
-              <blockquote style={{ margin: 0, fontSize: 19, lineHeight: 1.9, color: 'var(--text)', marginBottom: 20 }}>
+              <div className="eyebrow eyebrow-accent" style={{ marginBottom: 16 }}>VOICE / クライアント様の声</div>
+              <blockquote style={{ margin: 0, fontSize: 19, lineHeight: 1.9, color: 'var(--text)', marginBottom: 16 }}>
                 <span style={{ color: 'var(--accent)', fontWeight: 900, fontSize: 28, marginRight: 4 }}>“</span>
                 Web制作からの付き合いで、半年後にAIチャットボットも導入。ブログ更新の負担がなくなり、SEO流入が1.8倍になりました。「Webのプロが横にいる」感覚を、初めて持てた気がします。
                 <span style={{ color: 'var(--accent)', fontWeight: 900, fontSize: 28, marginLeft: 4 }}>”</span>
               </blockquote>
-              <div className="row" style={{ gap: 14 }}>
+              <div className="row" style={{ gap: 16 }}>
                 <div style={{ width: 44, height: 44, borderRadius: '50%', background: 'var(--bg-2)', border: '1px solid var(--border)', display: 'grid', placeItems: 'center', color: 'var(--text-3)', fontSize: 12, fontFamily: 'var(--font-mono)' }}>A.K.</div>
                 <div>
                   <strong style={{ fontSize: 14 }}>A.K. 様</strong>
@@ -664,6 +664,7 @@ function WorkDetailPage({ onNavigate, onContact }) {
 function ArticleDetailPage({ onNavigate, onContact, slug }) {
   const store = (typeof window !== 'undefined' && window.NORTIQ_ARTICLES) || {};
   const article = store[slug] || Object.values(store)[0];
+  const html = useArticleHtml(article ? article.slug : slug);
 
   React.useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'instant' });
@@ -695,7 +696,7 @@ function ArticleDetailPage({ onNavigate, onContact, slug }) {
       <article>
         <header style={{ paddingTop: 'clamp(48px, 7vw, 90px)', paddingBottom: 32 }}>
           <div className="container" style={{ maxWidth: 820 }}>
-            <div className="row" style={{ gap: 10, marginBottom: 24, color: 'var(--text-3)', fontSize: 13, flexWrap: 'wrap' }}>
+            <div className="row" style={{ gap: 12, marginBottom: 24, color: 'var(--text-3)', fontSize: 13, flexWrap: 'wrap' }}>
               <span className="tag" style={{ color: 'var(--accent)', borderColor: 'var(--accent)' }}>{article.category}</span>
               <span className="num">{article.date}</span>
               {article.updated && article.updated !== article.date && (
@@ -723,10 +724,12 @@ function ArticleDetailPage({ onNavigate, onContact, slug }) {
           </div>
         )}
 
-        <div className="container" style={{ maxWidth: 780, marginTop: 24, marginBottom: 80 }}>
-          <div className="article-prose article-body" dangerouslySetInnerHTML={{ __html: article.html }}/>
+        <div className="container" style={{ maxWidth: 780, marginTop: 24, marginBottom: 64 }}>
+          {html
+            ? <div className="article-prose article-body" dangerouslySetInnerHTML={{ __html: html }}/>
+            : <div className="article-prose article-body"><p className="lede">本文を読み込んでいます…</p></div>}
           {article.supervised && (
-            <div style={{ marginTop: 40, padding: '16px 20px', background: 'var(--bg-2)', borderRadius: 10, fontSize: 13, color: 'var(--text-3)', lineHeight: 1.8 }}>
+            <div style={{ marginTop: 32, padding: '16px 20px', background: 'var(--bg-2)', borderRadius: 10, fontSize: 13, color: 'var(--text-3)', lineHeight: 1.8 }}>
               <div>監修: 大島蓮太（株式会社ノーティックラボ代表 / AIエンジニア）</div>
               <div>本記事はAIを活用して制作しています</div>
             </div>
@@ -1048,7 +1051,7 @@ function DiagnosticLPPage({ onNavigate, onContact }) {
               </div>
             ))}
           </div>
-          <div style={{ textAlign: 'center', marginTop: 40 }}>
+          <div style={{ textAlign: 'center', marginTop: 32 }}>
             <a className="diag-btn ghost" href="#diag-top" onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); }}>今すぐ無料診断を試す <Icon name="arrow-right" size={16}/></a>
           </div>
         </div>

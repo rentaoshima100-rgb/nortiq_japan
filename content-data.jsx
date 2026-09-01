@@ -537,14 +537,14 @@ function CDCards({ title, sub, items }) {
   return (
     <section className="section-pad-sm">
       <div className="container">
-        <div className="section-head" style={{ marginBottom: 40 }}>
+        <div className="section-head" style={{ marginBottom: 32 }}>
           <h2 className="section-title fadein" style={{ fontSize: 'clamp(22px, 3vw, 32px)' }}>{title}</h2>
           {sub && <p className="section-sub fadein">{sub}</p>}
         </div>
         <div className="support-grid">
           {items.map((it, i) => (
             <div key={i} className="support-card fadein" data-delay={i * 100}>
-              <h3 style={{ fontSize: 16, fontWeight: 700, margin: 0, marginBottom: 10 }}>{it.t}</h3>
+              <h3 style={{ fontSize: 16, fontWeight: 700, margin: 0, marginBottom: 12 }}>{it.t}</h3>
               <p className="body" style={{ fontSize: 13, margin: 0 }}>{it.d}</p>
             </div>
           ))}
@@ -557,7 +557,7 @@ function CDSteps({ title, sub, items }) {
   return (
     <section className="section-pad-sm">
       <div className="container">
-        <div className="section-head" style={{ marginBottom: 40 }}>
+        <div className="section-head" style={{ marginBottom: 32 }}>
           <h2 className="section-title fadein" style={{ fontSize: 'clamp(22px, 3vw, 32px)' }}>{title}</h2>
           {sub && <p className="section-sub fadein">{sub}</p>}
         </div>
@@ -578,7 +578,7 @@ function CDFaq({ title, items }) {
   return (
     <section className="section-pad-sm">
       <div className="container" style={{ maxWidth: 860 }}>
-        <div className="section-head" style={{ marginBottom: 36 }}>
+        <div className="section-head" style={{ marginBottom: 32 }}>
           <h2 className="section-title fadein" style={{ fontSize: 'clamp(22px, 3vw, 32px)' }}>{title}</h2>
           <p className="section-sub fadein">FAQ</p>
         </div>
@@ -605,14 +605,14 @@ function CDLaws({ data }) {
             <div key={i} className="fadein" data-delay={i * 100} style={{ display: 'flex', gap: 16, padding: '16px 0', borderTop: '1px solid var(--border)' }}>
               <span className="step-num" style={{ flex: 'none', paddingTop: 2 }}>{String(i + 1).padStart(2, '0')}</span>
               <div>
-                <h3 style={{ fontSize: 15, fontWeight: 700, margin: 0, marginBottom: 6 }}>{it.t}</h3>
+                <h3 style={{ fontSize: 15, fontWeight: 700, margin: 0, marginBottom: 8 }}>{it.t}</h3>
                 <p className="body" style={{ fontSize: 13, margin: 0 }}>{it.d}</p>
               </div>
             </div>
           ))}
         </div>
         {data.src && (
-          <p className="small" style={{ marginTop: 20, color: 'var(--text-3)' }}>
+          <p className="small" style={{ marginTop: 16, color: 'var(--text-3)' }}>
             <a href={data.src.url} target="_blank" rel="noopener noreferrer" style={{ color: 'var(--text-3)', textDecoration: 'underline' }}>{data.src.label}</a>
             {' '}· 掲載内容の最終確認は最新の一次情報をご参照ください
           </p>
@@ -628,7 +628,7 @@ function RelatedColumns({ cats, onNavigate }) {
   return (
     <section className="section-pad-sm">
       <div className="container">
-        <div className="row" style={{ marginBottom: 28, justifyContent: 'space-between', alignItems: 'flex-end' }}>
+        <div className="row" style={{ marginBottom: 24, justifyContent: 'space-between', alignItems: 'flex-end' }}>
           <div>
             <h3 className="display-s">関連する読み物</h3>
             <p className="section-sub" style={{ marginTop: 4 }}>RELATED COLUMNS</p>
@@ -710,7 +710,7 @@ function SolutionExtra({ pageId, onNavigate }) {
             </div>
           ))}
         </div>
-        <p className="small" style={{ marginTop: 18, color: 'var(--text-3)' }}>導入期間: {s.weeks}</p>
+        <p className="small" style={{ marginTop: 16, color: 'var(--text-3)' }}>導入期間: {s.weeks}</p>
       </div>
       <SystemTemplates pageId={pageId}/>
     </section>
@@ -722,13 +722,13 @@ function SystemTemplates({ pageId }) {
   const d = SYSTEM_TEMPLATES[pageId];
   if (!d) return null;
   return (
-    <div className="container" style={{ maxWidth: 980, marginTop: 72 }}>
+    <div className="container" style={{ maxWidth: 980, marginTop: 64 }}>
       <div className="section-head" style={{ marginBottom: 24 }}>
         <h2 className="section-title fadein" style={{ fontSize: 'clamp(22px, 3vw, 32px)' }}>よくある課題と、システムの組み方</h2>
         <p className="section-sub fadein">SYSTEM TEMPLATES</p>
       </div>
-      <p className="fadein" style={{ fontSize: 15, lineHeight: 1.9, color: 'var(--text-2)', marginBottom: 14, textWrap: 'pretty' }}>{d.lede}</p>
-      <p className="small fadein" style={{ color: 'var(--text-3)', marginBottom: 30 }}>
+      <p className="fadein" style={{ fontSize: 15, lineHeight: 1.9, color: 'var(--text-2)', marginBottom: 16, textWrap: 'pretty' }}>{d.lede}</p>
+      <p className="small fadein" style={{ color: 'var(--text-3)', marginBottom: 32 }}>
         以下は<strong style={{ color: 'var(--text-2)' }}>想定シナリオに対する構成例</strong>です。実際の納品実績として掲載しているものは
         <a href="/works" style={{ color: 'var(--accent)' }}>制作実績</a>のページにまとめています。費用と期間は要件で変わるため目安としてご覧ください。
       </p>
@@ -766,7 +766,7 @@ function SubsidySections({ onNavigate, onContact }) {
     <React.Fragment>
       <section className="section-pad-sm" style={{ background: 'var(--bg-2)' }}>
         <div className="container" style={{ maxWidth: 860 }}>
-          <div className="section-head" style={{ marginBottom: 28 }}>
+          <div className="section-head" style={{ marginBottom: 24 }}>
             <h2 className="section-title fadein" style={{ fontSize: 'clamp(22px, 3vw, 32px)' }}>{S.honest.title}</h2>
             <p className="section-sub fadein">HONEST NOTES</p>
           </div>
@@ -782,7 +782,7 @@ function SubsidySections({ onNavigate, onContact }) {
       </section>
       <section className="section-pad-sm">
         <div className="container">
-          <div className="section-head" style={{ marginBottom: 36 }}>
+          <div className="section-head" style={{ marginBottom: 32 }}>
             <h2 className="section-title fadein" style={{ fontSize: 'clamp(22px, 3vw, 32px)' }}>{S.schemes.title}</h2>
             <p className="section-sub fadein">{S.schemes.sub}</p>
           </div>
@@ -796,7 +796,7 @@ function SubsidySections({ onNavigate, onContact }) {
               </tbody>
             </table>
           </div>
-          <p className="small" style={{ marginTop: 14, color: 'var(--text-3)' }}>
+          <p className="small" style={{ marginTop: 16, color: 'var(--text-3)' }}>
             <a href={S.schemes.src.url} target="_blank" rel="noopener noreferrer" style={{ color: 'var(--text-3)', textDecoration: 'underline' }}>{S.schemes.src.label}</a>
             {' '}· 2026年8月時点。申請時は必ず最新の公募要領をご確認ください
           </p>
@@ -806,7 +806,7 @@ function SubsidySections({ onNavigate, onContact }) {
       <CDSteps title={S.flow.title} sub={S.flow.sub} items={S.flow.items}/>
       <section className="section-pad-sm" style={{ background: 'var(--bg-2)' }}>
         <div className="container" style={{ maxWidth: 860 }}>
-          <div className="section-head" style={{ marginBottom: 28 }}>
+          <div className="section-head" style={{ marginBottom: 24 }}>
             <h2 className="section-title fadein" style={{ fontSize: 'clamp(22px, 3vw, 32px)' }}>{S.can.title}</h2>
             <p className="section-sub fadein">WHAT WE CAN DO</p>
           </div>

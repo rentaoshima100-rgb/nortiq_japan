@@ -50,7 +50,34 @@
 
   /* Sizing (per IA doc: 1100-1200px max) */
   --maxw: 1200px;
-  --gutter: 32px;
+
+  /* --- 余白スケール (2026-09 レイアウト監査) ---
+     縦パディングが section-pad 130px / section-pad-sm 80px / t_inq_wrap 56px /
+     インライン直書き 90px・110px / footer 80px と7種類あり、リズムが無かった。
+     以後、余白はこの8段階か下の section/container 変数のどれかに丸める。 */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+
+  /* セクションの縦リズムとコンテナ左右。ブレークポイントで段階的に切り替えるのを
+     やめ、vw 連動で滑らかにスケールさせる (768〜1200px 帯の窮屈さも解消する)。 */
+  --section-y: clamp(56px, 8vw, 128px);
+  --section-y-sm: clamp(40px, 5.5vw, 80px);
+  --container-x: clamp(18px, 4vw, 48px);
+  --gutter: var(--container-x);
+
+  /* --- タイプスケール ---
+     本文まわりのサイズ。9〜11px は日本語の判読性が落ちるため --fs-xs (12px) を下限にする。
+     見出しの大きさは既存のデザイン階層をそのまま使う。 */
+  --fs-xs: 12px;
+  --fs-sm: 13px;
+  --fs-base: 15px;
+  --fs-md: 17px;
   --nav-h: 76px;
   --radius-sm: 4px;
   --radius: 8px;
@@ -110,7 +137,7 @@ img { max-width: 100%; display: block; }
 /* ================= Typography =================== */
 .eyebrow {
   font-family: var(--font-latin);
-  font-size: 11px;
+  font-size: 12px;
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--text-3);
@@ -203,7 +230,7 @@ img { max-width: 100%; display: block; }
   font-weight: 400;
   max-width: 62ch;
 }
-.body { font-size: 14px; line-height: 1.9; color: var(--text-2); }
+.body { font-size: var(--fs-base); line-height: 1.9; color: var(--text-2); }
 .small { font-size: 12px; line-height: 1.7; color: var(--text-3); }
 
 .num { font-family: var(--font-latin); font-feature-settings: "tnum" 1; }
@@ -339,14 +366,8 @@ img { max-width: 100%; display: block; }
 /* ================= Section =================== */
 section { position: relative; }
 
-.section-pad {
-  padding-top: clamp(72px, 9vw, 130px);
-  padding-bottom: clamp(72px, 9vw, 130px);
-}
-.section-pad-sm {
-  padding-top: clamp(48px, 6vw, 80px);
-  padding-bottom: clamp(48px, 6vw, 80px);
-}
+.section-pad { padding-block: var(--section-y); }
+.section-pad-sm { padding-block: var(--section-y-sm); }
 
 .section-head {
   text-align: center;
@@ -511,7 +532,7 @@ section { position: relative; }
   display: inline-flex;
   align-items: center;
   padding: 5px 10px;
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 600;
   color: var(--accent);
   border: 1px solid var(--accent);
@@ -583,7 +604,7 @@ section { position: relative; }
   position: absolute;
   top: 12px; left: 12px;
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: 12px;
   letter-spacing: 0.06em;
   padding: 4px 8px;
   background: var(--bg);
@@ -594,7 +615,7 @@ section { position: relative; }
 .ph-caption {
   position: absolute;
   bottom: 14px; left: 14px; right: 14px;
-  font-size: 11px;
+  font-size: 12px;
   color: var(--text-3);
   font-family: var(--font-mono);
 }
@@ -626,7 +647,9 @@ picture { display: contents; }
 /* ================= Footer =================== */
 .footer {
   border-top: 4px solid var(--accent);
-  padding: 80px 0 32px;
+  /* 下だけ 32px 固定だったため、1440px では直上のセクション (130px) の1/4になり
+     ページ末尾だけ詰まって見えていた */
+  padding: var(--section-y-sm) 0 var(--space-7);
   background: var(--bg-2);
 }
 .footer-grid {
@@ -745,7 +768,7 @@ picture { display: contents; }
   margin-left: 4px;
 }
 .field label .any {
-  font-size: 10px;
+  font-size: 12px;
   color: var(--text-3);
   background: var(--bg-2);
   border: 1px solid var(--border);
@@ -1106,7 +1129,7 @@ picture { display: contents; }
   line-height: 1.1;
 }
 .medaru .num sup { font-size: 13px; vertical-align: top; margin-left: 2px; color: var(--accent-2); font-weight: 700; }
-.medaru .lbl { font-size: 11px; color: var(--text-2); font-weight: 600; }
+.medaru .lbl { font-size: 12px; color: var(--text-2); font-weight: 600; }
 .main-cta-row {
   margin-top: 36px;
   display: flex;
@@ -1192,7 +1215,7 @@ picture { display: contents; }
   position: absolute;
   top: 18px;
   right: 18px;
-  font-size: 10px;
+  font-size: 12px;
   letter-spacing: 0.06em;
   padding: 4px 10px;
   background: var(--accent);
@@ -1207,7 +1230,7 @@ picture { display: contents; }
 .promo-body { flex: 1; margin-top: 16px; }
 .promo-eyebrow {
   font-family: var(--font-latin);
-  font-size: 11px;
+  font-size: 12px;
   letter-spacing: 0.14em;
   color: var(--text-3);
   margin: 0 0 12px;
@@ -1310,7 +1333,7 @@ picture { display: contents; }
 .t_inq_wrap {
   background: var(--accent);
   color: #fff;
-  padding: 56px 0;
+  padding: var(--section-y-sm) 0;
   border-top: 4px solid #fff;
   border-bottom: 4px solid #fff;
   position: relative;
@@ -1610,7 +1633,7 @@ picture { display: contents; }
   transition: all 160ms;
 }
 .content-tab .tl { font-size: 14px; font-weight: 700; color: var(--text-2); }
-.content-tab .en { font-family: var(--font-latin); font-size: 9px; letter-spacing: 0.14em; color: var(--text-4); text-transform: uppercase; }
+.content-tab .en { font-family: var(--font-latin); font-size: 12px; letter-spacing: 0.14em; color: var(--text-4); text-transform: uppercase; }
 .content-tab.active { background: var(--accent); }
 .content-tab.active .tl, .content-tab.active .en { color: #fff; }
 .content-list {
@@ -1635,7 +1658,7 @@ picture { display: contents; }
 .content-row:hover .content-title { color: var(--accent); }
 .content-date { font-size: 12px; color: var(--text-3); letter-spacing: 0.02em; font-family: var(--font-latin); }
 .content-tag-pill {
-  font-size: 11px;
+  font-size: 12px;
   padding: 4px 10px;
   background: var(--bg-2);
   border-radius: 3px;
@@ -1670,7 +1693,7 @@ picture { display: contents; }
 .pickup-accent { height: 5px; }
 .pickup-label {
   font-family: var(--font-latin);
-  font-size: 11px;
+  font-size: 12px;
   letter-spacing: 0.16em;
   font-weight: 700;
   margin: 0 0 12px;
@@ -1881,7 +1904,7 @@ picture { display: contents; }
   align-items: center;
   gap: 4px;
   padding: 10px 4px;
-  font-size: 10px;
+  font-size: 12px;
   color: var(--text-2);
   text-align: center;
   cursor: pointer;
@@ -1914,7 +1937,7 @@ picture { display: contents; }
 .process-item:last-child { border-bottom: 0; }
 .process-num {
   font-family: var(--font-latin);
-  font-size: 11px;
+  font-size: 12px;
   color: var(--accent);
   letter-spacing: 0.14em;
   font-weight: 700;
@@ -1951,7 +1974,7 @@ picture { display: contents; }
 .article-card { display: flex; flex-direction: column; gap: 14px; cursor: pointer; }
 .article-meta {
   display: flex; align-items: center; gap: 10px;
-  font-size: 11px;
+  font-size: 12px;
   color: var(--text-3);
   font-family: var(--font-mono);
 }
@@ -2098,7 +2121,7 @@ picture { display: contents; }
 }
 .article-body pre code { background: none; color: inherit; padding: 0; }
 .article-body table {
-  width: 100%; border-collapse: collapse; margin: 0 0 28px; font-size: 13.5px; line-height: 1.7;
+  width: 100%; border-collapse: collapse; margin: 0 0 28px; font-size: 14px; line-height: 1.7;
   display: block; overflow-x: auto;
 }
 .article-body thead { background: var(--bg-2); }
@@ -2260,7 +2283,7 @@ picture { display: contents; }
   color: var(--accent);
   font-family: var(--font-latin);
   font-weight: 700;
-  font-size: 12.5px;
+  font-size: 12px;
   font-variant-numeric: tabular-nums;
   padding: 3px 12px;
   border-radius: 20px;
@@ -2307,7 +2330,7 @@ picture { display: contents; }
 }
 .article-cover > * { position: relative; }
 .article-cover-cat {
-  font-size: 10.5px;
+  font-size: 12px;
   letter-spacing: 0.14em;
   font-weight: 700;
   color: var(--cov-t);
@@ -2324,7 +2347,7 @@ picture { display: contents; }
 }
 .article-cover-brand {
   font-family: var(--font-wordmark);
-  font-size: 9px;
+  font-size: 12px;
   letter-spacing: 0.22em;
   color: rgba(255,255,255,0.38);
   margin-top: 4px;
@@ -2404,7 +2427,7 @@ picture { display: contents; }
 .bento-6 h3, .bento-6 .bento-eyebrow, .bento-6 .bento-num { color: #fff; }
 .bento-eyebrow {
   font-family: var(--font-latin);
-  font-size: 10px;
+  font-size: 12px;
   letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--text-3);
@@ -2484,7 +2507,8 @@ picture { display: contents; }
 .sticky-cta button {
   background: var(--accent);
   color: #fff;
-  padding: 6px 14px;
+  white-space: nowrap;
+  padding: 8px 16px;
   border-radius: 999px;
   font-size: 12px;
   font-weight: 700;
@@ -2499,9 +2523,11 @@ picture { display: contents; }
   place-items: center;
 }
 .sticky-cta-close:hover { background: rgba(255,255,255,0.32); }
-@media (max-width: 720px) {
-  .sticky-cta { left: 16px; right: 16px; transform: translateY(120px); padding: 12px 16px; }
-  .sticky-cta.show { transform: translateY(-72px); }
+/* 下部固定ナビ (.sp-bottom-nav) が出る幅では、スティッキーCTAは重複するので出さない。
+   2段の固定UIで画面高の21% (iPhone SE では26%) を占めていた。
+   「資料請求」は下部ナビ側にあるため導線は失われない。 */
+@media (max-width: 1024px) {
+  .sticky-cta { display: none; }
 }
 
 /* ================= Mixed marquee =================== */
@@ -2688,7 +2714,7 @@ picture { display: contents; }
   transition: background 160ms;
 }
 .pain-item:hover { background: var(--accent-soft); }
-.pain-mark { font-family: var(--font-mono); font-size: 11px; color: var(--accent); letter-spacing: 0.12em; font-weight: 700; }
+.pain-mark { font-family: var(--font-mono); font-size: 12px; color: var(--accent); letter-spacing: 0.12em; font-weight: 700; }
 
 .tag-on-accent { color: var(--accent); border-color: var(--accent); }
 
@@ -2841,7 +2867,7 @@ picture { display: contents; }
 .drawer-group.open .drawer-group-body { max-height: 1200px; }
 .drawer-subgroup { padding: 14px 22px; }
 .drawer-subgroup h5 {
-  font-size: 11px;
+  font-size: 12px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--accent);
@@ -2881,17 +2907,16 @@ picture { display: contents; }
 
 @media (max-width: 700px) {
   :root {
-    --gutter: 18px;
     --maxw: 100%;
   }
 
-  body { font-size: 14px; }
+  body { font-size: var(--fs-base); }
 
   /* Nav: simplify */
   .nav-inner { height: 60px; padding: 0 16px; }
   .nav-logo { font-size: 16px; gap: 8px; }
   .nav-cta-wrap { gap: 6px; }
-  .nav-cta-wrap .btn { padding: 8px 12px; font-size: 11px; }
+  .nav-cta-wrap .btn { padding: 8px 12px; font-size: 12px; }
   .nav-cta-wrap .btn svg { display: none; }
 
   /* Hero scale */
@@ -2900,11 +2925,11 @@ picture { display: contents; }
   .main-title { font-size: clamp(28px, 9vw, 40px); line-height: 1.25; }
   .main-wordmark-bg { font-size: 90px; bottom: -10px; }
   .main-box { gap: 6px; margin: 20px 0; }
-  .main-box li { font-size: 11px; padding: 6px 12px; }
+  .main-box li { font-size: 12px; padding: 6px 12px; }
   .main-medaru { grid-template-columns: 1fr; gap: 10px; margin-top: 24px; }
   .medaru { padding: 14px 18px; flex-direction: row; gap: 14px; justify-content: center; }
   .medaru .num { font-size: 22px; }
-  .medaru .lbl { font-size: 10px; }
+  .medaru .lbl { font-size: 12px; }
   .main-cta-row { margin-top: 28px; gap: 10px; flex-direction: column; align-items: stretch; }
   .main-cta-row .btn { width: 100%; padding: 14px 18px; font-size: 13px; }
 
@@ -2915,8 +2940,8 @@ picture { display: contents; }
   .geo-blob { display: none; }
 
   /* Section padding */
-  .section-pad { padding-top: 56px; padding-bottom: 56px; }
-  .section-pad-sm { padding-top: 36px; padding-bottom: 36px; }
+  /* .section-pad / .section-pad-sm は :root の --section-y / --section-y-sm が
+     vw 連動でスケールするため、ここでの上書きは不要 */
   .section-head { margin-bottom: 32px; text-align: left; }
   .section-head .section-title::after { left: 0; transform: none; }
   .section-title { font-size: clamp(22px, 6.8vw, 28px); padding-bottom: 14px; }
@@ -2942,7 +2967,7 @@ picture { display: contents; }
   .quote-card.q-lg .quote-body, .quote-card.q-xl .quote-body { font-size: 15px; }
 
   /* Footer */
-  .footer { padding: 56px 0 32px; }
+  /* .footer の縦は --section-y-sm / --space-7 が担当 */
   .footer-grid { gap: 36px; margin-bottom: 36px; }
   .footer-area ul { grid-template-columns: 1fr 1fr; }
   .footer-bottom { flex-direction: column; gap: 18px; text-align: center; align-items: center; }
@@ -2977,12 +3002,12 @@ picture { display: contents; }
   .nav-phone { display: none !important; }
   .nav-theme { display: none !important; }
   /* nav-cta-wrap: show only hamburger + contact button */
-  .nav-cta-wrap > .btn-primary { padding: 8px 12px; font-size: 11px; }
+  .nav-cta-wrap > .btn-primary { padding: 8px 12px; font-size: 12px; }
 
   /* FC strip / industry strip */
   .fc-strip { padding: 12px 0; }
   .fc-strip-track { gap: 24px; }
-  .fc-cell { font-size: 11px; padding: 5px 12px; }
+  .fc-cell { font-size: 12px; padding: 5px 12px; }
   .industry-strip { padding: 12px 0; }
   .industry-strip .row { flex-direction: column; gap: 6px; align-items: flex-start; }
 
@@ -2994,7 +3019,7 @@ picture { display: contents; }
 
   /* Sticky CTA hint */
   .sticky-cta { left: 12px; right: 12px; padding: 10px 14px; font-size: 12px; }
-  .sticky-cta button { font-size: 11px; padding: 5px 10px; }
+  .sticky-cta button { font-size: 12px; padding: 5px 10px; }
 
   /* Tag pills */
   .kw-pill { padding: 8px 14px; font-size: 12px; }
@@ -3013,7 +3038,7 @@ picture { display: contents; }
   .case-card-body { padding: 18px 20px 22px; }
 
   /* Article prose */
-  .article-prose { font-size: 14px; line-height: 1.9; }
+  .article-prose { font-size: var(--fs-base); line-height: 1.9; }
   .article-prose h2 { font-size: 20px; margin: 36px 0 16px; }
   .article-prose h3 { font-size: 17px; margin: 28px 0 10px; }
 
@@ -3029,7 +3054,7 @@ picture { display: contents; }
   .hero-gallery { display: none; }
 
   /* Container fix */
-  .container, .container-wide { padding: 0 18px; }
+  /* .container の左右は --container-x (clamp) が担当 */
 
   /* Content row */
   .content-row { grid-template-columns: 1fr !important; gap: 6px !important; padding: 14px 16px; }
@@ -3048,7 +3073,7 @@ picture { display: contents; }
   .tagcloud a.w4 { font-size: 22px; }
   .tagcloud a.w3 { font-size: 17px; }
   .tagcloud a.w2 { font-size: 14px; }
-  .tagcloud a.w1 { font-size: 11px; }
+  .tagcloud a.w1 { font-size: 12px; }
 
   /* Voice bubble */
   .voice-bubble, .voice-bubble.reversed { grid-template-columns: 1fr; }
@@ -3060,7 +3085,7 @@ picture { display: contents; }
   .promo-num { font-size: 20px; }
 
   /* Section number indicator */
-  .section-no { font-size: 10px; top: 16px; right: 18px; }
+  .section-no { font-size: 12px; top: 16px; right: 18px; }
 
   /* Company table */
   .company-row { grid-template-columns: 1fr; gap: 4px; padding: 14px 18px; }
@@ -3071,27 +3096,26 @@ picture { display: contents; }
 
 /* === 330px — narrow phone (iPhone SE etc.) ============================== */
 @media (max-width: 360px) {
-  :root { --gutter: 14px; }
-  .container, .container-wide { padding: 0 14px; }
+  /* --gutter は --container-x (clamp) が担当 */
+  /* .container の左右は --container-x (clamp) が担当 */
   .nav-inner { height: 56px; padding: 0 12px; }
   .nav-logo { font-size: 14px; }
-  .nav-cta-wrap .btn { padding: 6px 10px; font-size: 10px; }
+  .nav-cta-wrap .btn { padding: 6px 10px; font-size: 12px; }
   .main-inner { padding: 40px 14px 32px; }
   .main-title { font-size: 26px; line-height: 1.3; }
-  .main-eyebrow { font-size: 10px; letter-spacing: 0.12em; }
-  .main-box li { font-size: 10px; padding: 5px 10px; }
+  .main-eyebrow { font-size: 12px; letter-spacing: 0.12em; }
+  .main-box li { font-size: 12px; padding: 5px 10px; }
   .main-medaru .medaru { padding: 12px 14px; }
   .main-medaru .medaru .num { font-size: 20px; }
   .main-cta-row .btn { padding: 12px 14px; font-size: 12px; }
-  .section-pad { padding-top: 40px; padding-bottom: 40px; }
-  .section-pad-sm { padding-top: 28px; padding-bottom: 28px; }
+  /* .section-pad / .section-pad-sm は --section-y / --section-y-sm が担当 */
   .section-title { font-size: 20px; }
   .display-xl { font-size: 24px; }
   .display-l { font-size: 21px; }
   .display-m { font-size: 19px; }
   .display-s { font-size: 16px; }
   .lede { font-size: 13px; }
-  body { font-size: 13px; }
+  body { font-size: 14px; }
   .card, .reason-card { padding: 18px; }
   .price-card { padding: 22px 18px; }
   .price-amount { font-size: 26px; }
@@ -3103,19 +3127,19 @@ picture { display: contents; }
   .quote-card { padding: 18px; }
   .quote-card .quote-body { font-size: 13px; }
   .voice-content { padding: 22px 20px; }
-  .footer { padding: 40px 0 24px; }
+  /* .footer の縦は --section-y-sm / --space-7 が担当 */
   .footer-area ul { grid-template-columns: 1fr; }
   .t_inq_wrap { padding: 32px 0; }
   .t_inq_tel a { font-size: 22px; }
   .t_inq_tel a svg { width: 22px !important; height: 22px !important; }
   .sp-bottom-nav a,
-  .sp-bottom-nav button { font-size: 9px; padding: 8px 2px; }
+  .sp-bottom-nav button { font-size: 12px; padding: 8px 2px; }
   .sp-bottom-nav .icn { width: 18px; height: 18px; }
   body { padding-bottom: 60px; }
   .promo-card { padding: 18px; }
   .promo-body h3 { font-size: 16px; }
-  .tag { font-size: 10px; padding: 4px 8px; }
-  .breadcrumb, .breadcrumb ol { font-size: 11px; }
+  .tag { font-size: 12px; padding: 4px 8px; }
+  .breadcrumb, .breadcrumb ol { font-size: 12px; }
   .gallery-tabs { gap: 2px; padding: 4px; }
   .gallery-tab { padding: 10px 16px; font-size: 12px; }
   .content-tabs { width: 100%; }
@@ -3228,7 +3252,7 @@ picture { display: contents; }
 .quote-card.q-xl .quote-meta { color: rgba(255,255,255,0.85); }
 .quote-card .quote-tag {
   align-self: flex-start;
-  font-size: 10px;
+  font-size: 12px;
   padding: 4px 8px;
   background: var(--accent-soft);
   color: var(--accent);
@@ -3345,7 +3369,7 @@ picture { display: contents; }
   margin-bottom: 16px;
 }
 .article-rail-card h4 {
-  font-size: 11px;
+  font-size: 12px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--accent);
@@ -3367,7 +3391,7 @@ picture { display: contents; }
   z-index: 30;
   padding: 16px 8px;
   font-family: var(--font-latin);
-  font-size: 11px;
+  font-size: 12px;
   letter-spacing: 0.3em;
   color: var(--text-3);
   pointer-events: none;
@@ -3482,7 +3506,7 @@ picture { display: contents; }
 }
 .step8-pill-n {
   font-family: var(--font-mono, var(--font-latin));
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.14em;
   color: var(--text-3);
@@ -3493,7 +3517,7 @@ picture { display: contents; }
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.08em;
   color: #fff;
@@ -3505,7 +3529,7 @@ picture { display: contents; }
 }
 .step8-pill-flag::before {
   content: "✓";
-  font-size: 9px;
+  font-size: 12px;
   font-weight: 900;
 }
 .step8-pill-icon {
@@ -3553,7 +3577,7 @@ picture { display: contents; }
 }
 .checkpoint-head-sub {
   font-family: var(--font-mono, var(--font-latin));
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.10em;
   color: #5b4dde;
@@ -3570,7 +3594,7 @@ picture { display: contents; }
 .checkpoint-card:hover { transform: translateY(-3px); box-shadow: 0 12px 28px rgba(91,77,222,0.14); }
 .checkpoint-step {
   font-family: var(--font-mono, var(--font-latin));
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.12em;
   color: #5b4dde;
@@ -3604,7 +3628,7 @@ picture { display: contents; }
 .variation-card.featured { border-color: var(--accent); background: linear-gradient(180deg, var(--accent-soft) 0%, #fff 50%); }
 .variation-label {
   font-family: var(--font-latin);
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.16em;
   color: var(--text-3);
@@ -3645,7 +3669,7 @@ picture { display: contents; }
   top: 18px; right: 18px;
   background: var(--accent);
   color: #fff;
-  font-size: 10px;
+  font-size: 12px;
   padding: 5px 10px;
   border-radius: 999px;
   font-weight: 700;
@@ -3662,7 +3686,7 @@ picture { display: contents; }
 }
 .seo-num {
   font-family: var(--font-latin);
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.16em;
   color: var(--accent);
@@ -3721,13 +3745,13 @@ picture { display: contents; }
   border-radius: 50%;
   display: grid;
   place-items: center;
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 700;
   font-family: var(--font-latin);
 }
 .seo-rank li:last-child { border-bottom: 0; }
 .seo-rank strong { font-size: 13px; color: var(--text); }
-.seo-rank span { color: var(--text-3); font-family: var(--font-mono); font-size: 11px; }
+.seo-rank span { color: var(--text-3); font-family: var(--font-mono); font-size: 12px; }
 
 .ai-tip {
   display: grid;
@@ -3753,7 +3777,7 @@ picture { display: contents; }
 }
 .ai-tip-label {
   display: inline-block;
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.14em;
   color: #5b4dde;
@@ -3900,7 +3924,7 @@ picture { display: contents; }
   display: block;
 }
 .stats-ribbon-cell .lbl {
-  font-size: 11px;
+  font-size: 12px;
   color: rgba(255,255,255,0.65);
   margin-top: 4px;
   letter-spacing: 0.02em;
@@ -3963,7 +3987,7 @@ picture { display: contents; }
   padding: 14px 22px;
   border-bottom: 1px solid var(--border);
   background: var(--bg-2);
-  font-size: 12.5px;
+  font-size: 12px;
   color: var(--text-2);
 }
 .pdf-gallery-num {
@@ -3971,7 +3995,7 @@ picture { display: contents; }
   font-weight: 700;
   letter-spacing: 0.08em;
   color: var(--accent);
-  font-size: 11px;
+  font-size: 12px;
   white-space: nowrap;
 }
 .pdf-gallery-title {
@@ -3987,7 +4011,7 @@ picture { display: contents; }
 }
 @media (max-width: 720px) {
   .pdf-gallery { gap: 20px; }
-  .pdf-gallery-caption { padding: 12px 16px; font-size: 11.5px; }
+  .pdf-gallery-caption { padding: 12px 16px; font-size: 12px; }
   .pdf-gallery-title { font-size: 12px; line-height: 1.5; }
 }
 
@@ -4101,7 +4125,7 @@ picture { display: contents; }
 }
 .diag-feat-card.new { border-color: var(--d-blue); background: linear-gradient(180deg, var(--accent-soft), #fff 60%); }
 .diag-feat-ico { font-size: 26px; line-height: 1; }
-.diag-feat-tag { display: inline-block; font-size: 10px; font-weight: 800; letter-spacing: 0.08em; color: #fff; background: var(--d-blue); padding: 2px 8px; border-radius: 999px; align-self: flex-start; }
+.diag-feat-tag { display: inline-block; font-size: 12px; font-weight: 800; letter-spacing: 0.08em; color: #fff; background: var(--d-blue); padding: 2px 8px; border-radius: 999px; align-self: flex-start; }
 .diag-feat-name { font-family: var(--font-latin, system-ui); font-size: 18px; font-weight: 800; color: var(--d-navy); margin: 4px 0 2px; }
 .diag-feat-jp { font-size: 14px; font-weight: 700; color: var(--d-heading); margin: 0 0 8px; }
 .diag-feat-list { list-style: none; margin: 0; padding: 0; }
@@ -4274,7 +4298,7 @@ picture { display: contents; }
 .diag-cat-score { font-family: var(--font-latin, system-ui); font-size: 18px; font-weight: 800; }
 .diag-cat-bar { height: 8px; border-radius: 999px; background: var(--bg-2); overflow: hidden; }
 .diag-cat-bar span { display: block; height: 100%; border-radius: 999px; transition: width 700ms cubic-bezier(0.2,0.7,0.2,1); }
-.diag-cat-issue { font-size: 12.5px; color: var(--d-body); margin: 6px 0 0; }
+.diag-cat-issue { font-size: 12px; color: var(--d-body); margin: 6px 0 0; }
 .diag-locked { background: var(--bg-2); border: 1px dashed var(--border-hi, var(--d-border)); border-radius: 12px; padding: 26px 24px; text-align: center; }
 .diag-locked-title { font-size: 16px; font-weight: 700; color: var(--d-heading); margin: 0 0 14px; }
 .diag-locked-list { list-style: none; padding: 0; margin: 0 0 20px; display: inline-flex; flex-direction: column; gap: 7px; text-align: left; }
@@ -4336,7 +4360,7 @@ picture { display: contents; }
   /* Tame oversized section gaps once stacked. */
   [style*="grid-template-columns"]:not(.content-row) { gap: 22px !important; }
   /* Tables in blog articles: allow horizontal scroll, smaller text. */
-  .article-body table { font-size: 12.5px; }
+  .article-body table { font-size: 12px; }
   .article-body th, .article-body td { padding: 8px 10px; }
   /* Pricing / wide pill rows wrap. */
   .kw-pill { font-size: 12px; padding: 7px 12px; }
@@ -4344,7 +4368,6 @@ picture { display: contents; }
 
 /* ---- Ultra-narrow phones (≤390px → support down to ~350px) ---- */
 @media (max-width: 390px) {
-  :root { --gutter: 18px; }
   .diag-page .diag-wrap { padding: 0 16px; }
   .gallery-tab { padding: 9px 16px; font-size: 12px; margin: 3px; }
   .gallery-tabs { gap: 0; }
@@ -4353,7 +4376,7 @@ picture { display: contents; }
   .section-title { font-size: clamp(22px, 7vw, 28px); }
   .diag-h1 { font-size: clamp(28px, 9vw, 38px); }
   .step8-pill-t { font-size: 13px; }
-  .tag, .kw-pill { font-size: 11px; }
+  .tag, .kw-pill { font-size: 12px; }
   /* keep stat numbers from overflowing */
   .stats-ribbon-cell .num, .bento-num, .medaru .num { word-break: keep-all; }
   /* contact modal full-bleed-ish */
@@ -4377,10 +4400,10 @@ picture { display: contents; }
 }
 
 /* ================= Content-data tables =================== */
-.cd-table { border-collapse: collapse; width: 100%; min-width: 640px; font-size: 13.5px; background: #fff; }
+.cd-table { border-collapse: collapse; width: 100%; min-width: 640px; font-size: 14px; background: #fff; }
 .cd-table th, .cd-table td { text-align: left; padding: 12px 16px; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.8; }
 .cd-table tr:last-child td { border-bottom: 0; }
-.cd-table th { font-size: 11px; letter-spacing: 0.1em; color: var(--text-3); background: var(--bg-2); white-space: nowrap; }
+.cd-table th { font-size: 12px; letter-spacing: 0.1em; color: var(--text-3); background: var(--bg-2); white-space: nowrap; }
 
 /* ================= Showcase viewer (サイト内モーダル) =================== */
 .showcase-overlay {
@@ -4433,7 +4456,7 @@ picture { display: contents; }
   background: #fff;
   border-radius: 8px;
   padding: 5px 14px;
-  font-size: 12.5px;
+  font-size: 12px;
   color: var(--text-2);
   white-space: nowrap;
   overflow: hidden;
@@ -4511,10 +4534,10 @@ picture { display: contents; }
   flex: none;
   letter-spacing: .06em;
 }
-.sys-card-head h3 { margin: 0; font-size: 16.5px; font-weight: 700; line-height: 1.5; }
+.sys-card-head h3 { margin: 0; font-size: 16px; font-weight: 700; line-height: 1.5; }
 .sys-scenario {
   margin: 0;
-  font-size: 13.5px;
+  font-size: 14px;
   line-height: 1.8;
   color: var(--text-2);
   background: var(--bg-2);
@@ -4524,14 +4547,14 @@ picture { display: contents; }
 }
 .sys-scenario span {
   display: inline-block;
-  font-size: 10.5px;
+  font-size: 12px;
   font-weight: 700;
   letter-spacing: .1em;
   color: var(--accent);
   margin-right: 8px;
   vertical-align: 1px;
 }
-.sys-does { margin: 0; font-size: 14.5px; line-height: 1.85; text-wrap: pretty; }
+.sys-does { margin: 0; font-size: 14px; line-height: 1.85; text-wrap: pretty; }
 .sys-meta {
   display: flex;
   flex-wrap: wrap;
@@ -4543,13 +4566,13 @@ picture { display: contents; }
 .sys-meta em {
   display: block;
   font-style: normal;
-  font-size: 10.5px;
+  font-size: 12px;
   font-weight: 600;
   letter-spacing: .08em;
   color: var(--text-3);
   margin-bottom: 3px;
 }
-.sys-note { margin: 0; font-size: 12.5px; line-height: 1.8; color: var(--text-3); text-wrap: pretty; }
+.sys-note { margin: 0; font-size: 12px; line-height: 1.8; color: var(--text-3); text-wrap: pretty; }
 .sys-law {
   margin-top: 26px;
   border: 1px solid var(--border);
@@ -4560,7 +4583,7 @@ picture { display: contents; }
 }
 .sys-law h3 { margin: 0 0 8px; font-size: 15px; font-weight: 700; }
 .sys-law p { margin: 0 0 10px; font-size: 14px; line-height: 1.85; color: var(--text-2); text-wrap: pretty; }
-.sys-law a { font-size: 12.5px; color: var(--accent); }
+.sys-law a { font-size: 12px; color: var(--accent); }
 @media (max-width: 640px) {
   .sys-card { padding: 20px 18px; }
 }
@@ -4617,3 +4640,17 @@ h1, h2, h3,
 /* ---- はみ出し予防 ---- */
 video, iframe { max-width: 100%; }
 .nav-drawer { overflow: hidden; }
+
+/* 5列以上の比較表は、列を削ると情報が落ちるので横スクロールのまま残す。
+   代わりに「まだ右に続く」ことが分かるよう、スクロール可能なときだけ
+   端に影を出す (background-attachment: local/scroll の組み合わせ)。 */
+@media (max-width: 900px) {
+  .article-body table {
+    background:
+      linear-gradient(to right, var(--surface) 30%, rgba(255, 255, 255, 0)) left / 28px 100% no-repeat,
+      linear-gradient(to left,  var(--surface) 30%, rgba(255, 255, 255, 0)) right / 28px 100% no-repeat,
+      radial-gradient(farthest-side at 0 50%, rgba(0, 0, 0, 0.14), transparent) left / 12px 100% no-repeat,
+      radial-gradient(farthest-side at 100% 50%, rgba(0, 0, 0, 0.14), transparent) right / 12px 100% no-repeat;
+    background-attachment: local, local, scroll, scroll;
+  }
+}

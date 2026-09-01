@@ -124,11 +124,11 @@ function WorksPage({ category, onNavigate, onContact }) {
                  onClick={w.demo ? (e) => { e.preventDefault(); openShowcase(w.demo, w.title); } : undefined}>
                 <WorkShot work={w}/>
                 <div style={{ padding: '18px 22px 20px' }}>
-                  <div className="row" style={{ justifyContent: 'space-between', marginBottom: 10 }}>
+                  <div className="row" style={{ justifyContent: 'space-between', marginBottom: 12 }}>
                     <span className="tag">{w.tag}</span>
                     <span className="stat-pill">{w.stat}</span>
                   </div>
-                  <h3 style={{ fontSize: 16, fontWeight: 700, margin: 0, marginBottom: 10, lineHeight: 1.6 }}>{w.title}</h3>
+                  <h3 style={{ fontSize: 16, fontWeight: 700, margin: 0, marginBottom: 12, lineHeight: 1.6 }}>{w.title}</h3>
                   <div className="row-tight">
                     {w.services.map((s, i) => <span key={i} className="small text-mono" style={{ color: 'var(--text-3)' }}>· {s}</span>)}
                   </div>
@@ -145,7 +145,7 @@ function WorksPage({ category, onNavigate, onContact }) {
         <section className="section-pad-sm" style={{ borderTop: '1px solid var(--border)' }}>
           <div className="container">
             <h3 className="display-s" style={{ marginBottom: 24 }}>他の業種の実績も見る</h3>
-            <div className="row" style={{ gap: 10, flexWrap: 'wrap' }}>
+            <div className="row" style={{ gap: 12, flexWrap: 'wrap' }}>
               {allCats.filter(c => c !== category).map(c => (
                 <a key={c} className="kw-pill" {...navProps('works-' + c, onNavigate)}>
                   {CATEGORY_LABELS[c]} →
@@ -249,10 +249,10 @@ function SupportPage({ onNavigate, onContact }) {
             lede="どんなに小さな案件でも、運用体制は変わりません。"
           />
           <div className="grid-4">
-            <div className="card"><div className="step-num" style={{ marginBottom: 16 }}>01</div><h3 style={{ fontSize: 19, fontWeight: 500, margin: 0, marginBottom: 10 }}>月次アクセス報告</h3><p className="body" style={{ fontSize: 14 }}>GA4 / GSC / 独自解析を統合したカスタムダッシュボードで、毎月の変化を可視化。</p></div>
-            <div className="card"><div className="step-num" style={{ marginBottom: 16 }}>02</div><h3 style={{ fontSize: 19, fontWeight: 500, margin: 0, marginBottom: 10 }}>定期訪問・MTG</h3><p className="body" style={{ fontSize: 14 }}>月1回のオンライン or オフライン MTG で、改善施策をその場で決定します。</p></div>
-            <div className="card"><div className="step-num" style={{ marginBottom: 16 }}>03</div><h3 style={{ fontSize: 19, fontWeight: 500, margin: 0, marginBottom: 10 }}>操作マニュアル整備</h3><p className="body" style={{ fontSize: 14 }}>WordPress / AI ツールの管理画面ごとに、画像付きの操作手順書をご提供します。</p></div>
-            <div className="card"><div className="step-num" style={{ marginBottom: 16 }}>04</div><h3 style={{ fontSize: 19, fontWeight: 500, margin: 0, marginBottom: 10 }}>ヒートマップ解析</h3><p className="body" style={{ fontSize: 14 }}>どこで離脱するか、どこをクリックするか。データに基づくUI改善を提案。</p></div>
+            <div className="card"><div className="step-num" style={{ marginBottom: 16 }}>01</div><h3 style={{ fontSize: 19, fontWeight: 500, margin: 0, marginBottom: 12 }}>月次アクセス報告</h3><p className="body" style={{ fontSize: 14 }}>GA4 / GSC / 独自解析を統合したカスタムダッシュボードで、毎月の変化を可視化。</p></div>
+            <div className="card"><div className="step-num" style={{ marginBottom: 16 }}>02</div><h3 style={{ fontSize: 19, fontWeight: 500, margin: 0, marginBottom: 12 }}>定期訪問・MTG</h3><p className="body" style={{ fontSize: 14 }}>月1回のオンライン or オフライン MTG で、改善施策をその場で決定します。</p></div>
+            <div className="card"><div className="step-num" style={{ marginBottom: 16 }}>03</div><h3 style={{ fontSize: 19, fontWeight: 500, margin: 0, marginBottom: 12 }}>操作マニュアル整備</h3><p className="body" style={{ fontSize: 14 }}>WordPress / AI ツールの管理画面ごとに、画像付きの操作手順書をご提供します。</p></div>
+            <div className="card"><div className="step-num" style={{ marginBottom: 16 }}>04</div><h3 style={{ fontSize: 19, fontWeight: 500, margin: 0, marginBottom: 12 }}>ヒートマップ解析</h3><p className="body" style={{ fontSize: 14 }}>どこで離脱するか、どこをクリックするか。データに基づくUI改善を提案。</p></div>
           </div>
         </div>
       </section>
@@ -329,7 +329,7 @@ function PricingPage({ onNavigate, onContact }) {
       ].map((block, i) => (
         <section key={i} className="section-pad" style={{ borderTop: i > 0 ? '1px solid var(--border)' : undefined, background: i % 2 === 1 ? 'var(--bg-2)' : undefined, borderBottom: i % 2 === 1 ? '1px solid var(--border)' : undefined }}>
           <div className="container">
-            <div className="row" style={{ marginBottom: 36, justifyContent: 'space-between', alignItems: 'flex-end' }}>
+            <div className="row" style={{ marginBottom: 32, justifyContent: 'space-between', alignItems: 'flex-end' }}>
               <h2 className="display-m">{block.tl}</h2>
               <Button variant="text" to={block.tl === 'Web 制作' ? 'web' : block.tl === 'AIチャットボット' ? 'chatbot' : 'dx'} nav={onNavigate}>機能詳細を見る<Icon name="arrow-right" size={13}/></Button>
             </div>
@@ -392,7 +392,7 @@ function DiagnosisPage({ onNavigate, onContact }) {
             ].map((it, i) => (
               <div key={i} className="card" style={{ textAlign: 'center', padding: 32 }}>
                 <div className="num" style={{ fontSize: 32, fontWeight: 600, color: 'var(--accent)', marginBottom: 8 }}>{String(i + 1).padStart(2, '0')}</div>
-                <h3 style={{ fontSize: 16, fontWeight: 500, margin: 0, marginBottom: 6 }}>{it.t}</h3>
+                <h3 style={{ fontSize: 16, fontWeight: 500, margin: 0, marginBottom: 8 }}>{it.t}</h3>
                 <p className="small text-mono" style={{ color: 'var(--text-3)' }}>{it.n}</p>
               </div>
             ))}
@@ -476,7 +476,7 @@ function QuickDiagnosisPage({ onNavigate, onContact }) {
                 <Icon name="check" size={24} stroke={1.8}/>
               </div>
               <h3 className="display-s" style={{ marginBottom: 16 }}>診断結果</h3>
-              <p className="lede" style={{ marginBottom: 28 }}>
+              <p className="lede" style={{ marginBottom: 24 }}>
                 {answers.pain === "ブログ更新が止まる" ? "AIチャットボットの導入が最優先です。" :
                  answers.pain === "DXを進めたい" ? "DX・ML サービスのご提案が適しています。" :
                  "Web制作からの段階的なアプローチをおすすめします。"}
@@ -543,9 +543,9 @@ function SubsidyPage({ onNavigate, onContact }) {
 function SubsidyCard({ tl, amount, unit, rate, desc, featured }) {
   return (
     <div className={`card${featured ? '' : ''}`} style={featured ? { borderColor: 'var(--accent)', background: 'color-mix(in srgb, var(--accent) 5%, var(--surface))' } : {}}>
-      <h3 style={{ fontSize: 20, fontWeight: 600, margin: 0, marginBottom: 14, letterSpacing: '-0.01em' }}>{tl}</h3>
+      <h3 style={{ fontSize: 20, fontWeight: 600, margin: 0, marginBottom: 16, letterSpacing: '-0.01em' }}>{tl}</h3>
       <div className="num" style={{ fontSize: 38, fontWeight: 600, color: 'var(--text)', letterSpacing: '-0.02em' }}>{amount}<sub style={{ fontSize: 14, color: 'var(--text-3)', marginLeft: 4, fontWeight: 500 }}>{unit}</sub></div>
-      <div className="tag" style={{ marginTop: 12, marginBottom: 18, color: 'var(--accent)', borderColor: 'var(--accent)' }}>{rate}</div>
+      <div className="tag" style={{ marginTop: 12, marginBottom: 16, color: 'var(--accent)', borderColor: 'var(--accent)' }}>{rate}</div>
       <p className="body" style={{ fontSize: 13, margin: 0 }}>{desc}</p>
     </div>
   );
@@ -556,7 +556,7 @@ function ProcessStep({ title, desc, n }) {
     <li className="process-item">
       <div className="process-num text-mono">{n ? <span>STEP {n}</span> : null}</div>
       <div>
-        <h3 style={{ fontSize: 19, fontWeight: 500, margin: 0, marginBottom: 6 }}>{title}</h3>
+        <h3 style={{ fontSize: 19, fontWeight: 500, margin: 0, marginBottom: 8 }}>{title}</h3>
         <p className="body" style={{ fontSize: 14, margin: 0 }}>{desc}</p>
       </div>
     </li>
@@ -580,7 +580,7 @@ function GuidebookPage({ onNavigate, onContact }) {
       />
       <section className="section-pad">
         <div className="container">
-          <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: 56, alignItems: 'flex-start' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: 48, alignItems: 'flex-start' }}>
             <div className="guidebook-viewer">
               <iframe
                 src="assets/Nortiq_Service_Deck.pdf#view=FitH"
@@ -590,7 +590,7 @@ function GuidebookPage({ onNavigate, onContact }) {
             </div>
             <div>
               <h3 className="display-s" style={{ marginBottom: 24 }}>掲載内容</h3>
-              <ol style={{ paddingLeft: 20, lineHeight: 2.2, fontSize: 15 }}>
+              <ol style={{ paddingLeft: 16, lineHeight: 2.2, fontSize: 15 }}>
                 <li>よくある課題 — 今のサイト、こんな状態になっていませんか</li>
                 <li>制作サービス — 設計から公開、その後の運用まで</li>
                 <li>制作実績・ポートフォリオ — 数字と事例</li>
@@ -601,7 +601,7 @@ function GuidebookPage({ onNavigate, onContact }) {
                 <li>会社概要・代表 — チームと歩み</li>
                 <li>無料相談のご案内</li>
               </ol>
-              <div className="row" style={{ marginTop: 32, gap: 14, flexWrap: 'wrap' }}>
+              <div className="row" style={{ marginTop: 32, gap: 16, flexWrap: 'wrap' }}>
                 <a className="btn btn-primary btn-lg" href="assets/Nortiq_Service_Deck.pdf" download>
                   <Icon name="arrow-down" size={16}/>無料ダウンロード (PDF)
                 </a>
@@ -775,7 +775,7 @@ function CompanyPage({ onNavigate, onContact }) {
               <Placeholder label="MAP" caption="map / kyoto" aspect="4/5"/>
             </div>
             <div>
-              <p className="body" style={{ marginBottom: 18 }}>
+              <p className="body" style={{ marginBottom: 16 }}>
                 〒604-0012 京都府京都市中京区竪大恩寺町 751
               </p>
               <p className="small" style={{ color: 'var(--text-3)' }}>
@@ -823,8 +823,8 @@ function StaffPage({ onNavigate, onContact }) {
                 <div style={{ padding: 24 }}>
                   <p className="small text-mono" style={{ color: 'var(--text-3)', marginBottom: 4 }}>{m.role}</p>
                   <h3 style={{ fontSize: 19, fontWeight: 600, margin: 0, marginBottom: 12, letterSpacing: '-0.01em' }}>{m.name}</h3>
-                  <p className="body" style={{ fontSize: 13, margin: 0, marginBottom: 14 }}>{m.desc}</p>
-                  <div className="row-tight" style={{ gap: 6 }}>
+                  <p className="body" style={{ fontSize: 13, margin: 0, marginBottom: 16 }}>{m.desc}</p>
+                  <div className="row-tight" style={{ gap: 8 }}>
                     {m.tags.map(t => <span key={t} className="tag" style={{ background: 'var(--bg-2)', fontSize: 10 }}>{t}</span>)}
                   </div>
                 </div>

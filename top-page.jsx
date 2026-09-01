@@ -125,7 +125,7 @@ function TopPage({ onNavigate, onContact }) {
                   <Placeholder label={c.tag} caption="case study" aspect="16/10" src={c.img} alt={`${c.title}の導入実績`} fit/>
                 </div>
                 <div className="case-card-body">
-                  <div className="row" style={{ justifyContent: 'flex-end', marginBottom: 14 }}>
+                  <div className="row" style={{ justifyContent: 'flex-end', marginBottom: 16 }}>
                     <span className="small text-mono" style={{ color: 'var(--text-3)' }}>CASE / {String(i+1).padStart(2,'0')}</span>
                   </div>
                   <h3 style={{ fontSize: 18, fontWeight: 700, lineHeight: 1.55, margin: 0, marginBottom: 16 }}>{c.title}</h3>
@@ -301,7 +301,7 @@ function TopPage({ onNavigate, onContact }) {
               delay={300}
             />
           </div>
-          <div className="row" style={{ justifyContent: 'center', marginTop: 36, gap: 14 }}>
+          <div className="row" style={{ justifyContent: 'center', marginTop: 32, gap: 16 }}>
             <Button variant="ghost" to={'web'} nav={onNavigate}>機能一覧はこちらから<Icon name="arrow-right" size={14}/></Button>
             <Button variant="primary" onClick={onContact}>サービス資料を請求する (無料)<Icon name="arrow-right" size={14}/></Button>
           </div>
@@ -352,7 +352,7 @@ function TopPage({ onNavigate, onContact }) {
       {/* =========== Tag Cloud (weighted) =========== */}
       <section style={{ paddingBottom: 'clamp(64px, 9vw, 110px)' }}>
         <div className="container">
-          <div className="section-head" style={{ marginBottom: 40 }}>
+          <div className="section-head" style={{ marginBottom: 32 }}>
             <h3 className="display-s fadein">扱う技術と業務領域</h3>
             <p className="section-sub fadein">TOPICS · WEIGHTED CLOUD</p>
           </div>
@@ -410,12 +410,12 @@ function TopPage({ onNavigate, onContact }) {
             ].map((it, i) => (
               <div key={i} className="support-card fadein" data-delay={i * 120}>
                 <div className="step-num" style={{ marginBottom: 16 }}>SUPPORT / {it.n}</div>
-                <h3 style={{ fontSize: 18, fontWeight: 700, margin: 0, marginBottom: 10 }}>{it.t}</h3>
+                <h3 style={{ fontSize: 18, fontWeight: 700, margin: 0, marginBottom: 12 }}>{it.t}</h3>
                 <p className="body" style={{ fontSize: 13, margin: 0 }}>{it.d}</p>
               </div>
             ))}
           </div>
-          <div className="row" style={{ justifyContent: 'center', marginTop: 48, gap: 14 }}>
+          <div className="row" style={{ justifyContent: 'center', marginTop: 48, gap: 16 }}>
             <Button variant="ghost" to={'support'} nav={onNavigate}>コンサル・運用サポート<Icon name="arrow-right" size={14}/></Button>
             <Button variant="ghost" to={'staff'} nav={onNavigate}>スタッフ紹介<Icon name="arrow-right" size={14}/></Button>
           </div>
@@ -452,7 +452,7 @@ function TopPage({ onNavigate, onContact }) {
               delay={200}
             />
           </div>
-          <div className="row" style={{ justifyContent: 'center', marginTop: 48, gap: 14 }}>
+          <div className="row" style={{ justifyContent: 'center', marginTop: 48, gap: 16 }}>
             <Button variant="ghost" to={'voice'} nav={onNavigate}>クライアント様からの声<Icon name="arrow-right" size={14}/></Button>
             <Button variant="ghost"><Icon name="search" size={14}/>Google 口コミ</Button>
           </div>
@@ -575,7 +575,7 @@ function ReasonCard({ num, emphasis, title, desc, link, onClick, delay, src, to,
   const linkProps = to && nav ? navProps(to, nav) : { onClick };
   return (
     <Tag className="reason-card fadein" {...linkProps} data-delay={delay}>
-      <div className="row" style={{ justifyContent: 'space-between', marginBottom: 18 }}>
+      <div className="row" style={{ justifyContent: 'space-between', marginBottom: 16 }}>
         <span className="reason-num">{num}</span>
         <Icon name="arrow-right" size={14}/>
       </div>
@@ -599,7 +599,7 @@ function WorkCard({ tag, title, stat, services, src }) {
           <span className="tag">{tag}</span>
           <span className="small text-mono text-accent" style={{ fontWeight: 700 }}>{stat}</span>
         </div>
-        <h3 style={{ fontSize: 17, fontWeight: 700, margin: 0, lineHeight: 1.5, marginBottom: 10 }}>{title}</h3>
+        <h3 style={{ fontSize: 17, fontWeight: 700, margin: 0, lineHeight: 1.5, marginBottom: 12 }}>{title}</h3>
         <div className="row-tight">
           {(services || []).map((s, i) => (
             <span key={i} className="small text-mono" style={{ color: 'var(--text-3)' }}>· {s}</span>
@@ -615,14 +615,14 @@ function FeatureTrioCard({ vertical, titlePrefix, titleSuffix, sub, desc, price,
   const linkProps = to && nav ? navProps(to, nav) : { onClick };
   return (
     <Tag className={`feature-trio-card fadein${featured ? ' featured' : ''}`} {...linkProps} data-delay={delay}>
-      <div className="row" style={{ marginBottom: 18 }}>
+      <div className="row" style={{ marginBottom: 16 }}>
         <span className="step-num">{vertical}</span>
       </div>
       <div className="feature-trio-title">
         <h3><span className="accent-block">{titlePrefix}</span>{titleSuffix}</h3>
         <p>{sub}</p>
       </div>
-      <p className="body" style={{ fontSize: 13, marginTop: 18, marginBottom: 24, lineHeight: 1.9 }}>{desc}</p>
+      <p className="body" style={{ fontSize: 13, marginTop: 16, marginBottom: 24, lineHeight: 1.9 }}>{desc}</p>
       <div className="feature-trio-price">{price}</div>
       <div className="feature-trio-cta">機能一覧を見る<Icon name="arrow-right" size={14}/></div>
     </Tag>
@@ -704,7 +704,7 @@ function GalleryTabs({ onNavigate }) {
                {...(w.demo ? { onClick: (e) => { e.preventDefault(); openShowcase(w.demo, w.t); } } : navProps(w.route, onNavigate))}>
               <WorkShot work={{ img: w.img, title: w.t, tag: w.tag }}/>
               <div style={{ padding: '18px 22px 20px' }}>
-                <div className="row" style={{ justifyContent: 'space-between', marginBottom: 10 }}>
+                <div className="row" style={{ justifyContent: 'space-between', marginBottom: 12 }}>
                   <span className="tag">{w.tag}</span>
                   <span className="stat-pill">{w.stat}</span>
                 </div>
@@ -781,7 +781,7 @@ function ContentTabs({ onNavigate }) {
             </a>
           ))}
         </div>
-        <div style={{ textAlign: 'center', marginTop: 36 }}>
+        <div style={{ textAlign: 'center', marginTop: 32 }}>
           <Button variant="ghost" to={t.ctaTo} nav={onNavigate}>{t.label} 一覧を見る<Icon name="arrow-right" size={14}/></Button>
         </div>
       </div>
@@ -795,7 +795,7 @@ function PickupCard({ label, title, desc, accent, onClick, to, nav }) {
   return (
     <Tag className="pickup-card fadein" {...linkProps}>
       <div className="pickup-accent" style={{ background: accent }}></div>
-      <div style={{ padding: 28 }}>
+      <div style={{ padding: 24 }}>
         <p className="pickup-label" style={{ color: accent }}>{label}</p>
         <h3 className="pickup-title">{title}</h3>
         <p className="pickup-desc">{desc}</p>

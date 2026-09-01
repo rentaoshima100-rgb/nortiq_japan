@@ -358,11 +358,33 @@ async function build() {
 
   console.log('• rendering blog articles (markdown → html)');
   const articles = buildArticles();
-  const articlesJs = 'window.NORTIQ_ARTICLES = ' + JSON.stringify(articles) + ';';
+  // 記事本文 (html) は articles.js から外し、1記事1ファイルに分割する。
+  // 以前は全73本の本文を1つの articles.js (1.5MB) に固めてトップページを含む
+  // 全ページで読み込んでいた。記事1本を読むために他72本の本文が付いてくる状態。
+  // articles.js にはメタデータだけを残す (ルート登録・記事一覧・関連記事・
+  // meta description / JSON-LD は全てメタデータだけで足りる)。
+  const meta = {};
+  const bodies = {};
+  for (const [slug, a] of Object.entries(articles)) {
+    const { html, ...rest } = a;
+    meta[slug] = rest;
+    bodies[slug] = html;
+  }
+  const articlesJs = 'window.NORTIQ_ARTICLES = ' + JSON.stringify(meta) + ';';
   fs.writeFileSync(path.join(DIST, 'articles.js'), articlesJs, 'utf8');
   // Also drop a copy at project root so the Babel dev HTML can load it.
   fs.writeFileSync(path.join(ROOT, 'articles.js'), articlesJs, 'utf8');
-  console.log(`  → dist/articles.js (${Object.keys(articles).length} articles, ${(Buffer.byteLength(articlesJs, 'utf8') / 1024).toFixed(1)} KB)`);
+  const BODIES_DIR = path.join(DIST, 'articles');
+  fs.mkdirSync(BODIES_DIR, { recursive: true });
+  let bodyBytes = 0;
+  for (const [slug, html] of Object.entries(bodies)) {
+    const js = '(window.NORTIQ_ARTICLE_HTML=window.NORTIQ_ARTICLE_HTML||{})['
+      + JSON.stringify(slug) + ']=' + JSON.stringify(html) + ';';
+    fs.writeFileSync(path.join(BODIES_DIR, slug + '.js'), js, 'utf8');
+    bodyBytes += Buffer.byteLength(js, 'utf8');
+  }
+  console.log(`  → dist/articles.js (${Object.keys(meta).length} articles, メタのみ ${(Buffer.byteLength(articlesJs, 'utf8') / 1024).toFixed(1)} KB)`);
+  console.log(`  → dist/articles/*.js (本文 ${Object.keys(bodies).length} ファイル, 計 ${(bodyBytes / 1024).toFixed(1)} KB)`);
 
   console.log('• copying styles.css');
   fs.copyFileSync(path.join(ROOT, 'styles.css'), path.join(DIST, 'styles.css'));
