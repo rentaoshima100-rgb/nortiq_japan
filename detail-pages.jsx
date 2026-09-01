@@ -6,7 +6,8 @@
 // ============================================================
 // Shared mini components
 // ============================================================
-function DetailHero({ tag, title, lede, badges, onContact, ctaLabel = "資料請求はこちら", subCta = "デモを見る", visualLabel, visualCaption, visualSrc, visualAspect = "4/3" }) {
+// subCta は subCtaTo (遷移先ルートID) + nav が揃ったときだけ描画する (PageHero と同じ理由)。
+function DetailHero({ tag, title, lede, badges, onContact, ctaLabel = "資料請求はこちら", subCta = "デモを見る", subCtaTo, nav, visualLabel, visualCaption, visualSrc, visualAspect = "4/3" }) {
   return (
     <section style={{ paddingTop: 'clamp(56px, 8vw, 100px)', paddingBottom: 'clamp(48px, 6vw, 80px)', borderBottom: '4px solid var(--accent)' }}>
       <div className="container">
@@ -22,7 +23,9 @@ function DetailHero({ tag, title, lede, badges, onContact, ctaLabel = "資料請
             )}
             <div className="row fadein" data-delay="400" style={{ gap: 14 }}>
               <Button variant="primary" size="lg" onClick={onContact} arrow>{ctaLabel}</Button>
-              <Button variant="ghost" size="lg">{subCta}<Icon name="arrow-right" size={14}/></Button>
+              {subCtaTo && nav && (
+                <Button variant="ghost" size="lg" to={subCtaTo} nav={nav}>{subCta}<Icon name="arrow-right" size={14}/></Button>
+              )}
             </div>
           </div>
           <div className="fadein" data-delay="200">
@@ -159,7 +162,7 @@ function ProductVetoNetPage({ onNavigate, onContact }) {
               </p>
               <StackBlock stack={["Python", "Rust", "PyTorch", "FastAPI", "Anthropic Claude", "OpenAI", "PostgreSQL", "Redis", "Docker"]}/>
               <div style={{ marginTop: 24 }}>
-                <Button variant="text" onClick={() => onNavigate('column')}>技術ブログで詳しく読む<Icon name="arrow-right" size={13}/></Button>
+                <Button variant="text" to={'column'} nav={onNavigate}>技術ブログで詳しく読む<Icon name="arrow-right" size={13}/></Button>
               </div>
             </div>
           </div>
@@ -879,9 +882,9 @@ function WorksVariantPage({ pageId, onNavigate, onContact }) {
       <section className="section-pad">
         <div className="container">
           <div className="row" style={{ marginBottom: 24, gap: 8 }}>
-            <button className="kw-pill" onClick={() => onNavigate('works')}>← 全実績</button>
+            <a className="kw-pill" {...navProps('works', onNavigate)}>← 全実績</a>
             {Object.entries(LP_DATA).filter(([k]) => k !== pageId).map(([k, v]) => (
-              <button key={k} className="kw-pill" onClick={() => onNavigate(k)}>{v.eyebrow.split(' / ')[1]}</button>
+              <a key={k} className="kw-pill" {...navProps(k, onNavigate)}>{v.eyebrow.split(' / ')[1]}</a>
             ))}
           </div>
           <div className="grid-3">

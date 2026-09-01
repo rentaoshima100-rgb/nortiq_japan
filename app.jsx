@@ -11,7 +11,6 @@ const ROUTES = {
   voice:           { c: () => window.VoicePage,           title: '導入事例・お客様の声｜Nortiq Labs' },
   support:         { c: () => window.SupportPage,         title: '運用サポート・保守プラン｜Nortiq Labs' },
   pricing:         { c: () => window.PricingPage,         title: '料金プラン｜ホームページ制作・AI導入の費用 — Nortiq Labs' },
-  diagnosis:       { c: () => window.DiagnosisPage,       title: 'サイト無料診断 — Nortiq Labs' },
   'quick-diagnosis': { c: () => window.QuickDiagnosisPage, title: 'クイック診断 — Nortiq Labs' },
   subsidy:         { c: () => window.SubsidyPage,         title: '補助金を使ったホームページ制作・AI導入の相談｜Nortiq Labs' },
   guidebook:       { c: () => window.GuidebookPage,       title: 'サービス紹介資料ダウンロード（無料）｜Nortiq Labs' },
@@ -90,7 +89,6 @@ ROUTES['solution-hr'].title     = '人材業向けマッチングサイト構築
 ROUTES['solution-retail'].title = 'Shopify OMOパッケージ｜店舗×ECの在庫・顧客統合 — Nortiq Labs';
 
 // Detail templates (single work / article example pages)
-ROUTES['work-detail']    = { c: () => window.WorkDetailPage,    title: '実績詳細 — Nortiq Labs' };
 
 // Blog articles — one route per slug (content from window.NORTIQ_ARTICLES)
 Object.keys((typeof window !== 'undefined' && window.NORTIQ_ARTICLES) || {}).forEach((slug) => {
@@ -207,7 +205,6 @@ const SEO_DESC = {
   pricing: 'ホームページ制作・AIチャットボット・DX支援の料金一覧。初期費用と月額運用を明記し、補助金活用のご相談も可能。京都・全国オンライン対応、初回相談は無料です。',
   support: '公開後のサイト更新・セキュリティ保守・改善提案までカバーする運用サポート。月次レポートとGA4データに基づき、作って終わりにしない改善を続けます。',
   diagnostic: 'サイトURLを入力するだけで、SEO・表示速度・導線の改善点を無料診断。営業日24時間以内に、具体的な改善レポートをお返しします。',
-  diagnosis: 'サイト無料診断。Nortiq独自のチェックリストで、現状のWeb課題を可視化し、改善の優先順位をご提案します。',
   subsidy: 'IT導入補助金・小規模事業者持続化補助金などを活用したホームページ制作・AIツール導入のご相談窓口。対象になるか、いくら補助されるかを無料で確認できます。',
   guidebook: 'Web制作・AI導入・DX支援のサービス内容・料金・事例をまとめた資料を無料ダウンロード。社内検討・比較検討用にそのままお使いいただけます。',
   column: '調査データに基づくAI・SEO・DX・業種別マーケティングの技術ブログ。一次情報と数値で裏づけた、現場で使える知見を発信しています。',
@@ -271,7 +268,21 @@ const SEO_DESC = {
   'terms': 'Nortiq Labs Inc. のサービス利用規約。適用範囲・契約の成立・利用者の義務・禁止事項・知的財産権・免責事項・準拠法および管轄について定めています。',
   'privacy-handling': 'Nortiq Labs Inc. における個人情報の利用目的、第三者提供、業務委託、開示請求の窓口など、個人情報の具体的な取扱いについて説明しています。',
 };
-const NOINDEX_ROUTES = { sitemap: true };
+// 検索結果に出すべきでないページ。プリレンダ時にもこの meta が焼き込まれる。
+//  - sitemap: HTMLサイトマップ (ナビゲーション用)
+//  - quick-diagnosis: 1分診断ツール。/diagnostic と検索意図が重なるため索引させない
+const NOINDEX_ROUTES = { sitemap: true, 'quick-diagnosis': true };
+
+// 記事の noindex は build.js の BLOG エントリ (noindex: true) が唯一の出典。
+// そこを1箇所直せば sitemap.xml・記事一覧・関連記事・この meta robots がまとめて揃う。
+function isNoindexRoute(route) {
+  if (NOINDEX_ROUTES[route]) return true;
+  if (route && route.indexOf('article-') === 0) {
+    const a = ((typeof window !== 'undefined' && window.NORTIQ_ARTICLES) || {})[route.slice('article-'.length)];
+    return !!(a && a.noindex);
+  }
+  return false;
+}
 function descFor(route) {
   // Explicit per-route description wins (incl. SEO-tuned article descriptions).
   if (SEO_DESC[route]) return SEO_DESC[route];
@@ -582,7 +593,7 @@ function App() {
     canonical.setAttribute('href', url);
     // Utility pages (HTML sitemap) → noindex; all others stay indexable.
     let robots = document.head.querySelector('meta[name="robots"]');
-    if (NOINDEX_ROUTES[route]) {
+    if (isNoindexRoute(route)) {
       if (!robots) { robots = document.createElement('meta'); robots.setAttribute('name', 'robots'); document.head.appendChild(robots); }
       robots.setAttribute('content', 'noindex, follow');
     } else if (robots) {
@@ -685,7 +696,7 @@ function App() {
   // Sync mega menu "current" key (treat works-* as 'works', article-* as contents, etc.)
   const currentKey = route.startsWith('works-') ? 'works'
     : route.startsWith('article-') ? 'contents'
-    : (route === 'quick-diagnosis' ? 'diagnosis'
+    : (route === 'quick-diagnosis' ? 'diagnostic'
     : route);
 
   return (

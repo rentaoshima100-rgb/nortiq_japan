@@ -73,12 +73,16 @@ function WebPage({ onNavigate, onContact }) {
     <main className="page-fade">
       <PageHero
         eyebrow="STEP 01 / WEB 制作"
-        title={<>ただ作るだけのサイトは、<br/>もう作りません。</>}
+        title="集客できるホームページ制作"
+        sub={<>ただ作るだけのサイトは、もう作りません。</>}
         watermark="WEB"
         pageNo="01"
         lede="集客と問い合わせ獲得を前提に設計する Web 制作。WordPress / 静的サイト / Next.js を、目的に合わせて適切に選びます。"
         badges={["WordPress", "Next.js", "WCAG 2.1 AA", "Core Web Vitals Good", "30万円〜"]}
         onContact={() => onContact('web')}
+        subCta="制作実績を見る"
+        subCtaTo="works"
+        nav={onNavigate}
       />
 
       {/* PAINS */}
@@ -225,7 +229,7 @@ function WebPage({ onNavigate, onContact }) {
                 Web 制作の段階で AIチャットボット導入を見据えた構造にしておけば、後から組み込む時のコストを大幅に下げられます。
               </p>
               <div style={{ marginTop: 32 }}>
-                <Button variant="ghost" onClick={() => onNavigate('chatbot')}>STEP 02 を見る<Icon name="arrow-right" size={14}/></Button>
+                <Button variant="ghost" to={'chatbot'} nav={onNavigate}>STEP 02 を見る<Icon name="arrow-right" size={14}/></Button>
               </div>
             </div>
             <Placeholder label="Funnel · 02" caption="AI 投稿アシスタント (next step)" aspect="4/3" src="assets/pdf/loop-ai-04.png" fit/>
@@ -278,13 +282,16 @@ function ChatbotPage({ onNavigate, onContact }) {
     <main className="page-fade">
       <PageHero
         eyebrow="STEP 02 / AIチャットボット"
-        title={<>WordPress のブログ更新が止まる、<br/>を解決します。</>}
+        title="AIチャットボット導入・開発"
+        sub={<>WordPress のブログ更新が止まる、を解決します。</>}
         watermark="AI"
         pageNo="02"
         lede="質問するだけで記事が書ける、Nortiq Labs 内製の AIチャットボット 投稿ツール。SEO 流入を止めないための、現実解です。"
         badges={["自社プロダクト", "WordPress 連携", "OpenAI / Claude", "10万円〜"]}
         onContact={() => onContact('chatbot')}
-        subCta="デモを見る"
+        subCta="製品詳細を見る"
+        subCtaTo="product-wpchat"
+        nav={onNavigate}
       />
 
       {/* SPIRAL OF DECLINE */}
@@ -523,12 +530,16 @@ function DXPage({ onNavigate, onContact }) {
     <main className="page-fade">
       <PageHero
         eyebrow="STEP 03 / DX · ML"
-        title={<>データを、本当の<br/>経営判断に変える。</>}
+        title="DX・機械学習の実装支援"
+        sub={<>データを、本当の経営判断に変える。</>}
         watermark="DX"
         pageNo="03"
         lede="ML 実装 / 業務自動化 / データ分析基盤 / 生成 AI 業務組み込み。米国 UC Berkeley での研究背景を持つ代表のもと、Engineer × Data Scientist × Computer Scientist チームで本格 DX を伴走。"
         badges={["Python", "PyTorch / TF", "AWS / GCP", "MLOps", "50万円〜"]}
         onContact={() => onContact('dx')}
+        subCta="料金プランを見る"
+        subCtaTo="pricing"
+        nav={onNavigate}
       />
 
       {/* WHY STAGED */}

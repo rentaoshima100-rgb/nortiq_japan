@@ -67,6 +67,8 @@ function LegalPage({ pageId, onNavigate, onContact }) {
         onContact={onContact}
         ctaLabel="お問い合わせ"
         subCta="サイトマップを見る"
+        subCtaTo="sitemap"
+        nav={onNavigate}
       />
       <section className="section-pad">
         <div className="container" style={{ maxWidth: 880 }}>
@@ -89,7 +91,7 @@ function LegalPage({ pageId, onNavigate, onContact }) {
           <h3 className="display-s" style={{ marginBottom: 24 }}>その他の法務文書</h3>
           <div className="row" style={{ justifyContent: 'center', gap: 12, flexWrap: 'wrap' }}>
             {Object.entries(LEGAL_DATA).filter(([k]) => k !== pageId).map(([k, v]) => (
-              <Button key={k} variant="ghost" onClick={() => onNavigate(k)}>{v.title}<Icon name="arrow-right" size={14}/></Button>
+              <Button key={k} variant="ghost" to={k} nav={onNavigate}>{v.title}<Icon name="arrow-right" size={14}/></Button>
             ))}
           </div>
         </div>
@@ -460,7 +462,7 @@ function SolutionPage({ pageId, onNavigate, onContact }) {
             ))}
           </div>
           <div style={{ textAlign: 'center', marginTop: 32 }}>
-            <Button variant="ghost" onClick={() => onNavigate('works-' + key)}>{m.label}の実績をすべて見る<Icon name="arrow-right" size={14}/></Button>
+            <Button variant="ghost" to={'works-' + key} nav={onNavigate}>{m.label}の実績をすべて見る<Icon name="arrow-right" size={14}/></Button>
           </div>
         </div>
       </section>
@@ -472,7 +474,7 @@ function SolutionPage({ pageId, onNavigate, onContact }) {
           <h3 className="display-s" style={{ textAlign: 'center', marginBottom: 28 }}>他の業種ソリューション</h3>
           <div className="row" style={{ justifyContent: 'center', gap: 10, flexWrap: 'wrap' }}>
             {Object.entries(SOLUTION_DATA).filter(([k]) => k !== key).map(([k, v]) => (
-              <Button key={k} variant="ghost" size="sm" onClick={() => onNavigate('solution-' + k)}>{v.label}<Icon name="arrow-right" size={13}/></Button>
+              <Button key={k} variant="ghost" size="sm" to={'solution-' + k} nav={onNavigate}>{v.label}<Icon name="arrow-right" size={13}/></Button>
             ))}
           </div>
         </div>
@@ -680,7 +682,7 @@ function ArticleDetailPage({ onNavigate, onContact, slug }) {
     );
   }
 
-  const related = Object.values(store).filter((a) => a.slug !== article.slug).slice(0, 3);
+  const related = listedArticles().filter((a) => a.slug !== article.slug).slice(0, 3);
 
   return (
     <main className="page-fade">

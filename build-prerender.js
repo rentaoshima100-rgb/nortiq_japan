@@ -148,7 +148,10 @@ const ROUTES_ALLOWLIST = [
   '/column',
   '/guidebook',
   '/subsidy',
-  '/diagnosis',
+  // /diagnosis は /diagnostic に301統合したため対象外
+  // /quick-diagnosis は sitemap.xml に載せない noindex ページだが、プリレンダしないと
+  // app.html (中身が空のSPAシェル) が 200 で返りソフト404になるため対象に含める
+  '/quick-diagnosis',
   // Legal (indexable, unique titles)
   '/privacy',
   '/terms',
@@ -250,6 +253,10 @@ async function main() {
     process.env.CHROMIUM_PATH ? { executablePath: process.env.CHROMIUM_PATH } : {}
   );
   const page = await browser.newPage({ viewport: { width: 1280, height: 1600 } });
+  // カウントアップ等の「途中経過が正解ではない」演出を止めるフラグ。
+  // これが無いと、スナップショットを撮った瞬間の中途半端な数字 (0 や 17) が
+  // 静的HTMLに焼き込まれ、JSを実行しないクローラがその値を読む。
+  await page.addInitScript(() => { window.__NORTIQ_PRERENDER__ = true; });
 
   let ok = 0;
   for (const route of allRoutes) {

@@ -988,6 +988,16 @@ picture { display: contents; }
   text-wrap: balance;
   position: relative;
 }
+/* H1 直下に置くキャッチコピー。H1 に検索キーワードを入れたうえで、
+   従来のコピーを視覚的な主役として残すための行。 */
+.main-lead {
+  font-size: clamp(18px, 2.4vw, 28px);
+  font-weight: 800;
+  line-height: 1.5;
+  letter-spacing: -0.01em;
+  color: var(--text-2);
+  margin: 18px 0 0;
+}
 .main-title .accent {
   color: var(--accent);
   position: relative;
@@ -1230,6 +1240,7 @@ picture { display: contents; }
   gap: 20px;
 }
 .reason-card {
+  display: block;
   background: #fff;
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
@@ -1637,6 +1648,7 @@ picture { display: contents; }
   gap: 16px;
 }
 .pickup-card {
+  display: block;
   background: #fff;
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
@@ -1857,7 +1869,8 @@ picture { display: contents; }
   border-right: 1px solid var(--border);
 }
 .sp-bottom-nav li:last-child { border-right: 0; }
-.sp-bottom-nav a {
+.sp-bottom-nav a,
+.sp-bottom-nav button {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1868,7 +1881,15 @@ picture { display: contents; }
   text-align: center;
   cursor: pointer;
 }
-.sp-bottom-nav a:hover { color: var(--accent); }
+.sp-bottom-nav button {
+  width: 100%;
+  background: none;
+  border: 0;
+  font-family: inherit;
+  line-height: inherit;
+}
+.sp-bottom-nav a:hover,
+.sp-bottom-nav button:hover { color: var(--accent); }
 .sp-bottom-nav .icn {
   width: 22px; height: 22px;
   display: grid; place-items: center;
@@ -3080,7 +3101,8 @@ picture { display: contents; }
   .t_inq_wrap { padding: 32px 0; }
   .t_inq_tel a { font-size: 22px; }
   .t_inq_tel a svg { width: 22px !important; height: 22px !important; }
-  .sp-bottom-nav a { font-size: 9px; padding: 8px 2px; }
+  .sp-bottom-nav a,
+  .sp-bottom-nav button { font-size: 9px; padding: 8px 2px; }
   .sp-bottom-nav .icn { width: 18px; height: 18px; }
   body { padding-bottom: 60px; }
   .promo-card { padding: 18px; }

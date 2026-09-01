@@ -160,14 +160,27 @@ function Icon({ name, size = 16, stroke = 1.4 }) {
 }
 
 // -------------------- Button --------------------
-function Button({ variant = 'primary', size = 'md', children, onClick, arrow = false, type, ...rest }) {
+// to (ルートID) + nav (ルートハンドラ) を渡すと <button> ではなく実際の <a href> を出す。
+// クローラは button の onClick を辿れないため、ページ遷移するCTAを button で実装すると
+// 記事が集めた評価がサービス・料金・実績ページへ一切流れない (内部リンクが存在しない状態)。
+// モーダルを開くだけのCTAは遷移先URLが無いので onClick のまま (button が正しい)。
+function Button({ variant = 'primary', size = 'md', children, onClick, arrow = false, type, to, nav, ...rest }) {
   const cls = ['btn', `btn-${variant}`, size === 'sm' && 'btn-sm', size === 'lg' && 'btn-lg'].filter(Boolean).join(' ');
+  const inner = (<>{children}{arrow && <Icon name="arrow-right" size={14}/>}</>);
+  if (to && nav) {
+    return <a className={cls} {...navProps(to, nav)} {...rest}>{inner}</a>;
+  }
   return (
-    <button className={cls} onClick={onClick} type={type || 'button'} {...rest}>
-      {children}
-      {arrow && <Icon name="arrow-right" size={14}/>}
-    </button>
+    <button className={cls} onClick={onClick} type={type || 'button'} {...rest}>{inner}</button>
   );
+}
+
+// -------------------- Article store --------------------
+// サイト内の記事一覧 (コラム一覧 / 最新コラム / 関連記事 / カテゴリ関連) は必ずこれを通す。
+// noindex 指定の記事 (下書きへ戻した記事) を一覧から確実に外すため。
+function listedArticles() {
+  const store = (typeof window !== 'undefined' && window.NORTIQ_ARTICLES) || {};
+  return Object.values(store).filter((a) => !a.noindex);
 }
 
 // -------------------- useFadeIn hook --------------------
@@ -892,7 +905,7 @@ function BigInlineForm() {
         </tbody>
       </table>
       <div className="big-form-note">
-        ※<a href="#">個人情報の取扱</a>への同意の上、送信してください。 ただし個人情報の利用目的はお問合せ者情報に限ります。
+        ※<a href="/privacy-handling" target="_blank" rel="noopener noreferrer">個人情報の取扱</a>への同意の上、送信してください。 ただし個人情報の利用目的はお問合せ者情報に限ります。
       </div>
       <div className="field field-check" style={{ justifyContent: 'center', marginTop: 16 }}>
         <input type="checkbox" id="big-agree" checked={form.agree} onChange={onChange('agree')} style={{ marginTop: 2 }}/>
@@ -1032,10 +1045,11 @@ function SPBottomNav({ onNavigate, onContact }) {
           </a>
         </li>
         <li>
-          <a onClick={onContact}>
+          {/* href を持たない <a> はリンクではない。モーダルを開くだけなので button で出す */}
+          <button type="button" onClick={onContact}>
             <span className="icn"><Icon name="mail" size={20}/></span>
             <span>資料請求</span>
-          </a>
+          </button>
         </li>
         <li>
           <a {...navProps('sitemap', onNavigate)}>
@@ -1074,7 +1088,7 @@ function RedCTAStrip({ onContact, onNavigate, title }) {
         <h2>{title || (<>オリジナルデザインのWeb制作 × AI運用<br/>まずは無料で資料請求</>)}</h2>
         <div className="t_inq_btns">
           <Button onClick={onContact}><Icon name="mail" size={14}/>資料請求はこちら</Button>
-          <Button onClick={() => onNavigate && onNavigate('diagnostic')}><Icon name="search" size={14}/>ホームページ無料診断</Button>
+          <Button to="diagnostic" nav={onNavigate}><Icon name="search" size={14}/>ホームページ無料診断</Button>
         </div>
         <p className="t_inq_time">営業日 24時間以内に担当者よりご返信します。</p>
       </div>
@@ -1086,7 +1100,11 @@ function RedCTAStrip({ onContact, onNavigate, title }) {
 function CTAStrip(props) { return React.createElement(RedCTAStrip, props); }
 
 // -------------------- Page Hero (subpages) — upgraded with watermark + decorative bar --------------------
-function PageHero({ eyebrow, title, lede, badges, onContact, ctaLabel = "資料請求はこちら", subCta = "デモを見る", watermark, pageNo }) {
+// sub: H1 に検索キーワードを入れたうえで、従来のキャッチコピーを直下に大きく残すための枠。
+// subCta は subCtaTo (遷移先ルートID) + nav が揃ったときだけ描画する。
+// 以前は onClick も href も無い <Button> を全サブページに出しており、押しても何も起きない
+// ボタンが常設されていた (クローラから見ればリンクが無い)。
+function PageHero({ eyebrow, title, sub, lede, badges, onContact, ctaLabel = "資料請求はこちら", subCta = "デモを見る", subCtaTo, nav, watermark, pageNo }) {
   return (
     <section className="page-hero">
       <div className="page-hero-deco">
@@ -1101,7 +1119,8 @@ function PageHero({ eyebrow, title, lede, badges, onContact, ctaLabel = "資料�
               {eyebrow}
             </div>
           )}
-          <h1 className="display-xl fadein" data-delay="100" style={{ marginBottom: 28 }}>{title}</h1>
+          <h1 className="display-xl fadein" data-delay="100" style={{ marginBottom: sub ? 12 : 28 }}>{title}</h1>
+          {sub && <p className="display-l fadein" data-delay="150" style={{ marginBottom: 28 }}>{sub}</p>}
           {lede && <p className="lede fadein" data-delay="200" style={{ marginBottom: 30, maxWidth: 720 }}>{lede}</p>}
           {badges && (
             <div className="row fadein" data-delay="300" style={{ marginBottom: 32 }}>
@@ -1110,7 +1129,9 @@ function PageHero({ eyebrow, title, lede, badges, onContact, ctaLabel = "資料�
           )}
           <div className="row fadein" data-delay="400" style={{ gap: 14 }}>
             <Button variant="primary" size="lg" onClick={onContact} arrow>{ctaLabel}</Button>
-            <Button variant="ghost" size="lg">{subCta}<Icon name="arrow-right" size={14}/></Button>
+            {subCtaTo && nav && (
+              <Button variant="ghost" size="lg" to={subCtaTo} nav={nav}>{subCta}<Icon name="arrow-right" size={14}/></Button>
+            )}
           </div>
         </div>
       </div>
@@ -1159,9 +1180,14 @@ function ScrollProgress() {
 // -------------------- Animated counter (counts up when in view) --------------------
 function Counter({ to, duration = 1400, suffix = '', prefix = '', decimals = 0, className = "counter" }) {
   const ref = React.useRef(null);
-  const [val, setVal] = React.useState(0);
+  // 初期値は最終値にする。以前は 0 から始めていたため、JSを実行しないクローラと
+  // プリレンダのスナップショットには「0」が焼き込まれ、実績数が「0+ 社」と読まれていた。
+  const [val, setVal] = React.useState(to);
   React.useEffect(() => {
     if (!ref.current) return;
+    // プリレンダ (build-prerender.js) では演出しない。
+    // カウントアップ途中の数字がそのまま静的HTMLに保存されるのを防ぐ。
+    if (typeof window !== 'undefined' && window.__NORTIQ_PRERENDER__) return;
     let raf;
     const obs = new IntersectionObserver((entries) => {
       entries.forEach(e => {

@@ -44,10 +44,15 @@ function TopPage({ onNavigate, onContact }) {
         <div className="main-inner">
           <div className="main-eyebrow fadein">NORTIQ LABS · KYOTO</div>
 
+          {/* H1 は「このページが何のページか」を検索エンジンとAIクローラに伝える枠。
+              以前はキャッチコピーだけが入っており、title に含まれる「京都」「ホームページ制作」
+              「AI」がH1に1語も無く、title と H1 の主題が一致していなかった。
+              キャッチコピーは直下の main-lead に大きく残す。 */}
           <h1 className="main-title">
-            <span className="reveal-line"><span>日本のDX、</span></span>
-            <span className="reveal-line"><span><span className="accent">世界水準で</span>巻き返す。</span></span>
+            <span className="reveal-line"><span>京都の<span className="accent">ホームページ制作</span>・</span></span>
+            <span className="reveal-line"><span>AI導入・DX支援。</span></span>
           </h1>
+          <p className="main-lead fadein" data-delay="150">日本のDX、世界水準で巻き返す。</p>
 
           <ul className="main-box fadein" data-delay="200">
             <li>Web制作</li><li>AIチャットボット</li><li>DX・ML</li><li>業務自動化</li><li>データ分析</li>
@@ -55,15 +60,15 @@ function TopPage({ onNavigate, onContact }) {
 
           <ul className="main-medaru fadein" data-delay="300">
             <li className="medaru">
-              <div className="num"><Counter to={30} suffix="" className=""/><sup>社+</sup></div>
+              <div className="num"><Counter to={NORTIQ_STATS.clients} suffix="" className=""/><sup>社+</sup></div>
               <div className="lbl">制作・支援実績</div>
             </li>
             <li className="medaru">
-              <div className="num"><Counter to={5} suffix="" className=""/><sup>名</sup></div>
+              <div className="num"><Counter to={NORTIQ_STATS.team} suffix="" className=""/><sup>名</sup></div>
               <div className="lbl">少数精鋭チーム</div>
             </li>
             <li className="medaru">
-              <div className="num"><Counter to={7} suffix="" className=""/><sup>業種</sup></div>
+              <div className="num"><Counter to={NORTIQ_STATS.industries} suffix="" className=""/><sup>業種</sup></div>
               <div className="lbl">対応業種</div>
             </li>
           </ul>
@@ -72,19 +77,19 @@ function TopPage({ onNavigate, onContact }) {
             <span className="btn-pulse btn-magnet" style={{ display: 'inline-block' }}>
               <Button variant="primary" size="lg" onClick={onContact} arrow>資料請求はこちら</Button>
             </span>
-            <Button variant="ghost" size="lg" onClick={() => onNavigate('diagnostic')}><Icon name="search" size={14}/>ホームページ無料診断</Button>
+            <Button variant="ghost" size="lg" to={'diagnostic'} nav={onNavigate}><Icon name="search" size={14}/>ホームページ無料診断</Button>
           </div>
         </div>
       </section>
 
       {/* =========== Mix marquee (stats + values) =========== */}
       <MixMarquee items={[
-        { num: "30+", text: "Companies Supported" },
-        { num: "5", text: "Team Members" },
+        { num: `${NORTIQ_STATS.clients}+`, text: "Companies Supported" },
+        { num: String(NORTIQ_STATS.team), text: "Team Members" },
         { num: "2025", text: "Founded" },
         { num: "24h", text: "Response SLA" },
         { num: "30万", text: "Web 制作 開始価格" },
-        { num: "7", text: "業種カバー" },
+        { num: String(NORTIQ_STATS.industries), text: "業種カバー" },
         { num: "3", text: "段階的 DX ファネル" },
         { num: "0", text: "AI 重大インシデント" },
       ]}/>
@@ -131,7 +136,7 @@ function TopPage({ onNavigate, onContact }) {
             ))}
           </div>
           <div style={{ textAlign: 'center', marginTop: 48 }}>
-            <Button variant="ghost" onClick={() => onNavigate('works')}>他の実績を見る<Icon name="arrow-right" size={14}/></Button>
+            <Button variant="ghost" to={'works'} nav={onNavigate}>他の実績を見る<Icon name="arrow-right" size={14}/></Button>
           </div>
         </div>
       </section>
@@ -140,7 +145,7 @@ function TopPage({ onNavigate, onContact }) {
       <section className="section-pad-sm">
         <div className="container">
           <div className="promo-grid">
-            <article className="promo-card fadein" onClick={() => onNavigate('subsidy')}>
+            <a className="promo-card fadein" {...navProps('subsidy', onNavigate)}>
               <div className="promo-tag">申請受付中</div>
               <div className="promo-num">01</div>
               <div className="promo-body">
@@ -149,8 +154,8 @@ function TopPage({ onNavigate, onContact }) {
                 <p className="promo-desc">IT導入補助金などの活用を視野に、DX投資の進め方をご相談いただけます。</p>
               </div>
               <div className="promo-cta">詳しく見る <Icon name="arrow-right" size={14}/></div>
-            </article>
-            <article className="promo-card fadein" data-delay="120" onClick={() => onNavigate('guidebook')}>
+            </a>
+            <a className="promo-card fadein" data-delay="120" {...navProps('guidebook', onNavigate)}>
               <div className="promo-tag">無料DL</div>
               <div className="promo-num">02</div>
               <div className="promo-body">
@@ -159,8 +164,8 @@ function TopPage({ onNavigate, onContact }) {
                 <p className="promo-desc">制作の進め方・実績・料金プラン・制作の流れを一冊に。</p>
               </div>
               <div className="promo-cta">ダウンロード <Icon name="arrow-right" size={14}/></div>
-            </article>
-            <article className="promo-card promo-card-feature fadein" data-delay="240" onClick={() => onNavigate('product-wpchat')}>
+            </a>
+            <a className="promo-card promo-card-feature fadein" data-delay="240" {...navProps('product-wpchat', onNavigate)}>
               <div className="promo-tag">主力プロダクト</div>
               <div className="promo-num">03</div>
               <div className="promo-body">
@@ -169,7 +174,7 @@ function TopPage({ onNavigate, onContact }) {
                 <p className="promo-desc">質問するだけで記事が書ける、Nortiq Labs 内製プロダクト。</p>
               </div>
               <div className="promo-cta">プロダクト詳細 <Icon name="arrow-right" size={14}/></div>
-            </article>
+            </a>
           </div>
         </div>
       </section>
@@ -186,12 +191,12 @@ function TopPage({ onNavigate, onContact }) {
             </p>
           </div>
           <div className="reasons-grid">
-            <ReasonCard num="01" emphasis="WEBサイトで他社と差別化" title="オリジナルデザイン" desc="テンプレ流用ではなく、業種・ブランドに合わせて毎回ゼロから設計。Core Web Vitals Good を標準担保。" link="制作実績一覧へ" delay={0} onClick={() => onNavigate('works')} src="assets/hero-01.png"/>
-            <ReasonCard num="02" emphasis="専属チームで" title="コンサル・運用サポート" desc="月次アクセスレポート + 定期訪問 + 改善 MTG。「公開して終わり」を絶対にしない運用体制。" link="サポートについて詳しく見る" delay={150} onClick={() => onNavigate('support')} src="assets/hero-03.png"/>
-            <ReasonCard num="03" emphasis="ホームページで" title="契約率を高める顧客管理" desc="ヒーロー / CTA配置 / フォーム設計まで、コンバージョン視点で構造化します。" link="機能サービス一覧へ" delay={300} onClick={() => onNavigate('web')} src="assets/hero-08.png"/>
-            <ReasonCard num="04" emphasis="業種別の専門コンテンツ" title="無料で利用可能" desc="医療・不動産・建築など、業種ごとに最適化された記事構成テンプレを無料提供。" link="制作実績一覧へ" delay={450} onClick={() => onNavigate('works')} src="assets/work-asia-exchange.png"/>
-            <ReasonCard num="05" emphasis="保守プラン内なら" title="公開後の修正にも対応" desc="軽微修正・テキスト変更は契約中の保守プランで対応可。プラン内回数を超える大規模変更は別途お見積もりさせていただきます。" link="HPサポートについて" delay={600} onClick={() => onNavigate('support')} src="assets/work-aozora-family.png"/>
-            <ReasonCard num="06" emphasis="更新コンテンツで" title="独自のSEO強化を図る" desc="AI 投稿ツール + SEO 内部対策 + 業界キーワード設計を一体運用します。" link="SEO対策について" delay={750} onClick={() => onNavigate('chatbot')} src="assets/pdf/loop-ai-07.png"/>
+            <ReasonCard num="01" emphasis="WEBサイトで他社と差別化" title="オリジナルデザイン" desc="テンプレ流用ではなく、業種・ブランドに合わせて毎回ゼロから設計。Core Web Vitals Good を標準担保。" link="制作実績一覧へ" delay={0} to={'works'} nav={onNavigate} src="assets/hero-01.png"/>
+            <ReasonCard num="02" emphasis="専属チームで" title="コンサル・運用サポート" desc="月次アクセスレポート + 定期訪問 + 改善 MTG。「公開して終わり」を絶対にしない運用体制。" link="サポートについて詳しく見る" delay={150} to={'support'} nav={onNavigate} src="assets/hero-03.png"/>
+            <ReasonCard num="03" emphasis="ホームページで" title="契約率を高める顧客管理" desc="ヒーロー / CTA配置 / フォーム設計まで、コンバージョン視点で構造化します。" link="機能サービス一覧へ" delay={300} to={'web'} nav={onNavigate} src="assets/hero-08.png"/>
+            <ReasonCard num="04" emphasis="業種別の専門コンテンツ" title="無料で利用可能" desc="医療・不動産・建築など、業種ごとに最適化された記事構成テンプレを無料提供。" link="制作実績一覧へ" delay={450} to={'works'} nav={onNavigate} src="assets/work-asia-exchange.png"/>
+            <ReasonCard num="05" emphasis="保守プラン内なら" title="公開後の修正にも対応" desc="軽微修正・テキスト変更は契約中の保守プランで対応可。プラン内回数を超える大規模変更は別途お見積もりさせていただきます。" link="HPサポートについて" delay={600} to={'support'} nav={onNavigate} src="assets/work-aozora-family.png"/>
+            <ReasonCard num="06" emphasis="更新コンテンツで" title="独自のSEO強化を図る" desc="AI 投稿ツール + SEO 内部対策 + 業界キーワード設計を一体運用します。" link="SEO対策について" delay={750} to={'chatbot'} nav={onNavigate} src="assets/pdf/loop-ai-07.png"/>
           </div>
         </div>
       </section>
@@ -209,43 +214,43 @@ function TopPage({ onNavigate, onContact }) {
             </p>
           </div>
           <div className="bento">
-            <div className="bento-cell bento-1 fadein" onClick={() => onNavigate('voice')}>
+            <a className="bento-cell bento-1 fadein" {...navProps('voice', onNavigate)}>
               <p className="bento-eyebrow">CLIENTS / 03</p>
               <div className="bento-num"><Counter to={30} suffix="+" className=""/></div>
               <h3 style={{ fontSize: 28, fontWeight: 900, lineHeight: 1.3, marginBottom: 12 }}>
-                20 社の<br/>制作・DX 支援実績。
+                {NORTIQ_STATS.clients} 社の<br/>制作・DX 支援実績。
               </h3>
-              <p>クリニック・不動産・建築・人材・小売・インフラ・AIスタートアップまで、業種横断で 20 社の制作・DX を支援しています。</p>
+              <p>クリニック・不動産・建築・人材・小売・インフラ・AIスタートアップまで、業種横断で {NORTIQ_STATS.clients} 社の制作・DX を支援しています。</p>
               <span className="bento-cta">実績を見る <Icon name="arrow-right" size={14}/></span>
-            </div>
-            <div className="bento-cell bento-2 fadein" data-delay="80" onClick={() => onNavigate('product-vetonet')}>
+            </a>
+            <a className="bento-cell bento-2 fadein" data-delay="80" {...navProps('product-vetonet', onNavigate)}>
               <p className="bento-eyebrow">RESEARCH</p>
               <h3>VetoNet</h3>
               <p>生成 AI の出力を、誰がどう検証するか。「検証レイヤ」を設計する社内研究プロダクト。設計思想と Architecture をホワイトペーパで順次公開予定。</p>
               <span className="bento-cta">研究を見る <Icon name="arrow-right" size={14}/></span>
-            </div>
-            <div className="bento-cell bento-3 fadein" data-delay="160" onClick={() => onNavigate('staff')}>
+            </a>
+            <a className="bento-cell bento-3 fadein" data-delay="160" {...navProps('staff', onNavigate)}>
               <p className="bento-eyebrow">TEAM</p>
-              <div className="bento-num" style={{ fontSize: 42 }}>5<sub style={{ fontSize: 14, color: 'var(--text-3)' }}>名</sub></div>
+              <div className="bento-num" style={{ fontSize: 42 }}>{NORTIQ_STATS.team}<sub style={{ fontSize: 14, color: 'var(--text-3)' }}>名</sub></div>
               <p>Founder・エンジニア・データサイエンティストが連携する、少数精鋭チーム。</p>
-            </div>
-            <div className="bento-cell bento-4 fadein" data-delay="240" onClick={() => onNavigate('product-wpchat')}>
+            </a>
+            <a className="bento-cell bento-4 fadein" data-delay="240" {...navProps('product-wpchat', onNavigate)}>
               <p className="bento-eyebrow">PRODUCT · 主力</p>
               <h3 style={{ color: 'var(--video-accent)' }}>ブログボット</h3>
               <p>WordPress ブログ更新が止まる、を解決する内製プロダクト。月の運用工数を <strong style={{ color: 'var(--video-accent)' }}>1/10</strong> に。</p>
               <span className="bento-cta" style={{ color: 'var(--video-accent)' }}>製品詳細 <Icon name="arrow-right" size={14}/></span>
-            </div>
-            <div className="bento-cell bento-5 fadein" data-delay="320" onClick={() => onNavigate('subsidy')}>
+            </a>
+            <a className="bento-cell bento-5 fadein" data-delay="320" {...navProps('subsidy', onNavigate)}>
               <p className="bento-eyebrow">SUBSIDY · 2026</p>
               <h3 style={{ fontSize: 22 }}>補助金を活用した <span style={{ color: 'var(--accent)' }}>DX導入</span>のご相談。</h3>
               <p>IT導入補助金などの活用を視野に、DX投資の進め方をご相談いただけます。（申請サポートは登録準備中）</p>
               <span className="bento-cta">補助金詳細 <Icon name="arrow-right" size={14}/></span>
-            </div>
-            <div className="bento-cell bento-6 fadein" data-delay="400" onClick={() => onNavigate('support')}>
+            </a>
+            <a className="bento-cell bento-6 fadein" data-delay="400" {...navProps('support', onNavigate)}>
               <p className="bento-eyebrow">SUPPORT</p>
               <div className="bento-num" style={{ fontSize: 42, color: '#fff' }}>24<sub style={{ fontSize: 14, color: 'rgba(255,255,255,0.65)' }}>h以内</sub></div>
               <p style={{ color: 'rgba(255,255,255,0.85)' }}>営業日 24 時間以内の一次返信を SLA として全社員で約束しています。</p>
-            </div>
+            </a>
           </div>
         </div>
       </section>
@@ -269,7 +274,7 @@ function TopPage({ onNavigate, onContact }) {
               sub="機能・サービス一覧"
               desc="集客と問い合わせ獲得を前提とした現代的なWebサイト。WordPress / Next.js から最適選定。"
               price="¥300,000〜"
-              onClick={() => onNavigate('web')}
+              to={'web'} nav={onNavigate}
               delay={0}
             />
             <FeatureTrioCard
@@ -281,7 +286,7 @@ function TopPage({ onNavigate, onContact }) {
               desc="質問するだけで記事が書ける投稿ツール。WordPress 更新が止まる、を解決。"
               price="¥100,000〜"
               featured
-              onClick={() => onNavigate('chatbot')}
+              to={'chatbot'} nav={onNavigate}
               delay={150}
             />
             <FeatureTrioCard
@@ -292,12 +297,12 @@ function TopPage({ onNavigate, onContact }) {
               sub="機能・サービス一覧"
               desc="ML 実装 / 業務自動化 / データ分析基盤 / 生成AI業務組み込み。"
               price="¥500,000〜"
-              onClick={() => onNavigate('dx')}
+              to={'dx'} nav={onNavigate}
               delay={300}
             />
           </div>
           <div className="row" style={{ justifyContent: 'center', marginTop: 36, gap: 14 }}>
-            <Button variant="ghost" onClick={() => onNavigate('web')}>機能一覧はこちらから<Icon name="arrow-right" size={14}/></Button>
+            <Button variant="ghost" to={'web'} nav={onNavigate}>機能一覧はこちらから<Icon name="arrow-right" size={14}/></Button>
             <Button variant="primary" onClick={onContact}>サービス資料を請求する (無料)<Icon name="arrow-right" size={14}/></Button>
           </div>
         </div>
@@ -411,8 +416,8 @@ function TopPage({ onNavigate, onContact }) {
             ))}
           </div>
           <div className="row" style={{ justifyContent: 'center', marginTop: 48, gap: 14 }}>
-            <Button variant="ghost" onClick={() => onNavigate('support')}>コンサル・運用サポート<Icon name="arrow-right" size={14}/></Button>
-            <Button variant="ghost" onClick={() => onNavigate('staff')}>スタッフ紹介<Icon name="arrow-right" size={14}/></Button>
+            <Button variant="ghost" to={'support'} nav={onNavigate}>コンサル・運用サポート<Icon name="arrow-right" size={14}/></Button>
+            <Button variant="ghost" to={'staff'} nav={onNavigate}>スタッフ紹介<Icon name="arrow-right" size={14}/></Button>
           </div>
         </div>
       </section>
@@ -448,7 +453,7 @@ function TopPage({ onNavigate, onContact }) {
             />
           </div>
           <div className="row" style={{ justifyContent: 'center', marginTop: 48, gap: 14 }}>
-            <Button variant="ghost" onClick={() => onNavigate('voice')}>クライアント様からの声<Icon name="arrow-right" size={14}/></Button>
+            <Button variant="ghost" to={'voice'} nav={onNavigate}>クライアント様からの声<Icon name="arrow-right" size={14}/></Button>
             <Button variant="ghost"><Icon name="search" size={14}/>Google 口コミ</Button>
           </div>
         </div>
@@ -459,7 +464,7 @@ function TopPage({ onNavigate, onContact }) {
 
       {/* =========== 最新コラム (個別記事への内部リンク導線) =========== */}
       {(() => {
-        const arts = Object.values((typeof window !== 'undefined' && window.NORTIQ_ARTICLES) || {}).slice(0, 3);
+        const arts = listedArticles().slice(0, 3);
         if (!arts.length) return null;
         return (
           <section className="section-pad-sm">
@@ -469,7 +474,7 @@ function TopPage({ onNavigate, onContact }) {
                   <h3 className="display-s">最新コラム</h3>
                   <p className="section-sub" style={{ marginTop: 4 }}>COLUMN / 技術ブログ</p>
                 </div>
-                <Button variant="ghost" onClick={() => onNavigate('column')}>すべての記事<Icon name="arrow-right" size={14}/></Button>
+                <Button variant="ghost" to={'column'} nav={onNavigate}>すべての記事<Icon name="arrow-right" size={14}/></Button>
               </div>
               <div className="grid-3" style={{ gap: 32 }}>
                 {arts.map((a) => (
@@ -504,7 +509,7 @@ function TopPage({ onNavigate, onContact }) {
               title="Nortiq 通信"
               desc="日本のDX、米国の最新、業界別の DX 観察記を月刊配信します。"
               accent="var(--tag-blue2)"
-              onClick={() => onNavigate('column')}
+              to={'column'} nav={onNavigate}
             />
             <PickupCard
               label="LISTING"
@@ -517,7 +522,7 @@ function TopPage({ onNavigate, onContact }) {
               title="サイト無料診断"
               desc="現状の課題を、Nortiq 独自の30項目チェックリストで分析します。"
               accent="var(--accent)"
-              onClick={() => onNavigate('diagnosis')}
+              to={'diagnostic'} nav={onNavigate}
             />
           </div>
         </div>
@@ -552,7 +557,10 @@ function VScrollCol({ direction, images }) {
       <div className="main-col-track">
         {items.map((src, i) => (
           <div key={i} className="main-col-img">
-            <Picture src={src} alt={altFor(src)} loading="lazy"/>
+            {/* ヒーロー背景のマーキーは装飾。同じ画像を約40枚繰り返して流しているため、
+                説明的な alt を出すと同一文字列が40回並ぶだけのノイズになる。
+                親の .main-bg は既に aria-hidden。 */}
+            <Picture src={src} alt="" loading="lazy"/>
           </div>
         ))}
       </div>
@@ -560,9 +568,13 @@ function VScrollCol({ direction, images }) {
   );
 }
 
-function ReasonCard({ num, emphasis, title, desc, link, onClick, delay, src }) {
+// to (ルートID) + nav が渡ればカード全体を実リンクにする。カード型UIの遷移を
+// onClick だけで実装すると、クローラからは行き先の無いブロックにしか見えない。
+function ReasonCard({ num, emphasis, title, desc, link, onClick, delay, src, to, nav }) {
+  const Tag = to && nav ? 'a' : 'article';
+  const linkProps = to && nav ? navProps(to, nav) : { onClick };
   return (
-    <article className="reason-card fadein" onClick={onClick} data-delay={delay}>
+    <Tag className="reason-card fadein" {...linkProps} data-delay={delay}>
       <div className="row" style={{ justifyContent: 'space-between', marginBottom: 18 }}>
         <span className="reason-num">{num}</span>
         <Icon name="arrow-right" size={14}/>
@@ -574,7 +586,7 @@ function ReasonCard({ num, emphasis, title, desc, link, onClick, delay, src }) {
         <p className="reason-desc">{desc}</p>
         <span className="reason-link">{link}<Icon name="arrow-right" size={12}/></span>
       </div>
-    </article>
+    </Tag>
   );
 }
 
@@ -598,9 +610,11 @@ function WorkCard({ tag, title, stat, services, src }) {
   );
 }
 
-function FeatureTrioCard({ vertical, titlePrefix, titleSuffix, sub, desc, price, featured, onClick, delay }) {
+function FeatureTrioCard({ vertical, titlePrefix, titleSuffix, sub, desc, price, featured, onClick, delay, to, nav }) {
+  const Tag = to && nav ? 'a' : 'article';
+  const linkProps = to && nav ? navProps(to, nav) : { onClick };
   return (
-    <article className={`feature-trio-card fadein${featured ? ' featured' : ''}`} onClick={onClick} data-delay={delay}>
+    <Tag className={`feature-trio-card fadein${featured ? ' featured' : ''}`} {...linkProps} data-delay={delay}>
       <div className="row" style={{ marginBottom: 18 }}>
         <span className="step-num">{vertical}</span>
       </div>
@@ -611,7 +625,7 @@ function FeatureTrioCard({ vertical, titlePrefix, titleSuffix, sub, desc, price,
       <p className="body" style={{ fontSize: 13, marginTop: 18, marginBottom: 24, lineHeight: 1.9 }}>{desc}</p>
       <div className="feature-trio-price">{price}</div>
       <div className="feature-trio-cta">機能一覧を見る<Icon name="arrow-right" size={14}/></div>
-    </article>
+    </Tag>
   );
 }
 
@@ -675,7 +689,7 @@ function GalleryTabs({ onNavigate }) {
           <h2 className="section-title fadein">制作実績</h2>
           <p className="section-sub fadein">PRODUCTION RESULTS</p>
           <p className="lede fadein" style={{ margin: '24px auto 0' }}>
-            これまで20社のWEB戦略・運用支援実績をもとに、地域密着の中小企業を中心に幅広くサポートしています。<br/>
+            これまで{NORTIQ_STATS.clients}社のWEB戦略・運用支援実績をもとに、地域密着の中小企業を中心に幅広くサポートしています。<br/>
             ホームページ制作だけでなく、SEO・広告運用・反響分析・コンテンツ改善まで一貫対応。
           </p>
         </div>
@@ -701,7 +715,7 @@ function GalleryTabs({ onNavigate }) {
           ))}
         </div>
         <div style={{ textAlign: 'center', marginTop: 48 }}>
-          <Button variant="ghost" onClick={() => onNavigate('works')}>全実績一覧を見る<Icon name="arrow-right" size={14}/></Button>
+          <Button variant="ghost" to={'works'} nav={onNavigate}>全実績一覧を見る<Icon name="arrow-right" size={14}/></Button>
         </div>
       </div>
     </section>
@@ -738,7 +752,7 @@ function ContentTabs({ onNavigate }) {
         { date: "2026.03.30", title: "WordPress 更新が止まる本当の理由とその解決", tag: "AI活用" },
         { date: "2026.03.18", title: "Core Web Vitals Good の現実的な取り方", tag: "技術" },
       ],
-      onCta: () => onNavigate('column'),
+      ctaTo: 'column',
     },
   ];
   const t = data[tab];
@@ -759,7 +773,7 @@ function ContentTabs({ onNavigate }) {
         </div>
         <div className="content-list fadein">
           {t.items.map((it, i) => (
-            <a key={i} className="content-row" onClick={t.onCta}>
+            <a key={i} className="content-row" {...navProps(t.ctaTo, onNavigate)}>
               <span className="content-date">{it.date}</span>
               <span className="content-tag-pill">{it.tag}</span>
               <span className="content-title">{it.title}</span>
@@ -768,16 +782,18 @@ function ContentTabs({ onNavigate }) {
           ))}
         </div>
         <div style={{ textAlign: 'center', marginTop: 36 }}>
-          <Button variant="ghost" onClick={t.onCta}>{t.label} 一覧を見る<Icon name="arrow-right" size={14}/></Button>
+          <Button variant="ghost" to={t.ctaTo} nav={onNavigate}>{t.label} 一覧を見る<Icon name="arrow-right" size={14}/></Button>
         </div>
       </div>
     </section>
   );
 }
 
-function PickupCard({ label, title, desc, accent, onClick }) {
+function PickupCard({ label, title, desc, accent, onClick, to, nav }) {
+  const Tag = to && nav ? 'a' : 'article';
+  const linkProps = to && nav ? navProps(to, nav) : { onClick };
   return (
-    <article className="pickup-card fadein" onClick={onClick}>
+    <Tag className="pickup-card fadein" {...linkProps}>
       <div className="pickup-accent" style={{ background: accent }}></div>
       <div style={{ padding: 28 }}>
         <p className="pickup-label" style={{ color: accent }}>{label}</p>
@@ -785,7 +801,7 @@ function PickupCard({ label, title, desc, accent, onClick }) {
         <p className="pickup-desc">{desc}</p>
         <span className="pickup-cta">詳しく見る <Icon name="arrow-right" size={14}/></span>
       </div>
-    </article>
+    </Tag>
   );
 }
 

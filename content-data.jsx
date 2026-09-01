@@ -9,6 +9,17 @@
 //    インボイス未登録を明記した上で「できること」を書く
 // ============================================================
 
+// -------------------- 実績・体制の数字 (サイト内の唯一の出典) --------------------
+// トップのカウンタ / ティッカー / 各ページ本文 / build.js の FAQ・Organization スキーマが
+// それぞれ独立に数字を持っていたため、同一サイト内で「20社」「30+」が混在していた。
+// 数字が矛盾しているとAI検索はその情報源全体の信頼度を下げるため、ここ一箇所で管理する。
+// build.js もこの定義を正規表現で読み出す (build-prerender.js が BLOG を読むのと同じ方式)。
+const NORTIQ_STATS = {
+  clients: 30,     // 制作・DX 支援の累計社数
+  team: 5,         // メンバー数 (Organization.numberOfEmployees と一致させる)
+  industries: 7,   // 対応業種数
+};
+
 // -------------------- 業種別 (works-* カテゴリページ) --------------------
 const INDUSTRY_CONTENT = {
   clinic: {
@@ -612,8 +623,7 @@ function CDLaws({ data }) {
 }
 // カテゴリ一致コラムの自動挿入 (QW-1)
 function RelatedColumns({ cats, onNavigate }) {
-  const store = (typeof window !== 'undefined' && window.NORTIQ_ARTICLES) || {};
-  const arts = Object.values(store).filter((a) => cats.includes(a.category)).slice(0, 3);
+  const arts = listedArticles().filter((a) => cats.includes(a.category)).slice(0, 3);
   if (!arts.length) return null;
   return (
     <section className="section-pad-sm">
@@ -623,7 +633,7 @@ function RelatedColumns({ cats, onNavigate }) {
             <h3 className="display-s">関連する読み物</h3>
             <p className="section-sub" style={{ marginTop: 4 }}>RELATED COLUMNS</p>
           </div>
-          <Button variant="ghost" onClick={() => onNavigate('column')}>コラム一覧<Icon name="arrow-right" size={14}/></Button>
+          <Button variant="ghost" to={'column'} nav={onNavigate}>コラム一覧<Icon name="arrow-right" size={14}/></Button>
         </div>
         <div className="grid-3" style={{ gap: 32 }}>
           {arts.map((a) => (
@@ -659,7 +669,7 @@ function IndustrySections({ category, onNavigate }) {
       {c.solution && (
         <section className="section-pad-sm" style={{ paddingTop: 0 }}>
           <div className="container" style={{ textAlign: 'center' }}>
-            <Button variant="primary" onClick={() => onNavigate(c.solution)}>この業種の集客パッケージを見る<Icon name="arrow-right" size={14}/></Button>
+            <Button variant="primary" to={c.solution} nav={onNavigate}>この業種の集客パッケージを見る<Icon name="arrow-right" size={14}/></Button>
           </div>
         </section>
       )}

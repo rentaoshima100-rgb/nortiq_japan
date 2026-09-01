@@ -22,6 +22,11 @@
       "permanent": true
     },
     {
+      "source": "/diagnosis",
+      "destination": "/diagnostic",
+      "permanent": true
+    },
+    {
       "source": "/article-local-business-geo-meo",
       "destination": "/article-google-business-profile-meo",
       "permanent": true
@@ -34,7 +39,7 @@
   ],
   "rewrites": [
     {
-      "source": "/(web|chatbot|dx|works|voice|support|pricing|diagnosis|quick-diagnosis|subsidy|guidebook|column|company|staff|sitemap|news|recruit|diagnostic|privacy|terms|privacy-handling|work-detail)",
+      "source": "/(web|chatbot|dx|works|voice|support|pricing|quick-diagnosis|subsidy|guidebook|column|company|staff|sitemap|news|recruit|diagnostic|privacy|terms|privacy-handling)",
       "destination": "/app.html"
     },
     {

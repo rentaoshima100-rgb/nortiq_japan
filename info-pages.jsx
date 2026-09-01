@@ -80,15 +80,17 @@ function WorksPage({ category, onNavigate, onContact }) {
         title={category ? <>{label}の<br/>制作実績</> : <>制作実績の<br/>すべて。</>}
         lede={category
           ? `${label}の業種で、Nortiq Labs が手がけた制作・支援実績を集約しました。Web制作からAI実装まで一貫した事例を掲載しています。`
-          : "20 社の制作・支援実績から、業種別・LP強化別・動画別に絞り込めます。お探しの業種・課題に近い事例から、最適なアプローチをご検討ください。"
+          : `${NORTIQ_STATS.clients} 社の制作・支援実績から、業種別・LP強化別・動画別に絞り込めます。お探しの業種・課題に近い事例から、最適なアプローチをご検討ください。`
         }
         badges={category
           ? ["業種: " + label, "全 " + items.length + " 件"]
-          : ["全20社", "業種 7 / LP 3 / 動画", "オリジナルデザイン"]
+          : [`全${NORTIQ_STATS.clients}社`, `業種 ${NORTIQ_STATS.industries} / LP 3 / 動画`, "オリジナルデザイン"]
         }
         onContact={onContact}
         ctaLabel="同業種の見積依頼"
-        subCta="絞り込み条件を保存"
+        subCta="料金プランを見る"
+        subCtaTo="pricing"
+        nav={onNavigate}
       />
 
       {/* Category filter */}
@@ -98,16 +100,16 @@ function WorksPage({ category, onNavigate, onContact }) {
             <span className="small text-mono" style={{ color: 'var(--text-3)' }}>業種で絞り込む:</span>
           </div>
           <div className="row" style={{ gap: 8, flexWrap: 'wrap' }}>
-            <button className={`kw-pill ${!category ? 'active' : ''}`} onClick={() => onNavigate('works')} style={!category ? { borderColor: 'var(--accent)', color: 'var(--accent)' } : {}}>すべて</button>
+            <a className={`kw-pill ${!category ? 'active' : ''}`} {...navProps('works', onNavigate)} style={!category ? { borderColor: 'var(--accent)', color: 'var(--accent)' } : {}}>すべて</a>
             {allCats.map(c => (
-              <button
+              <a
                 key={c}
                 className="kw-pill"
-                onClick={() => onNavigate('works-' + c)}
+                {...navProps('works-' + c, onNavigate)}
                 style={category === c ? { borderColor: 'var(--accent)', color: 'var(--accent)' } : {}}
               >
                 {CATEGORY_LABELS[c]}
-              </button>
+              </a>
             ))}
           </div>
         </div>
@@ -145,9 +147,9 @@ function WorksPage({ category, onNavigate, onContact }) {
             <h3 className="display-s" style={{ marginBottom: 24 }}>他の業種の実績も見る</h3>
             <div className="row" style={{ gap: 10, flexWrap: 'wrap' }}>
               {allCats.filter(c => c !== category).map(c => (
-                <button key={c} className="kw-pill" onClick={() => onNavigate('works-' + c)}>
+                <a key={c} className="kw-pill" {...navProps('works-' + c, onNavigate)}>
                   {CATEGORY_LABELS[c]} →
-                </button>
+                </a>
               ))}
             </div>
           </div>
@@ -182,8 +184,11 @@ function VoicePage({ onNavigate, onContact }) {
         eyebrow="VOICE / ご利用会社様の声"
         title={<>長く付き合える、<br/>を裏付ける声。</>}
         lede="ご利用いただいている企業様の声を、何より大切にしています。日々いただくリアルなご意見が、私たちのサービスをかたちづくっています。"
-        badges={["累計20社の支援", "全業種から声", "長期運用に伴走"]}
+        badges={[`累計${NORTIQ_STATS.clients}社の支援`, "全業種から声", "長期運用に伴走"]}
         onContact={onContact}
+        subCta="制作実績を見る"
+        subCtaTo="works"
+        nav={onNavigate}
         watermark="VOICE"
         pageNo="VOICE"
       />
@@ -295,10 +300,14 @@ function PricingPage({ onNavigate, onContact }) {
       <Breadcrumb items={[{ label: "トップ", id: "top" }, { label: "料金プラン" }]} onNavigate={onNavigate}/>
       <PageHero
         eyebrow="PRICING / 料金プラン"
-        title={<>透明な、<br/>段階投資。</>}
+        title="ホームページ制作・AI導入の料金プラン"
+        sub={<>透明な、段階投資。</>}
         lede="サービスごとに3つのプランを用意。実際の費用はヒアリング後の見積でご提案しますが、目安レンジをすべて公開しています。"
         badges={["明朗会計", "補助金活用の相談可", "段階契約OK"]}
         onContact={onContact}
+        subCta="ホームページ無料診断"
+        subCtaTo="diagnostic"
+        nav={onNavigate}
       />
 
       {[
@@ -322,7 +331,7 @@ function PricingPage({ onNavigate, onContact }) {
           <div className="container">
             <div className="row" style={{ marginBottom: 36, justifyContent: 'space-between', alignItems: 'flex-end' }}>
               <h2 className="display-m">{block.tl}</h2>
-              <Button variant="text" onClick={() => onNavigate(block.tl === 'Web 制作' ? 'web' : block.tl === 'AIチャットボット' ? 'chatbot' : 'dx')}>機能詳細を見る<Icon name="arrow-right" size={13}/></Button>
+              <Button variant="text" to={block.tl === 'Web 制作' ? 'web' : block.tl === 'AIチャットボット' ? 'chatbot' : 'dx'} nav={onNavigate}>機能詳細を見る<Icon name="arrow-right" size={13}/></Button>
             </div>
             <div className="price-grid">
               {block.rows.map((r, j) => (
@@ -358,7 +367,7 @@ function PricingPage({ onNavigate, onContact }) {
 function DiagnosisPage({ onNavigate, onContact }) {
   return (
     <main className="page-fade">
-      <Breadcrumb items={[{ label: "トップ", id: "top" }, { label: "無料診断", id: "diagnosis" }, { label: "サイト無料診断 (詳細)" }]} onNavigate={onNavigate}/>
+      <Breadcrumb items={[{ label: "トップ", id: "top" }, { label: "無料診断", id: "diagnostic" }, { label: "サイト無料診断 (詳細)" }]} onNavigate={onNavigate}/>
       <PageHero
         eyebrow="DIAGNOSIS / サイト無料診断"
         title={<>現状の課題を、<br/>30項目で可視化。</>}
@@ -434,7 +443,7 @@ function QuickDiagnosisPage({ onNavigate, onContact }) {
   const reset = () => { setStep(0); setAnswers({}); };
   return (
     <main className="page-fade">
-      <Breadcrumb items={[{ label: "トップ", id: "top" }, { label: "無料診断", id: "diagnosis" }, { label: "クイック診断" }]} onNavigate={onNavigate}/>
+      <Breadcrumb items={[{ label: "トップ", id: "top" }, { label: "無料診断", id: "diagnostic" }, { label: "クイック診断" }]} onNavigate={onNavigate}/>
       <PageHero
         eyebrow="QUICK / クイック診断"
         title={<>1分で、<br/>次の一手がわかる。</>}
@@ -617,8 +626,7 @@ function GuidebookPage({ onNavigate, onContact }) {
 // COLUMN (記事一覧)
 // ============================================================
 function ColumnPage({ onNavigate, onContact }) {
-  const store = (typeof window !== 'undefined' && window.NORTIQ_ARTICLES) || {};
-  const articles = Object.values(store);
+  const articles = listedArticles();
   const [cat, setCat] = React.useState('すべて');
   const cats = ['すべて', ...Array.from(new Set(articles.map(a => a.category)))];
   const shown = cat === 'すべて' ? articles : articles.filter(a => a.category === cat);
@@ -683,6 +691,8 @@ function CompanyPage({ onNavigate, onContact }) {
         onContact={onContact}
         ctaLabel="採用情報"
         subCta="チーム紹介"
+        subCtaTo="staff"
+        nav={onNavigate}
         watermark="ABOUT"
         pageNo="04"
       />
@@ -713,7 +723,7 @@ function CompanyPage({ onNavigate, onContact }) {
               <div className="timeline-date">2025〜2026</div>
               <div className="timeline-content">
                 <h3>ブログボット（AI投稿アシスタント）開発 / 業種横断で支援拡大</h3>
-                <p>WordPress ブログ更新を AI で支援する内製プロダクトを開発。クリニック・不動産・建築・人材・小売・AIスタートアップ等、累計 20 社の制作・DX 支援を展開。</p>
+                <p>WordPress ブログ更新を AI で支援する内製プロダクトを開発。クリニック・不動産・建築・人材・小売・AIスタートアップ等、累計 {NORTIQ_STATS.clients} 社の制作・DX 支援を展開。</p>
               </div>
             </li>
             <li className="timeline-item fadein" data-delay="240">
@@ -874,7 +884,6 @@ function SitemapPage({ onNavigate, onContact }) {
               { id: 'works-retail', label: '小売 / EC' },
               { id: 'works-infra', label: 'インフラ・製造' },
               { id: 'works-ai', label: 'AIスタートアップ' },
-              { id: 'work-detail', label: '実績詳細サンプル' },
             ]}/>
             <SitemapCol heading="制作実績 (LP/動画)" onNavigate={onNavigate} links={[
               { id: 'works-lp-corp', label: 'コーポレートLP' },
@@ -885,7 +894,7 @@ function SitemapPage({ onNavigate, onContact }) {
             <SitemapCol heading="サポート・コンサル" onNavigate={onNavigate} links={[
               { id: 'support', label: '運用サポート' },
               { id: 'voice', label: 'ご利用会社様の声' },
-              { id: 'diagnosis', label: 'サイト無料診断 (詳細)' },
+              { id: 'diagnostic', label: 'サイト無料診断 (URL入力)' },
               { id: 'quick-diagnosis', label: 'クイック診断 (1分)' },
             ]}/>
             <SitemapCol heading="メディア・コンテンツ" onNavigate={onNavigate} links={[
@@ -965,7 +974,7 @@ function GenericPage({ pageId, onNavigate, onContact }) {
           <SectionHead eyebrow="DETAIL" title="近日詳細を追加します。" lede="お急ぎの方は、お問い合わせフォームよりご連絡ください。"/>
           <div className="row" style={{ gap: 12 }}>
             <Button variant="primary" onClick={onContact} arrow>このサービスについて相談</Button>
-            <Button variant="ghost" onClick={() => onNavigate('top')}>トップに戻る</Button>
+            <Button variant="ghost" to={'top'} nav={onNavigate}>トップに戻る</Button>
           </div>
         </div>
       </section>

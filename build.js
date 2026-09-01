@@ -9,6 +9,21 @@ const sharp = require('sharp');
 const ROOT = __dirname;
 const DIST = path.join(ROOT, 'dist');
 
+// 実績・体制の数字は content-data.jsx の NORTIQ_STATS を唯一の出典にする。
+// (build-prerender.js が build.js の BLOG を正規表現で読むのと同じ方式)
+// ここを別に持つと、FAQ・Organizationスキーマとページ本文の数字がまた食い違う。
+const NORTIQ_STATS = (() => {
+  const src = fs.readFileSync(path.join(ROOT, 'content-data.jsx'), 'utf8');
+  const start = src.indexOf('const NORTIQ_STATS');
+  const pick = (k) => {
+    const i = start < 0 ? -1 : src.indexOf(k + ':', start);
+    const v = i < 0 ? NaN : parseInt(src.slice(i + k.length + 1).trim(), 10);
+    if (!Number.isFinite(v)) throw new Error('content-data.jsx の NORTIQ_STATS.' + k + ' を読み取れません');
+    return v;
+  };
+  return { clients: pick('clients'), team: pick('team'), industries: pick('industries') };
+})();
+
 // JSX files in load order (matches the script tags in Nortiq Labs.html)
 const JSX_FILES = [
   'tweaks-panel.jsx',
@@ -109,13 +124,52 @@ const BLOG = [
   { slug: 'how-to-choose-web-agency',       category: 'Web制作',     date: '2026.05.16', read: '6 min', title: '制作会社の選び方 — 「安かろう悪かろう」の罠を避ける',                          img: 'assets/blog-how-to-choose-web-agency.png' },
   { slug: 'japan-dx',        category: 'DX 観察記', date: '2026.05.12', read: '8 min',  title: 'なぜ日本のDXはアメリカに2〜3年遅れているのか',          img: 'assets/blog-japan-dx.png' },
   { slug: 'vetonet',         category: '技術',       date: '2026.04.28', read: '12 min', title: 'VetoNet 開発の裏側 — AI agent security とは何か',        img: 'assets/blog-vetonet.png' },
-  { slug: 'wordpress-stall', category: 'AI活用',     date: '2026.03.30', read: '7 min',  title: 'WordPress 更新が止まる本当の理由とその解決',            img: 'assets/blog-wordpress-stall.png' },
+  // noindex: claude-vs-gpt と同型。本文が「Details（記事LP導線に沿った整理）」
+  // 「Recommendations（記事LPコピー設計への提案）」「Caveats（記事執筆時の重要な注意点）」
+  // という執筆者向けの指示書のまま公開されていたため退避。
+  { slug: 'wordpress-stall', category: 'AI活用',     date: '2026.03.30', read: '7 min',  title: 'WordPress 更新が止まる本当の理由とその解決',            img: 'assets/blog-wordpress-stall.png', noindex: true },
   { slug: 'core-web-vitals', category: '技術',       date: '2026.03.18', read: '10 min', title: 'Core Web Vitals の「Good」を現実的に取得する',           img: 'assets/blog-core-web-vitals.png' },
   { slug: 'clinic-web',      category: '業種別',     date: '2026.03.05', read: '8 min',  title: 'クリニックのWeb集客 2026年版 完全ガイド',                img: 'assets/blog-clinic-web.png' },
   { slug: 'ai-poc',          category: 'DX 観察記', date: '2026.02.22', read: '9 min',  title: 'PoCで終わるAI案件と、本実装まで進むAI案件の違い',        img: 'assets/blog-ai-poc.png' },
   { slug: 'realty-lp',       category: '業種別',     date: '2026.02.10', read: '6 min',  title: '不動産売却査定LPで反響を獲得する7つの必須要素',          img: 'assets/blog-realty-lp.png' },
-  { slug: 'claude-vs-gpt',   category: 'AI活用',     date: '2026.01.28', read: '11 min', title: 'Claude vs GPT 業務利用 比較ドシエ',                       img: 'assets/blog-claude-vs-gpt.png' },
+  // noindex: 本文が記事ではなく社内リサーチメモ (構成案・記事タイトル候補・執筆時の注意)
+  // のまま公開されていたため退避。書き直すか削除するまで一覧にも sitemap にも出さない。
+  { slug: 'claude-vs-gpt',   category: 'AI活用',     date: '2026.01.28', read: '11 min', title: 'Claude vs GPT 業務利用 比較ドシエ',                       img: 'assets/blog-claude-vs-gpt.png', noindex: true },
 ];
+
+// 公開前チェック — 記事本文に「執筆者向けの指示書」が残ったまま公開されるのを止める。
+//
+// 実際に /article-claude-vs-gpt と /article-wordpress-stall が、記事ではなく
+// 社内リサーチ・ドシエ (構成案 / 記事タイトル候補 / コピー設計の提案 / 執筆時の注意) の
+// まま公開されていた。読者には「これから記事を書く人向けの指示書」が見えている状態で、
+// AI記事生成を商材にしている会社のオウンドメディアとしては営業上の実害が大きい。
+//
+// 判定は「読者向け本文には絶対に出てこない語」だけに絞る。
+// Key Findings / Recommendations / Caveats という見出し自体は、出典の限界を明示する
+// 読者向けセクションとして正しく使っている記事があるため、それ単体では弾かない。
+const DRAFT_SCAFFOLDING = [
+  '記事執筆時',
+  '記事の構成案',
+  '記事タイトル候補',
+  '推奨ストーリーライン',
+  '記事LPコピー設計',
+  '記事LP導線に沿った',
+  '記事に組み込める',
+  '執筆時の参照用',
+];
+function assertNoDraftScaffolding(entry, md) {
+  const hits = DRAFT_SCAFFOLDING.filter((phrase) => md.includes(phrase));
+  if (!hits.length) return;
+  const where = 'content/blog/' + entry.slug + '.md';
+  if (entry.noindex) {
+    console.warn('  ! ' + where + ': 下書きの痕跡 [' + hits.join(', ') + '] — noindex 中');
+    return;
+  }
+  throw new Error(
+    where + ' に執筆者向けの下書きが残っています: ' + hits.join(', ')
+    + " — 読者向けの本文に書き直すか、BLOG エントリに noindex: true を付けて公開を止めてください。"
+  );
+}
 
 marked.setOptions({ gfm: true, breaks: false, headerIds: false, mangle: false });
 
@@ -125,6 +179,7 @@ function buildArticles() {
     const mdPath = path.join(ROOT, 'content', 'blog', a.slug + '.md');
     if (!fs.existsSync(mdPath)) { console.warn(`  ! missing ${a.slug}.md`); continue; }
     let md = fs.readFileSync(mdPath, 'utf8');
+    assertNoDraftScaffolding(a, md);
     // Drop the leading H1 (we render title/meta from the manifest in the page header).
     // Tolerate CRLF line endings — on Windows checkouts (core.autocrlf=true) the
     // markdown is \r\n, and `.` doesn't match \r, so a plain \n+ would never match
@@ -133,7 +188,7 @@ function buildArticles() {
     const html = marked.parse(md);
     // updated は改修 (refit) で本文を書き換えたときにパイプラインが入れる更新日。
     // date は初出の公開日で改修しても変えないため、鮮度は updated 側で伝える。
-    out[a.slug] = { slug: a.slug, title: a.title, category: a.category, date: a.date, updated: a.updated || '', read: a.read, img: a.img, supervised: !!a.supervised, desc: a.desc || '', html };
+    out[a.slug] = { slug: a.slug, title: a.title, category: a.category, date: a.date, updated: a.updated || '', read: a.read, img: a.img, supervised: !!a.supervised, desc: a.desc || '', noindex: !!a.noindex, html };
   }
   return out;
 }
@@ -370,11 +425,11 @@ async function build() {
   <!-- Analytics off: set GA4_ID / GADS_ID (+ conversion labels) in build.js to emit gtag.js. -->`;
 
   const FAQ_QA = [
-    { q: 'Nortiq Labs はどんな会社ですか？', a: '米国 UC Berkeley での AI 研究背景を持つ代表のもと、日本の経営課題に向き合うメンバーで構成された技術チームです。Web制作・AIチャットボット・DX/ML 実装まで、中小企業のDXを段階的に支援します。これまで20社の制作・支援実績があります（2025年・京都設立）。' },
+    { q: 'Nortiq Labs はどんな会社ですか？', a: `米国 UC Berkeley での AI 研究背景を持つ代表のもと、日本の経営課題に向き合うメンバーで構成された技術チームです。Web制作・AIチャットボット・DX/ML 実装まで、中小企業のDXを段階的に支援します。これまで${NORTIQ_STATS.clients}社の制作・支援実績があります（2025年・京都設立）。` },
     { q: 'Web制作の費用はどれくらいですか？', a: 'オリジナルデザインのWeb制作は30万円から承っています。ページ数・機能・要件に応じてお見積もりし、公開後の運用・改善まで伴走します。' },
     { q: 'AIチャットボットは導入できますか？', a: 'はい。WordPress連携のAI投稿アシスタントをはじめ、問い合わせ対応やブログ更新を自動化するAIチャットボットの導入を、実装の中身まで説明しながら支援します。' },
     { q: '補助金は活用できますか？', a: 'IT導入補助金などの活用を視野に入れた DX 投資のご相談を承っています。なお、補助金申請の手続きサポート（登録 IT 導入支援事業者としての対応）は現在準備中です。' },
-    { q: '対応している業種は？', a: 'クリニック・医療、不動産、建築・工務店、人材、小売/EC、インフラ・製造、AIスタートアップなど、7業種以上の制作・支援実績があります。' },
+    { q: '対応している業種は？', a: `クリニック・医療、不動産、建築・工務店、人材、小売/EC、インフラ・製造、AIスタートアップなど、${NORTIQ_STATS.industries}業種以上の制作・支援実績があります。` },
     { q: '制作後のサポートはありますか？', a: '公開して終わりにはせず、運用・改善まで継続して伴走します。お問い合わせには営業日24時間以内にご返信します。' },
     { q: '全国対応していますか？', a: 'はい。オンラインを中心に、全国のお客様に対応しています。' },
   ];
@@ -384,7 +439,7 @@ async function build() {
       {
         '@type': 'Organization', '@id': SITE + '/#org', name: 'Nortiq Labs', url: SITE + '/',
         logo: SITE + '/assets/nortiq-mark.png', image: OG_IMAGE, description: DESC,
-        slogan: '日本のDX、世界水準で巻き返す。', foundingDate: '2025', numberOfEmployees: 5,
+        slogan: '日本のDX、世界水準で巻き返す。', foundingDate: '2025', numberOfEmployees: NORTIQ_STATS.team,
         address: { '@type': 'PostalAddress', addressCountry: 'JP', postalCode: '604-0012', addressRegion: '京都府', addressLocality: '京都市中京区', streetAddress: '竪大恩寺町751' },
         areaServed: { '@type': 'Country', name: 'Japan' },
         alternateName: ['株式会社ノーティックラボ', 'ノーティックラボ'],
@@ -457,15 +512,19 @@ async function build() {
     `User-agent: *\nAllow: /\n\nSitemap: ${SITE}/sitemap.xml\n`, 'utf8');
   const SITEMAP_ROUTES = [
     'top', 'web', 'chatbot', 'dx', 'works', 'voice', 'support', 'pricing',
-    'diagnosis', 'subsidy', 'guidebook', 'column', 'company', 'staff', 'recruit',
+    // /diagnosis は /diagnostic に統合し301 (検索意図が同一で共食いしていた)
+    'subsidy', 'guidebook', 'column', 'company', 'staff', 'recruit',
     'news', 'diagnostic', 'product-vetonet', 'product-wpchat', 'product-tennis',
     'feature-cms', 'feature-lpo', 'feature-recruit', 'feature-analytics',
     'works-clinic', 'works-realty', 'works-build', 'works-hr', 'works-retail',
     'works-infra', 'works-ai', 'solution-clinic', 'solution-realty',
     'solution-build', 'solution-hr', 'solution-retail',
     'works-lp-corp', 'works-lp-recruit', 'works-lp-ec', 'works-video',
-    'privacy', 'terms', 'privacy-handling', 'sitemap',
-    ...BLOG.map((b) => 'article-' + b.slug),
+    'privacy', 'terms', 'privacy-handling',
+    // /sitemap は meta robots が noindex。noindex のURLを sitemap.xml に載せると
+    // 「登録したのに除外されました」という矛盾したシグナルになるため出さない。
+    // /quick-diagnosis も同様 (ツールページなので noindex 運用)。
+    ...BLOG.filter((b) => !b.noindex).map((b) => 'article-' + b.slug),
   ];
   // lastmod は記事だけに出す。
   //
