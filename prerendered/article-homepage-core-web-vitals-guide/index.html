@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="ja" style="--accent: hsl(354, 92%, 45%); --accent-hi: hsl(354, 95%, 52%); --accent-soft: hsl(354, 90%, 95%);"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Google tag (gtag.js) — GA4 + Google Ads conversion tracking -->
+  <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-EYTD1TWR7T"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-EYTD1TWR7T');
+    window.NORTIQ_CONV = { contact: null, diagnostic: null };
+  </script>
+  <title>ホームページ制作でCore Web Vitals対応、中小企業向け5ステップ — Nortiq Labs</title>
+  <meta name="description" content="自社のホームページがCore Web Vitals（LCP・CLS等）の基準を満たしているか確認する方法と、不合格時の優先順位付き改善ステップを解説。中小企業向けです。">
+  <link rel="icon" href="/assets/nortiq-fav.png" type="image/png">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Nortiq Labs">
+  <!-- 記事ルートでは app.jsx が og:type を article に変え、下の2つに日付を入れる。
+       setMetaContent は既存要素しか書き換えないため、空のまま置いておく必要がある -->
+  <meta property="article:published_time" content="2026-09-01">
+  <meta property="article:modified_time" content="2026-09-01">
+  <meta property="og:title" content="ホームページ制作でCore Web Vitals対応、中小企業向け5ステップ — Nortiq Labs">
+  <meta property="og:description" content="自社のホームページがCore Web Vitals（LCP・CLS等）の基準を満たしているか確認する方法と、不合格時の優先順位付き改善ステップを解説。中小企業向けです。">
+  <meta property="og:url" content="https://nortiqlab.com/article-homepage-core-web-vitals-guide">
+  <meta property="og:image" content="https://nortiqlab.com/assets/blog-default.png">
+  <meta property="og:locale" content="ja_JP">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="ホームページ制作でCore Web Vitals対応、中小企業向け5ステップ — Nortiq Labs">
+  <meta name="twitter:description" content="自社のホームページがCore Web Vitals（LCP・CLS等）の基準を満たしているか確認する方法と、不合格時の優先順位付き改善ステップを解説。中小企業向けです。">
+  <meta name="twitter:image" content="https://nortiqlab.com/assets/blog-default.png">
+  <link rel="stylesheet" href="/styles.css?v=mti6u3qz">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://nortiqlab.com/#org","name":"Nortiq Labs","url":"https://nortiqlab.com/","logo":"https://nortiqlab.com/assets/nortiq-mark.png","image":"https://nortiqlab.com/assets/og-image.png","description":"京都のWeb制作×AI実装カンパニー。オリジナルデザインのホームページ制作からAIチャットボット導入、DXコンサルティングまで一気通貫で支援。初回相談無料・営業日24時間以内に返信します。","slogan":"日本のDX、世界水準で巻き返す。","foundingDate":"2025","numberOfEmployees":5,"address":{"@type":"PostalAddress","addressCountry":"JP","postalCode":"604-0012","addressRegion":"京都府","addressLocality":"京都市中京区","streetAddress":"竪大恩寺町751"},"areaServed":{"@type":"Country","name":"Japan"},"alternateName":["株式会社ノーティックラボ","ノーティックラボ"],"knowsAbout":["Web制作","AIチャットボット","DX","機械学習","SEO","LP制作 / LPO","業務自動化","データ分析"],"founder":{"@type":"Person","@id":"https://nortiqlab.com/#renta","name":"Renta Oshima","alternateName":"大島蓮太","jobTitle":"Founder / Engineer","worksFor":{"@id":"https://nortiqlab.com/#org"},"description":"米国 UC Berkeley で AI 研究。日本の中小企業向け DX 支援を起業。"}},{"@type":"WebSite","@id":"https://nortiqlab.com/#website","name":"Nortiq Labs","url":"https://nortiqlab.com/","publisher":{"@id":"https://nortiqlab.com/#org"},"inLanguage":"ja"},{"@type":"ProfessionalService","name":"Nortiq Labs","url":"https://nortiqlab.com/","description":"京都のWeb制作×AI実装カンパニー。オリジナルデザインのホームページ制作からAIチャットボット導入、DXコンサルティングまで一気通貫で支援。初回相談無料・営業日24時間以内に返信します。","areaServed":"JP","serviceType":["Web制作","AIチャットボット導入","DX・ML実装","補助金活用のDX導入相談"],"provider":{"@id":"https://nortiqlab.com/#org"}}]}</script>
+  <!-- defer: この2本 (計約139KB) は head にあって描画をブロックしていた。
+       ページの初期表示はプリレンダ済みHTMLで完結するのでJSを待つ必要がない。
+       defer は文書順に実行されるため react → react-dom → articles.js →
+       app.bundle.js の順序は保たれる。 -->
+  <script src="/assets/vendor/react.production.min.js?v=mti6u3qz" defer=""></script>
+  <script src="/assets/vendor/react-dom.production.min.js?v=mti6u3qz" defer=""></script>
+<link rel="canonical" href="https://nortiqlab.com/article-homepage-core-web-vitals-guide"><script type="application/ld+json" id="route-ld">[{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"トップ","item":"https://nortiqlab.com/"},{"@type":"ListItem","position":2,"name":"コラム","item":"https://nortiqlab.com/column"},{"@type":"ListItem","position":3,"name":"ホームページ制作でCore Web Vitals対応、中小企業向け5ステップ","item":"https://nortiqlab.com/article-homepage-core-web-vitals-guide"}]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"ホームページ制作でCore Web Vitals対応、中小企業向け5ステップ","description":"自社のホームページがCore Web Vitals（LCP・CLS等）の基準を満たしているか確認する方法と、不合格時の優先順位付き改善ステップを解説。中小企業向けです。","image":"https://nortiqlab.com/assets/blog-default.png","url":"https://nortiqlab.com/article-homepage-core-web-vitals-guide","inLanguage":"ja","articleSection":"Web制作","datePublished":"2026-09-01","dateModified":"2026-09-01","author":{"@type":"Organization","@id":"https://nortiqlab.com/#org","name":"Nortiq Labs"},"publisher":{"@id":"https://nortiqlab.com/#org"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://nortiqlab.com/article-homepage-core-web-vitals-guide","reviewedBy":{"@id":"https://nortiqlab.com/#renta"}}}]</script></head>
+<body>
+  <div id="app"><header class="nav" role="banner"><div class="nav-inner"><a class="nav-logo" href="/" style="cursor: pointer;"><span class="nav-logo-mark"></span><span class="wordmark"><span class="wordmark-main">NORTIQ</span><span class="wordmark-sub">LABS</span></span></a><nav class="nav-links" aria-label="メインナビゲーション"><div class="nav-link-wrap"><a class="nav-link" href="/">トップ</a></div><div class="nav-link-wrap"><a class="nav-link">機能<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></a></div><div class="nav-link-wrap"><a class="nav-link">制作実績<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></a></div><div class="nav-link-wrap"><a class="nav-link">業種ソリューション<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></a></div><div class="nav-link-wrap"><a class="nav-link" href="/voice">ご利用会社様の声</a></div><div class="nav-link-wrap"><a class="nav-link" href="/support">サポート</a></div><div class="nav-link-wrap"><a class="nav-link" href="/pricing">料金プラン</a></div><div class="nav-link-wrap"><a class="nav-link" aria-current="page">コンテンツ<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></a></div><div class="nav-link-wrap"><a class="nav-link" href="/diagnostic">無料診断</a></div></nav><div class="nav-cta-wrap"><button class="btn btn-primary btn-sm" type="button"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><path d="M22 6l-10 7L2 6"></path></svg>メールでお問合せ</button><button class="hamburger" aria-label="メニューを開く" aria-expanded="false"><span></span><span></span><span></span></button></div></div><div class="nav-drawer"><div class="nav-drawer-panel"><div class="nav-drawer-head"><span class="nav-logo" style="font-size: 18px;"><span class="nav-logo-mark" aria-hidden="true"></span><span class="wordmark"><span class="wordmark-main">NORTIQ</span><span class="wordmark-sub">LABS</span></span></span><button class="drawer-close" aria-label="閉じる"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M6 18L18 6"></path></svg></button></div><nav class="nav-drawer-body"><a class="drawer-item" href="/"><span>トップ</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><div class="drawer-group"><button class="drawer-item drawer-group-head"><span>機能</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></button><div class="drawer-group-body"><div class="drawer-subgroup"><h5>サービス別 機能一覧</h5><a class="drawer-sub-item" href="/web"><span>Web制作 機能一覧</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/chatbot"><span>AIチャットボット 機能一覧</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/dx"><span>DX・ML 機能一覧</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></div><div class="drawer-subgroup"><h5>技術領域</h5><a class="drawer-sub-item" href="/feature-lpo"><span>LP制作 / LPO</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/feature-recruit"><span>採用専門サイト</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/feature-analytics"><span>アクセス解析カスタム実装</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/feature-cms"><span>CMS / 記事更新システム</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></div><div class="drawer-subgroup"><h5>自社プロダクト</h5><a class="drawer-sub-item" href="/product-vetonet"><span>VetoNet (AI Security)</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/product-wpchat"><span>ブログボット（AI投稿アシスタント）</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/product-tennis"><span>Tennis フォームチェック</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></div></div></div><div class="drawer-group"><button class="drawer-item drawer-group-head"><span>制作実績</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></button><div class="drawer-group-body"><div class="drawer-subgroup"><h5>業種から探す</h5><a class="drawer-sub-item" href="/works-clinic"><span>クリニック・医療</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/works-realty"><span>不動産</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/works-build"><span>建築・工務店</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/works-hr"><span>人材</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/works-retail"><span>小売 / EC</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/works-infra"><span>インフラ・製造</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/works-ai"><span>AIスタートアップ</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></div><div class="drawer-subgroup"><h5>強化LP別</h5><a class="drawer-sub-item" href="/works-lp-corp"><span>コーポレートサイト</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/works-lp-recruit"><span>採用LP</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/works-lp-ec"><span>EC連動LP</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></div><div class="drawer-subgroup"><h5>実績まとめ</h5><a class="drawer-sub-item" href="/works"><span>全実績一覧</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></div></div></div><div class="drawer-group"><button class="drawer-item drawer-group-head"><span>業種ソリューション</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></button><div class="drawer-group-body"><div class="drawer-subgroup"><h5>業種別パッケージ</h5><a class="drawer-sub-item" href="/solution-clinic"><span>クリニック・医療 DXパッケージ</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/solution-realty"><span>不動産 集客×管理パッケージ</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/solution-build"><span>建築 ブランド×案件管理</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/solution-hr"><span>人材 マッチング×集客</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/solution-retail"><span>小売・EC OMOパッケージ</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></div></div></div><a class="drawer-item" href="/voice"><span>ご利用会社様の声</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-item" href="/support"><span>サポート</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-item" href="/pricing"><span>料金プラン</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><div class="drawer-group"><button class="drawer-item drawer-group-head"><span>コンテンツ</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></button><div class="drawer-group-body"><div class="drawer-subgroup"><h5>メディア</h5><a class="drawer-sub-item" href="/column"><span>コラム / 技術ブログ</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/news"><span>お知らせ</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/guidebook"><span>サービス紹介資料</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/subsidy"><span>補助金活用相談</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></div></div></div><a class="drawer-item" href="/diagnostic"><span>無料診断</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></nav><div class="nav-drawer-foot"><button class="btn btn-primary btn-lg" type="button" style="width: 100%;"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><path d="M22 6l-10 7L2 6"></path></svg>資料請求・お問い合わせ</button></div></div></div></header><div><main class="page-fade"><nav aria-label="Breadcrumb" style="padding: 14px 0px; border-bottom: 1px solid var(--border); background: var(--bg-2);"><div class="container"><ol class="row-tight" style="list-style: none; padding: 0px; margin: 0px; font-size: 12px; color: var(--text-3);"><li class="row-tight" style="gap: 8px;"><a href="/" style="cursor: pointer; color: var(--text-2);">トップ</a></li><li class="row-tight" style="gap: 8px;"><span style="color: var(--text-4);">›</span><a href="/column" style="cursor: pointer; color: var(--text-2);">コラム</a></li><li class="row-tight" style="gap: 8px;"><span style="color: var(--text-4);">›</span><span style="color: var(--text);">ホームページ制作でCore Web Vitals対応、中小企業向け5ステップ</span></li></ol></div></nav><article><header style="padding-top: clamp(48px, 7vw, 90px); padding-bottom: 32px;"><div class="container" style="max-width: 820px;"><div class="row" style="gap: 10px; margin-bottom: 24px; color: var(--text-3); font-size: 13px; flex-wrap: wrap;"><span class="tag" style="color: var(--accent); border-color: var(--accent);">Web制作</span><span class="num">2026.09.01</span><span>·</span><span>12 min read</span><span>·</span><span>Nortiq Labs</span></div><h1 class="display-l fadein is-in" style="margin-bottom: 8px;">ホームページ制作でCore Web Vitals対応、中小企業向け5ステップ</h1></div></header><div class="container" style="max-width: 880px; margin-bottom: 8px;"><div class="article-cover tone-red" role="img" aria-label="ホームページ制作でCore Web Vitals対応、中小企業向け5ステップ" style="aspect-ratio: 21 / 9;"><span class="article-cover-cat">Web制作</span><span class="article-cover-title">ホームページ制作でCore Web Vitals対応、中小企業向け5ステップ</span><span class="article-cover-brand">NORTIQ LABS · COLUMN</span></div></div><div class="container" style="max-width: 780px; margin-top: 24px; margin-bottom: 80px;"><div class="article-prose article-body"><h2>Core Web Vitalsとは何か、中小企業が気にすべき理由は？</h2>
+<p>Core Web Vitalsとは、Googleが定めるページ体験の品質指標で、LCP・INP・CLSの3指標から構成されます。2021年6月に検索ランキングシグナルとして正式採用されており（出典: Google Search Central公式ブログ「Page experience update and more」）、制作・リニューアル後のサイトは公開前に必ず計測する必要があります。</p>
+<h3>LCP・INP・CLSそれぞれの定義と合格基準値</h3>
+<p>3指標の意味と合格基準は次のとおりです（出典: Google Search Central「Core Web Vitals」公式ドキュメント、<a href="https://web.dev/articles/vitals%EF%BC%89%E3%80%82">https://web.dev/articles/vitals）。</a></p>
+<table>
+<thead>
+<tr>
+<th>指標</th>
+<th>正式名称</th>
+<th>意味</th>
+<th>良好（Good）の基準</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>LCP</td>
+<td>Largest Contentful Paint</td>
+<td>ページ内の最大コンテンツが画面に描画されるまでの時間</td>
+<td>2.5秒以内</td>
+</tr>
+<tr>
+<td>INP</td>
+<td>Interaction to Next Paint</td>
+<td>クリックや入力への応答が画面に反映されるまでの時間</td>
+<td>200ミリ秒以内</td>
+</tr>
+<tr>
+<td>CLS</td>
+<td>Cumulative Layout Shift</td>
+<td>ページ表示中にレイアウトがずれる量の累積スコア</td>
+<td>0.1以下</td>
+</tr>
+</tbody></table>
+<p>各指標は「Good（良好）」「Needs Improvement（要改善）」「Poor（不良）」の3段階で評価されます。検索ランキングへの影響が生じるのは、実ユーザのデータ（Field Data）が「Poor」または「Needs Improvement」に集中している場合です。</p>
+<p>LCPは読み込み速度の体感に直結し、CLSは「読もうとしたらボタンがずれた」という操作ミスの原因になります。INPは操作への反応速度であり、フォームや問い合わせボタンを多用するサイトで特に重要です。</p>
+<h3>Field DataとLab Dataの違い、どちらを優先すべきか</h3>
+<p>計測データには2種類あり、改善の優先判断を誤らないために区別が必要です。</p>
+<p><strong>Field Data（実環境データ）</strong></p>
+<ul>
+<li>実際のユーザが御社のサイトを訪問した際の計測値を集計したもの</li>
+<li>Google Search Consoleや PageSpeed InsightsのCrUX（Chrome User Experience Report）として表示される</li>
+<li>検索ランキングのシグナルとして実際に使われるのはこちら</li>
+<li>データが蓄積されるまでに一定のトラフィックが必要であり、新規サイトや低トラフィックサイトでは表示されない場合がある</li>
+</ul>
+<p><strong>Lab Data（模擬環境データ）</strong></p>
+<ul>
+<li>PageSpeed InsightsやLighthouseが一定の条件下でシミュレートした計測値</li>
+<li>トラフィックに関係なく即座に取得でき、改善施策の効果確認に使いやすい</li>
+<li>ただし実ユーザの環境（端末性能・回線速度）を完全には再現できない</li>
+</ul>
+<p>優先すべきはField Dataです。検索順位に影響するのはField Dataであるため、Lab Dataのスコアが高くても Field Dataが悪ければ評価は上がりません。Field Dataが取得できる場合は常にそちらを基準に改善の判断をしてください。新規サイトや小規模サイトでField Dataが取れない場合は、Lab DataでGoodを達成することを暫定目標として設定します。</p>
+<p>各指標の具体的な改善手順はこのあとのセクションで順に解説します。</p>
+<h2>まず何をすべきか？計測ツールの選び方と起動手順</h2>
+<p>最初にPageSpeed Insightsを使い、モバイルスコアを確認するところから始めてください。URLを入力するだけで3指標すべてのField Dataと改善優先度が表示されます。</p>
+<p>無料で使えるツールは複数ありますが、最初の1本に選ぶべき理由はシンプルです。PageSpeed InsightsはGoogleが公式に提供しており、実ユーザデータ（Field Data）とLab Dataの両方を同一画面で確認できます。計測に技術的な前提知識は不要です。</p>
+<h3>PageSpeed Insightsの読み方（Field Data / Diagnostics / Opportunities）</h3>
+<p>PageSpeed Insightsは、<a href="https://pagespeed.web.dev">pagespeed.web.dev</a> にアクセスし、調べたいページのURLを入力するだけで使えます。所要時間は1分もかかりません。</p>
+<p>結果画面は大きく3つのブロックに分かれています。それぞれの役割を理解してから数値を読むと、何を直すべきかが明確になります。</p>
+<table>
+<thead>
+<tr>
+<th>ブロック名</th>
+<th>表示される内容</th>
+<th>優先度</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Field Data</strong>（実データ）</td>
+<td>過去28日間の実ユーザのLCP・INP・CLSスコア</td>
+<td>★★★ 最優先で確認</td>
+</tr>
+<tr>
+<td><strong>Opportunities</strong>（改善機会）</td>
+<td>実施すれば読み込み時間を短縮できる施策の一覧</td>
+<td>★★ 次に確認</td>
+</tr>
+<tr>
+<td><strong>Diagnostics</strong>（診断）</td>
+<td>パフォーマンスに関する詳細な技術情報</td>
+<td>★ 原因調査に使う</td>
+</tr>
+</tbody></table>
+<p><strong>つまずきやすい点:</strong> Field Dataエリアに「十分なデータがありません」と表示されるケースがあります。これはそのページへの実訪問数が少なく、Googleがデータを収集できていない状態です。その場合はLab Dataのみが表示されます。Lab DataはあくまでGooglebotの仮想環境での測定値のため、実ユーザの体感とずれることがある点に注意してください。</p>
+<p>画面上部のタブで「モバイル」と「デスクトップ」を切り替えられます。検索エンジンはモバイルファーストインデックスを採用しているため、<strong>モバイルのField Dataを必ず先に確認してください。</strong></p>
+<p>各指標の判定色は以下の3段階です。</p>
+<ul>
+<li><strong>緑（Good）</strong>: 合格。対応は維持のみ</li>
+<li><strong>橙（Needs Improvement）</strong>: 要改善。優先度を上げて対処する</li>
+<li><strong>赤（Poor）</strong>: 不合格。検索順位への悪影響リスクがある</li>
+</ul>
+<h3>Google Search Consoleの「ウェブに関する主な指標」レポートとの使い分け</h3>
+<p>Google Search Console（以下、GSC）にも「ウェブに関する主な指標」という専用レポートがあります。PageSpeed InsightsとGSCは役割が異なるため、目的に応じて使い分けてください。</p>
+<table>
+<thead>
+<tr>
+<th>比較項目</th>
+<th>PageSpeed Insights</th>
+<th>GSC「ウェブに関する主な指標」</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>主な用途</strong></td>
+<td>特定URLの詳細分析</td>
+<td>サイト全体の問題把握</td>
+</tr>
+<tr>
+<td><strong>データの単位</strong></td>
+<td>1ページずつ</td>
+<td>ページグループ（URL群）単位</td>
+</tr>
+<tr>
+<td><strong>アクセス</strong></td>
+<td>ログイン不要</td>
+<td>GSCプロパティ登録が必要</td>
+</tr>
+<tr>
+<td><strong>向いている場面</strong></td>
+<td>改善前後の比較検証</td>
+<td>どのページ群から着手すべきか判断する</td>
+</tr>
+</tbody></table>
+<p>GSCのレポートでは、類似したURL（例: <code>/blog/</code> 配下の記事一覧）をまとめてスコアが表示されます。「Poor URLが集中しているグループ」を発見するのに優れており、サイト全体の優先順位付けに使います。</p>
+<p><strong>実務上の推奨フロー:</strong></p>
+<ol>
+<li>まずGSCで「Poor」に分類されているURLグループを特定する（所要時間: 5〜10分）</li>
+<li>そのグループの代表URLをPageSpeed Insightsに貼り付け、Opportunitiesを確認する（所要時間: 1〜2分）</li>
+<li>改善施策を実施したら、同じURLで再度PageSpeed Insightsを計測して変化を確認する</li>
+</ol>
+<p>改善施策の具体的な内容は、LCP・CLS・INP別に次のセクション以降で詳しく解説します。</p>
+<h2>LCP（最大コンテンツの描画）を「Good」にする改善手順</h2>
+<p>LCPの合格基準は2.5秒以内です。原因の大半は画像の最適化不足とサーバ応答の遅さにあるため、この2点を先に対処するだけでスコアが大きく改善します。</p>
+<p>LCP（Largest Contentful Paint）とは、ページを開いてから最も大きな画像またはテキストブロックが描画完了するまでの時間です。訪問者が「表示された」と感じる体感速度に最も直結する指標です。</p>
+<table>
+<thead>
+<tr>
+<th>評価</th>
+<th>LCP値</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Good（合格）</td>
+<td>2.5秒以内</td>
+</tr>
+<tr>
+<td>Needs Improvement</td>
+<td>2.5秒超〜4.0秒以下</td>
+</tr>
+<tr>
+<td>Poor（不合格）</td>
+<td>4.0秒超</td>
+</tr>
+</tbody></table>
+<p>改善は次の3手順で進めてください。後述するCLSやINPの対応より先に取り組むことで、体感速度の改善効果が最も大きく出やすいのが、実装上の特徴です。</p>
+<hr>
+<h3>手順1: LCP要素を特定し、画像をWebP化・サイズ指定する</h3>
+<p>最初にLCPの対象要素（LCP Element）を特定します。PageSpeed InsightsのDiagnosticsセクションに「Largest Contentful Paint element」として表示されるため、まずここを確認してください。</p>
+<p>対象がJPEGまたはPNG画像だった場合、WebPへの変換が最優先の対処になります。WebPはJPEGと比較して同等の画質でファイルサイズを削減できるため、転送量が減り読み込み速度が向上します。</p>
+<p><strong>つまずきやすい点:</strong> WebPに変換しても<code>&lt;img&gt;</code>タグに<code>width</code>と<code>height</code>属性が抜けていると、CLSの原因にもなります。変換と同時に必ず両属性を追記してください。</p>
+<p>具体的な対応手順は以下のとおりです。</p>
+<ol>
+<li>PageSpeed Insightsで「Largest Contentful Paint element」を確認し、対象の画像URLをメモする（所要時間: 約5分）</li>
+<li>変換ツール（Squoosh、cwebpコマンド等）でWebP形式に変換し、元ファイルと置き換える（所要時間: 1枚あたり約2〜5分）</li>
+<li><code>&lt;img&gt;</code>タグに<code>width</code>属性と<code>height</code>属性を追加し、表示サイズと実寸を合わせる（所要時間: 約10分）</li>
+<li>PageSpeed Insightsで再計測し、LCP値が短縮されたことを確認する（所要時間: 約3分）</li>
+</ol>
+<hr>
+<h3>手順2: fetchpriority="high"でLCP画像を優先読み込みする</h3>
+<p><code>fetchpriority="high"</code>は、ブラウザに対して「この画像を優先してダウンロードしてほしい」と指示するHTML属性です。LCP要素に指定するだけで、他のリソースより先に取得されるため、描画開始が早まります。</p>
+<pre><code class="language-html">&lt;img
+  src="hero.webp"
+  width="1200"
+  height="630"
+  fetchpriority="high"
+  alt="サービス紹介画像"
+/&gt;
+</code></pre>
+<p><strong>つまずきやすい点:</strong> <code>fetchpriority="high"</code>を複数の画像に同時に指定すると優先度が分散し、逆効果になります。LCP要素1枚のみに限定してください。</p>
+<p>また、WordPressを使用している場合、テーマのヘッダー画像にこの属性を追加するにはテーマのテンプレートファイル（多くの場合<code>header.php</code>）を直接編集する必要があります。プラグインで対応可能なケースもありますが、テーマのアップデートで上書きされるリスクがあるため、子テーマへの変更が推奨です。</p>
+<hr>
+<h3>手順3: サーバ応答時間（TTFB）をキャッシュ設定で短縮する</h3>
+<p>TTFB（Time to First Byte）とは、ブラウザがリクエストを送信してからサーバが最初の1バイトを返すまでの時間です。TTFBが長いと、画像の最適化を行っても手順1・2の効果が十分に出ません。</p>
+<p>PageSpeed InsightsのDiagnosticsに「Reduce initial server response time」と表示されている場合は、TTFBが問題です。</p>
+<p>対処の優先順位は以下のとおりです。</p>
+<ol>
+<li><strong>ページキャッシュの有効化:</strong> WordPressであればWP Super Cache、W3 Total Cache等のキャッシュプラグインを導入する（所要時間: 約30分）</li>
+<li><strong>静的アセットのキャッシュヘッダ設定:</strong> <code>.htaccess</code>またはNginx設定に<code>Cache-Control</code>ヘッダを追記し、CSS・画像・フォントをブラウザにキャッシュさせる（所要時間: 約20〜60分。設定ファイルの編集が必要）</li>
+<li><strong>CDN（コンテンツデリバリネットワーク）の導入:</strong> 地理的に遠いユーザへの応答を高速化する。Cloudflare等の無料プランから試せる（所要時間: 初期設定に約2〜4時間）</li>
+</ol>
+<p><strong>つまずきやすい点:</strong> キャッシュを有効化すると、コンテンツ更新後も古いページが表示され続けることがあります。更新作業のたびにキャッシュをクリアする手順を社内フローに組み込んでおいてください。</p>
+<p>3手順を完了したら、再度PageSpeed Insightsでモバイルスコアを計測し、Field DataのLCP値が2.5秒以内（Good）に入ったかを確認します。Field Dataは実ユーザのデータ蓄積に時間がかかるため、Lab Dataのスコアを先に参考値として確認する方法については、前セクションで説明したとおりです。</p>
+<h2>CLS（レイアウトのずれ）を0.1以下に抑える改善手順</h2>
+<p>CLSの合格基準は0.1以下です。原因の9割は画像・広告・フォントの寸法未指定にあるため、要素に幅と高さを明示するだけで解決するケースがほとんどです。</p>
+<p>CLSとは、ページ読み込み中にコンテンツが予期せず動いてしまう現象を数値化した指標です。たとえば記事を読もうとした瞬間に広告が差し込まれてボタンを誤タップした、という体験がCLS悪化の典型です。</p>
+<h3>手順1: Layout Shift Regions機能で「ずれている要素」を特定する</h3>
+<p>改善の前に「どの要素がずれているか」を可視化することが先決です。ChromeのDevToolsに内蔵されている<strong>Layout Shift Regions</strong>を使うと、ずれが発生した要素が青色でハイライト表示されます。</p>
+<table>
+<thead>
+<tr>
+<th>操作</th>
+<th>手順</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>DevToolsを開く</td>
+<td>F12キー（WindowsはF12、MacはCmd+Option+I）</td>
+</tr>
+<tr>
+<td>Renderingパネルを表示</td>
+<td>右上の「…」→「More tools」→「Rendering」</td>
+</tr>
+<tr>
+<td>レイアウトずれを可視化</td>
+<td>「Layout Shift Regions」にチェックを入れる</td>
+</tr>
+<tr>
+<td>対象ページを再読み込み</td>
+<td>Ctrl+R（Cmd+R）でページをリロードする</td>
+</tr>
+</tbody></table>
+<p><strong>つまずきやすい点:</strong> Renderingパネルはデフォルトで非表示です。「Elements」や「Console」タブと並んでいないため、More toolsから明示的に開く必要があります。</p>
+<p>PageSpeed Insightsの「Diagnostics」セクションにも「Avoid large layout shifts」として原因要素が列挙されるため、両方を照合すると確認がスムーズです。</p>
+<h3>手順2: imgタグにwidth/height属性を追加し、aspect-ratioを確保する</h3>
+<p><strong>所要時間の目安: 画像10〜20枚あたり30分程度</strong></p>
+<p>画像に幅と高さが指定されていないと、ブラウザは読み込み完了まで表示領域を確保できず、後からレイアウトを押し広げます。これがCLS悪化の最大原因です。</p>
+<pre><code class="language-html">&lt;!-- 修正前: サイズ未指定 --&gt;
+&lt;img src="hero.webp" alt="サービス紹介"&gt;
+
+&lt;!-- 修正後: width/height属性を追加 --&gt;
+&lt;img src="hero.webp" alt="サービス紹介" width="800" height="450"&gt;
+</code></pre>
+<p>width/height属性を追加すると、モダンブラウザはCSSで<code>aspect-ratio: 800 / 450</code>を自動計算し、画像読み込み前から表示領域を確保します。</p>
+<p>WordPressを使用している場合、メディアライブラリへのアップロード時に元画像のサイズ情報が保存されるため、<code>the_post_thumbnail()</code>や<code>wp_get_attachment_image()</code>関数は標準でwidth/height属性を出力します。ただしサードパーティのビルダープラグイン（Elementor等）経由で挿入した画像は属性が省略されるケースがあるため、ソースコードを直接確認してください。</p>
+<p><strong>広告枠のCLS対策</strong>として、バナー表示前にも<code>min-height</code>でスペースを確保することが有効です。</p>
+<pre><code class="language-css">.ad-container {
+  min-height: 250px; /* 広告の最小高さを予約 */
+}
+</code></pre>
+<h3>手順3: Webフォントにfont-display: swapを設定してFOIT/FOUTを抑制する</h3>
+<p><strong>所要時間の目安: CSSファイルの編集で5〜10分</strong></p>
+<p>Webフォントの読み込み遅延は、テキストの非表示（FOIT: Flash of Invisible Text）や別フォントへの一時差し替え（FOUT: Flash of Unstyled Text）を引き起こし、CLSに影響します。</p>
+<p><code>font-display: swap</code>を指定すると、Webフォントが読み込まれるまでシステムフォントで代替表示し、フォント差し替え時のレイアウトずれを最小化できます。</p>
+<pre><code class="language-css">@font-face {
+  font-family: 'NotoSansJP';
+  src: url('/fonts/NotoSansJP.woff2') format('woff2');
+  font-display: swap; /* ← この1行を追加する */
+}
+</code></pre>
+<p>Google Fontsを使用している場合は、URLパラメータに<code>&amp;display=swap</code>を追記するだけで適用されます。</p>
+<pre><code class="language-html">&lt;link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP&amp;display=swap" rel="stylesheet"&gt;
+</code></pre>
+<p><strong>実装者視点の注意点:</strong> <code>font-display: swap</code>はFOUTを完全になくすのではなく、CLSスコアへの影響を許容範囲内に抑えるものです。フォント差し替えによる字体の変化が大きい場合（例: 欧文フォントと日本語フォントの混在）は、代替フォントのline-heightやletter-spacingをCSS側で調整しておくと、差し替え時のずれが小さくなります。</p>
+<hr>
+<p>以上3手順を順に実施することで、多くの中小企業サイトでCLSを0.1以下に改善できます。改善後のスコア確認方法については「改善後の継続モニタリングと再チェックの頻度は？」で後述します。</p>
+<h2>制作・リニューアル発注時にCore Web Vitalsを要件に組み込む方法は？</h2>
+<p>制作会社への発注仕様書に「PageSpeed InsightsのField DataでLCP・INP・CLSすべてGood評価」を納品条件として明記することで、公開後のスコア不足リスクを発注前に排除できます。口頭での確認に留めると、納品後の改善費用が別途発生するケースが少なくありません。</p>
+<h3>仕様書に書くべきCWV要件の文例と確認タイミング</h3>
+<p>仕様書にCWV要件を盛り込む際は、以下の3点を明示することが重要です。</p>
+<table>
+<thead>
+<tr>
+<th>記載項目</th>
+<th>具体的な記述例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>合格基準</td>
+<td>「PageSpeed Insights（モバイル）のField DataにてLCP 2.5秒以内・INP 200ミリ秒以内・CLS 0.1以下をすべて満たすこと」</td>
+</tr>
+<tr>
+<td>確認ツール</td>
+<td>「Google PageSpeed Insights（URL: pagespeed.web.dev）を使用し、計測結果のスクリーンショットを納品物に含めること」</td>
+</tr>
+<tr>
+<td>確認タイミング</td>
+<td>「公開前のステージング環境でLab Dataを確認、公開後28日時点でField Dataを再確認し報告すること」</td>
+</tr>
+</tbody></table>
+<p>確認タイミングは2段階に分けることがポイントです。公開前はLab Dataで技術的な問題をつぶし、公開後はField Dataで実ユーザの体験を検証します。Field Dataは収集に最大4週間かかるため、検収期限を公開から35日以上後に設定してください。</p>
+<p>制作会社を選定する段階では、「過去案件のPageSpeed Insightsスコアを見せてもらえるか」を打診するとよいでしょう。対応できる会社であれば、数値付きの実績データをすぐに提示できます。</p>
+<h3>当社の品質保証基準</h3>
+<p>当社（株式会社ノーティックラボ）では、ホームページ制作においてCWVの品質を以下のように担保しています。</p>
+<p><strong>PREMIUMプラン</strong>: Core Web Vitals（LCP・INP・CLS）のGood評価を納品条件として保証します。公開後のField Dataレポートを提出し、基準未達の場合は追加費用なしで対応します。</p>
+<p><strong>STANDARDプラン（60万円から）</strong>: 設計段階からCWVを意識した実装を行います。具体的には、LCP画像のWebP化・fetchpriority設定、全imgタグへのwidth/height付与、フォント読み込み最適化を標準作業として含みます。</p>
+<p>（出典: 自社料金表）</p>
+<p>実装者として設計段階から関わることが、最終的なスコアの安定につながります。制作後に改善を依頼すると、テンプレートやプラグインの構造上、根本的な対処が難しい場合があります。発注前の段階でCWV対応を仕様に含めることを強くお勧めします。</p>
+<hr>
+<p>御社のサイトが現在どの指標で基準を下回っているかを把握するところから始めたい方には、無料診断をご用意しています。URLをお知らせいただければ、LCP・INP・CLSの現状値と優先対応箇所をレポートにまとめてお伝えします。</p>
+<p>[無料診断を申し込む（/diagnostic）]</p>
+<h2>改善後の継続モニタリングと再チェックの頻度は？</h2>
+<p>CWVのField Dataは過去28日間の実ユーザデータを集計するため、改善施策を反映してから結果がスコアに現れるまで最大4週間かかります。月次でSearch Consoleを確認する運用を標準にしてください。</p>
+<h3>なぜ「改善したのにスコアが変わらない」と感じるのか</h3>
+<p>Field Dataとは、実際にサイトを訪れたユーザのブラウザから収集されるデータです。Googleは過去28日分を累積して集計するため、施策を適用した翌日にスコアが改善されることはありません。</p>
+<p>改善前のデータが集計ウィンドウから完全に抜けきるまで、数値は緩やかにしか変化しません。「直した」のにスコアが動かないように見える原因の多くは、この集計ラグです。</p>
+<h3>推奨する月次モニタリングの手順</h3>
+<p>以下の順番で確認すると、問題の見落としを防げます。</p>
+<ol>
+<li><strong>Google Search Console を開く（所要時間: 5分）</strong>
+「ウェブに関する主な指標」レポートを確認し、「不良」「改善が必要」のURLが増えていないかチェックします。増えていた場合は原因となるページ群を特定します。</li>
+<li><strong>該当ページを PageSpeed Insights で個別計測する（所要時間: 10〜15分）</strong>
+モバイルを優先し、Field DataとDiagnosticsの両方を確認します。前月と比較して悪化した指標がある場合は、直近のサイト変更（プラグイン追加、画像差し替え、広告タグ追加など）と照合します。</li>
+<li><strong>チェック結果をスプレッドシートに記録する（所要時間: 5分）</strong>
+URL、計測日、LCP・INP・CLSの数値を残します。月次の変化を可視化することで、施策の効果検証と劣化の早期検知が両方できます。</li>
+</ol>
+<blockquote>
+<p><strong>つまずきやすい点</strong>: Search Consoleの「ウェブに関する主な指標」レポートに表示されるURLが実際のURLと異なるケース（正規化設定の影響）があります。表示されたURLではなく、PageSpeed Insightsで実際にアクセス可能なURLを計測してください。</p>
+</blockquote>
+<h3>スコアが再び悪化しやすいタイミング</h3>
+<p>改善後も一定のサイクルで劣化が起こりやすい場面があります。発生前に対策を準備しておくと手戻りを防げます。</p>
+<table>
+<thead>
+<tr>
+<th>劣化を招きやすい変更</th>
+<th>影響を受けやすい指標</th>
+<th>確認すべき対策</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>サードパーティ広告タグの追加</td>
+<td>INP、LCP</td>
+<td>タグを遅延読み込み（defer）に設定する</td>
+</tr>
+<tr>
+<td>プラグインのアップデート</td>
+<td>CLS、INP</td>
+<td>アップデート後に PageSpeed Insights で再計測する</td>
+</tr>
+<tr>
+<td>ヒーロー画像・バナーの差し替え</td>
+<td>LCP、CLS</td>
+<td>新画像にwidth/height属性とfetchpriority="high"を付与する</td>
+</tr>
+<tr>
+<td>WordPressテーマ変更</td>
+<td>全指標</td>
+<td>ステージング環境で先行計測してから本番に反映する</td>
+</tr>
+<tr>
+<td>動画埋め込みの追加</td>
+<td>LCP、INP</td>
+<td>サムネイル表示＋クリック後読み込み（ファサードパターン）を採用する</td>
+</tr>
+</tbody></table>
+<h3>「月次」以外に確認が必要な場合</h3>
+<p>大規模なサイト改修や新機能のリリース直後は、月次を待たずに計測します。ステージング環境でLab DataをPageSpeed Insightsで確認した上で本番に反映し、反映後1週間の時点でもう一度計測するサイクルが有効です。</p>
+<p>サイト訪問数が少ない中小企業のサイトでは、Field Dataの収集に必要なサンプル数（CrUXの閾値）を下回り、Search Consoleにデータが表示されないことがあります。その場合はLab Dataを主指標として、PageSpeed Insightsで月次計測を継続してください。</p>
+<hr>
+<p><strong>現在のスコアを確認して、次のアクションを明確にしたい場合は、当社の無料診断をご活用ください。</strong> 御社サイトのURL共有だけで、LCP・INP・CLSの現状と優先改善箇所をレポートとしてお渡しします。</p>
+<p><a href="/diagnostic">無料診断を受ける（/diagnostic）</a></p>
+<h2>関連リンク</h2>
+<ul>
+<li><a href="/pricing">ホームページ制作費用の相場</a></li>
+<li><a href="/diagnostic">ホームページの現状診断</a></li>
+</ul>
+</div><div style="margin-top: 40px; padding: 16px 20px; background: var(--bg-2); border-radius: 10px; font-size: 13px; color: var(--text-3); line-height: 1.8;"><div>監修: 大島蓮太（株式会社ノーティックラボ代表 / AIエンジニア）</div><div>本記事はAIを活用して制作しています</div></div></div><section class="section-pad" style="background: var(--bg-2);"><div class="container" style="max-width: 880px;"><h3 class="display-s" style="margin-bottom: 24px;">関連記事</h3><div class="grid-3"><a class="article-card fadein is-in" href="/article-llm-guardrail-monthly-cost-sme-guide" style="cursor: pointer;"><div class="article-cover tone-blue" role="img" aria-label="中小企業向けLLMガードレール導入コスト：現実的な選択肢" style="aspect-ratio: 16 / 10;"><span class="article-cover-cat">AI活用</span><span class="article-cover-title">中小企業向けLLMガードレール導入コスト</span><span class="article-cover-brand">NORTIQ LABS · COLUMN</span></div><div class="article-meta"><span style="color: var(--accent);">AI活用</span><span class="article-meta-sep">·</span><span>2026.08.21</span></div><h3 class="article-title">中小企業向けLLMガードレール導入コスト：現実的な選択肢</h3></a><a class="article-card fadein is-in" href="/article-rfp-template-web-design" style="cursor: pointer;"><div class="article-cover tone-red" role="img" aria-label="Web制作のRFP作り方｜記載項目・テンプレート付き" style="aspect-ratio: 16 / 10;"><span class="article-cover-cat">Web制作</span><span class="article-cover-title">Web制作のRFP作り方</span><span class="article-cover-brand">NORTIQ LABS · COLUMN</span></div><div class="article-meta"><span style="color: var(--accent);">Web制作</span><span class="article-meta-sep">·</span><span>2026.08.20</span></div><h3 class="article-title">Web制作のRFP作り方｜記載項目・テンプレート付き</h3></a><a class="article-card fadein is-in" href="/article-site-renewal-process-guide" style="cursor: pointer;"><div class="article-cover tone-red" role="img" aria-label="サイトリニューアルの進め方｜5つのフェーズと成功チェックリスト" style="aspect-ratio: 16 / 10;"><span class="article-cover-cat">Web制作</span><span class="article-cover-title">サイトリニューアルの進め方</span><span class="article-cover-brand">NORTIQ LABS · COLUMN</span></div><div class="article-meta"><span style="color: var(--accent);">Web制作</span><span class="article-meta-sep">·</span><span>2026.08.19</span></div><h3 class="article-title">サイトリニューアルの進め方｜5つのフェーズと成功チェックリスト</h3></a></div></div></section></article><section class="t_inq_wrap fadein is-in"><div class="container"><h2>こうした観点をベースに、<br>貴社の DX を一緒に考えませんか。</h2><div class="t_inq_btns"><button class="btn btn-primary" type="button"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><path d="M22 6l-10 7L2 6"></path></svg>資料請求はこちら</button><button class="btn btn-primary" type="button"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><path d="M21 21l-4.35-4.35"></path></svg>ホームページ無料診断</button></div><p class="t_inq_time">営業日 24時間以内に担当者よりご返信します。</p></div></section></main></div><footer class="footer"><div class="container"><div class="footer-grid"><div class="footer-brand"><div class="nav-logo" style="margin-bottom: 18px;"><span class="nav-logo-mark"></span><span class="wordmark"><span class="wordmark-main">NORTIQ</span><span class="wordmark-sub">LABS</span></span></div><p class="body" style="font-size: 13px; max-width: 320px; margin-bottom: 24px;">日本のDX、世界水準で巻き返す。<br>Web制作からAI・DX実装までの技術チーム。</p><button class="btn btn-primary btn-sm" type="button"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><path d="M22 6l-10 7L2 6"></path></svg>資料請求はこちら</button></div><div class="footer-col"><h4>制作実績</h4><ul><li><a href="/works">全実績一覧</a></li><li><a href="/works-clinic">クリニック・医療</a></li><li><a href="/works-realty">不動産</a></li><li><a href="/works-build">建築・工務店</a></li><li><a href="/works-hr">人材</a></li><li><a href="/works-retail">小売 / EC</a></li><li><a href="/works-infra">インフラ・製造</a></li><li><a href="/works-ai">AIスタートアップ</a></li><li><a href="/works-lp-corp">コーポレートLP</a></li><li><a href="/works-lp-recruit">採用LP</a></li><li><a href="/works-lp-ec">EC連動LP</a></li><li><a href="/works-video">動画制作事例</a></li></ul></div><div class="footer-col"><h4>機能・サービス</h4><ul><li><a href="/web">Web制作 機能一覧</a></li><li><a href="/chatbot">AIチャットボット 機能一覧</a></li><li><a href="/dx">DX・ML 機能一覧</a></li><li><a href="/feature-lpo">LP制作 / LPO</a></li><li><a href="/feature-recruit">採用専門サイト</a></li><li><a href="/feature-analytics">アクセス解析</a></li></ul><h4 style="margin-top: 28px;">自社プロダクト</h4><ul><li><a href="/product-vetonet">VetoNet</a></li><li><a href="/product-wpchat">ブログボット（AI投稿アシスタント）</a></li><li><a href="/product-tennis">Tennis フォームチェック</a></li></ul></div><div class="footer-col"><h4>サポート・コンサル</h4><ul><li><a href="/support">運用サポート</a></li><li><a href="/voice">ご利用会社様の声</a></li><li><a href="/diagnostic">サイト無料診断 (URL入力)</a></li><li><a href="/column">技術ブログ / コラム</a></li><li><a href="/news">お知らせ</a></li><li><a href="/subsidy">補助金活用相談</a></li><li><a href="/guidebook">サービス紹介資料</a></li></ul><h4 style="margin-top: 28px;">業種別ソリューション</h4><ul><li><a href="/solution-clinic">クリニック・医療</a></li><li><a href="/solution-realty">不動産</a></li><li><a href="/solution-build">建築・工務店</a></li><li><a href="/solution-hr">人材</a></li><li><a href="/solution-retail">小売 / EC</a></li></ul><h4 style="margin-top: 28px;">会社</h4><ul><li><a href="/company">会社概要</a></li><li><a href="/staff">チーム / スタッフ</a></li><li><a href="/recruit">採用情報</a></li><li><a href="/pricing">料金プラン</a></li><li><a href="/sitemap">サイトマップ</a></li></ul></div></div><div class="footer-bottom"><span>© 2026 Nortiq Labs Inc. All rights reserved.</span><div class="row" style="gap: 24px;"><a href="/privacy" style="color: var(--text-3);">プライバシーポリシー</a><a href="/terms" style="color: var(--text-3);">利用規約</a><a href="/privacy-handling" style="color: var(--text-3);">個人情報の取扱い</a></div></div></div></footer><div class="modal-backdrop"><div class="modal" role="dialog" aria-modal="true"><button class="modal-close" aria-label="閉じる"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M6 18L18 6"></path></svg></button><div style="margin-bottom: 24px;"><div class="eyebrow eyebrow-accent" style="margin-bottom: 10px;">CONTACT</div><h3 class="display-s" style="margin-bottom: 8px;">資料請求・お問い合わせ</h3><p class="small">初回相談は無料です。営業日24時間以内にご返信します。</p></div><form novalidate=""><div class="field"><label>貴社名<span class="req">必須</span></label><input type="text" placeholder="株式会社○○" value=""></div><div class="field"><label>ご担当者名<span class="req">必須</span></label><input type="text" placeholder="山田 太郎" value=""></div><div class="field"><label>メールアドレス<span class="req">必須</span></label><input type="email" placeholder="you@example.com" value=""></div><div class="field"><label>電話番号<span class="req">必須</span></label><input type="tel" placeholder="03-XXXX-XXXX" value=""></div><div class="field"><label>カテゴリー<span class="req">必須</span></label><div class="cb-group"><label class=""><input type="checkbox">Web制作</label><label class=""><input type="checkbox">AIチャットボット</label><label class=""><input type="checkbox">DX・ML</label><label class=""><input type="checkbox">業務自動化</label><label class=""><input type="checkbox">LP制作</label><label class=""><input type="checkbox">採用サイト</label></div></div><div class="field"><label>お問い合わせ内容<span class="req">必須</span></label><div class="cb-group"><label class=""><input type="checkbox">新規HP制作</label><label class=""><input type="checkbox">HPリニューアル</label><label class=""><input type="checkbox">AIチャットボット導入</label><label class=""><input type="checkbox">DX・ML 実装</label><label class=""><input type="checkbox">業務自動化</label><label class=""><input type="checkbox">リスティング広告</label><label class=""><input type="checkbox">コンサルティング</label></div></div><div class="field"><label>ご相談内容<span class="any">任意</span></label><div class="cb-group"><label class=""><input type="checkbox">HPが無い</label><label class=""><input type="checkbox">問い合わせを増やしたい</label><label class=""><input type="checkbox">サービス資料がほしい</label><label class=""><input type="checkbox">無料診断</label><label class=""><input type="checkbox">デザインを改善したい</label><label class=""><input type="checkbox">SEOを上げたい</label><label class=""><input type="checkbox">AI活用したい</label><label class=""><input type="checkbox">業務効率化したい</label><label class=""><input type="checkbox">補助金活用を相談したい</label></div></div><div class="field"><label>本サイトを知ったきっかけ<span class="any">任意</span></label><select><option value="">選択してください</option><option value="Google検索">Google検索</option><option value="Yahoo検索">Yahoo検索</option><option value="AIチャット (ChatGPT/Claude/Gemini等)">AIチャット (ChatGPT/Claude/Gemini等)</option><option value="ご紹介">ご紹介</option><option value="メール">メール</option><option value="DMチラシ">DMチラシ</option><option value="SNS (X/LinkedIn)">SNS (X/LinkedIn)</option><option value="以前から知っていた">以前から知っていた</option><option value="その他">その他</option></select></div><div class="field"><label>サイトURL<span class="any">任意</span></label><input type="text" placeholder="https://" value=""></div><div class="field"><label>その他ご質問<span class="any">任意</span></label><textarea placeholder="ご質問・ご相談がございましたらお気軽にご記入ください。"></textarea></div><div class="field field-check"><input type="checkbox" id="agree" style="margin-top: 2px;"><label for="agree" style="cursor: pointer;"><a href="/privacy-handling" target="_blank" rel="noopener noreferrer" style="color: var(--accent); text-decoration: underline;">個人情報の取り扱い</a>に同意します<span class="req">必須</span></label></div><div style="margin-top: 8px; text-align: center;"><button class="btn btn-primary btn-lg" type="submit">同意して送信する<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></button></div></form></div></div><nav class="sp-bottom-nav" aria-label="モバイル下部ナビ"><ul><li><a href="/"><span class="icn"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-8 9 8M5 10v10h14V10"></path></svg></span><span>トップ</span></a></li><li><a href="/works"><span class="icn"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect></svg></span><span>制作実績</span></a></li><li><a href="/pricing"><span class="icn"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4l8 11 8-11M7 13h10M7 17h10"></path></svg></span><span>料金</span></a></li><li><a><span class="icn"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><path d="M22 6l-10 7L2 6"></path></svg></span><span>資料請求</span></a></li><li><a href="/sitemap"><span class="icn"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M4 12h16M4 17h16"></path></svg></span><span>メニュー</span></a></li></ul></nav><div class="sticky-cta"><span class="pulse"></span><span>初回相談無料 · 営業日24h以内にご返信</span><button>資料請求 →</button><button class="sticky-cta-close" aria-label="閉じる"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M6 18L18 6"></path></svg></button></div></div>
+  <script src="/articles.js?v=mti6u3qz" defer=""></script>
+  <script src="/app.bundle.js?v=mti6u3qz" defer=""></script>
+
+
+</body></html>
