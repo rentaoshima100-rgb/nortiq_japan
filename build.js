@@ -42,6 +42,7 @@ const ORG_SAME_AS = [
 // desc → meta description / og:description / BlogPosting.description に使う。
 //        未指定の記事は app.jsx の SEO_DESC か自動生成の定型文にフォールバックする
 const BLOG = [
+  { slug: 'homepage-core-web-vitals-guide', category: 'Web制作', date: '2026.09.01', read: '12 min', title: 'ホームページ制作でCore Web Vitals対応、中小企業向け5ステップ', img: 'assets/blog-default.png', desc: '自社のホームページがCore Web Vitals（LCP・CLS等）の基準を満たしているか確認する方法と、不合格時の優先順位付き改善ステップを解説。中小企業向けです。', supervised: true },
   { slug: 'llm-guardrail-monthly-cost-sme-guide', category: 'AI活用', date: '2026.08.21', read: '10 min', title: '中小企業向けLLMガードレール導入コスト：現実的な選択肢', img: 'assets/blog-default.png', desc: 'LLMガードレール導入にかかるOpenAI・Azure別の月額費用を解説。コンテンツセーフティ等の追加機能コスト、中小企業の予算で実現可能な構成を掲載。', supervised: true },
   { slug: 'rfp-template-web-design', category: 'Web制作', date: '2026.08.20', read: '12 min', title: 'Web制作のRFP作り方｜記載項目・テンプレート付き', img: 'assets/blog-default.png', desc: 'Web制作のRFP（提案依頼書）の作り方を解説。必須記載項目、構成、すぐに使えるテンプレートを掲載。複数社から比較可能な提案を引き出すコツも紹介します。', supervised: true },
   { slug: 'site-renewal-process-guide', category: 'Web制作', date: '2026.08.19', read: '12 min', title: 'サイトリニューアルの進め方｜5つのフェーズと成功チェックリスト', img: 'assets/blog-default.png', desc: 'サイトリニューアルの進め方を着手から公開まで5つのフェーズで解説。各段階での役割分担、判断基準、失敗防止チェックリストを網羅し、プロジェクト成功に必要な全手順をご紹介します。', supervised: true },
