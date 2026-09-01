@@ -33,6 +33,7 @@ const ARTICLE_ROUTES = (() => {
 })();
 
 const ROUTES_ALLOWLIST = [
+  '/article-homepage-estimate-reading-guide',
   '/article-homepage-core-web-vitals-guide',
   '/article-llm-guardrail-monthly-cost-sme-guide',
   '/article-rfp-template-web-design',
