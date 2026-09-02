@@ -33,6 +33,7 @@ const ARTICLE_ROUTES = (() => {
 })();
 
 const ROUTES_ALLOWLIST = [
+  '/article-homepage-security-measures-sme',
   '/article-cheap-homepage-pitfalls-checklist',
   '/article-system-outsourcing-rfp-requirements-guide',
   '/article-homepage-estimate-reading-guide',
