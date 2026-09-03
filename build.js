@@ -58,6 +58,7 @@ const ORG_SAME_AS = [
 // desc → meta description / og:description / BlogPosting.description に使う。
 //        未指定の記事は app.jsx の SEO_DESC か自動生成の定型文にフォールバックする
 const BLOG = [
+  { slug: 'pos-system-outsourcing-specification-checklist', category: '技術', date: '2026.09.03', read: '12 min', title: '社内システム外注失敗を防ぐ。POSレジ連携の仕様確認5つのステップ', img: 'assets/blog-default.png', desc: 'POSレジ既存システムとの連携を前提に外注発注する際、仕様確認でどの情報をいつ誰から取得すべきか。追加費用・納期遅延を防ぐためのドキュメント整理と確認先の役割分担を解説します。', supervised: true },
   { slug: 'homepage-security-measures-sme', category: 'Web制作', date: '2026.09.02', read: '11 min', title: 'ホームページ制作時のセキュリティ対策|中小企業が知るべき必要性と実態', img: 'assets/blog-default.png', desc: '中小企業がサイバー攻撃の標的となる実態をデータで解説。ホームページ制作時に必要なセキュリティ対策の理由と具体的な実装方法をまとめました。社内稟議の資料としても活用できます。', supervised: true },
   { slug: 'cheap-homepage-pitfalls-checklist', category: 'Web制作', date: '2026.09.02', read: '10 min', title: '格安ホームページ制作の注意点｜失敗事例と適正価格の見分け方', img: 'assets/blog-default.png', desc: '格安ホームページ制作の失敗事例、適正価格の目安、発注前チェックリストを徹底解説。品質を保ちながら費用を抑える現実的な方法も紹介します。', supervised: true },
   { slug: 'system-outsourcing-rfp-requirements-guide', category: '技術', date: '2026.09.01', read: '12 min', title: '中小企業がシステム外注する前に決めるべき要件定義の進め方', img: 'assets/blog-default.png', desc: '社内システムを外注するときの要件定義・RFP作成手順を解説。中小企業でIT担当者がいなくても実践できるポイントと、発注後の失敗を防ぐための事前準備を具体化します。', supervised: true },

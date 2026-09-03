@@ -33,6 +33,7 @@ const ARTICLE_ROUTES = (() => {
 })();
 
 const ROUTES_ALLOWLIST = [
+  '/article-pos-system-outsourcing-specification-checklist',
   '/article-homepage-security-measures-sme',
   '/article-cheap-homepage-pitfalls-checklist',
   '/article-system-outsourcing-rfp-requirements-guide',
