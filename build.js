@@ -58,6 +58,7 @@ const ORG_SAME_AS = [
 // desc → meta description / og:description / BlogPosting.description に使う。
 //        未指定の記事は app.jsx の SEO_DESC か自動生成の定型文にフォールバックする
 const BLOG = [
+  { slug: 'sme-cyber-attack-statistics', category: 'Web制作', date: '2026.09.04', read: '8 min', title: '中小企業のサイバー攻撃被害割合｜警察庁・IPA統計', img: 'assets/blog-default.png', desc: '警察庁・IPA・経済産業省の公的統計から、中小企業がサイバー攻撃・ランサムウエアの被害を受ける割合や業種別の実態を数値で解説します。セキュリティ投資の根拠探しに。', supervised: true },
   { slug: 'homepage-renewal-security-cost', category: 'Web制作', date: '2026.09.04', read: '9 min', title: 'ホームページリニューアル時のセキュリティ対策費用はいくら?', img: 'assets/blog-default.png', desc: 'ホームページリニューアル時にセキュリティ対策を追加する場合の費用相場や、後回しにした際の具体的なリスク、費用対効果を解説。中小企業の予算計画に必要な情報をまとめました。', supervised: true },
   { slug: 'pos-system-outsourcing-specification-checklist', category: '技術', date: '2026.09.03', read: '12 min', title: '社内システム外注失敗を防ぐ。POSレジ連携の仕様確認5つのステップ', img: 'assets/blog-default.png', desc: 'POSレジ既存システムとの連携を前提に外注発注する際、仕様確認でどの情報をいつ誰から取得すべきか。追加費用・納期遅延を防ぐためのドキュメント整理と確認先の役割分担を解説します。', supervised: true },
   { slug: 'homepage-security-measures-sme', category: 'Web制作', date: '2026.09.02', read: '11 min', title: 'ホームページ制作時のセキュリティ対策|中小企業が知るべき必要性と実態', img: 'assets/blog-default.png', desc: '中小企業がサイバー攻撃の標的となる実態をデータで解説。ホームページ制作時に必要なセキュリティ対策の理由と具体的な実装方法をまとめました。社内稟議の資料としても活用できます。', supervised: true },
