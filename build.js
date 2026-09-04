@@ -58,6 +58,7 @@ const ORG_SAME_AS = [
 // desc → meta description / og:description / BlogPosting.description に使う。
 //        未指定の記事は app.jsx の SEO_DESC か自動生成の定型文にフォールバックする
 const BLOG = [
+  { slug: 'homepage-renewal-security-cost', category: 'Web制作', date: '2026.09.04', read: '9 min', title: 'ホームページリニューアル時のセキュリティ対策費用はいくら?', img: 'assets/blog-default.png', desc: 'ホームページリニューアル時にセキュリティ対策を追加する場合の費用相場や、後回しにした際の具体的なリスク、費用対効果を解説。中小企業の予算計画に必要な情報をまとめました。', supervised: true },
   { slug: 'pos-system-outsourcing-specification-checklist', category: '技術', date: '2026.09.03', read: '12 min', title: '社内システム外注失敗を防ぐ。POSレジ連携の仕様確認5つのステップ', img: 'assets/blog-default.png', desc: 'POSレジ既存システムとの連携を前提に外注発注する際、仕様確認でどの情報をいつ誰から取得すべきか。追加費用・納期遅延を防ぐためのドキュメント整理と確認先の役割分担を解説します。', supervised: true },
   { slug: 'homepage-security-measures-sme', category: 'Web制作', date: '2026.09.02', read: '11 min', title: 'ホームページ制作時のセキュリティ対策|中小企業が知るべき必要性と実態', img: 'assets/blog-default.png', desc: '中小企業がサイバー攻撃の標的となる実態をデータで解説。ホームページ制作時に必要なセキュリティ対策の理由と具体的な実装方法をまとめました。社内稟議の資料としても活用できます。', supervised: true },
   { slug: 'cheap-homepage-pitfalls-checklist', category: 'Web制作', date: '2026.09.02', read: '10 min', title: '格安ホームページ制作の注意点｜失敗事例と適正価格の見分け方', img: 'assets/blog-default.png', desc: '格安ホームページ制作の失敗事例、適正価格の目安、発注前チェックリストを徹底解説。品質を保ちながら費用を抑える現実的な方法も紹介します。', supervised: true },
