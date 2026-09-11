@@ -55,11 +55,28 @@ jobs:
           set -euo pipefail
           git config user.name "nortiq-prerender"
           git config user.email "noreply@nortiqlab.com"
-          git add prerendered
-          if git diff --cached --quiet; then
-            echo "prerendered/ に差分なし"
-            exit 0
-          fi
-          CHANGED=$(git diff --cached --name-only | wc -l)
-          git commit -m "build: prerenderを再生成 (${CHANGED}ファイル) [prerender]"
-          git push
+          # プリレンダは約5分かかる。その間に公開ワーカが次の記事をpushすると
+          # こちらのHEADが古くなり、pushがfast-forwardできず弾かれる。
+          # 2026-09-11に7本を連続公開した際に実際に発生し、記事が静的HTMLなしで
+          # 公開された。最新mainの上に生成物を載せ直して再試行する。
+          for attempt in 1 2 3; do
+            git add prerendered
+            if git diff --cached --quiet; then
+              echo "prerendered/ に差分なし"
+              exit 0
+            fi
+            CHANGED=$(git diff --cached --name-only | wc -l)
+            git commit -m "build: prerenderを再生成 (${CHANGED}ファイル) [prerender]"
+            if git push; then
+              exit 0
+            fi
+            echo "pushが弾かれました。最新mainを取り込んで再試行します (${attempt}/3)"
+            git fetch origin main
+            # HEADとindexを最新mainに合わせる (--softだとindexが古いままのため、
+            # 先行コミットが追加したファイルを消すコミットになってしまう)。
+            # 作業ツリーのprerendered/はそのまま残るので、次の周回で
+            # 「最新main + 今回の生成物」だけが載る。マージ解決は不要。
+            git reset -q origin/main
+          done
+          echo "::error::3回試行しましたがpushできませんでした"
+          exit 1
