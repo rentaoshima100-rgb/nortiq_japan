@@ -58,6 +58,7 @@ const ORG_SAME_AS = [
 // desc → meta description / og:description / BlogPosting.description に使う。
 //        未指定の記事は app.jsx の SEO_DESC か自動生成の定型文にフォールバックする
 const BLOG = [
+  { slug: 'website-absence-risk-smb', category: 'Web制作', date: '2026.09.11', read: '5 min', title: 'ホームページが無い会社のリスクと必要性', img: 'assets/blog-default.png', desc: '自社にホームページが無いことは珍しいのか、総務省調査に基づく開設率の実態と、具体的なリスク、今すぐ持つべきかの判断基準を解説します。', supervised: true },
   { slug: 'ai-content-google-spam-update', category: 'AI活用', date: '2026.09.11', read: '6 min', title: 'AI生成記事のGoogleスパムアップデート対策', img: 'assets/blog-default.png', desc: 'AI生成記事はGoogleの2026年8月スパムアップデートやサイト評判の不正使用ポリシーの対象になるか、線引きと確認手順、監修表記の示し方まで実装者の視点で解説します。', supervised: true },
   { slug: 'image-data-structuring-model-selection', category: 'AI活用', date: '2026.09.11', read: '5 min', title: 'AI画像データの構造化抽出、モデル選定方法', img: 'assets/blog-default.png', desc: '画像データをAIで構造化抽出する際のモデル選定方法を解説します。CLIP・生成VLM・物体検出の特徴と、当社が人道支援プロジェクトで実際に比較した実例、失敗しやすいポイントを紹介します。', supervised: true },
   { slug: 'data-migration-record-count-scale', category: '技術', date: '2026.09.09', read: '5 min', title: 'システム開発の大量データ移行、140万件の実務例', img: 'assets/blog-default.png', desc: 'システム開発の大量データ移行で処理できるレコード件数の実務規模を、当社が140万件超を処理した実例とIPA・経済産業省の統計から解説します。外注時の確認ポイントも紹介します。', supervised: true },
