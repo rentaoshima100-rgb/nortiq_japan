@@ -33,6 +33,7 @@ const ARTICLE_ROUTES = (() => {
 })();
 
 const ROUTES_ALLOWLIST = [
+  '/article-website-renewal-kpi-metrics',
   '/article-ai-review-requirements-document',
   '/article-ipa-security-guideline-smb',
   '/article-website-absence-risk-smb',
