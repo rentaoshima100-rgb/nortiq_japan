@@ -58,6 +58,7 @@ const ORG_SAME_AS = [
 // desc → meta description / og:description / BlogPosting.description に使う。
 //        未指定の記事は app.jsx の SEO_DESC か自動生成の定型文にフォールバックする
 const BLOG = [
+  { slug: 'image-data-structuring-model-selection', category: 'AI活用', date: '2026.09.11', read: '5 min', title: 'AI画像データの構造化抽出、モデル選定方法', img: 'assets/blog-default.png', desc: '画像データをAIで構造化抽出する際のモデル選定方法を解説します。CLIP・生成VLM・物体検出の特徴と、当社が人道支援プロジェクトで実際に比較した実例、失敗しやすいポイントを紹介します。', supervised: true },
   { slug: 'data-migration-record-count-scale', category: '技術', date: '2026.09.09', read: '5 min', title: 'システム開発の大量データ移行、140万件の実務例', img: 'assets/blog-default.png', desc: 'システム開発の大量データ移行で処理できるレコード件数の実務規模を、当社が140万件超を処理した実例とIPA・経済産業省の統計から解説します。外注時の確認ポイントも紹介します。', supervised: true },
   { slug: 'sme-cyber-attack-statistics', category: 'Web制作', date: '2026.09.04', read: '8 min', title: '中小企業のサイバー攻撃被害割合｜警察庁・IPA統計', img: 'assets/blog-default.png', desc: '警察庁・IPA・経済産業省の公的統計から、中小企業がサイバー攻撃・ランサムウエアの被害を受ける割合や業種別の実態を数値で解説します。セキュリティ投資の根拠探しに。', supervised: true },
   { slug: 'homepage-renewal-security-cost', category: 'Web制作', date: '2026.09.04', read: '9 min', title: 'ホームページリニューアル時のセキュリティ対策費用はいくら?', img: 'assets/blog-default.png', desc: 'ホームページリニューアル時にセキュリティ対策を追加する場合の費用相場や、後回しにした際の具体的なリスク、費用対効果を解説。中小企業の予算計画に必要な情報をまとめました。', supervised: true },

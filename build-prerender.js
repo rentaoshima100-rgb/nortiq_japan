@@ -33,6 +33,7 @@ const ARTICLE_ROUTES = (() => {
 })();
 
 const ROUTES_ALLOWLIST = [
+  '/article-image-data-structuring-model-selection',
   '/article-data-migration-record-count-scale',
   '/article-sme-cyber-attack-statistics',
   '/article-homepage-renewal-security-cost',
