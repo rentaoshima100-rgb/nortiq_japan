@@ -58,6 +58,7 @@ const ORG_SAME_AS = [
 // desc → meta description / og:description / BlogPosting.description に使う。
 //        未指定の記事は app.jsx の SEO_DESC か自動生成の定型文にフォールバックする
 const BLOG = [
+  { slug: 'website-renewal-no-inhouse-staff', category: 'Web制作', date: '2026.09.11', read: '5 min', title: 'ホームページリニューアル｜社内担当者がいない場合の進め方', img: 'assets/blog-default.png', desc: '社内にWeb担当者がいないままホームページリニューアルを進める方法を解説。自社で決めるべき項目、発注先の選び方、手戻りを防ぐ確認タイミングまで紹介します。', supervised: true },
   { slug: 'website-renewal-kpi-metrics', category: 'Web制作', date: '2026.09.11', read: '5 min', title: 'ホームページリニューアルの効果測定｜見るべきKPI指標', img: 'assets/blog-default.png', desc: 'ホームページリニューアルの効果測定で見るべきKPIを解説。Core Web VitalsのLCP・INP・CLSの基準値とSearch Consoleの指標、比較手順まで紹介します。', supervised: true },
   { slug: 'ai-review-requirements-document', category: '技術', date: '2026.09.11', read: '5 min', title: '要件定義書のAIレビューで精度を上げる方法', img: 'assets/blog-default.png', desc: '要件定義書や設計書の抜け漏れをAIに指摘させて精度を上げる方法を解説。反証を繰り返す具体的な手順と、人によるレビューとの役割分担まで紹介します。', supervised: true },
   { slug: 'ipa-security-guideline-smb', category: 'Web制作', date: '2026.09.11', read: '5 min', title: 'IPA情報セキュリティ対策ガイドライン第4.0版を解説', img: 'assets/blog-default.png', desc: 'IPA情報セキュリティ対策ガイドライン第4.0版で何が変わったか、確認すべき項目と改訂の背景を、経済産業省の統計も交えて解説します。', supervised: true },
