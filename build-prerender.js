@@ -33,6 +33,7 @@ const ARTICLE_ROUTES = (() => {
 })();
 
 const ROUTES_ALLOWLIST = [
+  '/article-system-development-outsourcing-contract-types',
   '/article-website-renewal-no-inhouse-staff',
   '/article-website-renewal-kpi-metrics',
   '/article-ai-review-requirements-document',
