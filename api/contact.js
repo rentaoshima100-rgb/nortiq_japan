@@ -21,6 +21,9 @@ module.exports = async (req, res) => {
   if (typeof body === 'string') { try { body = JSON.parse(body); } catch { body = {}; } }
   if (!body) body = {};
 
+  // Honeypot (LP の非表示フィールド)。埋まっていたらボット扱いで送らずに成功を返す。
+  if (String(body.hp || '').trim()) { res.status(200).json({ ok: true, id: null }); return; }
+
   const name = String(body.name || '').trim();
   const email = String(body.email || '').trim();
   if (!name || !email) { res.status(400).json({ error: 'name_email_required' }); return; }
@@ -45,6 +48,11 @@ module.exports = async (req, res) => {
     ['流入元', body.source],
     ['最寄り駅', body.station],
     ['サイトURL', body.siteUrl],
+    ['ご相談内容（種別）', body.topic],
+    ['ご希望の時期', body.timing],
+    ['業種', body.industry],
+    ['募集職種', body.jobs],
+    ['流入LP', body.lp],
   ].filter(([, v]) => v != null && String(v).trim() !== '');
 
   const tableRows = rows.map(([k, v]) =>

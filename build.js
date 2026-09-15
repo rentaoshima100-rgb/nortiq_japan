@@ -576,6 +576,50 @@ async function build() {
   const SPA_SHELL = html.replace(/\s*<link rel="canonical"[^>]*>/, '');
   fs.writeFileSync(path.join(DIST, 'app.html'), SPA_SHELL, 'utf8');
 
+  // lp/ — 静的なサービスLP (Reactアプリの外で完結する自己完結HTML)。
+  // lp/<route>/index.html を dist/<route>/index.html に配置する。
+  //   {{ANALYTICS}} → 本体と同じ gtag スニペット (GA4 / Google Ads / NORTIQ_CONV)
+  //   {{V}}         → LPアセット (assets/lp/**) の内容ハッシュ。/assets/ は immutable
+  //                    キャッシュなので、css/js を更新したら ?v= が変わって再取得される。
+  // sitemap には LP_ROUTES として載せる。
+  const LP_DIR = path.join(ROOT, 'lp');
+  const LP_ROUTES = [];
+  if (fs.existsSync(LP_DIR)) {
+    const lpAssetsDir = path.join(ROOT, 'assets', 'lp');
+    const lpVer = (() => {
+      const h = crypto.createHash('sha256');
+      const walk = (dir) => {
+        if (!fs.existsSync(dir)) return;
+        for (const e of fs.readdirSync(dir, { withFileTypes: true }).sort((a, b) => a.name.localeCompare(b.name))) {
+          const p = path.join(dir, e.name);
+          if (e.isDirectory()) walk(p);
+          else if (/.(css|js)$/i.test(e.name)) { h.update(path.relative(ROOT, p)); h.update(fs.readFileSync(p)); }
+        }
+      };
+      walk(lpAssetsDir);
+      return h.digest('hex').slice(0, 10);
+    })();
+    const walkLp = (dir) => {
+      for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
+        const p = path.join(dir, e.name);
+        if (e.isDirectory()) { walkLp(p); continue; }
+        const rel = path.relative(LP_DIR, p).split(path.sep).join('/');
+        const dest = path.join(DIST, rel);
+        fs.mkdirSync(path.dirname(dest), { recursive: true });
+        if (!/.html?$/i.test(e.name)) { fs.copyFileSync(p, dest); continue; }
+        const html = fs.readFileSync(p, 'utf8')
+          .replace(/{{ANALYTICS}}/g, analyticsHead.trim())
+          .replace(/{{V}}/g, lpVer);
+        fs.writeFileSync(dest, html, 'utf8');
+        if (e.name === 'index.html' && !/name=["']robots["'][^>]*noindex/i.test(html)) {
+          LP_ROUTES.push(path.posix.dirname(rel));
+        }
+      }
+    };
+    walkLp(LP_DIR);
+    console.log(`• copied lp/ → dist/ (${LP_ROUTES.length} page(s), assets ?v=${lpVer})`);
+  }
+
   console.log('• emitting robots.txt + sitemap.xml');
   fs.writeFileSync(path.join(DIST, 'robots.txt'),
     `User-agent: *\nAllow: /\n\nSitemap: ${SITE}/sitemap.xml\n`, 'utf8');
@@ -590,6 +634,8 @@ async function build() {
     'solution-build', 'solution-hr', 'solution-retail',
     'works-lp-corp', 'works-lp-recruit', 'works-lp-ec', 'works-video',
     'privacy', 'terms', 'privacy-handling',
+    // 静的サービスLP (lp/ 配下。上のコピー処理で収集)
+    ...LP_ROUTES,
     // /sitemap は meta robots が noindex。noindex のURLを sitemap.xml に載せると
     // 「登録したのに除外されました」という矛盾したシグナルになるため出さない。
     // /quick-diagnosis も同様 (ツールページなので noindex 運用)。

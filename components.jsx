@@ -64,6 +64,11 @@ const NAV_MEGA = [
         { id: 'solution-hr',     label: '人材 マッチング×集客' },
         { id: 'solution-retail', label: '小売・EC OMOパッケージ' },
       ]},
+      { heading: '業種特化LP (NEW)', links: [
+        // 静的LP (lp/service/kanri-dantai)。SPA ルートではないので href で通常遷移させる
+        { id: 'lp-kanri-dantai', label: '監理団体・登録支援機関向け', href: '/service/kanri-dantai' },
+        { id: 'lp-recruit-site', label: '建設・運送・介護の採用サイト', href: '/service/recruit-site' },
+      ]},
     ],
   },
   { id: 'voice',     label: 'ご利用会社様の声' },
@@ -313,8 +318,9 @@ function Nav({ current, onNavigate, onContact, onSideForm }) {
                           <ul>
                             {col.links.map(lk => (
                               <li key={lk.id}>
-                                <a {...navProps(lk.id, navTo)}>
+                                <a {...(lk.href ? { href: lk.href } : navProps(lk.id, navTo))}>
                                   {lk.label}
+                                  {lk.badge && <span className="tag tag-on-accent" style={{ marginLeft: 8, fontSize: 10, padding: '1px 7px' }}>{lk.badge}</span>}
                                   <Icon name="arrow-right" size={11}/>
                                 </a>
                               </li>
@@ -385,7 +391,7 @@ function Nav({ current, onNavigate, onContact, onSideForm }) {
                       <div key={ci} className="drawer-subgroup">
                         <h5>{col.heading}</h5>
                         {col.links.map(lk => (
-                          <a key={lk.id} className="drawer-sub-item" {...navProps(lk.id, navTo)}>
+                          <a key={lk.id} className="drawer-sub-item" {...(lk.href ? { href: lk.href } : navProps(lk.id, navTo))}>
                             <span>{lk.label}</span>
                             <Icon name="arrow-right" size={12}/>
                           </a>
@@ -407,6 +413,42 @@ function Nav({ current, onNavigate, onContact, onSideForm }) {
     </header>
   );
 }
+
+// -------------------- 業種特化LP バナー (/service/kanri-dantai) --------------------
+// 静的LP (lp/ 配下) への導線。SPA ルートではないため通常の <a href> で遷移させる。
+const INDUSTRY_LPS = [
+  {
+    key: 'kanri', href: '/service/kanri-dantai', tag: 'NEW / 2027年4月 育成就労制度 対応', eyebrow: 'INDUSTRY LP / 監理団体・登録支援機関向け',
+    title: <>制度が変わる前に、<span className="text-accent">伝わるサイト</span>へ。<br/>監理団体・登録支援機関の制度対応サイト制作</>,
+    desc: '育成就労・特定技能の制度解説20本、19分野の公式表記チェック、多言語・AIチャットボット、制度改正への追従更新まで。70万円〜（税別）。',
+  },
+  {
+    key: 'recruit', href: '/service/recruit-site', tag: 'NEW / 求人記事が毎週増える', eyebrow: 'INDUSTRY LP / 建設・運送・介護の採用サイト',
+    title: <>現場の写真1枚から、<span className="text-accent">応募が来る</span>採用サイトを。<br/>建設・運送・介護に絞った採用サイト制作</>,
+    desc: '職種別ページ、先輩の声、Googleしごと検索（JobPosting）対応、毎週増える求人記事。30万円〜・4週間で公開。35項目の設計チェックリストつき。',
+  },
+];
+function IndustryLpBanner({ only }) {
+  const items = only ? INDUSTRY_LPS.filter((x) => x.key === only) : INDUSTRY_LPS;
+  return (
+    <section className="section-pad-sm">
+      <div className="container">
+        <div className={'industry-lp-grid' + (items.length === 1 ? ' industry-lp-grid-1' : '')}>
+          {items.map((x) => (
+            <a key={x.key} className="promo-card fadein industry-lp-banner" href={x.href} style={{ minHeight: 0, textDecoration: 'none' }}>
+              <div className="promo-tag">{x.tag}</div>
+              <p className="promo-eyebrow" style={{ marginBottom: 8 }}>{x.eyebrow}</p>
+              <h3 style={{ fontSize: 'clamp(19px, 1.7vw, 23px)', fontWeight: 700, lineHeight: 1.45, margin: 0, color: 'var(--text)' }}>{x.title}</h3>
+              <p className="promo-desc" style={{ marginTop: 10, flex: 1 }}>{x.desc}</p>
+              <span className="btn btn-primary" style={{ alignSelf: 'flex-start', marginTop: 20 }}>専用ページを見る<Icon name="arrow-right" size={14}/></span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+if (typeof window !== 'undefined') window.IndustryLpBanner = IndustryLpBanner;
 
 // -------------------- Picture (WebP + raster fallback) --------------------
 // Serves an optimized .webp (generated at build time) with the original PNG/JPEG
@@ -547,6 +589,8 @@ function Footer({ onNavigate, onContact }) {
               <li><a {...navProps('solution-build', onNavigate)}>建築・工務店</a></li>
               <li><a {...navProps('solution-hr', onNavigate)}>人材</a></li>
               <li><a {...navProps('solution-retail', onNavigate)}>小売 / EC</a></li>
+              <li><a href="/service/kanri-dantai">監理団体・登録支援機関</a></li>
+              <li><a href="/service/recruit-site">建設・運送・介護 採用サイト</a></li>
             </ul>
             <h4 style={{ marginTop: 24 }}>会社</h4>
             <ul>

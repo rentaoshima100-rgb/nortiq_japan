@@ -1,0 +1,171 @@
+/* 採用サイトLP (/service/recruit-site) 固有スタイル。共通トークンは /assets/lp/common/lp.css */
+
+/* FV: スマホ3台のファン */
+.fan{position:relative;height:460px}
+.phone{position:absolute;left:50%;bottom:16px;width:180px;height:380px;background:#fff;border:6px solid var(--text);border-radius:28px;overflow:hidden;box-shadow:var(--shadow-lg)}
+.phone__in{padding:14px 12px 0;display:flex;flex-direction:column;gap:8px}
+.phone__head{display:flex;justify-content:space-between;align-items:center;gap:6px}
+.phone__site{font-size:9px;font-weight:700;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.phone__apply{font-size:8px;font-weight:700;color:#fff;background:var(--accent);border-radius:4px;padding:4px 7px;flex:none}
+.phone__photo{display:block;width:100%;height:104px;object-fit:cover;border-radius:8px}
+.phone__title{font-size:12px;font-weight:700;line-height:1.5;color:var(--text)}
+.phone__text{font-size:9px;line-height:1.6;color:var(--text-3)}
+.phone__chips{display:flex;flex-wrap:wrap;gap:4px}
+.phone__chips span{font-size:8px;padding:3px 6px;border:1px solid var(--border);border-radius:4px;color:var(--text-3)}
+.phone--1{margin-left:-190px;transform:rotate(-10deg);transform-origin:50% 100%;z-index:1}
+.phone--2{margin-left:-90px;bottom:40px;z-index:2}
+.phone--3{margin-left:10px;transform:rotate(10deg);transform-origin:50% 100%;z-index:1}
+@media (prefers-reduced-motion:no-preference){
+  .phone{animation:phone-in .8s var(--ease-soft) both}
+  .phone--1{animation-delay:.2s}.phone--2{animation-delay:.32s}.phone--3{animation-delay:.44s}
+}
+@keyframes phone-in{from{opacity:0;transform:translateY(24px) rotate(0)}}
+.phone--2{animation-name:phone-in-2}
+@keyframes phone-in-2{from{opacity:0;transform:translateY(24px)}}
+
+/* 業種セレクター */
+.sel{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--space-24)}
+.sel__card{display:flex;flex-direction:column;gap:var(--space-8);text-decoration:none;color:inherit}
+.sel__card .card__title{color:var(--text)}
+.sel__card:hover{color:inherit}
+.sel__tag{align-self:flex-start;font-family:var(--font-latin);font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--accent)}
+
+/* 課題: 太字の締め */
+.punch{margin-top:var(--space-32);font-size:17px;font-weight:700;color:var(--text)}
+
+/* 原因カード */
+.cause__head{display:flex;align-items:center;justify-content:space-between;color:var(--accent)}
+.cause__head svg{width:32px;height:32px;color:var(--text)}
+.cause__no{font-family:var(--font-latin);font-size:13px;font-weight:700;letter-spacing:.08em}
+
+/* 仕組みフロー (6ステップ) */
+.rflow{display:flex;align-items:stretch;gap:12px}
+.rflow__node{flex:1;min-width:0;display:flex;flex-direction:column;gap:6px;border:1px solid var(--border);border-radius:var(--radius-card);padding:16px;background:var(--surface)}
+.rflow__no{font-family:var(--font-latin);font-size:12px;font-weight:700;letter-spacing:.08em;color:var(--accent)}
+.rflow__label{font-size:14px;font-weight:700;line-height:1.5;color:var(--text)}
+.rflow__note{font-size:13px;line-height:1.6;color:var(--text-3)}
+.rflow__arrow{flex:none;align-self:center;width:20px;height:20px;color:var(--border-hi)}
+.rflow__node--key{border-color:var(--accent);background:var(--accent-soft)}
+
+/* 8ブロック */
+.blocks{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--space-24)}
+.blocks .card svg{width:32px;height:32px;color:var(--accent)}
+.blocks .card__title{margin-top:var(--space-16);font-size:17px}
+.blocks .card__text{font-size:13px;color:var(--text-3)}
+
+/* 業種比較表 */
+.cmp{width:100%;border-collapse:separate;border-spacing:0;border:1px solid var(--border);border-radius:var(--radius-card);overflow:hidden;background:var(--surface)}
+.cmp th,.cmp td{text-align:left;vertical-align:top;padding:18px 20px;font-size:15px;line-height:1.7}
+.cmp thead th{background:var(--text);color:#fff;font-weight:700}
+.cmp thead th+th{border-left:1px solid rgba(255,255,255,.16)}
+.cmp tbody th{width:22%;background:var(--bg-2);font-size:13px;font-weight:500;color:var(--text-3)}
+.cmp tbody td{border-left:1px solid var(--border)}
+.cmp tbody tr+tr th,.cmp tbody tr+tr td{border-top:1px solid var(--border)}
+.cmp .ng{color:var(--accent);font-weight:700}
+.cmp-sp{display:none}
+.cmp-sp dl{margin-top:var(--space-16);display:flex;flex-direction:column;gap:var(--space-12)}
+.cmp-sp dt{font-size:12px;font-weight:500;color:var(--text-3)}
+.cmp-sp dd{margin:0;font-size:15px;color:var(--text)}
+
+/* 選ばれる理由 (交互レイアウト) */
+.alts{display:flex;flex-direction:column;gap:clamp(48px,7vw,96px)}
+.alt{display:grid;grid-template-columns:5fr 6fr;gap:clamp(24px,4vw,64px);align-items:center}
+.alt--rev{grid-template-columns:6fr 5fr}
+.alt__no{font-family:var(--font-latin);font-size:13px;font-weight:700;letter-spacing:.08em;color:var(--accent)}
+.alt__title{margin-top:var(--space-8);font-size:22px}
+.alt__text{margin-top:var(--space-12)}
+.alt__img{border:1px solid var(--border);border-radius:var(--radius-card);background:var(--surface);overflow:hidden;box-shadow:var(--shadow-sm)}
+.gantt{padding:var(--space-24);display:grid;grid-template-columns:104px repeat(4,1fr);gap:10px 8px;align-items:center;font-size:12px;line-height:1.4;color:var(--text-3)}
+.gantt .lab{font-weight:500;color:var(--text)}
+.gantt .wk{text-align:center}
+.gantt .bar{height:24px;border-radius:8px;background:var(--accent)}
+.gantt .dot{display:flex;justify-content:flex-end}
+.gantt .dot span{width:12px;height:12px;border-radius:50%;background:var(--accent)}
+.gantt__note{padding:0 var(--space-24) var(--space-24);font-size:12px;color:var(--text-3)}
+.brow{height:32px;background:var(--bg-2);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:6px;padding:0 12px}
+.brow span{width:8px;height:8px;border-radius:50%;background:var(--border)}
+.brow .url{margin-left:8px;flex:1;width:auto;height:16px;border-radius:4px;background:#fff;border:1px solid var(--border);font-size:9px;line-height:16px;color:var(--text-3);padding:0 8px;font-family:var(--font-latin)}
+.artlist{padding:20px 24px}
+.artlist__head{display:flex;justify-content:space-between;align-items:baseline;font-size:14px;font-weight:700;color:var(--text)}
+.artlist__head small{font-size:11px;font-weight:400;color:var(--text-3)}
+.artlist__row{display:flex;gap:12px;align-items:center;padding:12px 0;border-bottom:1px solid var(--border);font-size:13px;font-weight:500;color:var(--text)}
+.artlist__row:last-child{border-bottom:0}
+.artlist__row time{font-size:11px;color:var(--text-3);width:64px;flex:none;font-family:var(--font-latin)}
+.artlist__row .tag{font-size:10px;padding:2px 6px;border-radius:4px;background:var(--bg-2);color:var(--text-3);flex:none;border:0}
+.pin{padding:20px 24px;display:grid;grid-template-columns:1fr 200px;gap:16px;align-items:start}
+.pin .ln{display:block;height:10px;border-radius:4px;background:var(--border)}
+.pin .row{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:700;color:var(--text)}
+.pin .no{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:50%;background:var(--accent);color:#fff;font-size:11px;font-weight:700}
+.pin .box{height:64px;border-radius:8px;background:var(--bg-2);border:1px dashed var(--border-hi)}
+.pin__card{border:1px solid var(--border);border-radius:8px;padding:12px;background:#fff;display:flex;flex-direction:column;gap:8px;font-size:12px;line-height:1.6;color:var(--text)}
+.pin__meta{display:flex;justify-content:space-between;font-size:11px;color:var(--text-3)}
+.pin__meta b{color:var(--accent)}
+.pin__ba{display:flex;gap:6px;align-items:center;font-size:10px;color:var(--text-3)}
+.pin__ba span{padding:2px 6px;border-radius:4px;background:var(--bg-2)}
+.pin__ba .ok{margin-left:auto;font-weight:700;color:var(--accent);background:none;padding:0}
+
+/* モック3枚 */
+.mocks{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--space-24)}
+.mock__body{padding:14px;display:grid;grid-template-columns:1fr 1fr;gap:12px;align-items:center}
+.mock__site{font-size:8px;color:var(--text-3)}
+.mock__h{font-size:12px;font-weight:700;line-height:1.5;margin-top:4px;color:var(--text)}
+.mock__btn{display:inline-block;margin-top:8px;font-size:8px;font-weight:700;color:#fff;background:var(--accent);border-radius:4px;padding:5px 8px}
+.mock__body img{display:block;width:100%;height:84px;object-fit:cover;border-radius:8px}
+.mock__chips{padding:0 14px 14px;display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.mock__chips span{font-size:8px;padding:8px;border:1px solid var(--border);border-radius:8px;color:var(--text);font-weight:500}
+.mocks figcaption{margin-top:var(--space-12);font-size:13px;color:var(--text-3)}
+
+/* 料金: 運用プラン */
+.ops{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--space-24);margin-top:var(--space-24)}
+.ops .card{display:flex;flex-wrap:wrap;gap:8px 24px;align-items:baseline}
+.ops__lab{font-family:var(--font-latin);font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--text-3)}
+.ops__price{font-size:20px;font-weight:700;color:var(--accent)}
+.ops__desc{flex-basis:100%;font-size:14px}
+
+/* 制作の流れ (番号の丸) */
+.rsteps{display:flex;gap:0}
+.rstep{flex:1;display:flex;flex-direction:column;gap:var(--space-16);padding-right:var(--space-24)}
+.rstep:last-child{padding-right:0}
+.rstep__top{display:flex;align-items:center}
+.rstep__no{display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:50%;background:var(--accent);color:#fff;font-family:var(--font-latin);font-size:16px;font-weight:700;flex:none}
+.rstep__line{flex:1;height:1px;background:var(--border);margin-left:8px}
+.rstep__title{font-size:18px;color:var(--text)}
+.rstep__text{margin-top:var(--space-8);font-size:14px}
+.rstep__meta{margin-top:var(--space-4);font-size:12px;color:var(--text-3)}
+
+/* 資料 (チェックリスト) */
+.dl{display:grid;grid-template-columns:minmax(0,1fr) 280px;gap:var(--space-48);align-items:center;border:2px solid var(--accent);border-radius:var(--radius-card);padding:var(--space-32);background:var(--surface)}
+.dl__cover{aspect-ratio:210/297;border:1px solid var(--border);border-radius:8px;background:#fff;box-shadow:var(--shadow-md);padding:22px 20px;display:flex;flex-direction:column;justify-content:space-between;font-size:11px;color:var(--text-3);position:relative;overflow:hidden}
+.dl__cover::before{content:"";position:absolute;left:0;right:0;top:0;height:6px;background-image:repeating-linear-gradient(-45deg,var(--accent) 0,var(--accent) 8px,transparent 8px,transparent 16px);opacity:.75}
+.dl__cover b{display:block;font-size:16px;line-height:1.4;color:var(--text);margin-top:6px}
+.dl__cover .n{font-family:var(--font-latin);font-size:40px;font-weight:700;color:var(--accent);line-height:1}
+.dl__list{margin-top:var(--space-16);display:grid;gap:6px;font-size:14px}
+.dl__list li{display:flex;gap:8px;align-items:flex-start}
+.dl__list svg{flex:none;width:18px;height:18px;margin-top:3px;color:var(--accent)}
+
+@media (max-width:1023px){
+  .blocks{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .rflow{flex-wrap:wrap}
+  .rflow__node{flex:1 1 30%}
+  .rflow__arrow{display:none}
+  .dl{grid-template-columns:1fr}
+  .dl__cover{max-width:280px}
+}
+@media (max-width:767px){
+  .fan{height:400px;overflow:hidden}
+  .phone{width:172px;height:364px}
+  .phone--1{margin-left:-218px}.phone--2{margin-left:-86px}.phone--3{margin-left:46px}
+  .phone__photo{height:96px}
+  .sel,.blocks,.mocks,.ops,.alt,.alt--rev{grid-template-columns:1fr}
+  .alt--rev .alt__img{order:-1}
+  .cmp{display:none}
+  .cmp-sp{display:grid;gap:var(--space-16)}
+  .rflow{flex-direction:column}
+  .rflow__node{flex:none}
+  .rsteps{flex-direction:column;gap:var(--space-24)}
+  .rstep{flex-direction:row;gap:var(--space-16);padding-right:0}
+  .rstep__top{flex-direction:column;flex:none;align-self:stretch}
+  .rstep__line{width:1px;height:auto;flex:1;margin:8px 0 0}
+  .pin{grid-template-columns:1fr}
+  .dl{padding:var(--space-24)}
+}

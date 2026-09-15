@@ -141,6 +141,9 @@ function TopPage({ onNavigate, onContact }) {
         </div>
       </section>
 
+      {/* =========== 業種特化LP (監理団体・登録支援機関) への導線 =========== */}
+      <IndustryLpBanner/>
+
       {/* =========== PROMO BANNERS (補助金 / ガイドブック / AI) =========== */}
       <section className="section-pad-sm">
         <div className="container">

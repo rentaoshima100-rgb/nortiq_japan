@@ -1228,6 +1228,12 @@ picture { display: contents; }
   color: var(--accent);
 }
 .promo-body { flex: 1; margin-top: 16px; }
+/* 業種特化LPバナー (IndustryLpBanner): 横長1枚。タグは本文側にインライン配置、SPはボタンを全幅に */
+.industry-lp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.industry-lp-grid-1 { grid-template-columns: 1fr; }
+.industry-lp-banner .promo-tag { position: static; display: inline-block; margin-bottom: 12px; }
+@media (max-width: 900px) { .industry-lp-grid { grid-template-columns: 1fr; } }
+@media (max-width: 767px) { .industry-lp-banner .btn { width: 100%; } }
 .promo-eyebrow {
   font-family: var(--font-latin);
   font-size: 12px;

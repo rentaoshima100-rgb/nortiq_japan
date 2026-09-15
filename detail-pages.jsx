@@ -751,6 +751,9 @@ function FeatureRecruitPage({ onNavigate, onContact }) {
         </div>
       </section>
 
+      {/* 業種特化LP (建設・運送・介護の採用サイト) への導線 */}
+      <IndustryLpBanner only="recruit"/>
+
       <ExtraContent blocks={FEATURE_CONTENT['feature-recruit']} onNavigate={onNavigate}/>
       <RedCTAStrip onContact={onContact} onNavigate={onNavigate}/>
     </main>

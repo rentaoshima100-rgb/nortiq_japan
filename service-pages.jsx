@@ -216,6 +216,9 @@ function WebPage({ onNavigate, onContact }) {
         </div>
       </section>
 
+      {/* 業種特化LP (監理団体・登録支援機関) への導線 */}
+      <IndustryLpBanner/>
+
       {/* NEXT STEP */}
       <section className="section-pad" style={{ background: 'var(--bg-2)', borderTop: '1px solid var(--border)', borderBottom: '1px solid var(--border)' }}>
         <div className="container">
