@@ -33,6 +33,7 @@ const ARTICLE_ROUTES = (() => {
 })();
 
 const ROUTES_ALLOWLIST = [
+  '/article-system-development-fp-estimate-validity',
   '/article-competitive-quotes-subcontract-antitrust-law',
   '/article-system-development-outsourcing-contract-types',
   '/article-website-renewal-no-inhouse-staff',
