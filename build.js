@@ -58,6 +58,7 @@ const ORG_SAME_AS = [
 // desc → meta description / og:description / BlogPosting.description に使う。
 //        未指定の記事は app.jsx の SEO_DESC か自動生成の定型文にフォールバックする
 const BLOG = [
+  { slug: 'website-renewal-unexpected-additional-cost', category: 'Web制作', date: '2026.09.17', read: '5 min', title: 'サイトリニューアル 追加費用が発生する原因と対策', img: 'assets/blog-default.png', desc: 'サイトリニューアルで想定外の追加費用が発生する原因を解説します。契約範囲・素材準備・補助金の対象範囲など、契約前に確認すべきポイントを整理しました。', supervised: true },
   { slug: 'website-security-measures-new-business-impact', category: 'Web制作', date: '2026.09.17', read: '5 min', title: 'ホームページのセキュリティ対策は新規取引に効くか', img: 'assets/blog-default.png', desc: 'ホームページのセキュリティ対策が新規取引につながるか、IPA調査と経済産業省の新制度をもとに解説します。今から始められる対策も紹介します。', supervised: true },
   { slug: 'sme-generative-ai-adoption-rate-comparison', category: 'AI活用', date: '2026.09.17', read: '5 min', title: '中小企業の生成AI活用率｜大企業との差を統計で解説', img: 'assets/blog-default.png', desc: '中小企業と大企業の生成AI活用率の差を、総務省や日経BP総合研究所などの統計データをもとに解説します。今からできる対策も紹介します。', supervised: true },
   { slug: 'ai-development-outsourcing-design-review-guide', category: 'AI活用', date: '2026.09.17', read: '5 min', title: 'AI開発の外注先、設計レビュー体制の見極め方', img: 'assets/blog-default.png', desc: 'AI開発を外注する際、委託先の設計レビュー体制が十分かをどう見極めればよいかを解説します。政府ガイドラインや業界基準をもとにした確認ポイントも紹介します。', supervised: true },
