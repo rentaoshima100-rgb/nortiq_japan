@@ -58,6 +58,7 @@ const ORG_SAME_AS = [
 // desc → meta description / og:description / BlogPosting.description に使う。
 //        未指定の記事は app.jsx の SEO_DESC か自動生成の定型文にフォールバックする
 const BLOG = [
+  { slug: 'competitive-quotes-subcontract-antitrust-law', category: 'Web制作', date: '2026.09.17', read: '5 min', title: '相見積もりの注意点、下請法・独占禁止法の基本', img: 'assets/blog-default.png', desc: '複数社から相見積もりを取ること自体は問題ありません。下請法・独占禁止法上どのような行為が問題になるのか、実務上の進め方とあわせて解説します。', supervised: true },
   { slug: 'system-development-outsourcing-contract-types', category: '技術', date: '2026.09.14', read: '5 min', title: 'システム開発外注｜準委任と請負の違い・選び方', img: 'assets/blog-default.png', desc: 'システム開発の外注で準委任と請負のどちらを選ぶべきか、法的な違いと判断基準、契約時の注意点を中小企業向けに解説します。', supervised: true },
   { slug: 'website-renewal-no-inhouse-staff', category: 'Web制作', date: '2026.09.11', read: '5 min', title: 'ホームページリニューアル｜社内担当者がいない場合の進め方', img: 'assets/blog-default.png', desc: '社内にWeb担当者がいないままホームページリニューアルを進める方法を解説。自社で決めるべき項目、発注先の選び方、手戻りを防ぐ確認タイミングまで紹介します。', supervised: true },
   { slug: 'website-renewal-kpi-metrics', category: 'Web制作', date: '2026.09.11', read: '5 min', title: 'ホームページリニューアルの効果測定｜見るべきKPI指標', img: 'assets/blog-default.png', desc: 'ホームページリニューアルの効果測定で見るべきKPIを解説。Core Web VitalsのLCP・INP・CLSの基準値とSearch Consoleの指標、比較手順まで紹介します。', supervised: true },

@@ -33,6 +33,7 @@ const ARTICLE_ROUTES = (() => {
 })();
 
 const ROUTES_ALLOWLIST = [
+  '/article-competitive-quotes-subcontract-antitrust-law',
   '/article-system-development-outsourcing-contract-types',
   '/article-website-renewal-no-inhouse-staff',
   '/article-website-renewal-kpi-metrics',
