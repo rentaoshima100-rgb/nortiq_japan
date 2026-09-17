@@ -58,6 +58,7 @@ const ORG_SAME_AS = [
 // desc → meta description / og:description / BlogPosting.description に使う。
 //        未指定の記事は app.jsx の SEO_DESC か自動生成の定型文にフォールバックする
 const BLOG = [
+  { slug: 'system-development-agile-contract-guide', category: '技術', date: '2026.09.17', read: '5 min', title: 'システム開発のアジャイル契約、モデル契約書の注意点', img: 'assets/blog-default.png', desc: 'システム開発をアジャイル型で発注する際の契約書について、請負契約との違いとIPAのアジャイル開発版モデル契約書で注意すべき条項を解説します。', supervised: true },
   { slug: 'system-development-fp-estimate-validity', category: '技術', date: '2026.09.17', read: '7 min', title: 'システム開発の見積書、FP見積もりの妥当性を判断する方法', img: 'assets/blog-default.png', desc: 'システム開発の見積書でFP（ファンクションポイント）見積もりが妥当か、IPAの公的統計と比較して判断する具体的な手順を解説します。交渉時に使える公的な基準値も紹介します。', supervised: true },
   { slug: 'competitive-quotes-subcontract-antitrust-law', category: 'Web制作', date: '2026.09.17', read: '5 min', title: '相見積もりの注意点、下請法・独占禁止法の基本', img: 'assets/blog-default.png', desc: '複数社から相見積もりを取ること自体は問題ありません。下請法・独占禁止法上どのような行為が問題になるのか、実務上の進め方とあわせて解説します。', supervised: true },
   { slug: 'system-development-outsourcing-contract-types', category: '技術', date: '2026.09.14', read: '5 min', title: 'システム開発外注｜準委任と請負の違い・選び方', img: 'assets/blog-default.png', desc: 'システム開発の外注で準委任と請負のどちらを選ぶべきか、法的な違いと判断基準、契約時の注意点を中小企業向けに解説します。', supervised: true },
