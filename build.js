@@ -58,6 +58,7 @@ const ORG_SAME_AS = [
 // desc → meta description / og:description / BlogPosting.description に使う。
 //        未指定の記事は app.jsx の SEO_DESC か自動生成の定型文にフォールバックする
 const BLOG = [
+  { slug: 'sme-generative-ai-adoption-rate-comparison', category: 'AI活用', date: '2026.09.17', read: '5 min', title: '中小企業の生成AI活用率｜大企業との差を統計で解説', img: 'assets/blog-default.png', desc: '中小企業と大企業の生成AI活用率の差を、総務省や日経BP総合研究所などの統計データをもとに解説します。今からできる対策も紹介します。', supervised: true },
   { slug: 'ai-development-outsourcing-design-review-guide', category: 'AI活用', date: '2026.09.17', read: '5 min', title: 'AI開発の外注先、設計レビュー体制の見極め方', img: 'assets/blog-default.png', desc: 'AI開発を外注する際、委託先の設計レビュー体制が十分かをどう見極めればよいかを解説します。政府ガイドラインや業界基準をもとにした確認ポイントも紹介します。', supervised: true },
   { slug: 'system-development-agile-contract-guide', category: '技術', date: '2026.09.17', read: '5 min', title: 'システム開発のアジャイル契約、モデル契約書の注意点', img: 'assets/blog-default.png', desc: 'システム開発をアジャイル型で発注する際の契約書について、請負契約との違いとIPAのアジャイル開発版モデル契約書で注意すべき条項を解説します。', supervised: true },
   { slug: 'system-development-fp-estimate-validity', category: '技術', date: '2026.09.17', read: '7 min', title: 'システム開発の見積書、FP見積もりの妥当性を判断する方法', img: 'assets/blog-default.png', desc: 'システム開発の見積書でFP（ファンクションポイント）見積もりが妥当か、IPAの公的統計と比較して判断する具体的な手順を解説します。交渉時に使える公的な基準値も紹介します。', supervised: true },

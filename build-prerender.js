@@ -33,6 +33,7 @@ const ARTICLE_ROUTES = (() => {
 })();
 
 const ROUTES_ALLOWLIST = [
+  '/article-sme-generative-ai-adoption-rate-comparison',
   '/article-ai-development-outsourcing-design-review-guide',
   '/article-system-development-agile-contract-guide',
   '/article-system-development-fp-estimate-validity',
