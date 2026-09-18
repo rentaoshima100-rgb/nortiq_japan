@@ -758,7 +758,8 @@ picture { display: contents; }
   align-items: center;
   gap: 6px;
 }
-.field label .req {
+.field label .req,
+.big-form-table th .req {
   font-size: 12px;
   color: #fff;
   background: var(--accent);
@@ -767,7 +768,8 @@ picture { display: contents; }
   font-weight: 700;
   margin-left: 4px;
 }
-.field label .any {
+.field label .any,
+.big-form-table th .any {
   font-size: 12px;
   color: var(--text-3);
   background: var(--bg-2);
@@ -799,7 +801,10 @@ picture { display: contents; }
 }
 .field textarea { min-height: 110px; resize: vertical; }
 .field .err { color: var(--accent); font-size: 12px; margin-top: 4px; }
-.field-check { display: flex; align-items: flex-start; gap: 10px; font-size: 13px; color: var(--text-2); }
+.big-form-table th .req,
+.big-form-table th .any { display: inline-block; vertical-align: middle; }
+.field-check input[type="checkbox"] { width: 18px; height: 18px; flex: 0 0 18px; padding: 0; accent-color: var(--accent); }
+.field-check { display: flex; flex-direction: row; align-items: flex-start; gap: 10px; font-size: 13px; color: var(--text-2); }
 
 /* Checkbox group (form) */
 .cb-group {
@@ -824,7 +829,19 @@ picture { display: contents; }
   font-weight: 500;
 }
 .cb-group label:hover { border-color: var(--accent); color: var(--accent); }
-.cb-group input { margin: 0; accent-color: var(--accent); width: 18px; height: 18px; flex-shrink: 0; }
+/* width/padding は明示的に固定する。表組みフォームの
+   .big-form-table input { width: 100% } が後から当たると
+   チェックボックス本体が横に伸び、選択肢テキストが枠外へ押し出される。 */
+.cb-group input {
+  margin: 0;
+  accent-color: var(--accent);
+  width: 18px;
+  height: 18px;
+  flex: 0 0 18px;
+  padding: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
 .cb-group label.checked {
   border-color: var(--accent);
   background: var(--accent-soft);
@@ -1776,7 +1793,7 @@ picture { display: contents; }
 }
 .big-form-table tr:last-child th,
 .big-form-table tr:last-child td { border-bottom: 0; }
-.big-form-table input,
+.big-form-table input:not([type="checkbox"]):not([type="radio"]),
 .big-form-table textarea,
 .big-form-table select {
   width: 100%;
@@ -2081,7 +2098,10 @@ picture { display: contents; }
   font-size: 16px;
   line-height: 2;
   color: var(--text-2);
+  /* 出典の裸URLは改行位置が無く、本文枠を突き破っていた */
+  overflow-wrap: break-word;
 }
+.article-prose a { overflow-wrap: anywhere; }
 .article-prose h2 {
   font-size: 24px;
   font-weight: 700;
