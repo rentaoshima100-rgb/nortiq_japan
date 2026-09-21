@@ -117,8 +117,9 @@ function TopPage({ onNavigate, onContact }) {
           <div className="case-slider">
             {[
               { tag: "外国人材組合", title: "高い技術と安全性、組合の総合刷新", q: "Webのプロが横にいる感覚を、初めて持てました。", author: "理事 A.K.", img: "assets/work-asia-exchange.png" },
-              { tag: "不動産投資", title: "PLEAST 新時代の不動産投資ブランド構築", q: "他社は提案止まりだが、Nortiqは実装まで持ち切ってくれた。", author: "経営企画 T.M.", img: "assets/work-pleast.png" },
-              { tag: "建築・リニューアル", title: "建物リニューアル × 大規模修繕の総合刷新", q: "工数が38%減って、現場が回り始めた。", author: "代表 S.W.", img: "assets/work-renewal.png" },
+              { tag: "歯科クリニック", title: "歯科医院の総合 LP 構築 (白藍 HAKURAN DENTAL)", q: "他社見積もりの半額で、しかも公開後の伴走まで含まれていて驚きました。", author: "院長 H.K.", img: "assets/hero-04.png" },
+              // お客様の声 (/voice) に対応する発言が無い実績は、声を作らずに制作内容だけを書く。
+              { tag: "ゴルフリゾート", title: "ゴルフリゾート (COCOPA) のブランドサイト", note: "ゴルフリゾートの世界観を、写真を中心に伝えるブランドサイトを制作しました。", img: "assets/work-cocopa.png" },
             ].map((c, i) => (
               <article key={i} className="case-card fadein" data-delay={i * 150}>
                 <div className="shot-frame">
@@ -129,8 +130,12 @@ function TopPage({ onNavigate, onContact }) {
                     <span className="small text-mono" style={{ color: 'var(--text-3)' }}>CASE / {String(i+1).padStart(2,'0')}</span>
                   </div>
                   <h3 style={{ fontSize: 18, fontWeight: 700, lineHeight: 1.55, margin: 0, marginBottom: 16 }}>{c.title}</h3>
-                  <blockquote className="case-quote">「{c.q}」</blockquote>
-                  <p className="small">― {c.author}</p>
+                  {c.q
+                    ? <React.Fragment>
+                        <blockquote className="case-quote">「{c.q}」</blockquote>
+                        <p className="small">― {c.author}</p>
+                      </React.Fragment>
+                    : <p className="body" style={{ fontSize: 14, lineHeight: 1.9, margin: 0 }}>{c.note}</p>}
                 </div>
               </article>
             ))}
@@ -633,17 +638,9 @@ function FeatureTrioCard({ vertical, titlePrefix, titleSuffix, sub, desc, price,
 }
 
 function GalleryTabs({ onNavigate }) {
-  const tabs2 = ["クリニック", "不動産", "建築", "人材", "コーポレート", "AI・DX"];
+  const tabs2 = ["不動産", "クリニック", "建築", "人材", "コーポレート", "AI・DX"];
   const [tab, setTab] = React.useState(0);
   const data = [
-    [
-      { tag: "クリニック", t: "地域密着型クリニックのリニューアル (あおぞら Family Clinic)", stat: "問い合わせ 2.4×", route: 'works-clinic', img: "assets/work-aozora-family.png" },
-      { tag: "クリニック", t: "内科クリニックの予約サイト構築 (あおぞら内科クリニック)", stat: "予約 +83%", route: 'works-clinic', img: "assets/work-aozora-naika.png" },
-      { tag: "クリニック", t: "クリニックグループのコーポレート (Tokyo Clinic Group)", stat: "応募 1.9×", route: 'works-clinic', img: "assets/work-tokyoclinic.png", demo: "/showcase/tokyoclinic/" },
-      { tag: "クリニック", t: "皮膚科ブランドサイト × 集客連動 (AIRA CLINIC GINZA)", stat: "PV 2.7×", route: 'works-clinic', img: "assets/hero-05.png" },
-      { tag: "クリニック", t: "歯科医院の総合 LP 構築 (白藍 HAKURAN DENTAL)", stat: "予約 +110%", route: 'works-clinic', img: "assets/hero-04.png" },
-      { tag: "クリニック", t: "美容外来のブランドサイト (クマ取り専門外来)", stat: "予約離脱 -42%", route: 'works-clinic', img: "assets/hero-06.png" },
-    ],
     [
       { tag: "不動産", t: "投資物件専門サイト × 物件管理 (ESTIA PARTNERS)", stat: "反響 2.7×", route: 'works-realty', img: "assets/work-estia.png", demo: "/showcase/estia/" },
       { tag: "不動産", t: "賃貸オーナー向け管理ポータル (オーナーズデスク)", stat: "工数 -45%", route: 'works-realty', img: "assets/work-ownersdesk.png", demo: "/showcase/ownersdesk/" },
@@ -651,6 +648,14 @@ function GalleryTabs({ onNavigate }) {
       { tag: "不動産", t: "中古リノベ専門のブランドサイト (RENOVE STORY)", stat: "問合せ 2.1×", route: 'works-realty', img: "assets/work-renovestory.png", demo: "/showcase/renovestory/" },
       { tag: "不動産", t: "都心売買仲介の集客サイト (TOKYO HOMES AGENT)", stat: "反響 2.4×", route: 'works-realty', img: "assets/work-tokyohomes.png", demo: "/showcase/tokyohomes/" },
       { tag: "不動産", t: "新時代の不動産投資ブランド構築 (PLEAST)", stat: "問合せ 3.2×", route: 'works-realty', img: "assets/work-pleast.png" },
+    ],
+    [
+      { tag: "クリニック", t: "地域密着型クリニックのリニューアル (あおぞら Family Clinic)", stat: "問い合わせ 2.4×", route: 'works-clinic', img: "assets/work-aozora-family.png" },
+      { tag: "クリニック", t: "内科クリニックの予約サイト構築 (あおぞら内科クリニック)", stat: "予約 +83%", route: 'works-clinic', img: "assets/work-aozora-naika.png" },
+      { tag: "クリニック", t: "クリニックグループのコーポレート (Tokyo Clinic Group)", stat: "応募 1.9×", route: 'works-clinic', img: "assets/work-tokyoclinic.png", demo: "/showcase/tokyoclinic/" },
+      { tag: "クリニック", t: "皮膚科ブランドサイト × 集客連動 (AIRA CLINIC GINZA)", stat: "PV 2.7×", route: 'works-clinic', img: "assets/hero-05.png" },
+      { tag: "クリニック", t: "歯科医院の総合 LP 構築 (白藍 HAKURAN DENTAL)", stat: "予約 +110%", route: 'works-clinic', img: "assets/hero-04.png" },
+      { tag: "クリニック", t: "美容外来のブランドサイト (クマ取り専門外来)", stat: "予約離脱 -42%", route: 'works-clinic', img: "assets/hero-06.png" },
     ],
     [
       { tag: "建築", t: "大規模修繕・建物リニューアル (Renew Reuse Loop)", stat: "問合せ 2.6×", route: 'works-build', img: "assets/work-renewal.png" },
