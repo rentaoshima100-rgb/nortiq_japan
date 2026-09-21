@@ -24,6 +24,14 @@ function TopPage({ onNavigate, onContact }) {
   useFadeIn();
   useCardSpotlight();
   useMagnetic();
+  // STEP カードと数字帯の開始価格。金額は content-data.jsx の NORTIQ_PRICING が唯一の出典で、
+  // /pricing・各サービスページと同じ書式 (priceFrom) にそろえる。以前は円単位 (¥) の手書きで、
+  // チャットボットの金額が初期費用なのか月額なのかも読み取れなかった。
+  // ラベルは料金表と同じもの (pricePlanRows の label) を使う。DX は入口が PoC なのでプラン名を出す。
+  const stepPrice = (key) => {
+    const row = pricePlanRows(key)[0];
+    return { price: priceFrom(NORTIQ_PRICING[key].plans[0].min), priceLabel: key === 'dx' ? row.name : row.label };
+  };
   return (
     <main className="page-fade">
 
@@ -88,7 +96,7 @@ function TopPage({ onNavigate, onContact }) {
         { num: String(NORTIQ_STATS.team), text: "Team Members" },
         { num: "2025", text: "Founded" },
         { num: "24h", text: "Response SLA" },
-        { num: "30万", text: "Web 制作 開始価格" },
+        { num: priceFrom(NORTIQ_PRICING.web.plans[0].min), text: `Web 制作 開始価格${priceTax()}` },
         { num: String(NORTIQ_STATS.industries), text: "業種カバー" },
         { num: "3", text: "段階的 DX ファネル" },
         { num: "0", text: "AI 重大インシデント" },
@@ -281,7 +289,7 @@ function TopPage({ onNavigate, onContact }) {
               titleSuffix="制作"
               sub="機能・サービス一覧"
               desc="集客と問い合わせ獲得を前提とした現代的なWebサイト。WordPress / Next.js から最適選定。"
-              price="¥300,000〜"
+              {...stepPrice('web')}
               to={'web'} nav={onNavigate}
               delay={0}
             />
@@ -292,7 +300,7 @@ function TopPage({ onNavigate, onContact }) {
               titleSuffix="チャットボット"
               sub="機能・サービス一覧"
               desc="質問するだけで記事が書ける投稿ツール。WordPress 更新が止まる、を解決。"
-              price="¥100,000〜"
+              {...stepPrice('chatbot')}
               featured
               to={'chatbot'} nav={onNavigate}
               delay={150}
@@ -304,7 +312,7 @@ function TopPage({ onNavigate, onContact }) {
               titleSuffix="・ML"
               sub="機能・サービス一覧"
               desc="ML 実装 / 業務自動化 / データ分析基盤 / 生成AI業務組み込み。"
-              price="¥500,000〜"
+              {...stepPrice('dx')}
               to={'dx'} nav={onNavigate}
               delay={300}
             />
@@ -618,7 +626,11 @@ function WorkCard({ tag, title, stat, services, src }) {
   );
 }
 
-function FeatureTrioCard({ vertical, titlePrefix, titleSuffix, sub, desc, price, featured, onClick, delay, to, nav }) {
+// priceLabel は金額の種類 (初期費用 / PoC)。金額の前に小さく出して、月額と読み違えないようにする。
+// 税の表記は全カード共通なので、ここで priceTax() を金額の後ろに付ける。
+// (styles.css に専用のクラスが無いので inline style。数字は .feature-trio-price の大きさのまま)
+function FeatureTrioCard({ vertical, titlePrefix, titleSuffix, sub, desc, price, priceLabel, featured, onClick, delay, to, nav }) {
+  const priceSmall = { fontSize: 12, fontWeight: 500, color: 'var(--text-3)', fontFamily: 'var(--font-jp)' };
   const Tag = to && nav ? 'a' : 'article';
   const linkProps = to && nav ? navProps(to, nav) : { onClick };
   return (
@@ -631,7 +643,11 @@ function FeatureTrioCard({ vertical, titlePrefix, titleSuffix, sub, desc, price,
         <p>{sub}</p>
       </div>
       <p className="body" style={{ fontSize: 13, marginTop: 16, marginBottom: 24, lineHeight: 1.9 }}>{desc}</p>
-      <div className="feature-trio-price">{price}</div>
+      <div className="feature-trio-price">
+        {priceLabel && <span style={{ ...priceSmall, marginRight: 4 }}>{priceLabel} </span>}
+        {price}
+        <span style={priceSmall}>{priceTax()}</span>
+      </div>
       <div className="feature-trio-cta">機能一覧を見る<Icon name="arrow-right" size={14}/></div>
     </Tag>
   );

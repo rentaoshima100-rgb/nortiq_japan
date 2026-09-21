@@ -254,6 +254,12 @@ function RecruitPage({ onNavigate, onContact }) {
 // ============================================================
 // INDUSTRY SOLUTIONS (業種別パッケージ)
 // ============================================================
+// パッケージの費用は content-data.jsx の NORTIQ_PRICING.solutions が唯一の出典 (キーは下の
+// SOLUTION_DATA と同じ)。以前はここに手書きの文字列があり、数字と単位の間のスペースや「+」の
+// 全角・半角が data/*.json や meta と食い違っていた。書式は priceInitPlusMonthly が決める
+// (初期費用のレンジ＋月額のレンジ)。app.jsx の業種ソリューションの meta も同じデータから作る。
+// extra-pages.jsx は content-data.jsx より後に読み込まれるので、モジュール直下で参照できる。
+const solutionPrice = (key) => priceInitPlusMonthly(NORTIQ_PRICING.solutions[key]);
 const SOLUTION_DATA = {
   clinic: {
     label: "クリニック・医療",
@@ -278,7 +284,7 @@ const SOLUTION_DATA = {
       { tag: "歯科", t: "歯科医院の総合 LP 構築 (白藍 HAKURAN DENTAL)", stat: "予約 +110%", img: "assets/hero-04.png" },
       { tag: "グループ", t: "クリニックグループのコーポレート (Tokyo Clinic Group)", stat: "応募 1.9×", img: "assets/work-tokyoclinic.png", demo: "/showcase/tokyoclinic/" },
     ],
-    price: "60〜180 万円 + 月額運用 3〜8 万円",
+    price: solutionPrice('clinic'),
   },
   realty: {
     label: "不動産",
@@ -303,7 +309,7 @@ const SOLUTION_DATA = {
       { tag: "賃貸", t: "賃貸オーナー向け管理ポータル (オーナーズデスク)", stat: "工数 -45%", img: "assets/work-ownersdesk.png", demo: "/showcase/ownersdesk/" },
       { tag: "投資", t: "投資物件専門サイト × 物件管理 (ESTIA PARTNERS)", stat: "反響 2.7×", img: "assets/work-estia.png", demo: "/showcase/estia/" },
     ],
-    price: "80〜300 万円 + 月額運用 5〜15 万円",
+    price: solutionPrice('realty'),
   },
   build: {
     label: "建築・工務店",
@@ -328,7 +334,7 @@ const SOLUTION_DATA = {
       { tag: "設計事務所", t: "設計事務所のポートフォリオ刷新 (ARAI ARCHITECTS)", stat: "問合せ 1.8×", img: "assets/work-araiarch.png", demo: "/showcase/araiarch/" },
       { tag: "外構", t: "外構工事会社のローカルSEOサイト (グリーンゲート京都)", stat: "MEO 1位", img: "assets/work-greengate.png", demo: "/showcase/greengate/" },
     ],
-    price: "100〜400 万円 + 月額運用 5〜20 万円",
+    price: solutionPrice('build'),
   },
   hr: {
     label: "人材",
@@ -353,7 +359,7 @@ const SOLUTION_DATA = {
       { tag: "外国人材", t: "外国人材紹介の英日バイリンガル (BRIDGE WORKS JAPAN)", stat: "海外PV 4×", img: "assets/work-bridgeworks.png", demo: "/showcase/bridgeworks/" },
       { tag: "エージェント", t: "業界特化型エージェント刷新 (メディキャリア)", stat: "成約 +44%", img: "assets/work-medicareer.png", demo: "/showcase/medicareer/" },
     ],
-    price: "150〜500 万円 + 月額運用 10〜30 万円",
+    price: solutionPrice('hr'),
   },
   retail: {
     label: "小売 / EC",
@@ -378,7 +384,7 @@ const SOLUTION_DATA = {
       { tag: "AI在庫", t: "中古フィギュア店の AI 在庫登録システム (TAKETORA)", stat: "AI同定 3層", img: "assets/work-taketora-ai.png" },
       { tag: "ブランド", t: "ゴルフリゾート (COCOPA) のブランドサイト", stat: "予約 1.9×", img: "assets/work-cocopa.png" },
     ],
-    price: "200〜800 万円 + 月額運用 10〜40 万円",
+    price: solutionPrice('retail'),
   },
 };
 
@@ -421,7 +427,7 @@ function SolutionPage({ pageId, onNavigate, onContact }) {
             <p className="section-sub fadein">PACKAGE</p>
             <p className="lede fadein" style={{ margin: '20px auto 0' }}>
               下記すべて、または必要なものだけを選んで導入できます。<br/>
-              <span className="highlight">{m.price}</span>
+              <span className="highlight">{m.price}{priceTax()}</span>
             </p>
           </div>
           <div className="grid-2" style={{ gap: 16 }}>

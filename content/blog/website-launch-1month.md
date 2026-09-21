@@ -6,7 +6,7 @@
 
 - 制作期間が長くなる主因は「技術的な難しさ」ではなく、要件定義の往復・社内決裁・素材待ちという「待ち時間」にある。
 - 準備と決裁を発注前に前倒しし、AIで定型工程を自動化することで、1ヶ月以内のローンチは実現できる。
-- Nortiq Labsは累計20社以上の支援実績を持ち、STANDARDプラン60万円からCore Web Vitals Good保証付きで提供している。
+- Nortiq Labsは累計20社以上の支援実績を持ち、Web制作は30万円〜（税別）で提供している。Core Web Vitals Good保証が付くのはPREMIUMプラン（120万円〜）のみ。
 
 ---
 
@@ -66,7 +66,7 @@ AIの活用で変わるのは、定型作業の処理速度です。Nortiq Labs�
 
 Nortiq Labsは、Next.js・TypeScript・React・Supabase・Vercelといったモダンスタックと、Claude API・OpenAI APIを組み合わせた開発体制を持っています。代表の大島蓮太（AIエンジニア）はUC BerkeleyでRAG・Fine-tuning・Computer Visionを研究・実装してきた背景を持ち、コンサルタントではなく「実装者として書き、作る」ことが当社の根幹にあります。
 
-当社のホームページ制作はSTANDARDプラン60万円から提供しています。PREMIUMプランではCore Web Vitals（Googleが定めるページ表示品質の指標）のGood評価を保証します。
+当社のWeb制作は30万円〜（LIGHTプラン）で、STANDARDプランは60万円〜、PREMIUMプランは120万円〜です（いずれも税別）。このうちPREMIUMプランでは、Core Web Vitals（Googleが定めるページ表示品質の指標）のGood評価を保証します。
 
 **保証の適用条件について：** Core Web Vitals Good保証は、当社が納品するコード・ホスティング環境（Vercel）の範囲で適用されます。計測はGoogle PageSpeed Insightsによる納品時点のスコアで判定します。サードパーティスクリプト（外部広告タグ・チャットウィジェット等）の後付け導入や、御社側でのコード変更が加わった場合は保証対象外となります。詳細は[サービス詳細ページ](/web)をご確認ください。
 

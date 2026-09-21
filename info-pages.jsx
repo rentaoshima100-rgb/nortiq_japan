@@ -221,7 +221,7 @@ function VoicePage({ onNavigate, onContact }) {
         </div>
       </div>
 
-      <CTAStrip onContact={onContact} onNavigate={onNavigate} title="あなたの会社の声も、いつかここに。" sub="まずは小さな一歩から。Web制作 30 万円〜、初回相談無料です。"/>
+      <CTAStrip onContact={onContact} onNavigate={onNavigate} title="あなたの会社の声も、いつかここに。"/>
     </main>
   );
 }
@@ -229,7 +229,21 @@ function VoicePage({ onNavigate, onContact }) {
 // ============================================================
 // SUPPORT
 // ============================================================
+// 保守プランの件数の項目。/support のサポート範囲と /pricing の保守・運用の表が同じ項目名で出す。
+// 件数そのものは content-data.jsx の NORTIQ_PRICING.maintenance.plans が持つ (field がそのキー)。
+const MAINTENANCE_ITEMS = [
+  { field: 'edits', label: 'テキスト・画像の差し替え' },
+  { field: 'posts', label: '新着記事の投稿代行' },
+  { field: 'banners', label: 'バナー画像の制作' },
+];
+
 function SupportPage({ onNavigate, onContact }) {
+  // 保守プランの件数と月額は NORTIQ_PRICING.maintenance が唯一の出典 (/pricing の保守・運用と同じ値)。
+  // プラン別の月額は未定なので、サービス全体の開始価格だけを出す (プラン別の金額を勝手に作らない)。
+  const M = NORTIQ_PRICING.maintenance;
+  // 「Light 月3件 / Standard 月8件 / Premium 無制限」の形。その項目を含まないプランは並べない。
+  const byPlan = (field) => M.plans.filter((p) => p[field]).map((p) => p.name + ' ' + p[field]).join(' / ');
+  const [itemEdits, itemPosts, itemBanners] = MAINTENANCE_ITEMS;
   return (
     <main className="page-fade">
       <Breadcrumb items={[{ label: "トップ", id: "top" }, { label: "サポート" }]} onNavigate={onNavigate}/>
@@ -262,15 +276,16 @@ function SupportPage({ onNavigate, onContact }) {
           <SectionHead
             eyebrow="ALL INCLUDED / サポート範囲"
             title={<React.Fragment>契約期間中、追加費用なく<span className="nw">対応する範囲。</span></React.Fragment>}
+            lede={<React.Fragment>保守プランは<strong style={{ color: 'var(--text)' }}>{priceMonthly(M.monthlyMin)}{priceTax()}</strong>。{M.plans.map((p) => p.name).join(' / ')} の金額は、対応範囲と頻度をうかがってお見積もりします。</React.Fragment>}
           />
           <div className="grid-3">
             {[
-              { t: "テキスト・画像の差し替え", d: "保守プラン内で対応 (Light 月3件 / Standard 月8件 / Premium 無制限)" },
-              { t: "新着記事の投稿代行", d: "保守プラン内 (Standard 月3本 / Premium 月8本)" },
-              { t: "バナー画像の制作", d: "Premium プランで月2点まで含む" },
+              { t: itemEdits.label, d: `保守プラン内で対応 (${byPlan(itemEdits.field)})` },
+              { t: itemPosts.label, d: `保守プラン内 (${byPlan(itemPosts.field)})` },
+              { t: itemBanners.label, d: M.plans.filter((p) => p.banners).map((p) => `${p.name} プランで${p.banners}含む`).join(' / ') },
               { t: "セキュリティパッチ適用", d: "WordPress / プラグイン自動更新" },
               { t: "サーバー監視・障害対応", d: "24/7 監視、SLA 99.9%" },
-              { t: "メール・Slack 相談", d: "営業日 24h 以内に一次返信" },
+              { t: "メール・Slack 相談", d: NORTIQ_PRICING.consult.reply + 'に一次返信' },
             ].map((it, i) => (
               <div key={i} className="card" style={{ padding: '24px 26px' }}>
                 <div className="row" style={{ marginBottom: 12 }}>
@@ -294,7 +309,82 @@ function SupportPage({ onNavigate, onContact }) {
 // ============================================================
 // PRICING
 // ============================================================
+// 保守・運用のブロック。月額はサービス全体の開始価格だけ (プラン別の月額は未定なので作らない)。
+// そのためプランごとのカードではなく、見出しの金額＋プラン別の件数の表にしてある。
+// 金額の段は service-pages.jsx の PriceFigure で、上の料金表のカードと同じ見た目にする。
+function MaintenancePricing() {
+  const M = NORTIQ_PRICING.maintenance;
+  // styles.css を触れないので media query が使えない。スマホ幅 (列が70px前後) でも「Standard」や件数が
+  // 語の途中で折れないよう、左右の余白を詰め、プラン名は字間の広い .step-num を使わずに出す。
+  const cell = { padding: '14px 6px', borderTop: '1px solid var(--border)', fontSize: 13, textAlign: 'center', color: 'var(--text-2)' };
+  const head = { padding: '14px 6px', textAlign: 'center', background: 'var(--bg-2)', fontSize: 13, fontWeight: 700, color: 'var(--accent)' };
+  const first = { paddingLeft: 16, paddingRight: 10, textAlign: 'left' };
+  return (
+    <div>
+      <div className="stack-s" style={{ marginBottom: 24 }}>
+        <PriceFigure label="月額" tax={NORTIQ_PRICING.tax} amount={priceNum(M.monthlyMin)} unit="万円〜"/>
+        <p className="small" style={{ color: 'var(--text-3)' }}>Web制作の各プランに含まれるサポート期間のあとも、保守契約で継続できます。{M.plans.map((p) => p.name).join(' / ')} の金額は、対応範囲と頻度をうかがってお見積もりします。</p>
+      </div>
+      <div style={{ background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: 'var(--radius-lg)', overflow: 'hidden' }}>
+        <table style={{ width: '100%', borderCollapse: 'collapse', tableLayout: 'fixed' }}>
+          <thead>
+            <tr>
+              <th scope="col" style={{ ...head, ...first, width: '31%', fontSize: 12, fontWeight: 500, color: 'var(--text-3)' }}>プラン内の対応件数</th>
+              {M.plans.map((p) => <th key={p.key} scope="col" style={head}>{p.name}</th>)}
+            </tr>
+          </thead>
+          <tbody>
+            {MAINTENANCE_ITEMS.map((it) => (
+              <tr key={it.field}>
+                <th scope="row" style={{ ...cell, ...first, fontWeight: 500, color: 'var(--text)' }}>{it.label}</th>
+                {M.plans.map((p) => <td key={p.key} style={cell}>{p[it.field] || '—'}</td>)}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+}
+
+// 業種特化LP (lp/service/* の静的LP) の料金への行。金額は NORTIQ_PRICING.lps (LP の料金表の写し) から出す。
+// 静的LPは SPA のルートではないので、通常の <a href> で遷移させる (components.jsx の IndustryLpBanner と同じ)。
+function PricingLpRows() {
+  const lps = NORTIQ_PRICING.lps;
+  return (
+    <div style={{ background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: 'var(--radius-lg)', overflow: 'hidden' }}>
+      {Object.keys(lps).map((k, i) => {
+        const lp = lps[k];
+        return (
+          <a key={k} href={lp.href} style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: '12px 24px', padding: '24px 28px', borderTop: i > 0 ? '1px solid var(--border)' : undefined, textDecoration: 'none', color: 'inherit' }}>
+            <div style={{ flex: '1 1 320px', minWidth: 0 }}>
+              <div style={{ fontSize: 16, fontWeight: 500, color: 'var(--text)' }}>{lp.label}</div>
+              <div className="small" style={{ marginTop: 6 }}>{lp.plans.map((p, j) => <React.Fragment key={p.key || j}>{j > 0 && ' / '}<span className="nw">{p.name + ' ' + priceFrom(p.min)}</span></React.Fragment>)}</div>{/* プランごとに .nw: スマホ幅で「Premium 120」と「万円〜」の間で折れていた。折れるのは「/」の位置だけにする */}
+            </div>
+            <div className="num" style={{ fontSize: 22, fontWeight: 700, color: 'var(--text)', letterSpacing: '-0.01em' }}>
+              {priceFrom(lp.plans[0].min)}<span style={{ fontSize: 12, fontWeight: 500, color: 'var(--text-3)', fontFamily: 'var(--font-jp)', marginLeft: 2 }}>{priceTax()}</span>
+            </div>
+            <span className="btn btn-text">専用ページを見る<Icon name="arrow-right" size={13}/></span>
+          </a>
+        );
+      })}
+    </div>
+  );
+}
+
 function PricingPage({ onNavigate, onContact }) {
+  // 金額・期間・プランの中身は content-data.jsx の NORTIQ_PRICING が唯一の出典。
+  // 以前はここに各サービスページの短縮版を手書きしていて、項目が欠けていた (Light にお問い合わせフォームが
+  // 無いように見える、など)。いまは /web・/chatbot・/dx と同じ rows を同じ PricingTable で描画する。
+  // PricingTable / PriceFigure / ChatbotMonthlyNote は service-pages.jsx の定義 (描画時に参照する)。
+  const P = NORTIQ_PRICING;
+  const blocks = [
+    { key: 'web', title: P.web.label, to: P.web.route, link: '機能詳細を見る', body: <PricingTable rows={pricePlanRows('web')}/> },
+    { key: 'chatbot', title: P.chatbot.label, to: P.chatbot.route, link: '機能詳細を見る', body: <PricingTable rows={pricePlanRows('chatbot')} note={<ChatbotMonthlyNote/>}/> },
+    { key: 'dx', title: P.dx.label, to: P.dx.route, link: '機能詳細を見る', body: <PricingTable rows={pricePlanRows('dx')}/> },
+    { key: 'maintenance', title: P.maintenance.label, to: P.maintenance.route, link: 'サポート内容を見る', body: <MaintenancePricing/> },
+    { key: 'lps', title: '業種特化のサイト制作', body: <PricingLpRows/> },
+  ];
   return (
     <main className="page-fade">
       <Breadcrumb items={[{ label: "トップ", id: "top" }, { label: "料金プラン" }]} onNavigate={onNavigate}/>
@@ -302,7 +392,7 @@ function PricingPage({ onNavigate, onContact }) {
         eyebrow="PRICING / 料金プラン"
         title="ホームページ制作・AI導入の料金プラン"
         sub={<>透明な、段階投資。</>}
-        lede="サービスごとに3つのプランを用意。実際の費用はヒアリング後の見積でご提案しますが、目安レンジをすべて公開しています。"
+        lede={'サービスごとに3つのプランを用意。実際の費用はヒアリング後の見積でご提案しますが、目安レンジをすべて公開しています。' + P.taxNote + '。'}
         badges={["明朗会計", "補助金活用の相談可", "段階契約OK"]}
         onContact={onContact}
         subCta="ホームページ無料診断"
@@ -310,53 +400,21 @@ function PricingPage({ onNavigate, onContact }) {
         nav={onNavigate}
       />
 
-      {[
-        { tl: "Web 制作", rows: [
-          { plan: "LIGHT", amount: "30", unit: "万円〜", tagline: "コーポレートサイトの新規制作・刷新", features: ["5〜8 ページ程度", "レスポンシブ対応", "GA4 / GSC 初期設定", "1ヶ月のサポート"] },
-          { plan: "STANDARD", amount: "60", unit: "万円〜", tagline: "集客重視のサイト構築 + SEO", features: ["10〜20 ページ", "WordPress / MDX", "SEO 内部対策", "3ヶ月のサポート", "月次改善レビュー"] },
-          { plan: "PREMIUM", amount: "120", unit: "万円〜", tagline: "Next.js 高速サイト + AI 機能", features: ["Next.js / Vercel", "Core Web Vitals Good 保証", "AIチャットボット組み込み", "6ヶ月のサポート"] },
-        ]},
-        { tl: "AIチャットボット", rows: [
-          { plan: "LIGHT", amount: "10", unit: "万円〜", tagline: "個人事業主・小規模事業者向け", features: ["月5記事まで", "WordPress 連携 1サイト", "メールサポート"] },
-          { plan: "STANDARD", amount: "25", unit: "万円〜", tagline: "中堅企業の標準プラン", features: ["月20記事まで", "WordPress 連携 3サイト", "SEO最適化", "Slackサポート"] },
-          { plan: "PREMIUM", amount: "50", unit: "万円〜", tagline: "業務全体に AI を組み込む", features: ["生成数 無制限", "任意 CMS 連携", "カスタムML組み込み", "専属サポート"] },
-        ]},
-        { tl: "DX・ML", rows: [
-          { plan: "POC", amount: "50", unit: "万円〜", tagline: "技術検証フェーズ", features: ["要件定義", "プロトタイプ実装", "GO/NO-GO 判断"] },
-          { plan: "IMPLEMENTATION", amount: "200", unit: "万円〜", tagline: "本実装フェーズ", features: ["本番品質実装", "MLOps 構築", "3ヶ月の運用支援"] },
-          { plan: "OPERATION", amount: "10", unit: "万円/月〜", tagline: "継続運用", features: ["モデル監視・再学習", "週次レポート", "改善施策の実装"] },
-        ]},
-      ].map((block, i) => (
-        <section key={i} className="section-pad" style={{ borderTop: i > 0 ? '1px solid var(--border)' : undefined, background: i % 2 === 1 ? 'var(--bg-2)' : undefined, borderBottom: i % 2 === 1 ? '1px solid var(--border)' : undefined }}>
+      {blocks.map((block, i) => (
+        <section key={block.key} className="section-pad" style={{ borderTop: i > 0 ? '1px solid var(--border)' : undefined, background: i % 2 === 1 ? 'var(--bg-2)' : undefined, borderBottom: i % 2 === 1 ? '1px solid var(--border)' : undefined }}>
           <div className="container">
             <div className="row" style={{ marginBottom: 32, justifyContent: 'space-between', alignItems: 'flex-end' }}>
-              <h2 className="display-m">{block.tl}</h2>
-              <Button variant="text" to={block.tl === 'Web 制作' ? 'web' : block.tl === 'AIチャットボット' ? 'chatbot' : 'dx'} nav={onNavigate}>機能詳細を見る<Icon name="arrow-right" size={13}/></Button>
+              <h2 className="display-m">{block.title}</h2>
+              {block.to && <Button variant="text" to={block.to} nav={onNavigate}>{block.link}<Icon name="arrow-right" size={13}/></Button>}
             </div>
-            <div className="price-grid">
-              {block.rows.map((r, j) => (
-                <div key={j} className={`price-card${j === 1 ? ' featured' : ''}`}>
-                  <div className="row" style={{ justifyContent: 'space-between' }}>
-                    <span className="step-num">{r.plan}</span>
-                    {j === 1 && <span className="tag" style={{ color: 'var(--accent)', borderColor: 'var(--accent)' }}>RECOMMENDED</span>}
-                  </div>
-                  <div className="price-amount num">{r.amount}<sub>{r.unit}</sub></div>
-                  <p className="small" style={{ color: 'var(--text-3)' }}>{r.tagline}</p>
-                  <ul className="price-features">
-                    {r.features.map((f, k) => (
-                      <li key={k}><span className="check"><Icon name="check" size={14} stroke={1.8}/></span><span>{f}</span></li>
-                    ))}
-                  </ul>
-                </div>
-              ))}
-            </div>
+            {block.body}
           </div>
         </section>
       ))}
 
       <ExtraContent blocks={PRICING_EXTRA} onNavigate={onNavigate}/>
 
-      <CTAStrip onContact={onContact} onNavigate={onNavigate} title="プランの組み合わせ、ご相談ください。" sub="複数プランを段階導入する形での見積も可能です。補助金の活用も視野に、最適な投資計画をご相談いただけます。"/>
+      <CTAStrip onContact={onContact} onNavigate={onNavigate} title="プランの組み合わせ、ご相談ください。"/>
     </main>
   );
 }
@@ -535,7 +593,7 @@ function SubsidyPage({ onNavigate, onContact }) {
       </section>
       <SubsidySections onNavigate={onNavigate} onContact={onContact}/>
 
-      <CTAStrip onContact={() => onContact('subsidy')} title="補助金を活用したDX投資について、相談しませんか。" sub="初回相談は無料です。現状をうかがい、補助金活用を含めた進め方をご提案します。"/>
+      <CTAStrip onContact={() => onContact('subsidy')} title="補助金を活用したDX投資について、相談しませんか。"/>
     </main>
   );
 }
@@ -595,7 +653,7 @@ function GuidebookPage({ onNavigate, onContact }) {
                 <li>制作サービス — 設計から公開、その後の運用まで</li>
                 <li>制作実績・ポートフォリオ — 数字と事例</li>
                 <li>選ばれる理由 — シリコンバレー水準の技術を中小企業の現場に</li>
-                <li>料金プラン — ライト / スタンダード / プレミアム</li>
+                <li>料金プラン — {NORTIQ_PRICING.web.plans.map((p) => p.name).join(' / ')}</li>
                 <li>制作の流れ — お問い合わせから最短で</li>
                 <li>成果の声</li>
                 <li>会社概要・代表 — チームと歩み</li>
@@ -610,6 +668,9 @@ function GuidebookPage({ onNavigate, onContact }) {
                 </a>
               </div>
               <p className="small text-mono" style={{ color: 'var(--text-3)', marginTop: 16 }}>PDF · 全11ページ · 約4.7MB</p>
+              {/* PDF はリポジトリの外で作る画像PDFで、サイトの料金表 (NORTIQ_PRICING) と同時には直せない。
+                  金額の正は /pricing だと分かるよう、料金ページへの導線を置く。 */}
+              <p className="small" style={{ color: 'var(--text-3)', marginTop: 8 }}>最新の料金は<a {...navProps('pricing', onNavigate)} style={{ color: 'var(--accent)', cursor: 'pointer' }}>料金プランのページ</a>でご確認いただけます（{NORTIQ_PRICING.taxNote}）。</p>
             </div>
           </div>
         </div>

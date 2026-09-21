@@ -36,32 +36,81 @@ function FeatureList({ items }) {
   );
 }
 
-function PricingTable({ rows, featuredIndex = 1 }) {
+// 金額の段 (ラベル → 大きい数字 → 目安レンジ)。PricingTable のカードと、/pricing の保守・運用の
+// 見出し金額 (info-pages.jsx) が同じ見た目になるよう、1つにまとめてある。
+//  - label / tax: 数字の上に小さく「初期費用（税別）」「月額（税別）」。月額プランの unit も「万円〜」に
+//    そろえたので (「万円/月〜」は廃止)、このラベルが無いと DX の運用が月額だと読み取れない。
+//  - range: 数字の直下に「目安 …」(DX の上限つきレンジ)。空なら出さない。
+// styles.css は触らない決まりなので、足した部分は inline style。.stack-s の子として置く前提なので
+// margin は付けない (inline の margin は .stack-s の間隔を打ち消してしまう)。
+function PriceFigure({ label, tax, amount, unit, range }) {
   return (
-    <div className="price-grid">
-      {rows.map((r, i) => (
-        <div key={i} className={`price-card ${i === featuredIndex ? 'featured' : ''}`}>
-          <div className="row" style={{ justifyContent: 'space-between' }}>
-            <span className="step-num">{r.plan}</span>
-            {i === featuredIndex && <span className="tag" style={{ color: 'var(--accent)', borderColor: 'var(--accent)' }}>RECOMMENDED</span>}
-          </div>
-          <div className="stack-s">
-            <div className="price-amount num">
-              {r.amount}{r.unit && <sub>{r.unit}</sub>}{r.from && <sup>{r.from}</sup>}
-            </div>
-            <p className="small" style={{ color: 'var(--text-3)' }}>{r.tagline}</p>
-          </div>
-          <ul className="price-features">
-            {r.features.map((f, j) => (
-              <li key={j}>
-                <span className="check"><Icon name="check" size={14} stroke={1.8}/></span>
-                <span>{f}</span>
-              </li>
-            ))}
-          </ul>
+    <React.Fragment>
+      {(label || tax) && (
+        <div style={{ fontSize: 12, fontWeight: 600, color: 'var(--text-3)', letterSpacing: '0.04em' }}>
+          {label}{tax ? `（${tax}）` : ''}
         </div>
-      ))}
-    </div>
+      )}
+      <div className="price-amount num">{amount}{unit && <sub>{unit}</sub>}</div>
+      {range && <div className="small" style={{ color: 'var(--text-2)', fontWeight: 500 }}>{range}</div>}
+    </React.Fragment>
+  );
+}
+
+// 料金表。rows は content-data.jsx の pricePlanRows() で作る。/web・/chatbot・/dx と /pricing が同じ rows を
+// 渡すので、どのページでも金額・期間・プランの中身が一致する (以前は /pricing が短縮版を別に手書きしていた)。
+//  - 期間・ページ数・サポート月数は、pricePlanRows が features の行として差し込んでくる。
+//  - featuredIndex を渡さなければ row.recommended の行を強調する。強調しない表は -1 を渡す。
+//  - amount の無い行 (保守・運用。プラン別の月額が未定) は金額の段を出さない。
+//  - note は表の下の注記 (AIチャットボットの月額など)。
+// 以前あった r.from の <sup> は styles.css にスタイルが無く大きく出てしまうので、label に置き換えた。
+function PricingTable({ rows, featuredIndex, note }) {
+  const recommended = rows.findIndex((r) => r.recommended);
+  const featured = featuredIndex != null ? featuredIndex : (recommended >= 0 ? recommended : 1);
+  return (
+    <React.Fragment>
+      <div className="price-grid">
+        {rows.map((r, i) => (
+          <div key={r.key || i} className={`price-card ${i === featured ? 'featured' : ''}`}>
+            <div className="row" style={{ justifyContent: 'space-between' }}>
+              <span className="step-num">{r.plan}</span>
+              {i === featured && <span className="tag" style={{ color: 'var(--accent)', borderColor: 'var(--accent)' }}>RECOMMENDED</span>}
+            </div>
+            {(r.amount != null || r.tagline) && (
+              <div className="stack-s">
+                {r.amount != null && <PriceFigure label={r.label} tax={r.tax} amount={r.amount} unit={r.unit} range={r.range}/>}
+                {r.tagline && <p className="small" style={{ color: 'var(--text-3)' }}>{r.tagline}</p>}
+              </div>
+            )}
+            <ul className="price-features">
+              {r.features.map((f, j) => (
+                <li key={j}>
+                  <span className="check"><Icon name="check" size={14} stroke={1.8}/></span>
+                  <span>{f}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+      {note && (
+        <div style={{ marginTop: 32, padding: 24, background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: 'var(--radius)', textAlign: 'center' }}>
+          <p className="body" style={{ fontSize: 14, margin: 0 }}>{note}</p>
+        </div>
+      )}
+    </React.Fragment>
+  );
+}
+
+// AIチャットボットの月額の注記。/chatbot と /pricing (info-pages.jsx) が表の下に同じ文を出す。
+// カードの大きい数字は初期 (構築) 費用で、継続の月額はサービス全体の開始価格だけが決まっている。
+// プラン別の月額は未定なので、ここで勝手に作らない。
+function ChatbotMonthlyNote() {
+  const c = NORTIQ_PRICING.chatbot;
+  return (
+    <React.Fragment>
+      カードの金額は導入時の初期費用です。継続利用は<span className="text-accent" style={{ fontWeight: 500 }}>{priceMonthly(c.monthlyMin)}{priceTax()}</span>。{c.monthlyNote}。
+    </React.Fragment>
   );
 }
 
@@ -69,6 +118,15 @@ function PricingTable({ rows, featuredIndex = 1 }) {
 // 1) Web 制作
 // ============================================================
 function WebPage({ onNavigate, onContact }) {
+  // 金額・制作期間・サポート月数・保守の月額は content-data.jsx の NORTIQ_PRICING が唯一の出典。
+  // バッジ・PROCESS・料金表・FAQ を同じデータから作るので、ページ内で数字が食い違わない。
+  const P = NORTIQ_PRICING;
+  const plans = P.web.plans;
+  const consultTime = P.consult.minutes[0] + '〜' + P.consult.minutes[1] + '分';
+  // 「Light 1ヶ月・Standard 3ヶ月・Premium 6ヶ月」
+  const supportByPlan = plans.map((p) => p.name + ' ' + p.supportMonths + 'ヶ月').join('・');
+  // 月次レビュー会が付く最初のプラン (それより上のプランにも付く)。
+  const reviewFrom = plans.find((p) => p.monthlyReview);
   return (
     <main className="page-fade">
       <PageHero
@@ -78,7 +136,7 @@ function WebPage({ onNavigate, onContact }) {
         watermark="WEB"
         pageNo="01"
         lede="集客と問い合わせ獲得を前提に設計する Web 制作。WordPress / 静的サイト / Next.js を、目的に合わせて適切に選びます。"
-        badges={["WordPress", "Next.js", "WCAG 2.1 AA", "Core Web Vitals Good", "30万円〜"]}
+        badges={["WordPress", "Next.js", "WCAG 2.1 AA", "Core Web Vitals Good", priceFrom(plans[0].min) + priceTax()]}
         onContact={() => onContact('web')}
         subCta="制作実績を見る"
         subCtaTo="works"
@@ -129,12 +187,13 @@ function WebPage({ onNavigate, onContact }) {
           />
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.3fr', gap: 64, alignItems: 'flex-start' }}>
             <ol className="process-list" style={{ counterReset: 'step' }}>
-              <ProcessStep title="ヒアリング" desc="現状の課題、ターゲット、目標。30〜60分のオンライン MTG。"/>
+              <ProcessStep title="ヒアリング" desc={`現状の課題、ターゲット、目標。${consultTime}の${P.consult.format} MTG。`}/>
               <ProcessStep title="情報設計・ワイヤフレーム" desc="サイトマップ、ページ別ワイヤ、コピーの方向性をドキュメントで提示。"/>
               <ProcessStep title="デザイン" desc="ヒーロー含む主要ページの hi-fi デザイン。レビュー2回まで含む。"/>
               <ProcessStep title="開発・実装" desc="WordPress または Next.js での実装。ステージング環境でのレビューを並行。"/>
               <ProcessStep title="公開・移行" desc="DNS 切替、旧 URL からの 301 リダイレクト、GA4 / GSC 設定。"/>
-              <ProcessStep title="運用・改善" desc="公開後 3 ヶ月のサポート期間中、月次レビュー会で改善施策を実行。"/>
+              {/* サポート期間と月次レビュー会はプランで違う。以前は全プラン共通で3ヶ月・月次レビューつきと読める文だった。 */}
+              <ProcessStep title="運用・改善" desc={`公開後のサポート期間中（${supportByPlan}）に改善施策を実行。${reviewFrom ? reviewFrom.name + ' 以上は月次レビュー会つき。' : ''}`}/>
             </ol>
             <div style={{ position: 'sticky', top: 100 }}>
               <Placeholder label="Process Diagram" caption="6 steps · web build" aspect="4/5" src="assets/process-6steps.png" fit/>
@@ -149,52 +208,10 @@ function WebPage({ onNavigate, onContact }) {
           <SectionHead
             eyebrow="PRICING / Web 制作の料金"
             title="3 つのプラン、明朗会計。"
-            lede="目安レンジです。実際の費用はヒアリング後にご提案します。"
+            lede={P.taxNote + '。目安の金額で、実際の費用はヒアリング後にご提案します。'}
             align="center"
           />
-          <PricingTable rows={[
-            {
-              plan: "LIGHT",
-              amount: "30",
-              unit: "万円〜",
-              tagline: "コーポレートサイトの新規制作・刷新",
-              features: [
-                "5〜8 ページ程度",
-                "レスポンシブ対応",
-                "お問い合わせフォーム",
-                "GA4 / GSC 初期設定",
-                "公開後1ヶ月のサポート",
-              ],
-            },
-            {
-              plan: "STANDARD",
-              amount: "60",
-              unit: "万円〜",
-              tagline: "集客重視のサイト構築 + SEO",
-              features: [
-                "10〜20 ページ程度",
-                "ブログ機能 (WordPress / MDX)",
-                "業種別 LP 1〜2 本制作",
-                "SEO 内部対策",
-                "公開後3ヶ月のサポート",
-                "月次改善レビュー",
-              ],
-            },
-            {
-              plan: "PREMIUM",
-              amount: "120",
-              unit: "万円〜",
-              tagline: "Next.js による高速サイト + AI 機能組み込み",
-              features: [
-                "Next.js / Vercel 構築",
-                "Core Web Vitals Good 保証",
-                "WCAG 2.1 AA 準拠",
-                "AIチャットボット組み込み",
-                "公開後6ヶ月のサポート",
-                "アクセス解析カスタム実装",
-              ],
-            },
-          ]}/>
+          <PricingTable rows={pricePlanRows('web')}/>
         </div>
       </section>
 
@@ -249,10 +266,10 @@ function WebPage({ onNavigate, onContact }) {
               <h2 className="display-m">不安は、先に解消。</h2>
             </div>
             <FAQ items={[
-              { q: "納期はどのくらいですか?", a: "Light プランで 4〜6 週間、Standard で 8〜12 週間、Premium で 12〜16 週間を目安にしています。コンテンツの準備状況によって変動します。" },
+              { q: "納期はどのくらいですか?", a: plans.map((p, i) => p.name + (i === 0 ? ' プランで' : ' で') + pricePeriod(p)).join('、') + 'を目安にしています。コンテンツの準備状況によって変動します。' },
               { q: "WordPress と Next.js、どちらを選べばいいですか?", a: "ブログ更新を社内で頻繁に行いたい場合は WordPress、更新頻度よりパフォーマンスや拡張性を重視する場合は Next.js を推奨します。初回ヒアリングで一緒に決定します。" },
               { q: "ロゴやデザインの素材がないのですが?", a: "ブランドガイドラインから一緒に整える形でも対応可能です。必要に応じてデザイナーをアサインします。" },
-              { q: "公開後のサポート範囲は?", a: "Light は1ヶ月、Standard は3ヶ月、Premium は6ヶ月のサポートを含みます。それ以降は月次保守契約 (月2〜5万円〜) で継続可能です。" },
+              { q: "公開後のサポート範囲は?", a: plans.map((p) => p.name + ' は' + p.supportMonths + 'ヶ月').join('、') + 'のサポートを含みます。それ以降は月次の保守契約（' + priceMonthly(P.maintenance.monthlyMin) + '・' + P.tax + '）で継続可能です。' },
               { q: "契約形態は?", a: "請負契約が基本ですが、長期の改善伴走をご希望の場合は準委任契約 (月額) もご相談いただけます。" },
               { q: "助成金・補助金は使えますか?", a: "IT導入補助金などの活用を視野に入れた DX 投資のご相談を承っています。なお、補助金申請の手続きサポート（登録 IT 導入支援事業者としての対応）は現在準備中です。" },
             ]}/>
@@ -281,6 +298,9 @@ function ProcessStep({ title, desc }) {
 // 2) AIチャットボット
 // ============================================================
 function ChatbotPage({ onNavigate, onContact }) {
+  // カードの金額は初期 (構築) 費用、継続は月額。どちらも content-data.jsx の NORTIQ_PRICING から出す。
+  const P = NORTIQ_PRICING;
+  const monthlyFrom = priceMonthly(P.chatbot.monthlyMin);
   return (
     <main className="page-fade">
       <PageHero
@@ -290,7 +310,7 @@ function ChatbotPage({ onNavigate, onContact }) {
         watermark="AI"
         pageNo="02"
         lede="質問するだけで記事が書ける、Nortiq Labs 内製の AIチャットボット 投稿ツール。SEO 流入を止めないための、現実解です。"
-        badges={["自社プロダクト", "WordPress 連携", "OpenAI / Claude", "10万円〜"]}
+        badges={["自社プロダクト", "WordPress 連携", "OpenAI / Claude", '初期費用' + priceFrom(P.chatbot.plans[0].min) + priceTax()]}
         onContact={() => onContact('chatbot')}
         subCta="製品詳細を見る"
         subCtaTo="product-wpchat"
@@ -403,17 +423,12 @@ function ChatbotPage({ onNavigate, onContact }) {
         <div className="container">
           <SectionHead
             eyebrow="PRICING / 料金プラン"
-            title="使った分だけ、効果が出る価格設計。"
+            title="初期費用と月額を、分けて明示します。"
+            lede={P.taxNote + '。目安の金額で、実際の費用はヒアリング後にご提案します。'}
             align="center"
           />
-          <PricingTable rows={[
-            { plan: "LIGHT", amount: "10", unit: "万円〜", tagline: "個人事業主・小規模事業者向け",
-              features: ["月 5 記事まで生成", "WordPress 連携 1サイト", "メールサポート", "初期セットアップ込み"] },
-            { plan: "STANDARD", amount: "25", unit: "万円〜", tagline: "中堅企業の標準導入プラン",
-              features: ["月 20 記事まで生成", "WordPress 連携 3サイト", "FAQ チャットボット組み込み", "SEO 最適化機能", "Slack サポート", "月次改善レビュー"] },
-            { plan: "PREMIUM", amount: "50", unit: "万円〜", tagline: "業務全体に AI を組み込む",
-              features: ["生成数 無制限", "WordPress + 任意 CMS 連携", "カスタム ML モデル組み込み", "オンサイト導入研修", "専属サポート"] },
-          ]}/>
+          {/* 以前の見出しは従量制と読めたが、料金は初期費用＋月額の月次契約 (下の FAQ と同じ条件)。 */}
+          <PricingTable rows={pricePlanRows('chatbot')} note={<ChatbotMonthlyNote/>}/>
         </div>
       </section>
 
@@ -479,7 +494,7 @@ function ChatbotPage({ onNavigate, onContact }) {
               { q: "業界固有の専門用語に対応できますか?", a: "はい。導入時に業界の知識ベース (社内ドキュメント・既存記事) を読み込ませる Fine-tuning フェーズがあります。クリニック・不動産・建築・人材など、すでに複数業種で運用実績があります。" },
               { q: "WordPress 以外の CMS でも使えますか?", a: "Premium プランで他 CMS (Shopify / Wix / Webflow / Headless CMS) との連携にも対応可能です。" },
               { q: "AI が間違った情報を書いたら、誰が責任を持ちますか?", a: "公開前の人間のレビューを必須としており、出力検証レイヤーで明らかな事実誤認は自動検出します。最終的な記事の責任は運用者にありますが、レビューに要する時間を最小化する仕組みを提供しています。" },
-              { q: "解約・契約条件は?", a: "月次契約で、解約は1ヶ月前通知。導入後の縛り期間はありません。" },
+              { q: "解約・契約条件は?", a: '導入時に初期費用をいただき、その後は月次契約（' + monthlyFrom + '・' + P.tax + '）です。解約は1ヶ月前通知で、導入後の縛り期間はありません。' },
             ]}/>
           </div>
         </div>
@@ -529,6 +544,14 @@ function CaseLine({ label, before, after }) {
 // 3) DX・ML
 // ============================================================
 function DXPage({ onNavigate, onContact }) {
+  // 金額・期間は content-data.jsx の NORTIQ_PRICING が唯一の出典。フェーズカード (上限つきレンジ) と
+  // 料金表 (開始価格＋目安レンジ) を同じデータから作る。
+  // 無料なのは初回相談だけで、PoC から先は有料。以前はこのページの3か所で、PoC まで無料と読める
+  // 書き方をしていた (大見出し・他社比較の表・PROCESS の注記)。
+  const P = NORTIQ_PRICING;
+  const [poc, impl, ops] = P.dx.plans;
+  const hearing = P.dx.hearing;
+  const pocFrom = priceFrom(poc.min);
   return (
     <main className="page-fade">
       <PageHero
@@ -538,7 +561,7 @@ function DXPage({ onNavigate, onContact }) {
         watermark="DX"
         pageNo="03"
         lede="ML 実装 / 業務自動化 / データ分析基盤 / 生成 AI 業務組み込み。米国 UC Berkeley での研究背景を持つ代表のもと、Engineer × Data Scientist × Computer Scientist チームで本格 DX を伴走。"
-        badges={["Python", "PyTorch / TF", "AWS / GCP", "MLOps", "50万円〜"]}
+        badges={["Python", "PyTorch / TF", "AWS / GCP", "MLOps", poc.name + ' ' + pocFrom + priceTax()]}
         onContact={() => onContact('dx')}
         subCta="料金プランを見る"
         subCtaTo="pricing"
@@ -552,7 +575,7 @@ function DXPage({ onNavigate, onContact }) {
             <div>
               <div className="eyebrow eyebrow-accent" style={{ marginBottom: 16 }}>VS AI 開発専業会社</div>
               <h2 className="display-m">
-                <span className="text-accent">初期投資ゼロ</span>で<br/>スタートできます。
+                <span className="text-accent">小さく始めて</span>、<br/>検証ごとに判断できます。
               </h2>
             </div>
             <div className="stack-m">
@@ -560,10 +583,10 @@ function DXPage({ onNavigate, onContact }) {
                 AI 開発専業会社は PoC で数百万、本開発で数千万のレンジ。中小企業には心理的・予算的ハードルが高い領域です。
               </p>
               <p className="body">
-                Nortiq Labs は Web 制作 30 万円〜という低い入口から始められます。AIチャットボット導入 → DX/ML と段階展開し、検証しながら投資配分を決められるのが本質的な強みです。
+                Nortiq Labs は Web 制作 {priceFrom(P.web.plans[0].min)}という低い入口から始められます。AIチャットボット導入 → DX/ML と段階展開し、検証しながら投資配分を決められるのが本質的な強みです。DX・ML も初回相談は無料で、{poc.name} は{pocFrom}の小さな検証から始められます。
               </p>
               <div style={{ marginTop: 24, padding: 24, background: 'var(--bg)', border: '1px solid var(--border)', borderRadius: 'var(--radius-lg)' }}>
-                <ComparisonRow label="PoC 開始時の初期費用" them="200〜500万円" us="¥0 (Web/Chatbot から開始可)"/>
+                <ComparisonRow label="PoC 開始時の初期費用" them="200〜500万円" us={<React.Fragment>{pocFrom}<span className="nw">（初回相談は無料）</span></React.Fragment>}/>
                 <ComparisonRow label="本実装までの期間" them="6〜12ヶ月" us="検証ごとに段階リリース"/>
                 <ComparisonRow label="撤退時の損失" them="数百万 (実装済み投資)" us="段階契約のため最小化"/>
                 <ComparisonRow label="伴走範囲" them="ML 実装のみ" us="Web / Chatbot / DX 全域" last/>
@@ -628,17 +651,18 @@ function DXPage({ onNavigate, onContact }) {
           <SectionHead
             eyebrow="PROCESS / 導入プロセス"
             title="検証して、判断して、進める。"
-            lede="一括契約ではなく、フェーズごとに検証して GO/NO-GO 判断ができる構造にしています。"
+            lede={'一括契約ではなく、フェーズごとに検証して GO/NO-GO 判断ができる構造にしています。金額は目安です' + priceTax() + '。'}
           />
           <div className="grid-4">
-            <PhaseCard n="01" name="Hearing" duration="1〜2 週間" cost="無料" desc="課題の言語化、データの棚卸し、対象業務の特定。"/>
-            <PhaseCard n="02" name="PoC" duration="4〜8 週間" cost="50〜150万円" desc="技術検証、フィージビリティ確認。終了時に GO/NO-GO 判断。"/>
-            <PhaseCard n="03" name="Implementation" duration="2〜6 ヶ月" cost="200〜2,000万円" desc="本実装。アジャイル開発でマイルストーンごとにリリース。"/>
-            <PhaseCard n="04" name="Operation" duration="継続" cost="月額 10〜50万円" desc="運用・監視・改善。MLOps による継続的な性能向上。"/>
+            {/* 01 は「初回相談の所要時間」と「そのあとの整理にかかる期間」を分けて書く (以前は期間だけで、相談が何分なのか分からなかった)。期間は .nw でまとめる (カードの幅だと「1〜」と「2週間」の間で折れていた)。 */}
+            <PhaseCard n="01" name="Hearing" duration={pricePeriod(hearing)} cost="無料" desc={<React.Fragment>初回相談（無料・{hearing.minutes}分）のあと、<span className="nw">{pricePeriod(hearing)}</span>で課題の言語化、データの棚卸し、対象業務の特定まで行います。</React.Fragment>}/>
+            <PhaseCard n="02" name={poc.en} duration={pricePeriod(poc)} cost={priceRange(poc.min, poc.max)} desc="技術検証、フィージビリティ確認。終了時に GO/NO-GO 判断。"/>
+            <PhaseCard n="03" name={impl.en} duration={pricePeriod(impl)} cost={priceRange(impl.min, impl.max)} desc="本実装。アジャイル開発でマイルストーンごとにリリース。"/>
+            <PhaseCard n="04" name={ops.en} duration="継続" cost={priceMonthlyRange(ops.min, ops.max)} desc="運用・監視・改善。MLOps による継続的な性能向上。"/>
           </div>
           <div style={{ marginTop: 32, padding: 24, background: 'var(--bg)', border: '1px solid var(--border)', borderRadius: 'var(--radius)', textAlign: 'center' }}>
             <p className="body" style={{ fontSize: 14 }}>
-              <span className="text-accent" style={{ fontWeight: 500 }}>初期投資ゼロ</span> で Web/Chatbot から開始し、リソースが整ってから PoC へ。<span style={{ color: 'var(--text)' }}>この段階性が、Nortiq Labs の最大の強みです。</span>
+              <span className="text-accent" style={{ fontWeight: 500 }}>初回相談は無料</span>。{poc.name}（{pocFrom}）から先は有料ですが、フェーズごとの契約なので、検証結果を見てから次へ進むかを判断できます。<span className="phrase" style={{ color: 'var(--text)' }}>この段階性が、Nortiq Labs の最大の強みです。</span>
             </p>
           </div>
         </div>
@@ -666,21 +690,14 @@ function DXPage({ onNavigate, onContact }) {
           <SectionHead
             eyebrow="PRICING / 料金目安"
             title="個別見積、ただし透明に。"
-            lede="プロジェクトの内容によりレンジが広いため、目安として記載します。"
+            lede={'プロジェクトの内容によりレンジが広いため、目安として記載します。' + P.taxNote + '。'}
             align="center"
           />
-          <PricingTable rows={[
-            { plan: "POC", amount: "50", unit: "万円〜", tagline: "技術検証フェーズ",
-              features: ["要件定義", "データ前処理", "プロトタイプ実装", "フィージビリティレポート", "GO/NO-GO 判断"] },
-            { plan: "IMPLEMENTATION", amount: "200", unit: "万円〜", tagline: "本実装フェーズ",
-              features: ["本番品質の実装", "MLOps 構築", "監視・アラート設定", "ドキュメント整備", "社内研修", "3ヶ月の運用支援"] },
-            { plan: "OPERATION", amount: "10", unit: "万円/月〜", tagline: "継続運用",
-              features: ["モデルの監視・再学習", "週次レポート", "改善施策の実装", "緊急対応"] },
-          ]} featuredIndex={1}/>
+          <PricingTable rows={pricePlanRows('dx')}/>
         </div>
       </section>
 
-      <CTAStrip onContact={() => onContact('dx')} onNavigate={onNavigate} title="まずは初回ヒアリング (無料) から。" sub="現状のデータ、業務、目標を 60 分で整理。可能性のあるアプローチをその場でご提案します。"/>
+      <CTAStrip onContact={() => onContact('dx')} onNavigate={onNavigate} title="まずは初回ヒアリング (無料) から。"/>
     </main>
   );
 }
@@ -739,4 +756,5 @@ function TeamCard({ role, name, desc, tags, src }) {
 }
 
 // Export
-Object.assign(window, { WebPage, ChatbotPage, DXPage });
+// PricingTable / PriceFigure / ChatbotMonthlyNote は /pricing (info-pages.jsx) も使う。
+Object.assign(window, { WebPage, ChatbotPage, DXPage, PricingTable, PriceFigure, ChatbotMonthlyNote });

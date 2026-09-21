@@ -89,11 +89,13 @@
 - **決めてほしいこと**: 「30+」の表記でよいか（トップのティッカーも `30+`）。よければ `rs-trust` を承認できる。
 - **変える場所**: 戻すなら `info-pages.jsx:217`。
 
-### B2. 採用サイトLPの「30万円〜・4週間で公開」と料金表の食い違い【承認の前】
-- **現状**: LP の meta と FV タグは「30万円〜・4週間で公開」。料金表は 30万円〜（ライト）が3週間、4週間は 60万円〜（スタンダード）。
-  カード（`sg-recruit-site`）は料金表に合わせ、30万円〜と4週間を1文に並べていない。
-- **決めてほしいこと**: LP のどちらを正とするか。
-- **変える場所**: `lp/service/recruit-site/index.html`。決まったら `data/blocks.json` の `sg-recruit-site`（default / schedule）と `copy-sources.md`。
+### B2. 採用サイトLPの「30万円〜・4週間で公開」と料金表の食い違い（2026-09-21 の料金統一で解消。確認だけ）
+- **現状**: 料金表を正とした。金額と期間を並べる箇所（LP の meta description・twitter:description・JSON-LD の WebPage、本体サイトのバナー）は
+  「30万円〜（税別）・最短3週間で公開」になり、料金表（30万円〜のライトが3週間、60万円〜のスタンダードが4週間）と合う。
+  title と FV タグの「4週間で公開」は、金額と並べない形で残している。
+  カード（`sg-recruit-site`）は default が金額だけ、schedule がプラン別の期間で、直す所は無い。
+- **決めてほしいこと**: 無し（この文言でよいかの確認だけ）。採用サイトLPのプランの中身と納期の実態は `docs/pricing/open-items.md` の A7・A8 に残っている。
+- **変える場所**: 戻すなら `lp/service/recruit-site/index.html` と `components.jsx` の `IndustryLpBanner`。数字を変えたら `npm run pricing:check` で照合する。
 
 ### B3. `rs-ai-quality` のリンク先（設計書は /support、実装は /chatbot）【承認の前】
 - **現状**: /support に「AIで作る部分と人が確認する部分の分担」の記述が無いので、記述のある /chatbot の FAQ にリンクしている。

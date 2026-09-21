@@ -254,7 +254,7 @@ Google Fontsを使用している場合は、URLパラメータに`&display=swap
 
 **PREMIUMプラン**: Core Web Vitals（LCP・INP・CLS）のGood評価を納品条件として保証します。公開後のField Dataレポートを提出し、基準未達の場合は追加費用なしで対応します。
 
-**STANDARDプラン（60万円から）**: 設計段階からCWVを意識した実装を行います。具体的には、LCP画像のWebP化・fetchpriority設定、全imgタグへのwidth/height付与、フォント読み込み最適化を標準作業として含みます。
+**STANDARDプラン（60万円〜・税別）**: 設計段階からCWVを意識した実装を行います。具体的には、LCP画像のWebP化・fetchpriority設定、全imgタグへのwidth/height付与、フォント読み込み最適化を標準作業として含みます。
 
 （出典: 自社料金表）
 

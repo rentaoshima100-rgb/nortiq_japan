@@ -422,20 +422,27 @@ function Nav({ current, onNavigate, onContact, onSideForm }) {
 
 // -------------------- 業種特化LP バナー (/service/kanri-dantai) --------------------
 // 静的LP (lp/ 配下) への導線。SPA ルートではないため通常の <a href> で遷移させる。
+// desc は関数にしてある。金額と期間は content-data.jsx の NORTIQ_PRICING.lps (LPの料金表の写し) から
+// 作るが、components.jsx は content-data.jsx より先に読み込まれるので、モジュール直下では
+// NORTIQ_PRICING が未定義になる。IndustryLpBanner の描画時に呼べば参照できる。
+// 金額と期間を並べるときは、同じプラン (最安のライト = plans[0]) の金額と期間の組にする。以前の
+// 採用サイトの文は、ライトの金額にスタンダードの期間を組み合わせていた。
+// (コメントにも金額の数字を書かない。pricing-check.js の生リテラル検査に掛かるため)
 const INDUSTRY_LPS = [
   {
     key: 'kanri', href: '/service/kanri-dantai', tag: 'NEW / 2027年4月 育成就労制度 対応', eyebrow: 'INDUSTRY LP / 監理団体・登録支援機関向け',
     title: <>制度が変わる前に、<span className="text-accent">伝わるサイト</span>へ。<br/>監理団体・登録支援機関の制度対応サイト制作</>,
-    desc: '育成就労・特定技能の制度解説20本、19分野の公式表記チェック、多言語・AIチャットボット、制度改正への追従更新まで。70万円〜（税別）。',
+    desc: (lp) => `育成就労・特定技能の制度解説20本、19分野の公式表記チェック、多言語・AIチャットボット、制度改正への追従更新まで。${priceFrom(lp.plans[0].min)}${priceTax()}。`,
   },
   {
     key: 'recruit', href: '/service/recruit-site', tag: 'NEW / 求人記事が毎週増える', eyebrow: 'INDUSTRY LP / 建設・運送・介護の採用サイト',
     title: <>現場の写真1枚から、<span className="text-accent">応募が来る</span>採用サイトを。<br/>建設・運送・介護に絞った採用サイト制作</>,
-    desc: '職種別ページ、先輩の声、Googleしごと検索（JobPosting）対応、毎週増える求人記事。30万円〜・4週間で公開。35項目の設計チェックリストつき。',
+    desc: (lp) => `職種別ページ、先輩の声、Googleしごと検索（JobPosting）対応、毎週増える求人記事。${priceFrom(lp.plans[0].min)}${priceTax()}・最短${pricePeriod(lp.plans[0])}で公開。35項目の設計チェックリストつき。`,
   },
 ];
 function IndustryLpBanner({ only }) {
   const items = only ? INDUSTRY_LPS.filter((x) => x.key === only) : INDUSTRY_LPS;
+  const lps = NORTIQ_PRICING.lps;
   return (
     <section className="section-pad-sm">
       <div className="container">
@@ -445,7 +452,7 @@ function IndustryLpBanner({ only }) {
               <div className="promo-tag">{x.tag}</div>
               <p className="promo-eyebrow" style={{ marginBottom: 8 }}>{x.eyebrow}</p>
               <h3 style={{ fontSize: 'clamp(19px, 1.7vw, 23px)', fontWeight: 700, lineHeight: 1.45, margin: 0, color: 'var(--text)' }}>{x.title}</h3>
-              <p className="promo-desc" style={{ marginTop: 10, flex: 1 }}>{x.desc}</p>
+              <p className="promo-desc" style={{ marginTop: 10, flex: 1 }}>{x.desc(lps[x.key])}</p>
               <span className="btn btn-primary" style={{ alignSelf: 'flex-start', marginTop: 20 }}>専用ページを見る<Icon name="arrow-right" size={14}/></span>
             </a>
           ))}

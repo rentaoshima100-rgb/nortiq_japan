@@ -20,6 +20,199 @@ const NORTIQ_STATS = {
   industries: 7,   // 対応業種数
 };
 
+// -------------------- 料金・期間・税 (サイト内の唯一の出典) --------------------
+// /pricing と各サービスページが別々にプラン表を手書きしていたため、同じプランの内容・期間・
+// 月額かどうかの読み方がページごとに食い違っていた (2026-09 の料金統一)。金額・期間・ページ数・
+// サポート月数はここだけに書き、JSX 側は下のヘルパー (price 接頭辞) 経由で文字列にする。
+//
+// 決まりごと:
+//  - BEGIN/END の間は JSX も外部参照も含まない純粋な JS にする。pricing-check.js が目印の間を
+//    切り出して vm で評価する (入れ子があるので NORTIQ_STATS のような正規表現読みはしない)。
+//    目印の行には他の文字を足さない (目印の直後から切り出しても壊れないようにするため)。
+//  - 金額の単位は万円・税別。min は「〜」の付く開始価格、max は目安レンジの上限。
+//  - kind: 'initial' は初期費用、'monthly' は月額。カードでは「初期費用」「月額」のラベルで区別する。
+//  - weeks / months は [下限, 上限] か単一の数。3ヶ月未満の制作期間は週、それ以上は月で持つ。
+//  - features の '{pages}' '{period}' '{support}' は差し込み位置の印。pages / weeks・months /
+//    supportMonths から文を作るので、同じ数字を二重に書かずに済む。描画には必ず
+//    pricePlanRows() か pricePlanFeatures() を通す (features をそのまま出さない)。
+//  - プラン別の月額が未定のもの (AIチャットボット・保守) は、サービス全体の monthlyMin だけを持つ。
+//    プラン別の月額を勝手に作らない。
+//  - 静的LP (lp/service/*) と data/*.json・記事はここを参照できない。lps はLPの料金表を写した値で、
+//    食い違いは pricing-check.js が検査する。LPの数字を変えたらここも同時に直す。
+// NORTIQ_PRICING:BEGIN
+const NORTIQ_PRICING = {
+  tax: '税別',
+  taxNote: '表示価格はすべて税別です',
+  consult: { free: true, format: 'オンライン', minutes: [30, 60], reply: '営業日24時間以内' },
+
+  web: {
+    label: 'Web制作', route: 'web', periodLabel: '制作期間の目安',
+    plans: [
+      { key: 'light', name: 'Light', card: 'LIGHT', ja: 'ライト', kind: 'initial', min: 30,
+        weeks: [4, 6], pages: '5〜8ページ程度', supportMonths: 1, monthlyReview: false,
+        tagline: 'コーポレートサイトの新規制作・刷新',
+        features: ['{pages}', '{period}', 'レスポンシブ対応', 'お問い合わせフォーム', 'GA4 / GSC 初期設定', '{support}'] },
+      { key: 'standard', name: 'Standard', card: 'STANDARD', ja: 'スタンダード', kind: 'initial', min: 60, recommended: true,
+        weeks: [8, 12], pages: '10〜20ページ程度', supportMonths: 3, monthlyReview: true,
+        tagline: '集客重視のサイト構築 + SEO',
+        features: ['{pages}', '{period}', 'ブログ機能 (WordPress / MDX)', '業種別 LP 1〜2 本制作', 'SEO 内部対策', '{support}', '月次改善レビュー'] },
+      // Premium のページ数の目安は決まっていないので持たない (pages: null)。
+      { key: 'premium', name: 'Premium', card: 'PREMIUM', ja: 'プレミアム', kind: 'initial', min: 120,
+        weeks: [12, 16], pages: null, supportMonths: 6, monthlyReview: true,
+        tagline: 'Next.js による高速サイト + AI 機能組み込み',
+        features: ['{period}', 'Next.js / Vercel 構築', 'Core Web Vitals Good 保証', 'WCAG 2.1 AA 準拠', 'AIチャットボット組み込み', '{support}', 'アクセス解析カスタム実装'] },
+    ],
+  },
+
+  // 10 / 25 / 50万円〜 は初期 (構築) 費用。継続の月額はサービス全体で 1万円〜 (プラン別は未定)。
+  chatbot: {
+    label: 'AIチャットボット', route: 'chatbot',
+    monthlyMin: 1, monthlyNote: 'プランと生成本数に応じてお見積もりします',
+    plans: [
+      { key: 'light', name: 'Light', card: 'LIGHT', ja: 'ライト', kind: 'initial', min: 10,
+        tagline: '個人事業主・小規模事業者向け',
+        features: ['月 5 記事まで生成', 'WordPress 連携 1サイト', 'メールサポート', '初期セットアップ込み'] },
+      { key: 'standard', name: 'Standard', card: 'STANDARD', ja: 'スタンダード', kind: 'initial', min: 25, recommended: true,
+        tagline: '中堅企業の標準導入プラン',
+        features: ['月 20 記事まで生成', 'WordPress 連携 3サイト', 'FAQ チャットボット組み込み', 'SEO 最適化機能', 'Slack サポート', '月次改善レビュー'] },
+      { key: 'premium', name: 'Premium', card: 'PREMIUM', ja: 'プレミアム', kind: 'initial', min: 50,
+        tagline: '業務全体に AI を組み込む',
+        features: ['生成数 無制限', 'WordPress + 任意 CMS 連携', 'カスタム ML モデル組み込み', 'オンサイト導入研修', '専属サポート'] },
+    ],
+  },
+
+  // DX は PoC 50万円〜 が入口。無料なのは初回相談だけ (hearing)。
+  dx: {
+    label: 'DX・ML', route: 'dx', periodLabel: '期間の目安',
+    hearing: { free: true, minutes: 60, weeks: [1, 2] },
+    plans: [
+      { key: 'poc', name: 'PoC', card: 'PoC', en: 'PoC', kind: 'initial', min: 50, max: 150, weeks: [4, 8],
+        tagline: '技術検証フェーズ',
+        features: ['{period}', '要件定義', 'データ前処理', 'プロトタイプ実装', 'フィージビリティレポート', 'GO/NO-GO 判断'] },
+      { key: 'impl', name: '本実装', card: 'IMPLEMENTATION', en: 'Implementation', kind: 'initial', min: 200, max: 2000, months: [2, 6], recommended: true,
+        tagline: '本実装フェーズ',
+        features: ['{period}', '本番品質の実装', 'MLOps 構築', '監視・アラート設定', 'ドキュメント整備', '社内研修', '3ヶ月の運用支援'] },
+      { key: 'ops', name: '運用', card: 'OPERATION', en: 'Operation', kind: 'monthly', min: 10, max: 50,
+        tagline: '継続運用',
+        features: ['モデルの監視・再学習', '週次レポート', '改善施策の実装', '緊急対応'] },
+    ],
+  },
+
+  // 保守・運用は「月額2万円〜」で統一。プラン別の月額は未定なので件数だけを持つ。
+  maintenance: {
+    label: '保守・運用', route: 'support', monthlyMin: 2,
+    plans: [
+      { key: 'light', name: 'Light', edits: '月3件', posts: null, banners: null },
+      { key: 'standard', name: 'Standard', edits: '月8件', posts: '月3本', banners: null },
+      { key: 'premium', name: 'Premium', edits: '無制限', posts: '月8本', banners: '月2点まで' },
+    ],
+  },
+
+  // 業種ソリューション (/solution-*)。init は初期費用のレンジ、monthly は月額運用のレンジ、months は導入期間。
+  solutions: {
+    clinic: { route: 'solution-clinic', init: [60, 180], monthly: [3, 8], months: [1, 2] },
+    realty: { route: 'solution-realty', init: [80, 300], monthly: [5, 15], months: [2, 3], orMore: true },
+    build: { route: 'solution-build', init: [100, 400], monthly: [5, 20], months: [1, 2] },
+    hr: { route: 'solution-hr', init: [150, 500], monthly: [10, 30], months: [1, 2] },
+    retail: { route: 'solution-retail', init: [200, 800], monthly: [10, 40], months: [2, 3], orMore: true },
+  },
+
+  // 静的LP2本の料金表の写し。ops の月額は「〜」の付かない固定額 (LPの表記は「月2万円」)。
+  lps: {
+    kanri: {
+      label: '監理団体・登録支援機関の制度対応サイト制作', href: '/service/kanri-dantai',
+      plans: [
+        { key: 'light', name: 'Light', ja: '制度対応ライト', min: 70, months: 1.5, approx: true },
+        { key: 'standard', name: 'Standard', ja: '制度対応スタンダード', min: 95, months: 2, approx: true, recommended: true },
+        { key: 'premium', name: 'Premium', ja: '制度対応プレミアム', min: 120, months: 2.5, approx: true },
+      ],
+      ops: { label: '制度改正追従プラン', minMonths: 6, plans: [
+        { name: 'ライト', monthly: 2 }, { name: 'スタンダード', monthly: 4 }, { name: 'プレミアム', monthly: 8 },
+      ] },
+    },
+    recruit: {
+      label: '建設・運送・介護の採用サイト制作', href: '/service/recruit-site',
+      plans: [
+        { key: 'light', name: 'Light', ja: 'ライト', min: 30, weeks: 3 },
+        { key: 'standard', name: 'Standard', ja: 'スタンダード', min: 60, weeks: 4, recommended: true },
+        { key: 'premium', name: 'Premium', ja: 'プレミアム', min: 120, weeks: 6 },
+      ],
+      ops: { label: '採用運用', minMonths: 6, plans: [
+        { name: 'Operation', monthly: 2 }, { name: 'Operation+', monthly: 4 },
+      ] },
+    },
+  },
+};
+// NORTIQ_PRICING:END
+
+// 表記ルールをここで固定する: 半角数字＋「万円〜」でスペースなし、レンジは後ろに「〜」を重ねない、
+// 初期＋月額は全角「＋」、月額は「月額」を前に付ける、月数は「ヶ月」。(実例は各ヘルパーの行末コメント)
+// このブロックも JSX・window・React を使わない純粋な JS にしてある。検査スクリプトが
+// NORTIQ_PRICING のブロックと続けて評価すれば、画面と同じ文字列を作って照合できる。
+// NORTIQ_PRICING_HELPERS:BEGIN
+const priceNum = (n) => String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ',');   // 2000 -> "2,000"
+const priceFrom = (n) => priceNum(n) + '万円〜';                            // 30 -> "30万円〜"
+const priceRange = (a, b) => priceNum(a) + '〜' + priceNum(b) + '万円';      // (60, 180) -> "60〜180万円"
+const priceMonthly = (n) => '月額' + priceFrom(n);                          // 10 -> "月額10万円〜"
+const priceMonthlyRange = (a, b) => '月額' + priceRange(a, b);              // (3, 8) -> "月額3〜8万円"
+// ([60,180], [3,8]) -> "60〜180万円＋月額3〜8万円"。solutions の1件をそのまま渡してもよい。
+const priceInitPlusMonthly = (init, monthly) => {
+  if (init && !Array.isArray(init)) { monthly = init.monthly; init = init.init; }
+  return priceRange(init[0], init[1]) + '＋' + priceMonthlyRange(monthly[0], monthly[1]);
+};
+const priceTax = () => '（' + NORTIQ_PRICING.tax + '）';                     // "（税別）"
+// "初回相談無料（オンライン30〜60分）"
+const priceConsult = () => {
+  const c = NORTIQ_PRICING.consult;
+  return '初回相談無料（' + c.format + c.minutes[0] + '〜' + c.minutes[1] + '分）';
+};
+// プラン (または solutions / lps の1件) の期間。{weeks:[4,6]} -> "4〜6週間"、{months:[2,6]} -> "2〜6ヶ月"、
+// {weeks:3} -> "3週間"、{months:1.5, approx:true} -> "約1.5ヶ月"、{months:[2,3], orMore:true} -> "2〜3ヶ月以上"。
+// 期間を持たないプラン (DX の運用など) は空文字。
+const pricePeriod = (plan) => {
+  if (!plan) return '';
+  const span = (v) => (Array.isArray(v) ? v[0] + '〜' + v[1] : String(v));
+  const s = plan.weeks != null ? span(plan.weeks) + '週間' : plan.months != null ? span(plan.months) + 'ヶ月' : '';
+  return s ? (plan.approx ? '約' : '') + s + (plan.orMore ? '以上' : '') : '';
+};
+// features の差し込み印を文にする。値が無い印 (Premium のページ数など) は行ごと出さない。
+// opts.periodInFeatures === false で期間の行を外せる (期間を別の場所に描画するとき二重にしないため)。
+const pricePlanFeatures = (serviceKey, plan, opts) => {
+  const svc = NORTIQ_PRICING[serviceKey] || {};
+  const withPeriod = !(opts && opts.periodInFeatures === false);
+  const out = [];
+  (plan.features || []).forEach((f) => {
+    if (f === '{pages}') { if (plan.pages) out.push(plan.pages); }
+    else if (f === '{period}') { if (withPeriod && pricePeriod(plan)) out.push((svc.periodLabel || '期間の目安') + ' ' + pricePeriod(plan)); }
+    else if (f === '{support}') { if (plan.supportMonths) out.push('公開後' + plan.supportMonths + 'ヶ月のサポート'); }
+    else out.push(f);
+  });
+  return out;
+};
+// service-pages.jsx の PricingTable に渡す rows。/web・/chatbot・/dx と /pricing が同じ rows を使う。
+// plan / amount / unit / tagline / features は従来の形のまま。label (初期費用 / 月額)・tax・range
+// (DX の目安レンジ)・period・recommended は料金統一で足した項目。
+// 月額のプランも unit は「万円〜」にそろえ、月額かどうかは label で示す (「万円/月〜」は使わない)。
+const pricePlanRows = (serviceKey, opts) => {
+  const svc = NORTIQ_PRICING[serviceKey];
+  if (!svc || !Array.isArray(svc.plans) || !svc.plans.length || !svc.plans[0].features) return [];
+  return svc.plans.map((p) => {
+    const monthly = p.kind === 'monthly';
+    return {
+      key: p.key, plan: p.card, name: p.name,
+      amount: priceNum(p.min), unit: '万円〜',
+      label: monthly ? '月額' : '初期費用',
+      tax: NORTIQ_PRICING.tax,
+      range: p.max ? '目安 ' + (monthly ? priceMonthlyRange(p.min, p.max) : priceRange(p.min, p.max)) : '',
+      period: pricePeriod(p), periodLabel: svc.periodLabel || '期間の目安',
+      tagline: p.tagline,
+      features: pricePlanFeatures(serviceKey, p, opts),
+      recommended: !!p.recommended,
+    };
+  });
+};
+// NORTIQ_PRICING_HELPERS:END
+
 // -------------------- 業種別 (works-* カテゴリページ) --------------------
 const INDUSTRY_CONTENT = {
   clinic: {
@@ -201,7 +394,7 @@ const VIDEO_KNOWHOW = {
   items: [
     { t: "ユーザー主体の再生", d: "自動再生は広告と受け取られ離脱を招くため非推奨です。LP用は16〜30秒程度、動画の近くにCTAを置きます。" },
     { t: "縦型ショート+字幕", d: "30秒〜1分の縦型・字幕付きが近年の標準です。SNSで認知を取り、サイトや長尺動画へ誘導します。" },
-    { t: "採用動画の定番3型", d: "社員インタビュー / 職場紹介 / 経営メッセージを軸にシリーズ化するのが定番です。企画から公開まで一般に1〜3か月が目安といわれます。" },
+    { t: "採用動画の定番3型", d: "社員インタビュー / 職場紹介 / 経営メッセージを軸にシリーズ化するのが定番です。企画から公開まで一般に1〜3ヶ月が目安といわれます。" },
     { t: "効果の考え方", d: "動画の埋め込みは滞在時間の伸長とCVR向上が期待できるといわれます (効果は題材・品質に依存します)。" },
   ],
 };
@@ -357,11 +550,11 @@ const FEATURE_CONTENT = {
 
 // -------------------- 業種別ソリューション (/solution-*) --------------------
 const SOLUTION_CONTENT = {
-  'solution-clinic': { pack: ["サイト制作", "Web予約連携", "MEO (ビジネスプロフィール整備)", "医療広告ガイドライン準拠チェック", "(任意) SNS・口コミ運用"], weeks: "標準的な構成で1〜2か月が目安 (要件により変動)" },
-  'solution-realty': { pack: ["サイト制作", "物件DB・ポータル連携", "査定LP", "宅建業法の広告チェック", "MEO"], weeks: "システム連動を含む場合2〜3か月以上が目安" },
-  'solution-build': { pack: ["サイト制作", "施工事例データベース", "問い合わせ・資料請求導線", "建設業許可番号の表記", "(任意) 採用・協力会社募集"], weeks: "標準的な構成で1〜2か月が目安" },
-  'solution-hr': { pack: ["採用サイト制作", "求人媒体 (Indeed/求人ボックス) 連携", "JobPosting 構造化データ", "職業安定法の準拠チェック"], weeks: "標準的な構成で1〜2か月が目安" },
-  'solution-retail': { pack: ["ECカート構築 (BASE / Shopify / カラーミー)", "特商法表記の整備", "GA4 計測", "(任意) SNS・広告運用"], weeks: "EC構築は2〜3か月以上が目安" },
+  'solution-clinic': { pack: ["サイト制作", "Web予約連携", "MEO (ビジネスプロフィール整備)", "医療広告ガイドライン準拠チェック", "(任意) SNS・口コミ運用"], weeks: "標準的な構成で" + pricePeriod(NORTIQ_PRICING.solutions.clinic) + "が目安 (要件により変動)" },
+  'solution-realty': { pack: ["サイト制作", "物件DB・ポータル連携", "査定LP", "宅建業法の広告チェック", "MEO"], weeks: "システム連動を含む場合" + pricePeriod(NORTIQ_PRICING.solutions.realty) + "が目安" },
+  'solution-build': { pack: ["サイト制作", "施工事例データベース", "問い合わせ・資料請求導線", "建設業許可番号の表記", "(任意) 採用・協力会社募集"], weeks: "標準的な構成で" + pricePeriod(NORTIQ_PRICING.solutions.build) + "が目安" },
+  'solution-hr': { pack: ["採用サイト制作", "求人媒体 (Indeed/求人ボックス) 連携", "JobPosting 構造化データ", "職業安定法の準拠チェック"], weeks: "標準的な構成で" + pricePeriod(NORTIQ_PRICING.solutions.hr) + "が目安" },
+  'solution-retail': { pack: ["ECカート構築 (BASE / Shopify / カラーミー)", "特商法表記の整備", "GA4 計測", "(任意) SNS・広告運用"], weeks: "EC構築は" + pricePeriod(NORTIQ_PRICING.solutions.retail) + "が目安" },
 };
 
 // -------------------- 業種別のシステム提案テンプレート --------------------
@@ -376,19 +569,19 @@ const SYSTEM_TEMPLATES = {
     items: [
       { t: "Web問診 × カルテ受け渡し", scenario: "1日60〜80人を診る内科・小児科で、受付の記入と入力に人手が取られている場合",
         does: "来院前にスマホで問診を済ませ、内容を院内で参照・印刷できる形にします。症状で設問を分岐させ、電子カルテへは既存の連携口かテキスト書き出しで渡します。",
-        price: "40〜120万円", weeks: "1〜2か月",
+        price: "40〜120万円", weeks: "1〜2ヶ月",
         note: "電子カルテ側に外部連携の口があるかで難易度が大きく変わります。まず現行カルテの型番を確認します。" },
       { t: "予約 × 自動リマインド (LINE / SMS)", scenario: "予約はあるが無断キャンセルと電話対応が減らない場合",
         does: "既存の予約システムに、前日・当日のリマインドと、キャンセル枠の繰り上げ案内を足します。LINE公式アカウントとつなぐ構成が多いです。",
-        price: "30〜80万円", weeks: "1か月前後",
+        price: "30〜80万円", weeks: "1ヶ月前後",
         note: "予約システムを入れ替えず、外側に足す形を優先します。入れ替えは現場の負担が大きいためです。" },
       { t: "自由診療の見積・同意書の電子化", scenario: "自由診療の説明と同意を紙で運用しており、記録の保管と検索に手間がかかっている場合",
         does: "治療内容・費用・回数・期間・主なリスクを様式化し、タブレットで説明・署名・保存まで行います。医療広告ガイドラインの限定解除要件を満たす項目立てにします。",
-        price: "60〜150万円", weeks: "2〜3か月",
+        price: "60〜150万円", weeks: "2〜3ヶ月",
         note: "様式は医院ごとに違うため、既存の同意書をお預かりして起こします。" },
       { t: "在庫・発注の管理", scenario: "医薬品・材料の発注が担当者の記憶と経験に依存している場合",
         does: "使用量から発注点を出し、切れそうなものを一覧で出します。バーコード読み取りでの棚卸しに対応します。",
-        price: "50〜150万円", weeks: "2〜3か月",
+        price: "50〜150万円", weeks: "2〜3ヶ月",
         note: "品目数と、既存の仕入先システムの有無で構成が変わります。" },
     ],
     law: { t: "2026年度診療報酬改定の方向", d: "医療DX関連の加算が整理・統合され、システムを導入しているだけでなく実際の利用率が問われる形になりました。導入の順番と、使われる導線の設計が以前より重要になっています。",
@@ -399,19 +592,19 @@ const SYSTEM_TEMPLATES = {
     items: [
       { t: "反響の一次対応を自動化", scenario: "ポータルからの反響が1日10件以上あり、営業時間外の取りこぼしが出ている場合",
         does: "問い合わせを受けた直後に、物件の詳細・内見候補日・地図をLINEやメールで自動返信し、担当者にも通知します。返答があった人だけを営業が拾う形にします。",
-        price: "50〜150万円", weeks: "1〜2か月",
+        price: "50〜150万円", weeks: "1〜2ヶ月",
         note: "ポータル側のメール形式を解析して取り込むため、使用中の媒体を先に伺います。" },
       { t: "物件DB × ポータル同時出稿", scenario: "同じ物件情報を自社サイトと複数ポータルに手入力している場合",
         does: "物件マスタを一つ持ち、そこから自社サイトと各ポータルへ書き出します。成約済みの取り下げ漏れ (おとり広告のリスク) も一括で防げます。",
-        price: "100〜300万円", weeks: "2〜4か月",
+        price: "100〜300万円", weeks: "2〜4ヶ月",
         note: "ポータル各社の入稿仕様に依存します。対応可否は事前に確認が必要です。" },
       { t: "電子契約とIT重説", scenario: "契約のたびに製本・押印・郵送が発生している場合",
         does: "重要事項説明のオンライン実施と、契約書の電子化に合わせた書類の受け渡し・保管の流れを作ります。既存の電子契約サービスと組み合わせる構成が基本です。",
-        price: "60〜180万円", weeks: "2〜3か月",
+        price: "60〜180万円", weeks: "2〜3ヶ月",
         note: "宅建業法上の要件があるため、様式と手順は法令に沿って設計します。" },
       { t: "賃貸管理の入金消込・更新管理", scenario: "管理戸数が増え、入金確認と更新時期の管理が Excel で限界に来ている場合",
         does: "入金データの取り込みと消込、滞納の可視化、更新・退去の期限アラートをまとめます。オーナー向けの月次レポート出力まで含められます。",
-        price: "150〜400万円", weeks: "3〜5か月",
+        price: "150〜400万円", weeks: "3〜5ヶ月",
         note: "会計ソフトとの連携範囲で費用が変わります。まず現行の帳票を拝見します。" },
     ],
     law: { t: "掲載だけで違反になり得る点", d: "売る意思のない物件や成約済み物件の掲載は、問い合わせがなくても宅建業法32条・表示規約21条の違反になり得ます。出稿を自動化するときほど、取り下げの自動化を同時に設計する必要があります。",
@@ -422,19 +615,19 @@ const SYSTEM_TEMPLATES = {
     items: [
       { t: "工事原価管理 (実行予算 vs 実績)", scenario: "同時に5〜20件が動いていて、赤字工事が締めてから判明する場合",
         does: "実行予算を工事ごとに置き、発注・請求・労務を実績として積み上げ、差異を進行中に出します。共通費の配賦ルールも決めて固定します。",
-        price: "150〜400万円", weeks: "3〜5か月",
+        price: "150〜400万円", weeks: "3〜5ヶ月",
         note: "共通仮設・現場管理費の配賦方法は会社ごとに異なり、ここを決めないと利益率が歪みます。設計時に必ず握ります。" },
       { t: "施工管理と写真共有", scenario: "現場写真と指示が LINE に流れて後から探せない場合",
         does: "現場ごとに写真・図面・指示を束ね、日付と工程で引けるようにします。協力会社にも必要な範囲だけ見せられます。",
-        price: "80〜250万円", weeks: "2〜4か月",
+        price: "80〜250万円", weeks: "2〜4ヶ月",
         note: "ANDPAD 等の既製品で足りる場合は、無理に作らずそちらをお勧めします。" },
       { t: "見積〜発注〜請求の一気通貫", scenario: "見積は Excel、発注は電話、請求は会計ソフトへ再入力、と分断している場合",
         does: "見積の明細をそのまま発注と請求に流し、二重入力をなくします。過去の見積を単価マスタとして再利用できるようにします。",
-        price: "100〜300万円", weeks: "3〜4か月",
+        price: "100〜300万円", weeks: "3〜4ヶ月",
         note: "既存の見積 Excel の型をそのまま活かす形から始めるのが、現場の抵抗が少ない進め方です。" },
       { t: "証憑の電子保存 (電子帳簿保存法対応)", scenario: "電子で受け取った請求書・注文書の保存要件に不安がある場合",
         does: "取引関係書類を、検索要件を満たす形で保存・検索できるようにします。既存の会計・原価システムとつなぎます。",
-        price: "60〜180万円", weeks: "2〜3か月",
+        price: "60〜180万円", weeks: "2〜3ヶ月",
         note: "要件の解釈は国税庁の一問一答が基準です。判断が要る箇所は税理士の先生と確認しながら進めます。" },
     ],
     law: { t: "電子取引データの保存", d: "電子でやり取りした取引情報は、電子のまま保存する必要があります。検索要件・改ざん防止措置の要否は事業規模等で変わるため、設計前に条件を確認します。",
@@ -445,19 +638,19 @@ const SYSTEM_TEMPLATES = {
     items: [
       { t: "求職者・求人の一元管理 (ATS)", scenario: "複数媒体からの応募をメールと Excel で捌いている場合",
         does: "媒体からの応募を一箇所に集め、選考状況・面談履歴・提案済み求人を人ごとに束ねます。重複応募も検出します。",
-        price: "100〜300万円", weeks: "2〜4か月",
+        price: "100〜300万円", weeks: "2〜4ヶ月",
         note: "媒体側の取り込み方法 (API / メール解析) で難易度が変わります。使用媒体を先に伺います。" },
       { t: "三者間の勤怠管理", scenario: "スタッフの出勤簿が紙・Excel で、派遣先の承認を紙で回している場合",
         does: "スタッフがスマホで打刻し、派遣先が承認、派遣元が締めて請求と給与に流す、までをつなぎます。",
-        price: "150〜400万円", weeks: "3〜5か月",
+        price: "150〜400万円", weeks: "3〜5ヶ月",
         note: "36協定・派遣法上の期間制限のチェックを入れるかで規模が変わります。" },
       { t: "マッチングの下ごしらえ自動化", scenario: "求人と求職者の突き合わせが担当者の記憶に依存している場合",
         does: "条件 (勤務地・時給・資格・稼働可能日) で候補を機械が絞り、最終判断は人が行う形にします。全自動にはしません。",
-        price: "80〜250万円", weeks: "2〜4か月",
+        price: "80〜250万円", weeks: "2〜4ヶ月",
         note: "「AIが決める」形は事故のもとなので、候補を出すところまでに留める設計を勧めています。" },
       { t: "就業条件明示書・契約書の電子化", scenario: "契約書類の作成と送付が案件ごとに手作業になっている場合",
         does: "登録情報から書類を生成し、電子で送付・保管します。法定の明示事項を様式に固定します。",
-        price: "60〜180万円", weeks: "2〜3か月",
+        price: "60〜180万円", weeks: "2〜3ヶ月",
         note: "明示すべき事項は法令で定まっているため、様式は条文に合わせて作ります。" },
     ],
     law: { t: "求人情報の的確表示", d: "虚偽・誤解を生む表示の禁止と、求人情報を正確・最新に保つ義務があります (職業安定法5条の4)。求人を自動で複数媒体へ流すときは、取り下げも自動で回る設計が必要です。",
@@ -468,19 +661,19 @@ const SYSTEM_TEMPLATES = {
     items: [
       { t: "店舗 × EC の在庫一元化", scenario: "実店舗とネットショップで在庫を別々に持ち、欠品と過剰が同時に起きている場合",
         does: "POS と EC の在庫を一つの台帳に寄せ、片方が売れたらもう片方に反映します。取り置き・店舗受け取りにも広げられます。",
-        price: "150〜400万円", weeks: "3〜5か月",
+        price: "150〜400万円", weeks: "3〜5ヶ月",
         note: "POS 側に外部連携の口があるかが分かれ目です。スマレジ等は連携しやすい部類です。" },
       { t: "商品登録の省力化 (画像からの同定)", scenario: "中古・一点物を大量に扱い、商品登録が販売の律速になっている場合",
         does: "商品写真から候補を出し、担当者が確定するだけで登録できる形にします。当社では中古フィギュア店向けに iPad アプリとして構築し、スマレジと連携した実績があります。",
-        price: "200〜500万円", weeks: "4〜6か月",
+        price: "200〜500万円", weeks: "4〜6ヶ月",
         note: "この領域は実際に納品した実績があります (works に掲載)。取扱商材によって同定の難易度が大きく変わります。" },
       { t: "受発注・仕入の管理", scenario: "発注が担当者の勘で、仕入原価が締めるまで見えない場合",
         does: "販売実績から発注点を出し、仕入と在庫と原価をつなぎます。仕入先ごとの発注書出力まで含められます。",
-        price: "100〜300万円", weeks: "2〜4か月",
+        price: "100〜300万円", weeks: "2〜4ヶ月",
         note: "既存の会計ソフトとの連携範囲で費用が変わります。" },
       { t: "顧客データの統合", scenario: "店舗の会員とEC会員が別管理で、同じ人が二重に数えられている場合",
         does: "会員を名寄せし、店舗とネットの購買履歴を一人に束ねます。ポイントの共通化まで広げる場合は決済側の要件も併せて確認します。",
-        price: "120〜350万円", weeks: "3〜4か月",
+        price: "120〜350万円", weeks: "3〜4ヶ月",
         note: "個人情報の取り扱いが増えるため、保管範囲と権限設計を最初に決めます。" },
     ],
     law: { t: "通信販売の表示義務", d: "事業者情報・価格・支払時期・引渡時期・返品特約などの表示と、最終確認画面での明示が求められます (特商法11条・12条の6)。在庫やカートの作りを変えるときは、この画面の要件を同時に見ます。",
@@ -504,14 +697,15 @@ const SUPPORT_CONTENT = [
   { type: 'faq', title: "よくある質問", items: [
     { q: "レポートには何が載りますか?", a: "流入数・流入元・人気ページ・CV数と前月比・検索クエリ・改善提案が基本構成です。" },
     { q: "月次MTGでは何を話しますか?", a: "前月実績→課題→次月施策→スケジュール確認、の流れが標準アジェンダです。" },
-    { q: "保守費の相場は?", a: "一般に小規模サイトで月数千円〜1万円、中小企業サイトで月1〜5万円程度といわれます。範囲と頻度で変わるため、実態に合わせてお見積もりします。" },
+    // 前半は市場の相場 (当社の料金ではない)。当社の金額は NORTIQ_PRICING.maintenance から出す。
+    { q: "保守費の相場は?", a: "一般に小規模サイトで月数千円〜1万円、中小企業サイトで月1〜5万円程度といわれます。当社の保守は" + priceMonthly(NORTIQ_PRICING.maintenance.monthlyMin) + priceTax() + "です。範囲と頻度で変わるため、実態に合わせてお見積もりします。" },
   ]},
 ];
 const PRICING_EXTRA = [
   { type: 'faq', title: "契約・支払いについて", items: [
     { q: "支払い方法は?", a: "銀行振込に対応しています。なお当社は適格請求書発行事業者 (インボイス) 未登録です。貴社の仕入税額控除に関わる場合は事前にご確認ください。" },
     { q: "追加費用が発生するのはどんな時?", a: "新規ページの制作・大幅なデザイン変更・素材の新規制作などです。見積もり時に線引きを明示します。" },
-    { q: "契約期間と解約条件は?", a: "保守は月次契約・解約は1か月前通知が基本です。制作のみのご依頼も承ります。" },
+    { q: "契約期間と解約条件は?", a: "保守は月次契約・解約は1ヶ月前通知が基本です。制作のみのご依頼も承ります。" },
     { q: "納品物の権利はどうなりますか?", a: "納品後のサイト一式は原則お客様に帰属します。使用素材のライセンスも納品時に整理してお渡しします。" },
   ]},
 ];
@@ -917,6 +1111,8 @@ function ShowcaseViewer() {
 
 Object.assign(window, {
   openShowcase, ShowcaseViewer,
+  NORTIQ_PRICING, priceNum, priceFrom, priceRange, priceMonthly, priceMonthlyRange, priceInitPlusMonthly,
+  priceTax, priceConsult, pricePeriod, pricePlanFeatures, pricePlanRows,
   INDUSTRY_CONTENT, LP_KNOWHOW, VIDEO_KNOWHOW, SUBSIDY_CONTENT, GUIDEBOOK_CONTENT,
   DIAGNOSIS_CONTENT, FEATURE_CONTENT, SOLUTION_CONTENT, SYSTEM_TEMPLATES, SystemTemplates, SUPPORT_CONTENT, PRICING_EXTRA, RECRUIT_EXTRA,
   CDCards, CDSteps, CDFaq, CDLaws, RelatedColumns, IndustrySections, ExtraContent, SolutionExtra, SubsidySections,
