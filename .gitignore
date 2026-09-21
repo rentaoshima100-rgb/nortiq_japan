@@ -6,6 +6,10 @@ yarn-error.log*
 
 # Build output
 dist/
+# build.js が /api/suggest 用に生成する catalog (記事が自動公開されるたびに古くなるのでコミットしない)
+api/_data/
+# eval/run.js の実行結果 (実行のたびに増える。モデルの生の応答を含む)
+eval/results/
 
 # OS / editor
 .DS_Store

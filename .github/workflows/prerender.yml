@@ -25,6 +25,10 @@ on:
       # app.jsx を直しても静的HTMLは古いまま配信され続ける状態だった
       - "*.jsx"
       - "styles.css"
+      # 次ページ提案 (nq) の文言・承認・カタログ。build.js が app.bundle.js と articles.js に焼き込み、
+      # スナップショットにはデフォルトのカードとして入る。ここを外すと、文言を承認しても
+      # 静的HTMLには古いカード (または何も無い状態) が残り続ける
+      - "data/**"
   workflow_dispatch:
 
 concurrency:

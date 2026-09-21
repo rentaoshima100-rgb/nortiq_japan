@@ -1,0 +1,103 @@
+{
+  "_comment": "テスト専用の小さな blocks。本物は data/blocks.json。文言はダミーで、承認の有無と variant の有無だけに意味がある。sg-dx は未承認、sg-chatbot は variant 単位の承認、rs-schedule は未承認。",
+  "version": 1,
+  "blocks": [
+    {
+      "block_id": "sg-web", "kind": "suggest", "target_url": "/web", "action": null, "selectable": true,
+      "audience": "会社のサイトを新しく作る、または作り直すことを検討している人向け",
+      "approved_by": "tester", "approved_at": "2026-09-18",
+      "variants": {
+        "default": { "eyebrow": "e", "title": "t", "body": "b", "cta": "見る" },
+        "cost": { "eyebrow": "e", "title": "t", "body": "b", "cta": "見る" }
+      }
+    },
+    {
+      "block_id": "sg-pricing", "kind": "suggest", "target_url": "/pricing", "action": null, "selectable": true,
+      "audience": "依頼した場合の費用の目安を知りたい人向け",
+      "approved_by": "tester", "approved_at": "2026-09-18",
+      "variants": { "default": { "eyebrow": "e", "title": "t", "body": "b", "cta": "見る" } }
+    },
+    {
+      "block_id": "sg-dx", "kind": "suggest", "target_url": "/dx", "action": null, "selectable": true,
+      "audience": "業務の自動化、データ活用、業務システム開発を検討している人向け",
+      "approved_by": "", "approved_at": "",
+      "variants": { "default": { "eyebrow": "e", "title": "t", "body": "b", "cta": "見る" } }
+    },
+    {
+      "block_id": "sg-chatbot", "kind": "suggest", "target_url": "/chatbot", "action": null, "selectable": true,
+      "audience": "サイトへのAIチャットボット導入やAI活用を検討している人向け",
+      "approved_by": "", "approved_at": "",
+      "variants": {
+        "default": { "eyebrow": "e", "title": "t", "body": "b", "cta": "見る", "approved_by": "tester", "approved_at": "2026-09-18" },
+        "trust": { "eyebrow": "e", "title": "t", "body": "b", "cta": "見る" }
+      }
+    },
+    {
+      "block_id": "sg-solution", "kind": "suggest", "target_url": null, "action": null, "selectable": true,
+      "audience": "クリニック、不動産、建築、人材、小売のいずれかで、業種に合った提案を見たい人向け",
+      "approved_by": "tester", "approved_at": "2026-09-18",
+      "variants": {},
+      "by_industry": {
+        "クリニック・医療": { "target_url": "/solution-clinic", "variants": { "default": { "eyebrow": "e", "title": "t", "body": "b", "cta": "見る" } } },
+        "不動産": { "target_url": "/solution-realty", "variants": { "default": { "eyebrow": "e", "title": "t", "body": "b", "cta": "見る" } } }
+      }
+    },
+    {
+      "block_id": "sg-works", "kind": "suggest", "target_url": "/works", "action": null, "selectable": true,
+      "audience": "依頼前に、自分と近い業種の制作実績を確認したい人向け",
+      "approved_by": "tester", "approved_at": "2026-09-18",
+      "variants": { "default": { "eyebrow": "e", "title": "t", "body": "b", "cta": "見る" } },
+      "by_industry": {
+        "不動産": {
+          "target_url": "/works-realty",
+          "variants": {
+            "default": { "eyebrow": "e", "title": "t", "body": "b", "cta": "見る" },
+            "trust": { "eyebrow": "e", "title": "t", "body": "b", "cta": "見る" }
+          }
+        }
+      }
+    },
+    {
+      "block_id": "sg-recruit", "kind": "suggest", "target_url": "/recruit", "action": null, "selectable": true,
+      "audience": "Nortiq Labs で働くことやインターンに関心がある人向け",
+      "approved_by": "tester", "approved_at": "2026-09-18",
+      "variants": { "default": { "eyebrow": "e", "title": "t", "body": "b", "cta": "見る" } }
+    },
+    {
+      "block_id": "sg-guidebook", "kind": "suggest", "target_url": "/guidebook", "action": null, "selectable": false,
+      "audience": "サービスの全体像を資料でまとめて確認したい人向け",
+      "approved_by": "tester", "approved_at": "2026-09-18",
+      "variants": { "default": { "eyebrow": "e", "title": "t", "body": "b", "cta": "見る" } }
+    },
+    {
+      "block_id": "rs-cost", "kind": "reassure", "target_url": "/pricing", "action": null, "selectable": false,
+      "audience": "", "approved_by": "tester", "approved_at": "2026-09-18",
+      "variants": { "default": { "answer": "a", "note": "n", "cta": "料金プランを見る" } }
+    },
+    {
+      "block_id": "rs-schedule", "kind": "reassure", "target_url": "/web", "action": null, "selectable": false,
+      "audience": "", "approved_by": "", "approved_at": "",
+      "variants": { "default": { "answer": "a", "note": "n", "cta": "制作の流れを見る" } }
+    },
+    {
+      "block_id": "rs-trust", "kind": "reassure", "target_url": "/voice", "action": null, "selectable": false,
+      "audience": "", "approved_by": "tester", "approved_at": "2026-09-18",
+      "variants": { "default": { "answer": "a", "note": "n", "cta": "企業の声を見る" } }
+    },
+    {
+      "block_id": "ct-diagnostic", "kind": "cta", "target_url": "/diagnostic", "action": null, "selectable": false,
+      "audience": "", "approved_by": "tester", "approved_at": "2026-09-18",
+      "variants": { "weak": { "text": "t", "button": "b" }, "strong": { "text": "t", "button": "b" } }
+    },
+    {
+      "block_id": "ct-contact", "kind": "cta", "target_url": null, "action": "contact", "selectable": false,
+      "audience": "", "approved_by": "tester", "approved_at": "2026-09-18",
+      "variants": { "weak": { "text": "t", "button": "b" }, "strong": { "text": "t", "button": "b" } }
+    },
+    {
+      "block_id": "rl-related", "kind": "related", "target_url": null, "action": null, "selectable": false,
+      "audience": "", "approved_by": "tester", "approved_at": "2026-09-18",
+      "variants": { "default": { "eyebrow": "あわせて読まれている記事" } }
+    }
+  ]
+}

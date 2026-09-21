@@ -640,6 +640,11 @@ function App() {
     } else {
       landingViewSent.current = true;
     }
+
+    // 次ページ提案 (nq) のページ表示。履歴の追記・T2 (2ページ目以降) の判定・ゴール検知
+    // (/diagnostic /guidebook) はストア側で行う。GA4 の page_view と違い着地ページも数えるので、
+    // landingViewSent とは無関係に毎回呼ぶ。プリレンダ・bot ではストアが何もしない。
+    if (window.NQ) window.NQ.pageView(window.location.pathname);
   }, [route]);
 
   // Global fadein observer — re-attached every route change after content mounts
@@ -721,7 +726,7 @@ function App() {
 
       {tweaks.showSideTab !== false && <SideTabForm/>}
       {tweaks.showSPBottom !== false && <SPBottomNav onNavigate={handleNavigate} onContact={() => handleContact()} />}
-      <StickyCTA onContact={() => handleContact()} threshold={900}/>
+      <StickyCTA onContact={() => handleContact()} onNavigate={handleNavigate} threshold={900}/>
       <ShowcaseViewer/>
 
       {window.TweaksPanel && (

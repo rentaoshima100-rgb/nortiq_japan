@@ -1,0 +1,8 @@
+{
+  "_comment": "クライアント側の動作モード。Vercel の環境変数からは注入しない（CI と Vercel で app.bundle.js のハッシュが食い違い、prerendered/ が常に古い扱いになるため）。シャドーモード・ホールドアウト・キルスイッチはサーバ側の env（NQ_ENABLED / NQ_SHADOW / NQ_HOLDOUT_RATE）と /api/suggest のレスポンスで制御する。",
+  "enabled": true,
+  "ga_events": true,
+  "session_log": false,
+  "api": false,
+  "events_api": false
+}

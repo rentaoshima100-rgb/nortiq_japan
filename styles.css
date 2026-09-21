@@ -4680,3 +4680,432 @@ video, iframe { max-width: 100%; }
     background-attachment: local, local, scroll, scroll;
   }
 }
+
+/* ================= 次ページ提案 nq (スロット / SuggestCard / ReassureBlock / RelatedList) =================
+   情報設計書「Jevによる次ページ提案」7章 (デザインシステム) と 5章 (スロットのレイアウト)、
+   docs/nq/implementation-contract.md 5章の取り決めに従う。マークアップは nq-suggest.jsx が出す。
+     - 設計書の --c-* / --s* / --r-* はどこにも定義が無く、--ease-out は別の値で既にある (:root)。
+       :root には足さず、.nq-slot / .nq-bar にスコープした --nq-* で既存の変数へ橋渡しする。
+       色コードと px を書くのはトークン定義の行だけにして、部品の規則はすべて var() 経由にする
+     - SPA の --space-* は LP (lp.css) と同じ名前で値が違うので、ここでは使わない
+     - スロットは記事本文の途中にも入る。.article-prose h3 / p / ul / li (0,1,1) と
+       .article-body a:hover (0,2,1)、.article-body a の word-break: break-all に負けると
+       見出しが19px・リンクが赤の下線・1文字ごとの折り返しになるので、要素の規則は
+       .nq-slot を前置した2クラス以上、リンクの :hover は3クラス相当にし、
+       margin / padding / border / 文字まわりを全部こちらで言い切る
+     - 影は使わない (設計書7章)。.fadein も使わない。面の区別は背景色と1pxの罫線だけ
+     - CtaBar は作らない。既存の StickyCTA をその場で拡張する取り決め (コントラクト7章) なので、
+       ここで足すのは閉じるボタンの当たり判定だけ */
+
+/* ---- トークン (コントラクト5章の橋渡しブロック。値を変えるときはコントラクトも直す) ----
+   --nq-main は設計書7章の未決事項。記事 h2 と blockquote の赤い左線と紛れないよう、
+   確定するまでは --text に向けてある。決まったらこの1行だけを変える。 */
+.nq-slot, .nq-bar { --nq-base: var(--bg); --nq-base-alt: var(--bg-2); --nq-text: var(--text);
+  --nq-text-sub: var(--text-2); --nq-text-note: var(--text-3); --nq-line: var(--border);
+  --nq-main: var(--text); --nq-accent: var(--accent);
+  --nq-s1: 8px; --nq-s2: 16px; --nq-s3: 24px; --nq-s4: 32px; --nq-s5: 40px; --nq-s6: 48px;
+  --nq-r-sm: 8px; --nq-r-md: 12px; --nq-dur-swap: 150ms; --nq-ease: cubic-bezier(0.2, 0, 0, 1); }
+
+/* 橋渡しブロックに無い寸法 (文字・線・行数)。初期値は SP。PC との違いはトークンの差し替えだけで
+   表し、部品の規則の側にはメディアクエリを持ち込まない。
+   --nq-text-note (#757575) は --bg-2 の上で 4.23:1 しかなく 4.5:1 に届かないので、
+   小さい文字にも --nq-text-sub を使っている。 */
+.nq-slot, .nq-bar {
+  --nq-fs-label: 13px; --nq-fs-title: 18px; --nq-fs-body: 15px; --nq-fs-note: 12px;
+  --nq-lh-label: 1.6; --nq-lh-title: 1.5; --nq-lh-body: 1.8; --nq-lh-note: 1.6;
+  --nq-ls-label: 0.04em;
+  --nq-bw: 1px; --nq-rule-w: 4px; --nq-ring: 2px; --nq-shift: 4px; --nq-tap: 44px;
+  --nq-measure: 40em;              /* 全幅に近い slot-next で本文が1行60字に伸びるのを止める */
+  /* 行数のトークンは2組ある。
+       --nq-*-lines      … -webkit-line-clamp の上限。承認済みの文言を「…」で切らないための安全弁で、
+                            字数上限 (見出し28字・本文60字) の文言が 320px 幅でも切れない行数にしてある
+       --nq-minh-*-lines … スロットの下限の高さを組む行数。下の実測の表で、その幅での最大の行数
+     上限と下限を同じ行数にすると、360px 幅で本文が4行になる文言 (実測で 56 個中 11 個) の
+     最後の行が切れる。字数上限を超えた文言が来たときも、切るより丈が伸びるほうがましなので分けてある
+     (差し替えは画面に入る前にしか起きないので、伸びても読んでいる人の目には触れない)。 */
+  --nq-title-lines: 3; --nq-body-lines: 5; --nq-related-lines: 2;
+  --nq-minh-title-lines: 2; --nq-minh-body-lines: 4;
+  --nq-pad: var(--nq-s3);          /* カード内の余白 */
+  --nq-gap-y: var(--nq-s4);        /* スロットの上下 */
+  --nq-gap-y-lg: var(--nq-s5);     /* 本文の終わり・赤帯の手前など、区切りを強くしたい側 */
+
+  /* 高さの固定。中身を差し替えても文書の高さが変わらないよう、スロットの下限を
+     「その幅でカードが取りうる最大の高さ」にそろえる。設計書5章の 168 / 144px は、見出し2行
+     (SP 18px×1.5×2 = 54px) と本文3行 (15px×1.8×3 = 81px) だけで 135px あり足りない。
+     下限は、全ブロック×全バリエーション (業種版を含む 56 個) を実際のスロットの位置に描画して
+     測った最大の行数で決めている (Chromium・Noto Sans JP・2026-09。見出し/本文の行数 → カードの丈):
+       〜359px    : 2 / 5 → 312.6px   (320px 幅で見出し3行になる1個だけは 27px 伸びる。ごく稀な幅なので合わせない)
+       360〜439px : 2 / 4 → 285.6px   (360・375・390px で本文が4行になる文言がある)
+       440〜539px : 2 / 3 → 258.6px
+       540〜1024px: 1 / 2 → 204.6px   (カードの幅が 500px 近くあり、見出しは必ず1行に収まる)
+       1025px〜   : 1 / 2 → 230.4px   (最も狭い記事内 615px でも、見出し28字×20px = 560px は1行)
+     ReassureBlock (最大 223.6px) と RelatedList (2行×3本で最大 224.8px) は、どの幅でもこの中に収まる。
+     数字を直書きせず同じトークンから組むので、文字サイズや余白を変えれば追従する。
+     文言の字数上限や文字サイズを変えたら測り直して、行数のトークンを直すこと。 */
+  --nq-card-minh: calc(
+    2 * var(--nq-bw) + 2 * var(--nq-pad)
+    + var(--nq-fs-label) * var(--nq-lh-label) + var(--nq-s1)
+    + var(--nq-minh-title-lines) * var(--nq-fs-title) * var(--nq-lh-title) + var(--nq-s1)
+    + var(--nq-minh-body-lines) * var(--nq-fs-body) * var(--nq-lh-body) + var(--nq-s2)
+    + var(--nq-fs-label) * var(--nq-lh-label));
+}
+@media (max-width: 359px) {
+  .nq-slot, .nq-bar { --nq-minh-body-lines: 5; }
+}
+@media (min-width: 440px) {
+  .nq-slot, .nq-bar { --nq-minh-body-lines: 3; }
+}
+@media (min-width: 540px) {
+  .nq-slot, .nq-bar { --nq-minh-title-lines: 1; --nq-minh-body-lines: 2; }
+}
+/* 設計書のサンプルは min-width:1024px だが、SPA は max-width:1024px で下部固定ナビに切り替わる。
+   ちょうど1024px幅 (iPad 横) で両方が成立しないよう 1025px にする。 */
+@media (min-width: 1025px) {
+  .nq-slot, .nq-bar {
+    --nq-fs-label: 14px; --nq-fs-title: 20px; --nq-fs-body: 16px; --nq-fs-note: 13px;
+    --nq-title-lines: 2; --nq-body-lines: 3;
+    --nq-pad: var(--nq-s4);
+    --nq-gap-y: var(--nq-s5);
+    --nq-gap-y-lg: var(--nq-s6);
+  }
+}
+
+/* ---- スロット ---- */
+.nq-slot {
+  display: flex;
+  flex-direction: column;
+  min-height: var(--nq-card-minh);
+  margin: 0;
+  padding: 0;
+  border: 0;
+  /* 本文 (.article-prose) の中に置かれても、親の 16px / 行間2 / 字色を引きずらない */
+  font-size: var(--nq-fs-body);
+  line-height: var(--nq-lh-body);
+  color: var(--nq-text-sub);
+  text-align: left;
+}
+/* 中身を下限の高さいっぱいまで伸ばす。伸ばさないと、短い文言のカードの下に
+   何も無い余白だけが残り、差し替えのたびにカードの丈が変わって見える。 */
+.nq-slot > .nq-suggest,
+.nq-slot > .nq-reassure,
+.nq-slot > .nq-related { flex: 1 0 auto; min-width: 0; }
+
+/* slot-mid: 前後の段落・見出しの margin と相殺される。下は直後の h2 の上マージン
+   (PC 56px / SP 36px) のほうが大きいので、実際の間隔はそちらで決まる。 */
+.nq-slot[data-slot="slot-mid"] { margin: var(--nq-gap-y) 0; }
+/* 直後の h2 には .article-body h2 の border-top 1px + padding-top 28px が付いている。
+   カードの下辺のすぐ下にもう1本同じ色の線が来て二重線に見えるので、スロットの直後に限って外す。
+   区切りの役はカードの枠が果たす。ReassureBlock / RelatedList に差し替わったときも外したままに
+   するのは、種類によって h2 の位置が 29px 動くのを避けるため。
+   スロットが描画されない (未承認で null) ときは一致しないので、記事の見た目は変わらない。 */
+.nq-slot[data-slot="slot-mid"] + .article-body > h2:first-child {
+  border-top: 0;
+  padding-top: 0;
+}
+/* slot-end: 本文 (または監修ボックス) の直後。下は 780px コンテナの margin-bottom:64px に任せる */
+.nq-slot[data-slot="slot-end"] { margin: var(--nq-gap-y-lg) 0 0; }
+/* slot-next: RedCTAStrip (全幅の赤帯) の直前に置かれ、親にコンテナが無い。
+   .container と同じ幅と左右の余白を自分で持ち、ページ本文の左端にそろえる。
+   赤帯は ::before の斜線が上へ 10px はみ出すので、下の余白はそれより十分大きく取る。
+   box-sizing が border-box なので、下限の高さには上下の padding を足す。 */
+.nq-slot[data-slot="slot-next"] {
+  width: 100%;
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: var(--nq-gap-y) var(--gutter) var(--nq-gap-y-lg);
+  min-height: calc(var(--nq-card-minh) + var(--nq-gap-y) + var(--nq-gap-y-lg));
+}
+
+/* ---- SuggestCard ---- */
+.nq-slot .nq-suggest {
+  position: relative;               /* 見出しリンクの ::after (全面リンク) の基準 */
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: var(--nq-pad);
+  border: var(--nq-bw) solid var(--nq-line);
+  border-left: var(--nq-rule-w) solid var(--nq-main);
+  border-radius: var(--nq-r-md);
+  background: var(--nq-base-alt);
+  box-shadow: none;
+  transition: opacity var(--nq-dur-swap) var(--nq-ease), border-color var(--nq-dur-swap) var(--nq-ease);
+}
+.nq-slot .nq-suggest__eyebrow {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: var(--nq-fs-label);
+  font-weight: 500;
+  line-height: var(--nq-lh-label);
+  letter-spacing: var(--nq-ls-label);
+  color: var(--nq-text-sub);
+  word-break: normal;               /* auto-phrase 非対応のブラウザ用。下の行が無効でもこれが残る */
+  word-break: auto-phrase;
+  overflow-wrap: break-word;
+}
+/* 行数を固定するため -webkit-line-clamp を使う。overflow:hidden が要るが、position は
+   static のままにすること。ここを relative にすると、中のリンクの ::after がこの h3 で
+   切り取られ、全面リンクが見出しの範囲にしか効かなくなる。 */
+.nq-slot .nq-suggest__title {
+  position: static;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: var(--nq-title-lines);
+  overflow: hidden;
+  margin: var(--nq-s1) 0 0;
+  padding: 0;
+  border: 0;
+  font-size: var(--nq-fs-title);
+  font-weight: 700;
+  line-height: var(--nq-lh-title);
+  color: var(--nq-text);
+  word-break: normal;
+  word-break: auto-phrase;
+  overflow-wrap: break-word;
+}
+.nq-slot .nq-suggest__title a,
+.nq-slot .nq-suggest__title a:hover {
+  position: static;
+  color: inherit;
+  text-decoration: none;
+  word-break: inherit;              /* .article-body a の break-all を打ち消す */
+  overflow-wrap: inherit;
+}
+/* リンクは見出しの1つだけにして、カード全面へ広げる (設計書7章 アクセシビリティ) */
+.nq-slot .nq-suggest__title a::after {
+  content: "";
+  position: absolute;
+  /* 基準は padding box なので、罫線の分だけ外へ広げてカードの外形に合わせる
+     (罫線の上も押せるようにし、フォーカスの枠が罫線に重ならないようにする) */
+  inset: calc(-1 * var(--nq-bw));
+  left: calc(-1 * var(--nq-rule-w));
+  border-radius: var(--nq-r-md);
+}
+/* フォーカスの枠はリンク本体ではなく ::after に出す。リンク本体に出すと h3 の overflow:hidden に
+   切られて欠ける。カード全体が押せるので、枠もカード全体を囲むほうが実態に合う。 */
+.nq-slot .nq-suggest__title a:focus-visible { outline: none; }
+.nq-slot .nq-suggest__title a:focus-visible::after {
+  outline: var(--nq-ring) solid var(--nq-main);
+  outline-offset: var(--nq-ring);
+}
+.nq-slot .nq-suggest__body {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: var(--nq-body-lines);
+  overflow: hidden;
+  max-width: var(--nq-measure);
+  margin: var(--nq-s1) 0 0;
+  padding: 0;
+  border: 0;
+  font-size: var(--nq-fs-body);
+  font-weight: 400;
+  line-height: var(--nq-lh-body);
+  color: var(--nq-text-sub);
+  word-break: normal;
+  word-break: auto-phrase;
+  overflow-wrap: break-word;
+}
+/* 見た目だけのテキストリンク (aria-hidden の span)。押せるのは上の ::after。
+   margin-top:auto でカードの下端に寄せ、文言が短いバリエーションでも位置をそろえる。
+   赤にしないのは、設計書が「アクセント色はCTAボタン専用」としているのと、
+   --accent の文字は --bg-2 の上で 4.5:1 を割る場面があるため。 */
+.nq-slot .nq-suggest__cta {
+  display: inline-block;            /* span のままだと transform が効かない */
+  align-self: flex-start;
+  margin: auto 0 0;
+  padding: var(--nq-s2) 0 0;
+  border: 0;
+  font-size: var(--nq-fs-label);
+  font-weight: 700;
+  line-height: var(--nq-lh-label);
+  color: var(--nq-text);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: transform var(--nq-dur-swap) var(--nq-ease);
+}
+/* ホバーは PC だけ。タッチ端末ではタップ後に hover が貼り付いて残る。
+   矢印は __cta の文字列の一部なので、矢印だけでなく __cta ごと右へ動かす。 */
+@media (hover: hover) {
+  .nq-slot .nq-suggest:hover { border-color: var(--nq-main); }
+  .nq-slot .nq-suggest:hover .nq-suggest__cta { transform: translateX(var(--nq-shift)); }
+}
+
+/* ---- ReassureBlock: 背景なし、上に1pxの罫線。チェックマークを左の列、文を右の列に置く ---- */
+.nq-slot .nq-reassure {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  column-gap: var(--nq-s1);
+  align-content: start;
+  margin: 0;
+  padding: var(--nq-s3) 0 0;
+  border: 0;
+  border-top: var(--nq-bw) solid var(--nq-line);
+  background: none;
+  transition: opacity var(--nq-dur-swap) var(--nq-ease);
+}
+/* 先に「全部右の列」を決め、その後でマークだけ左へ戻す (同じ詳細度なので順番に意味がある) */
+.nq-slot .nq-reassure > * { grid-column: 2; }
+.nq-slot .nq-reassure__mark {
+  grid-column: 1;
+  grid-row: 1;
+  display: inline-flex;
+  align-items: center;
+  /* 答えの1行目と同じ高さの箱にして、文字でも SVG でも1行目の中央に来るようにする */
+  height: calc(var(--nq-fs-title) * var(--nq-lh-title));
+  margin: 0;
+  padding: 0;
+  font-size: var(--nq-fs-title);
+  font-weight: 700;
+  line-height: 1;
+  color: var(--nq-accent);
+}
+.nq-slot .nq-reassure__mark svg { flex: none; }
+.nq-slot .nq-reassure__answer {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: var(--nq-fs-title);
+  font-weight: 700;
+  line-height: var(--nq-lh-title);
+  color: var(--nq-text);
+  word-break: normal;
+  word-break: auto-phrase;
+  overflow-wrap: break-word;
+}
+.nq-slot .nq-reassure__note {
+  max-width: var(--nq-measure);
+  margin: var(--nq-s1) 0 0;
+  padding: 0;
+  border: 0;
+  font-size: var(--nq-fs-note);
+  font-weight: 400;
+  line-height: var(--nq-lh-note);
+  color: var(--nq-text-sub);
+  word-break: normal;
+  word-break: auto-phrase;
+  overflow-wrap: break-word;
+}
+/* こちらは本物のリンク。全面リンクではないので、下線で押せることを示し、
+   行の高さでタップ領域 44px を確保する。 */
+.nq-slot .nq-reassure .nq-reassure__link,
+.nq-slot .nq-reassure .nq-reassure__link:hover {
+  display: inline-flex;
+  align-items: center;
+  justify-self: start;
+  min-height: var(--nq-tap);
+  margin: var(--nq-s1) 0 0;
+  padding: 0;
+  border: 0;
+  font-size: var(--nq-fs-label);
+  font-weight: 700;
+  line-height: var(--nq-lh-label);
+  color: var(--nq-text);
+  text-decoration: underline;
+  text-decoration-color: var(--nq-line);
+  text-underline-offset: 0.25em;
+  word-break: normal;
+  overflow-wrap: break-word;
+}
+.nq-slot .nq-reassure .nq-reassure__link:focus-visible {
+  outline: var(--nq-ring) solid var(--nq-main);
+  outline-offset: var(--nq-ring);
+}
+@media (hover: hover) {
+  .nq-slot .nq-reassure .nq-reassure__link:hover { text-decoration-color: currentColor; }
+}
+
+/* ---- RelatedList: 小ラベル + 記事タイトルのリンク3本 ---- */
+.nq-slot .nq-related {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  transition: opacity var(--nq-dur-swap) var(--nq-ease);
+}
+.nq-slot .nq-related__label {
+  margin: 0 0 var(--nq-s1);
+  padding: 0;
+  border: 0;
+  font-size: var(--nq-fs-label);
+  font-weight: 500;
+  line-height: var(--nq-lh-label);
+  letter-spacing: var(--nq-ls-label);
+  color: var(--nq-text-sub);
+}
+.nq-slot .nq-related__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-top: var(--nq-bw) solid var(--nq-line);
+  line-height: var(--nq-lh-note);   /* .article-prose ul の 2.1 を戻す */
+}
+.nq-slot .nq-related__item {
+  position: relative;               /* 行全体を押せるようにする ::after の基準 */
+  display: flex;
+  align-items: center;
+  min-height: var(--nq-tap);
+  margin: 0;
+  /* 上下の余白はリンクではなく行の側に持たせる。line-clamp を掛けた要素に padding-bottom が
+     あると、切ったはずの3行目の頭がその余白の中に覗く。 */
+  padding: var(--nq-s1) 0;
+  border: 0;
+  border-bottom: var(--nq-bw) solid var(--nq-line);
+}
+/* 記事タイトルは長いものがあるので2行で切る (カードの文言と違い、字数上限が無い) */
+.nq-slot .nq-related__item a,
+.nq-slot .nq-related__item a:hover {
+  position: static;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: var(--nq-related-lines);
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: var(--nq-fs-body);
+  font-weight: 500;
+  line-height: var(--nq-lh-note);
+  color: var(--nq-text);
+  text-decoration: none;
+  word-break: normal;
+  word-break: auto-phrase;
+  overflow-wrap: break-word;
+}
+.nq-slot .nq-related__item a::after { content: ""; position: absolute; inset: 0; }
+.nq-slot .nq-related__item a:focus-visible { outline: none; }
+.nq-slot .nq-related__item a:focus-visible::after {
+  outline: var(--nq-ring) solid var(--nq-main);
+  outline-offset: calc(-1 * var(--nq-ring));   /* 行が詰まっているので内側に出し、隣の行に掛けない */
+}
+@media (hover: hover) {
+  .nq-slot .nq-related__item a:hover { text-decoration: underline; text-underline-offset: 0.25em; }
+}
+
+/* ---- 差し替え ----
+   nq-suggest.jsx が is-swapping を付けて 150ms 待ち、中身を入れ替えてから外す。
+   差し替えは画面に入る前にしか行わないので、読んでいる人の目には触れない。 */
+.nq-suggest.is-swapping,
+.nq-reassure.is-swapping,
+.nq-related.is-swapping { opacity: 0; }
+
+/* 全体の reduced-motion 規則 (transition-duration: 0.01ms !important) でも止まるが、
+   そちらを外してもここだけで完結するように明示しておく。JS 側も matchMedia で即時差し替えにする。 */
+@media (prefers-reduced-motion: reduce) {
+  .nq-slot .nq-suggest,
+  .nq-slot .nq-suggest__cta,
+  .nq-slot .nq-reassure,
+  .nq-slot .nq-related { transition: none; }
+}
+
+/* ---- StickyCTA の閉じるボタン: 当たり判定だけ 44×44px に広げる (設計書7章 CtaBar) ----
+   見た目 (大きさ・色・位置) は変えない。透明な ::before をボタンの外へ張り出させる。
+   inset の % は上下がボタンの高さ、左右が幅を基準に解決されるので、ボタンが正方形で
+   なくても 44×44px になる。ピルの余白 (上下 約20px・右 22px) と隣のボタンとの間隔 12px の
+   内側に収まるので、隣の「資料請求」を覆わない。 */
+.sticky-cta .sticky-cta-close { --nq-tap: 44px; position: relative; }
+.sticky-cta .sticky-cta-close::before {
+  content: "";
+  position: absolute;
+  inset: calc((100% - var(--nq-tap)) / 2);
+}

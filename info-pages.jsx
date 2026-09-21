@@ -158,7 +158,7 @@ function WorksPage({ category, onNavigate, onContact }) {
 
       {category && <IndustrySections category={category} onNavigate={onNavigate}/>}
 
-      <CTAStrip onContact={onContact} title="自社の業種に近い事例で、まず相談する。" sub="ヒアリングでヒアリング前に共有資料 (PDF) もお送りします。"/>
+      <CTAStrip onContact={onContact} onNavigate={onNavigate} title="自社の業種に近い事例で、まず相談する。" sub="ヒアリングでヒアリング前に共有資料 (PDF) もお送りします。"/>
     </main>
   );
 }
@@ -214,14 +214,14 @@ function VoicePage({ onNavigate, onContact }) {
       <div className="stats-ribbon">
         <div className="container">
           <div className="stats-ribbon-inner">
-            <div className="stats-ribbon-cell"><span className="num">20+</span><span className="lbl">支援企業数</span></div>
+            <div className="stats-ribbon-cell"><span className="num">{NORTIQ_STATS.clients}+</span><span className="lbl">支援企業数</span></div>
             <div className="stats-ribbon-cell"><span className="num">5</span><span className="lbl">チーム人数</span></div>
             <div className="stats-ribbon-cell"><span className="num">24h</span><span className="lbl">返信SLA</span></div>
           </div>
         </div>
       </div>
 
-      <CTAStrip onContact={onContact} title="あなたの会社の声も、いつかここに。" sub="まずは小さな一歩から。Web制作 30 万円〜、初回相談無料です。"/>
+      <CTAStrip onContact={onContact} onNavigate={onNavigate} title="あなたの会社の声も、いつかここに。" sub="まずは小さな一歩から。Web制作 30 万円〜、初回相談無料です。"/>
     </main>
   );
 }
@@ -286,7 +286,7 @@ function SupportPage({ onNavigate, onContact }) {
 
       <ExtraContent blocks={SUPPORT_CONTENT} onNavigate={onNavigate}/>
 
-      <CTAStrip onContact={onContact}/>
+      <CTAStrip onContact={onContact} onNavigate={onNavigate}/>
     </main>
   );
 }
@@ -356,7 +356,7 @@ function PricingPage({ onNavigate, onContact }) {
 
       <ExtraContent blocks={PRICING_EXTRA} onNavigate={onNavigate}/>
 
-      <CTAStrip onContact={onContact} title="プランの組み合わせ、ご相談ください。" sub="複数プランを段階導入する形での見積も可能です。補助金の活用も視野に、最適な投資計画をご相談いただけます。"/>
+      <CTAStrip onContact={onContact} onNavigate={onNavigate} title="プランの組み合わせ、ご相談ください。" sub="複数プランを段階導入する形での見積も可能です。補助金の活用も視野に、最適な投資計画をご相談いただけます。"/>
     </main>
   );
 }
@@ -790,7 +790,7 @@ function CompanyPage({ onNavigate, onContact }) {
         </div>
       </section>
 
-      <CTAStrip onContact={onContact}/>
+      <CTAStrip onContact={onContact} onNavigate={onNavigate}/>
     </main>
   );
 }
@@ -833,7 +833,7 @@ function StaffPage({ onNavigate, onContact }) {
           </div>
         </div>
       </section>
-      <CTAStrip onContact={onContact}/>
+      <CTAStrip onContact={onContact} onNavigate={onNavigate}/>
     </main>
   );
 }

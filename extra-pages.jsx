@@ -665,10 +665,18 @@ function ArticleDetailPage({ onNavigate, onContact, slug }) {
   const store = (typeof window !== 'undefined' && window.NORTIQ_ARTICLES) || {};
   const article = store[slug] || Object.values(store)[0];
   const html = useArticleHtml(article ? article.slug : slug);
+  const bodyRef = React.useRef(null);
 
   React.useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'instant' });
   }, [slug]);
+
+  // 次ページ提案 (nq): 本文が DOM に入ってから、本文コンテナをストアへ渡す。
+  // T1 (本文の25%通過) と読了率は、この要素の高さを基準に測る。本文は遅れて届くことがある
+  // (コラム一覧からの SPA 遷移) ので、html が入った時点で呼び直す。
+  React.useEffect(() => {
+    if (html && article && bodyRef.current && window.NQ) window.NQ.articleReady(article.slug, bodyRef.current);
+  }, [html, slug]);
 
   // BlogPosting JSON-LD is emitted centrally by the route SEO layer (app.jsx →
   // routeLd/pageLd, id="route-ld"), which also references the Organization (#org)
@@ -684,6 +692,13 @@ function ArticleDetailPage({ onNavigate, onContact, slug }) {
   }
 
   const related = listedArticles().filter((a) => a.slug !== article.slug).slice(0, 3);
+
+  // 次ページ提案 (nq) の slot-mid。差し込む位置は build.js が決め、本文HTMLに <!--nq-slot-mid--> を
+  // 1つだけ入れてある。ここではその位置で本文を2つに分け、間にスロットを置く。
+  // マーカーが無い記事 (2,000字未満・該当する見出しが無い・古いキャッシュの本文) は従来どおり1塊で描く。
+  const NQ_MID = '<!--nq-slot-mid-->';
+  const midAt = html ? html.indexOf(NQ_MID) : -1;
+  const nqData = (typeof window !== 'undefined' && window.NORTIQ_NQ) || {};
 
   return (
     <main className="page-fade">
@@ -725,15 +740,29 @@ function ArticleDetailPage({ onNavigate, onContact, slug }) {
         )}
 
         <div className="container" style={{ maxWidth: 780, marginTop: 24, marginBottom: 64 }}>
-          {html
-            ? <div className="article-prose article-body" dangerouslySetInnerHTML={{ __html: html }}/>
-            : <div className="article-prose article-body"><p className="lede">本文を読み込んでいます…</p></div>}
+          {!html ? (
+            <div className="article-prose article-body"><p className="lede">本文を読み込んでいます…</p></div>
+          ) : midAt < 0 ? (
+            <div ref={bodyRef} className="article-prose article-body" dangerouslySetInnerHTML={{ __html: html }}/>
+          ) : (
+            // 前半・後半ともクラスは article-prose article-body のまま (build-prerender.js が最初の
+            // .article-body の文字数を待つ。styles.css も「スロットの直後の .article-body」で h2 の上線を外す)。
+            // 外側の div は余白も枠も持たないので、スロットが null のときは前後の margin が相殺され、
+            // 分けない場合と同じ見た目になる。
+            <div ref={bodyRef}>
+              <div className="article-prose article-body" dangerouslySetInnerHTML={{ __html: html.slice(0, midAt) }}/>
+              <NqSlotMount slot="slot-mid" defaultBlock={article.nq_block} onNavigate={onNavigate} onContact={onContact}/>
+              <div className="article-prose article-body" dangerouslySetInnerHTML={{ __html: html.slice(midAt + NQ_MID.length) }}/>
+            </div>
+          )}
           {article.supervised && (
             <div style={{ marginTop: 32, padding: '16px 20px', background: 'var(--bg-2)', borderRadius: 10, fontSize: 13, color: 'var(--text-3)', lineHeight: 1.8 }}>
               <div>監修: 大島蓮太（株式会社ノーティックラボ代表 / AIエンジニア）</div>
               <div>本記事はAIを活用して制作しています</div>
             </div>
           )}
+          {/* slot-end: 本文と監修表記 (本文の帰属情報) の後、既存の「関連記事」の前。本文が届いてから出す */}
+          {html && <NqSlotMount slot="slot-end" defaultBlock={nqData.end_default} onNavigate={onNavigate} onContact={onContact}/>}
         </div>
 
         {related.length > 0 && (

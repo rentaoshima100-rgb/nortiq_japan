@@ -286,6 +286,11 @@ async function main() {
   // これが無いと、スナップショットを撮った瞬間の中途半端な数字 (0 や 17) が
   // 静的HTMLに焼き込まれ、JSを実行しないクローラがその値を読む。
   await page.addInitScript(() => { window.__NORTIQ_PRERENDER__ = true; });
+  // プリレンダ中は Google のタグを読み込ませない。シェルには本番の GA4 タグが入っているので、
+  // 止めないと約150ルートぶんの page_view が毎回 GA4 に入り、次ページ提案 (nq) の効果を比べる
+  // ベースラインを汚す。gtag.js 自体を落とすので、アプリ側が積む dataLayer もどこにも送られない。
+  // シェルの <script async src=".../gtag/js"> の要素は残る (通信だけ失敗する) ので、保存するHTMLは変わらない。
+  await page.route(/^https?:[/][/]([^/]+[.])?(googletagmanager|google-analytics)[.]com[/]/, (route) => route.abort());
 
   let ok = 0;
   for (const route of allRoutes) {

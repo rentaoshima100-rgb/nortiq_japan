@@ -32,15 +32,45 @@ if (!fs.existsSync(home)) {
 const prerenderedMtime = fs.statSync(home).mtimeMs;
 
 // Sources whose changes require re-prerendering: article markdown + top-level
-// page components (.jsx) + styles.css.
+// page components (.jsx) + styles.css + data/*.json.
+// data/ は次ページ提案 (nq) の文言・承認・カタログ。build.js が app.bundle.js の先頭と articles.js に
+// 焼き込むので、承認や文言を変えるとスナップショットに入るデフォルトのカードも変わる。
 const sourceNewest = Math.max(
   newest(path.join(ROOT, 'content', 'blog'), ['.md'], true),
   newest(ROOT, ['.jsx'], false),
   newest(ROOT, ['styles.css'], false),
+  newest(path.join(ROOT, 'data'), ['.json'], true),
 );
 
 if (sourceNewest > prerenderedMtime) {
   console.error('✗ Source content is newer than prerendered/. Re-run `npm run build:full` and commit prerendered/.');
+  process.exit(1);
+}
+
+// 次ページ提案 (nq) の状態がスナップショットに焼き込まれていないか。
+// プリレンダ中のクライアントは何もしない取り決め (window.__NORTIQ_PRERENDER__) なので、入っているのは
+// 常にデフォルトの文言 (data-variant は default。固定バーには属性が付かない) で、差し替え途中の
+// is-swapping も付かない。ここが崩れると、特定の訪問者向けの文言や透明なままのカードが、
+// クローラとJS無効環境に届くHTMLに固定される。
+function nqBurnedIn(dir, acc) {
+  for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
+    const p = path.join(dir, e.name);
+    if (e.isDirectory()) { nqBurnedIn(p, acc); continue; }
+    if (e.name !== 'index.html') continue;
+    const html = fs.readFileSync(p, 'utf8');
+    const hits = [];
+    if (/class="nq-[^"]*\bis-swapping\b/.test(html)) hits.push('is-swapping');
+    for (const m of html.matchAll(/data-variant="([^"]*)"/g)) {
+      if (m[1] !== 'default') hits.push('data-variant="' + m[1] + '"');
+    }
+    if (hits.length) acc.push(path.relative(ROOT, p) + ': ' + hits.join(', '));
+  }
+  return acc;
+}
+const burned = nqBurnedIn(path.join(ROOT, 'prerendered'), []);
+if (burned.length) {
+  console.error('✗ prerendered/ に次ページ提案 (nq) の差し替え後の状態が入っています。nq-suggest.jsx の inert 判定を確認し、`npm run build:full` をやり直してください。');
+  for (const line of burned.slice(0, 10)) console.error('  - ' + line);
   process.exit(1);
 }
 console.log('✓ prerendered/ is up to date with source content.');

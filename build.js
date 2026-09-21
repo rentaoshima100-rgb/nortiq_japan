@@ -29,6 +29,9 @@ const NORTIQ_STATS = (() => {
 const JSX_FILES = [
   'tweaks-panel.jsx',
   'components.jsx',
+  // 次ページ提案 (nq)。NQ / NqSlot をグローバル名で公開し、後ろのページ群と components.jsx の
+  // NqSlotMount から参照される。自分は navProps (components.jsx) と ROUTES (app.jsx) を実行時に使う。
+  'nq-suggest.jsx',
   'content-data.jsx',
   'top-page.jsx',
   'service-pages.jsx',
@@ -218,10 +221,481 @@ function warnArticleLayoutRisks(entry, md) {
   }
 }
 
+// 次ページ提案 (nq) のビルド側 — 取り決めは docs/nq/implementation-contract.md の3章。
+//
+// 入力は data/*.json (人が書く)。BLOG は外部の公開ワーカが書き換えるので、記事の拡張メタは
+// BLOG に足さず data/catalog-articles.json に置いてある。出力は3つ。
+//   window.NORTIQ_NQ        app.bundle.js の先頭。承認済みの文言だけを入れる (承認がキルスイッチ)
+//   NORTIQ_ARTICLES[slug]   est_read_sec / nq_block を足す。本文HTMLには slot-mid のマーカーを入れる
+//   api/_data/catalog.json  /api/suggest が URL から title・type・タグを引き直すための表
+//
+// 記事を理由にビルドを落とさないこと。記事は人がいない時間にも自動公開され、main への push は
+// そのまま本番デプロイになる。データの不備は warn にとどめ、NQ_STRICT=1 のときだけ
+// 「人が書くファイルの不備」を throw に上げる (記事に由来するものは NQ_STRICT でも warn のまま)。
+const NQ_MID_MARKER = '<!--nq-slot-mid-->'; // extra-pages.jsx の ArticleDetailPage が、この文字列で本文を2つに分ける
+const NQ_MID_MIN_CHARS = 2000;              // これより短い記事は slot-mid と slot-end が同じ画面に入るので出さない
+const NQ_MID_FROM = 0.40;                   // 本文のこの地点より前には置かない (設計書12章 J2)
+const NQ_MID_TO = 0.70;
+const NQ_MID_AIM = 0.55;
+const NQ_END_DEFAULT = 'sg-guidebook';      // slot-end のデフォルト (資料ダウンロードのカード)
+
+// 画面に出すフィールドと字数上限。ここに無いキー (approved_by など内部用) は配信物に入れない。
+// 字数は全角半角とも1字 ([...str].length)。
+const NQ_COPY_LIMITS = {
+  suggest: { eyebrow: 16, title: 28, body: 60, cta: 10 },
+  reassure: { answer: 40, note: 60, cta: 16 },
+  cta: { text: 22, button: 10 },
+  related: { eyebrow: 16 },
+};
+const NQ_COPY_REQUIRED = { suggest: ['title'], reassure: ['answer'], cta: ['text', 'button'], related: [] };
+const NQ_VARIANT_NAMES = {
+  suggest: ['default', 'cost', 'schedule', 'trust', 'ai_quality', 'scope'],
+  reassure: ['default'],
+  cta: ['weak', 'strong'],
+  related: ['default'],
+};
+const NQ_ID_PREFIX = { suggest: 'sg-', reassure: 'rs-', cta: 'ct-', related: 'rl-' };
+// slot-next を出してよいページ群 (nq-suggest.jsx の NEXT_TYPES と同じ)
+const NQ_NEXT_TYPES = ['service', 'feature', 'solution', 'works', 'trust'];
+// 設計書11章の「使わない表現」。docs/nq/copy-sources.md 4章で 0 件を確認した語だけを入れる。
+// 「最適」はリンク先のサービス説明 (最適化) として使っているので入れない。
+const NQ_BANNED = /必ず|No[.]?\s*1|今だけ|残りわずか|[0-9０-９]\s*(?:倍|×|%|％)|あなた|ご覧になっ|ご訪問|他社|保証/;
+const NQ_NEGATION = /でない|ではない|じゃない|以外/;
+
+const nqOwn = (o, k) => !!o && typeof o === 'object' && Object.prototype.hasOwnProperty.call(o, k);
+const nqFilled = (s) => String(s == null ? '' : s).trim() !== '';
+const nqBaseVariant = (block) => (block && block.kind === 'cta' ? 'weak' : 'default');
+
+function loadNqData() {
+  const problems = [];
+  const read = (name) => {
+    try {
+      // メモ帳などで保存すると先頭に BOM が付き、JSON.parse が落ちる
+      return JSON.parse(fs.readFileSync(path.join(ROOT, 'data', name), 'utf8').replace(/^﻿/, ''));
+    } catch (e) {
+      problems.push('data/' + name + ': 読み込めません (' + e.message + ') — このファイルに依る提案は出なくなります。JSON の書式を確認してください。');
+      return null;
+    }
+  };
+  const blocksFile = read('blocks.json');
+  const pagesFile = read('catalog-pages.json');
+  const articlesFile = read('catalog-articles.json');
+  const labels = read('nq-labels.json') || {};
+  const rules = read('nq-rules.json') || {};
+  const config = read('nq-config.json') || {};
+
+  // どのファイルも先頭に "_comment" を持つ。読むキーを決め打ちにして、それ以外は無視する。
+  const blocks = blocksFile && Array.isArray(blocksFile.blocks) ? blocksFile.blocks.filter((b) => b && typeof b === 'object') : [];
+  const blockById = {};
+  for (const b of blocks) {
+    if (typeof b.block_id === 'string' && !nqOwn(blockById, b.block_id)) blockById[b.block_id] = b;
+  }
+  const pages = pagesFile && Array.isArray(pagesFile.pages)
+    ? pagesFile.pages.filter((p) => p && typeof p === 'object' && typeof p.url === 'string') : [];
+  const articles = {
+    category_defaults: (articlesFile && articlesFile.category_defaults) || {},
+    overrides: (articlesFile && articlesFile.overrides) || {},
+  };
+
+  // 未承認の文言を入れるのはローカルの見た目確認だけ。Vercel と CI では変数が立っていても無視する
+  // (env の設定ミス1つで、承認前の下書きが本番に出るのを防ぐ)。
+  const wantsUnapproved = process.env.NQ_INCLUDE_UNAPPROVED === '1';
+  const onHosted = !!(process.env.VERCEL || process.env.CI);
+  if (wantsUnapproved && onHosted) {
+    console.warn('  ! NQ_INCLUDE_UNAPPROVED=1 は Vercel / CI では無視します (ローカル確認専用)。承認済みの文言だけを配信します。');
+  }
+  const includeUnapproved = wantsUnapproved && !onHosted;
+
+  const nq = { problems, blocks, blockById, pages, articles, labels, rules, config, includeUnapproved };
+  nq.delivered = nqDeliveredBlocks(nq);
+  return nq;
+}
+
+// 配信してよい文言だけを残した blocks。条件は api/_lib/data.js の deliverable() と同じにしてある
+// (サーバが「ブラウザの持っていないブロック」を返さないようにするため、片方だけ変えないこと)。
+//   - variant の承認 = variant 自身 / by_industry の業種 / ブロックのどれかに approved_by が入っている
+//   - 基準の文言 (default。cta は weak) が未承認なら、ブロックごと (業種版ごと) 落とす
+function nqDeliveredBlocks(nq) {
+  const out = {};
+  for (const id of Object.keys(nq.blockById)) {
+    const b = nq.blockById[id];
+    const fields = NQ_COPY_LIMITS[b.kind];
+    if (!fields) continue;
+    const base = nqBaseVariant(b);
+    const pick = (variants, entry) => {
+      const vs = {};
+      for (const name of Object.keys(variants || {})) {
+        const v = variants[name];
+        if (!v || typeof v !== 'object') continue;
+        const ok = nq.includeUnapproved || nqFilled(v.approved_by) || nqFilled(entry && entry.approved_by) || nqFilled(b.approved_by);
+        if (!ok) continue;
+        const copy = {};
+        for (const f of Object.keys(fields)) if (typeof v[f] === 'string') copy[f] = v[f];
+        vs[name] = copy;
+      }
+      return vs;
+    };
+    const hasTop = Object.keys(b.variants || {}).length > 0;
+    const top = pick(b.variants, null);
+    if (hasTop && !top[base]) continue;
+    const by = {};
+    for (const label of Object.keys(b.by_industry || {})) {
+      const entry = b.by_industry[label];
+      if (!entry || typeof entry !== 'object') continue;
+      const vs = pick(entry.variants, entry);
+      if (vs[base]) by[label] = { target_url: entry.target_url || null, variants: vs };
+    }
+    // sg-solution のようにトップレベルが空のブロックは、業種版が1つも残らなければ入れない
+    if (!hasTop && !Object.keys(by).length) continue;
+    out[id] = { kind: b.kind, target_url: b.target_url || null, action: b.action || null, selectable: b.selectable === true, variants: top };
+    if (Object.keys(by).length) out[id].by_industry = by;
+  }
+  return out;
+}
+
+// 記事・ページの既定ブロックを、クライアントに渡す参照 ('ID' または 'ID@業種') に直す。
+// クライアントは記事やページの業種を知らないので、業種で行き先が変わるブロック
+// (sg-solution / sg-works) はここで業種まで決めてから渡す。
+//   - industry の先頭の業種が配信物の by_industry に在る → 'ID@業種'
+//   - 無いが、トップレベルに行き先と文言がある (sg-works → /works) → 'ID'
+//   - どちらも無い (sg-solution は業種が決まらないと行き先が無い) → null。呼び出し側が次の候補へ落とす
+function resolveNqRef(nq, blockId, industries) {
+  const src = nqOwn(nq.blockById, blockId) ? nq.blockById[blockId] : null;
+  if (!src) return { ref: null, why: 'unknown' };
+  if (!src.by_industry || typeof src.by_industry !== 'object') return { ref: blockId };
+  const ind = Array.isArray(industries) && industries.length ? industries[0] : null;
+  const live = nqOwn(nq.delivered, blockId) ? nq.delivered[blockId] : null;
+  if (ind && live && nqOwn(live.by_industry, ind)) return { ref: blockId + '@' + ind };
+  if (src.target_url && Object.keys(src.variants || {}).length > 0) return { ref: blockId };
+  if (!ind) return { ref: null, why: 'no-industry' };
+  // 業種版が在るのに引けないのは承認待ち。データの不備ではないので警告にしない
+  return { ref: null, why: nqOwn(src.by_industry, ind) ? 'unapproved' : 'no-industry-version' };
+}
+
+// 記事の拡張メタ。解決順は overrides → category_defaults[category] → category_defaults["*"]。
+// 自動公開された記事は overrides に無く、カテゴリも未知でありうる。そのときは "*" で動かす。
+function nqArticleMeta(nq, a) {
+  const defs = nq.articles.category_defaults;
+  const ov = nqOwn(nq.articles.overrides, a.slug) && nq.articles.overrides[a.slug] && typeof nq.articles.overrides[a.slug] === 'object'
+    ? nq.articles.overrides[a.slug] : {};
+  const knownCategory = nqOwn(defs, a.category) && !!defs[a.category] && a.category !== '*';
+  const cat = knownCategory ? defs[a.category] : null;
+  const star = (nqOwn(defs, '*') && defs['*']) || {};
+  const base = cat || star;
+  const industry = Array.isArray(ov.industry) ? ov.industry : (Array.isArray(base.industry) ? base.industry : []);
+  const need = Array.isArray(ov.need) ? ov.need : (Array.isArray(base.need) ? base.need : []);
+  let ref = null;
+  const skipped = [];
+  for (const [from, id] of [['overrides', ov.block_id], ['category_defaults', cat && cat.block_id], ['*', star.block_id]]) {
+    if (typeof id !== 'string' || !id) continue;
+    const r = resolveNqRef(nq, id, industry);
+    if (r.ref) { ref = r.ref; break; }
+    skipped.push({ from, id, why: r.why });
+  }
+  return { nq_block: ref, industry, need, knownCategory, skipped, mid_before_h2: ov.mid_before_h2 };
+}
+
+// タグ・実体参照・空白を除いた文字数 (est_read_sec と slot-mid の位置決めに使う)
+function nqTextLength(html) {
+  return html.replace(/<[^>]+>/g, '').replace(/&(?:[a-zA-Z]+|#[0-9]+|#x[0-9a-fA-F]+);/g, '').replace(/\s+/g, '').length;
+}
+
+// 本文HTMLの「一番外側にある h2 / h3」の位置を集める。
+// 引用 (> ## ...)・リスト・表の中の見出しの前で本文を割ると、前半に閉じていない <blockquote> が残り、
+// 後半は閉じタグから始まる。実際に llmo-cited-by-ai-search-implementation は引用の中に h2 を持つ。
+// タグの開閉をスタックで追い、何も開いていない位置の見出しだけを候補にする
+// (<pre> の中身は marked が &lt; に直すので、タグとしては現れない)。
+// 開閉の名前が合わない本文は null を返し、どこにも入れない。実例は llm-guardrail-inhouse-vs-cloud-api で、
+// md に生の <Card> が書いてあり、marked の出力が <Card>…<p>…</Card></p> と互い違いになる。ブラウザは
+// この </Card> を無視して残りの本文を全部 <card> の中に入れるので、数の上では閉じていても外側ではない。
+const NQ_VOID_TAGS = new Set(['area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input', 'link', 'meta', 'source', 'track', 'wbr']);
+function nqTopLevelHeadings(html) {
+  const found = [];
+  const open = [];
+  const re = /<!--[\s\S]*?-->|<(\/?)([a-zA-Z][a-zA-Z0-9-]*)\b[^>]*?(\/?)>/g;
+  let m;
+  while ((m = re.exec(html))) {
+    if (!m[2]) continue; // コメント
+    const tag = m[2].toLowerCase();
+    if (NQ_VOID_TAGS.has(tag) || m[3]) continue;
+    if (m[1]) {
+      if (open.pop() !== tag) return null;
+      continue;
+    }
+    if (!open.length && (tag === 'h2' || tag === 'h3')) found.push({ tag, at: m.index });
+    open.push(tag);
+  }
+  return open.length ? null : found;
+}
+
+// slot-mid のマーカーを1つだけ入れる。戻り値の how は入れた根拠、why は入れなかった理由。
+//   1. overrides の mid_before_h2 (設計書12章 J2 が決めた位置。「一番外側の h2 のうち n 番目 (1始まり) の直前」)。
+//      本文の 40% より前を指していたら使わない (記事を25%読んだ時点で判定するので、間に合わなくなる)
+//   2. 本文の 40〜70% にある h2 のうち、55% に最も近いもの (同じ近さなら後ろ)
+//   3. 該当する h2 が無ければ、同じ規則で h3
+function insertNqMidMarker(html, chars, wantH2, where) {
+  if (chars < NQ_MID_MIN_CHARS) {
+    if (wantH2 != null) {
+      console.warn('  ! data/catalog-articles.json の overrides.' + where + ': mid_before_h2 は使いません (本文が ' + chars + '字で、'
+        + NQ_MID_MIN_CHARS + '字未満の記事には slot-mid を出さない)');
+    }
+    return { html, why: 'short' };
+  }
+  const heads = nqTopLevelHeadings(html);
+  if (!heads) return { html, why: 'broken' };
+  const ratio = (h) => nqTextLength(html.slice(0, h.at)) / chars;
+  const put = (h, how) => ({ html: html.slice(0, h.at) + NQ_MID_MARKER + html.slice(h.at), how, ratio: ratio(h) });
+
+  if (wantH2 != null) {
+    const h2s = heads.filter((h) => h.tag === 'h2');
+    const h = Number.isInteger(wantH2) && wantH2 >= 1 ? h2s[wantH2 - 1] : null;
+    if (h && ratio(h) >= NQ_MID_FROM) return put(h, 'override');
+    console.warn('  ! data/catalog-articles.json の overrides.' + where + ': mid_before_h2=' + JSON.stringify(wantH2) + ' は使えません ('
+      + (h ? '本文の ' + Math.round(ratio(h) * 100) + '% 地点で、40% より前' : '一番外側の h2 は ' + h2s.length + ' 個')
+      + ') — 既定の位置 (40〜70% で 55% に最も近い見出し) に入れます');
+  }
+  for (const tag of ['h2', 'h3']) {
+    let best = null;
+    for (const h of heads) {
+      if (h.tag !== tag) continue;
+      const r = ratio(h);
+      if (r < NQ_MID_FROM || r > NQ_MID_TO) continue;
+      if (!best || Math.abs(r - NQ_MID_AIM) <= Math.abs(best.r - NQ_MID_AIM)) best = { h, r };
+    }
+    if (best) return put(best.h, tag);
+  }
+  return { html, why: 'no-heading' };
+}
+
+// /api/suggest 用の catalog。クライアントは URL と列挙値しか送らないので、Jev に渡す title・type・
+// タグはサーバがこの表から引き直す。audience / summary / block_id など内部用の項目は入れない。
+function buildNqCatalog(nq, articles) {
+  const pages = {};
+  const list = (v) => (Array.isArray(v) ? v.filter((x) => typeof x === 'string') : []);
+  for (const p of nq.pages) {
+    pages[p.url] = { title: String(p.title || ''), type: String(p.type || 'other'), industry: list(p.industry), need: list(p.need) };
+  }
+  for (const a of BLOG) {
+    if (!articles[a.slug]) continue; // md が無く、ページとして存在しない
+    const m = nqArticleMeta(nq, a);
+    pages['/article-' + a.slug] = { title: a.title, type: 'article', topic: a.category, industry: list(m.industry), need: list(m.need) };
+  }
+  return { pages };
+}
+
+// app.bundle.js の先頭に入れる配信物。形は nq-suggest.jsx と取り決めてある (コントラクト 3.2)。
+function buildNqClientData(nq) {
+  const flag = (k) => nq.config[k] === true;
+  const num = (k) => (typeof nq.rules[k] === 'number' ? nq.rules[k] : undefined);
+  const pages = {};
+  for (const p of nq.pages) {
+    const next = typeof p.default_next === 'string' && p.default_next ? resolveNqRef(nq, p.default_next, p.industry).ref : null;
+    pages[p.url.length > 1 ? p.url.replace(/\/+$/, '') : p.url] = { type: String(p.type || 'other'), next };
+  }
+  return {
+    config: { enabled: flag('enabled'), ga_events: flag('ga_events'), session_log: flag('session_log'), api: flag('api'), events_api: flag('events_api') },
+    rules: {
+      client_timeout_ms: num('client_timeout_ms'),
+      max_calls_per_session: num('max_calls_per_session'),
+      max_shows_per_block: num('max_shows_per_block'),
+      history_pages: num('history_pages'),
+    },
+    blocks: nq.delivered,
+    pages,
+    end_default: NQ_END_DEFAULT,
+  };
+}
+
+// nq のデータの検証。初回リリースはすべて warn (NQ_STRICT=1 で throw に上がる)。
+// 記事に由来するもの (未知のカテゴリ・BLOG に無い slug) は、NQ_STRICT でも warn のままにする。
+// 公開ワーカが記事を足したり統合で消したりするたびに、本番ビルドが落ちるのを避けるため。
+function assertNq(nq, fixedRoutes, lpRoutes) {
+  const bad = nq.problems.slice(); // 人が書くファイルの不備
+  const soft = [];                 // 記事に由来するもの
+  const count = (s) => [...String(s)].length;
+  const labelSet = (k) => (nq.labels[k] && nq.labels[k].criteria ? new Set(Object.keys(nq.labels[k].criteria)) : null);
+  const industries = labelSet('industry');
+  const needs = labelSet('need');
+  const pageTypes = nq.labels.page_type_labels ? new Set(Object.keys(nq.labels.page_type_labels)) : null;
+  const pageUrls = new Set(nq.pages.map((p) => p.url));
+  // ファイルごと読めなかったとき (上の problems で報告済み) に、相手側の全件を「無い」と言わないための目印
+  const haveBlocks = nq.blocks.length > 0;
+  const havePages = nq.pages.length > 0;
+  const checkTags = (where, obj) => {
+    for (const [key, set] of [['industry', industries], ['need', needs]]) {
+      if (obj[key] == null) continue;
+      if (!Array.isArray(obj[key])) { bad.push(where + ': ' + key + ' は配列で書いてください。'); continue; }
+      if (!set) continue;
+      for (const w of obj[key]) {
+        if (!set.has(w)) bad.push(where + ': ' + key + ' の「' + w + '」は data/nq-labels.json に無い語です — ラベルと同じ表記にそろえてください。');
+      }
+    }
+  };
+
+  // ---- data/blocks.json ----
+  const B = 'data/blocks.json の ';
+  const seen = new Set();
+  for (const b of nq.blocks) {
+    const id = typeof b.block_id === 'string' ? b.block_id : '';
+    if (!id) { bad.push(B + '(block_id なし): block_id を入れてください。'); continue; }
+    if (seen.has(id)) { bad.push(B + id + ': block_id が重複しています — 後ろの定義は使われません。どちらかを消してください。'); continue; }
+    seen.add(id);
+    const limits = NQ_COPY_LIMITS[b.kind];
+    if (!limits) { bad.push(B + id + ': kind "' + b.kind + '" は使えません — suggest / reassure / cta / related のどれかにしてください (このブロックは配信されません)。'); continue; }
+    if (id.indexOf(NQ_ID_PREFIX[b.kind]) !== 0) {
+      bad.push(B + id + ': kind:' + b.kind + ' のブロックは block_id を ' + NQ_ID_PREFIX[b.kind] + ' で始めてください。');
+    }
+    if (nqFilled(b.audience) && NQ_NEGATION.test(b.audience)) {
+      bad.push(B + id + ': audience に否定形が入っています — Jev は指示を文字どおりに読むので、「〜な人向け」の肯定文に書き直してください。');
+    }
+    if (b.selectable === true && !nqFilled(b.audience)) {
+      bad.push(B + id + ': selectable:true なのに audience が空です — Jev への関連度の質問文が作れません。');
+    }
+    const base = nqBaseVariant(b);
+    const checkTarget = (where, url) => {
+      if (url != null && havePages && !pageUrls.has(url)) bad.push(where + ': target_url "' + url + '" が data/catalog-pages.json にありません — URL を直すか、catalog-pages.json にページを足してください。');
+    };
+    const checkVariants = (where, variants) => {
+      const names = Object.keys(variants || {});
+      if (!nqOwn(variants, base)) bad.push(where + ': variants.' + base + ' がありません — 基準の文言が無いと配信されません。');
+      if (b.kind === 'suggest' && names.filter((n) => n !== 'default').length > 3) {
+        bad.push(where + ': default 以外の variant は3つまでです (' + names.join(' / ') + ')。');
+      }
+      for (const name of names) {
+        if (NQ_VARIANT_NAMES[b.kind].indexOf(name) < 0) {
+          bad.push(where + ': variants.' + name + ' は kind:' + b.kind + ' で使えない名前です — 使えるのは ' + NQ_VARIANT_NAMES[b.kind].join(' / ') + '。');
+        }
+        const v = variants[name] || {};
+        for (const f of Object.keys(limits)) {
+          const at = where + ': variants.' + name + '.' + f;
+          if (v[f] == null || v[f] === '') {
+            if (NQ_COPY_REQUIRED[b.kind].indexOf(f) >= 0) bad.push(at + ' が空です — この文言が無いと表示が成り立ちません。');
+            continue;
+          }
+          if (typeof v[f] !== 'string') { bad.push(at + ' は文字列で書いてください。'); continue; }
+          if (count(v[f]) > limits[f]) bad.push(at + ' が' + limits[f] + '字を超えています (' + count(v[f]) + '字) — 文言を短くしてください。');
+          if (NQ_BANNED.test(v[f])) bad.push(at + ' に、使わない表現 (設計書11章) が入っています: 「' + v[f].match(NQ_BANNED)[0] + '」');
+          if ((f === 'cta' || f === 'button') && /[→➔»>＞]/.test(v[f])) bad.push(at + ' に矢印が入っています — 矢印は表示側が付けます。');
+        }
+      }
+    };
+    const hasTop = Object.keys(b.variants || {}).length > 0;
+    const hasBy = Object.keys(b.by_industry || {}).length > 0;
+    if (hasTop || !hasBy) {
+      checkVariants(B + id, b.variants);
+      if (b.target_url == null && b.kind !== 'related' && b.action !== 'contact') {
+        bad.push(B + id + ': target_url がありません — 行き先の無いブロックは描画されません。');
+      }
+    }
+    checkTarget(B + id, b.target_url);
+    for (const label of Object.keys(b.by_industry || {})) {
+      const where = B + id + ' の by_industry.' + label;
+      const entry = b.by_industry[label] || {};
+      if (industries && !industries.has(label)) bad.push(where + ': data/nq-labels.json の industry に無い語です — ラベルと同じ表記にそろえてください。');
+      if (!nqFilled(entry.target_url)) bad.push(where + ': target_url がありません。');
+      checkTarget(where, entry.target_url);
+      checkVariants(where, entry.variants);
+    }
+  }
+  if (haveBlocks && !nqOwn(nq.blockById, NQ_END_DEFAULT)) {
+    bad.push(B + NQ_END_DEFAULT + ': slot-end のデフォルトに使うブロックがありません — 記事末尾のカードが出なくなります。');
+  }
+
+  // ---- data/catalog-pages.json ----
+  const P = 'data/catalog-pages.json の ';
+  const blockKnown = (id) => !haveBlocks || nqOwn(nq.blockById, id);
+  const dupUrl = new Set();
+  for (const p of nq.pages) {
+    const where = P + p.url;
+    if (dupUrl.has(p.url)) bad.push(where + ': url が重複しています。');
+    dupUrl.add(p.url);
+    if (pageTypes && !pageTypes.has(p.type)) bad.push(where + ': type "' + p.type + '" は data/nq-labels.json の page_type_labels に無い値です。');
+    checkTags(where, p);
+    if (p.summary != null && count(p.summary) > 60) bad.push(where + ': summary が60字を超えています (' + count(p.summary) + '字)。');
+    if (p.suggestable === true && !nqFilled(p.audience)) bad.push(where + ': suggestable:true なのに audience が空です — 「〜な人向け」の肯定文を1文入れてください。');
+    if (nqFilled(p.audience) && NQ_NEGATION.test(p.audience)) bad.push(where + ': audience に否定形が入っています — 肯定文に書き直してください。');
+    if (p.block_id != null && !blockKnown(p.block_id)) bad.push(where + ': block_id "' + p.block_id + '" が data/blocks.json にありません。');
+    if (haveBlocks && (p.suggestable === true) !== (p.block_id != null && blockKnown(p.block_id))) {
+      bad.push(where + ': suggestable と block_id が食い違っています — suggestable:true は「このページを勧めるブロックが blocks.json に在る」ページだけです。');
+    }
+    if (p.default_next != null && haveBlocks) {
+      const nb = nqOwn(nq.blockById, p.default_next) ? nq.blockById[p.default_next] : null;
+      if (!nb) {
+        bad.push(where + ': default_next "' + p.default_next + '" が data/blocks.json にありません。');
+      } else {
+        if (NQ_NEXT_TYPES.indexOf(p.type) < 0) bad.push(where + ': default_next を持てるのは type が ' + NQ_NEXT_TYPES.join(' / ') + ' のページだけです (このページでは表示されません)。');
+        if (nb.selectable !== true) bad.push(where + ': default_next "' + p.default_next + '" は selectable:false のブロックです。');
+        const ind = Array.isArray(p.industry) && p.industry.length ? p.industry[0] : null;
+        const entry = ind && nqOwn(nb.by_industry, ind) ? nb.by_industry[ind] : null;
+        const to = (entry && entry.target_url) || nb.target_url || null;
+        if (to === p.url) bad.push(where + ': default_next "' + p.default_next + '" の行き先がこのページ自身です。');
+        if (!to) bad.push(where + ': default_next "' + p.default_next + '" は、このページの industry では行き先が決まりません (業種版が無い) — 何も表示されません。');
+      }
+    }
+  }
+  if (nq.pages.length && fixedRoutes) {
+    const must = fixedRoutes.map((id) => (id === 'top' ? '/' : '/' + id))
+      .concat(['/sitemap', '/quick-diagnosis'], (lpRoutes || []).map((r) => '/' + r));
+    for (const url of must) {
+      if (!pageUrls.has(url)) bad.push(P + url + ': ページが載っていません — build.js の SITEMAP_ROUTES にページを足したら、ここにも1件足してください。');
+    }
+    const known = new Set(must);
+    for (const p of nq.pages) {
+      if (!known.has(p.url)) bad.push(P + p.url + ': build.js のルート一覧 (SITEMAP_ROUTES と、noindex でない lp/) に無い URL です — 消したページなら、ここからも消してください。');
+    }
+  }
+
+  // ---- data/catalog-articles.json ----
+  const A = 'data/catalog-articles.json の ';
+  const defs = nq.articles.category_defaults;
+  if (!nqOwn(defs, '*')) bad.push(A + 'category_defaults: "*" (どのカテゴリにも当たらない記事の既定) がありません。');
+  const checkArticleEntry = (where, e) => {
+    if (!e || typeof e !== 'object') { bad.push(where + ': オブジェクトで書いてください。'); return; }
+    if (e.block_id != null && !blockKnown(e.block_id)) bad.push(where + ': block_id "' + e.block_id + '" が data/blocks.json にありません — この指定は無視して次の既定に落とします。');
+    checkTags(where, e);
+    if (e.summary != null && count(e.summary) > 60) bad.push(where + ': summary が60字を超えています (' + count(e.summary) + '字)。');
+    if (e.mid_before_h2 != null && !(Number.isInteger(e.mid_before_h2) && e.mid_before_h2 >= 1)) {
+      bad.push(where + ': mid_before_h2 は1以上の整数 (本文の n 番目の h2) で書いてください。');
+    }
+  };
+  for (const c of Object.keys(defs)) checkArticleEntry(A + 'category_defaults.' + c, defs[c]);
+  const slugs = new Set(BLOG.map((a) => a.slug));
+  for (const slug of Object.keys(nq.articles.overrides)) {
+    checkArticleEntry(A + 'overrides.' + slug, nq.articles.overrides[slug]);
+    if (!slugs.has(slug)) soft.push(A + 'overrides.' + slug + ': build.js の BLOG に無い slug です — 統合・削除した記事なら、この行も消してください。');
+  }
+  const unknownCats = {};
+  for (const a of BLOG) {
+    const m = nqArticleMeta(nq, a);
+    if (!m.knownCategory) (unknownCats[a.category] = unknownCats[a.category] || []).push(a.slug);
+    // 業種が決まらずに既定へ落ちた記事のうち、overrides に人が書いたものだけ知らせる。
+    // カテゴリ既定が sg-solution (業種別) で industry が空の記事が "*" に落ちるのは取り決めどおりで、
+    // 自動公開のたびに警告が増えるだけになる。承認待ち (unapproved) と、上で報告済みの unknown も数えない。
+    const fell = m.skipped.filter((s) => s.why === 'no-industry' || s.why === 'no-industry-version');
+    if (fell.length && nqOwn(nq.articles.overrides, a.slug)) {
+      soft.push(A + 'overrides.' + a.slug + ': ' + fell[0].id + ' は industry の先頭の業種で行き先を決めますが、'
+        + (fell[0].why === 'no-industry' ? 'industry が空です' : '「' + m.industry[0] + '」の業種版がありません')
+        + ' — ' + (m.nq_block || '(なし)') + ' に落としました。');
+    }
+  }
+  for (const c of Object.keys(unknownCats)) {
+    soft.push(A + 'category_defaults: カテゴリ「' + c + '」の既定がありません (' + unknownCats[c].length + '本: ' + unknownCats[c].slice(0, 3).join(', ')
+      + (unknownCats[c].length > 3 ? ' ほか' : '') + ') — "*" の既定で動かしています。カテゴリを足すなら category_defaults に1行足してください。');
+  }
+
+  for (const msg of soft.concat(bad)) console.warn('  ! ' + msg);
+  if (bad.length && process.env.NQ_STRICT === '1') {
+    throw new Error('次ページ提案 (nq) のデータに ' + bad.length + ' 件の不備があります (NQ_STRICT=1) — 上の「!」の行を直してください。'
+      + ' 1件目: ' + bad[0]);
+  }
+  return { bad: bad.length, soft: soft.length };
+}
+
 marked.setOptions({ gfm: true, breaks: false, headerIds: false, mangle: false });
 
-function buildArticles() {
+function buildArticles(nq) {
   const out = {};
+  const mid = { override: 0, h2: 0, h3: 0, short: 0, 'no-heading': 0, broken: 0 };
   for (const a of BLOG) {
     const mdPath = path.join(ROOT, 'content', 'blog', a.slug + '.md');
     if (!fs.existsSync(mdPath)) { console.warn(`  ! missing ${a.slug}.md`); continue; }
@@ -233,11 +707,35 @@ function buildArticles() {
     // markdown is \r\n, and `.` doesn't match \r, so a plain \n+ would never match
     // and the H1 would leak into the body (duplicate heading).
     md = md.replace(/^\s*#\s+.+(?:\r?\n)+/, '');
-    const html = marked.parse(md);
+    const parsed = marked.parse(md);
+    // 次ページ提案 (nq) 用。est_read_sec は「じっくり読んだか」の判定に使う推定読了秒数 (本文文字数÷10)。
+    // 表示用の read ('5 min') とは合わない値なので、混ぜて使わないこと。
+    // nq_block は slot-mid のデフォルトの提案ブロック ('ID' または 'ID@業種')。
+    const chars = nqTextLength(parsed);
+    let nqBlock = null;
+    let html = parsed;
+    try {
+      const nqMeta = nqArticleMeta(nq, a);
+      const placed = insertNqMidMarker(parsed, chars, nqMeta.mid_before_h2, a.slug);
+      mid[placed.how || placed.why]++;
+      if (placed.why === 'broken') {
+        console.warn('  ! content/blog/' + a.slug + '.md: 本文HTMLのタグの開閉が合いません (md に生のHTML/JSXが残っている可能性) — slot-mid は入れません');
+      }
+      nqBlock = nqMeta.nq_block;
+      html = placed.html;
+    } catch (e) {
+      // 提案が出ないだけで記事は読める。自動公開された記事1本のために本番ビルドを落とさない
+      console.warn('  ! content/blog/' + a.slug + '.md: 次ページ提案 (nq) の準備に失敗しました (' + e.message + ') — この記事は提案なしで出します');
+    }
     // updated は改修 (refit) で本文を書き換えたときにパイプラインが入れる更新日。
     // date は初出の公開日で改修しても変えないため、鮮度は updated 側で伝える。
-    out[a.slug] = { slug: a.slug, title: a.title, category: a.category, date: a.date, updated: a.updated || '', read: a.read, img: a.img, supervised: !!a.supervised, desc: a.desc || '', noindex: !!a.noindex, html };
+    out[a.slug] = { slug: a.slug, title: a.title, category: a.category, date: a.date, updated: a.updated || '', read: a.read, img: a.img, supervised: !!a.supervised, desc: a.desc || '', noindex: !!a.noindex, est_read_sec: Math.round(chars / 10), nq_block: nqBlock, html };
   }
+  const placedCount = mid.override + mid.h2 + mid.h3;
+  const skippedCount = mid.short + mid['no-heading'] + mid.broken;
+  console.log('  → slot-mid: ' + placedCount + '本に挿入 (h2 ' + mid.h2 + ' / h3 ' + mid.h3 + ' / mid_before_h2 指定 ' + mid.override + ') / '
+    + skippedCount + '本は無し (' + NQ_MID_MIN_CHARS + '字未満 ' + mid.short + ' / 40〜70%に見出しなし ' + mid['no-heading']
+    + ' / HTMLの開閉が不整合 ' + mid.broken + ')');
   return out;
 }
 
@@ -374,6 +872,8 @@ async function build() {
     .join('\n\n');
 
   console.log('• minifying bundle');
+  // mangle は既定 (toplevel: false) のままにすること。各 JSX は同じグローバルスコープを共有し、
+  // NQ / NqSlot / ROUTES / navProps などをファイルをまたいでトップレベルの名前で参照している。
   const minified = await minify(bundleSrc, {
     compress: { passes: 2 },
     mangle: true,
@@ -381,12 +881,31 @@ async function build() {
   });
   if (minified.error) throw minified.error;
 
-  fs.writeFileSync(path.join(DIST, 'app.bundle.js'), minified.code, 'utf8');
-  const sizeKB = (Buffer.byteLength(minified.code, 'utf8') / 1024).toFixed(1);
+  // 次ページ提案 (nq) の配信物を bundle の先頭に入れる。別ファイルにしないのは、ver のハッシュ
+  // (app.bundle.js / articles.js / styles.css) に自動で入り、文言や承認を変えたときに
+  // 「prerendered/ が古い」の警告が働くようにするため。terser を通さず JSON のまま置くので、
+  // 何が配信されているかを bundle の1行目で確かめられる。
+  console.log('• loading data/*.json (次ページ提案)');
+  const nq = loadNqData();
+  const nqClient = buildNqClientData(nq);
+  const nqBlockCount = Object.keys(nqClient.blocks).length;
+  console.log(`  → window.NORTIQ_NQ: 配信ブロック ${nqBlockCount}/${nq.blocks.length} (${nq.includeUnapproved ? '未承認を含む' : '承認済みのみ'}) / ページ ${Object.keys(nqClient.pages).length}`);
+  if (nq.includeUnapproved) {
+    console.warn('');
+    console.warn('  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+    console.warn('  !! NQ_INCLUDE_UNAPPROVED=1 — 未承認の文言を bundle に入れています (ローカル確認専用)。');
+    console.warn('  !! この dist/ をデプロイしないこと。確認が済んだら、変数なしで node build.js をやり直す。');
+    console.warn('  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+    console.warn('');
+  }
+  const bundleCode = 'window.NORTIQ_NQ=' + JSON.stringify(nqClient) + ';\n' + minified.code;
+
+  fs.writeFileSync(path.join(DIST, 'app.bundle.js'), bundleCode, 'utf8');
+  const sizeKB = (Buffer.byteLength(bundleCode, 'utf8') / 1024).toFixed(1);
   console.log(`  → dist/app.bundle.js (${sizeKB} KB)`);
 
   console.log('• rendering blog articles (markdown → html)');
-  const articles = buildArticles();
+  const articles = buildArticles(nq);
   // 記事本文 (html) は articles.js から外し、1記事1ファイルに分割する。
   // 以前は全73本の本文を1つの articles.js (1.5MB) に固めてトップページを含む
   // 全ページで読み込んでいた。記事1本を読むために他72本の本文が付いてくる状態。
@@ -414,6 +933,15 @@ async function build() {
   }
   console.log(`  → dist/articles.js (${Object.keys(meta).length} articles, メタのみ ${(Buffer.byteLength(articlesJs, 'utf8') / 1024).toFixed(1)} KB)`);
   console.log(`  → dist/articles/*.js (本文 ${Object.keys(bodies).length} ファイル, 計 ${(bodyBytes / 1024).toFixed(1)} KB)`);
+
+  // /api/suggest が require する catalog。dist/ ではなく api/_data/ に出す (Function は dist/ を読めない。
+  // アンダースコア始まりのディレクトリは Vercel の Function にならない)。生成物なので .gitignore 済み。
+  // dist/ に出さないのは、公開URLで中身を読めるようにしないため。
+  const nqCatalog = buildNqCatalog(nq, articles);
+  const NQ_API_DATA = path.join(ROOT, 'api', '_data');
+  fs.mkdirSync(NQ_API_DATA, { recursive: true });
+  fs.writeFileSync(path.join(NQ_API_DATA, 'catalog.json'), JSON.stringify(nqCatalog), 'utf8');
+  console.log(`  → api/_data/catalog.json (${Object.keys(nqCatalog.pages).length} ページ: 記事 ${Object.keys(articles).length} + 固定ページ・LP ${nq.pages.length})`);
 
   console.log('• copying styles.css');
   fs.copyFileSync(path.join(ROOT, 'styles.css'), path.join(DIST, 'styles.css'));
@@ -676,6 +1204,13 @@ async function build() {
     + `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n`
     + sitemapUrls + '\n'
     + `</urlset>\n`, 'utf8');
+
+  // 次ページ提案 (nq) のデータ検証。固定ルートと LP の一覧がここで確定するので、この位置で呼ぶ
+  // (ページを足したのに data/catalog-pages.json へ足し忘れた、を拾うため)。
+  console.log('• checking data/*.json (次ページ提案)');
+  const nqFixedRoutes = SITEMAP_ROUTES.filter((id) => LP_ROUTES.indexOf(id) < 0 && id.indexOf('article-') !== 0);
+  const nqChecked = assertNq(nq, nqFixedRoutes, LP_ROUTES);
+  console.log(`  → 不備 ${nqChecked.bad} 件 / 記事まわりの注意 ${nqChecked.soft} 件` + (nqChecked.bad ? ' (NQ_STRICT=1 でビルドを止められる)' : ''));
 
   // IndexNow検証キー: リポジトリ直下の indexnow-key.txt (キー文字列1行) があれば
   // dist/<key>.txt を配置する (新記事公開時のBing系への通知に使用。送信はパイプライン側)

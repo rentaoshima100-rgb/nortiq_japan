@@ -260,7 +260,7 @@ function WebPage({ onNavigate, onContact }) {
         </div>
       </section>
 
-      <CTAStrip onContact={() => onContact('web')} />
+      <CTAStrip onContact={() => onContact('web')} onNavigate={onNavigate} />
     </main>
   );
 }
@@ -485,7 +485,7 @@ function ChatbotPage({ onNavigate, onContact }) {
         </div>
       </section>
 
-      <CTAStrip onContact={() => onContact('chatbot')} />
+      <CTAStrip onContact={() => onContact('chatbot')} onNavigate={onNavigate} />
     </main>
   );
 }
@@ -680,7 +680,7 @@ function DXPage({ onNavigate, onContact }) {
         </div>
       </section>
 
-      <CTAStrip onContact={() => onContact('dx')} title="まずは初回ヒアリング (無料) から。" sub="現状のデータ、業務、目標を 60 分で整理。可能性のあるアプローチをその場でご提案します。"/>
+      <CTAStrip onContact={() => onContact('dx')} onNavigate={onNavigate} title="まずは初回ヒアリング (無料) から。" sub="現状のデータ、業務、目標を 60 分で整理。可能性のあるアプローチをその場でご提案します。"/>
     </main>
   );
 }

@@ -43,6 +43,89 @@
     if (el) track(el.dataset.ga, { location: el.dataset.gaLocation || '' });
   });
 
+  // ---------- 次ページ提案 (nq) のセッションログ ----------
+  // 本体サイト (nq-suggest.jsx の NQ) が sessionStorage['nq_s'] に持つ閲覧履歴へ、このLPの1件を
+  // 同じ形式 {u,t,sc,dw} で追記する。LPはフルリロードで開くので、ここで書かないと履歴からLPが抜け、
+  // 「カードを押してLPを読んだか」(nq_engaged) も本体側で判定できない。
+  // キーが既に在るときだけ動く (= 本体側で session_log が有効で、セッションが始まっている)。
+  // 無ければ何も読み書きしない。LP着地のセッションをここから始めることもしない (IDの発行は本体側だけ)。
+  (function () {
+    var KEY = 'nq_s';
+    var MAX_PAGES = 30; // nq-suggest.jsx の保持上限と同じ
+    try {
+      if (!window.sessionStorage.getItem(KEY)) return;
+    } catch (_) { return; }
+
+    var path = location.pathname.replace(/\/+$/, '') || '/';
+    var entry = null;   // いま追記している1件 (t で同定する)
+    var since = document.hidden ? 0 : Date.now();
+    var dwMs = 0;
+    var sc = 0;
+
+    function load() {
+      try {
+        var s = JSON.parse(window.sessionStorage.getItem(KEY) || 'null');
+        return s && /^r_[a-z0-9]{6,16}$/.test(String(s.sid || '')) && Array.isArray(s.pages) ? s : null;
+      } catch (_) { return null; }
+    }
+    // 毎回読み直してから書く。別タブの本体サイトが同じキーを更新していても、履歴を巻き戻さない。
+    function write(push) {
+      try {
+        var s = load();
+        if (!s) return;
+        if (push) {
+          entry = { u: path, t: Date.now(), sc: 0, dw: 0 };
+          s.pages.push(entry);
+          if (s.pages.length > MAX_PAGES) s.pages = s.pages.slice(-MAX_PAGES);
+        } else if (entry) {
+          for (var i = s.pages.length - 1; i >= 0; i--) {
+            if (s.pages[i].u === entry.u && s.pages[i].t === entry.t) {
+              s.pages[i].sc = sc;
+              s.pages[i].dw = Math.round(dwMs / 1000);
+              break;
+            }
+          }
+        }
+        window.sessionStorage.setItem(KEY, JSON.stringify(s));
+      } catch (_) { /* 容量超過など。履歴が1件欠けるだけで、LPの動作には影響しない */ }
+    }
+    function tick() {
+      if (!since) return;
+      var now = Date.now();
+      dwMs += now - since;
+      since = now;
+    }
+
+    write(true);
+    if (!entry) return;
+
+    var ticking = false;
+    function measure() {
+      ticking = false;
+      var y = window.scrollY || window.pageYOffset || 0;
+      if (y <= 0) return; // 実際に読み進めた分だけ数える
+      var h = document.documentElement;
+      var max = h.scrollHeight - h.clientHeight;
+      var pct = max > 0 ? Math.round(Math.max(0, Math.min(100, (y / max) * 100))) : 100;
+      if (pct > sc) sc = pct;
+    }
+    window.addEventListener('scroll', function () {
+      if (ticking) return;
+      ticking = true;
+      if (window.requestAnimationFrame) window.requestAnimationFrame(measure); else setTimeout(measure, 100);
+    }, { passive: true });
+    document.addEventListener('visibilitychange', function () {
+      if (document.hidden) { tick(); since = 0; write(false); } else { since = Date.now(); }
+    });
+    window.addEventListener('pagehide', function () { tick(); write(false); });
+    // bfcache から戻ったときは、新しいページ表示として1件足す (本体側の pageshow と同じ扱い)
+    window.addEventListener('pageshow', function (e) {
+      if (!e.persisted) return;
+      dwMs = 0; sc = 0; since = document.hidden ? 0 : Date.now();
+      write(true);
+    });
+  })();
+
   // ---------- フォーム送信 ----------
   var form = document.getElementById('contact-form');
   if (!form) return;

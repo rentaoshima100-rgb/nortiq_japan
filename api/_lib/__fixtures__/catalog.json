@@ -1,0 +1,23 @@
+{
+  "_comment": "テスト専用の小さな catalog。本物は build.js が生成する api/_data/catalog.json。",
+  "pages": {
+    "/": { "title": "トップページ", "type": "top", "industry": [], "need": [] },
+    "/web": { "title": "Web制作", "type": "service", "industry": [], "need": ["新規サイト制作", "サイトリニューアル"] },
+    "/dx": { "title": "DX支援", "type": "service", "industry": [], "need": ["業務システム・DX"] },
+    "/chatbot": { "title": "AIチャットボット", "type": "service", "industry": [], "need": ["AI導入・チャットボット"] },
+    "/pricing": { "title": "料金プラン", "type": "trust", "industry": [], "need": [] },
+    "/voice": { "title": "企業の声", "type": "trust", "industry": [], "need": [] },
+    "/works": { "title": "制作実績", "type": "works", "industry": [], "need": [] },
+    "/works-realty": { "title": "不動産の制作実績", "type": "works", "industry": ["不動産"], "need": [] },
+    "/solution-clinic": { "title": "クリニック向けソリューション", "type": "solution", "industry": ["クリニック・医療"], "need": [] },
+    "/solution-realty": { "title": "不動産向けソリューション", "type": "solution", "industry": ["不動産"], "need": [] },
+    "/recruit": { "title": "採用情報", "type": "company", "industry": [], "need": [] },
+    "/diagnostic": { "title": "ホームページ無料診断", "type": "goal", "industry": [], "need": [] },
+    "/guidebook": { "title": "サービス紹介資料", "type": "goal", "industry": [], "need": [] },
+    "/service/recruit-site": { "title": "建設・運送・介護の採用サイト制作", "type": "industry_lp", "industry": ["建設・工務店", "運送・物流", "介護・福祉"], "need": ["採用強化"] },
+    "/article-website-renewal-unexpected-additional-cost": {
+      "title": "サイトリニューアル 追加費用が発生する原因と対策", "type": "article", "topic": "Web制作",
+      "industry": [], "need": ["サイトリニューアル"]
+    }
+  }
+}

@@ -103,6 +103,9 @@ const PREFECTURES = [
 function nqTrack(eventName, params, convKey) {
   try {
     if (typeof window === 'undefined' || typeof window.gtag !== 'function') return;
+    // プリレンダ (Playwright) は訪問者ではない。ここで止めないと、スナップショットを作り直すたびに
+    // nq_shown などが GA4 に流れ、次ページ提案のベースラインが汚れる。
+    if (window.__NORTIQ_PRERENDER__) return;
     window.gtag('event', eventName, params || {});
     const target = convKey && window.NORTIQ_CONV ? window.NORTIQ_CONV[convKey] : null;
     if (target) window.gtag('event', 'conversion', { send_to: target });
@@ -141,6 +144,9 @@ async function sendInquiry(form, kind = 'main') {
   // optimizes on) + Google Ads conversion. lead_type='contact' covers every
   // inquiry-form placement; form_kind keeps the placement for GA4 analysis.
   nqTrack('generate_lead', { lead_type: 'contact', currency: 'JPY', form_kind: kind }, 'contact');
+  // 次ページ提案 (nq) のゴール。渡すのは種別だけで、フォームの入力内容は渡さない。
+  // NQ (nq-suggest.jsx) はこのファイルより後に読み込まれるので、呼ぶ時点の window から引く。
+  if (window.NQ) window.NQ.goal('contact');
   return res.json().catch(() => ({ ok: true }));
 }
 
@@ -1170,21 +1176,35 @@ function SectionHead({ eyebrow, title, lede, align = 'center', en }) {
   );
 }
 
+// -------------------- 次ページ提案 (nq) の差し込み口 --------------------
+// 実体の NqSlot は nq-suggest.jsx (このファイルの直後に読み込まれる) にある。描画の時点の window から
+// 引き、無ければ何も描かない。読み込み順が崩れた HTML (古い開発用シェルなど) でも、
+// 提案カードが出ないだけでページごと落ちることはない。
+function NqSlotMount(props) {
+  const Slot = typeof window !== 'undefined' ? window.NqSlot : null;
+  return Slot ? <Slot {...props}/> : null;
+}
+
 // -------------------- Red CTA Strip (between-section accent band) --------------------
+// 赤帯そのものは固定。その直前に slot-next (次に読む1枚) を置く。slot-next が中身を持つのは
+// 中間ページ (サービス・機能・業種・実績・信頼) だけで、記事・トップ・承認前は null になり何も出ない。
 function RedCTAStrip({ onContact, onNavigate, title }) {
   return (
-    <section className="t_inq_wrap fadein">
-      <div className="container">
-        {/* br だけだとSPで3行になり、br を消すだけだと「AI運用まずは無料で」と
-            2つのフレーズが繋がってしまう。フレーズ単位の .phrase で分ける。 */}
-        <h2>{title || (<><span className="phrase">オリジナルデザインのWeb制作 × AI運用</span>{' '}<span className="phrase">まずは無料で資料請求</span></>)}</h2>
-        <div className="t_inq_btns">
-          <Button onClick={onContact}><Icon name="mail" size={14}/>資料請求はこちら</Button>
-          <Button to="diagnostic" nav={onNavigate}><Icon name="search" size={14}/>ホームページ無料診断</Button>
+    <>
+      <NqSlotMount slot="slot-next" onNavigate={onNavigate} onContact={onContact}/>
+      <section className="t_inq_wrap fadein">
+        <div className="container">
+          {/* br だけだとSPで3行になり、br を消すだけだと「AI運用まずは無料で」と
+              2つのフレーズが繋がってしまう。フレーズ単位の .phrase で分ける。 */}
+          <h2>{title || (<><span className="phrase">オリジナルデザインのWeb制作 × AI運用</span>{' '}<span className="phrase">まずは無料で資料請求</span></>)}</h2>
+          <div className="t_inq_btns">
+            <Button onClick={onContact}><Icon name="mail" size={14}/>資料請求はこちら</Button>
+            <Button to="diagnostic" nav={onNavigate}><Icon name="search" size={14}/>ホームページ無料診断</Button>
+          </div>
+          <p className="t_inq_time">営業日 24時間以内に担当者よりご返信します。</p>
         </div>
-        <p className="t_inq_time">営業日 24時間以内に担当者よりご返信します。</p>
-      </div>
-    </section>
+      </section>
+    </>
   );
 }
 
@@ -1305,9 +1325,17 @@ function Counter({ to, duration = 1400, suffix = '', prefix = '', decimals = 0, 
 }
 
 // -------------------- Sticky CTA hint --------------------
-function StickyCTA({ onContact, threshold = 600 }) {
+// 次ページ提案 (nq) の slot-bar を兼ねる。既定の見た目と文言はそのままで、ストア (window.NQ) が
+// 強い CTA (ct-* の strong) を決めたときだけ、文言とボタンを差し替える。
+//  - 初回描画は必ず既定の文言 (プリレンダのスナップショットにも既定が焼き込まれる)
+//  - 一度画面に出したら、そのページでは中身を変えない (markSeen で固定する)
+//  - 閉じた状態は NQ 側でセッション中保持する (フルリロードをまたぐのは session_log が有効なときだけ)
+//  - SP には出ない (styles.css が 1024px 以下で display:none)。計測もストア側で PC に限っている
+function StickyCTA({ onContact, onNavigate, threshold = 600 }) {
   const [show, setShow] = React.useState(false);
   const [dismissed, setDismissed] = React.useState(false);
+  const [bar, setBar] = React.useState(null); // 差し替え後の中身。null = 既定
+  const barRef = React.useRef(null);
   React.useEffect(() => {
     if (dismissed) return;
     const onScroll = () => setShow(window.scrollY > threshold);
@@ -1315,13 +1343,66 @@ function StickyCTA({ onContact, threshold = 600 }) {
     onScroll();
     return () => window.removeEventListener('scroll', onScroll);
   }, [threshold, dismissed]);
+
+  // StickyCTA は App の直下にあり、ページ遷移でも作り直されない。決定はページ表示ごとに
+  // ストア側で捨てられるので、購読して追従する (遷移すると既定に戻る)。
+  React.useEffect(() => {
+    const nq = window.NQ;
+    if (!nq || nq.inert) return;
+    if (nq.barDismissed()) { setDismissed(true); return; }
+    const sync = () => {
+      const r = nq.resolve(nq.get('slot-bar'));
+      const next = r && r.kind === 'cta' && r.variant === 'strong' ? r : null;
+      barRef.current = next;
+      setBar(next);
+    };
+    sync();
+    return nq.subscribe(sync);
+  }, []);
+
+  // 画面に出た時点の中身で固定し、表示を数える (ページ表示ごとに1回。重複はストアが弾く)。
+  React.useEffect(() => {
+    const nq = window.NQ;
+    if (!show || dismissed || !nq || nq.inert) return;
+    const cur = barRef.current;
+    const info = cur
+      ? { block_id: cur.block_id, variant: cur.variant, is_default: false }
+      : { block_id: null, variant: null, is_default: true };
+    nq.markSeen('slot-bar', cur);
+    nq.shown('slot-bar', info);
+  }, [show, dismissed]);
+
   if (dismissed) return null;
+
+  const onMain = () => {
+    const cur = barRef.current;
+    const nq = window.NQ;
+    if (!cur) {
+      if (nq) nq.click('slot-bar', { block_id: null, variant: null, is_default: true });
+      onContact();
+      return;
+    }
+    const target = cur.action === 'contact' ? null : cur.target_url;
+    if (nq) nq.click('slot-bar', { block_id: cur.block_id, variant: cur.variant, is_default: false }, target);
+    if (!target) { onContact(); return; }
+    // ROUTES / idFromPath は app.jsx (このファイルより後) にある。SPA のルートなら画面内で遷移し、
+    // /service/* などの静的ページは通常遷移させる。
+    const id = typeof idFromPath === 'function' ? idFromPath(target) : null;
+    if (id && typeof onNavigate === 'function' && typeof ROUTES !== 'undefined' && ROUTES[id]) onNavigate(id);
+    else window.location.href = target;
+  };
+  const onClose = () => {
+    if (window.NQ) window.NQ.dismissBar(); // 閉じた状態の保持と nq_dismiss
+    setDismissed(true);
+  };
+
   return (
-    <div className={`sticky-cta${show ? ' show' : ''}`}>
+    <div className={`sticky-cta${show ? ' show' : ''}`} role="region" aria-label="ご相談の案内"
+         data-block={bar ? bar.block_id : undefined} data-variant={bar ? bar.variant : undefined}>
       <span className="pulse"></span>
-      <span>初回相談無料 · 営業日24h以内にご返信</span>
-      <button onClick={onContact}>資料請求 →</button>
-      <button className="sticky-cta-close" onClick={() => setDismissed(true)} aria-label="閉じる">
+      <span>{bar ? bar.copy.text : '初回相談無料 · 営業日24h以内にご返信'}</span>
+      <button onClick={onMain}>{bar ? bar.copy.button + ' →' : '資料請求 →'}</button>
+      <button className="sticky-cta-close" onClick={onClose} aria-label="閉じる">
         <Icon name="close" size={12}/>
       </button>
     </div>
@@ -1533,7 +1614,7 @@ function HashTag({ children, color = 'blue', big = false, onClick }) {
 Object.assign(window, {
   Icon, Button, Nav, Footer, Placeholder, FAQ, ContactModal,
   BigInlineForm, SideTabForm, SPBottomNav,
-  SectionHead, RedCTAStrip, PageHero, Breadcrumb, HashTag,
+  SectionHead, NqSlotMount, RedCTAStrip, PageHero, Breadcrumb, HashTag,
   CTAStrip: RedCTAStrip,
   ScrollProgress, Counter, StickyCTA, MixMarquee, TagCloud,
   useCardSpotlight,

@@ -73,8 +73,26 @@
     },
     "api/contact.js": {
       "maxDuration": 15
+    },
+    "api/suggest.js": {
+      "maxDuration": 10,
+      "includeFiles": "api/_data/**"
+    },
+    "api/nq-event.js": {
+      "maxDuration": 10,
+      "includeFiles": "api/_data/**"
+    },
+    "api/nq-train.js": {
+      "maxDuration": 60,
+      "includeFiles": "api/_data/**"
     }
   },
+  "crons": [
+    {
+      "path": "/api/nq-train",
+      "schedule": "0 18 * * *"
+    }
+  ],
   "headers": [
     {
       "source": "/(.*)",
