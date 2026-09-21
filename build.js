@@ -58,6 +58,7 @@ const ORG_SAME_AS = [
 // desc → meta description / og:description / BlogPosting.description に使う。
 //        未指定の記事は app.jsx の SEO_DESC か自動生成の定型文にフォールバックする
 const BLOG = [
+  { slug: 'website-renewal-agency-handover', category: 'Web制作', date: '2026.09.21', read: '9 min', title: '制作会社を変えるリニューアル、引き継ぐもの一覧', img: 'assets/blog-default.png', desc: 'リニューアルで制作会社を変えるときに前の会社から受け取るものを6つに整理しました。ドメイン名の移管、Search Consoleの権限、原稿と画像の原本、制作物の権利まで、着手の順番つきで解説します。', supervised: true },
   { slug: 'fax-order-entry-digitization', category: '技術', date: '2026.09.21', read: '8 min', title: '受発注の電話・FAX脱却｜外注前に決める手順', img: 'assets/blog-default.png', desc: '電話とFAXで届く注文の打ち直しをなくす進め方をまとめました。取引先の運用を変えるかどうかの方針、発注前に決める6項目、電子帳簿保存法の要件、外注先への3つの確認を解説します。', supervised: true },
   { slug: 'customer-reviews-stealth-marketing-rules', category: 'Web制作', date: '2026.09.21', read: '8 min', title: '自社サイトの口コミ掲載とステマ規制の注意点', img: 'assets/blog-default.png', desc: '自社サイトにお客様の声を載せる際の注意点を整理しました。ステマ規制が対象とするもの、謝礼や依頼を伴う声の表示のしかた、文章を編集する線引き、レビューの構造化データの扱いまでを解説します。', supervised: true },
   { slug: 'website-renewal-acceptance-checklist', category: 'Web制作', date: '2026.09.21', read: '8 min', title: 'ホームページリニューアルの検収項目と通知期限', img: 'assets/blog-default.png', desc: 'ホームページリニューアルの検収について、表示・動作・内容・計測の4区分の確認項目、契約の範囲と追加費用の線引き、検収後に不具合を伝える期限の確認方法を、作業の順番に沿って解説します。', supervised: true },

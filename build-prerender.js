@@ -33,6 +33,7 @@ const ARTICLE_ROUTES = (() => {
 })();
 
 const ROUTES_ALLOWLIST = [
+  '/article-website-renewal-agency-handover',
   '/article-fax-order-entry-digitization',
   '/article-customer-reviews-stealth-marketing-rules',
   '/article-website-renewal-acceptance-checklist',
