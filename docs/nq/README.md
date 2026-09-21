@@ -32,7 +32,8 @@ build.js（ビルド）
    │  ・初回描画は必ずデフォルトのブロック。プリレンダにはこれが焼き込まれる
    │  ・T1（記事を25%スクロール）／T2（2ページ目以降）で /api/suggest を呼ぶ（config.api が true のときだけ）
    │  ・まだ画面に入っていないスロットだけ、150ms のフェードで差し替える
-   │  ・nq_shown / nq_click / nq_engaged / nq_dismiss / nq_goal を GA4 と /api/nq-event に送る
+   │  ・nq_shown / nq_click / nq_engaged / nq_dismiss / nq_goal と、/api/suggest の往復の結果
+   │    （nq_decide / nq_decide_fail）を GA4 と /api/nq-event に送る
    ▼
 POST /api/suggest（api/suggest.js）
    │  入口の防御 → 状態の組み立て（state.js。URL と列挙値から日本語の状態を作る）
@@ -45,7 +46,8 @@ POST /api/suggest（api/suggest.js）
 Supabase（nq_decisions / nq_events / nq_model / nq_transitions / nq_monthly）
    ▼
 GET /api/nq-train（Vercel Cron。毎晩 JST 03:00。NQ_LEARN=1 のときだけ動く）
-      ログから重みを学習し直して nq_model に1行足す → NQ_POLICY=ts のとき /api/suggest がそれを読む
+      ログから重みを学習し直して nq_model に1行足す → /api/suggest は方策によらずそれを読む
+      （prior は aux = V と cov だけを特徴量に使う。学習済みの重みを使うのは NQ_POLICY=ts のときだけ）
 ```
 
 どこで失敗しても、結果は「デフォルトのまま」になる。/api/suggest はどんな失敗でも 200 で `default:true` を返し、
@@ -95,6 +97,8 @@ GET /api/nq-train（Vercel Cron。毎晩 JST 03:00。NQ_LEARN=1 のときだけ�
    - ブロック単位で入れると、そのブロックの全 variant（`by_industry` の業種版を含む）が承認済みになる。
    - 一部の variant だけ承認するなら、ブロック単位は空のままにして、variant の中に `approved_by` / `approved_at` を入れる。
    - **基準の文言（`default`。CTA は `weak`）が未承認だと、ブロックごと配信されない。** まず default を承認する。
+   - `approved_by` / `approved_at` は **文字列** で書く。未承認は `""`（または `null`）。`false` / `0` など文字列以外の値は
+     未承認として扱われ、ビルドが「approved_by は文字列で書いてください」と警告する。
 5. 最初に承認するとよい順番（デフォルトとして全員に見えるものから）:
    `sg-guidebook`（slot-end のデフォルト）→ 記事カテゴリの既定カード（`sg-web` `sg-dx` `sg-chatbot` `sg-cms` `sg-lpo` `sg-pricing` `sg-support` `sg-subsidy`）
    → `sg-works`（`sg-pricing` と並んで slot-next のデフォルト）→ 残りの `sg-*` → `rs-*` → `ct-*` → `rl-related`。
@@ -121,6 +125,11 @@ npm run serve
 
 - `NQ_INCLUDE_UNAPPROVED=1` は **ローカルの見た目確認のためだけのもの**。Vercel と CI では変数が立っていても無視される。
   ビルドログに目立つ警告が出る。この状態の `dist/` をどこにも上げない。
+- この状態の `dist/` に対して `npm run build:full` / `node build-prerender.js` を実行しない。実行しても build-prerender.js が
+  bundle の1行目の印（`unapproved: true`）を見てエラー終了し、`prerendered/` には何も書かれない。
+  未承認モードのビルドでは「prerendered/ が古い」の警告は出ない。
+- 通常ビルドで「prerendered/ が古い」と出ても、ローカルで再生成しない。main に push すると CI（prerender.yml）が再生成する。
+  `npm run prerender:check` は、スナップショットに未承認のブロックが焼き込まれていないかも検査する。
 - PowerShell では `$env:NQ_INCLUDE_UNAPPROVED = '1'; node build.js`。終わったら `Remove-Item Env:NQ_INCLUDE_UNAPPROVED`。
 - ローカルビルドはルート直下の `articles.js` を書き換える。作業の最後に `git checkout -- articles.js` で戻す。
 - データの検証を厳しくして確かめるなら `NQ_STRICT=1 node build.js`（人が書くファイルの不備が throw になる）。
@@ -154,10 +163,17 @@ npm run serve
 | env `NQ_HOLDOUT_RATE` | 常にデフォルトを返すセッションの割合 | 未設定（= 0.2） |
 | env `NQ_POLICY` | `prior`（事前知識だけで選ぶ）/ `ts`（学習済みモデルからトンプソン抽出） | 未設定（= prior） |
 | env `NQ_LEARN` | `1` のときだけ夜間バッチが学習する | 未設定 |
-| env `CRON_SECRET` | 夜間バッチの認証。Vercel Cron がこの値を `Authorization: Bearer` に付けて呼ぶ | 未設定 |
+| env `CRON_SECRET` | 夜間バッチの認証。Vercel Cron がこの値を `Authorization: Bearer` に付けて呼ぶ。未設定の間は毎晩 401（下の注記） | 未設定 |
 | env `NQ_MODEL_PROVIDER` | `stub`（外部を呼ばない。常にデフォルトになる）/ `jev` | 未設定（= stub） |
 | env `JEV_API_KEY` / `JEV_MODEL` | Jev のキーとモデル。モデルは `jev-1.13.0` のように固定する（`jev-latest` は使わない） | 未設定 |
 | env `SUPABASE_URL` / `SUPABASE_SERVICE_ROLE_KEY` | 未設定なら何も記録しない | 未設定 |
+
+> **`CRON_SECRET` と夜間 Cron の 401。** `vercel.json` の `crons` は、本番にデプロイした日から毎晩 JST 03:00 に `/api/nq-train` を呼ぶ。
+> `CRON_SECRET` が未設定の間、この呼び出しは `401 unauthorized` で終わり、Vercel のログに毎晩1件残る
+> （認証は `NQ_LEARN` の確認より先。未設定なら誰も通さない作りで、何も読まず何も書かないので無害）。
+> ログを汚したくなければ、**最初のデプロイの時点で `CRON_SECRET`（16文字以上のランダム値）を入れておく**。
+> `NQ_LEARN` が未設定なら `200 {"ok":true,"skipped":"disabled"}` を返して何もしない。
+> フェーズ3より前の 401 は故障ではない。フェーズ3以降の 401 は `CRON_SECRET` の入れ忘れか値の食い違いを疑う。
 
 ### 有効化の順番
 
@@ -165,6 +181,11 @@ npm run serve
 1. ブロックを承認する（3章）。デフォルトのカードが4スロットに出る。
 2. `ga_events: true` のまま、GA4 で `nq_shown` / `nq_click`（`is_default:true`）のベースラインを取り始める。GA4 のカスタムディメンションを登録する（7章）。
 3. `session_log` は false のまま。プライバシーポリシーの追記を公開するまで true にしない。
+4. `session_log` が false の間、`nq_goal` の重複排除はメモリ上だけで行う。フルリロード（再読み込み、記事の本文内リンク、
+   静的LPとの行き来）をまたぐと、同じ goal がもう一度送られうる。GA4 のベースラインは、**イベント数ではなく `nq_goal` を含むセッション数** で数える。
+   `session_log` を true にすれば `goals` が sessionStorage に残り、1セッション1回になる。
+5. 配信ブロックが1つも無い間（承認ゼロ）は、クライアントのランタイムは何もしない（`nq_goal` も送らない）。
+   ベースラインが入り始めるのは、最初のブロックを承認してデプロイした日から。
 
 **フェーズ0 検証（本番には何も出さない）**
 1. `eval/sessions.json` の正解ラベルを人が見直す（LLM の下書きなので、そのまま使わない）。
@@ -173,16 +194,40 @@ npm run serve
 
 **フェーズ1 シャドーモード（判定と記録だけ。表示は変えない。1週間）**
 1. プライバシーポリシーの追記を公開する（`privacy-policy-draft.md`。専門家の確認を先に済ませる）。
-2. Supabase を準備する（6章）。
+2. Supabase を準備する（6章）。すでに `nq_schema.sql` を流してある場合も、**最新のものをもう一度流す**
+   （`nq_events` に `result` / `latency_ms` の列が足される。足さないまま始めると、下の手順5で使う decide の行だけが
+   PostgREST に 400 で弾かれ、Vercel のログに `[nq] log http nq_events 400` が出る。ほかのイベントは影響を受けない）。
 3. Vercel の env を入れて Redeploy: `NQ_ENABLED=1` `NQ_SHADOW=1` `NQ_MODEL_PROVIDER=jev` `JEV_API_KEY` `JEV_MODEL=jev-1.13.0`
    `SUPABASE_URL` `SUPABASE_SERVICE_ROLE_KEY`。`NQ_POLICY` と `NQ_LEARN` は入れない。
 4. `data/nq-config.json` の `session_log` `api` `events_api` を true にしてコミットする。**必ず 3 のあとに行う**
    （先にクライアントを開けると、API が毎回デフォルトを返すだけの無駄な通信になる）。
-5. 完了の条件: `nq_decisions` を50件目視して明らかな誤りが1割未満。応答の9割が1.2秒以内（`latency_ms` の分布）。
-   超えるなら `data/nq-rules.json` の `model_timeout_ms` と関数のリージョンを見直す（`jev-api-notes.md` の実測メモ）。
+5. 完了の条件: `nq_decisions` を50件目視して明らかな誤りが1割未満。**応答の9割が1.2秒以内**。
+   - 測るのは、ブラウザが数えた `/api/suggest` の往復。クライアントは呼び出し1回につき必ず1件、結果を送る:
+     採用できる応答が届けば `nq_decide`、1.2秒（`client_timeout_ms`）で打ち切った回・HTTP エラー・JSON でない応答・通信の失敗は
+     `nq_decide_fail`（`reason` = timeout / http / format / network）。どちらにもブラウザで測った `latency_ms` が付く。
+     `events_api` が true なら、同じ内容が `nq_events` に `type = 'decide'`（`result` = ok / timeout / …）で入る。
+   - 判定は **`supabase/nq_report.sql` の K5** の `within_1200_rate` が 0.9 以上か（期間はシャドーの1週間に合わせて `p` を書き換える）。
+     GA4 で見るなら、イベント数の `nq_decide ÷ (nq_decide + nq_decide_fail)`。広告ブロックは両方を同じ率で落とすので、比は保たれる。
+   - **`nq_decisions.latency_ms` では判定できない。** あれは Jev の呼び出しだけの時間で、`model_timeout_ms`（900）で頭打ちになり、
+     関数の起動待ち（コールドスタート）・ログの書き込み・往復の通信を含まない。必ず 1200 未満になるので、条件が常に満たされて見える。
+     こちらは「遅い原因が Jev かどうか」の切り分けに使う（K4 の `model_failed_rate` と `latency_p90_ms`）。
+   - 0.9 に届かないとき: K5 の `timeout_rate` が高く K4 の `model_failed_rate` が低ければ、遅いのは関数の起動か回線
+     （`vercel.json` の `regions` を見直す）。両方高ければ Jev（`data/nq-rules.json` の `model_timeout_ms`、`jev-api-notes.md` の実測メモ）。
+   - ページを閉じて応答を待たなかった回は、どちらのイベントにもならない（分子にも分母にも入らない）。
+6. 完了の条件（初日に見る）: `api/_data/catalog.json` が Function に同梱されていること。ビルドの生成物なので、同梱に失敗しても
+   エラーにならず、記事が title / topic / タグ無しの `{type:'記事'}` だけで Jev に渡る（`open-decisions.md` E6）。
+   次の SQL で、記事に着地した判定のうち title が付いている割合を見る。ほぼ 0% なら同梱に失敗している
+   （公開直後で catalog に無い記事は title 無しが正常なので、100% にはならない）。
+   ```sql
+   select count(*) filter (where state -> '着地ページ' ? 'title') as with_title, count(*) as decisions
+   from public.nq_decisions where state -> '着地ページ' ->> 'type' = '記事';
+   ```
 
 **フェーズ2 本番適用（事前知識のみ）**
 1. `NQ_SHADOW` を外して Redeploy。`NQ_POLICY` は **未設定（prior）のまま**。8割に適用、2割はホールドアウト。
+   - あわせて `CRON_SECRET` と `NQ_LEARN=1` もここで入れておくとよい（夜間バッチが毎晩 `nq_model` に1行足す）。
+     prior の間、学習済みの重みは順位に使われない。使われるのは `aux`（V と cov）だけで、ログの特徴量 `dv` / `cov` に値が入り始める。
+     フェーズ3まで入れずにいると、`dv` / `cov` が 0 の行しか貯まらず、この2つの重みが未学習のまま ts に切り替わる（`open-decisions.md` D2）。
 2. シャドーのログを見て、しきい値を1回調整する（9章）。
 3. 完了の条件: しきい値を1回調整済み。表示の不具合なし。
 
@@ -190,13 +235,36 @@ npm run serve
 1. 個別化した表示が **300回** たまったことを確かめる。
    ```sql
    select count(*) from public.nq_events e join public.nq_decisions d using (decision_id)
-   where e.type = 'shown' and e.block_id like 'sg-%' and d.is_default = false;
+   where e.type = 'shown' and e.block_id like 'sg-%' and d.is_default = false
+     and d.slots -> e.slot ->> 'block_id' = e.block_id;
    ```
-2. `CRON_SECRET` を入れ、`NQ_LEARN=1` にして Redeploy。翌朝 `nq_model` に1行増えていること、`ope`（オフポリシー評価）の
+   最後の条件は、判定が選んだカードが実際にそのスロットに出た表示だけを数えるためのもの。個別化を返した判定でも、
+   クライアントが差し替えを見送ってデフォルトを出すことがある（同じブロックが1セッション2回を超えた、など）。
+   `nq_events` の `decision_id` は、デフォルト表示でも応答のあとに画面へ入ったスロットなら付いているので、
+   `decision_id` の有無では個別化かどうかを分けられない（`supabase/nq_report.sql` の「前提と限界」）。
+2. `CRON_SECRET` が入っていることを確かめ（無ければ入れる。env の表の下の注記）、`NQ_LEARN=1` にして Redeploy（フェーズ2で入れてあれば確認だけ）。
+   翌朝 `nq_model` に1行増えていること、`ope`（オフポリシー評価）の
    「学習後の順位」が「関連度だけの順位」を下回っていないことを確かめる（`supabase/nq_report.sql` の指標7）。
+   - 判断に使うのは **`lift_snips` と `ess`**（と `learned_clipped`）。`lift_ips` は、重みの打ち切り（`clipped` > 0）が1行でも在ると null になる。
+     prior-v1 のログでは探索で選ばれた行が必ず打ち切られるので、ほぼ常に null。ts への切り替えにも、prior へ戻す判断にも使わない。
+   - lift は1枚目のスロット（slot-mid / slot-next）の行だけで出る。slot-end は `ope.by_slot` に参考値として分けてある。
 3. 数日ぶん確かめてから `NQ_POLICY=ts` にして Redeploy。
    **学習データが少ないうちに ts を入れると、選択がほぼ一様になる**（事前分布のばらつきが関連度の差より大きいため）。
    下回った月は `NQ_POLICY` を外して prior に戻す。
+   - 切り替えの前に、最新の `nq_model` の `variance.cov` / `variance.dv` が事前分布の 0.25 から十分に縮んでいることも確かめる
+     （縮んでいなければ、`dv` / `cov` の重みが未学習で、ts の抽出に標準偏差 0.5 の雑音がそのまま乗る）。
+     ```sql
+     select variance ->> 'cov' as var_cov, variance ->> 'dv' as var_dv from public.nq_model order by created_at desc limit 1;
+     ```
+
+**夜間バッチと判定の監視（Vercel のログ）**
+- `[nq] train truncated` — 夜間バッチが読み込みを途中で打ち切った（ページ上限 300、または読み込みの持ち時間 30秒）。失敗にはせず、
+  読めたぶんで学習している。毎晩出るなら行数が増えすぎている。
+- `[nq] model stale_days N` — `NQ_POLICY=ts` で、最新の `nq_model` が3日より古い。夜間バッチが止まっている（重みは使い続ける）。
+- `[nq] jev out_of_range <個数>` — Jev の応答に 0〜1（score は 0〜段階数−1）の外の数値があった。その値は「回答なし」として扱う。
+  `JEV_MODEL` を変えた直後や、Gateway 経由に切り替えた直後はこの行を確認する。
+- `[nq] api/_data/catalog.json not bundled` — catalog.json が Function に同梱されていない（`open-decisions.md` E6）。
+- `[nq] log http nq_events 400` — Supabase のスキーマが古い（`nq_schema.sql` を流し直す）。
 
 **フェーズ4 運用** — 月初に `supabase/nq_report.sql` のクエリを SQL Editor に1つずつ貼って月次レポートを作る。
 other・低確信が2割を超えた軸は、ラベルの見直しかブロックの追加を検討する（ラベルの変更は四半期に1回にまとめる）。
@@ -207,6 +275,7 @@ other・低確信が2割を超えた軸は、ラベルの見直しかブロッ�
 
 1. プロジェクトを作る（既存のプロジェクトに同居させてもよい。テーブルはすべて `nq_` で始まる）。
 2. SQL Editor に `supabase/nq_schema.sql` を貼って1回実行する。何度流しても同じ結果になる。
+   リポジトリの `nq_schema.sql` が変わったら（列や関数の追加）、同じように流し直す。
    全テーブルが RLS 有効・ポリシー無しで、`service_role` キー以外からは1行も読み書きできない。
 3. Project Settings → API の URL と `service_role` キーを、Vercel の `SUPABASE_URL` / `SUPABASE_SERVICE_ROLE_KEY` に入れる。
    **`service_role` キーはブラウザにもリポジトリにも出さない。**
@@ -218,8 +287,8 @@ other・低確信が2割を超えた軸は、ラベルの見直しかブロッ�
 
 ## 7. GA4 のカスタムディメンション
 
-`nq_decide` `nq_shown` `nq_click` `nq_engaged` `nq_dismiss` `nq_goal` が、同じ名前で GA4 にも送られる。
-GA4 の管理 → カスタム定義で、**イベントスコープ** のディメンションとして次の6つだけを登録する。
+`nq_decide` `nq_decide_fail` `nq_shown` `nq_click` `nq_engaged` `nq_dismiss` `nq_goal` が、同じ名前で GA4 にも送られる。
+GA4 の管理 → カスタム定義で、**イベントスコープ** のディメンションとして次の7つだけを登録する。
 
 | パラメータ | 内容 |
 |---|---|
@@ -229,6 +298,10 @@ GA4 の管理 → カスタム定義で、**イベントスコープ** のディ
 | `trigger` | T1 / T2 / T3 |
 | `is_default` | デフォルト表示か |
 | `policy` | prior-v1 / ts-v1 |
+| `reason` | `nq_decide_fail` の理由。timeout / http / format / network |
+
+`nq_decide` / `nq_decide_fail` の `latency_ms`（ブラウザで測った `/api/suggest` の往復時間）は、分布を GA4 で見たいときだけ
+**カスタム指標**（単位: ミリ秒）として登録する。フェーズ1の完了条件はイベント数の比で出せるので、登録しなくても判定できる。
 
 **`decision_id` は登録しない。** 値の種類が多すぎて GA4 では (other) に丸められ、レポートで使えない。
 判定単位の分析は Supabase を正とする。GA4 は「デフォルト表示を含めた全体の CTR」とホールドアウト比較の分母に使う。

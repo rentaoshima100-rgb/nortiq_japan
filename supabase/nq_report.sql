@@ -1,5 +1,5 @@
 -- 次ページ提案（nq）— 月次の意図レポートと KPI のクエリ集
--- （情報設計書 10章「月次の意図レポート」の9指標 ＋ 1章の KPI 4つ）。
+-- （情報設計書 10章「月次の意図レポート」の9指標 ＋ 1章の KPI 4つ ＋ 運用の確認 K5「応答が間に合った割合」）。
 --
 -- 使い方: supabase/nq_schema.sql を流してある Supabase の SQL Editor に、クエリを1つずつ貼って実行する
 -- （SQL Editor は最後の文の結果しか表示しないので、まとめて流さない）。
@@ -16,6 +16,18 @@
 --     あちらを変えたら、ここも変える。
 --   - NQ_MODEL_PROVIDER=stub の期間は回答がすべて低確信なので、意図の指標（1〜4、8）は意味を持たない。
 --   - 13か月より前の月は生ログが無い。nq_monthly.metrics（件数）から計算する（末尾の付録）。
+--   - 「個別化した表示（personalized）」は nq_events の decision_id の有無では決まらない。クライアントは、判定の応答を
+--     受けたあとに画面へ入ったスロットなら、デフォルト表示（ホールドアウト・シャドー・確信不足・差し替えの見送り）でも
+--     decision_id を付けて送る。nq_decisions を引いて「is_default が false、かつ slots のそのスロットの block_id が
+--     イベントの block_id と同じ」ものだけを personalized とする（指標5・K1。api/_lib/learn.js の学習行と同じ基準）。
+--   - /subsidy は K2（記事→サービス遷移率）の到達先に含め、K3（ゴール到達率）には含めない。設計書2章ではゴール層だが、
+--     /subsidy に着いても nq_goal は出ない（10章）。どちらにも入れないと、sg-subsidy の行き先がどの到達率にも
+--     数えられない（nq_schema.sql の nq_page_group の 'goal_info'）。/subsidy にはカードのスロットが無いので、到達が
+--     拾えるのは sg-subsidy を押して途中離脱せずに読んだとき（engaged の page_url）と、PC で slot-bar の判定・表示が
+--     そこで起きたときだけ。ほかの中間ページより少なめに出る。
+--   - 応答時間は2種類あり、別物。nq_decisions.latency_ms は Jev の呼び出しだけの時間（900ms で頭打ち。K4）。
+--     訪問者から見た /api/suggest の往復時間と、1.2秒で打ち切った回の数は nq_events の type = 'decide' の行（K5）。
+--     フェーズ1の完了条件「応答の9割が1.2秒以内」は K5 で判定する。
 
 
 -- =====================================================================
@@ -112,17 +124,25 @@ order by share desc nulls last;
 
 -- ---------- 5. ブロック別 CTR ----------
 -- 表示30回以上のブロックだけ。下位のブロックは文言を差し替える。
--- mode = personalized は判定で差し替えた表示、default はデフォルト表示（ホールドアウトを含む）。
+-- mode = personalized は判定で差し替えた表示、default はデフォルト表示（ホールドアウト・シャドーを含む）。
 -- 同じブロックでも、合う人にだけ出したときとデフォルトで全員に出したときで CTR が違うので分けて見る。
+-- mode は decision_id の有無では決めない（冒頭「前提と限界」）。判定ログを引き、実際に個別化を返した判定
+-- （is_default が false）で、そのスロットに置いたブロックと同じものが出たときだけ personalized。
+-- 判定の行が無いイベント（記録の失敗、API の即デフォルト応答）は left join で null になり、default に入る。
 with p as (select * from public.nq_month_range(-1)),
 e as (
-  select ev.* from public.nq_events ev, p
+  select ev.*,
+         case when d.is_default is false and d.slots -> ev.slot ->> 'block_id' = ev.block_id
+              then 'personalized' else 'default' end as mode
+  from public.nq_events ev
+  cross join p
+  left join public.nq_decisions d on d.decision_id = ev.decision_id
   where ev.created_at >= p.t0 and ev.created_at < p.t1
-    and ev.type in ('shown', 'click', 'engaged') and ev.block_id is not null
+    and ev.type in ('shown', 'click') and ev.block_id is not null
 )
 select block_id,
        coalesce(variant, '(なし)') as variant,
-       case when decision_id is null then 'default' else 'personalized' end as mode,
+       mode,
        count(*) filter (where type = 'shown') as shown,
        count(*) filter (where type = 'click') as clicks,
        round(count(*) filter (where type = 'click')::numeric / nullif(count(*) filter (where type = 'shown'), 0), 4) as ctr
@@ -193,6 +213,11 @@ order by abs(w.value::numeric / nullif(sqrt((m.variance ->> w.key)::numeric), 0)
 -- 各月の最後の夜間バッチの値を並べる。改善が出ない月が続けば、特徴量を見直す。
 --   snips は自己正規化した推定値（ばらつきが小さいので、まずこちらを見る）。ips は素の推定値。
 --   ess（有効サンプル数）が小さい、または in_sample が true の月は、件数が足りず結論を出せない。
+--   判断は lift_snips と ess、learned_clipped で見る。prior-v1 のログでは、探索で選ばれた行の重み（20×候補数）が
+--   必ず上限の 20 で打ち切られるので、ips は下限にしかならない。lift_ips は打ち切りが1行も無いとき
+--   （rel_only・learned とも clipped = 0）だけ値が入り、それ以外は null。
+--   値は1枚目のスロット（slot-mid / slot-next）の行だけで出したもの。slot-end は ope -> 'by_slot' -> 'slot-end' に
+--   参考値として分けてある（1枚目はログのまま2枚目だけ替えた場合。lift は無い）。
 select to_char(date_trunc('month', created_at at time zone 'Asia/Tokyo'), 'YYYY-MM') as month,
        version,
        n_impressions,
@@ -204,6 +229,8 @@ select to_char(date_trunc('month', created_at at time zone 'Asia/Tokyo'), 'YYYY-
        (ope ->> 'lift_ips')::numeric as lift_ips,
        (ope -> 'rel_only' ->> 'ess')::numeric as rel_only_ess,
        (ope -> 'learned' ->> 'ess')::numeric as learned_ess,
+       (ope -> 'rel_only' ->> 'clipped')::int as rel_only_clipped,
+       (ope -> 'learned' ->> 'clipped')::int as learned_clipped,
        (ope ->> 'in_sample')::boolean as in_sample
 from (
   select distinct on (date_trunc('month', created_at at time zone 'Asia/Tokyo')) *
@@ -240,6 +267,8 @@ order by other_or_low_rate desc nulls last;
 
 -- 提案カードの関連度（rel_*）の側。どのカードも関連度の門（0.55）に届かなかった判定の割合と、
 -- 関連度は足りたのに出せなかったカード（未承認・業種版なしなど）の内訳。後者が多ければ承認か業種版が足りない。
+-- excluded = 'visitor_type' は、訪問者タイプで対象外にしたカード（blocks.json の only_visitor_types。sg-recruit は
+-- 「求職者・学生」だけ）。意図した除外で、承認や業種版の不足ではないので、どちらの集計からも外す。
 with p as (select * from public.nq_month_range(-1)),
 d as (
   select dd.decision_id, dd.candidates from public.nq_decisions dd, p
@@ -248,7 +277,7 @@ d as (
 per_decision as (
   select d.decision_id,
          max((c ->> 'rel')::numeric) filter (where c ->> 'excluded' is null) as max_rel_deliverable,
-         max((c ->> 'rel')::numeric) as max_rel_any
+         max((c ->> 'rel')::numeric) filter (where c ->> 'excluded' is distinct from 'visitor_type') as max_rel_any
   from d left join lateral jsonb_array_elements(d.candidates) as c on true
   group by d.decision_id
 )
@@ -265,7 +294,7 @@ select c ->> 'block_id' as block_id,
 from public.nq_decisions dd, p, jsonb_array_elements(dd.candidates) as c
 where dd.created_at >= p.t0 and dd.created_at < p.t1
   and dd.candidates is not null
-  and c ->> 'excluded' not in ('rel_floor')
+  and c ->> 'excluded' not in ('rel_floor', 'visitor_type')
   and (c ->> 'rel')::numeric >= 0.55
 group by 1, 2
 order by decisions desc;
@@ -314,14 +343,19 @@ order by g.grp;
 
 -- ---------- K1. 提案カード CTR ----------
 -- カード（sg-*）を表示したセッションのうち、クリックしたセッションの割合。主 KPI。
--- 訪問者タイプ別。ブロック別は上の 5 を見る。mode は 5 と同じ（判定で差し替えた表示か、デフォルト表示か）。
+-- 訪問者タイプ別。ブロック別は上の 5 を見る。mode は 5 と同じ（判定で差し替えた表示か、デフォルト表示か。
+-- decision_id の有無ではなく、判定ログの is_default とスロットの block_id の一致で決める）。
+-- シャドーモードの期間は全表示が default に入る（personalized が 0 行で正しい）。
 with p as (select * from public.nq_month_range(-1)),
 e as (
   select ev.session_id,
-         case when ev.decision_id is null then 'default' else 'personalized' end as mode,
+         case when d.is_default is false and d.slots -> ev.slot ->> 'block_id' = ev.block_id
+              then 'personalized' else 'default' end as mode,
          bool_or(ev.type = 'shown') as shown,
          bool_or(ev.type = 'click') as clicked
-  from public.nq_events ev, p
+  from public.nq_events ev
+  cross join p
+  left join public.nq_decisions d on d.decision_id = ev.decision_id
   where ev.created_at >= p.t0 and ev.created_at < p.t1
     and ev.type in ('shown', 'click') and ev.block_id like 'sg-%'
   group by 1, 2
@@ -345,6 +379,7 @@ order by mode, grouping(visitor_type) desc, sessions_shown desc;
 
 -- ---------- K2. 記事→サービス遷移率 ----------
 -- 記事に着地したセッションのうち、サービス系ページ（2章の中間層）に到達した割合。主 KPI。
+-- /subsidy もここの到達先に数える（K3 には数えない。理由と拾える範囲は冒頭「前提と限界」）。
 -- ホールドアウトとの比較は上の 9。ここは月ごとの推移（直近6か月。適用群・ホールドアウト・シャドーの別）。
 select to_char(date_trunc('month', x.first_at at time zone 'Asia/Tokyo'), 'YYYY-MM') as month,
        case when x.shadow then 'shadow' when x.holdout then 'holdout' else 'applied' end as grp,
@@ -359,6 +394,7 @@ order by 1 desc, 2;
 
 -- ---------- K3. 相談・資料DL到達率 ----------
 -- ゴール（/diagnostic・/guidebook への到達、資料請求フォームの送信）に着いたセッションの割合。
+-- /subsidy への到達は含めない（nq_goal が出ない。K2 の側で数える）。
 -- 件数が少ないので方向性の確認だけに使う。
 with p as (select * from public.nq_month_range(-1)),
 s as (
@@ -386,6 +422,8 @@ order by sessions desc;
 -- 判定が「出さない」（どのルールにも当たらずデフォルト）だった割合。候補ブロック不足の検知に使う。
 -- ホールドアウトとシャドーの判定も数える（slots には「出していたら何だったか」が残っている）。
 -- モデルの失敗・タイムアウト（answers が null）は別に数える。軸ごとの内訳は上の 8。
+-- latency_p90_ms は Jev の呼び出しだけの時間（model_timeout_ms = 900 で頭打ち）。関数の起動待ち・ログ書き込み・
+-- 往復の通信を含まないので、必ず 1200 未満になる。訪問者から見た応答時間は下の K5。
 with p as (select * from public.nq_month_range(-1)),
 d as (
   select dd.* from public.nq_decisions dd, p
@@ -404,14 +442,68 @@ group by grouping sets ((trigger), ())
 order by grouping(trigger) desc, 1;
 
 
+-- ---------- K5. /api/suggest の応答が間に合った割合（フェーズ1の完了条件） ----------
+-- ブラウザが /api/suggest を呼んだ回のうち、採用できる応答が client_timeout_ms（1.2秒）以内に届いた割合。
+-- 設計書13章のフェーズ1の完了条件「応答の9割が1.2秒以内」は、within_1200_rate が 0.9 以上かで判定する。
+-- もとは nq_events の type = 'decide'（ブラウザが呼び出し1回につき必ず1行送る。config.events_api が true のとき）。
+--   ok      採用できる応答が届いた（ホールドアウト・シャドー・確信不足の default:true も ok。間に合ったかだけを見る）
+--   timeout 1.2秒で打ち切った。関数の起動待ち（コールドスタート）・Jev の遅さ・回線の遅さを区別しない
+--   http / format / network  HTTP エラー・JSON でない応答・通信の失敗
+-- どの回も、ok 以外は訪問者にデフォルトが出ている。latency_ms はブラウザで測った往復時間で、K4 の latency_p90_ms
+-- （Jev の呼び出しだけ）とは別物。ok_p50_ms / ok_p90_ms は間に合った回だけの分布なので、1200 を超えない。
+-- ページを閉じて応答を待たなかった回は、どの result にもならず行が無い（分子にも分母にも入らない）。
+-- timeout_rate が高いのに K4 の model_failed_rate が低ければ、遅いのは Jev ではなく関数の起動か回線。
+-- 期間を変えるときは p を置き換える（フェーズ1の1週間なら冒頭の「4週間単位」の書き方で t0 / t1 を直に書く）。
+with p as (select * from public.nq_month_range(-1)),
+c as (
+  select ev.page_url, ev.result, ev.latency_ms
+  from public.nq_events ev, p
+  where ev.created_at >= p.t0 and ev.created_at < p.t1 and ev.type = 'decide' and ev.result is not null
+)
+select case when grouping(public.nq_page_group(page_url)) = 1 then '(全体)' else coalesce(public.nq_page_group(page_url), '(不明)') end as page_group,
+       count(*) as calls,
+       count(*) filter (where result = 'ok' and coalesce(latency_ms, 0) <= 1200) as within_1200,
+       round(count(*) filter (where result = 'ok' and coalesce(latency_ms, 0) <= 1200)::numeric / nullif(count(*), 0), 4) as within_1200_rate,
+       count(*) filter (where result = 'timeout') as timeout,
+       round(count(*) filter (where result = 'timeout')::numeric / nullif(count(*), 0), 4) as timeout_rate,
+       count(*) filter (where result in ('http', 'format', 'network')) as other_fail,
+       round((percentile_cont(0.5) within group (order by latency_ms) filter (where result = 'ok'))::numeric, 0) as ok_p50_ms,
+       round((percentile_cont(0.9) within group (order by latency_ms) filter (where result = 'ok'))::numeric, 0) as ok_p90_ms,
+       case when count(*) < 100 then '件数不足（目安100）' else '' end as note
+from c
+group by grouping sets ((public.nq_page_group(page_url)), ())
+order by grouping(public.nq_page_group(page_url)) desc, calls desc;
+
+-- 突き合わせ: サーバは判定を記録したのに、ブラウザは待ちきれなかった回（= 判定ログには served と残るが、訪問者には
+-- デフォルトが出た回）。decide の行は打ち切った回の decision_id を持たないので、セッションと時刻の近さで数える。
+-- フェーズ2以降にこの数が多いと、適用群の実質の個別化率が判定ログの見かけより低い。
+with p as (select * from public.nq_month_range(-1))
+select count(*) as timeouts,
+       count(*) filter (where exists (
+         select 1 from public.nq_decisions d
+         where d.session_id = ev.session_id and d.page_url is not distinct from ev.page_url
+           and d.created_at between ev.created_at - interval '10 seconds' and ev.created_at + interval '10 seconds'
+       )) as server_logged_anyway,
+       count(*) filter (where exists (
+         select 1 from public.nq_decisions d
+         where d.session_id = ev.session_id and d.page_url is not distinct from ev.page_url and d.is_default is false
+           and d.created_at between ev.created_at - interval '10 seconds' and ev.created_at + interval '10 seconds'
+       )) as served_but_not_seen
+from public.nq_events ev, p
+where ev.created_at >= p.t0 and ev.created_at < p.t1 and ev.type = 'decide' and ev.result = 'timeout';
+
+
 -- =====================================================================
 -- 付録
 -- =====================================================================
 
 -- 13か月より前の月（生ログは消えている）。nq_monthly の件数から主な割合を出す。
+-- answers の中は件数が1件以上あったラベルだけがキーになる（nq_snapshot_month の jsonb_object_agg）。
+-- 0件のラベルはキーごと無いので、両方とも coalesce で 0 にしてから足す（片方でも null だと和が null になる）。
+-- 判定が0件の月（sessions_judged = 0）は nullif で null のまま。
 select to_char(month, 'YYYY-MM') as month,
        (metrics ->> 'sessions')::int as sessions,
-       round(((metrics -> 'answers' -> 'visitor_type' ->> '発注検討中の事業者')::numeric
+       round((coalesce((metrics -> 'answers' -> 'visitor_type' ->> '発注検討中の事業者')::numeric, 0)
               + coalesce((metrics -> 'answers' -> 'visitor_type' ->> '情報収集中の事業者')::numeric, 0))
              / nullif((metrics ->> 'sessions_judged')::numeric, 0), 4) as prospect_rate,
        round((metrics -> 'holdout_compare' -> 'applied' ->> 'reached_service')::numeric

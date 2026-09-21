@@ -13,7 +13,7 @@
 優先度の目安 — **【承認の前】** ブロックを承認する前に要る ／ **【フェーズ1の前】** `/api/suggest` を本番で開ける前に要る ／
 **【フェーズ3の前】** 学習を始める前に要る ／ 印なしは急がない。
 
-最終更新: 2026-09-20
+最終更新: 2026-09-21
 
 ---
 
@@ -221,6 +221,8 @@
 
 ### D1. RelatedList（`rl-related`）の並びを7章の式にする件
 - **現状**: 同カテゴリの新着順（クライアントが決める）。記事ごとの関連度を Jev に聞いていないので、7章の式に入れる特徴量が作れない。
+  - v1 の並びは「同カテゴリの未読の新着順」。未読が足りなければ、全カテゴリの未読、既読の順に埋めて常に3本にする（設計書7章「すでに読んだページを除く」）。
+  - `session_log` が false の間は、フルリロードで既読の一覧が消え、従来と同じ並びに戻る（害は無い）。
 - **決めてほしいこと**: フェーズ3以降の課題として、記事の関連度を聞く（質問が増える）か、共有の重みのうち `dv` / `cov` だけで並べるか。
 - **変える場所**: `api/_lib/questions.js`、`api/_lib/recommend.js`、`api/_lib/rules.js` の行4、`nq-suggest.jsx` の RelatedList。
 
@@ -228,8 +230,18 @@
 - **現状**: 設計書の事前分布（共有の重みの標準偏差 0.5、`rel` の平均 0.5、カード別の補正 0.35）のまま ts を入れると、学習前は選択がほぼ一様になる
   （抽出した `w_rel` が負になる確率が約16%。本物の blocks の13候補で試すと、関連度が最大でないカードが選ばれる例が出た）。
   そのためフェーズ2までは prior（事前分布の平均で選ぶ）に固定してある。
-- **決めてほしいこと**: ts に切り替える条件（表示300回に加えて、オフポリシー評価で下回っていないこと）。標準偏差を小さくするか。
-- **変える場所**: `data/nq-rules.json` の `recommend.prior.sd_shared` / `sd_card`、Vercel の env `NQ_POLICY`。
+- **現状（オフポリシー評価の読み方）**: 判断に使うのは `lift_snips` と `ess`。`lift_ips` は重みの打ち切り（`clipped` > 0）があると null になり、
+  ts への切り替えにも prior へ戻す条件にも使わない。prior-v1 のログでは、探索で選ばれた行の重み（20×候補数）が必ず上限の 20 で打ち切られ、
+  ips が下限になって lift の符号まで逆に出うるため。lift は1枚目のスロットの行だけで出る（slot-end は `ope.by_slot` の参考値）。
+  選択肢: `ope_weight_cap` を「候補数 ÷ 探索率」（例 13 ÷ 0.05 = 260）以上にすれば ips は不偏になるが、分散が増える。設計書の 20 のままにしてある。
+- **現状（dv / cov の重み）**: `/api/suggest` は prior の間も `nq_model` の `aux`（V と cov）を読み、特徴量 `dv` / `cov` をログに残す（順位は変わらない）。
+  ただし `aux` は夜間バッチが作るので、`NQ_LEARN=1` を入れるまでは `dv` / `cov` が 0 の行しか貯まらない。その行で何か月学習しても、この2つの重みは
+  事前分布（標準偏差 0.5）のままで、ts に切り替えた直後の抽出に雑音として乗る。手順は `README.md` 5章: `NQ_LEARN=1` はフェーズ2から入れて
+  aux を先に育て、ts に切り替える条件に「最新の `nq_model` の `variance.cov` / `variance.dv` が 0.25 から十分に縮んでいること」を足す
+  （確認 SQL: `select variance->>'cov', variance->>'dv' from nq_model order by created_at desc limit 1`）。
+- **決めてほしいこと**: ts に切り替える条件（表示300回に加えて、オフポリシー評価の `lift_snips` が下回っていないこと、`variance.cov` / `variance.dv` が縮んでいること）。
+  「十分に縮んだ」の線（例: 0.1 未満）。標準偏差を小さくするか。`NQ_LEARN=1` をフェーズ2から入れてよいか。
+- **変える場所**: `data/nq-rules.json` の `recommend.prior.sd_shared` / `sd_card` / `ope_weight_cap`、Vercel の env `NQ_POLICY` / `NQ_LEARN`。
 
 ### D3. 求職者が /recruit を読んだあとも `sg-recruit` が出ていた（統合時に修正済み）
 - **現状**: `applyRules()` に `viewedUrls` を渡し、すでに読んだページを指す提案カード（kind: suggest）は不採用（`skipped` の理由は `viewed`）にした。
@@ -247,12 +259,19 @@
 ### D5. Jev のタイムアウトとコールドスタート【フェーズ1の前】
 - **現状**: サーバ側の上限は 900ms（`model_timeout_ms`）、クライアントは 1,200ms。日本のローカルPCからの実測は、新規接続の1回目が 1.6〜4.2 秒、
   接続を使い回すと 0.1〜0.9 秒。Vercel の関数のコールドスタートと新規 TLS 接続が重なる回は、間に合わずデフォルトになる。
-- **決めてほしいこと**: シャドーモードの `latency_ms` の分布を見て、上限と関数のリージョン（Jev に近づけるか）を決める。
+- **測り方の注意**: `nq_decisions.latency_ms` は Jev の呼び出しだけの時間で、`model_timeout_ms`（900）で頭打ちになる。関数のコールドスタート、
+  ログ書き込みの待ち、往復の通信を含まないので、この列の分布では「1.2秒以内」を判定できない（必ず満たして見える）。
+  訪問者から見た応答は、クライアントが呼び出し1回ごとに送る `nq_decide` / `nq_decide_fail`（`nq_events` の `type = 'decide'`。
+  1.2秒で打ち切った回も `timeout` として必ず1件）で測る。集計は `supabase/nq_report.sql` の K5。
+- **決めてほしいこと**: シャドーモードの K5（`within_1200_rate` と `timeout_rate`）と K4（`model_failed_rate` と `latency_p90_ms`）を見て、
+  上限と関数のリージョン（Jev に近づけるか）を決める。K5 だけ悪ければ関数の起動か回線、両方悪ければ Jev。
 - **変える場所**: `data/nq-rules.json`（`model_timeout_ms` `client_timeout_ms`）、`vercel.json`（`regions`）。
 
 ### D6. レート制限
 - **現状**: コードにレート制限は無い（KV を足さず、IP も保存しないため）。入口の防御は Origin の確認・bot の UA・入力検証・1セッション3回（クライアント側）だけ。
   Origin と UA は偽装できるので、よそから叩かれると Jev の原価と `nq_decisions` の行が増える。
+  第三者の `*.vercel.app` のページ経由（実ブラウザ・IP 分散）の経路は、Origin の同一オリジン化と Content-Type（`application/json` だけ受ける）で塞いだ。
+  curl での偽装は従来どおり Firewall の範囲。
 - **決めてほしいこと**: Vercel Firewall で `/api/suggest` と `/api/nq-event` にレート制限のルールを入れるか【フェーズ1の前】。
 - **変える場所**: Vercel のダッシュボード（Firewall）。
 
@@ -260,6 +279,8 @@
 - 関連度の門（`rel_gate` 0.55）は「いま出せる候補」の最大値で判定する（未承認・既読・業種が決まらないカードの高い関連度では門を通さない）。
 - slot-end の (a) で `rs-<不安>` が未承認で置けないときは、(b) の2枚目に回す。1枚目がすでにその不安の variant で答えているなら、2枚目は default。
 - T1 で slot-end に `rs-*` が入った判定では、推薦アルゴリズムの2枚目は表示されない。学習とオフポリシー評価は `nq_events` の shown を正とする。
+- 2枚目の pool（1枚目とページ群が違う候補）の最大関連度にも `rel_gate` を掛け、未満なら2枚目は選ばない（slot-end は 6.3 の (c) で変えない）。コントラクト 6.4 に追記済み。
+- 訪問者タイプで対象外のカードは候補から外す（blocks の `only_visitor_types`。`sg-recruit` は「求職者・学生」だけ。確信度は問わない）。コントラクト 6.2 / 6.4 に追記済み。
 - `/api/suggest` に送る履歴から現在のページを外した（T1 は25%地点で走るので、入れると必ず「途中離脱」が付く）。
 - ログの `candidates[].propensity` はスロット別のオブジェクト。重みは「名前 → 数値」のマップ（配列ではない）。
 - **決めてほしいこと**: 異論が無ければコントラクト（`implementation-contract.md`）の 6.3 / 6.4 に追記する。
@@ -282,7 +303,7 @@
   夜間バッチが回り始めれば、自前のログから作られる。
 - **決めてほしいこと**: GA4 の「ページ参照元 × ページパス」から初期値を作って入れるか。入れるなら誰が GA4 から書き出すか。
 - **変える場所**: `nq_model` に `version: 'ga4-init'` の行を1つ手で入れる（`aux = { V, V_type, cov }`。形は `api/_lib/features.js` と `learn.js` のコメント）。
-  ただし `aux` が読まれるのは `NQ_POLICY=ts` のときだけ（prior は学習済みモデルを読まない）。
+  `aux` は prior の間も読まれ、特徴量としてログに入る（prior の順位は変わらない。学習済みの重みを使うのは `NQ_POLICY=ts` のときだけ）。
 
 ### E2. 事前分布の切片 w0（−3.5 = 成果率3%相当）をフェーズ0の実測で置き換える【フェーズ3の前】
 - **現状**: 設計書の初期値のまま。
@@ -307,10 +328,29 @@
 - **決めてほしいこと**: pg_cron を使うか、月次レポートのついでに手で流すか。
 - **変える場所**: Supabase の SQL Editor（`supabase/nq_schema.sql` 末尾のコメント）。
 
-### E6. 実際の Supabase での検証が済んでいない【フェーズ1の前】
-- **現状**: SQL は PGlite（WASM の Postgres）で全文を実行して確かめた。本物の PostgREST が `select=history:state->閲覧履歴` を受け付けるかは未確認
+### E6. 実際の Supabase / Vercel での検証が済んでいない【フェーズ1の前】
+- **現状（Supabase）**: SQL は PGlite（WASM の Postgres）で全文を実行して確かめた。本物の PostgREST が `select=history:state->閲覧履歴` を受け付けるかは未確認
   （受け付けない場合は state 全体を読むフォールバックが在る。転送量が増える）。プレビューは SSO 保護されているので、外からの疎通確認がしにくい。
+- **現状（Vercel。catalog.json の同梱）**: `api/_data/catalog.json` は buildCommand（`node build.js`）の生成物で、`.gitignore` の対象。
+  `vercel.json` の `includeFiles: "api/_data/**"` で3つの Function への同梱を指定したが、**Vercel 上で実際に入るかは未確認**
+  （ビルドと Function のトレースの順序に依るので、実デプロイでしか確かめられない）。入らなかった場合、`api/_lib/data.js` は
+  エラーにはせず `data/catalog-pages.json`（46ページ。記事は0件）に落ちる。Vercel の上では、関数の起動ごとに1回
+  `[nq] api/_data/catalog.json not bundled; …` をログに出す（ログを見なければ気づけないのは同じ）。そうなると記事は title / topic / タグ無しの
+  `{type:'記事'}` だけで Jev に渡り、判定の精度が落ちる。夜間バッチの title → URL の逆引き（遷移表。E3）も記事をすべて取りこぼす。
+  catalog に無い記事を title 無しで通すのは正規の経路（公開直後の記事）なので、`nq_decisions.state` を数件見ただけでは異常と見分けにくい。
+- **現状（夜間バッチの読み込み）**: `api/nq-train.js` の時刻カーソルの読み込みは、メモリ上の PostgREST もどきでしか確かめていない。
+  使っている書式は `created_at=gte.<iso>&created_at=lte.<PostgREST が返した created_at を encodeURIComponent したもの>`、
+  `order=created_at.desc,event_id.desc`、`decision_id=is.null&type=eq.goal`。`NQ_LEARN=1` にする前に、Supabase に数行入れた状態で
+  `/api/nq-train` を1回叩き、200 と `truncated` がすべて false であることを確かめる。
+- **現状（Vercel Cron）**: `vercel.json` の `crons`（毎晩 JST 03:00 に `/api/nq-train`）が実際に呼ばれるかも未確認。
+  確認は `README.md` 5章フェーズ3の手順2（翌朝 `nq_model` に1行増える）で行う。`CRON_SECRET` を入れるまでは毎晩 401 が
+  ログに残る（無害。`README.md` 5章の注記）。
 - **決めてほしいこと**: Supabase のプロジェクトを作る人と時期。シャドーモードの初日に `nq_decisions` に行が入ることを確かめる担当。
+  catalog.json の同梱を確かめる担当と時期。確かめ方は次のどちらか（プレビューは SSO 保護で外から叩きにくい）。
+  - (a) Vercel のデプロイ詳細（Functions の出力ファイル一覧、または `vercel inspect`）で、`api/suggest` の関数に `api/_data/catalog.json` が入っているかを見る。
+  - (b) シャドーモードの初日に、記事に着地した判定のうち title が付いている割合を見る（SQL は `README.md` 5章フェーズ1の手順6）。ほぼ 0% なら同梱に失敗している。
+  - (c) Vercel のログに `[nq] api/_data/catalog.json not bundled` が出ていないかを見る。
+- **変える場所**: 同梱されていなければ `vercel.json` の `includeFiles`、または catalog.json の置き場と `api/_lib/data.js` の読み方。
 
 ### E7. 評価セットの正解ラベルの見直し【フェーズ0 検証】
 - **現状**: `eval/sessions.json` の60セッションは LLM が作った下書き。迷うものは `expected.alt` に許容ラベルを並べてある。
@@ -323,6 +363,19 @@
 
 ### E8. 再訪フラグは弱い信号
 - Safari の ITP は、スクリプトが書いた localStorage を7日で消す。「再訪」は過少に出る。しきい値の調整のときに、`revisit` に強く依る判断をしない。
+
+### E9. /subsidy を計測上どの層として数えるか
+- **現状**: 設計書2章は /subsidy をゴール層に置くが、10章の `nq_goal` は /diagnostic・/guidebook への到達とフォーム送信だけで、
+  /subsidy に着いても goal イベントは出ない。どちらにも数えないと、カード `sg-subsidy`（補助金の記事6本の既定カード）の行き先が
+  K2（記事→サービス遷移率）にも K3（ゴール到達率）にも入らず、ホールドアウト比較が歪む。暫定として、**計測では中間層と同じに数える**
+  （`supabase/nq_schema.sql` の `nq_page_group` が /subsidy を `'goal_info'` に分け、`nq_is_service_group` がそれを含める。
+  K2 に入り、K3 には入らない）。特徴量の側（`data/catalog-pages.json` の `type: "goal"`、`goal_proximity = 1`）は設計書2章のまま。
+  `NQ.goal('subsidy')` を足す案は採っていない。学習は「クリック後に同じセッションで goal が在れば成果・重み3」とするので
+  （`api/_lib/learn.js`）、`sg-subsidy` を押して着いただけの全クリックがゴール到達として学習され、このカードに強く偏るため。
+  なお /subsidy にはカードのスロットが無く、到達が拾えるのは `sg-subsidy` を押して途中離脱せずに読んだとき（engaged の `page_url`）と、
+  PC で slot-bar の判定・表示がそこで起きたときだけ。ほかの中間ページより少なめに出る。
+- **決めてほしいこと**: この数え方でよいか。/subsidy を本当のゴールにするなら、到達ではなく /subsidy の相談ボタン → フォーム送信（既存の `contact`）で数えるのが筋。
+- **変える場所**: `supabase/nq_schema.sql`（`nq_page_group` `nq_is_service_group`。流し直せば過去の生ログにも効く）、`supabase/nq_report.sql` の冒頭「前提と限界」。
 
 ---
 

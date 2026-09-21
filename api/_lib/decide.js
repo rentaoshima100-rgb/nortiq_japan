@@ -39,6 +39,18 @@ const num = (v) => (typeof v === 'number' && Number.isFinite(v) ? v : null);
 const clamp01 = (v) => Math.min(1, Math.max(0, v));
 const round4 = (v) => Math.round(v * 10000) / 10000;
 
+// 0〜1 のはずの値（noul・confidence・確率）。範囲外は丸めずに null（回答なし）にする。
+// 範囲外の値は、応答の形が想定と違うしるし（たとえば百分率の 35）。1 に丸めると「最大の確信」に
+// なり、しきい値をすべて素通りして個別化が出る向きに倒れる。null なら recommend / rules が
+// デフォルトの向きに倒す（原則2）。許すのは丸め誤差だけ。stats を渡すと範囲外の個数を数える。
+const EPS = 1e-6;
+function unit(v, stats) {
+  if (v == null) return null;
+  if (v >= -EPS && v <= 1 + EPS) return clamp01(v);
+  if (stats) stats.out_of_range += 1;
+  return null;
+}
+
 function fail(code, latency) {
   const e = new Error('nq_decide_' + code);
   e.code = code;
@@ -64,13 +76,15 @@ function toAnswerMap(raw) {
 
 // 確率分布 → { label: p }。マップ、数値の配列（選択肢の並び順）、[{label, probability}] の3通りを受ける。
 // keys に無いラベルは捨てる（モデルが選択肢に無い語を返しても、ログとルールに混ぜない）。
-function toProbMap(raw, keys, aliases) {
+// 範囲外の確率は分布に入れない。
+function toProbMap(raw, keys, aliases, stats) {
   const out = {};
   const put = (k, v) => {
     let key = String(k);
     if (aliases && has(aliases, key)) key = aliases[key];
-    const p = num(v);
-    if (p != null && keys.includes(key)) out[key] = round4(clamp01(p));
+    if (!keys.includes(key)) return;
+    const p = unit(num(v), stats);
+    if (p != null) out[key] = round4(p);
   };
   if (Array.isArray(raw)) {
     if (raw.length && raw.every((v) => typeof v === 'number')) {
@@ -95,56 +109,64 @@ function argmax(probs) {
   return best;
 }
 
-function normChoice(a, q) {
+function normChoice(a, q, stats) {
   const keys = Object.keys(q.criteria || {});
   const src = isObj(a) ? a : {};
-  const probabilities = toProbMap(src.probabilities, keys);
+  const probabilities = toProbMap(src.probabilities, keys, null, stats);
   let choice = typeof src.choice === 'string' && keys.includes(src.choice) ? src.choice : null;
   if (choice == null && typeof src.choice !== 'string') choice = argmax(probabilities);
   // 選択肢に無い語を返してきたら「分からない」と同じ扱い（確信度 0）にして、ルールに当てない。
-  let confidence = choice == null ? 0 : num(src.confidence);
+  // 範囲外の confidence は「無かった」のと同じ扱い（選んだ選択肢の確率で補い、それも無ければ 0）。
+  let confidence = choice == null ? 0 : unit(num(src.confidence), stats);
   if (confidence == null) confidence = has(probabilities, choice) ? probabilities[choice] : 0;
   return { choice, confidence: round4(clamp01(confidence)), probabilities };
 }
 
-function normScore(a, q) {
+function normScore(a, q, stats) {
   const levels = Array.isArray(q.criteria) ? q.criteria : [];
   const keys = levels.map((_, i) => String(i));
   // 分布のキーが段階の説明文で返ってきた場合は、段階の番号に読み替える。
   const aliases = {};
   levels.forEach((text, i) => { aliases[String(text)] = String(i); });
   const src = isObj(a) ? a : {};
-  const probabilities = toProbMap(src.probabilities, keys, aliases);
+  const probabilities = toProbMap(src.probabilities, keys, aliases, stats);
+  const top = Math.max(0, keys.length - 1);
   let score = num(src.score);
-  if (score == null && Object.keys(probabilities).length) {
-    score = Object.keys(probabilities).reduce((s, k) => s + Number(k) * probabilities[k], 0);
+  if (score == null) {
+    // 分布の期待値で補うのは、score が無いときだけ（範囲外の score が来たときは補わない）。
+    if (Object.keys(probabilities).length) score = Object.keys(probabilities).reduce((s, k) => s + Number(k) * probabilities[k], 0);
+  } else if (score < -EPS || score > top + EPS) {
+    // 範囲外の score（たとえば 70）を最大段階に丸めると、それだけで最強の CTA に切り替わる。回答なしにする。
+    if (stats) stats.out_of_range += 1;
+    score = null;
   }
-  if (score != null) score = round4(Math.min(Math.max(0, keys.length - 1), Math.max(0, score)));
-  let confidence = num(src.confidence);
+  if (score != null) score = round4(Math.min(top, Math.max(0, score)));
+  let confidence = unit(num(src.confidence), stats);
   if (confidence == null) {
-    const top = argmax(probabilities);
-    confidence = top == null ? 0 : probabilities[top];
+    const best = argmax(probabilities);
+    confidence = best == null ? 0 : probabilities[best];
   }
   return { score, confidence: round4(clamp01(score == null ? 0 : confidence)), probabilities };
 }
 
-function normNoul(a) {
-  const v = typeof a === 'number' ? num(a) : num(isObj(a) ? a.noul : null);
-  return { noul: v == null ? null : round4(clamp01(v)) };
+function normNoul(a, stats) {
+  const v = unit(typeof a === 'number' ? num(a) : num(isObj(a) ? a.noul : null), stats);
+  return { noul: v == null ? null : round4(v) };
 }
 
 // 質問の型は「こちらが送った questions」で決める。レスポンス側の type 表記
 // （公式は小文字、DEV 記事の例は先頭大文字）には依存しない。
-function normalizeAnswers(raw, questions) {
+// stats（任意）: { out_of_range: 0 } を渡すと、範囲外で捨てた値の個数を足し込む。
+function normalizeAnswers(raw, questions, stats) {
   const map = toAnswerMap(raw);
   if (!map) return null;
   const out = {};
   for (const key of Object.keys(questions || {})) {
     const q = questions[key];
     const a = has(map, key) ? map[key] : null;
-    if (q.type === 'choice') out[key] = normChoice(a, q);
-    else if (q.type === 'score') out[key] = normScore(a, q);
-    else out[key] = normNoul(a);
+    if (q.type === 'choice') out[key] = normChoice(a, q, stats);
+    else if (q.type === 'score') out[key] = normScore(a, q, stats);
+    else out[key] = normNoul(a, stats);
   }
   return out;
 }
@@ -202,8 +224,12 @@ async function callJev(state, questions, opts) {
     throw fail('http_' + r.status);
   }
   const json = await r.json().catch(() => null);
-  const answers = normalizeAnswers(json && json.answers, questions);
+  const stats = { out_of_range: 0 };
+  const answers = normalizeAnswers(json && json.answers, questions, stats);
   if (!answers) throw fail('bad_response');
+  // 範囲外の値は回答なしに倒してあるので結果はデフォルト寄りになるだけだが、応答の形が変わった
+  // しるしなので、気づけるように個数だけ出す（本文は出さない）。
+  if (stats.out_of_range > 0) console.error('[nq] jev out_of_range', stats.out_of_range);
   return { model: (json && typeof json.model === 'string' && json.model) || model, answers };
 }
 

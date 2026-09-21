@@ -105,12 +105,14 @@ test('Jev 正規化: 選択肢に無い語・範囲外の値・欠けた回答�
   delete raw.cta_ok;
   const a = normalizeAnswers(raw, Q);
   assert.deepStrictEqual(a.need, { choice: null, confidence: 0, probabilities: {} });
-  assert.deepStrictEqual(a['rel_sg-web'], { noul: 1 });
+  // 範囲外の値は 1（最大の確信）に丸めない。回答なしにして、デフォルトの向きに倒す
+  assert.deepStrictEqual(a['rel_sg-web'], { noul: null });
   assert.deepStrictEqual(a['rel_sg-pricing'], { noul: null });
   // 聞いていないカードの関連度は、モデルが返しても answers に入れない
   assert.ok(!('rel_sg-unknown' in a));
-  assert.strictEqual(a.visitor_type.confidence, 1);
-  assert.strictEqual(a.stage.score, 3);
+  assert.strictEqual(a.visitor_type.choice, '営業・売り込み');
+  assert.strictEqual(a.visitor_type.confidence, 0); // 補える probabilities も無いので 0
+  assert.strictEqual(a.stage.score, null);
   assert.strictEqual(a.stage.confidence, 0);
   assert.deepStrictEqual(a.concern_cost, { noul: null });
   assert.deepStrictEqual(a.concern_trust, { noul: 0.9 });
@@ -120,6 +122,62 @@ test('Jev 正規化: 選択肢に無い語・範囲外の値・欠けた回答�
     const rec = recommend({ answers: a, candidates: CANDIDATES, slots: cardSlots('T2'), currentUrl: '/' });
     applyRules({ answers: a, trigger: 'T2', currentUrl: '/', picks: rec.picks });
   });
+});
+
+test('Jev 正規化: 範囲外の値は丸めずに捨てる。丸め誤差だけ許し、捨てた個数を数える', () => {
+  const raw = officialAnswers();
+  raw['rel_sg-web'] = { noul: 1.0000004 };
+  raw['rel_sg-pricing'] = { noul: -0.0000004 };
+  raw['rel_sg-works'] = { noul: 1.01 };
+  raw['rel_sg-chatbot'] = { noul: -0.2 };
+  // confidence が範囲外でも、分布が正しければ選んだ選択肢の確率で補う
+  raw.visitor_type = { choice: '発注検討中の事業者', confidence: 72, probabilities: { '発注検討中の事業者': 0.72, '情報収集中の事業者': 28 } };
+  // score は正しく confidence だけ範囲外なら、分布の最大で補う
+  raw.stage = { score: 2.1, confidence: 45, probabilities: { 0: 0.05, 1: 0.15, 2: 0.45, 3: 0.35 } };
+  const stats = { out_of_range: 0 };
+  const a = normalizeAnswers(raw, Q, stats);
+  assert.deepStrictEqual(a['rel_sg-web'], { noul: 1 });
+  assert.deepStrictEqual(a['rel_sg-pricing'], { noul: 0 });
+  assert.deepStrictEqual(a['rel_sg-works'], { noul: null });
+  assert.deepStrictEqual(a['rel_sg-chatbot'], { noul: null });
+  assert.deepStrictEqual(a.visitor_type, { choice: '発注検討中の事業者', confidence: 0.72, probabilities: { '発注検討中の事業者': 0.72 } });
+  assert.deepStrictEqual(a.stage, { score: 2.1, confidence: 0.45, probabilities: { 0: 0.05, 1: 0.15, 2: 0.45, 3: 0.35 } });
+  assert.strictEqual(stats.out_of_range, 5);
+  // 範囲外の score は、分布があっても期待値で補わない
+  const b = normalizeAnswers(Object.assign(officialAnswers(), { stage: { score: 3.2, confidence: 0.9, probabilities: [0, 0, 0, 1] } }), Q);
+  assert.deepStrictEqual(b.stage, { score: null, confidence: 0, probabilities: { 0: 0, 1: 0, 2: 0, 3: 1 } });
+});
+
+test('Jev 正規化: 全回答が百分率の形（noul:35 / confidence:62 / score:70）で返っても、結果はデフォルト', async () => {
+  // 未承認も出せる状態にしても、何も選ばれない（承認フィルタに助けられているのではないことの確認）
+  useFixtures(null, { includeUnapproved: true });
+  const { questions, candidates } = buildQuestions({ passed: [], currentUrl: '/' });
+  const raw = {};
+  for (const key of Object.keys(questions)) {
+    const q = questions[key];
+    if (q.type === 'choice') raw[key] = { choice: Object.keys(q.criteria)[0], confidence: 62 };
+    else if (q.type === 'score') raw[key] = { score: 70, confidence: 45 };
+    else raw[key] = { noul: 35 };
+  }
+  const a = normalizeAnswers(raw, questions);
+  for (const trigger of ['T1', 'T2', 'T3']) {
+    const rec = recommend({ answers: a, candidates, slots: cardSlots(trigger), currentUrl: '/', rng: () => 0.5 });
+    assert.deepStrictEqual(rec.picks, {}, trigger);
+    const r = applyRules({ answers: a, trigger, currentUrl: '/', picks: rec.picks });
+    assert.strictEqual(r.is_default, true, trigger);
+    assert.deepStrictEqual(r.matched, [7], trigger);
+  }
+  // jev の経路では、捨てた個数だけをログに出す（本文は出さない）
+  const lines = [];
+  const quiet = console.error;
+  console.error = (...args) => { lines.push(args); };
+  try {
+    const out = await withEnv({ JEV_API_KEY: 'k' }, () => decide(STATE, questions, { provider: 'jev', fetch: async () => jsonRes(200, { answers: raw }) }));
+    assert.strictEqual(out.answers.cta_ok.noul, null);
+  } finally { console.error = quiet; }
+  assert.strictEqual(lines.length, 1);
+  assert.deepStrictEqual(lines[0].slice(0, 1), ['[nq] jev out_of_range']);
+  assert.ok(lines[0][1] > 0 && lines[0].length === 2);
 });
 
 test('Jev 正規化: answers がオブジェクトでも配列でもなければ null', () => {

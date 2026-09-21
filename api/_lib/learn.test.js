@@ -316,12 +316,28 @@ test('buildCov: 遷移割合の対数比。件数の少ない from は 0 に寄�
   near(raw['/b']['/x'], Math.log(0.25 / 0.5), 1e-4);
   const smoothed = learn.buildCov(t, { smooth: 20 });
   assert.ok(smoothed['/a']['/x'] > 0 && smoothed['/a']['/x'] < raw['/a']['/x']);
-  // targets を渡すと、提案先への値だけを持つ。件数の多い from には「一度も進んでいない」も負の値で入る。
+  // targets を渡すと、提案先への値だけを持つ。「一度も進んでいない」提案先にも負の値が入る。
   const big = [tr('/a', '/x', 50), tr('/a', learn.EXIT, 50), tr('/b', '/y', 5), tr('/b', learn.EXIT, 5)];
-  const cov = learn.buildCov(big, { targets: ['/y'], smooth: 20, minFrom: 30 });
+  const cov = learn.buildCov(big, { targets: ['/y'], smooth: 20 });
   assert.deepStrictEqual(Object.keys(cov['/a']), ['/y']);
   near(cov['/a']['/y'], Math.log(20 / 120), 1e-4);
   assert.ok(cov['/b']['/y'] > 0);
+});
+
+test('buildCov: 件数の少ない from でも、進んだ提案先が進んでいない提案先より下にならない', () => {
+  // /t1 と /t2 はサイト全体ではほぼ同じ人気（約5%）。/a からは /t1 に1回だけ進み、/t2 には進んでいない。
+  const table = (exits) => [tr('/a', '/t1', 1), tr('/a', learn.EXIT, exits), tr('/b', '/t1', 49), tr('/b', '/t2', 50), tr('/b', learn.EXIT, 871)];
+  const at = (exits) => learn.buildCov(table(exits), { targets: ['/t1', '/t2'] })['/a'];
+  // 以前は from が30件未満だと /t2 が欠損（特徴量では 0）になり、負の値の /t1 より上に来ていた
+  for (const exits of [0, 4, 20, 28, 29, 99]) {
+    const line = at(exits);
+    assert.ok('/t2' in line, `N=${exits + 1}: 進んでいない提案先にも値が入る`);
+    assert.ok(line['/t1'] > line['/t2'], `N=${exits + 1}: ${line['/t1']} > ${line['/t2']}`);
+    near(line['/t2'], Math.log(20 / (exits + 1 + 20)), 1e-4);
+  }
+  // 30件を境に値が飛ばない（29件 −0.896 → 30件 −0.916）。件数が少なければ 0 に寄る
+  assert.ok(Math.abs(at(28)['/t2'] - at(29)['/t2']) < 0.05);
+  assert.ok(at(0)['/t2'] > -0.05);
 });
 
 // ---------- 4. オフポリシー評価 ----------
@@ -382,6 +398,86 @@ test('evaluatePolicies: 関連度の低いカードの方が成果が出てい�
   near(ope.learned.snips, 0.3, 0.03);
   assert.ok(ope.lift_snips > 0.2);
   assert.ok(ope.learned.ess > 1000);
+});
+
+// prior-v1 のログ: 関連度が最大のカードを 0.95 + 0.05/候補数、それ以外を 0.05/候補数 で選ぶ。
+function priorV1Rows(n, seed, rates) {
+  const rel = { 'sg-web': 0.9, 'sg-pricing': 0.7, 'sg-works': 0.5, 'sg-chatbot': 0.4 };
+  const ids = Object.keys(rel);
+  const rng = seededRng(seed);
+  const rows = [];
+  for (let i = 0; i < n; i++) {
+    const pool = ids.map((id) => ({ block_id: id, rel: rel[id], features: F({ rel: Math.log(rel[id] / (1 - rel[id])) }) }));
+    const pick = rng() < 0.05 ? Math.floor(rng() * ids.length) : 0;
+    rows.push({
+      decision_id: 'd_' + i, session_id: 'r_' + i, slot: 'slot-mid', block_id: ids[pick], features: pool[pick].features,
+      y: rng() < rates[ids[pick]] ? 1 : 0, weight: 1, propensity: (pick === 0 ? 0.95 : 0) + 0.05 / ids.length, pool,
+    });
+  }
+  return { rows, ids };
+}
+
+test('evaluatePolicies: prior-v1 のログでは探索行の重みが必ず打ち切られる。lift_ips は出さず、lift_snips は符号を保つ', () => {
+  // 関連度2位の sg-pricing の方が成果が出る（0.15 対 0.05）。学習後の順位の真の改善幅は +0.10。
+  const { rows, ids } = priorV1Rows(20000, 11, { 'sg-web': 0.05, 'sg-pricing': 0.15, 'sg-works': 0.05, 'sg-chatbot': 0.05 });
+  const prior = priorModel(ids);
+  const ope = learn.evaluatePolicies({ rows, prior, cap: 20, folds: 5 });
+  // 学習後の順位と一致するのは探索行（重み 1/0.0125 = 80）だけで、すべて 20 で打ち切られる
+  assert.ok(ope.learned.matched > 100);
+  assert.strictEqual(ope.learned.clipped, ope.learned.matched);
+  assert.strictEqual(ope.rel_only.clipped, 0);
+  // 打ち切られた ips は真の値の 1/候補数 にしかならず、関連度だけの順位より低く出る（符号が逆）
+  near(ope.learned.ips, 0.15 / 4, 0.012);
+  assert.ok(ope.learned.ips < ope.rel_only.ips);
+  assert.strictEqual(ope.lift_ips, null);
+  // 自己正規化した方は符号を保つ
+  near(ope.rel_only.snips, 0.05, 0.01);
+  assert.ok(ope.lift_snips > 0.04, String(ope.lift_snips));
+  // 打ち切りに掛からない上限なら ips も不偏で、lift_ips を出す
+  const wide = learn.evaluatePolicies({ rows, prior, cap: 1000, folds: 5 });
+  assert.strictEqual(wide.learned.clipped, 0);
+  near(wide.lift_ips, 0.1, 0.05);
+  // 打ち切りの数は offPolicyValue の戻り値にも入る
+  assert.strictEqual(learn.offPolicyValue(rows, () => 'sg-pricing', 20).clipped, ope.learned.clipped);
+});
+
+test('evaluatePolicies: lift は1枚目のスロットの行だけで出す。slot-end は by_slot に分ける', () => {
+  // ログ: 1枚目は sg-web（成果なし）、2枚目は sg-pricing（半数が成果）。学習後は sg-pricing が全体の最大に
+  // なるので、1枚目では不一致、2枚目（pool はログの1枚目を所与としたもの）では一致する。
+  // 両方を同じ母数に混ぜると、不一致で落ちた slot-mid 行のぶんだけ、見かけの改善幅（+0.25）が出ていた。
+  const rel = { 'sg-web': 0.9, 'sg-pricing': 0.7, 'sg-works': 0.5, 'sg-chatbot': 0.4 };
+  const poolOf = (ids, slotEnd) => ids.map((id) => ({ block_id: id, rel: rel[id], features: F({ rel: Math.log(rel[id] / (1 - rel[id])), slot_end: slotEnd }) }));
+  const rows = [];
+  for (let i = 0; i < 200; i++) {
+    const mid = poolOf(['sg-web', 'sg-pricing', 'sg-works', 'sg-chatbot'], 0);
+    const end = poolOf(['sg-pricing', 'sg-works'], 1);
+    rows.push({ decision_id: 'd_' + i, session_id: 'r_' + i, slot: 'slot-mid', block_id: 'sg-web', features: mid[0].features, y: 0, weight: 1, propensity: 0.9625, pool: mid });
+    rows.push({ decision_id: 'd_' + i, session_id: 'r_' + i, slot: 'slot-end', block_id: 'sg-pricing', features: end[0].features, y: i % 2, weight: 1, propensity: 0.975, pool: end });
+  }
+  const prior = priorModel(Object.keys(rel));
+  // 前提の確認: 学習後の重みは、どちらのスロットの pool でも sg-pricing を選ぶ
+  const w = learn.fitModel({ rows, prior }).mean;
+  assert.strictEqual(learn.pickByWeights(rows[0].pool, w), 'sg-pricing');
+  assert.strictEqual(learn.pickByWeights(rows[1].pool, w), 'sg-pricing');
+
+  const ope = learn.evaluatePolicies({ rows, prior, cap: 20, folds: 5 });
+  assert.strictEqual(ope.n, 200); // 1枚目のスロットの行だけ
+  assert.strictEqual(ope.logged.rate, 0);
+  assert.strictEqual(ope.rel_only.matched, 200);
+  // 学習後の1枚目（sg-pricing）を出したログは1件も無い。slot-end の成果に引きずられず、改善幅は出さない
+  assert.strictEqual(ope.learned.matched, 0);
+  assert.strictEqual(ope.learned.snips, null);
+  assert.strictEqual(ope.lift_snips, null);
+  assert.strictEqual(ope.lift_ips, null);
+  // slot-end は参考値として別に出る（1枚目はログのまま、という条件つき）。lift は持たない
+  const end = ope.by_slot['slot-end'];
+  assert.deepStrictEqual(Object.keys(end), ['n', 'logged', 'rel_only', 'learned']);
+  assert.strictEqual(end.n, 200);
+  assert.strictEqual(end.logged.rate, 0.5);
+  assert.strictEqual(end.learned.snips, 0.5);
+  assert.deepStrictEqual(end.learned, end.rel_only); // このスロットでは選ぶカードが同じなので差は無い
+  // slot-end の行が無ければ by_slot は空
+  assert.deepStrictEqual(learn.evaluatePolicies({ rows: rows.filter((r) => r.slot === 'slot-mid'), prior }).by_slot, {});
 });
 
 test('evaluatePolicies: 0件と少数のとき', () => {

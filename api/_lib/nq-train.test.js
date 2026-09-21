@@ -50,18 +50,22 @@ function mockRes() {
 const req = (over) => Object.assign({ method: 'GET', headers: { authorization: 'Bearer cron-secret-test', 'user-agent': 'vercel-cron/1.0' } }, over || {});
 async function call(r) { const res = mockRes(); await handler(r || req(), res); return res; }
 
-// メモリ上の PostgREST もどき。このバッチが使う書き方（is.false / not.is.null / gte / lt /
-// limit / offset / select の別名 / upsert / 条件つき DELETE）だけを解釈する。
+// メモリ上の PostgREST もどき。このバッチが使う書き方（is.false / is.null / not.is.null / eq / gte / lt / lte /
+// order=created_at.desc / limit / select の別名 / upsert / 条件つき DELETE）だけを解釈する。
+// offset は解釈しない（件数が増えると失敗し続ける読み方なので、使っていたらテストが落ちるようにしてある）。
 //   opts.maxRows: サーバ側の1ページの上限   opts.respond(call) → 応答を差し替える（失敗の再現用）
 function fakeSupabase(db, opts) {
   const o = opts || {};
   const calls = [];
   const match = (row, params) => {
     for (const [k, v] of params) {
-      if (['select', 'order', 'limit', 'offset', 'on_conflict'].includes(k)) continue;
+      if (['select', 'order', 'limit', 'on_conflict'].includes(k)) continue;
       if (v === 'is.false') { if (row[k] !== false) return false; continue; }
+      if (v === 'is.null') { if (row[k] != null) return false; continue; }
       if (v === 'not.is.null') { if (row[k] == null) return false; continue; }
+      if (v.startsWith('eq.')) { if (String(row[k]) !== v.slice(3)) return false; continue; }
       if (v.startsWith('gte.')) { if (!(Date.parse(row[k]) >= Date.parse(v.slice(4)))) return false; continue; }
+      if (v.startsWith('lte.')) { if (!(Date.parse(row[k]) <= Date.parse(v.slice(4)))) return false; continue; }
       if (v.startsWith('lt.')) { if (!(Date.parse(row[k]) < Date.parse(v.slice(3)))) return false; continue; }
       throw new Error('fakeSupabase: 未対応の条件 ' + k + '=' + v);
     }
@@ -71,17 +75,17 @@ function fakeSupabase(db, opts) {
     const u = new URL(url);
     const table = u.pathname.replace('/rest/v1/', '');
     const params = Array.from(u.searchParams.entries());
-    const c = { method: init.method, table, select: u.searchParams.get('select'), body: init.body ? JSON.parse(init.body) : undefined, headers: init.headers, signal: init.signal };
+    const c = { method: init.method, table, url: String(url), select: u.searchParams.get('select'), body: init.body ? JSON.parse(init.body) : undefined, headers: init.headers, signal: init.signal };
     calls.push(c);
     const forced = typeof o.respond === 'function' ? o.respond(c) : null;
     if (forced) return forced;
     db[table] = db[table] || [];
     if (init.method === 'GET') {
-      const offset = Number(u.searchParams.get('offset') || 0);
       const limit = Math.min(Number(u.searchParams.get('limit') || 1000), o.maxRows || 1000);
+      const dir = /^created_at.desc/.test(u.searchParams.get('order') || '') ? -1 : 1;
       const rows = db[table].filter((r) => match(r, params))
-        .sort((a, b) => Date.parse(a.created_at) - Date.parse(b.created_at))
-        .slice(offset, offset + limit)
+        .sort((a, b) => dir * (Date.parse(a.created_at) - Date.parse(b.created_at)))
+        .slice(0, limit)
         .map((r) => (c.select && c.select.includes('history:state->閲覧履歴') ? Object.assign({ history: r.state ? r.state['閲覧履歴'] : null }, r) : r));
       return { ok: true, status: 200, json: async () => JSON.parse(JSON.stringify(rows)) };
     }
@@ -176,8 +180,18 @@ test('読む → 学習 → nq_model に1行追加 → nq_transitions を入れ�
     assert.strictEqual(c.headers.Authorization, 'Bearer service-role-test');
     assert.ok(c.signal);
   }
-  // nq_events は6行。1ページ2行なので 3ページ ＋ 終わりを確かめる空の1ページ。
-  assert.strictEqual(sb.calls.filter((c) => c.method === 'GET' && c.table === 'nq_events').length, 4);
+  // 読み込みは新しい順で、offset を使わない（前のページの最後の時刻を、次のページの上限にする）。
+  const reads = sb.calls.filter((c) => c.method === 'GET');
+  assert.ok(reads.every((c) => /order=created_at.desc/.test(c.url) && !/offset=/.test(c.url)));
+  // nq_events は6行とも直近180日のぶん。1ページ2行でも、1行も落とさず重複もなく読めている
+  // （ページの最後の時刻の行はいったん捨てて次のページで読み直すので、1ページで進むのは1行ずつ）。
+  const recentReads = reads.filter((c) => c.table === 'nq_events' && !/decision_id=/.test(c.url));
+  assert.strictEqual(recentReads.length, 7);
+  assert.ok(recentReads.slice(1).every((c) => /created_at=lte?./.test(c.url)));
+  // 180日より古い側は、判定に結びついた行とゴールだけを別に読む（今回は0行）。
+  assert.strictEqual(reads.filter((c) => c.table === 'nq_events' && /decision_id=not.is.null/.test(c.url)).length, 1);
+  assert.strictEqual(reads.filter((c) => c.table === 'nq_events' && /decision_id=is.null&type=eq.goal/.test(c.url)).length, 1);
+  assert.deepStrictEqual(res.body.truncated, { decisions: false, events: false, paths: false });
 
   // nq_model: 重みの名前は weightKeys() と同じ。学習した行は適用群の2枚だけ（ホールドアウトは入らない）。
   assert.strictEqual(sb.db.nq_model.length, 1);
@@ -198,9 +212,12 @@ test('読む → 学習 → nq_model に1行追加 → nq_transitions を入れ�
   assert.ok(m.aux.V['/diagnostic'] > m.aux.V[ARTICLE]);
   assert.ok(m.aux.V_type.article > 0 && m.aux.V_type.article < 1);
   assert.ok(m.aux.cov[ARTICLE]['/web'] > 0);
-  // ope: 行が少ないので全行で学習した重みで評価している。
-  assert.deepStrictEqual([m.ope.n, m.ope.in_sample, m.ope.cap], [2, true, 20]);
-  assert.strictEqual(m.ope.logged.rate, 0.5);
+  // ope: 行が少ないので全行で学習した重みで評価している。比べるのは1枚目のスロット（slot-mid）の行だけで、
+  // slot-end の行は by_slot に分かれる。
+  assert.deepStrictEqual([m.ope.n, m.ope.in_sample, m.ope.cap], [1, true, 20]);
+  assert.strictEqual(m.ope.logged.rate, 1);
+  assert.strictEqual(m.ope.rel_only.clipped, 0);
+  assert.deepStrictEqual([m.ope.by_slot['slot-end'].n, m.ope.by_slot['slot-end'].logged.rate], [1, 0]);
 
   // nq_transitions: 今回のぶんで入れ替わり、古い行は消える。
   const t = sb.db.nq_transitions;
@@ -235,7 +252,7 @@ test('select に日本語のキーを書けない PostgREST なら、state ご�
   const res = await call();
   assert.strictEqual(res.statusCode, 200);
   assert.strictEqual(res.body.n_sessions, 2);
-  assert.ok(sb.calls.some((c) => c.method === 'GET' && c.select === 'session_id,created_at,page_url,state'));
+  assert.ok(sb.calls.some((c) => c.method === 'GET' && c.select === 'decision_id,session_id,created_at,page_url,state'));
   assert.strictEqual(sb.db.nq_transitions.length, 4);
 });
 
@@ -274,4 +291,106 @@ test('時間切れが近ければ、書く前に自分から止まる', async ()
   // 読むたびに 20 秒進む時計。3回目の読み込みの前に予算（50秒）を超える。
   await assert.rejects(handler.run({ fetch: sb.fetch, now: () => { t += 20000; return t; } }), (e) => e.nq === true && e.code === 'deadline');
   assert.strictEqual(sb.db.nq_model.length, 0);
+});
+
+// ---------- 行数が増えても失敗し続けない ----------
+
+// 1分おきに1行ずつ、n 行のデフォルト表示（decision_id が null の shown）を足す。
+function manyDefaultShown(db, n, startMinutesAgo) {
+  for (let i = 0; i < n; i++) {
+    db.nq_events.push({ event_id: 'e_bulk' + i, created_at: ago(startMinutesAgo + i), decision_id: null, session_id: 'r_bulk' + (i % 7), type: 'shown', slot: 'slot-end', block_id: 'sg-guidebook', page_url: ARTICLE });
+  }
+}
+
+test('ページ数の上限に当たっても失敗にしない: 新しい側から読めたぶんで学習し、truncated を残す', async () => {
+  const db = sampleDb();
+  manyDefaultShown(db, 40, 120); // サンプルのセッション（60分前〜）より古い側に40行
+  const sb = fakeSupabase(db, { maxRows: 5 });
+  const errors = [];
+  console.error = (...args) => { errors.push(args.join(' ')); };
+  // 以前は上限を超えると read_nq_events_too_many で 500 になり、行数が減らない限り毎晩失敗し続けた。
+  const out = await handler.run({ fetch: sb.fetch, maxPages: 3 });
+  assert.strictEqual(out.ok, true);
+  assert.deepStrictEqual(out.truncated, { decisions: false, events: true, paths: false });
+  // 新しい側（サンプルのセッション）は読めているので、学習の結果は変わらない。
+  assert.deepStrictEqual([out.n_impressions, out.n_positive], [2, 1]);
+  assert.deepStrictEqual(out.wrote, { model: true, transitions: true });
+  assert.strictEqual(sb.db.nq_model.length, 1);
+  // 直近ぶんを打ち切ったら、180日より古い側は読みに行かない。
+  assert.ok(!sb.calls.some((c) => c.method === 'GET' && c.table === 'nq_events' && /decision_id=/.test(c.url)));
+  assert.strictEqual(sb.calls.filter((c) => c.method === 'GET' && c.table === 'nq_events').length, 3);
+
+  // ハンドラ経由でも 200。打ち切りはエラーのログにも1行出る。
+  const sb2 = fakeSupabase(db, { maxRows: 5 });
+  globalThis.fetch = sb2.fetch;
+  const res = await call();
+  assert.strictEqual(res.statusCode, 200);
+  assert.strictEqual(res.body.truncated.events, false); // 既定の上限（300ページ）には当たらない
+  assert.ok(!errors.some((line) => line.includes('truncated')));
+});
+
+test('読み込みの持ち時間を過ぎたら、そこで打ち切って学習と書き込みに進む', async () => {
+  const db = sampleDb();
+  manyDefaultShown(db, 40, 120);
+  const sb = fakeSupabase(db, { maxRows: 5 });
+  // nq_events を1ページ読むたびに 12 秒進む時計。持ち時間（30秒）を3ページ目のあとで超える。
+  let t = Date.now();
+  const slow = async (url, init) => { if (String(url).includes('/nq_events')) t += 12000; return sb.fetch(url, init); };
+  const out = await handler.run({ fetch: slow, now: () => t });
+  assert.strictEqual(out.ok, true);
+  assert.strictEqual(out.truncated.events, true);
+  assert.deepStrictEqual(out.wrote, { model: true, transitions: true });
+  assert.strictEqual(sb.calls.filter((c) => c.method === 'GET' && c.table === 'nq_events').length, 3);
+});
+
+test('イベントを打ち切った晩は、読めた範囲より前に最後の判定があるセッションを遷移表に入れない', async () => {
+  const db = sampleDb();
+  // 3日前のセッション。記事 → /web と進んでゴールに着いたが、その晩はここまでイベントを読めない。
+  db.nq_decisions.push({
+    decision_id: 'd_old0000001', created_at: ago(3 * 1440), session_id: 'r_cccccc', page_url: '/pricing', trigger: 'T2',
+    holdout: true, shadow: false, is_default: true, state: state(), policy: 'prior-v1', candidates: null, slots: {},
+  });
+  db.nq_events.push({ event_id: 'e_old1', created_at: ago(3 * 1440 - 5), decision_id: null, session_id: 'r_cccccc', type: 'goal', slot: null, block_id: null, page_url: '/diagnostic' });
+  const full = await handler.run({ fetch: fakeSupabase(JSON.parse(JSON.stringify(db))).fetch });
+  assert.strictEqual(full.n_sessions, 3);
+  // 1ページ3行 × 3ページで打ち切る。直近の6行は読めるが、3日前のゴールは「ページの最後の時刻の行」として
+  // 捨てられたところで上限に当たり、読めていない。
+  const sb = fakeSupabase(db, { maxRows: 3 });
+  const out = await handler.run({ fetch: sb.fetch, maxPages: 3 });
+  assert.strictEqual(out.truncated.events, true);
+  assert.strictEqual(out.n_sessions, 2);
+  // 「/pricing で離脱」という、読めていないだけの遷移を作らない。
+  assert.ok(!sb.db.nq_transitions.some((r) => r.from_url === '/pricing'));
+});
+
+test('同じ時刻の行がページの切れ目をまたいでも、落とさず重複もさせない。180日より古い側は学習に要る行だけ読む', async () => {
+  const db = sampleDb();
+  // 表示の2行（e_1 / e_2）を同じ時刻にそろえる。1ページ2行だと、この2行がページの切れ目に掛かる。
+  db.nq_events[1].created_at = db.nq_events[0].created_at;
+  // 200日前の適用群の判定と、そのイベント。デフォルト表示（decision_id が null）の shown は学習に要らない。
+  const day = 1440;
+  const old = JSON.parse(JSON.stringify(db.nq_decisions[0]));
+  Object.assign(old, { decision_id: 'd_old0000002', created_at: ago(200 * day), session_id: 'r_dddddd' });
+  db.nq_decisions.push(old);
+  db.nq_events.push(
+    { event_id: 'e_o1', created_at: ago(200 * day - 1), decision_id: 'd_old0000002', session_id: 'r_dddddd', type: 'shown', slot: 'slot-mid', block_id: 'sg-web', page_url: ARTICLE },
+    { event_id: 'e_o2', created_at: ago(200 * day - 2), decision_id: 'd_old0000002', session_id: 'r_dddddd', type: 'click', slot: 'slot-mid', block_id: 'sg-web', page_url: ARTICLE },
+    { event_id: 'e_o3', created_at: ago(200 * day - 3), decision_id: null, session_id: 'r_dddddd', type: 'goal', slot: null, block_id: null, page_url: '/diagnostic' },
+    { event_id: 'e_o4', created_at: ago(200 * day - 4), decision_id: null, session_id: 'r_eeeeee', type: 'shown', slot: 'slot-end', block_id: 'sg-guidebook', page_url: ARTICLE },
+  );
+  const served = [];
+  const sb = fakeSupabase(db, { maxRows: 2 });
+  const spy = async (url, init) => {
+    const r = await sb.fetch(url, init);
+    if (init.method === 'GET' && String(url).includes('/nq_events')) { const rows = await r.json(); served.push(...rows); return Object.assign({}, r, { json: async () => rows }); }
+    return r;
+  };
+  const out = await handler.run({ fetch: spy });
+  assert.deepStrictEqual(out.truncated, { decisions: false, events: false, paths: false });
+  // 直近の2枚 ＋ 200日前の1枚（クリック後にゴール → 成果）。同じ時刻の表示2行はどちらも数えられている。
+  assert.deepStrictEqual([out.n_impressions, out.n_positive], [3, 2]);
+  // 200日前のデフォルト表示は、どのページにも載ってこない（読む量を減らす）。遷移表にも入らない（180日より前）。
+  assert.ok(!served.some((e) => e.event_id === 'e_o4'));
+  assert.ok(served.some((e) => e.event_id === 'e_o3'));
+  assert.strictEqual(out.n_sessions, 2);
 });

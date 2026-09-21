@@ -4922,6 +4922,10 @@ video, iframe { max-width: 100%; }
   text-decoration: none;
   white-space: nowrap;
   transition: transform var(--nq-dur-swap) var(--nq-ease);
+  /* クリックは下の ::after (全面リンク) に通す。ホバー時の transform でこの span は独立した重なりの層になり、
+     z-index を持たない ::after より文書順で後ろにあるぶん手前に描かれる。飾りの span がクリックを
+     受けると、リンクではないので遷移も nq_click も起きない (PC で「〜を見る →」を押しても無反応になる)。 */
+  pointer-events: none;
 }
 /* ホバーは PC だけ。タッチ端末ではタップ後に hover が貼り付いて残る。
    矢印は __cta の文字列の一部なので、矢印だけでなく __cta ごと右へ動かす。 */
@@ -4987,6 +4991,9 @@ video, iframe { max-width: 100%; }
 }
 /* こちらは本物のリンク。全面リンクではないので、下線で押せることを示し、
    行の高さでタップ領域 44px を確保する。 */
+/* 下線の色は --nq-text-note (#757575。白地で 4.61:1)。--nq-line (#DDD) だと白地で 1.36:1 しかなく、
+   ホバーの無いタッチ端末では下線が見えないまま、直前の補足文と区別が付かない。
+   ReassureBlock は背景なしで白地にしか乗らず、下線は文字ではないので 3:1 を超えれば足りる。 */
 .nq-slot .nq-reassure .nq-reassure__link,
 .nq-slot .nq-reassure .nq-reassure__link:hover {
   display: inline-flex;
@@ -5001,7 +5008,7 @@ video, iframe { max-width: 100%; }
   line-height: var(--nq-lh-label);
   color: var(--nq-text);
   text-decoration: underline;
-  text-decoration-color: var(--nq-line);
+  text-decoration-color: var(--nq-text-note);
   text-underline-offset: 0.25em;
   word-break: normal;
   overflow-wrap: break-word;

@@ -265,6 +265,7 @@
       "action": null,
       "selectable": true,
       "audience": "Nortiq Labs で働くことやインターンに関心がある人向け",
+      "only_visitor_types": ["求職者・学生"],
       "approved_by": "",
       "approved_at": "",
       "variants": {

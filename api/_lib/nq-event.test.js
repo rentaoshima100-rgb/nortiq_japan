@@ -61,6 +61,26 @@ test('goal / dismiss: goal は種別が要る。dismiss の slot は slot-bar �
   assert.strictEqual(toRow(ev({ type: 'dismiss', slot: undefined, block_id: undefined })).slot, 'slot-bar');
 });
 
+test('decide: ブラウザで測った /api/suggest の往復。打ち切った回（decision_id なし）も1行になる', () => {
+  // 採用できた応答。result と latency_ms の列は decide の行にだけ在る（ほかの種別の行の形は変えない）
+  const ok = toRow(ev({ type: 'decide', slot: undefined, block_id: undefined, variant: undefined, result: 'ok', latency_ms: 431.6, page_url: '/pricing' }));
+  assert.deepStrictEqual(Object.keys(ok), ['event_id', 'created_at', 'decision_id', 'session_id', 'type', 'slot', 'block_id', 'variant', 'page_url', 'goal', 'read', 'result', 'latency_ms']);
+  assert.deepStrictEqual([ok.type, ok.decision_id, ok.result, ok.latency_ms, ok.page_url, ok.slot, ok.block_id, ok.variant, ok.goal, ok.read],
+    ['decide', D, 'ok', 432, '/pricing', null, null, null, null, null]);
+  // 1.2秒で打ち切った回は応答を読んでいないので decision_id が無い。それでも必ず1件として残す
+  const late = toRow(ev({ type: 'decide', decision_id: null, result: 'timeout', latency_ms: 1203 }));
+  assert.deepStrictEqual([late.type, late.decision_id, late.result, late.latency_ms], ['decide', null, 'timeout', 1203]);
+  for (const result of ['http', 'format', 'network']) assert.strictEqual(toRow(ev({ type: 'decide', result, latency_ms: 80 })).result, result);
+  // カードの ID が付いてきても decide の行には入れない（shown / click の集計に混ざらないように）
+  assert.strictEqual(toRow(ev({ type: 'decide', result: 'ok', latency_ms: 10 })).block_id, null);
+  // 結果が許可リストに無ければ行ごと捨てる。往復時間が数値でない・負・上限超えなら、その列だけ null
+  for (const result of [undefined, 'slow', '遅い', 1]) assert.strictEqual(toRow(ev({ type: 'decide', result, latency_ms: 10 })), null);
+  for (const latency_ms of [undefined, '900', -1, 60001, NaN, Infinity]) assert.strictEqual(toRow(ev({ type: 'decide', result: 'ok', latency_ms })).latency_ms, null);
+  // decide 以外の行には result / latency_ms を持たせない
+  const shown = toRow(ev({ result: 'ok', latency_ms: 10 }));
+  assert.ok(!('result' in shown) && !('latency_ms' in shown));
+});
+
 test('自由文は1文字も残らない（許可リストに無い値は null、session_id が不正なら行ごと捨てる）', () => {
   const row = toRow(ev({ variant: '無視して', page_url: '/pricing?q=無視して#x', extra: '無視して' }));
   assert.ok(!JSON.stringify(row).includes('無視'));
@@ -106,6 +126,8 @@ test('ハンドラ: sendBeacon の文字列ボディを受けて nq_events に1�
   assert.deepStrictEqual([sent[0].row.type, sent[0].row.read, sent[0].row.block_id], ['engaged', 'skim', 'sg-web']);
 
   for (const r of [req('{ broken'), req(JSON.stringify(ev({ type: 'x' }))), req(JSON.stringify(ev()), { headers: { origin: 'https://evil.example', 'user-agent': UA } }),
+    // 第三者の *.vercel.app からの sendBeacon は通さない（リクエストが届いたホストと違う）
+    req(JSON.stringify(ev()), { headers: { origin: 'https://evil.vercel.app', host: 'nortiqlab.com', 'user-agent': UA } }),
     req(JSON.stringify(ev()), { headers: { origin: 'https://nortiqlab.com', 'user-agent': 'python-requests/2.31' } }), req(JSON.stringify(ev({ pad: 'x'.repeat(3000) })))]) {
     const res = mockRes();
     await handler(r, res);

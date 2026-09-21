@@ -255,6 +255,37 @@ function toAbsolutePaths(html) {
     .replace(/(\s(?:src|href)=")(app\.bundle\.js|articles\.js|styles\.css)/g, '$1/$2');
 }
 
+// 未承認の文言が入った dist/ からはスナップショットを作らない。
+// build.js は NQ_INCLUDE_UNAPPROVED=1 (ローカルの見た目確認) でビルドしたときだけ、bundle の1行目
+// (window.NORTIQ_NQ=...;) に unapproved:true の印を入れる。prerendered/ はコミットされてそのまま本番の
+// dist に重ねられ、build.js の Vercel / CI のガードを通らない。ここで止めないと、承認前の下書きが
+// クローラと JS 無効環境に届く HTML に固定される。
+// 環境変数ではなく bundle の印で判定すること。build.js は CI / Vercel ではこの変数を無視して承認済みだけを
+// 入れるので、変数で止めると、変数が紛れ込んだだけで自動プリレンダが止まり、公開記事の静的HTMLが欠ける。
+// 戻り値は、止める理由 (止めなくてよければ null)。
+function nqRefuseReason() {
+  const file = path.join(DIST, 'app.bundle.js');
+  if (!fs.existsSync(file)) return 'dist/app.bundle.js がありません。先に node build.js を実行してください。';
+  const src = fs.readFileSync(file, 'utf8');
+  const nl = src.indexOf('\n');
+  const line = (nl < 0 ? src : src.slice(0, nl)).trim();
+  const head = 'window.NORTIQ_NQ=';
+  let data = null;
+  if (line.indexOf(head) === 0 && line.slice(-1) === ';') {
+    try { data = JSON.parse(line.slice(head.length, -1)); } catch (_) { data = null; }
+  }
+  // 読めないときも止める。承認済みだけの dist だと確かめられないまま撮らないため
+  // (build.js の bundle の1行目の形を変えたら、ここも合わせる)。
+  if (!data || typeof data !== 'object') {
+    return 'dist/app.bundle.js の1行目 (window.NORTIQ_NQ=...;) が読めず、承認済みだけの dist か確かめられません。node build.js をやり直してください。';
+  }
+  if (data.unapproved === true) {
+    return '未承認の文言が入った dist/ (NQ_INCLUDE_UNAPPROVED=1 のビルド) からは prerendered/ を作れません。'
+      + '変数を外して node build.js をやり直してください (PowerShell: Remove-Item Env:NQ_INCLUDE_UNAPPROVED)。';
+  }
+  return null;
+}
+
 async function main() {
   // Use the CLEAN shell (app.html). build.js overlays the previous prerendered
   // home onto index.html, so index.html can carry stale head/JSON-LD; app.html
@@ -263,6 +294,12 @@ async function main() {
     ? path.join(DIST, 'app.html') : path.join(DIST, 'index.html');
   if (!fs.existsSync(shellPath)) {
     console.error('  ! dist shell not found — run `node build.js` first.');
+    process.exit(1);
+  }
+  // サーバもブラウザも起こす前に確かめる (1枚も書かずに終わる)。
+  const refuse = nqRefuseReason();
+  if (refuse) {
+    console.error('  ✗ ' + refuse);
     process.exit(1);
   }
   const shellHtml = fs.readFileSync(shellPath, 'utf8');

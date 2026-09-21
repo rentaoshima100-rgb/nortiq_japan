@@ -6,7 +6,7 @@ const { priorModel } = require('./features');
 const modelLib = require('./model');
 const { loadModel } = modelLib;
 
-const ENV = ['SUPABASE_URL', 'SUPABASE_SERVICE_ROLE_KEY'];
+const ENV = ['SUPABASE_URL', 'SUPABASE_SERVICE_ROLE_KEY', 'NQ_POLICY'];
 let keep;
 let quiet;
 
@@ -16,6 +16,7 @@ test.beforeEach(() => {
   keep = ENV.map((k) => process.env[k]);
   process.env.SUPABASE_URL = 'https://example.supabase.co/';
   process.env.SUPABASE_SERVICE_ROLE_KEY = 'service-role-test';
+  delete process.env.NQ_POLICY;
   quiet = console.error;
   console.error = () => {};
 });
@@ -45,7 +46,7 @@ test('未設定なら fetch せずに事前分布', async () => {
 test('最新の1行を PostgREST から読み、無い重みは事前分布で補う', async () => {
   let seen = null;
   const m = await loadModel({ fetch: async (url, init) => { seen = { url, init }; return jsonRes(200, [ROW]); } });
-  assert.strictEqual(seen.url, 'https://example.supabase.co/rest/v1/nq_model?select=version,mean,variance,aux&order=created_at.desc&limit=1');
+  assert.strictEqual(seen.url, 'https://example.supabase.co/rest/v1/nq_model?select=version,created_at,mean,variance,aux&order=created_at.desc&limit=1');
   assert.strictEqual(seen.init.method, 'GET');
   assert.strictEqual(seen.init.headers.apikey, 'service-role-test');
   assert.strictEqual(seen.init.headers.Authorization, 'Bearer service-role-test');
@@ -58,6 +59,22 @@ test('最新の1行を PostgREST から読み、無い重みは事前分布で�
   assert.ok(Math.abs(m.variance['card:sg-pricing'] - 0.1225) < 1e-12);
   assert.deepStrictEqual(Object.keys(m.mean), Object.keys(priorModel().mean));
   assert.deepStrictEqual(m.aux, ROW.aux);
+});
+
+test('ts で使う行が3日より古ければ、ログに1行出す（夜間バッチが止まっているしるし）。重みはそのまま使う', async () => {
+  const lines = [];
+  console.error = (...args) => { lines.push(args); };
+  const NOW = Date.parse('2026-09-21T00:00:00Z');
+  const load = (created_at) => { modelLib.__resetForTest(); return loadModel({ fetch: async () => jsonRes(200, [Object.assign({ created_at }, ROW)]), now: () => NOW }); };
+  // prior の間は重みを使わないので、古くても出さない（手で入れた初期値の行が毎回ひっかかるのを避ける）
+  await load('2026-09-10T18:00:00+00:00');
+  assert.deepStrictEqual(lines, []);
+  process.env.NQ_POLICY = 'ts';
+  await load('2026-09-19T18:00:00+00:00'); // 前々晩のぶん（1晩の失敗）では出さない
+  assert.deepStrictEqual(lines, []);
+  const m = await load('2026-09-10T18:00:00+00:00');
+  assert.deepStrictEqual(lines, [['[nq] model stale_days', 10]]);
+  assert.strictEqual(m.mean.bias, -3.1);
 });
 
 test('10分キャッシュする。過ぎたら読み直す', async () => {

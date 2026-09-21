@@ -40,6 +40,10 @@ function loadCatalog() {
   if (built && built.pages && typeof built.pages === 'object') return built.pages;
   // ビルド生成物が Function に同梱されなかった場合の代替。記事の title は引けなくなるが、
   // state.js が /article-* を type「記事」だけで通すので判定は続けられる。
+  // ただし黙って落ちると、Jev に渡る記事の情報が type だけになり、夜間バッチの title → URL の逆引きも
+  // 記事を取りこぼしたまま、だれも気づかない。Vercel の上でだけ、関数の起動ごとに1回ログに出す
+  // （手元のテストやビルド前の環境では catalog.json が無いのが普通なので出さない）。
+  if (process.env.VERCEL) console.warn('[nq] api/_data/catalog.json not bundled; falling back to catalog-pages.json (articles have no title/topic)');
   return pagesToMap(tryRequire(() => require('../../data/catalog-pages.json')));
 }
 
@@ -57,7 +61,10 @@ let store = loadAll();
 
 // ---- 承認（キルスイッチ）----
 
-const filled = (s) => String(s == null ? '' : s).trim() !== '';
+// 承認は「空でない文字列」だけ。false / 0 / true / {} を String() に通すと "false" などの
+// 空でない文字列になり、未承認のつもりで書いた値が承認として通ってしまう（キルスイッチが開く向きに壊れる）。
+// build.js の nqFilled と必ず同じ条件にする（ブラウザが持っていないブロックを返さないため）。
+const filled = (s) => typeof s === 'string' && s.trim() !== '';
 
 // クライアントの配信物（window.NORTIQ_NQ.blocks）は、この variant が未承認のブロックを
 // ブロックごと落とす（コントラクト 3.2）。サーバも同じ条件で見ないと、ブラウザが持って

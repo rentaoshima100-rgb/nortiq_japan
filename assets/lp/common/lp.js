@@ -49,6 +49,7 @@
   // 「カードを押してLPを読んだか」(nq_engaged) も本体側で判定できない。
   // キーが既に在るときだけ動く (= 本体側で session_log が有効で、セッションが始まっている)。
   // 無ければ何も読み書きしない。LP着地のセッションをここから始めることもしない (IDの発行は本体側だけ)。
+  var nqGoalContact = function () {}; // フォーム送達時に呼ぶ。nq のセッションが在るときだけ、下で中身を入れる
   (function () {
     var KEY = 'nq_s';
     var MAX_PAGES = 30; // nq-suggest.jsx の保持上限と同じ
@@ -98,6 +99,32 @@
 
     write(true);
     if (!entry) return;
+
+    // フォームの送達 = ゴール到達 (設計書10章の nq_goal)。本体サイトの NQ.goal('contact') と同じ扱いにする。
+    // 提案カードの行き先として最優先のLPで成約しても goal が残らないと、KPI にも学習の成果信号にも入らない。
+    // 本体の nq-config.json はここから読めないので、送ってよいかは本体が nq_s に控えたフラグに従う
+    // (ga = GA4 / ev = /api/nq-event)。控えが無い・0 なら送らない。設定で止めたら LP 側も止まる。
+    // 送るのは決定ID・種別・パスだけ。フォームの入力値は渡さない。
+    nqGoalContact = function () {
+      try {
+        var s = load();
+        if (!s) return;
+        var goals = Array.isArray(s.goals) ? s.goals : [];
+        if (goals.indexOf('contact') >= 0) return; // goal 種別ごとに1セッション1回 (本体と同じ)
+        goals.push('contact');
+        s.goals = goals;
+        // 読み直した全体をそのまま書き戻す (知らないフィールドを落とさない)。書けなくても送信は続ける。
+        try { window.sessionStorage.setItem(KEY, JSON.stringify(s)); } catch (_) {}
+        var did = typeof s.did === 'string' ? s.did : null;
+        if (s.ga === 1) track('nq_goal', { decision_id: did, goal: 'contact' });
+        if (s.ev === 1 && window.navigator && typeof window.navigator.sendBeacon === 'function') {
+          // 本体と同じく文字列ボディ (text/plain) の sendBeacon。完了表示の直後に離脱されても落ちにくい。
+          window.navigator.sendBeacon('/api/nq-event', JSON.stringify({
+            session_id: s.sid, decision_id: did, type: 'goal', goal: 'contact', page_url: path
+          }));
+        }
+      } catch (_) { /* 計測の失敗でフォームの完了表示を止めない */ }
+    };
 
     var ticking = false;
     function measure() {
@@ -216,6 +243,7 @@
       }
       // 送達 → GA4 generate_lead (+ Google Ads コンバージョン。本体と同じ key event)
       track('generate_lead', { lead_type: 'contact', currency: 'JPY', form_kind: payload.kind }, 'contact');
+      nqGoalContact(); // 次ページ提案 (nq) のゴール。nq のセッションが無ければ何もしない
       form.hidden = true;
       if (done) { done.hidden = false; done.setAttribute('tabindex', '-1'); done.focus(); }
       try { history.replaceState(null, '', location.pathname + location.search + '#contact-done'); } catch (_) {}

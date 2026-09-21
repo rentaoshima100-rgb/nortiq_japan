@@ -58,4 +58,10 @@ Question 共通: `type`（**小文字** `"noul"` | `"choice"` | `"score"`）、`
 - レイテンシ（日本から。Vercel の関数からではない）: 新規接続の1回目は 1.6〜4.2 秒、同一プロセスで接続を使い回すと 0.46〜0.9 秒。
   **設計書の「1.2秒以内」は、コールドスタートと新規 TLS 接続が重なると超える。** サーバ側の Jev タイムアウト（`data/nq-rules.json` の `model_timeout_ms` 900）は
   シャドーモードで Vercel からの実測（nq_decisions.latency_ms の分布）を見てから決め直す。関数のリージョンを Jev に近づけるかどうかも同じ実測で判断する。
+  - **`nq_decisions.latency_ms` は Jev の呼び出しだけの時間で、`model_timeout_ms` で頭打ちになる。** 関数のコールドスタートと往復の通信を含まないので、
+    設計書の完了条件「応答の9割が1.2秒以内」はこの列では判定できない。そちらはブラウザが送る `nq_decide` / `nq_decide_fail`
+    （`nq_events` の `type = 'decide'`。`supabase/nq_report.sql` の K5）で測る。この列は「遅い原因が Jev かどうか」の切り分けに使う。
+- 範囲外の数値: Jev の応答に 0〜1（score は 0〜段階数−1）の外の数値があると、その値は丸めずに「回答なし」（null）として扱い、
+  `[nq] jev out_of_range <個数>` をログに出す（百分率で返るようになった場合に、確信度 1.0 として個別化が出てしまうのを防ぐ）。
+  `JEV_MODEL` を変えた直後や、Gateway 経由に切り替えた直後はこの行を確認する。
 - キーの置き場: ローカルは `.env.local`（.gitignore 済み）、本番は Vercel の Environment Variables の `JEV_API_KEY`。リポジトリ・ドキュメント・ログには書かない。

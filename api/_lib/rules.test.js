@@ -327,3 +327,13 @@ test('recommend → applyRules: 関連度からスロットまで通す（T1 で
   const rec2 = recommend({ answers: low, candidates: ['sg-web', 'sg-pricing'], slots: cardSlots('T1'), currentUrl: ARTICLE, rng: fixedRng([0.5]) });
   assert.deepStrictEqual(applyRules({ answers: low, trigger: 'T1', currentUrl: ARTICLE, picks: rec2.picks }).matched, [7]);
 });
+
+test('recommend → applyRules: 2枚目の候補が rel_gate に届かなければ slot-end は変えない（6.3 の (c)）', () => {
+  // 1枚目（sg-web）と同じページ群の sg-chatbot を除くと、残るのは関連度 0.36 の sg-pricing だけ
+  const a = answers({ rel: { 'sg-web': 0.9, 'sg-chatbot': 0.8, 'sg-pricing': 0.36 } });
+  const rec = recommend({ answers: a, candidates: ['sg-web', 'sg-chatbot', 'sg-pricing'], slots: cardSlots('T1'), currentUrl: ARTICLE, rng: fixedRng([0.5]) });
+  const r = applyRules({ answers: a, trigger: 'T1', currentUrl: ARTICLE, picks: rec.picks });
+  assert.deepStrictEqual(r.slots, { 'slot-mid': { block_id: 'sg-web', variant: 'default', propensity: rec.picks['slot-mid'].propensity } });
+  assert.deepStrictEqual(r.matched, [5]);
+  assert.deepStrictEqual(r.skipped, []);
+});

@@ -114,7 +114,8 @@ function valueOf(aux, url, type) {
 // 特徴量ベクトル（FEATURES の順）。
 //   rel: Jev の関連度（0〜1）  card: cardInfo() の戻り値  answers: 正規化形  slot: 配置先
 //   aux: nq_model.aux = { V: {url: 値}, V_type: {type: 値}, cov: {from_url: {to_url: 対数比}} }
-// aux に値が無い特徴量は 0（＝その重みが効かない）。フェーズ1〜2 は aux が空なので dv も cov も 0。
+// aux に値が無い特徴量は 0（＝その重みが効かない）。nq_model に行が入るまでは aux が空なので dv も cov も 0。
+// aux は方策が prior の間も渡される（重みの事前平均が 0 なので順位は変わらず、ログに値だけが残る）。
 function featureVector({ rel, card, answers, slot, currentUrl, revisit, aux } = {}) {
   const a = isObj(answers) ? answers : {};
   const c = isObj(card) ? card : {};

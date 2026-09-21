@@ -36,10 +36,12 @@ create table if not exists public.nq_decisions (
   slots       jsonb,                            -- ルールが選んだブロック。返していなくても「出していたら何だったか」を残す
   policy      text,                             -- 'prior-v1' / 'ts-v1+explore' など
   model       text,                             -- 判定モデルのバージョン
-  latency_ms  integer
+  latency_ms  integer                           -- Jev の呼び出しだけの時間。model_timeout_ms（900）で頭打ち。関数の起動待ち・
+                                                -- ログ書き込み・往復の通信は含まない。訪問者から見た応答時間は nq_events の decide 行
 );
 
--- 夜間バッチ（api/nq-train.js）は created_at の範囲を、created_at・主キーの順でページングして読む。
+-- 夜間バッチ（api/nq-train.js）は created_at の範囲を、created_at の降順（新しい側）から、前ページの最後の時刻を
+-- 次ページの上限にして読む（offset は使わない）。この索引は後ろ向きの走査でもそのまま使える。
 create index if not exists nq_decisions_created_idx on public.nq_decisions (created_at, decision_id);
 -- セッション単位の集計（月次レポート、遷移表）。
 create index if not exists nq_decisions_session_idx on public.nq_decisions (session_id, created_at);
@@ -47,7 +49,16 @@ create index if not exists nq_decisions_session_idx on public.nq_decisions (sess
 -- ---------- 2. イベント ----------
 
 -- /api/nq-event が受けた表示・クリックなど。1イベント1行。
--- decision_id は null 可（デフォルト表示のイベントには判定が無い。ホールドアウトと分母をそろえるために記録する）。
+-- type = 'decide' は「ブラウザが /api/suggest を1回呼んだ結果」。result と latency_ms（ブラウザで測った往復時間）は
+-- この種別の行にだけ入る。client_timeout_ms（1200）で打ち切った回も result = 'timeout' で必ず1行になる
+-- （decision_id は null。応答を読んでいないので ID が分からない）。フェーズ1の完了条件「応答の9割が1.2秒以内」は
+-- ここから出す（nq_report.sql の K5）。nq_decisions.latency_ms では測れない（Jev の呼び出しだけの時間で、900ms で頭打ち）。
+-- decision_id は null 可。null になるのは、判定の応答より先に画面へ入ったスロットと、判定を呼んでいないページの表示。
+-- decision_id の有無はデフォルト表示かどうかを表さない。クライアントは、応答を受けたあとに画面へ入ったスロットなら、
+-- デフォルト表示（ホールドアウト・シャドー・確信不足・クライアントが差し替えを見送った場合）でも decision_id を付けて送る
+-- （ホールドアウトと分母をそろえるため）。個別化した表示かどうかは、nq_decisions を decision_id で引いて
+-- 「is_default が false、かつ slots のそのスロットの block_id がイベントの block_id と同じ」で決める
+-- （月次レポートの指標5・K1、nq_snapshot_month の *_personalized。api/_lib/learn.js の学習行と同じ基準）。
 -- nq_decisions への外部キーは張らない。判定ログは応答の後ろで書く（waitUntil）ので、表示イベントの方が先に
 -- 届くことがある。判定ログの書き込みが時間切れで落ちることもあり、そのたびにイベントまで捨てたくない。
 create table if not exists public.nq_events (
@@ -55,14 +66,19 @@ create table if not exists public.nq_events (
   created_at  timestamptz not null default now(),
   decision_id text,
   session_id  text not null,
-  type        text not null,                    -- shown / click / engaged / dismiss / goal
+  type        text not null,                    -- shown / click / engaged / dismiss / goal / decide
   slot        text,
   block_id    text,
   variant     text,
   page_url    text,
   goal        text,                             -- diagnostic / guidebook / contact（goal のときだけ）
-  read        text                              -- deep / skim（engaged のときだけ）
+  read        text,                             -- deep / skim（engaged のときだけ）
+  result      text,                             -- ok / timeout / http / format / network（decide のときだけ）
+  latency_ms  integer                           -- ブラウザで測った /api/suggest の往復時間（decide のときだけ）
 );
+-- すでに表を作ってある環境向け（create table if not exists は既存の表に列を足さない）。
+alter table public.nq_events add column if not exists result text;
+alter table public.nq_events add column if not exists latency_ms integer;
 
 create index if not exists nq_events_created_idx on public.nq_events (created_at, event_id);
 create index if not exists nq_events_decision_idx on public.nq_events (decision_id) where decision_id is not null;
@@ -71,13 +87,18 @@ create index if not exists nq_events_session_idx on public.nq_events (session_id
 -- ---------- 3. 学習済みモデル ----------
 
 -- 夜間バッチごとに1行追加する（上書きしない。いつの重みで出した提案かを後から追えるように）。
--- /api/suggest は NQ_POLICY=ts のときだけ、created_at が最新の1行を読む（api/_lib/model.js）。
+-- /api/suggest は方策（NQ_POLICY）によらず、created_at が最新の1行を読む（api/_lib/model.js。
+-- select は version, created_at, mean, variance, aux）。prior は aux だけを特徴量に使い、重みは ts のときだけ使う。
 --   mean / variance: 重みの事後平均と分散。配列ではなく「名前 → 数値」のマップ。名前は
 --                    api/_lib/features.js の FEATURES の10個 ＋ 'card:<block_id>'。
 --                    配列だと、カードを足したり外したりしたときに学習済みの重みとの対応が黙ってずれる。
 --   aux:             { V: {url: 値}, V_type: {ページ群: 値}, cov: {from_url: {to_url: 対数比}} }。
 --                    リクエスト時に特徴量 dv / cov を引くための表。
---   ope:             オフポリシー評価の結果（月次レポートの「学習による推定改善幅」）。
+--   ope:             オフポリシー評価の結果（月次レポートの「学習による推定改善幅」）。n / logged / rel_only / learned /
+--                    lift_snips / lift_ips は1枚目のスロット（slot-mid / slot-next）の行だけの値。rel_only と learned は
+--                    { matched, clipped, ips, snips, ess }。clipped は重み 1/選択確率 が上限（20）で打ち切られた行数で、
+--                    1行でも在れば lift_ips は null（ips が下限になり、符号まで逆に出うるため）。
+--                    by_slot['slot-end'] は「1枚目はログのまま2枚目だけ替えた場合」の参考値（lift は無い）。
 create table if not exists public.nq_model (
   version       text primary key,               -- 'm_20260920T180000Z'
   created_at    timestamptz not null default now(),
@@ -154,6 +175,11 @@ $$;
 -- URL → ページ群（設計書2章「ページ群と提案可否」）。DB には catalog が無いので、URL の形で決める。
 -- 判定ログの state にはページ群が日本語で入っているが、イベントには URL しか無い。
 -- ページ群を足したら data/catalog-pages.json とここの両方を直す。
+-- /subsidy だけは catalog（type: goal）と分け方が違う。設計書2章ではゴール層だが、10章の nq_goal は
+-- /diagnostic・/guidebook・フォーム送信だけで、/subsidy に着いても goal イベントは出ない。'goal' のままだと
+-- sg-subsidy を押して /subsidy を読んだセッションが K2（記事→サービス遷移率）にも K3（ゴール到達率）にも
+-- 数えられないので、計測上は中間層と同じに数える 'goal_info' に分ける（docs/nq/open-decisions.md の E9）。
+-- 特徴量の側（data/catalog-pages.json の type: goal、goal_proximity = 1）は設計書2章のまま変えない。
 create or replace function public.nq_page_group(url text)
 returns text
 language sql immutable
@@ -168,19 +194,21 @@ as $$
     when url = '/works' or url ~ '^/works-' then 'works'
     when url in ('/pricing', '/voice', '/support', '/staff', '/company') then 'trust'
     when url ~ '^/product-' then 'product'
-    when url in ('/diagnostic', '/guidebook', '/subsidy') then 'goal'
+    when url in ('/diagnostic', '/guidebook') then 'goal'
+    when url = '/subsidy' then 'goal_info'
     when url = '/recruit' then 'company'
     when url = '/' then 'top'
     else 'other'
   end
 $$;
 
--- 「サービス系ページ」= 2章の中間層。KPI「記事→サービス遷移率」の到達先。
+-- 「サービス系ページ」= 2章の中間層 ＋ /subsidy（'goal_info'。上のコメント）。KPI「記事→サービス遷移率」の到達先。
+-- /diagnostic・/guidebook（'goal'）は含めない。そちらは goal イベントで K3 に数える。
 create or replace function public.nq_is_service_group(page_group text)
 returns boolean
 language sql immutable
 as $$
-  select page_group in ('industry_lp', 'solution', 'service', 'feature', 'works', 'trust', 'product')
+  select page_group in ('industry_lp', 'solution', 'service', 'feature', 'works', 'trust', 'product', 'goal_info')
 $$;
 
 -- セッション1つにつき1行の要約。期間は「セッションの最初の判定の時刻」で切る。
@@ -188,8 +216,10 @@ $$;
 -- （サイト全体のセッション数は GA4 を見る）。
 --   landing_*:  最初の判定の state の着地ページ（state に URL は無いので title で持つ）
 --   answers:    回答が取れた最後の判定のもの。閲覧が進んだあとの判定ほど材料が多い
---   reached_service / reached_goal: 判定かイベントの page_url が中間層に在ったか、goal イベントが在ったか。
---               1セッションの判定は最大3回なので、4ページ目以降の到達はイベントが無ければ拾えない
+--   reached_service / reached_goal: 判定かイベントの page_url が中間層（と /subsidy）に在ったか、goal イベントが在ったか。
+--               1セッションの判定は最大3回なので、4ページ目以降の到達はイベントが無ければ拾えない。
+--               /subsidy にはカードのスロットが無い。到達が拾えるのは、sg-subsidy を押して途中離脱せずに読んだとき
+--               （engaged の page_url）と、PC で slot-bar の判定・表示がそこで起きたときだけ
 create or replace function public.nq_session_summary(t0 timestamptz, t1 timestamptz)
 returns table (
   session_id      text,
@@ -320,6 +350,11 @@ begin
     ) x
   ),
   blocks as (
+    -- *_personalized は「判定で差し替えた表示」だけ。decision_id の有無では分けられない（デフォルト表示でも、
+    -- 応答のあとに画面へ入ったスロットは decision_id を持つ。上の「2. イベント」のコメント）。判定ログを引いて、実際に個別化を
+    -- 返した判定（is_default が false）で、そのスロットに置いたブロックと同じものが出たときだけ数える。
+    -- 判定の行が無いイベント（記録の失敗、API の即デフォルト応答）は left join で null になり、デフォルト側に入る。
+    -- 生ログを消したあとは計算し直せないので、判定ログが残っているうちに集計する（nq_purge は消す前にここを呼ぶ）。
     select jsonb_object_agg(block_id, j) as j
     from (
       select e.block_id,
@@ -327,10 +362,13 @@ begin
                'shown', count(*) filter (where e.type = 'shown'),
                'click', count(*) filter (where e.type = 'click'),
                'engaged', count(*) filter (where e.type = 'engaged'),
-               'shown_personalized', count(*) filter (where e.type = 'shown' and e.decision_id is not null),
-               'click_personalized', count(*) filter (where e.type = 'click' and e.decision_id is not null)
+               'shown_personalized', count(*) filter (where e.type = 'shown' and d.is_default is false
+                                                        and d.slots -> e.slot ->> 'block_id' = e.block_id),
+               'click_personalized', count(*) filter (where e.type = 'click' and d.is_default is false
+                                                        and d.slots -> e.slot ->> 'block_id' = e.block_id)
              ) as j
       from public.nq_events e
+      left join public.nq_decisions d on d.decision_id = e.decision_id
       where e.created_at >= v_t0 and e.created_at < v_t1 and e.block_id is not null
       group by e.block_id
     ) x
@@ -343,6 +381,17 @@ begin
       where e.created_at >= v_t0 and e.created_at < v_t1 and e.type = 'goal' and e.goal is not null
       group by e.goal
     ) x
+  ),
+  suggest_calls as (
+    -- ブラウザから見た /api/suggest の結果（type = 'decide'）。ok 以外は、応答を捨ててデフォルトのままにした回。
+    select jsonb_build_object(
+      'n', count(*),
+      'ok', count(*) filter (where e.result = 'ok'),
+      'timeout', count(*) filter (where e.result = 'timeout'),
+      'other_fail', count(*) filter (where e.result not in ('ok', 'timeout'))
+    ) as j
+    from public.nq_events e
+    where e.created_at >= v_t0 and e.created_at < v_t1 and e.type = 'decide' and e.result is not null
   ),
   decisions as (
     select jsonb_build_object(
@@ -360,7 +409,8 @@ begin
            'concerns', coalesce((select j from concerns), '{}'::jsonb),
            'holdout_compare', coalesce((select j from compare), '{}'::jsonb),
            'blocks', coalesce((select j from blocks), '{}'::jsonb),
-           'goals', coalesce((select j from goals), '{}'::jsonb)
+           'goals', coalesce((select j from goals), '{}'::jsonb),
+           'suggest_calls', (select j from suggest_calls)
          )
     into v_metrics;
 

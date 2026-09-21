@@ -45,7 +45,8 @@ const TRIGGERS = ['T1', 'T2', 'T3'];
 const DEFAULT_TIMEOUT_MS = 8000;
 // 「いま出せない」という理由で推薦から外れた候補。関連度が高くても配信されないので、
 // 1位のカードと適合率・再現率の計算からも外す（rel_floor で落ちたものは「低い」と答えただけなので残す）。
-const UNDELIVERABLE = ['not_selectable', 'no_industry', 'unapproved', 'same_page', 'viewed'];
+// visitor_type は、訪問者タイプで対象外にしたカード（blocks.json の only_visitor_types。sg-recruit は求職者だけ）。
+const UNDELIVERABLE = ['not_selectable', 'no_industry', 'unapproved', 'same_page', 'viewed', 'visitor_type'];
 
 const has = (o, k) => Object.prototype.hasOwnProperty.call(o, k);
 const isObj = (v) => v != null && typeof v === 'object' && !Array.isArray(v);

@@ -17,6 +17,7 @@ let keepFetch;
 let keepRandom;
 let keepError;
 let logged; // Supabase に送られた行（table ごと）
+let modelRows; // nq_model の GET が返す行（既定は0行）
 
 test.beforeEach(() => {
   useFixtures();
@@ -30,8 +31,9 @@ test.beforeEach(() => {
   console.error = () => {};
   Math.random = () => 0.5; // 一様探索（5%）に入らない値に固定する
   logged = { nq_decisions: [], nq_model_reads: 0 };
+  modelRows = [];
   globalThis.fetch = async (url, init) => {
-    if (String(url).includes('/rest/v1/nq_model')) { logged.nq_model_reads++; return { ok: true, status: 200, json: async () => [] }; }
+    if (String(url).includes('/rest/v1/nq_model')) { logged.nq_model_reads++; return { ok: true, status: 200, json: async () => modelRows }; }
     if (String(url).includes('/rest/v1/nq_decisions')) { logged.nq_decisions.push(JSON.parse(init.body)); return { ok: true, status: 201 }; }
     throw new Error('unexpected fetch: ' + url);
   };
@@ -130,10 +132,15 @@ test('不正入力 → デフォルト（モデルも記録も呼ばない）', 
     req('{ broken json'),
     req(null),
     req(body({ pad: 'x'.repeat(9000) })),
-    req(undefined, { headers: { origin: 'https://evil.example', 'user-agent': UA } }),
-    req(undefined, { headers: { 'user-agent': UA } }),
-    req(undefined, { headers: { origin: 'https://nortiqlab.com', 'user-agent': 'curl/8.4.0' } }),
-    req(undefined, { headers: { origin: 'https://nortiqlab.com' } }),
+    req(undefined, { headers: { origin: 'https://evil.example', 'user-agent': UA, 'content-type': 'application/json' } }),
+    // 第三者の *.vercel.app は通さない（リクエストが届いたホストと違う）
+    req(undefined, { headers: { origin: 'https://evil.vercel.app', host: 'nortiqlab.com', 'user-agent': UA, 'content-type': 'application/json' } }),
+    // application/json 以外は受けない（text/plain はプリフライトなしでよそのページから送れる）
+    req(JSON.stringify(body()), { headers: { origin: 'https://nortiqlab.com', 'user-agent': UA, 'content-type': 'text/plain;charset=UTF-8' } }),
+    req(undefined, { headers: { origin: 'https://nortiqlab.com', 'user-agent': UA } }),
+    req(undefined, { headers: { 'user-agent': UA, 'content-type': 'application/json' } }),
+    req(undefined, { headers: { origin: 'https://nortiqlab.com', 'user-agent': 'curl/8.4.0', 'content-type': 'application/json' } }),
+    req(undefined, { headers: { origin: 'https://nortiqlab.com', 'content-type': 'application/json' } }),
   ];
   for (const r of bad) {
     const res = await call(r);
@@ -166,8 +173,8 @@ test('承認済みのカード ＋ 関連度の高い回答 → policy と prope
     'slot-mid': { block_id: 'sg-web', variant: 'cost', propensity: 0.966667 },
     'slot-end': { block_id: 'sg-pricing', variant: 'default', propensity: 1 },
   });
-  // nq_model は読まない（prior は学習済みの重みを使わない）
-  assert.strictEqual(logged.nq_model_reads, 0);
+  // nq_model は prior でも読む（aux を特徴量に入れるため）。0行なので dv / cov は 0 のまま
+  assert.strictEqual(logged.nq_model_reads, 1);
 
   assert.strictEqual(logged.nq_decisions.length, 1);
   const row = logged.nq_decisions[0];
@@ -188,6 +195,44 @@ test('承認済みのカード ＋ 関連度の高い回答 → policy と prope
   assert.deepStrictEqual(row.candidates.find((c) => c.block_id === 'sg-recruit'), { block_id: 'sg-recruit', rel: 0.1, excluded: 'rel_floor' });
   // 保存しないもの: UA・IP。行のどこにも UA の断片が無い
   assert.ok(!JSON.stringify(row).includes('Mozilla'));
+});
+
+test('prior でも nq_model の aux を読む: 順位と選択確率は変わらず、ログの features に dv / cov だけが入る', async () => {
+  process.env.NQ_ENABLED = '1';
+  process.env.NQ_HOLDOUT_RATE = '0';
+  process.env.SUPABASE_URL = 'https://example.supabase.co';
+  process.env.SUPABASE_SERVICE_ROLE_KEY = 'k';
+  decideLib.__setStubForTest({ 'rel_sg-web': { noul: 0.9 }, 'rel_sg-chatbot': { noul: 0.8 }, 'rel_sg-pricing': { noul: 0.6 } });
+  const DV = FEATURES.indexOf('dv');
+  const COV = FEATURES.indexOf('cov');
+
+  const without = await call(req());
+  const rowWithout = logged.nq_decisions[0];
+
+  // 学習済みの重み（sg-pricing を強く推す）と aux の入った行。prior は重みを使わず、aux だけを使う
+  modelLib.__resetForTest();
+  modelRows = [{
+    version: 'm_test',
+    mean: { 'card:sg-pricing': 6, dv: 3, cov: 3 },
+    variance: { 'card:sg-pricing': 0.0001 },
+    aux: { V: { '/pricing': 0.2, [ARTICLE]: 0.05 }, V_type: {}, cov: { [ARTICLE]: { '/pricing': 0.7, '/web': -0.9 } } },
+  }];
+  const withAux = await call(req());
+  const rowWith = logged.nq_decisions[1];
+  assert.strictEqual(logged.nq_model_reads, 2);
+
+  assert.strictEqual(withAux.body.policy, 'prior-v1');
+  assert.deepStrictEqual(withAux.body.slots, without.body.slots);
+  const cand = (row, id) => row.candidates.find((c) => c.block_id === id);
+  for (const id of ['sg-web', 'sg-chatbot', 'sg-pricing']) {
+    assert.strictEqual(cand(rowWith, id).score, cand(rowWithout, id).score, id);
+    assert.deepStrictEqual(cand(rowWith, id).propensity, cand(rowWithout, id).propensity, id);
+    assert.strictEqual(cand(rowWithout, id).features[DV], 0);
+    assert.strictEqual(cand(rowWithout, id).features[COV], 0);
+  }
+  assert.strictEqual(cand(rowWith, 'sg-pricing').features[DV], 0.15);
+  assert.strictEqual(cand(rowWith, 'sg-pricing').features[COV], 0.7);
+  assert.strictEqual(cand(rowWith, 'sg-web').features[COV], -0.9);
 });
 
 test('一様探索で選んだ判定は、ログの policy に +explore が付く（応答の policy はバージョンだけ）', async () => {

@@ -16,7 +16,7 @@ test.beforeEach(() => { useFixtures(); });
 
 test('データ0件: 期待値の順位は関連度の順と一致する（タグの一致や検討度があっても動かない）', () => {
   const a = answers({
-    rel: { 'sg-web': 0.62, 'sg-pricing': 0.81, 'sg-chatbot': 0.44, 'sg-works': 0.7, 'sg-recruit': 0.36 },
+    rel: { 'sg-web': 0.62, 'sg-pricing': 0.81, 'sg-chatbot': 0.44, 'sg-works': 0.7, 'sg-solution': 0.36 },
     ind: ['不動産', 0.9], need: ['サイトリニューアル', 0.8], stage: 2.6,
   });
   for (const policy of ['prior', 'ts']) {
@@ -26,7 +26,7 @@ test('データ0件: 期待値の順位は関連度の順と一致する（タ�
     const byScore = ranked.slice().sort((x, y) => y.score - x.score).map((c) => c.block_id);
     const byRel = ranked.slice().sort((x, y) => y.rel - x.rel).map((c) => c.block_id);
     assert.deepStrictEqual(byScore, byRel, policy);
-    assert.deepStrictEqual(byRel, ['sg-pricing', 'sg-works', 'sg-web', 'sg-chatbot', 'sg-recruit']);
+    assert.deepStrictEqual(byRel, ['sg-pricing', 'sg-works', 'sg-web', 'sg-chatbot', 'sg-solution']);
   }
   // 事前分布の平均で選ぶ方策は、関連度が最大のカードを選ぶ
   assert.strictEqual(run({ answers: a }).picks['slot-mid'].block_id, 'sg-pricing');
@@ -66,12 +66,12 @@ test('rel_floor: 0.35 未満は候補外。一様探索でも選ばれない', (
 });
 
 test('一様探索: 選択確率は厳密に 0.95·[最大か] + 0.05/候補数。合計は 1', () => {
-  const a = answers({ rel: { 'sg-web': 0.8, 'sg-pricing': 0.6, 'sg-recruit': 0.5 } });
+  const a = answers({ rel: { 'sg-web': 0.8, 'sg-pricing': 0.6, 'sg-works': 0.5 } });
   const rec = run({ answers: a, slots: ['slot-next'] });
   assert.strictEqual(rec.policy, 'prior-v1');
   close(entry(rec, 'sg-web').propensity['slot-next'], 0.95 + 0.05 / 3);
   close(entry(rec, 'sg-pricing').propensity['slot-next'], 0.05 / 3);
-  close(entry(rec, 'sg-recruit').propensity['slot-next'], 0.05 / 3);
+  close(entry(rec, 'sg-works').propensity['slot-next'], 0.05 / 3);
   // 個々の値は小数6桁に丸めて記録するので、合計はその分だけずれうる
   close(rec.candidates.reduce((s, c) => s + ((c.propensity && c.propensity['slot-next']) || 0), 0), 1, 1e-5);
   assert.deepStrictEqual(rec.picks, { 'slot-next': { block_id: 'sg-web', propensity: entry(rec, 'sg-web').propensity['slot-next'] } });
@@ -84,14 +84,14 @@ test('一様探索: 選択確率は厳密に 0.95·[最大か] + 0.05/候補数�
 });
 
 test('一様探索: rng が 0.05 未満なら候補から等確率で選び、explored を立てる', () => {
-  const a = answers({ rel: { 'sg-web': 0.8, 'sg-pricing': 0.6, 'sg-recruit': 0.5 } });
+  const a = answers({ rel: { 'sg-web': 0.8, 'sg-pricing': 0.6, 'sg-works': 0.5 } });
   // 1つ目の乱数 0.01 → 探索に入る。2つ目 0.99 → 3枚のうち最後
   const rec = run({ answers: a, slots: ['slot-next'], rng: fixedRng([0.01, 0.99]) });
-  assert.strictEqual(rec.picks['slot-next'].block_id, 'sg-recruit');
+  assert.strictEqual(rec.picks['slot-next'].block_id, 'sg-works');
   assert.strictEqual(rec.picks['slot-next'].explored, true);
   close(rec.picks['slot-next'].propensity, 0.05 / 3);
   assert.strictEqual(rec.explored, true);
-  assert.strictEqual(entry(rec, 'sg-recruit').explored, true);
+  assert.strictEqual(entry(rec, 'sg-works').explored, true);
   assert.strictEqual(policyLabel(rec), 'prior-v1+explore');
   // 探索に入る割合はおよそ 5%
   let explored = 0;
@@ -100,8 +100,8 @@ test('一様探索: rng が 0.05 未満なら候補から等確率で選び、ex
 });
 
 test('2枚同時: 2枚目は1枚目とページ群が違う候補から。選択確率は条件つき', () => {
-  // /web と /chatbot は service、/pricing は trust、/recruit は company
-  const a = answers({ rel: { 'sg-web': 0.9, 'sg-chatbot': 0.8, 'sg-pricing': 0.6, 'sg-recruit': 0.4 } });
+  // /web と /chatbot は service、/pricing は trust、/works は works
+  const a = answers({ rel: { 'sg-web': 0.9, 'sg-chatbot': 0.8, 'sg-pricing': 0.6, 'sg-works': 0.4 } });
   const rec = run({ answers: a });
   assert.strictEqual(rec.picks['slot-mid'].block_id, 'sg-web');
   // 関連度2位の sg-chatbot は同じページ群なので選ばない
@@ -110,14 +110,70 @@ test('2枚同時: 2枚目は1枚目とページ群が違う候補から。選択
   close(rec.picks['slot-end'].propensity, 0.95 + 0.05 / 2);
   assert.deepStrictEqual(Object.keys(entry(rec, 'sg-chatbot').propensity), ['slot-mid']);
   assert.deepStrictEqual(Object.keys(entry(rec, 'sg-web').propensity), ['slot-mid']);
-  close(entry(rec, 'sg-recruit').propensity['slot-end'], 0.05 / 2);
+  close(entry(rec, 'sg-works').propensity['slot-end'], 0.05 / 2);
   // どの乱数でも、2枚のページ群は必ず違う
-  const type = { 'sg-web': 'service', 'sg-chatbot': 'service', 'sg-pricing': 'trust', 'sg-recruit': 'company' };
+  const type = { 'sg-web': 'service', 'sg-chatbot': 'service', 'sg-pricing': 'trust', 'sg-works': 'works' };
   for (let seed = 0; seed < 300; seed++) {
     const p = run({ answers: a, rng: seededRng(seed) }).picks;
     assert.ok(p['slot-mid'] && p['slot-end'], `seed ${seed}`);
     assert.notStrictEqual(type[p['slot-mid'].block_id], type[p['slot-end'].block_id], `seed ${seed}`);
   }
+});
+
+test('2枚同時: 2枚目の候補の最大が rel_gate 未満なら、2枚目は選ばない（slot-end は変えない）', () => {
+  // sg-web と sg-chatbot は同じページ群なので、1枚目が sg-web なら2枚目の候補は sg-pricing（0.36）だけ
+  const a = answers({ rel: { 'sg-web': 0.9, 'sg-chatbot': 0.8, 'sg-pricing': 0.36 } });
+  const rec = run({ answers: a });
+  assert.deepStrictEqual(Object.keys(rec.picks), ['slot-mid']);
+  assert.strictEqual(rec.picks['slot-mid'].block_id, 'sg-web');
+  assert.strictEqual(rec.reason, null);
+  // 選ばなかったスロットの選択確率は、どの候補にも付かない（学習とオフポリシー評価の行にならない）
+  assert.deepStrictEqual(Object.keys(entry(rec, 'sg-pricing').propensity), ['slot-mid']);
+  // どの乱数でも、門に届かないカードが slot-end に出ることは無い。1枚目が探索で sg-pricing に
+  // なったときは、残りの候補（最大 0.9）が門を通るので2枚目が出る
+  let withEnd = 0;
+  for (let seed = 0; seed < 300; seed++) {
+    const p = run({ answers: a, rng: seededRng(seed) }).picks;
+    if (p['slot-mid'].block_id === 'sg-pricing') { assert.ok(p['slot-end'], `seed ${seed}`); withEnd++; }
+    else assert.strictEqual(p['slot-end'], undefined, `seed ${seed}`);
+    if (p['slot-end']) assert.notStrictEqual(p['slot-end'].block_id, 'sg-pricing', `seed ${seed}`);
+  }
+  assert.ok(withEnd < 30, `slot-end ${withEnd}/300`);
+  // ちょうど 0.55 は通る
+  const edge = run({ answers: answers({ rel: { 'sg-web': 0.9, 'sg-chatbot': 0.8, 'sg-pricing': 0.55 } }) });
+  assert.deepStrictEqual(edge.picks['slot-end'], { block_id: 'sg-pricing', propensity: 1 });
+  // 門を通った候補の中では、rel_floor 以上のカードも探索の対象に残る（1枚目と同じ扱い）
+  const mixed = run({ answers: answers({ rel: { 'sg-web': 0.9, 'sg-pricing': 0.6, 'sg-works': 0.36 } }) });
+  close(entry(mixed, 'sg-works').propensity['slot-end'], 0.05 / 2);
+});
+
+test('訪問者タイプで対象外のカード（only_visitor_types）は候補にも探索にも入らない', () => {
+  // sg-recruit は「求職者・学生」のときだけ。関連度が高くても、事業者には出さない
+  const rel = { 'sg-recruit': 0.7, 'sg-web': 0.6, 'sg-pricing': 0.5 };
+  const biz = answers({ vt: ['発注検討中の事業者', 0.9], rel });
+  const rec = run({ answers: biz, slots: ['slot-next'] });
+  assert.strictEqual(entry(rec, 'sg-recruit').excluded, 'visitor_type');
+  assert.strictEqual(entry(rec, 'sg-recruit').rel, 0.7); // 関連度はログに残る
+  assert.strictEqual(entry(rec, 'sg-recruit').propensity, undefined);
+  assert.strictEqual(rec.picks['slot-next'].block_id, 'sg-web');
+  close(rec.picks['slot-next'].propensity, 0.95 + 0.05 / 2); // 候補数にも数えない
+  for (let seed = 0; seed < 300; seed++) {
+    assert.notStrictEqual(run({ answers: biz, slots: ['slot-next'], rng: seededRng(seed) }).picks['slot-next'].block_id, 'sg-recruit', `seed ${seed}`);
+  }
+  // 外したカードの関連度では門を通さない
+  const only = run({ answers: answers({ vt: ['情報収集中の事業者', 0.5], rel: { 'sg-recruit': 0.9, 'sg-web': 0.4 } }) });
+  assert.deepStrictEqual(only.picks, {});
+  assert.strictEqual(only.reason, 'below_gate');
+  // visitor_type の回答が無い・壊れているときも出さない
+  const broken = answers({ rel });
+  delete broken.visitor_type;
+  assert.strictEqual(entry(run({ answers: broken }), 'sg-recruit').excluded, 'visitor_type');
+  // 求職者なら確信度が低くても（行3のしきい値 0.6 未満でも）候補に入る
+  const job = run({ answers: answers({ vt: ['求職者・学生', 0.4], rel }), slots: ['slot-next'] });
+  assert.strictEqual(entry(job, 'sg-recruit').excluded, undefined);
+  assert.strictEqual(job.picks['slot-next'].block_id, 'sg-recruit');
+  // only_visitor_types を持たないカードは、訪問者タイプで外れない
+  assert.strictEqual(entry(job, 'sg-web').excluded, undefined);
 });
 
 test('2枚同時: ページ群が違う候補が無ければ1枚だけ。スロットが1つなら1枚だけ', () => {
@@ -139,7 +195,7 @@ test('2枚目のスロットの特徴量は slot_end = 1（ログの features �
 });
 
 test('rng 固定で決定的。入力を書き換えない', () => {
-  const a = answers({ rel: { 'sg-web': 0.7, 'sg-pricing': 0.65, 'sg-chatbot': 0.6, 'sg-recruit': 0.5 }, ind: ['不動産', 0.9] });
+  const a = answers({ rel: { 'sg-web': 0.7, 'sg-pricing': 0.65, 'sg-chatbot': 0.6, 'sg-works': 0.5 }, ind: ['不動産', 0.9] });
   const before = JSON.stringify(a);
   const cands = ALL.slice();
   for (const policy of ['prior', 'ts']) {
@@ -158,7 +214,7 @@ test('rng 固定で決定的。入力を書き換えない', () => {
 });
 
 test('ts: 選択確率は 0.95·頻度 + 0.05/候補数。スロットごとに合計 1 で、どの候補も 0 にならない', () => {
-  const a = answers({ rel: { 'sg-web': 0.7, 'sg-pricing': 0.65, 'sg-chatbot': 0.6, 'sg-recruit': 0.5 } });
+  const a = answers({ rel: { 'sg-web': 0.7, 'sg-pricing': 0.65, 'sg-chatbot': 0.6, 'sg-works': 0.5 } });
   const rec = run({ answers: a, policy: 'ts', model: null, rng: seededRng(3) });
   assert.strictEqual(rec.policy, 'ts-v1');
   for (const slot of ['slot-mid', 'slot-end']) {

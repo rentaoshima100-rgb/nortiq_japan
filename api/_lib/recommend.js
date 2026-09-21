@@ -22,6 +22,8 @@
 //
 // 探索の範囲は、関連度が rel_floor 以上のカードに限る。最大の関連度が rel_gate 未満なら
 // 何も選ばない（探索もしない）。訪問者から見て的外れな提案は、探索であっても出さない。
+// 2枚目（slot-end）も同じで、1枚目を除いた候補の最大が rel_gate 未満なら2枚目は選ばない。
+// 訪問者タイプで対象外になるカード（blocks.json の only_visitor_types）は、候補にも探索にも入れない。
 
 const data = require('./data');
 const { FEATURES, featureVector, priorModel, cardKey, cardInfo, linearScore, sigmoid } = require('./features');
@@ -157,6 +159,13 @@ function recommend({ answers, candidates, slots, currentUrl, viewedUrls, revisit
 
     if (!block || block.kind !== 'suggest' || block.selectable !== true) { entry.excluded = 'not_selectable'; continue; }
     if (rel == null || rel < cfg.rel_floor) { entry.excluded = 'rel_floor'; continue; }
+    // 訪問者タイプで対象外になるカード（設計書7章「1. 候補を絞る」。ここは学習させず、ルールで固定する）。
+    // blocks.json の only_visitor_types に在るタイプのときだけ候補にする（sg-recruit は「求職者・学生」だけ）。
+    // 見るのは choice だけで、確信度は問わない。確信度がしきい値以上の求職者は rules.js の行3が先に処理し、
+    // それ未満の求職者には従来どおり行5でこのカードを出せる。一様探索 5% の対象からも外れる。
+    // 関連度（rel_*）は聞き続ける（questions.js は変えない）。外したことはログで検証できる。
+    const only = Array.isArray(block.only_visitor_types) ? block.only_visitor_types : null;
+    if (only && !(isObj(a.visitor_type) && only.includes(a.visitor_type.choice))) { entry.excluded = 'visitor_type'; continue; }
     // 業種で行き先が変わるカード: 業種が決まれば業種版、決まらなければトップレベル（sg-works）。
     // トップレベルに行き先が無いもの（sg-solution）は、業種が決まらない限り候補にしない。
     const industry = data.industryFor(block, a.industry, cfg.industry_switch);
@@ -193,6 +202,13 @@ function recommend({ answers, candidates, slots, currentUrl, viewedUrls, revisit
       // 2枚目は、1枚目と提案先のページ群が違う候補から選ぶ（同じ種類のページを2枚並べない）。
       // 選択確率は「1枚目が決まったあと」の条件つきの値になる。
       pool = eligible.filter((c) => c !== first && c.card.type !== first.card.type);
+      // 2枚目にも rel_gate を掛ける。1枚目の門は全候補の最大値で通っているので、ここを見ないと、
+      // 残った候補の最大が門に届かなくても、そのうちの最大のカードがほぼ確実に slot-end の既定カードを
+      // 置き換えてしまう（原則2「確信が低ければ何も変えない」）。門は pool の最大値に掛ける
+      // （門を通った pool の中で 5% の探索が rel_floor 以上のカードを出すのは、1枚目と同じ）。
+      // 1枚目が決まれば通るかどうかも決まるので、条件つきの選択確率は変わらない。
+      // picks に slot-end が無ければ、rules.js は slot-end を変えない（コントラクト 6.3 の (c)）。
+      if (pool.length && Math.max(...pool.map((c) => c.rel)) < cfg.rel_gate) break;
       for (const c of pool) c.x = xFor(c, slot);
     }
     if (!pool.length) break;

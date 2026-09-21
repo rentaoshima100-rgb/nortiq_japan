@@ -6,26 +6,44 @@
 
 const crypto = require('crypto');
 
-// 本番ドメイン・Vercel のプレビュー・ローカル確認だけを通す。
+// 本番ドメインは名前で通す。
 const ALLOWED_ORIGINS = [
   /^https:\/\/(www\.)?nortiqlab\.com$/,
-  /^https:\/\/[a-z0-9-]+\.vercel\.app$/,
-  /^http:\/\/(localhost|127\.0\.0\.1)(:\d{1,5})?$/,
 ];
+const LOCAL_HOSTNAME = /^(localhost|127\.0\.0\.1)$/;
 
 function originOf(value) {
   try { return new URL(String(value)).origin.toLowerCase(); } catch { return ''; }
 }
 
+// リクエストが届いたホスト。Vercel は利用者が開いたホスト名を x-forwarded-host に入れる。
+function requestHost(h) {
+  const raw = h['x-forwarded-host'] || h.host;
+  return String(Array.isArray(raw) ? raw[0] : raw == null ? '' : raw).split(',')[0].trim().toLowerCase();
+}
+
 // Origin を見る。無ければ Referer で代用する（同一オリジンの POST と sendBeacon は Origin を送るが、
 // 古いブラウザ向けの保険）。どちらも無いリクエストは通さない。
+// 通すのは本番ドメインと「同一オリジン」（Origin のホストが、このリクエストの届いたホストと同じ）だけ。
+// Vercel のプレビュー（デプロイごとの URL・ブランチのエイリアス）とローカル確認は、同一オリジンで通る。
+// *.vercel.app を名前で許可してはいけない。だれでも無料で <任意の名前>.vercel.app を作れるので、
+// 第三者のページから訪問者のブラウザ経由で叩けてしまう（プロジェクト名の接頭辞で縛っても、
+// 同じ接頭辞のプロジェクトを作られれば通る）。ブラウザからは Host を偽装できない。
 // ヘッダはブラウザ以外なら偽装できるので、これは認証ではなく「よそのサイトに埋め込まれて
 // 原価だけ増える」のを防ぐためのもの。
 function checkOrigin(req) {
   const h = (req && req.headers) || {};
   const origin = originOf(h.origin) || originOf(h.referer);
   if (!origin) return false;
-  return ALLOWED_ORIGINS.some((re) => re.test(origin));
+  if (ALLOWED_ORIGINS.some((re) => re.test(origin))) return true;
+  const host = requestHost(h);
+  if (!host) return false;
+  // file: や data: の origin は文字列 'null' になり、URL として読めない。通さない。
+  // http を許すのはローカル確認だけ（公開のホストは https でしか配信していない）。
+  try {
+    const u = new URL(origin);
+    return u.host === host && (u.protocol === 'https:' || LOCAL_HOSTNAME.test(u.hostname));
+  } catch { return false; }
 }
 
 const BOT_RE = new RegExp([

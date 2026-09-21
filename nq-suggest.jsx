@@ -22,8 +22,13 @@ const NQ = (function () {
   const MAX_PASSED = 20;
   const GOALS = ['diagnostic', 'guidebook', 'contact'];
   const TRIGGER_SLOTS = { T1: ['slot-mid', 'slot-end'], T2: ['slot-next', 'slot-bar'] };
-  // /api/nq-event に流す種別。nq_decide はサーバが自分で nq_decisions に残すので GA4 だけに送る。
-  const BEACON_TYPES = { nq_shown: 'shown', nq_click: 'click', nq_engaged: 'engaged', nq_dismiss: 'dismiss', nq_goal: 'goal' };
+  // /api/nq-event に流す種別。nq_decide / nq_decide_fail は、どちらも type "decide" の1行になる
+  // (result = ok / timeout / http / format / network と、ブラウザで測った往復時間 latency_ms)。
+  // サーバが nq_decisions に残す latency_ms は Jev の呼び出しだけの時間で、関数の起動待ち・ログ書き込み・
+  // 通信を含まず、打ち切った回はそもそも行が無いことがある。「応答が client_timeout_ms に間に合った割合」は
+  // ブラウザからしか測れない。
+  const BEACON_TYPES = { nq_shown: 'shown', nq_click: 'click', nq_engaged: 'engaged', nq_dismiss: 'dismiss', nq_goal: 'goal',
+                         nq_decide: 'decide', nq_decide_fail: 'decide' };
 
   const BOT_RE = /bot|crawl|spider|slurp|headless|lighthouse|pagespeed|bingpreview|inspectiontool|googleother|mediapartners|feedfetcher|facebookexternalhit|embedly|ia_archiver|yeti|ahrefs|semrush|prerender|phantomjs|puppeteer|playwright/i;
   const AI_HOSTS = ['chatgpt.com', 'chat.openai.com', 'openai.com', 'perplexity.ai', 'gemini.google.com', 'bard.google.com', 'copilot.microsoft.com', 'claude.ai', 'felo.ai', 'genspark.ai', 'you.com', 'phind.com', 'deepseek.com', 'grok.com'];
@@ -60,7 +65,15 @@ const NQ = (function () {
     }
   }
   const inert = detectInert();
-  function active() { return !inert && cfg().enabled === true; }
+  // ランタイムを動かしてよいか。セッション・スクロール監視・通信・計測は、すべてこの1か所の判定を通る。
+  // 配信できるブロック (= ビルド時に承認済みのもの) が1つも無ければ、何もしない。スロットは null、
+  // StickyCTA は既定の文言のままで、差し替えも比較も起こりえない。その間に nq_goal / nq_dismiss だけを
+  // GA4 へ送ると「承認前は何も通信しない」が崩れ、表示を始めた日より前の値がベースラインに混ざる。
+  function active() {
+    if (inert || cfg().enabled !== true) return false;
+    const b = data().blocks;
+    return !!b && typeof b === 'object' && Object.keys(b).length > 0;
+  }
 
   // ---------- 小物 ----------
   function normPath(p) {
@@ -115,6 +128,7 @@ const NQ = (function () {
   // { sid, pages:[{u,t,sc,dw}], calls, hash, last, shown:{id:n}, passed:[], bar:0|1, goals:[] }
   // + ref / land / v (流入元・着地ページ・初回/再訪)。着地時にしか分からない値なので、ここに持つ。
   // + did (直近の decision_id。nq_goal に付ける) / eng (押したカードの控え。nq_engaged の精算用)。
+  // + ga / ev (config.ga_events / events_api の控え 0|1。save() が書く。静的LPの lp.js が読む)。
   // config.session_log が false の間は Storage に触れず、このメモリ上のオブジェクトだけで動く
   // (フルリロードで消える簡易状態)。
   let S = null;
@@ -154,6 +168,10 @@ const NQ = (function () {
   }
   function save() {
     if (!S || !cfg().session_log) return;
+    // 静的LP (/service/*) の lp.js は nq-config.json を読めない。LP のフォーム送信を nq_goal として
+    // GA4 / /api/nq-event に送ってよいかは、ここに控えたフラグで判断させる (設定で止めたら LP 側も止まる)。
+    S.ga = cfg().ga_events ? 1 : 0;
+    S.ev = cfg().events_api ? 1 : 0;
     try {
       window.sessionStorage.setItem(STORE_KEY, JSON.stringify(S));
       if (!visitMarked) { window.localStorage.setItem(VISIT_KEY, '1'); visitMarked = true; }
@@ -256,6 +274,10 @@ const NQ = (function () {
     if (!pv || pv.path !== curPath()) return;
     // ルート切替時の window.scrollTo(0) でも scroll イベントは飛ぶ。実際に読み進めた分だけ数える。
     if ((window.scrollY || window.pageYOffset || 0) <= 0) return;
+    // 記事は本文コンテナが入るまで読了率を記録しない。「本文を読み込んでいます…」の間は文書が短く、
+    // 文書全体基準だと少しのスクロールで 50% を超える。sc は最大値しか残さないので、本文が届いた後に
+    // ほとんど読まずに離れても read が "skim" になり、nq_engaged (学習の正例) まで送られてしまう。
+    if (/^\/article-/.test(pv.path) && !pv.el) return;
     const sc = Math.round(scrollPct(pv.el));
     if (sc > pv.entry.sc) pv.entry.sc = sc;
     // T1: 実際の scroll イベント・scrollY>0・本文の 25% 通過。本文が DOM に入る前 (pv.el が無い間) は
@@ -429,7 +451,22 @@ const NQ = (function () {
     const t0 = Date.now();
     const ctrl = typeof AbortController === 'function' ? new AbortController() : null;
     let late = false;
-    const timer = setTimeout(() => { late = true; if (ctrl) ctrl.abort(); }, rule('client_timeout_ms', 1200));
+    let reported = false;
+    // 呼び出し1回につき、結果を必ず1件だけ数える (フェーズ1の完了条件「応答の9割が1.2秒以内」の分子と分母)。
+    // 採用できた応答は nq_decide、捨てた回 (打ち切り・HTTP エラー・JSON でない応答・通信の失敗) は nq_decide_fail。
+    // 設計書10章の nq_decide は「/api/suggest が応答した」ときのイベントなので、捨てた回は名前を分ける。
+    // latency_ms はブラウザで測った往復時間。page_url は呼んだときのページ (応答を待つ間に遷移していても変えない)。
+    const report = (reason, extra) => {
+      if (reported) return;
+      reported = true;
+      const p = Object.assign({ trigger: t, latency_ms: Date.now() - t0, page_url: body.page_url }, extra || {});
+      if (reason) p.reason = reason;
+      track(reason ? 'nq_decide_fail' : 'nq_decide', p);
+    };
+    const failed = (reason) => { const e = new Error('nq_default'); e.nq = reason; return e; };
+    // 打ち切りはタイマーの中で数える。AbortController の無いブラウザでは fetch が返ってこないことがあり、
+    // catch を待つと「1.2秒を超えた回」が1件も残らない。
+    const timer = setTimeout(() => { late = true; if (ctrl) ctrl.abort(); report('timeout'); }, rule('client_timeout_ms', 1200));
     window.fetch('/api/suggest', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -438,10 +475,12 @@ const NQ = (function () {
     }).then((res) => {
       // プリレンダ用サーバや SPA フォールバックは HTML を 200 で返す。JSON 以外はデフォルト扱い。
       const ct = String(res.headers.get('content-type') || '');
-      if (!res.ok || ct.indexOf('json') < 0) throw new Error('nq_default');
-      return res.json();
+      if (!res.ok) throw failed('http');
+      if (ct.indexOf('json') < 0) throw failed('format');
+      return res.json().catch(() => { throw failed('format'); });
     }).then((out) => {
-      if (late || !out || typeof out !== 'object') return;
+      if (late) return; // 打ち切ったあとに届いた応答は使わない (タイマーの側で timeout として数えてある)
+      if (!out || typeof out !== 'object') { report('format'); return; }
       // 応答の policy (方策のバージョン) と各スロットの propensity (選択確率) は、サーバが nq_decisions に
       // 残す学習用の値。クライアントの表示には使わない。policy だけ nq_decide の計測に載せる。
       const keep = {
@@ -453,10 +492,12 @@ const NQ = (function () {
       if (keep.decision_id) s.did = keep.decision_id;
       save();
       const policy = typeof out.policy === 'string' && /^[\w.+-]{1,32}$/.test(out.policy) ? out.policy : null;
-      track('nq_decide', { decision_id: keep.decision_id, trigger: t, is_default: keep.default, policy, latency_ms: Date.now() - t0 });
+      report(null, { decision_id: keep.decision_id, is_default: keep.default, policy });
       applyResponse(cur, keep, t);
-    }).catch(() => { /* タイムアウト・エラーはすべてデフォルトのまま */ })
-      .then(() => clearTimeout(timer));
+    }).catch((e) => {
+      // タイムアウト・エラーはすべてデフォルトのまま。表示は変えず、結果だけ数える。
+      report(late ? 'timeout' : ((e && e.nq) || 'network'));
+    }).then(() => clearTimeout(timer));
   }
 
   // ---------- 計測 ----------
@@ -471,11 +512,14 @@ const NQ = (function () {
     const droppable = (typed === 'shown' || typed === 'click') && !p.block_id;
     if (c.events_api && typed && !droppable && window.navigator && typeof window.navigator.sendBeacon === 'function') {
       // クリック直後の遷移でも落ちにくい sendBeacon。文字列ボディ (text/plain) で送る。
-      window.navigator.sendBeacon('/api/nq-event', JSON.stringify({
+      const payload = {
         session_id: session().sid, decision_id: p.decision_id || null, type: typed,
         slot: p.slot || null, block_id: p.block_id || null, variant: p.variant || null,
         page_url: p.page_url || (pv ? pv.path : curPath()), goal: p.goal || null, read: p.read || null,
-      }));
+      };
+      // decide だけが持つ2項目。ほかの種別のボディは変えない。
+      if (typed === 'decide') { payload.result = p.reason || 'ok'; payload.latency_ms = p.latency_ms; }
+      window.navigator.sendBeacon('/api/nq-event', JSON.stringify(payload));
     }
   }
   function eventParams(slot, info) {
@@ -511,6 +555,10 @@ const NQ = (function () {
     path: safe(curPath, '/'),
     resolve: safe(resolve, null),
     nextFor: safe(nextFor, null),
+
+    // このセッションで開いたページのパス (いまのページを含む)。関連記事から既読を外すのに使う。
+    // 動いていない間 (inert・無効・配信ブロックなし) は Storage に触れないよう、セッションを作らずに空を返す。
+    viewed: safe(() => (active() ? session().pages.map((e) => e.u) : []), []),
 
     pageView: safe((path) => { if (active()) beginPage(path); }),
 
@@ -583,9 +631,12 @@ const NQ = (function () {
 
     dismissBar: safe(() => {
       if (!active()) return;
+      // 閉じた状態の保持は計測と別の話なので、barLive() に関係なく残す (StickyCTA が barDismissed() で読む)。
       session().bar = 1;
       save();
-      track('nq_dismiss', { decision_id: (pv && pv.did['slot-bar']) || null, slot: 'slot-bar' });
+      // 計測は shown / click と同じ条件。強い CTA が配信されていない間に送ると、分母 (nq_shown) の無い
+      // nq_dismiss だけが GA4 と nq_events に溜まる。
+      if (barLive()) track('nq_dismiss', { decision_id: (pv && pv.did['slot-bar']) || null, slot: 'slot-bar' });
     }),
     barDismissed: safe(() => active() && session().bar === 1, false),
   };
@@ -619,6 +670,10 @@ function nqBlockLinkProps(r, onNavigate, onContact, onClick) {
 }
 
 // rl-related の3本。現在の記事と同じカテゴリを新しい順に、足りなければ全カテゴリの新着で埋める。
+// このセッションですでに読んだ記事は後回しにする (設計書7章「すでに読んだページを除く」)。
+// 完全には除かず、未読で3本に届かないときだけ既読で埋める (RelatedList は3本・固定の高さが前提)。
+// 既読の一覧が変わるのはページ遷移のときだけなので、同じページ表示の間に描き直しても並びは変わらない。
+// session_log が false の間はフルリロードで既読が消え、従来と同じ並びに戻る。
 function nqRelatedArticles() {
   if (typeof listedArticles !== 'function') return [];
   const m = /^\/article-(.+)$/.exec(NQ.path());
@@ -628,8 +683,14 @@ function nqRelatedArticles() {
   const pool = listedArticles()
     .filter((a) => a.slug !== curSlug)
     .sort((a, b) => String(b.date || '').localeCompare(String(a.date || '')));
-  const picked = cur ? pool.filter((a) => a.category === cur.category).slice(0, 3) : [];
-  pool.forEach((a) => { if (picked.length < 3 && picked.indexOf(a) < 0) picked.push(a); });
+  const seen = new Set(NQ.viewed());
+  const unread = (a) => !seen.has('/article-' + a.slug);
+  const sameCat = (a) => !!cur && a.category === cur.category;
+  // 優先順: 同カテゴリの未読 → 全カテゴリの未読 → (最後の手段) 既読の同カテゴリ → 既読の全件
+  const picked = [];
+  [(a) => sameCat(a) && unread(a), unread, sameCat, () => true].forEach((ok) => {
+    pool.forEach((a) => { if (picked.length < 3 && picked.indexOf(a) < 0 && ok(a)) picked.push(a); });
+  });
   return picked;
 }
 
@@ -640,6 +701,12 @@ function nqCardOk(r, onContact) {
   if (r.action === 'contact' && typeof onContact !== 'function') return false;
   return true;
 }
+
+// スロットの aside に付ける名前。名前つきの aside は complementary ランドマークになるので、同じページに
+// 並ぶスロットどうしは名前を変える (記事ページは slot-mid と slot-end の両方が出る。同名だと
+// スクリーンリーダーのランドマーク一覧で、本文中のカードと本文後のカードを区別できない)。
+// slot-end は記事だけ、slot-next は記事以外だけに出るので、この2つは同じ名前でも重ならない。
+const NQ_SLOT_LABEL = { 'slot-mid': 'おすすめのページ', 'slot-end': '次に読むページ', 'slot-next': '次に読むページ' };
 
 function nqReducedMotion() {
   try { return window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (_) { return true; }
@@ -798,7 +865,7 @@ function NqSlot({ slot, defaultBlock, onNavigate, onContact }) {
   // slot-next は <main> の直下 (赤帯の直前) に置かれるが、.container では包まない。
   // 幅と左右の余白は styles.css の .nq-slot[data-slot="slot-next"] が自分で持っている。
   return (
-    <aside className="nq-slot" data-slot={slot} aria-label="おすすめのページ" ref={elRef}>
+    <aside className="nq-slot" data-slot={slot} aria-label={NQ_SLOT_LABEL[slot] || 'おすすめのページ'} ref={elRef}>
       {inner}
     </aside>
   );

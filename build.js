@@ -263,7 +263,10 @@ const NQ_BANNED = /必ず|No[.]?\s*1|今だけ|残りわずか|[0-9０-９]\s*(?
 const NQ_NEGATION = /でない|ではない|じゃない|以外/;
 
 const nqOwn = (o, k) => !!o && typeof o === 'object' && Object.prototype.hasOwnProperty.call(o, k);
-const nqFilled = (s) => String(s == null ? '' : s).trim() !== '';
+// 中身の入った文字列か。文字列以外は「空」として扱う。String() で丸めると approved_by: false / 0 が
+// "false" / "0" になって承認済みに化ける (承認はキルスイッチなので、読めない値は未承認に倒す)。
+// api/_lib/data.js の filled() と同じ条件にしてある。
+const nqFilled = (s) => typeof s === 'string' && s.trim() !== '';
 const nqBaseVariant = (block) => (block && block.kind === 'cta' ? 'weak' : 'default');
 
 function loadNqData() {
@@ -271,7 +274,7 @@ function loadNqData() {
   const read = (name) => {
     try {
       // メモ帳などで保存すると先頭に BOM が付き、JSON.parse が落ちる
-      return JSON.parse(fs.readFileSync(path.join(ROOT, 'data', name), 'utf8').replace(/^﻿/, ''));
+      return JSON.parse(fs.readFileSync(path.join(ROOT, 'data', name), 'utf8').replace(/^\uFEFF/, ''));
     } catch (e) {
       problems.push('data/' + name + ': 読み込めません (' + e.message + ') — このファイルに依る提案は出なくなります。JSON の書式を確認してください。');
       return null;
@@ -492,7 +495,7 @@ function buildNqClientData(nq) {
     const next = typeof p.default_next === 'string' && p.default_next ? resolveNqRef(nq, p.default_next, p.industry).ref : null;
     pages[p.url.length > 1 ? p.url.replace(/\/+$/, '') : p.url] = { type: String(p.type || 'other'), next };
   }
-  return {
+  const out = {
     config: { enabled: flag('enabled'), ga_events: flag('ga_events'), session_log: flag('session_log'), api: flag('api'), events_api: flag('events_api') },
     rules: {
       client_timeout_ms: num('client_timeout_ms'),
@@ -504,6 +507,11 @@ function buildNqClientData(nq) {
     pages,
     end_default: NQ_END_DEFAULT,
   };
+  // 未承認の文言が入った bundle の印。build-prerender.js が bundle の1行目でこれを見て、スナップショットを
+  // 撮らずに止まる (prerendered/ はコミットされて本番に重ねられ、Vercel / CI のガードを通らないため)。
+  // 承認済みのみのビルドには何も足さない — 足すと bundle の中身が変わり、本番の ver が無意味に変わる。
+  if (nq.includeUnapproved) out.unapproved = true;
+  return out;
 }
 
 // nq のデータの検証。初回リリースはすべて warn (NQ_STRICT=1 で throw に上がる)。
@@ -551,7 +559,31 @@ function assertNq(nq, fixedRoutes, lpRoutes) {
     if (b.selectable === true && !nqFilled(b.audience)) {
       bad.push(B + id + ': selectable:true なのに audience が空です — Jev への関連度の質問文が作れません。');
     }
+    // only_visitor_types: このカードを候補にしてよい訪問者タイプ (任意・サーバ専用。api/_lib/recommend.js が読む)。
+    // 綴りがラベルと1字でも違うと、そのカードはだれにも出なくなる。エラーも出ないので、ここで知らせる。
+    if (b.only_visitor_types != null) {
+      const types = labelSet('visitor_type');
+      if (!Array.isArray(b.only_visitor_types) || !b.only_visitor_types.length || b.only_visitor_types.some((w) => typeof w !== 'string')) {
+        bad.push(B + id + ': only_visitor_types は文字列の配列 (1つ以上) で書いてください — 制限しないなら項目ごと消します。');
+      } else if (types) {
+        for (const w of b.only_visitor_types) {
+          if (!types.has(w)) bad.push(B + id + ': only_visitor_types の「' + w + '」は data/nq-labels.json の visitor_type に無い語です — このままだと、このカードはだれにも出ません。');
+        }
+      }
+    }
     const base = nqBaseVariant(b);
+    // 承認欄は文字列だけ。false / 0 などは nqFilled が未承認に倒すが、黙って落とすと書いた人が
+    // 気付けないので知らせる (null と "" は「未承認」の書き方として通す)。
+    const checkApproval = (where, o) => {
+      if (!o || typeof o !== 'object') return;
+      if (o.approved_by != null && typeof o.approved_by !== 'string') {
+        bad.push(where + ': approved_by は文字列で書いてください (未承認は "")。' + JSON.stringify(o.approved_by) + ' は未承認として扱います。');
+      }
+      if (o.approved_at != null && typeof o.approved_at !== 'string') {
+        bad.push(where + ': approved_at は文字列 (例 "2026-10-01") で書いてください (未承認は "")。');
+      }
+    };
+    checkApproval(B + id, b);
     const checkTarget = (where, url) => {
       if (url != null && havePages && !pageUrls.has(url)) bad.push(where + ': target_url "' + url + '" が data/catalog-pages.json にありません — URL を直すか、catalog-pages.json にページを足してください。');
     };
@@ -566,6 +598,7 @@ function assertNq(nq, fixedRoutes, lpRoutes) {
           bad.push(where + ': variants.' + name + ' は kind:' + b.kind + ' で使えない名前です — 使えるのは ' + NQ_VARIANT_NAMES[b.kind].join(' / ') + '。');
         }
         const v = variants[name] || {};
+        checkApproval(where + ': variants.' + name, v);
         for (const f of Object.keys(limits)) {
           const at = where + ': variants.' + name + '.' + f;
           if (v[f] == null || v[f] === '') {
@@ -593,6 +626,7 @@ function assertNq(nq, fixedRoutes, lpRoutes) {
       const entry = b.by_industry[label] || {};
       if (industries && !industries.has(label)) bad.push(where + ': data/nq-labels.json の industry に無い語です — ラベルと同じ表記にそろえてください。');
       if (!nqFilled(entry.target_url)) bad.push(where + ': target_url がありません。');
+      checkApproval(where, entry);
       checkTarget(where, entry.target_url);
       checkVariants(where, entry.variants);
     }
@@ -895,6 +929,7 @@ async function build() {
     console.warn('  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
     console.warn('  !! NQ_INCLUDE_UNAPPROVED=1 — 未承認の文言を bundle に入れています (ローカル確認専用)。');
     console.warn('  !! この dist/ をデプロイしないこと。確認が済んだら、変数なしで node build.js をやり直す。');
+    console.warn('  !! npm run build:full / node build-prerender.js を実行しないこと (未承認の文言が prerendered/ に焼き込まれる)。');
     console.warn('  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
     console.warn('');
   }
@@ -1275,8 +1310,9 @@ async function build() {
 
   // Overlay committed pre-rendered route snapshots onto dist/ (if present).
   // Chromium can't run in the Vercel build container, so snapshots are generated
-  // locally via `npm run build:full` and committed to prerendered/; here we just
-  // copy them in. Skipped automatically when prerendered/ is absent → pure SPA.
+  // by CI (.github/workflows/prerender.yml) and committed to prerendered/; here we
+  // just copy them in. Skipped automatically when prerendered/ is absent → pure SPA.
+  // ローカルで再生成してコミットしない (docs/nq/implementation-contract.md 0章5)。
   const PRERENDERED = path.join(ROOT, 'prerendered');
   if (fs.existsSync(PRERENDERED)) {
     let pages = 0;
@@ -1296,9 +1332,11 @@ async function build() {
     // 前回の内容が、ブラウザには今回の内容が届く (中身が食い違う) 状態になる。
     const snapshot = fs.readFileSync(path.join(DIST, 'index.html'), 'utf8');
     const snapVer = (snapshot.match(/styles[.]css[?]v=([a-z0-9]+)/) || [])[1];
-    if (snapVer && snapVer !== ver) {
+    // 未承認モード (NQ_INCLUDE_UNAPPROVED=1) では bundle の中身が変わるので ver は必ず食い違う。
+    // ここで「古い」と言うと、未承認の文言が入った dist から再生成する方向へ人を誘導してしまうので出さない。
+    if (snapVer && snapVer !== ver && !nq.includeUnapproved) {
       console.warn(`  ! prerendered/ が古い (snapshot ?v=${snapVer} / build ?v=${ver})`);
-      console.warn('    npm run build:full で prerendered/ を再生成してコミットしてください。');
+      console.warn('    main に push すると CI (prerender.yml) が再生成します。ローカルで再生成してコミットしないでください。');
     }
   } else {
     console.log('• prerendered/ absent — serving pure SPA shell');

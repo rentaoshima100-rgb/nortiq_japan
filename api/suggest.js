@@ -25,7 +25,8 @@
 //   NQ_SHADOW          '1' なら判定と記録だけ行い、応答は default:true, shadow:true（シャドーモード）
 //   NQ_HOLDOUT_RATE    常にデフォルトを返すセッションの割合。既定は data/nq-rules.json の 0.2
 //   NQ_POLICY          prior（既定。事前分布の平均で選ぶ）/ ts（学習済みモデルからトンプソン抽出）。
-//                      ts のときだけ nq_model を読む（api/_lib/model.js）。どちらも一様探索 5% つき
+//                      nq_model はどちらでも読む（api/_lib/model.js）。prior が使うのは aux（V と cov）だけで、
+//                      学習済みの重みは ts のときだけ使う。どちらも一様探索 5% つき
 //   NQ_MODEL_PROVIDER  stub（既定）/ jev。api/_lib/decide.js
 //   JEV_API_KEY / JEV_MODEL / JEV_BASE_URL
 //   SUPABASE_URL / SUPABASE_SERVICE_ROLE_KEY   未設定なら記録しない
@@ -69,6 +70,13 @@ module.exports = async (req, res) => {
   try {
     if (process.env.NQ_ENABLED !== '1') return fallback();
 
+    // 受けるのは application/json だけ。text/plain などはプリフライトなしでクロスオリジンから送れるが、
+    // application/json はプリフライトが要り、この関数は CORS の応答ヘッダを返さないのでそこで止まる。
+    // Origin の検査に穴が開いても、原価の発生するこの関数はよそのページから叩けない。
+    // 自前のクライアントは常に application/json で送る（text/plain が要るのは sendBeacon を使う nq-event だけ）。
+    const contentType = String((req.headers && req.headers['content-type']) || '').trim().toLowerCase();
+    if (!contentType.startsWith('application/json')) return fallback();
+
     // Vercel は Content-Type が JSON なのに本文が壊れていると、req.body を読んだ時点で throw する。
     // 外側の try がそれも拾ってデフォルトに倒す。
     let body = req.body;
@@ -94,11 +102,15 @@ module.exports = async (req, res) => {
 
     // ホールドアウトとシャドーでも判定は行う。意図レポートの母数と、適用群との比較に要る。
     const { questions, candidates } = buildQuestions({ passed: built.passed, currentUrl: built.currentUrl, viewedUrls: built.viewedUrls });
-    // 学習済みモデルを読むのは ts のときだけ（prior は学習済みの重みを使わない）。キャッシュが切れて
-    // いると最長 300ms かかるので、モデルの呼び出しと並べて先に始めておく。
+    // nq_model は prior のときも読む。prior は学習済みの重みを使わない（recommend.js）が、aux（V と cov）を
+    // 渡さないと、ログの features の dv / cov が必ず 0 になる。その行で何か月学習しても w_dv / w_cov の
+    // 事後分布は事前分布のままで、ts に切り替えた瞬間に未学習の重みの雑音がそのまま探索に乗ってしまう。
+    // dv / cov の事前平均は 0（data/nq-rules.json の recommend.prior.mean は bias と rel だけ）なので、
+    // aux を渡しても prior の順位・期待値・選択確率は変わらない。
+    // キャッシュが切れていると最長 300ms かかるので、モデルの呼び出しと並べて先に始めておく。
     // loadModel は throw しない（未設定・失敗なら事前分布を返す）が、念のため失敗も null に倒す。
     const policy = String(process.env.NQ_POLICY || '').toLowerCase() === 'ts' ? 'ts' : 'prior';
-    const modelLoading = policy === 'ts' ? loadModel().catch(() => null) : null;
+    const modelLoading = loadModel().catch(() => null);
 
     let decided = null;
     let failure = null;
@@ -120,7 +132,7 @@ module.exports = async (req, res) => {
         currentUrl: built.currentUrl,
         viewedUrls: built.viewedUrls,
         revisit: built.revisit,
-        model: modelLoading ? await modelLoading : null,
+        model: await modelLoading,
         policy,
       });
     }
@@ -148,6 +160,8 @@ module.exports = async (req, res) => {
       // 方策のバージョン。一様探索で選んだ判定は '+explore' つき（例 'ts-v1+explore'）。
       policy: policyLabel(rec),
       model: decided ? decided.model : String((failure && failure.provider) || process.env.NQ_MODEL_PROVIDER || 'stub'),
+      // decide()（Jev の呼び出し）だけの時間。model_timeout_ms で頭打ちになり、関数の起動待ち・ログ書き込み・往復の通信は
+      // 含まない。訪問者から見た応答時間（フェーズ1の完了条件）は、ブラウザが /api/nq-event に送る type "decide" の行で測る。
       latency_ms: decided ? decided.latency_ms : (failure && Number.isFinite(failure.latency_ms) ? failure.latency_ms : null),
     };
     await log.settle((timeoutMs) => log.logDecision(row, timeoutMs));

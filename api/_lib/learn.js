@@ -8,7 +8,8 @@
 //   2. buildTrainingRows        nq_decisions と nq_events を突き合わせ、表示されたカードごとに1行
 //   3. sessionPaths / buildTransitions / solveValues / buildCov
 //                               閲覧履歴 → 遷移表 → 吸収マルコフ連鎖の V(ページ) と、遷移割合の対数比
-//   4. evaluatePolicies         選択確率の逆数で重みづけしたオフポリシー評価（IPS / 自己正規化 IPS）
+//   4. evaluatePolicies         選択確率の逆数で重みづけしたオフポリシー評価（IPS / 自己正規化 IPS）。
+//                               比べるのは1枚目のスロットの行だけ（slot-end は参考値として by_slot に分ける）
 //
 // 重みは23個前後（共有10 ＋ カード別）しかないので、行列は素の配列で解く。
 // 重みの名前と特徴量の並びは features.js が正（FEATURES と 'card:<block_id>'）。
@@ -463,15 +464,17 @@ function solveValues(transitions, opts) {
 
 // cov[from][to] = log( P(to | from) / P(to) )。「現在のページから提案先へ実際に進んだ割合」を、
 // サイト全体でそのページへ進む割合と比べた対数比。0 なら平均なみ、正ならこのページからよく進む。
-//   opts.targets: 提案先になりうる URL。渡すと、その URL への cov だけを作る（aux を小さく保つ）
+//   opts.targets: 提案先になりうる URL。渡すと、その URL への cov だけを作る（aux を小さく保つ）。
+//                 一度も進んでいない提案先にも、同じ式の値 log(smooth / (件数 + smooth)) を入れる
 //   opts.smooth:  P(to) に寄せる疑似件数。件数の少ない from の値が極端にならないようにする
-//   opts.minFrom: from の件数がこれ以上なら、一度も進んでいない提案先にも負の値を入れる
-//                 （件数が少ないうちは「進んでいない」に意味が無いので入れない。features.js は無ければ 0）
+// 「進んでいない」の値を from の件数で入れたり入れなかったりしてはいけない。進んだ提案先には件数に
+// よらず値が入るので、入れない側（features.js では 0）が「進んだが平均より少ない」（負の値）より上に
+// なり、順序が逆になる。同じ式なら (回数 + smooth·P) > smooth·P なので、進んだ回数の多い提案先が
+// 必ず上に来る。件数の少ない from では、平滑化で自然に 0 へ寄る（5件なら −0.22）。
 function buildCov(transitions, opts) {
   const o = opts || {};
   const targets = Array.isArray(o.targets) ? new Set(o.targets) : null;
   const smooth = fin(o.smooth) != null && o.smooth >= 0 ? o.smooth : 20;
-  const minFrom = fin(o.minFrom) != null ? o.minFrom : 30;
 
   const out = outgoing(transitions);
   let total = 0;
@@ -489,7 +492,7 @@ function buildCov(transitions, opts) {
       if (to === GOAL || to === EXIT || (targets && !targets.has(to))) continue;
       line[to] = value(count, row.total, into.get(to) / total);
     }
-    if (targets && smooth > 0 && row.total >= minFrom) {
+    if (targets && smooth > 0) {
       for (const to of targets) {
         if (to === from || has(line, to) || !into.has(to)) continue;
         line[to] = value(0, row.total, into.get(to) / total);
@@ -520,9 +523,17 @@ function pickByWeights(pool, weights) {
 }
 
 // 決定的な方策 1つぶんの集計。ログのカードと方策の選択が一致した行だけが、1/選択確率 の重みで効く。
+//
+// clipped は、一致した行のうち重みが cap で打ち切られた行の数。prior-v1 のログでは、探索で選ばれた
+// 「最大でないカード」の選択確率は 0.05/候補数 なので、重み（20×候補数）は候補が2枚以上なら必ず
+// cap=20 に掛かる。学習後の順位が関連度の順位と食い違う行は探索行にしか無いから、その文脈の価値は
+// 1/候補数 倍に縮み、ips は「学習後の順位」の下限にしかならない（真の改善がプラスでも、関連度だけの
+// 順位との差は負に出る）。ess は打ち切り後の重みで計算するので、この偏りは ess では見えない。
+// clipped が 0 でない ips は、方策どうしの比較に使ってはいけない。snips は符号を保つ。
 function ipsAccumulator(cap) {
   let n = 0;
   let matched = 0;
+  let clipped = 0;
   let sw = 0;
   let swy = 0;
   let sw2 = 0;
@@ -531,6 +542,7 @@ function ipsAccumulator(cap) {
       n++;
       if (chosen !== row.block_id) return;
       matched++;
+      if (1 / row.propensity > cap) clipped++;
       const w = Math.min(1 / row.propensity, cap);
       sw += w;
       swy += w * (row.y ? 1 : 0);
@@ -539,6 +551,7 @@ function ipsAccumulator(cap) {
     result() {
       return {
         matched,
+        clipped,
         ips: n ? round(swy / n, 6) : null,
         snips: sw > 0 ? round(swy / sw, 6) : null,
         // 有効サンプル数。これが小さいうちは推定値を信用しない。
@@ -564,38 +577,65 @@ function hash32(s) {
 
 // 「関連度だけの順位」と「学習後の順位（事後平均）」の推定成果率。トラフィックは分けず、
 // 記録した選択確率の逆数（cap で打ち切り）で重みづけして推定する。
-//   -> { n, cap, folds, in_sample, logged: { rate }, rel_only: {...}, learned: {...}, lift_ips, lift_snips }
+//   -> { n, cap, folds, in_sample, logged: { rate }, rel_only: {...}, learned: {...}, lift_ips, lift_snips,
+//        by_slot: { 'slot-end': { n, logged: { rate }, rel_only: {...}, learned: {...} } } }
+//      rel_only / learned は { matched, clipped, ips, snips, ess }（ipsAccumulator）
 //
 // 学習後の順位を、その学習に使ったのと同じ行で評価すると、必ず実力より良く見える。そこでセッション単位で
 // folds 個に分け、各行は「その行の組を除いて学習した重み」で評価する（全行を評価に使える）。
 // セッションが少なくて分けられないときだけ全行で学習した重みを使い、in_sample: true を立てる。
+//
+// トップレベルの推定値と lift は、1枚目のスロット（slot-mid / slot-next）の行だけで計算する。
+// slot-end 行の pool と選択確率は「ログの1枚目を所与とした」条件つきのもの。評価する方策の1枚目が
+// ログと違えば、その方策が実際に向き合う2枚目の pool は別物になる（ログで2枚目だったカードを1枚目に
+// 上げた方策は、同じカードを2スロットに置いたことになってしまう）。しかも slot-end は成果率の水準が
+// 違うので、同じ自己正規化の母数に混ぜると、1枚目の不一致で落ちた行のぶんだけ見かけの改善幅が出る。
+// slot-end は by_slot に「1枚目はログのまま、2枚目だけ替えたら」の参考値として別に出し、lift には入れない。
+// 学習（fold ごとの fitModel）には、従来どおり全スロットの行を使う。
+//
+// lift_ips は、どちらの方策にも打ち切られた行が無く、一致した行が在るときだけ出す（それ以外は null）。打ち切りが掛かった
+// ips は下限でしかなく、差の符号が逆に出る（ipsAccumulator のコメント）。判断には lift_snips を使う。
 function evaluatePolicies({ rows, prior, cap, folds } = {}) {
   const limit = cap > 0 ? cap : 20;
   const usable = (Array.isArray(rows) ? rows : []).filter((r) => r && Array.isArray(r.pool) && r.pool.length && r.propensity > 0);
   const k = folds >= 2 ? Math.floor(folds) : 5;
-  const out = { n: usable.length, cap: limit, folds: k, in_sample: false, logged: { rate: null }, rel_only: null, learned: null, lift_ips: null, lift_snips: null };
+  const isEnd = (r) => r.slot === 'slot-end';
+  const firstRows = usable.filter((r) => !isEnd(r));
+  const endRows = usable.filter(isEnd);
+  const out = { n: firstRows.length, cap: limit, folds: k, in_sample: false, logged: { rate: null }, rel_only: null, learned: null, lift_ips: null, lift_snips: null, by_slot: {} };
   if (!usable.length) return out;
 
-  out.logged.rate = round(usable.filter((r) => r.y).length / usable.length, 6);
-  out.rel_only = offPolicyValue(usable, (pool) => pickByRel(pool), limit);
+  const rate = (list) => round(list.filter((r) => r.y).length / list.length, 6);
+  const first = { rel: ipsAccumulator(limit), learned: ipsAccumulator(limit) };
+  const second = { rel: ipsAccumulator(limit), learned: ipsAccumulator(limit) };
+  const accOf = (r) => (isEnd(r) ? second : first);
+  for (const r of usable) accOf(r).rel.add(r, pickByRel(r.pool));
 
   const foldOf = (r) => hash32(String(r.session_id || r.decision_id || '')) % k;
   const sessions = new Set(usable.map((r) => String(r.session_id || r.decision_id || '')));
-  const acc = ipsAccumulator(limit);
   if (sessions.size < k * 2) {
     out.in_sample = true;
     const w = fitModel({ rows: usable, prior }).mean;
-    for (const r of usable) acc.add(r, pickByWeights(r.pool, w));
+    for (const r of usable) accOf(r).learned.add(r, pickByWeights(r.pool, w));
   } else {
     for (let f = 0; f < k; f++) {
       const held = usable.filter((r) => foldOf(r) === f);
       if (!held.length) continue;
       const w = fitModel({ rows: usable.filter((r) => foldOf(r) !== f), prior }).mean;
-      for (const r of held) acc.add(r, pickByWeights(r.pool, w));
+      for (const r of held) accOf(r).learned.add(r, pickByWeights(r.pool, w));
     }
   }
-  out.learned = acc.result();
-  if (out.learned.ips != null && out.rel_only.ips != null) out.lift_ips = round(out.learned.ips - out.rel_only.ips, 6);
+
+  if (endRows.length) {
+    out.by_slot['slot-end'] = { n: endRows.length, logged: { rate: rate(endRows) }, rel_only: second.rel.result(), learned: second.learned.result() };
+  }
+  if (!firstRows.length) return out;
+  out.logged.rate = rate(firstRows);
+  out.rel_only = first.rel.result();
+  out.learned = first.learned.result();
+  // 一致した行が1件も無い方策の ips（0）は「証拠が無い」だけなので、これも比べない。
+  const comparable = out.learned.clipped === 0 && out.rel_only.clipped === 0 && out.learned.matched > 0 && out.rel_only.matched > 0;
+  if (comparable && out.learned.ips != null && out.rel_only.ips != null) out.lift_ips = round(out.learned.ips - out.rel_only.ips, 6);
   if (out.learned.snips != null && out.rel_only.snips != null) out.lift_snips = round(out.learned.snips - out.rel_only.snips, 6);
   return out;
 }

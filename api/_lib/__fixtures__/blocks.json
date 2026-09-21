@@ -60,6 +60,7 @@
     {
       "block_id": "sg-recruit", "kind": "suggest", "target_url": "/recruit", "action": null, "selectable": true,
       "audience": "Nortiq Labs で働くことやインターンに関心がある人向け",
+      "only_visitor_types": ["求職者・学生"],
       "approved_by": "tester", "approved_at": "2026-09-18",
       "variants": { "default": { "eyebrow": "e", "title": "t", "body": "b", "cta": "見る" } }
     },
