@@ -8,7 +8,7 @@
       "target_url": "/service/recruit-site",
       "action": null,
       "selectable": true,
-      "audience": "建設・運送・介護の事業者で、求人への応募を増やしたい人向け",
+      "audience": "建設・運送・介護の事業者で、自社の求人への応募を増やす採用サイトを作りたい人向け",
       "approved_by": "",
       "approved_at": "",
       "variants": {
@@ -40,7 +40,7 @@
       "target_url": "/web",
       "action": null,
       "selectable": true,
-      "audience": "会社のサイトを新しく作る、または作り直すことを検討している人向け",
+      "audience": "自社のホームページの新規制作またはリニューアルを、外部に依頼することを検討している人向け",
       "approved_by": "",
       "approved_at": "",
       "variants": {
@@ -56,7 +56,7 @@
       "target_url": "/chatbot",
       "action": null,
       "selectable": true,
-      "audience": "AIを使ってブログ記事の作成と更新を省力化したい、またはサイトへのAIチャットボット導入を検討している人向け",
+      "audience": "自社サイトを運営している事業者で、ブログ記事の作成と投稿をAIで省力化したい、または自社サイトに問い合わせ対応のAIチャットボットを置きたい人向け",
       "approved_by": "",
       "approved_at": "",
       "variants": {
@@ -71,7 +71,7 @@
       "target_url": "/dx",
       "action": null,
       "selectable": true,
-      "audience": "業務の自動化、データ活用、業務システム開発を検討している人向け",
+      "audience": "自社の社内業務を効率化したい事業者で、業務システムの開発、定型業務の自動化、機械学習の導入を外部に依頼する進め方を調べている人向け",
       "approved_by": "",
       "approved_at": "",
       "variants": {
@@ -87,7 +87,7 @@
       "target_url": "/feature-lpo",
       "action": null,
       "selectable": true,
-      "audience": "広告や検索からの問い合わせを増やすLPを作りたい、改善したい人向け",
+      "audience": "Web広告を出している、または自社のLP（ランディングページ）を運用している事業者で、広告の費用対効果やLPからの問い合わせ率を上げたい人向け",
       "approved_by": "",
       "approved_at": "",
       "variants": {
@@ -168,7 +168,7 @@
       "target_url": "/works",
       "action": null,
       "selectable": true,
-      "audience": "依頼前に、自分と近い業種の制作実績を確認したい人向け",
+      "audience": "制作や開発の依頼を検討している事業者で、依頼先の制作実績と成果を、自社に近い業種の事例で確かめたい人向け",
       "approved_by": "",
       "approved_at": "",
       "variants": {
@@ -219,7 +219,7 @@
       "target_url": "/pricing",
       "action": null,
       "selectable": true,
-      "audience": "依頼した場合の費用の目安を知りたい人向け",
+      "audience": "制作や開発の外注を検討している、または費用の相場を調べている事業者で、依頼した場合の料金の目安を知りたい人向け",
       "approved_by": "",
       "approved_at": "",
       "variants": {
@@ -249,7 +249,7 @@
       "target_url": "/subsidy",
       "action": null,
       "selectable": true,
-      "audience": "補助金を使ってサイト制作やDX投資を進めたい人向け",
+      "audience": "事業者で、サイト制作やシステム導入に補助金が使えるかを確かめたい人向け",
       "approved_by": "",
       "approved_at": "",
       "variants": {
