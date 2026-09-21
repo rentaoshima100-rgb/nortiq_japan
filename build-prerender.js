@@ -33,6 +33,7 @@ const ARTICLE_ROUTES = (() => {
 })();
 
 const ROUTES_ALLOWLIST = [
+  '/article-fax-order-entry-digitization',
   '/article-customer-reviews-stealth-marketing-rules',
   '/article-website-renewal-acceptance-checklist',
   '/article-supply-chain-security-assessment-scheme',
