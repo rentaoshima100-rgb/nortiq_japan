@@ -33,6 +33,7 @@ const ARTICLE_ROUTES = (() => {
 })();
 
 const ROUTES_ALLOWLIST = [
+  '/article-kaigo-productivity-committee-records',
   '/article-website-project-delay-causes',
   '/article-website-renewal-agency-handover',
   '/article-fax-order-entry-digitization',
