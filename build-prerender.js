@@ -33,6 +33,7 @@ const ARTICLE_ROUTES = (() => {
 })();
 
 const ROUTES_ALLOWLIST = [
+  '/article-womens-advancement-act-disclosure',
   '/article-website-renewal-unexpected-additional-cost',
   '/article-website-security-measures-new-business-impact',
   '/article-sme-generative-ai-adoption-rate-comparison',
