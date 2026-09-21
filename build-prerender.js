@@ -33,6 +33,7 @@ const ARTICLE_ROUTES = (() => {
 })();
 
 const ROUTES_ALLOWLIST = [
+  '/article-website-renewal-acceptance-checklist',
   '/article-supply-chain-security-assessment-scheme',
   '/article-womens-advancement-act-disclosure',
   '/article-website-renewal-unexpected-additional-cost',

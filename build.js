@@ -58,6 +58,7 @@ const ORG_SAME_AS = [
 // desc → meta description / og:description / BlogPosting.description に使う。
 //        未指定の記事は app.jsx の SEO_DESC か自動生成の定型文にフォールバックする
 const BLOG = [
+  { slug: 'website-renewal-acceptance-checklist', category: 'Web制作', date: '2026.09.21', read: '8 min', title: 'ホームページリニューアルの検収項目と通知期限', img: 'assets/blog-default.png', desc: 'ホームページリニューアルの検収について、表示・動作・内容・計測の4区分の確認項目、契約の範囲と追加費用の線引き、検収後に不具合を伝える期限の確認方法を、作業の順番に沿って解説します。', supervised: true },
   { slug: 'supply-chain-security-assessment-scheme', category: 'Web制作', date: '2026.09.21', read: '9 min', title: '取引先が求めるセキュリティ評価制度の段階と手続き', img: 'assets/blog-default.png', desc: '取引先から求められるセキュリティ対策の確認について、経済産業省のSCS評価制度の目的と評価の段階、申請受付の開始時期、いまから着手できるSECURITY ACTIONの要件を公表資料に沿って整理しました。', supervised: true },
   { slug: 'womens-advancement-act-disclosure', category: 'Web制作', date: '2026.09.21', read: '10 min', title: '女性活躍推進法の情報公表を自社サイトに載せる手順', img: 'assets/blog-default.png', desc: '女性活躍推進法の情報公表について、対象となる企業規模、公表する項目と数値の3区分、自社サイトへの掲載手順、公表の期限と毎年の更新の回し方を、厚生労働省の公表資料をもとに整理しました。', supervised: true },
   { slug: 'website-renewal-unexpected-additional-cost', category: 'Web制作', date: '2026.09.17', read: '5 min', title: 'サイトリニューアル 追加費用が発生する原因と対策', img: 'assets/blog-default.png', desc: 'サイトリニューアルで想定外の追加費用が発生する原因を解説します。契約範囲・素材準備・補助金の対象範囲など、契約前に確認すべきポイントを整理しました。', supervised: true },
