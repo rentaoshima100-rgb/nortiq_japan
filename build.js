@@ -60,6 +60,9 @@ const ORG_SAME_AS = [
 // supervised: true → 記事ページに監修表記 (承認済みAI活用記事のみ。パイプラインが付与)
 // desc → meta description / og:description / BlogPosting.description に使う。
 //        未指定の記事は app.jsx の SEO_DESC か自動生成の定型文にフォールバックする
+// lane: 'C' → 代表ブログ (蓮太さん一人称)。URLが /ceo-<slug> になる。
+//        未指定はレーンA/B (会社名義のSEOコラム) で、従来どおり /article-<slug>。
+//        パイプライン側の lane_c/config.json url_prefix と対で管理する
 const BLOG = [
   { slug: 'pos-integration-single-source-of-truth', category: '技術', date: '2026.09.22', read: '5 min', title: 'POS連携システム設計で情報源を一元化する方法', img: 'assets/blog-default.png', desc: 'POSレジと連携するシステムを設計する際、どちらの情報を正とすべきかを実装経験をもとに解説します。設計手順とつまずきやすい点もあわせて紹介します。', supervised: true },
   { slug: 'disability-welfare-financial-report', category: '技術', date: '2026.09.22', read: '8 min', title: '障害福祉の経営情報報告｜期限と未報告減算の要点', img: 'assets/blog-default.png', desc: '経営情報の報告は毎会計年度終了後3か月以内が原則で、最初の報告には経過措置の期限があります。障害福祉の事業所が揃える資料、報告項目、情報公表未報告減算の考え方を手順で解説します。', supervised: true },
@@ -172,6 +175,22 @@ const BLOG = [
   // title も「比較ドシエ」という内部用語をやめ、title / H1 / BlogPosting headline を揃えた。
   { slug: 'claude-vs-gpt',   category: 'AI活用',     date: '2026.05.21', updated: '2026.09.01', read: '11 min', title: 'Claude vs GPT 業務利用の比較｜複数AIの同時活用・使い分け', img: 'assets/blog-claude-vs-gpt.png' },
 ];
+
+// 記事のURL (ルートID) を決める。プレフィックスはレーンで分かれる。
+//   レーンA/B (既定) … article-<slug>   会社名義のSEOコラム
+//   レーンC          … ceo-<slug>       代表ブログ
+// 'article-' を直接組み立てている箇所を残すと、レーンCの記事が
+// sitemap やプリレンダから漏れて片肺で公開されるため、必ずこの関数を通す。
+function routeIdFor(entry) {
+  return (entry.lane === 'C' ? 'ceo-' : 'article-') + entry.slug;
+}
+
+// ルートIDからslugを取り出す (プレフィックスの長さがレーンで違うので固定長で切らない)。
+function slugFromRouteId(routeId) {
+  if (routeId.startsWith('ceo-')) return routeId.slice('ceo-'.length);
+  if (routeId.startsWith('article-')) return routeId.slice('article-'.length);
+  return '';
+}
 
 // 公開前チェック — 記事本文に「執筆者向けの指示書」が残ったまま公開されるのを止める。
 //
@@ -860,7 +879,7 @@ function buildArticles(nq) {
     }
     // updated は改修 (refit) で本文を書き換えたときにパイプラインが入れる更新日。
     // date は初出の公開日で改修しても変えないため、鮮度は updated 側で伝える。
-    out[a.slug] = { slug: a.slug, title: a.title, category: a.category, date: a.date, updated: a.updated || '', read: a.read, img: a.img, supervised: !!a.supervised, desc: a.desc || '', noindex: !!a.noindex, est_read_sec: Math.round(chars / 10), nq_block: nqBlock, html };
+    out[a.slug] = { slug: a.slug, lane: a.lane || '', title: a.title, category: a.category, date: a.date, updated: a.updated || '', read: a.read, img: a.img, supervised: !!a.supervised, desc: a.desc || '', noindex: !!a.noindex, est_read_sec: Math.round(chars / 10), nq_block: nqBlock, html };
   }
   const placedCount = mid.override + mid.h2 + mid.h3;
   const skippedCount = mid.short + mid['no-heading'] + mid.broken;
@@ -1328,7 +1347,7 @@ async function build() {
     // /sitemap は meta robots が noindex。noindex のURLを sitemap.xml に載せると
     // 「登録したのに除外されました」という矛盾したシグナルになるため出さない。
     // /quick-diagnosis も同様 (ツールページなので noindex 運用)。
-    ...BLOG.filter((b) => !b.noindex).map((b) => 'article-' + b.slug),
+    ...BLOG.filter((b) => !b.noindex).map(routeIdFor),
   ];
   // lastmod は記事だけに出す。
   //
@@ -1340,7 +1359,7 @@ async function build() {
   // 固定ページは正確な更新日を持たないため lastmod を出さない (嘘の日付を書かない)。
   // changefreq / priority は Google が利用しないため出力しない。
   const articleLastmod = new Map(
-    BLOG.map((b) => ['article-' + b.slug, String(b.updated || b.date).replace(/\./g, '-')]),
+    BLOG.map((b) => [routeIdFor(b), String(b.updated || b.date).replace(/\./g, '-')]),
   );
   const sitemapUrls = SITEMAP_ROUTES.map((id) => {
     const loc = id === 'top' ? `${SITE}/` : `${SITE}/${id}`;
@@ -1465,8 +1484,8 @@ async function build() {
   // at least reachable and renders client-side. Only slugs that really exist in
   // BLOG get one, so unknown /article-xxx still 404s as it should.
   let fallbacks = 0;
-  for (const slug of Object.keys(articles)) {
-    const dir = path.join(DIST, 'article-' + slug);
+  for (const [slug, a] of Object.entries(articles)) {
+    const dir = path.join(DIST, routeIdFor({ slug, lane: a.lane }));
     if (fs.existsSync(path.join(dir, 'index.html'))) continue;
     fs.mkdirSync(dir, { recursive: true });
     fs.writeFileSync(path.join(dir, 'index.html'), SPA_SHELL, 'utf8');
