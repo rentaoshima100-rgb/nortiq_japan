@@ -61,6 +61,7 @@ const ORG_SAME_AS = [
 // desc → meta description / og:description / BlogPosting.description に使う。
 //        未指定の記事は app.jsx の SEO_DESC か自動生成の定型文にフォールバックする
 const BLOG = [
+  { slug: 'system-development-acceptance-criteria-contract', category: '技術', date: '2026.09.22', read: '5 min', title: 'システム開発 検収条件の決め方｜契約書の書き方', img: 'assets/blog-default.png', desc: 'システム開発の契約書に検収条件をどう書けばよいか解説します。検収基準・方法・期間・不合格時対応の4項目と、契約不適合責任の通知期限の定め方をIPAのモデル契約書に基づいて紹介します。', supervised: true },
   { slug: 'proposal-quote-contradiction-check', category: '技術', date: '2026.09.22', read: '5 min', title: '提案書・見積もりの矛盾チェック方法｜システム開発', img: 'assets/blog-default.png', desc: '複数社のシステム開発提案書・見積もりをどう比較すれば矛盾に気づけるか解説します。RFPでの前提統一、AIを使ったチェック方法、請負と準委任の算出根拠の違いまで整理しました。', supervised: true },
   { slug: 'pos-integration-single-source-of-truth', category: '技術', date: '2026.09.22', read: '5 min', title: 'POS連携システム設計で情報源を一元化する方法', img: 'assets/blog-default.png', desc: 'POSレジと連携するシステムを設計する際、どちらの情報を正とすべきかを実装経験をもとに解説します。設計手順とつまずきやすい点もあわせて紹介します。', supervised: true },
   { slug: 'disability-welfare-financial-report', category: '技術', date: '2026.09.22', read: '8 min', title: '障害福祉の経営情報報告｜期限と未報告減算の要点', img: 'assets/blog-default.png', desc: '経営情報の報告は毎会計年度終了後3か月以内が原則で、最初の報告には経過措置の期限があります。障害福祉の事業所が揃える資料、報告項目、情報公表未報告減算の考え方を手順で解説します。', supervised: true },

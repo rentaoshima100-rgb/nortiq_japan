@@ -33,6 +33,7 @@ const ARTICLE_ROUTES = (() => {
 })();
 
 const ROUTES_ALLOWLIST = [
+  '/article-system-development-acceptance-criteria-contract',
   '/article-proposal-quote-contradiction-check',
   '/article-pos-integration-single-source-of-truth',
   '/article-disability-welfare-financial-report',
