@@ -235,6 +235,21 @@ npm run serve
    PostgREST に 400 で弾かれ、Vercel のログに `[nq] log http nq_events 400` が出る。ほかのイベントは影響を受けない）。
 3. Vercel の env を入れて Redeploy: `NQ_ENABLED=1` `NQ_SHADOW=1` `NQ_MODEL_PROVIDER=jev` `JEV_API_KEY` `JEV_MODEL=jev-1.13.0`
    `SUPABASE_URL` `SUPABASE_SERVICE_ROLE_KEY`。`NQ_POLICY` と `NQ_LEARN` は入れない。
+   入れる場所は Vercel → チーム `nortiqs-projects` → プロジェクト `files` → Settings → Environment Variables（対象は Production と Preview）。
+   2026-09-22 時点で、Claude に接続した Vercel 連携には環境変数の権限が無く（403）、ここは人が入れる。値の一覧:
+
+   | Key | Value | 種類 |
+   |---|---|---|
+   | `NQ_ENABLED` | `1`（準備が済むまでは `0` のままか未設定） | Plain |
+   | `NQ_SHADOW` | `1` | Plain |
+   | `NQ_HOLDOUT_RATE` | `0.2` | Plain |
+   | `NQ_MODEL_PROVIDER` | `jev` | Plain |
+   | `JEV_MODEL` | `jev-1.13.0` | Plain |
+   | `JEV_API_KEY` | TypeSafe のキー（ローカルの `.env.local` と同じ値） | **Sensitive** |
+   | `SUPABASE_URL` | Supabase の Project URL | Plain |
+   | `SUPABASE_SERVICE_ROLE_KEY` | Supabase の service_role キー | **Sensitive** |
+
+   `NQ_ENABLED` を最後に `1` にする（それ以外を先に入れても、`NQ_ENABLED` が `1` でなければ API は即デフォルトを返し、Jev も Supabase も呼ばない）。
 4. `data/nq-config.json` の `session_log` `api` `events_api` を true にしてコミットする。**必ず 3 のあとに行う**
    （先にクライアントを開けると、API が毎回デフォルトを返すだけの無駄な通信になる）。
 5. 完了の条件: `nq_decisions` を50件目視して明らかな誤りが1割未満。**応答の9割が1.2秒以内**。

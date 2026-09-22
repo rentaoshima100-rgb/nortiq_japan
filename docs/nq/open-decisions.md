@@ -232,8 +232,8 @@
   判定が無いときは候補の先頭3本 ＝ 旧の「同カテゴリの未読の新着順」なので、見た目は変わらない。1回の質問数は最大37（上限40）。
   - `session_log` が false の間は、フルリロードで既読の一覧が消え、従来と同じ並びに戻る（害は無い）。
   - `dist/articles.js` は related 12本×106記事ぶんで 約46KB → 約105KB（105,484 バイト。gzip 11.4KB → 15.3KB）に増えた。全ページで読むファイル。
-- **決めてほしいこと**: (1) articles.js の増加を許容するか。減らすなら `build.js` の `NQ_RELATED_MAX` を下げるか、related を catalog.json だけにして articles.js から外す
-  （クライアントは先頭3本しか使わないが、既読を除いた埋めに候補が要る）。(2) 7章の式（`dv` / `cov`）で並べるのは学習開始（フェーズ3）の課題のまま。
+- **決定（2026-09-22 オーナー）**: (1) articles.js の増加（gzip で +3.9KB）は許容する。`NQ_RELATED_MAX` は 12 のまま。
+  (2) 7章の式（`dv` / `cov`）で並べるのは学習開始（フェーズ3）の課題のまま。
 - **変える場所**: `build.js` の `NQ_RELATED_MAX`／`nqRelatedSlugs`、`api/_lib/rules.js` の `pickRelatedArticles`、`nq-suggest.jsx` の `nqRelatedArticles`。
 
 ### D2. `NQ_POLICY=ts` を入れる条件と、事前分布のばらつき【フェーズ3の前】
