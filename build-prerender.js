@@ -33,6 +33,7 @@ const ARTICLE_ROUTES = (() => {
 })();
 
 const ROUTES_ALLOWLIST = [
+  '/article-pos-integration-single-source-of-truth',
   '/article-disability-welfare-financial-report',
   '/article-website-renewal-site-reputation-policy',
   '/article-kaigo-productivity-committee-records',
