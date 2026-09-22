@@ -158,6 +158,12 @@ begin
       execute format('revoke all on table public.nq_decisions, public.nq_events, public.nq_model, public.nq_transitions, public.nq_monthly from %I', r);
     end if;
   end loop;
+  -- 書くのは Vercel Function（service_role）だけ。プロジェクト作成時に「Automatically expose new tables」を
+  -- 切っていると既定の権限が付かないので、ここで明示的に付ける（付いていれば何も変わらない）。
+  if exists (select 1 from pg_roles where rolname = 'service_role') then
+    grant usage on schema public to service_role;
+    grant all on table public.nq_decisions, public.nq_events, public.nq_model, public.nq_transitions, public.nq_monthly to service_role;
+  end if;
 end
 $$;
 
