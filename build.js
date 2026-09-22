@@ -61,6 +61,7 @@ const ORG_SAME_AS = [
 // desc → meta description / og:description / BlogPosting.description に使う。
 //        未指定の記事は app.jsx の SEO_DESC か自動生成の定型文にフォールバックする
 const BLOG = [
+  { slug: 'ai-chatbot-acceptance-criteria', category: 'AI活用', date: '2026.09.22', read: '8 min', title: 'AIチャットボット外注の検収、受け入れ基準の決め方', img: 'assets/blog-default.png', desc: 'AIチャットボットを外注する際の検収条件の決め方を解説します。確率的に動作する回答精度をどう合格基準にするか、質問を業務影響で分けた水準の決め方、精度以外の確認軸、不合格時の再評価と改修の範囲までをまとめました。', supervised: true },
   { slug: 'japan-ai-usage-rate-low', category: 'AI活用', date: '2026.09.22', read: '5 min', title: '日本の生成AI個人利用率が低い理由｜国際比較データ', img: 'assets/blog-default.png', desc: '日本の生成AI個人利用率は26.7%で、米国68.8%・中国81.2%と比べて低水準です。低い理由と企業の活用実態、中小企業が取るべき一歩を解説します。', supervised: true },
   { slug: 'system-development-acceptance-criteria-contract', category: '技術', date: '2026.09.22', read: '5 min', title: 'システム開発 検収条件の決め方｜契約書の書き方', img: 'assets/blog-default.png', desc: 'システム開発の契約書に検収条件をどう書けばよいか解説します。検収基準・方法・期間・不合格時対応の4項目と、契約不適合責任の通知期限の定め方をIPAのモデル契約書に基づいて紹介します。', supervised: true },
   { slug: 'proposal-quote-contradiction-check', category: '技術', date: '2026.09.22', read: '5 min', title: '提案書・見積もりの矛盾チェック方法｜システム開発', img: 'assets/blog-default.png', desc: '複数社のシステム開発提案書・見積もりをどう比較すれば矛盾に気づけるか解説します。RFPでの前提統一、AIを使ったチェック方法、請負と準委任の算出根拠の違いまで整理しました。', supervised: true },
