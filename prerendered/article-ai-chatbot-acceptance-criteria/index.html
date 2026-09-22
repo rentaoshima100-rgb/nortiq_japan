@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="ja" style="--accent: hsl(354, 92%, 45%); --accent-hi: hsl(354, 95%, 52%); --accent-soft: hsl(354, 90%, 95%);"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Google tag (gtag.js) — GA4 + Google Ads conversion tracking -->
+  <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-EYTD1TWR7T"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-EYTD1TWR7T');
+    window.NORTIQ_CONV = { contact: null, diagnostic: null };
+  </script>
+  <title>AIチャットボット外注の検収、受け入れ基準の決め方 — Nortiq Labs</title>
+  <meta name="description" content="AIチャットボットを外注する際の検収条件の決め方を解説します。確率的に動作する回答精度をどう合格基準にするか、質問を業務影響で分けた水準の決め方、精度以外の確認軸、不合格時の再評価と改修の範囲までをまとめました。">
+  <link rel="icon" href="/assets/nortiq-fav.png" type="image/png">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Nortiq Labs">
+  <!-- 記事ルートでは app.jsx が og:type を article に変え、下の2つに日付を入れる。
+       setMetaContent は既存要素しか書き換えないため、空のまま置いておく必要がある -->
+  <meta property="article:published_time" content="2026-09-22">
+  <meta property="article:modified_time" content="2026-09-22">
+  <meta property="og:title" content="AIチャットボット外注の検収、受け入れ基準の決め方 — Nortiq Labs">
+  <meta property="og:description" content="AIチャットボットを外注する際の検収条件の決め方を解説します。確率的に動作する回答精度をどう合格基準にするか、質問を業務影響で分けた水準の決め方、精度以外の確認軸、不合格時の再評価と改修の範囲までをまとめました。">
+  <meta property="og:url" content="https://nortiqlab.com/article-ai-chatbot-acceptance-criteria">
+  <meta property="og:image" content="https://nortiqlab.com/assets/blog-default.png">
+  <meta property="og:locale" content="ja_JP">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="AIチャットボット外注の検収、受け入れ基準の決め方 — Nortiq Labs">
+  <meta name="twitter:description" content="AIチャットボットを外注する際の検収条件の決め方を解説します。確率的に動作する回答精度をどう合格基準にするか、質問を業務影響で分けた水準の決め方、精度以外の確認軸、不合格時の再評価と改修の範囲までをまとめました。">
+  <meta name="twitter:image" content="https://nortiqlab.com/assets/blog-default.png">
+  <link rel="stylesheet" href="/styles.css?v=1d3669912f">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://nortiqlab.com/#org","name":"Nortiq Labs","url":"https://nortiqlab.com/","logo":"https://nortiqlab.com/assets/nortiq-mark.png","image":"https://nortiqlab.com/assets/og-image.png","description":"京都のWeb制作×AI実装カンパニー。オリジナルデザインのホームページ制作からAIチャットボット導入、DXコンサルティングまで一気通貫で支援。初回相談無料・営業日24時間以内に返信します。","slogan":"日本のDX、世界水準で巻き返す。","foundingDate":"2025","numberOfEmployees":5,"address":{"@type":"PostalAddress","addressCountry":"JP","postalCode":"604-0012","addressRegion":"京都府","addressLocality":"京都市中京区","streetAddress":"竪大恩寺町751"},"areaServed":{"@type":"Country","name":"Japan"},"alternateName":["株式会社ノーティックラボ","ノーティックラボ"],"knowsAbout":["Web制作","AIチャットボット","DX","機械学習","SEO","LP制作 / LPO","業務自動化","データ分析"],"founder":{"@type":"Person","@id":"https://nortiqlab.com/#renta","name":"Renta Oshima","alternateName":"大島蓮太","jobTitle":"Founder / Engineer","worksFor":{"@id":"https://nortiqlab.com/#org"},"description":"米国 UC Berkeley で AI 研究。日本の中小企業向け DX 支援を起業。"}},{"@type":"WebSite","@id":"https://nortiqlab.com/#website","name":"Nortiq Labs","url":"https://nortiqlab.com/","publisher":{"@id":"https://nortiqlab.com/#org"},"inLanguage":"ja"},{"@type":"ProfessionalService","name":"Nortiq Labs","url":"https://nortiqlab.com/","description":"京都のWeb制作×AI実装カンパニー。オリジナルデザインのホームページ制作からAIチャットボット導入、DXコンサルティングまで一気通貫で支援。初回相談無料・営業日24時間以内に返信します。","areaServed":"JP","serviceType":["Web制作","AIチャットボット導入","DX・ML実装","補助金活用のDX導入相談"],"provider":{"@id":"https://nortiqlab.com/#org"}}]}</script>
+  <!-- defer: この2本 (計約139KB) は head にあって描画をブロックしていた。
+       ページの初期表示はプリレンダ済みHTMLで完結するのでJSを待つ必要がない。
+       defer は文書順に実行されるため react → react-dom → articles.js →
+       app.bundle.js の順序は保たれる。 -->
+  <script src="/assets/vendor/react.production.min.js?v=1d3669912f" defer=""></script>
+  <script src="/assets/vendor/react-dom.production.min.js?v=1d3669912f" defer=""></script>
+<script src="/articles/ai-chatbot-acceptance-criteria.js" defer="" data-article="ai-chatbot-acceptance-criteria"></script><link rel="canonical" href="https://nortiqlab.com/article-ai-chatbot-acceptance-criteria"><script type="application/ld+json" id="route-ld">[{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"トップ","item":"https://nortiqlab.com/"},{"@type":"ListItem","position":2,"name":"コラム","item":"https://nortiqlab.com/column"},{"@type":"ListItem","position":3,"name":"AIチャットボット外注の検収、受け入れ基準の決め方","item":"https://nortiqlab.com/article-ai-chatbot-acceptance-criteria"}]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"AIチャットボット外注の検収、受け入れ基準の決め方","description":"AIチャットボットを外注する際の検収条件の決め方を解説します。確率的に動作する回答精度をどう合格基準にするか、質問を業務影響で分けた水準の決め方、精度以外の確認軸、不合格時の再評価と改修の範囲までをまとめました。","image":"https://nortiqlab.com/assets/blog-default.png","url":"https://nortiqlab.com/article-ai-chatbot-acceptance-criteria","inLanguage":"ja","articleSection":"AI活用","datePublished":"2026-09-22","dateModified":"2026-09-22","author":{"@type":"Organization","@id":"https://nortiqlab.com/#org","name":"Nortiq Labs"},"publisher":{"@id":"https://nortiqlab.com/#org"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://nortiqlab.com/article-ai-chatbot-acceptance-criteria","reviewedBy":{"@id":"https://nortiqlab.com/#renta"}}}]</script></head>
+<body>
+  <div id="app"><header class="nav" role="banner"><div class="nav-inner"><a class="nav-logo" href="/" style="cursor: pointer;"><span class="nav-logo-mark"></span><span class="wordmark"><span class="wordmark-main">NORTIQ</span><span class="wordmark-sub">LABS</span></span></a><nav class="nav-links" aria-label="メインナビゲーション"><div class="nav-link-wrap"><a class="nav-link" href="/">トップ</a></div><div class="nav-link-wrap"><a class="nav-link">機能<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></a></div><div class="nav-link-wrap"><a class="nav-link">制作実績<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></a></div><div class="nav-link-wrap"><a class="nav-link">業種ソリューション<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></a></div><div class="nav-link-wrap"><a class="nav-link" href="/voice">ご利用会社様の声</a></div><div class="nav-link-wrap"><a class="nav-link" href="/support">サポート</a></div><div class="nav-link-wrap"><a class="nav-link" href="/pricing">料金プラン</a></div><div class="nav-link-wrap"><a class="nav-link" aria-current="page">コンテンツ<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></a></div><div class="nav-link-wrap"><a class="nav-link" href="/diagnostic">無料診断</a></div></nav><div class="nav-cta-wrap"><button class="btn btn-primary btn-sm" type="button"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><path d="M22 6l-10 7L2 6"></path></svg>メールでお問合せ</button><button class="hamburger" aria-label="メニューを開く" aria-expanded="false"><span></span><span></span><span></span></button></div></div><div class="nav-drawer"><div class="nav-drawer-panel"><div class="nav-drawer-head"><span class="nav-logo" style="font-size: 18px;"><span class="nav-logo-mark" aria-hidden="true"></span><span class="wordmark"><span class="wordmark-main">NORTIQ</span><span class="wordmark-sub">LABS</span></span></span><button class="drawer-close" aria-label="閉じる"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M6 18L18 6"></path></svg></button></div><nav class="nav-drawer-body"><a class="drawer-item" href="/"><span>トップ</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><div class="drawer-group"><button class="drawer-item drawer-group-head"><span>機能</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></button><div class="drawer-group-body"><div class="drawer-subgroup"><h5>サービス別 機能一覧</h5><a class="drawer-sub-item" href="/web"><span>Web制作 機能一覧</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/chatbot"><span>AIチャットボット 機能一覧</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/dx"><span>DX・ML 機能一覧</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></div><div class="drawer-subgroup"><h5>技術領域</h5><a class="drawer-sub-item" href="/feature-lpo"><span>LP制作 / LPO</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/feature-recruit"><span>採用専門サイト</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/feature-analytics"><span>アクセス解析カスタム実装</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/feature-cms"><span>CMS / 記事更新システム</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></div><div class="drawer-subgroup"><h5>自社プロダクト</h5><a class="drawer-sub-item" href="/product-vetonet"><span>VetoNet (AI Security)</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/product-wpchat"><span>ブログボット（AI投稿アシスタント）</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/product-tennis"><span>Tennis フォームチェック</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></div></div></div><div class="drawer-group"><button class="drawer-item drawer-group-head"><span>制作実績</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></button><div class="drawer-group-body"><div class="drawer-subgroup"><h5>業種から探す</h5><a class="drawer-sub-item" href="/works-clinic"><span>クリニック・医療</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/works-realty"><span>不動産</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/works-build"><span>建築・工務店</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/works-hr"><span>人材</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/works-retail"><span>小売 / EC</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/works-infra"><span>インフラ・製造</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/works-ai"><span>AIスタートアップ</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></div><div class="drawer-subgroup"><h5>強化LP別</h5><a class="drawer-sub-item" href="/works-lp-corp"><span>コーポレートサイト</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/works-lp-recruit"><span>採用LP</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/works-lp-ec"><span>EC連動LP</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></div><div class="drawer-subgroup"><h5>実績まとめ</h5><a class="drawer-sub-item" href="/works"><span>全実績一覧</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></div></div></div><div class="drawer-group"><button class="drawer-item drawer-group-head"><span>業種ソリューション</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></button><div class="drawer-group-body"><div class="drawer-subgroup"><h5>業種別パッケージ</h5><a class="drawer-sub-item" href="/solution-clinic"><span>クリニック・医療 DXパッケージ</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/solution-realty"><span>不動産 集客×管理パッケージ</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/solution-build"><span>建築 ブランド×案件管理</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/solution-hr"><span>人材 マッチング×集客</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/solution-retail"><span>小売・EC OMOパッケージ</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></div><div class="drawer-subgroup"><h5>業種特化LP (NEW)</h5><a class="drawer-sub-item" href="/service/kanri-dantai"><span>監理団体・登録支援機関向け</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/service/recruit-site"><span>建設・運送・介護の採用サイト</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></div></div></div><a class="drawer-item" href="/voice"><span>ご利用会社様の声</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-item" href="/support"><span>サポート</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-item" href="/pricing"><span>料金プラン</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><div class="drawer-group"><button class="drawer-item drawer-group-head"><span>コンテンツ</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></button><div class="drawer-group-body"><div class="drawer-subgroup"><h5>メディア</h5><a class="drawer-sub-item" href="/column"><span>コラム / 技術ブログ</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/news"><span>お知らせ</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/guidebook"><span>サービス紹介資料</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/subsidy"><span>補助金活用相談</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></div></div></div><a class="drawer-item" href="/diagnostic"><span>無料診断</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></nav><div class="nav-drawer-foot"><button class="btn btn-primary btn-lg" type="button" style="width: 100%;"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><path d="M22 6l-10 7L2 6"></path></svg>資料請求・お問い合わせ</button></div></div></div></header><div><main class="page-fade"><nav aria-label="Breadcrumb" style="padding: 14px 0px; border-bottom: 1px solid var(--border); background: var(--bg-2);"><div class="container"><ol class="row-tight" style="list-style: none; padding: 0px; margin: 0px; font-size: 12px; color: var(--text-3);"><li class="row-tight" style="gap: 8px;"><a href="/" style="cursor: pointer; color: var(--text-2);">トップ</a></li><li class="row-tight" style="gap: 8px;"><span style="color: var(--text-4);">›</span><a href="/column" style="cursor: pointer; color: var(--text-2);">コラム</a></li><li class="row-tight" style="gap: 8px;"><span style="color: var(--text-4);">›</span><span style="color: var(--text);">AIチャットボット外注の検収、受け入れ基準の決め方</span></li></ol></div></nav><article><header style="padding-top: clamp(48px, 7vw, 90px); padding-bottom: 32px;"><div class="container" style="max-width: 820px;"><div class="row" style="gap: 12px; margin-bottom: 24px; color: var(--text-3); font-size: 13px; flex-wrap: wrap;"><span class="tag" style="color: var(--accent); border-color: var(--accent);">AI活用</span><span class="num">2026.09.22</span><span>·</span><span>8 min read</span><span>·</span><span>Nortiq Labs</span></div><h1 class="display-l fadein is-in" style="margin-bottom: 8px;">AIチャットボット外注の検収、受け入れ基準の決め方</h1></div></header><div class="container" style="max-width: 880px; margin-bottom: 8px;"><div class="article-cover tone-blue" role="img" aria-label="AIチャットボット外注の検収、受け入れ基準の決め方" style="aspect-ratio: 21 / 9;"><span class="article-cover-cat">AI活用</span><span class="article-cover-title">AIチャットボット外注の検収、受け入れ基準の決め方</span><span class="article-cover-brand">NORTIQ LABS · COLUMN</span></div></div><div class="container" style="max-width: 780px; margin-top: 24px; margin-bottom: 64px;"><div><div class="article-prose article-body"><h2>何から決める？ AIの検収が難しい理由から整理する</h2>
+<p>まず、AIは確率的に動作するため、従来型システムのように全件が仕様どおりという合否判定ができないことを前提に置きます。決めるべきは、どの条件で、どの範囲まで正しければ合格とするかです。</p>
+<p>この前提は、公的な資料でも共有されています。経済産業省の契約ガイドラインでは、AI技術を利用したソフトウェアの開発方式として探索的段階型が提案されており、性能を事前に確約しにくいというAIの性質を前提とした枠組みが示されています（出典: 経済産業省 情報経済課「AI・データの利用に関する契約ガイドラインの概要」2021年1月）。</p>
+<h3>従来型システムの検収との違い</h3>
+<p>従来型のシステムなら、仕様書に書いた機能が動くかどうかで合否を判定できます。ボタンを押せば画面が開く、という確認は、何度やっても同じ結果になります。</p>
+<p>AIチャットボットは違います。同じ質問でも言い回しが変われば回答が変わり、想定していない質問も飛んできます。全問正解を条件にすれば、どの発注先も合格できません。</p>
+<table>
+<thead>
+<tr>
+<th>比較の観点</th>
+<th>従来型システム</th>
+<th>AIチャットボット</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>判定の考え方</td>
+<td>仕様どおりか</td>
+<td>どの範囲まで正しいか</td>
+</tr>
+<tr>
+<td>確認の対象</td>
+<td>機能の動作</td>
+<td>回答の内容と、外れ方</td>
+</tr>
+<tr>
+<td>合格の形</td>
+<td>全件が仕様どおり</td>
+<td>決めた水準を満たす</td>
+</tr>
+<tr>
+<td>公開後</td>
+<td>不具合の修正</td>
+<td>継続的な改善が前提</td>
+</tr>
+</tbody></table>
+<h3>先に決めておくこと</h3>
+<p>契約前に決めておくことは4つです。この4つが決まっていないと、検収の場で議論が始まってしまいます。</p>
+<ol>
+<li>評価に使う質問セットを誰が作るかを決める（つまずきやすい点: 受注側だけに作らせること。受注側が想定した質問だけでは、現場に来る質問と噛み合いません）。</li>
+<li>どの業務の、どの範囲の質問を対象にするかを決める（所要時間の目安: 半日）。</li>
+<li>何をもって正しい回答とするかの基準を文章にする。</li>
+<li>合格の水準と、不合格だった場合の扱いを決める。</li>
+</ol>
+<p>3つめの「正しい回答」の基準は、意外と揉めます。案内先のページが合っていれば正解とするのか、回答文の内容まで求めるのかで、判定結果が変わるためです。</p>
+<p>なお、経済産業省は平成30年6月に「AI・データの利用に関する契約ガイドライン」を公開しており、AI編とデータ編から成る構成で、学習済みモデルの開発契約やAI技術の利用契約の考え方を示しています（出典: 経済産業省「AI・データの利用に関する契約ガイドライン」）。進め方の全体像は次のセクションで扱います。</p>
+<h2>段階を分けて進めるとは？ 契約ガイドラインの考え方</h2>
+<p>経済産業省の契約ガイドラインでは、学習済みモデルの開発をアセスメント、PoC、開発、追加学習の4段階に分ける整理が示されています（出典: 経済産業省 情報経済課「AI・データの利用に関する契約ガイドラインの概要」2021年1月）。最初から成果を一括で保証させる形にしないという考え方です。</p>
+<p>発注側から見ると、これは検収を1回で終わらせないという話でもあります。段階ごとに結果を確認して、次へ進むかどうかを決めます。</p>
+<h3>4段階の進め方</h3>
+<p>4つの段階と、発注側が各段階で確認することを整理すると次のようになります。</p>
+<table>
+<thead>
+<tr>
+<th>段階</th>
+<th>主な内容</th>
+<th>発注側が確認すること</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>アセスメント</td>
+<td>実現可能性の見極め</td>
+<td>手持ちのデータで狙う精度に届きそうか</td>
+</tr>
+<tr>
+<td>PoC</td>
+<td>試作による検証</td>
+<td>現場の質問でどこまで答えられるか</td>
+</tr>
+<tr>
+<td>開発</td>
+<td>本番向けの構築</td>
+<td>決めた水準を満たすか、運用に耐えるか</td>
+</tr>
+<tr>
+<td>追加学習</td>
+<td>公開後の改善</td>
+<td>回答できなかった質問をどう反映するか</td>
+</tr>
+</tbody></table>
+<p>段階を分ける利点は、途中でやめられることです。アセスメントの結果、手持ちのFAQでは狙う範囲に届かないと分かれば、本開発に進む前に方針を変えられます。</p>
+<ol>
+<li>契約前に、どの段階までを今回の契約範囲にするかを決める（つまずきやすい点: 4段階すべてを1本の契約にまとめてしまうこと）。</li>
+<li>各段階の終わりに何を確認するかを、契約書か仕様書に書く（所要時間の目安: 半日）。</li>
+<li>次の段階へ進む判断を誰が行うかを決めておく。</li>
+</ol>
+<h3>探索的段階型が前提にしていること</h3>
+<p>AI編では、AI技術を利用したソフトウェアの開発方式として探索的段階型が提案されています。ユーザとベンダの間で利用条件を細かく設定して利害を調整する枠組みです（出典: 同概要資料）。</p>
+<p>ここで前提になっているのは、性能を事前に確約しにくいというAIの性質です。だからこそ、進めながら条件を詰める形が取られています。</p>
+<p>発注側が誤解しやすいのは、この進め方が「受注側が責任を負わない仕組み」ではないという点です。段階ごとに何を確認し、満たさなければどうするかを決めるからこそ、判断の根拠が残ります。</p>
+<p>段階を分けると費用が増えるのではないかと聞かれることがあります。実際には、届かない前提のまま本開発に進んで作り直すほうが高くつきます。合格の水準そのものをどう決めるかは、次のセクションで扱います。</p>
+<h2>合格ラインは何を根拠に決める？ 期待値の言語化から</h2>
+<p>合格ラインは、業界標準の数値ではなく、自社の業務で許容できる外れ方から決めます。何%なら無難という一律の基準は存在しません。</p>
+<p>判断の起点は、回答を間違えたときに何が起きるかです。案内先が違っていただけで済むのか、金額や契約条件の誤案内につながるのかで、求める水準は変わります。</p>
+<h3>業務影響から許容範囲を決める</h3>
+<p>まず、対象とする質問を業務影響で分けます。すべての質問に同じ水準を求めると、費用も期間も膨らみます。</p>
+<table>
+<thead>
+<tr>
+<th>質問の種類</th>
+<th>例</th>
+<th>求める水準の考え方</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>誤案内の影響が大きい</td>
+<td>料金、契約条件、個人情報の扱い</td>
+<td>誤った回答を出さないことを優先し、答えずに有人へ渡す</td>
+</tr>
+<tr>
+<td>影響が限定的</td>
+<td>営業時間、アクセス、よくある手続き</td>
+<td>高い正答率を求める</td>
+</tr>
+<tr>
+<td>想定外の質問</td>
+<td>対象業務と関係のない質問</td>
+<td>答えられないと返す動作を確認する</td>
+</tr>
+</tbody></table>
+<p>実装者の視点で強調したいのは、1つめの種類です。この範囲は、正答率を上げることより、間違えたまま自信ありげに答えない設計になっているかを確認してください。有人対応へ切り替える条件が入っているかが、実務では効きます。</p>
+<h3>評価に使う質問セットを自社で用意する</h3>
+<p>合格ラインを決めても、評価に使う質問が受注側の想定だけで作られていると、判定の意味が薄くなります。現場に実際に来ている問い合わせから質問を集めてください。</p>
+<ol>
+<li>過去の問い合わせ記録から質問を書き出す（所要時間の目安: 2日から3日）。</li>
+<li>業務影響の大きさで3つに分ける（つまずきやすい点: 分類を受注側に任せること。影響の大きさは業務を知る側にしか判断できません）。</li>
+<li>各分類に、正しい回答の例を書き添える。</li>
+<li>質問セットを契約書または仕様書に添付する。</li>
+</ol>
+<p>品質保証の枠組みでも、顧客の期待値を把握してそれを満たすことが重要と位置づけられています。QA4AI（AIプロダクト品質保証コンソーシアム）は2018年4月1日に設立された、日本発のAIプロダクト品質保証ガイドラインの策定団体です（出典: AI事業者ガイドラインとQA4AIに関する整理）。</p>
+<p>また、総務省と経済産業省は2026年3月31日に「AI事業者ガイドライン（第1.2版）」を公表しています。前身の第1.1版（2025年3月28日公表）では、開発過程やデータ収集、使用したアルゴリズム等の文書化が求められ、各主体はトレーサビリティの確保状況を説明することが求められています（出典: 総務省・経済産業省「AI事業者ガイドライン」）。委託先がこの文書化と説明にどこまで対応できるかは、合格ラインの妥当性を議論する土台にもなります。</p>
+<h2>精度以外に何を見る？ 5つの評価軸で漏れを防ぐ</h2>
+<p>検収では、モデルの精度だけでなく、データ、システム全体、開発プロセス、顧客の期待という複数の軸を確認します。精度だけを見ると、運用に入ってから問題が表面化します。</p>
+<p>QA4AIガイドラインは、品質保証の軸としてデータインテグリティ、モデルロバストネス、システム品質、プロセスアジリティ、カスタマーエクスペクテーション（顧客の期待）の5つを挙げており、これらはAIシステムの開発から運用までの全段階に適用されるとされています（出典: CodeZine「QA4AIガイドラインとは何か？ AIプロダクトの品質保証における課題と推進のための5つの軸」）。</p>
+<h3>5つの評価軸と確認する内容</h3>
+<p>発注側の言葉に置き換えると、次のように確認できます。</p>
+<table>
+<thead>
+<tr>
+<th>評価軸</th>
+<th>発注側が確認すること</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>データインテグリティ</td>
+<td>学習や参照に使ったFAQや文書が最新か、誤りが混じっていないか</td>
+</tr>
+<tr>
+<td>モデルロバストネス</td>
+<td>言い回しを変えた質問や、誤字のある質問でも答えられるか</td>
+</tr>
+<tr>
+<td>システム品質</td>
+<td>応答速度、同時アクセス、有人対応への切り替えが動くか</td>
+</tr>
+<tr>
+<td>プロセスアジリティ</td>
+<td>回答の誤りを見つけたとき、どれくらいで直せる体制か</td>
+</tr>
+<tr>
+<td>カスタマーエクスペクテーション</td>
+<td>想定した使い方と、実際に来る質問がずれていないか</td>
+</tr>
+</tbody></table>
+<p>精度の話だけをしていると、1行目と3行目が抜け落ちます。参照元の文書が古いままなら、モデルがどれほど優秀でも回答は間違います。</p>
+<h3>運用開始後に見る指標</h3>
+<p>検収は公開の直前だけの作業ではありません。公開後に何を見るかまで決めておくと、改善の議論が数字でできます。</p>
+<ol>
+<li>回答できずに終わった質問の件数と内容を記録する（つまずきやすい点: 記録の仕組みを入れ忘れること。後から追加すると改修になります）。</li>
+<li>有人対応へ切り替わった件数と理由を集計する（所要時間の目安: 月1回、1時間程度）。</li>
+<li>利用者の評価ボタンなど、回答の良し悪しを拾う導線を用意する。</li>
+<li>集計結果をもとに、参照元の文書を更新する担当と頻度を決める。</li>
+</ol>
+<p>1つめは特に重要です。答えられなかった質問こそが、次に追加すべき情報そのものだからです。この記録が残らない作りになっていると、改善の材料が手元に残りません。</p>
+<p>これらの確認項目をどう文章に落とすかは、次のセクションで扱います。</p>
+</div><aside class="nq-slot" data-slot="slot-mid" aria-label="おすすめのページ"><div class="nq-suggest" data-block="sg-chatbot" data-variant="default"><p class="nq-suggest__eyebrow">ブログ更新が止まりがちな方へ</p><h3 class="nq-suggest__title"><a href="/chatbot">質問するだけで記事が書ける、AI投稿ツール。</a></h3><p class="nq-suggest__body">AIチャットボットに質問しながら骨子を作り、本文展開、WordPress投稿までを自動化。初期費用10万円〜（税別）。</p><span class="nq-suggest__cta" aria-hidden="true">機能と料金を見る →</span></div></aside><div class="article-prose article-body"><h2>検収条件にどう書く？ 書き方の型と記入例</h2>
+<p>検収条件は、評価に使う質問セット、判定の方法、合格の水準、不合格時の扱いの4点を書きます。質問セットを添付しない検収条件は、判定のたびに解釈が割れます。</p>
+<p>文章を新たに起こす必要はありません。前のセクションまでで決めた内容を、そのまま項目に流し込む形で足ります。</p>
+<h3>書き方の型</h3>
+<p>契約書または仕様書には、次の4項目を書きます。</p>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>書く内容</th>
+<th>記入例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>評価対象</td>
+<td>添付する質問セットと件数、分類</td>
+<td>別紙の質問一覧（影響大20問、通常60問、対象外20問）</td>
+</tr>
+<tr>
+<td>判定方法</td>
+<td>誰が、何をもって正解とするか</td>
+<td>発注者が別紙の正解例と照合して判定する</td>
+</tr>
+<tr>
+<td>合格の水準</td>
+<td>分類ごとの水準</td>
+<td>通常の質問は正答、影響大の質問は誤回答を出さず有人へ引き継ぐこと</td>
+</tr>
+<tr>
+<td>不合格時の扱い</td>
+<td>再評価の回数と改修の範囲</td>
+<td>改修後に同一の質問セットで再評価、回数は2回まで</td>
+</tr>
+</tbody></table>
+<p>合格の水準を分類ごとに分けている点が要点です。影響の大きい質問まで同じ正答率で縛ると、受注側は安全側に倒して何も答えない設計にするか、逆に無理に答える設計にするかのどちらかに寄ります。</p>
+<p>もう1つ、判定に使う質問セットは検収後も変えないでください。改修のたびに質問を入れ替えると、良くなったのか質問が変わっただけなのかが分からなくなります。追加したい質問は、別の組として管理します。</p>
+<h3>不合格時の再評価と改修の範囲</h3>
+<p>不合格になったときに何をするかを決めていないと、その場での交渉になります。あらかじめ次を決めておいてください。</p>
+<ol>
+<li>再評価の回数を決める（つまずきやすい点: 回数を決めずに無制限の改修を求めること。期間と費用の双方に跳ね返ります）。</li>
+<li>改修の範囲を決める（所要時間の目安: 契約前の協議で半日）。</li>
+<li>水準に届かなかった場合に、公開を延期するか範囲を絞って公開するかを決める。</li>
+<li>参照元の文書側に原因があった場合の扱いを決める。</li>
+</ol>
+<p>4つめは見落とされがちです。回答が誤っていた原因が、自社が渡したFAQの記載ミスだったという例は珍しくありません。原因の切り分け方を先に決めておくと、責任の押し付け合いになりません。</p>
+<p>検収条件の言語化は、業務を知る発注側にしか書けない部分が残ります。当社はAIチャットボットの構築を手がけており、評価用の質問セットの設計から一緒に進める形もご提案しています。進め方に迷う場合は<a href="/diagnostic">無料診断</a>からご相談ください。</p>
+<h2>つまずきやすい点は？ 発注側が陥りやすい3つの失敗</h2>
+<p>合格ラインを他社の数値で決める、評価用の質問を受注側だけに作らせる、公開後の改善を契約に入れ忘れるという3点が、運用開始後の不満につながります。いずれも契約前に防げます。</p>
+<p>1つめは前のセクションまでで扱いました。ここでは残る2点を具体的に見ていきます。</p>
+<h3>自社の質問で評価する</h3>
+<p>評価用の質問を受注側だけに作らせると、受注側が答えられる質問ばかりが並びます。悪意の問題ではなく、現場に来る質問を知らないためです。</p>
+<p>当社のAIチャットボット導入では、業種別に応答を最適化して24時間の一次対応を実現していますが、この業種別の調整は、その会社に実際に来ている問い合わせを見なければ設計できません。同じ業種でも、聞かれる内容は会社によって驚くほど違います。</p>
+<table>
+<thead>
+<tr>
+<th>質問セットの作り方</th>
+<th>起きること</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>受注側だけで作成</td>
+<td>検収は通るが、公開後に答えられない質問が続出する</td>
+</tr>
+<tr>
+<td>発注側だけで作成</td>
+<td>技術的に難しい質問ばかりになり、判定が偏る</td>
+</tr>
+<tr>
+<td>発注側が集め、受注側が分類を補助</td>
+<td>現場の質問で判定でき、難易度の見立ても共有できる</td>
+</tr>
+</tbody></table>
+<p>現実的なのは3行目です。質問そのものは発注側が集め、どれが技術的に難しいかの見立てを受注側に出してもらいます。</p>
+<h3>公開後の追加学習を前提に置く</h3>
+<p>AIチャットボットは、公開した日が完成日ではありません。答えられなかった質問を拾って参照元の文書を足していく作業が、公開後に続きます。</p>
+<p>ここを契約に入れ忘れると、公開直後から改善が止まります。運用の取り決めを次の順で決めてください。</p>
+<ol>
+<li>参照元の文書を更新する担当を、自社と受注側のどちらにするか決める（つまずきやすい点: 決めないまま公開し、誰も更新しない状態になること）。</li>
+<li>更新の頻度と、更新にかかる費用の扱いを決める（所要時間の目安: 契約前の協議で1時間）。</li>
+<li>答えられなかった質問の記録を、どの画面で誰が見るかを決める。</li>
+<li>一定期間後に、合格水準そのものを見直す場を設ける。</li>
+</ol>
+<p>4つめまで決めている会社は多くありません。しかし、公開して数か月経つと、想定していなかった種類の質問が増えているのが普通です。最初に決めた水準が実態に合っているかを見直す場を作っておくと、改善の議論が続きます。</p>
+<p>検収は、公開の可否を決める一度きりの関門ではなく、運用の出発点だと捉えてください。</p>
+<h2>よくある質問</h2>
+<p>契約前の打ち合わせで実際に聞かれることの多い質問をまとめました。数値の目安は業務内容と質問の性質で変わるため、一律の基準は示していません。</p>
+<h3>AIチャットボットの回答精度は何%あれば合格といえますか？</h3>
+<p>一律の合格ラインはありません。決め方は、対象の質問を業務影響で分け、影響の大きい範囲は誤った回答を出さないことを優先し、影響が限定的な範囲に高い正答率を求める形です。他社の公表値をそのまま持ち込むと、評価に使った質問も判定の基準も違うため、比較になりません。</p>
+<h3>検収に使う質問は何問くらい用意すればよいですか？</h3>
+<p>件数よりも、現場に実際に来ている質問を反映しているかが重要です。過去の問い合わせ記録から集め、業務影響の大きさで分類したうえで、各分類に一定数ずつ入れてください。件数が少なすぎると、たまたまの当たり外れで判定が揺れます。</p>
+<h3>回答できなかった質問は、不具合として扱えますか？</h3>
+<p>対象範囲として合意した質問かどうかで変わります。だからこそ、どの業務のどの範囲を対象にするかを契約前に決め、質問セットを添付しておく必要があります。対象外の質問に答えられないことは、不具合ではなく想定どおりの動作です。</p>
+<h3>公開後に精度が下がった場合、どこまで対応してもらえますか？</h3>
+<p>契約に運用の取り決めを入れているかによります。参照元の文書を更新する担当、更新の頻度、費用の扱いを決めていないと、公開直後から改善が止まります。原因が自社の渡した文書側にある場合の扱いも、あわせて決めておいてください。</p>
+<h3>PoCと本開発で契約を分けると、費用は高くなりますか？</h3>
+<p>案件により変動するため、金額の目安はここでは示しません。ただし、手持ちのデータで狙う範囲に届かないまま本開発に進み、作り直しになるほうが結果的に高くつきます。経済産業省の契約ガイドラインが段階を分ける整理を示しているのも、この性質を前提にしたものです。</p>
+<p>最後に、検収条件を決める流れをまとめます。</p>
+<ol>
+<li>対象とする業務の範囲を決め、現場の問い合わせから質問を集める（所要時間の目安: 2日から3日）。</li>
+<li>質問を業務影響で分類し、分類ごとの合格水準を決める（つまずきやすい点: すべてに同じ水準を求めること）。</li>
+<li>質問セット、判定方法、合格水準、不合格時の扱いを契約書または仕様書に書く。</li>
+<li>公開後の記録の取り方と、参照元の文書を更新する体制を決める。</li>
+</ol>
+<h2>関連リンク</h2>
+<ul>
+<li><a href="/diagnostic">AIチャットボットの導入範囲を無料診断で整理する</a></li>
+<li><a href="/guidebook">AI導入の進め方をまとめたDXガイドブック</a></li>
+<li><a href="/pricing">AIチャットボット構築の料金の考え方</a></li>
+<li><a href="/column">AI活用に関する記事一覧</a></li>
+</ul>
+</div></div><div style="margin-top: 32px; padding: 16px 20px; background: var(--bg-2); border-radius: 10px; font-size: 13px; color: var(--text-3); line-height: 1.8;"><div>監修: 大島蓮太（株式会社ノーティックラボ代表 / AIエンジニア）</div><div>本記事はAIを活用して制作しています</div></div><aside class="nq-slot" data-slot="slot-end" aria-label="次に読むページ"><div class="nq-suggest" data-block="sg-guidebook" data-variant="default"><p class="nq-suggest__eyebrow">この記事を読んだ方へ</p><h3 class="nq-suggest__title"><a href="/guidebook">サービス紹介資料を無料でダウンロード。</a></h3><p class="nq-suggest__body">制作の進め方・実績・料金プラン・制作の流れを、全11ページのPDFにまとめています。費用はかかりません。</p><span class="nq-suggest__cta" aria-hidden="true">資料を見る →</span></div></aside></div><section class="section-pad" style="background: var(--bg-2);"><div class="container" style="max-width: 880px;"><h3 class="display-s" style="margin-bottom: 24px;">関連記事</h3><div class="grid-3"><a class="article-card fadein is-in" href="/article-japan-ai-usage-rate-low" style="cursor: pointer;"><div class="article-cover tone-blue" role="img" aria-label="日本の生成AI個人利用率が低い理由｜国際比較データ" style="aspect-ratio: 16 / 10;"><span class="article-cover-cat">AI活用</span><span class="article-cover-title">日本の生成AI個人利用率が低い理由</span><span class="article-cover-brand">NORTIQ LABS · COLUMN</span></div><div class="article-meta"><span style="color: var(--accent);">AI活用</span><span class="article-meta-sep">·</span><span>2026.09.22</span></div><h3 class="article-title">日本の生成AI個人利用率が低い理由｜国際比較データ</h3></a><a class="article-card fadein is-in" href="/article-system-development-acceptance-criteria-contract" style="cursor: pointer;"><div class="article-cover tone-ink" role="img" aria-label="システム開発 検収条件の決め方｜契約書の書き方" style="aspect-ratio: 16 / 10;"><span class="article-cover-cat">技術</span><span class="article-cover-title">システム開発 検収条件の決め方</span><span class="article-cover-brand">NORTIQ LABS · COLUMN</span></div><div class="article-meta"><span style="color: var(--accent);">技術</span><span class="article-meta-sep">·</span><span>2026.09.22</span></div><h3 class="article-title">システム開発 検収条件の決め方｜契約書の書き方</h3></a><a class="article-card fadein is-in" href="/article-proposal-quote-contradiction-check" style="cursor: pointer;"><div class="article-cover tone-ink" role="img" aria-label="提案書・見積もりの矛盾チェック方法｜システム開発" style="aspect-ratio: 16 / 10;"><span class="article-cover-cat">技術</span><span class="article-cover-title">提案書・見積もりの矛盾チェック方法</span><span class="article-cover-brand">NORTIQ LABS · COLUMN</span></div><div class="article-meta"><span style="color: var(--accent);">技術</span><span class="article-meta-sep">·</span><span>2026.09.22</span></div><h3 class="article-title">提案書・見積もりの矛盾チェック方法｜システム開発</h3></a></div></div></section></article><section class="t_inq_wrap fadein is-in"><div class="container"><h2>こうした観点をベースに、<br>貴社の DX を一緒に考えませんか。</h2><div class="t_inq_btns"><button class="btn btn-primary" type="button"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><path d="M22 6l-10 7L2 6"></path></svg>資料請求はこちら</button><a class="btn btn-primary" href="/diagnostic"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><path d="M21 21l-4.35-4.35"></path></svg>ホームページ無料診断</a></div><p class="t_inq_time">営業日 24時間以内に担当者よりご返信します。</p></div></section></main></div><footer class="footer"><div class="container"><div class="footer-grid"><div class="footer-brand"><div class="nav-logo" style="margin-bottom: 16px;"><span class="nav-logo-mark"></span><span class="wordmark"><span class="wordmark-main">NORTIQ</span><span class="wordmark-sub">LABS</span></span></div><p class="body" style="font-size: 13px; max-width: 320px; margin-bottom: 24px;">日本のDX、世界水準で巻き返す。<br>Web制作からAI・DX実装までの技術チーム。</p><button class="btn btn-primary btn-sm" type="button"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><path d="M22 6l-10 7L2 6"></path></svg>資料請求はこちら</button></div><div class="footer-col"><h4>制作実績</h4><ul><li><a href="/works">全実績一覧</a></li><li><a href="/works-clinic">クリニック・医療</a></li><li><a href="/works-realty">不動産</a></li><li><a href="/works-build">建築・工務店</a></li><li><a href="/works-hr">人材</a></li><li><a href="/works-retail">小売 / EC</a></li><li><a href="/works-infra">インフラ・製造</a></li><li><a href="/works-ai">AIスタートアップ</a></li><li><a href="/works-lp-corp">コーポレートLP</a></li><li><a href="/works-lp-recruit">採用LP</a></li><li><a href="/works-lp-ec">EC連動LP</a></li><li><a href="/works-video">動画制作事例</a></li></ul></div><div class="footer-col"><h4>機能・サービス</h4><ul><li><a href="/web">Web制作 機能一覧</a></li><li><a href="/chatbot">AIチャットボット 機能一覧</a></li><li><a href="/dx">DX・ML 機能一覧</a></li><li><a href="/feature-lpo">LP制作 / LPO</a></li><li><a href="/feature-recruit">採用専門サイト</a></li><li><a href="/feature-analytics">アクセス解析</a></li></ul><h4 style="margin-top: 24px;">自社プロダクト</h4><ul><li><a href="/product-vetonet">VetoNet</a></li><li><a href="/product-wpchat">ブログボット（AI投稿アシスタント）</a></li><li><a href="/product-tennis">Tennis フォームチェック</a></li></ul></div><div class="footer-col"><h4>サポート・コンサル</h4><ul><li><a href="/support">運用サポート</a></li><li><a href="/voice">ご利用会社様の声</a></li><li><a href="/diagnostic">サイト無料診断 (URL入力)</a></li><li><a href="/column">技術ブログ / コラム</a></li><li><a href="/news">お知らせ</a></li><li><a href="/subsidy">補助金活用相談</a></li><li><a href="/guidebook">サービス紹介資料</a></li></ul><h4 style="margin-top: 24px;">業種別ソリューション</h4><ul><li><a href="/solution-clinic">クリニック・医療</a></li><li><a href="/solution-realty">不動産</a></li><li><a href="/solution-build">建築・工務店</a></li><li><a href="/solution-hr">人材</a></li><li><a href="/solution-retail">小売 / EC</a></li><li><a href="/service/kanri-dantai">監理団体・登録支援機関</a></li><li><a href="/service/recruit-site">建設・運送・介護 採用サイト</a></li></ul><h4 style="margin-top: 24px;">会社</h4><ul><li><a href="/company">会社概要</a></li><li><a href="/staff">チーム / スタッフ</a></li><li><a href="/recruit">採用情報</a></li><li><a href="/pricing">料金プラン</a></li><li><a href="/sitemap">サイトマップ</a></li></ul></div></div><div class="footer-bottom"><span>© 2026 Nortiq Labs Inc. All rights reserved.</span><div class="row" style="gap: 24px;"><a href="/privacy" style="color: var(--text-3);">プライバシーポリシー</a><a href="/terms" style="color: var(--text-3);">利用規約</a><a href="/privacy-handling" style="color: var(--text-3);">個人情報の取扱い</a></div></div></div></footer><div class="modal-backdrop"><div class="modal" role="dialog" aria-modal="true"><button class="modal-close" aria-label="閉じる"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M6 18L18 6"></path></svg></button><div style="margin-bottom: 24px;"><div class="eyebrow eyebrow-accent" style="margin-bottom: 12px;">CONTACT</div><h3 class="display-s" style="margin-bottom: 8px;">資料請求・お問い合わせ</h3><p class="small">初回相談は無料です。営業日24時間以内にご返信します。</p></div><form novalidate=""><div class="field"><label>貴社名<span class="req">必須</span></label><input type="text" placeholder="株式会社○○" value=""></div><div class="field"><label>ご担当者名<span class="req">必須</span></label><input type="text" placeholder="山田 太郎" value=""></div><div class="field"><label>メールアドレス<span class="req">必須</span></label><input type="email" placeholder="you@example.com" value=""></div><div class="field"><label>電話番号<span class="req">必須</span></label><input type="tel" placeholder="03-XXXX-XXXX" value=""></div><div class="field"><label>カテゴリー<span class="req">必須</span></label><div class="cb-group"><label class=""><input type="checkbox">Web制作</label><label class=""><input type="checkbox">AIチャットボット</label><label class=""><input type="checkbox">DX・ML</label><label class=""><input type="checkbox">業務自動化</label><label class=""><input type="checkbox">LP制作</label><label class=""><input type="checkbox">採用サイト</label></div></div><div class="field"><label>お問い合わせ内容<span class="req">必須</span></label><div class="cb-group"><label class=""><input type="checkbox">新規HP制作</label><label class=""><input type="checkbox">HPリニューアル</label><label class=""><input type="checkbox">AIチャットボット導入</label><label class=""><input type="checkbox">DX・ML 実装</label><label class=""><input type="checkbox">業務自動化</label><label class=""><input type="checkbox">リスティング広告</label><label class=""><input type="checkbox">コンサルティング</label></div></div><div class="field"><label>ご相談内容<span class="any">任意</span></label><div class="cb-group"><label class=""><input type="checkbox">HPが無い</label><label class=""><input type="checkbox">問い合わせを増やしたい</label><label class=""><input type="checkbox">サービス資料がほしい</label><label class=""><input type="checkbox">無料診断</label><label class=""><input type="checkbox">デザインを改善したい</label><label class=""><input type="checkbox">SEOを上げたい</label><label class=""><input type="checkbox">AI活用したい</label><label class=""><input type="checkbox">業務効率化したい</label><label class=""><input type="checkbox">補助金活用を相談したい</label></div></div><div class="field"><label>本サイトを知ったきっかけ<span class="any">任意</span></label><select><option value="">選択してください</option><option value="Google検索">Google検索</option><option value="Yahoo検索">Yahoo検索</option><option value="AIチャット (ChatGPT/Claude/Gemini等)">AIチャット (ChatGPT/Claude/Gemini等)</option><option value="ご紹介">ご紹介</option><option value="メール">メール</option><option value="DMチラシ">DMチラシ</option><option value="SNS (X/LinkedIn)">SNS (X/LinkedIn)</option><option value="以前から知っていた">以前から知っていた</option><option value="その他">その他</option></select></div><div class="field"><label>サイトURL<span class="any">任意</span></label><input type="text" placeholder="https://" value=""></div><div class="field"><label>その他ご質問<span class="any">任意</span></label><textarea placeholder="ご質問・ご相談がございましたらお気軽にご記入ください。"></textarea></div><div class="field field-check"><input type="checkbox" id="agree" style="margin-top: 2px;"><label for="agree" style="cursor: pointer;"><a href="/privacy-handling" target="_blank" rel="noopener noreferrer" style="color: var(--accent); text-decoration: underline;">個人情報の取り扱い</a>に同意します<span class="req">必須</span></label></div><div style="margin-top: 8px; text-align: center;"><button class="btn btn-primary btn-lg" type="submit">同意して送信する<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></button></div></form></div></div><nav class="sp-bottom-nav" aria-label="モバイル下部ナビ"><ul><li><a href="/"><span class="icn"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-8 9 8M5 10v10h14V10"></path></svg></span><span>トップ</span></a></li><li><a href="/works"><span class="icn"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect></svg></span><span>制作実績</span></a></li><li><a href="/pricing"><span class="icn"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4l8 11 8-11M7 13h10M7 17h10"></path></svg></span><span>料金</span></a></li><li><button type="button"><span class="icn"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><path d="M22 6l-10 7L2 6"></path></svg></span><span>資料請求</span></button></li><li><a href="/sitemap"><span class="icn"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M4 12h16M4 17h16"></path></svg></span><span>メニュー</span></a></li></ul></nav><div class="sticky-cta" role="region" aria-label="ご相談の案内"><span class="pulse"></span><span>初回相談無料 · 営業日24h以内にご返信</span><button>資料請求 →</button><button class="sticky-cta-close" aria-label="閉じる"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M6 18L18 6"></path></svg></button></div></div>
+  <script src="/articles.js?v=1d3669912f" defer=""></script>
+  <script src="/app.bundle.js?v=1d3669912f" defer=""></script>
+
+
+</body></html>
