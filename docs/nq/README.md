@@ -11,12 +11,11 @@
 - 評価セットの正解の付け方（基準書）: [`labeling-guide.md`](labeling-guide.md)／再ラベルの記録: [`eval-relabel-2026-09-21.md`](eval-relabel-2026-09-21.md)／評価の経緯: [`eval-2026-09-21.md`](eval-2026-09-21.md)
 - プライバシーポリシー追記の下書き: [`privacy-policy-draft.md`](privacy-policy-draft.md)
 
-> **いまの状態（2026-09-22）。** コードは入っているが、**何も表示されず、何も通信しない**。
-> 23ブロックがすべて未承認（`approved_by` が空）で、`data/nq-config.json` の `api` / `session_log` / `events_api` は false、
-> Vercel の `NQ_ENABLED` も未設定。下の「フェーズごとのスイッチ」を上から順に入れていく。
-> フェーズ0 検証は段階実行まで済み、**完了条件（決定一致率 90% 以上・事業者への誤り 2件以下）を達成**（最終設定で 100%・0件。`eval-2026-09-21.md` の「3回目」）。
-> 次はフェーズ1（シャドーモード）。その前にプライバシーポリシーの追記、Supabase、Vercel の env が要る。
-
+> **いまの状態（2026-09-22 シャドーモード開始）。** 23ブロックを承認し（オーナー決定 (a)）、**記事と中間ページにデフォルトのカードが出ている**。
+> `data/nq-config.json` は `session_log` / `api` / `events_api` が true で、訪問者が記事を25%まで読むと `/api/suggest` が呼ばれ、
+> 判定は Supabase の `nq_decisions` に `shadow = true` で記録される。**表示はデフォルトのまま**（Vercel の `NQ_SHADOW=1`）。
+> プライバシーポリシーは同じ日に改定（8〜11）。**専門家の確認は未実施**（`open-decisions.md` A5）。
+> 終了判定は **2026-09-29**（5章「フェーズ1」の冒頭）。止め方は10章。
 ---
 
 ## 1. 全体像
@@ -229,6 +228,34 @@ npm run serve
    CI（生成物 `api/_data/catalog.json` が無い環境）では、`run.js` が `overrides[slug]` の在る記事の need／industry をカテゴリの既定から補わない件が残っている（`eval-2026-09-21.md` 3回目「残る問題」6）。直るまで CI の数字はローカルと少し違いうる。
 
 **フェーズ1 シャドーモード（判定と記録だけ。表示は変えない。1週間）**
+
+> **開始日: 2026-09-22。終了判定の日: 2026-09-29（1週間後）。**
+> オーナー決定 (a)（2026-09-22）: 23ブロックを承認してデフォルトのカードを出し始め（フェーズ0 準備）、そのままシャドーモードに入る。
+> 下の 1〜4 のうち、Vercel の env（3）は入れて Redeploy 済みで、本番の `/api/suggest` はシャドーで動き `nq_decisions` に `shadow = true` の行が入り始めている。
+> 承認（3章）・プライバシーポリシーの追記の公開（1）・`data/nq-config.json` のフラグ（4）は 2026-09-22 の同じ変更にまとめて入れる
+> （フラグだけ先に push しない。11章「ポリシーの追記を公開する前に true にしない」）。
+> 開始時点の設定（承認 23/23、`nq-rules.json` の値、モデル版 `jev-1.13.0`）は `eval-2026-09-21.md` 末尾の「シャドーモード開始」に記録してある。
+>
+> **2026-09-29 に見るもの（判定に使うクエリ。Supabase の SQL Editor に1つずつ貼る）**
+> - 応答時間（完了条件 5）: `supabase/nq_report.sql` の **K5** の `within_1200_rate` が 0.9 以上か。K5 の冒頭の `p` をシャドーの1週間に置き換える（以降は K5 のまま）:
+>   ```sql
+>   with p as (select timestamptz '2026-09-22 00:00+09' as t0, timestamptz '2026-09-29 00:00+09' as t1),
+>   ```
+>   `note` に「件数不足（目安100）」と出たら、判定を延ばして件数がそろってから見る。0.9 に届かないときの切り分けは 5 の箇条書き（K5 の `timeout_rate` と K4 の `model_failed_rate`）。
+> - 判定の目視（完了条件 5）: 直近50件を読んで、明らかな誤りが1割未満（5件未満）か。
+>   ```sql
+>   select decision_id, created_at, page_url, state, answers, slots
+>   from public.nq_decisions where shadow order by created_at desc limit 50;
+>   ```
+>   見る点: `state` の閲覧に対して `answers` の visitor_type が営業・求職者・同業者を取り違えていないか、`slots` のカードが着地ページと閲覧に合っているか、
+>   行6（`ct-*`）が事業者以外に出ていないか、記事1本のセッションに高い確信度が付いていないか（`eval-2026-09-21.md` の「残る問題」）。
+> - あわせて見る: 1b の stage の分布（`cta.stage_cta` 1.165 の線の置き直し。9章）、K4 の `model_failed_rate`、初日に 6 の catalog 同梱の SQL。
+>
+> **止め方**
+> - サーバ側（Jev の呼び出しと記録を止める）: Vercel の env `NQ_ENABLED` を外す（または `0`）→ Redeploy。API が即デフォルトを返し、`/api/nq-event` は 204。
+> - クライアント側（通信を止める）: `data/nq-config.json` の `api` を false（イベントの記録も止めるなら `events_api` も false）→ push。1バイトも送らない。
+> - 急ぐときは Vercel の Instant Rollback で直前のデプロイに戻す（10章）。
+
 1. プライバシーポリシーの追記を公開する（`privacy-policy-draft.md`。専門家の確認を先に済ませる）。
 2. Supabase を準備する（6章）。すでに `nq_schema.sql` を流してある場合も、**最新のものをもう一度流す**
    （`nq_events` に `result` / `latency_ms` の列が足される。足さないまま始めると、下の手順5で使う decide の行だけが
@@ -251,7 +278,7 @@ npm run serve
 
    `NQ_ENABLED` を最後に `1` にする（それ以外を先に入れても、`NQ_ENABLED` が `1` でなければ API は即デフォルトを返し、Jev も Supabase も呼ばない）。
 4. `data/nq-config.json` の `session_log` `api` `events_api` を true にしてコミットする。**必ず 3 のあとに行う**
-   （先にクライアントを開けると、API が毎回デフォルトを返すだけの無駄な通信になる）。
+   （先にクライアントを開けると、API が毎回デフォルトを返すだけの無駄な通信になる）。2026-09-22 に true にした。
 5. 完了の条件: `nq_decisions` を50件目視して明らかな誤りが1割未満。**応答の9割が1.2秒以内**。
    - 測るのは、ブラウザが数えた `/api/suggest` の往復。クライアントは呼び出し1回につき必ず1件、結果を送る:
      採用できる応答が届けば `nq_decide`、1.2秒（`client_timeout_ms`）で打ち切った回・HTTP エラー・JSON でない応答・通信の失敗は

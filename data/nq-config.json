@@ -1,8 +1,8 @@
 {
-  "_comment": "クライアント側の動作モード。Vercel の環境変数からは注入しない（CI と Vercel で app.bundle.js のハッシュが食い違い、prerendered/ が常に古い扱いになるため）。シャドーモード・ホールドアウト・キルスイッチはサーバ側の env（NQ_ENABLED / NQ_SHADOW / NQ_HOLDOUT_RATE）と /api/suggest のレスポンスで制御する。",
+  "_comment": "クライアント側の動作モード。Vercel の環境変数からは注入しない（CI と Vercel で app.bundle.js のハッシュが食い違い、prerendered/ が常に古い扱いになるため）。シャドーモード・ホールドアウト・キルスイッチはサーバ側の env（NQ_ENABLED / NQ_SHADOW / NQ_HOLDOUT_RATE）と /api/suggest のレスポンスで制御する。2026-09-22 シャドーモード開始（オーナー決定 (a)）: session_log / api / events_api を true にした。止めるときは api（と events_api）を false に戻して push（README 10章）。",
   "enabled": true,
   "ga_events": true,
-  "session_log": false,
-  "api": false,
-  "events_api": false
+  "session_log": true,
+  "api": true,
+  "events_api": true
 }

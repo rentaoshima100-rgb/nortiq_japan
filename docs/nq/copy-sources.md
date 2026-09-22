@@ -596,3 +596,16 @@ sg-support は3案、sg-cms は1案を試したが、評価の数字が良くな
 3. リンク先を持つ sg-* のカードについて、blocks.json の audience と、リンク先ページの catalog-pages.json の audience が同じ文であること
    （もともと別の文だった `/guidebook` と sg-guidebook を除く。sg-guidebook は `selectable: false` で Jev に聞かない）。
 4. `node build.js` のデータ検査が不備 0 件で、配信ブロックが 0/23 のままであること。`node --test "api/_lib/*.test.js"` が 181件すべて通ること。
+
+## 9. 2026-09-22 承認
+
+オーナー決定 (a) により、**全23ブロックをブロック単位で承認**した（`approved_by: "oshima"` / `approved_at: "2026-09-22"`。variant 単位・業種版はブロック単位の承認を引き継ぐ）。
+配信できる文言は68件（業種版を含む）すべて。承認の直前に `npm run pricing:check`（料金・期間・税の食い違い 0）と `node --test` を通した。
+
+承認したが見直しが残る点（`open-decisions.md` の該当項目）:
+- `rs-ai-quality` のリンク先が /chatbot（B3）。`rs-scope` / `ct-diagnostic` のリンク先 /diagnostic の中身（B4・B5）
+- `sg-kanri-dantai` の schedule「2026年12月末までの着手が目安です。」は **2027年1月以降は事実と合わない**（B6）。それまでに直すか、この variant（schedule）を blocks.json から消す
+- `sg-solution` の cost の「目安」（B8）、`sg-chatbot` の audience（B10）、業種の語の表記ゆれ（B7）
+
+**取り消し方**: 止めたいブロックの `approved_by` を `""` に戻して push（variant だけ止めるなら、その variant に `"approved_by": ""` を足しても止まらない。ブロック単位の承認を引き継ぐため、止めたい variant を消すか、ブロックごと止める）。
+全部止めるなら `data/nq-config.json` の `enabled` を false（README 10章）。

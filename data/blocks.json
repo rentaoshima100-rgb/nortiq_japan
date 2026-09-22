@@ -9,8 +9,8 @@
       "action": null,
       "selectable": true,
       "audience": "建設・運送・介護の事業者で、自社の求人への応募を増やす採用サイトを作りたい人向け",
-      "approved_by": "",
-      "approved_at": "",
+      "approved_by": "oshima",
+      "approved_at": "2026-09-22",
       "variants": {
         "default": { "eyebrow": "採用でお困りの方へ", "title": "現場の写真1枚から、応募が来る採用サイトを。", "body": "建設・運送・介護に絞った採用サイト制作。料金プランは、ライトが30万円〜（税別）です。", "cta": "詳しく見る" },
         "cost": { "eyebrow": "費用が気になる方へ", "title": "採用サイトは30万円〜。", "body": "ライトは8ページ・応募フォーム・しごと検索対応まで。価格は税別、カメラマン手配は実費です。", "cta": "料金と内容を見る" },
@@ -25,8 +25,8 @@
       "action": null,
       "selectable": true,
       "audience": "監理団体、登録支援機関、協同組合で、制度対応のサイトを整えたい人向け",
-      "approved_by": "",
-      "approved_at": "",
+      "approved_by": "oshima",
+      "approved_at": "2026-09-22",
       "variants": {
         "default": { "eyebrow": "監理団体・登録支援機関の方へ", "title": "制度が変わる前に、伝わるサイトへ。", "body": "育成就労・特定技能の制度解説20本と、19分野の公式表記チェックつき。70万円〜（税別）。", "cta": "詳しく見る" },
         "cost": { "eyebrow": "費用が気になる方へ", "title": "監理団体向けのサイト制作は70万円〜。", "body": "料金は税別で、ページ数と言語数で確定します。無償の軽微修正は3回まで、と最初に明示します。", "cta": "料金と内容を見る" },
@@ -41,8 +41,8 @@
       "action": null,
       "selectable": true,
       "audience": "自社のホームページの新規制作またはリニューアルを、外部に依頼することを検討している人向け",
-      "approved_by": "",
-      "approved_at": "",
+      "approved_by": "oshima",
+      "approved_at": "2026-09-22",
       "variants": {
         "default": { "eyebrow": "サイト制作をご検討の方へ", "title": "集客と問い合わせ獲得を前提に設計するWeb制作。", "body": "WordPress・静的サイト・Next.jsを、目的に合わせて選びます。料金は30万円〜（税別）。", "cta": "機能と料金を見る" },
         "cost": { "eyebrow": "費用が気になる方へ", "title": "Web制作は30万円〜、3つのプラン。", "body": "30万円〜・60万円〜・120万円〜（税別）。目安の金額で、実際の費用はヒアリング後にご提案します。", "cta": "料金プランを見る" },
@@ -57,8 +57,8 @@
       "action": null,
       "selectable": true,
       "audience": "自社サイトを運営している事業者で、ブログ記事の作成と投稿をAIで省力化したい、または自社サイトに問い合わせ対応のAIチャットボットを置きたい人向け",
-      "approved_by": "",
-      "approved_at": "",
+      "approved_by": "oshima",
+      "approved_at": "2026-09-22",
       "variants": {
         "default": { "eyebrow": "ブログ更新が止まりがちな方へ", "title": "質問するだけで記事が書ける、AI投稿ツール。", "body": "AIチャットボットに質問しながら骨子を作り、本文展開、WordPress投稿までを自動化。初期費用10万円〜（税別）。", "cta": "機能と料金を見る" },
         "cost": { "eyebrow": "費用が気になる方へ", "title": "AIチャットボットは初期費用10万円〜、月額1万円〜。", "body": "表示価格はすべて税別です。LIGHTは月5記事まで生成、初期セットアップ込み。月次契約で、解約は1ヶ月前通知です。", "cta": "料金プランを見る" },
@@ -72,8 +72,8 @@
       "action": null,
       "selectable": true,
       "audience": "自社の社内業務を効率化したい事業者で、業務システムの開発、定型業務の自動化、機械学習の導入を外部に依頼する進め方を調べている人向け",
-      "approved_by": "",
-      "approved_at": "",
+      "approved_by": "oshima",
+      "approved_at": "2026-09-22",
       "variants": {
         "default": { "eyebrow": "業務の自動化をお考えの方へ", "title": "検証して、判断して、進めるDX・ML実装。", "body": "ML実装、業務自動化、データ分析基盤、生成AIの業務組み込み。フェーズごとにGO/NO-GOを判断できます。", "cta": "詳しく見る" },
         "cost": { "eyebrow": "費用が気になる方へ", "title": "PoCは50万円〜、初回相談は無料。", "body": "本実装は200万円〜、継続運用は月額10万円〜が目安（税別）。一括契約ではなく、フェーズごとに検証して判断できます。", "cta": "料金目安を見る" },
@@ -88,8 +88,8 @@
       "action": null,
       "selectable": true,
       "audience": "Web広告を出している、または自社のLP（ランディングページ）を運用している事業者で、広告の費用対効果やLPからの問い合わせ率を上げたい人向け",
-      "approved_by": "",
-      "approved_at": "",
+      "approved_by": "oshima",
+      "approved_at": "2026-09-22",
       "variants": {
         "default": { "eyebrow": "LPの改善をお考えの方へ", "title": "LP制作と改善（LPO）を、一気通貫で。", "body": "コンバージョン特化のLP制作から、広告連動・ヒートマップ解析・A/Bテストまでセットで運用します。", "cta": "詳しく見る" },
         "scope": { "eyebrow": "何を頼むか迷っている方へ", "title": "LPが1枚だけでも、改善を頼めます。", "body": "まず計測を入れ、改善候補の優先順位をつけます。作り直すかどうかは、データを見てから判断します。", "cta": "進め方を見る" }
@@ -102,8 +102,8 @@
       "action": null,
       "selectable": true,
       "audience": "自社で記事やお知らせを更新し続けて検索流入を増やしたい人向け",
-      "approved_by": "",
-      "approved_at": "",
+      "approved_by": "oshima",
+      "approved_at": "2026-09-22",
       "variants": {
         "default": { "eyebrow": "記事を更新し続けたい方へ", "title": "自社で更新できるCMSを、運用体制に合わせて。", "body": "WordPress・MDX・Headless CMSから選定・カスタマイズ。画像付きの操作マニュアルもお渡しします。", "cta": "詳しく見る" },
         "scope": { "eyebrow": "どのCMSか迷っている方へ", "title": "CMSは6軸で比べ、実情に合わせて選びます。", "body": "更新性・セキュリティ・表示速度・コスト・拡張性・運用負荷の6軸。WordPressのままでよいかの目安も載せています。", "cta": "選び方を見る" }
@@ -116,8 +116,8 @@
       "action": null,
       "selectable": true,
       "audience": "クリニック・医療、不動産、建設・工務店、人材、小売・ECのいずれかの事業者で、自社の業種に合った提案を見たい人向け",
-      "approved_by": "",
-      "approved_at": "",
+      "approved_by": "oshima",
+      "approved_at": "2026-09-22",
       "variants": {},
       "by_industry": {
         "クリニック・医療": {
@@ -169,8 +169,8 @@
       "action": null,
       "selectable": true,
       "audience": "制作や開発の依頼を検討している事業者で、依頼先の制作実績と成果を、自社に近い業種の事例で確かめたい人向け",
-      "approved_by": "",
-      "approved_at": "",
+      "approved_by": "oshima",
+      "approved_at": "2026-09-22",
       "variants": {
         "default": { "eyebrow": "制作実績を確認したい方へ", "title": "制作実績を、業種別に確認できます。", "body": "30社の制作・支援実績から、業種別・LP強化別・動画別に絞り込めます。近い業種の事例からご覧ください。", "cta": "制作実績を見る" }
       },
@@ -220,8 +220,8 @@
       "action": null,
       "selectable": true,
       "audience": "制作や開発の外注を検討している、または費用の相場を調べている事業者で、依頼した場合の料金の目安を知りたい人向け",
-      "approved_by": "",
-      "approved_at": "",
+      "approved_by": "oshima",
+      "approved_at": "2026-09-22",
       "variants": {
         "default": { "eyebrow": "費用の目安を知りたい方へ", "title": "料金の目安レンジを、すべて公開しています。", "body": "初期費用はWeb制作30万円〜、AIチャットボット10万円〜、DX・ML50万円〜（税別）。サービスごとに3つのプラン。", "cta": "料金プランを見る" },
         "cost": { "eyebrow": "追加費用が気になる方へ", "title": "追加費用の線引きは、見積もり時に明示します。", "body": "追加費用が発生するのは、新規ページの制作・大幅なデザイン変更・素材の新規制作などです。", "cta": "料金と条件を見る" },
@@ -235,8 +235,8 @@
       "action": null,
       "selectable": true,
       "audience": "公開後の保守、更新、運用サポートの内容を知りたい人向け",
-      "approved_by": "",
-      "approved_at": "",
+      "approved_by": "oshima",
+      "approved_at": "2026-09-22",
       "variants": {
         "default": { "eyebrow": "公開後の運用が気になる方へ", "title": "公開後は、毎月4つのことを実施します。", "body": "月次アクセス報告、定期訪問・MTG、操作マニュアル整備、ヒートマップ解析。保守プラン内で修正にも対応します。", "cta": "サポート内容を見る" },
         "cost": { "eyebrow": "費用が気になる方へ", "title": "保守プランは月額2万円〜（税別）。", "body": "テキスト・画像の差し替えは保守プラン内で対応（Light 月3件・Standard 月8件・Premium 無制限）。", "cta": "対応範囲を見る" },
@@ -250,8 +250,8 @@
       "action": null,
       "selectable": true,
       "audience": "事業者で、サイト制作やシステム導入に補助金が使えるかを確かめたい人向け",
-      "approved_by": "",
-      "approved_at": "",
+      "approved_by": "oshima",
+      "approved_at": "2026-09-22",
       "variants": {
         "default": { "eyebrow": "補助金を検討中の方へ", "title": "補助金がホームページ制作に使えるか確認する。", "body": "主な制度とホームページ制作の関係、当社ができること・できないことをまとめています。初回相談無料。", "cta": "対象可否を確認する" },
         "schedule": { "eyebrow": "進め方が気になる方へ", "title": "申請から交付までの一般的な流れ。", "body": "GビズIDの取得に時間がかかるため最初に着手します。発注・着手は交付決定後が原則です。", "cta": "流れを確認する" },
@@ -266,8 +266,8 @@
       "selectable": true,
       "audience": "Nortiq Labs で働くことやインターンに関心がある人向け",
       "only_visitor_types": ["求職者・学生"],
-      "approved_by": "",
-      "approved_at": "",
+      "approved_by": "oshima",
+      "approved_at": "2026-09-22",
       "variants": {
         "default": { "eyebrow": "採用情報をお探しの方へ", "title": "各領域でメンバーを募集しています。", "body": "京都＋フルリモート可。エンジニア、デザイナー、コンサルタントのほか、学生向けのインターンも募集しています。", "cta": "採用情報を見る" }
       }
@@ -279,8 +279,8 @@
       "action": null,
       "selectable": false,
       "audience": "サービスの全体像を資料でまとめて確認したい人向け",
-      "approved_by": "",
-      "approved_at": "",
+      "approved_by": "oshima",
+      "approved_at": "2026-09-22",
       "variants": {
         "default": { "eyebrow": "この記事を読んだ方へ", "title": "サービス紹介資料を無料でダウンロード。", "body": "制作の進め方・実績・料金プラン・制作の流れを、全11ページのPDFにまとめています。費用はかかりません。", "cta": "資料を見る" }
       }
@@ -292,8 +292,8 @@
       "action": null,
       "selectable": false,
       "audience": "費用や追加料金について不安を持っている人向け",
-      "approved_by": "",
-      "approved_at": "",
+      "approved_by": "oshima",
+      "approved_at": "2026-09-22",
       "variants": {
         "default": { "answer": "Web制作は30万円〜（税別）。目安レンジをすべて公開しています。", "note": "追加費用が出るのは新規ページの制作・大幅なデザイン変更・素材の新規制作など。見積もり時に線引きを明示します。", "cta": "料金プランを見る" }
       }
@@ -305,8 +305,8 @@
       "action": null,
       "selectable": false,
       "audience": "納期や公開までの期間について不安を持っている人向け",
-      "approved_by": "",
-      "approved_at": "",
+      "approved_by": "oshima",
+      "approved_at": "2026-09-22",
       "variants": {
         "default": { "answer": "Web制作の納期は、Lightプランで4〜6週間が目安です。", "note": "Standardは8〜12週間、Premiumは12〜16週間。ヒアリングから運用・改善まで6ステップで進めます。", "cta": "Web制作の進め方を見る" }
       }
@@ -318,8 +318,8 @@
       "action": null,
       "selectable": false,
       "audience": "依頼先の実績や信頼性について不安を持っている人向け",
-      "approved_by": "",
-      "approved_at": "",
+      "approved_by": "oshima",
+      "approved_at": "2026-09-22",
       "variants": {
         "default": { "answer": "累計30社の支援。ご利用企業の声を公開しています。", "note": "クリニック、不動産、工務店、人材などの声を、業種と役職を添えて掲載しています。", "cta": "ご利用会社様の声を見る" }
       }
@@ -331,8 +331,8 @@
       "action": null,
       "selectable": false,
       "audience": "AIを使った制作の品質について不安を持っている人向け",
-      "approved_by": "",
-      "approved_at": "",
+      "approved_by": "oshima",
+      "approved_at": "2026-09-22",
       "variants": {
         "default": { "answer": "AIで作る記事は、公開前の人間のレビューを必須としています。", "note": "明らかな事実誤認は出力検証レイヤーで自動検出。事実情報の検証と、業界特化の専門性チェックを経て公開する設計です。", "cta": "AIチャットボットの詳細を見る" }
       }
@@ -344,8 +344,8 @@
       "action": null,
       "selectable": false,
       "audience": "何をどこまで依頼すればよいか分からず迷っている人向け",
-      "approved_by": "",
-      "approved_at": "",
+      "approved_by": "oshima",
+      "approved_at": "2026-09-22",
       "variants": {
         "default": { "answer": "今のサイトの課題と、直す優先順位が無料で分かります。", "note": "URLを入れるだけの自動診断です。完全無料・登録不要。改善インパクトの高い順に優先順位を提案します。", "cta": "ホームページ無料診断を試す" }
       }
@@ -357,8 +357,8 @@
       "action": null,
       "selectable": false,
       "audience": "今のサイトの課題を無料診断で確かめたい人向け",
-      "approved_by": "",
-      "approved_at": "",
+      "approved_by": "oshima",
+      "approved_at": "2026-09-22",
       "variants": {
         "weak": { "text": "URLを入れるだけで、サイトの課題が見える。", "button": "無料診断を見る" },
         "strong": { "text": "完全無料・登録不要。その場で結果表示。", "button": "無料で診断する" }
@@ -371,8 +371,8 @@
       "action": null,
       "selectable": false,
       "audience": "サービス紹介資料をダウンロードして検討したい人向け",
-      "approved_by": "",
-      "approved_at": "",
+      "approved_by": "oshima",
+      "approved_at": "2026-09-22",
       "variants": {
         "weak": { "text": "制作の進め方と料金を、資料で確認できます。", "button": "資料を見る" },
         "strong": { "text": "全11ページの紹介資料を無料でダウンロード。", "button": "資料を無料DLする" }
@@ -385,8 +385,8 @@
       "action": "contact",
       "selectable": false,
       "audience": "すぐに相談や資料請求をしたい人向け",
-      "approved_by": "",
-      "approved_at": "",
+      "approved_by": "oshima",
+      "approved_at": "2026-09-22",
       "variants": {
         "weak": { "text": "資料請求・お問い合わせを受け付けています。", "button": "資料請求する" },
         "strong": { "text": "初回相談は無料。営業日24時間以内にご返信。", "button": "無料で相談する" }
@@ -399,8 +399,8 @@
       "action": null,
       "selectable": false,
       "audience": "Web制作、開発、マーケティングの技術や手法そのものに関心があり、記事を読み進めたい人向け",
-      "approved_by": "",
-      "approved_at": "",
+      "approved_by": "oshima",
+      "approved_at": "2026-09-22",
       "variants": {
         "default": { "eyebrow": "あわせて読まれている記事" }
       }

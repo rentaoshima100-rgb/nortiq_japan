@@ -48,6 +48,8 @@
   現行のポリシーは Cookie の1項目しか持たず、GA4 と Web Storage の記載が無い。
 - **決めてほしいこと**: 追記文の確定、専門家の確認、公開日。`session_log` / `api` / `events_api` を true にするのは公開のあと。
 - **変える場所**: `extra-pages.jsx` の `LEGAL_DATA.privacy`（`sections` と `updated`）。必要なら `'privacy-handling'` も。
+- **2026-09-22**: オーナー決定でシャドーモード開始を優先し、専門家の確認より先に改定を本番に公開した（`extra-pages.jsx` の `LEGAL_DATA.privacy` 8〜11、改定日 2026年9月22日）。
+  **確認はまだ要る。** 渡す材料は `privacy-policy-draft.md` の5章（実装の事実）と6章（確認事項 1〜9）。直しが出たら `LEGAL_DATA.privacy` と draft 3章を同時に直す。
 
 ### A6. ホールドアウトの割合（10章）
 - **現状**: 2割（`data/nq-rules.json` の `holdout_rate_default: 0.2`。env `NQ_HOLDOUT_RATE` で上書きできる）。
