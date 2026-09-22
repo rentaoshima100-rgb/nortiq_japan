@@ -1,6 +1,10 @@
 {
-  "_comment": "LLM が作った下書き。人がラベルを見直してから使う。設計書13章「0. 検証」の評価セット（60セッション）。 request は /api/suggest のリクエストと同じ形（コントラクト 6.1）。URL は data/catalog-pages.json と build.js の BLOG に実在するものだけ。history に現在のページは入れない（クライアントの実装と同じ）。 current.reach は、T1（本文25%）と T2（ページ表示の直後）では実際にはほぼ top になるので、そのとおりにしてある。T3 だけ end。静的LP（/service/*）は SPA の外なので、着地ページと現在のページには置かず、履歴の途中にだけ置いてある。 expected は、閲覧履歴から人が無理なく推測できる正解だけ。推測できない軸は other / 不明・その他 / none。迷うものは expected.alt に許容ラベルを並べた（run.js は「完全一致」と「許容込み」を別々に出す）。 stage は 0〜3 の整数。cta_ok は「事業者で stage 2 以上なら true」を基本に付けた。 relevant_cards と best_card は、その時点で Jev に聞かれる候補（見送り済み・現在のページ・すでに読んだページを指すカードを除く）の中から選ぶ。業種が分からないセッションで sg-solution を正解にしない。 偏りの注意: 運送・物流と介護・福祉は、単独のページがサイトに無く（採用サイトLPが建設・運送・介護の3業種共通）、閲覧から推測できないので正解に出てこない。求職者は /recruit を見たことでしか分からず、その時点で sg-recruit は候補から外れるので、sg-recruit が正解のセッションは無い。営業・売り込みは閲覧だけでは言い切れないので other を許容ラベルに入れてある。 確認は node eval/run.js --check。実行は node eval/run.js --provider stub|jev。",
-  "version": 1,
+  "_comment": "基準書（docs/nq/labeling-guide.md、2026-09-21 確定）に従って盲検で付け直した評価セット（70セッション。s61〜s70 は高検討度の追加分）。変更の記録は docs/nq/eval-relabel-2026-09-21.md。 request は /api/suggest のリクエストと同じ形（コントラクト 6.1）。URL は data/catalog-pages.json と build.js の BLOG に実在するものだけ。history に現在のページは入れない（クライアントの実装と同じ）。 current.reach は、T1（本文25%）と T2（ページ表示の直後）では実際にはほぼ top になるので、そのとおりにしてある。T3 だけ end。静的LP（/service/*）は SPA の外なので、着地ページと現在のページには置かず、履歴の途中にだけ置いてある。 expected は v2: 文字列は確定、配列は許容集合（visitor_type・industry・need・cards.best だけ）。visitor_type は 事業者／同業者・学習者／求職者・学生／営業・売り込み／other の5ラベル。stage は 0〜3 の整数（0 記事だけ／1 サービス・料金・実績を流し見か現在のページ／2 じっくり、または再訪して料金／3 無料診断・資料・補助金相談に到達）。cards.best は cards.relevant の中から選び、relevant が空なら \"none\"。cta_ok は 事業者 の確定で stage 2 以上、かつ T2・T3 のときだけ true。label_note は集合にした理由と迷った点。 偏りの注意: 運送・物流と介護・福祉は、単独のページがサイトに無く（採用サイトLPが建設・運送・介護の3業種共通）、閲覧から推測できないので正解に出てこない。外国人材は /service/kanri-dantai を見た時点で sg-kanri-dantai が候補から外れるので、sg-kanri-dantai が正解のセッションは無い。求職者は /recruit を見たことでしか分からず、その時点で sg-recruit は候補から外れるので、sg-recruit が正解のセッションも無い。営業・売り込みは閲覧だけでは確定できないので集合の中にだけ現れる。 確認は node eval/run.js --check。実行は node eval/run.js --provider stub|jev。",
+  "version": 2,
+  "coverage_exempt": {
+    "_comment": "--check の網羅の警告（best/relevant に一度も出ないカード）から外すカードと、その理由。いまの catalog では構造上どのセッションでも正解になりえないカードだけを置く。新しい記事やページでその業種・タイプが閲覧から分かるようになったら、ここから外して正解になるセッションを足す。",
+    "sg-kanri-dantai": "外国人材の業種が分かるページは /service/kanri-dantai だけで、見た時点でこのカード（行き先が同じ）は候補から外れる。題に監理団体・技能実習を含む記事が BLOG に無い"
+  },
   "sessions": [
     {
       "id": "s01",
@@ -10,8 +14,9 @@
           "history": [],
           "current": { "url": "/article-homepage-renewal-cost-guide", "reach": "top" },
           "visit": "first", "device": "sp", "passed": [] } },
-      "expected": { "visitor_type": "情報収集中の事業者", "industry": "不明・その他", "need": "サイトリニューアル", "stage": 1,
-        "relevant_cards": ["sg-pricing", "sg-web", "sg-subsidy"], "best_card": "sg-pricing", "concerns": ["cost"], "cta_ok": false }
+      "expected": { "visitor_type": "事業者", "industry": "不明・その他", "need": "サイトリニューアル", "stage": 0,
+        "cards": { "best": "sg-pricing", "relevant": ["sg-pricing", "sg-web", "sg-subsidy"] }, "concerns": ["cost"], "cta_ok": false,
+        "label_note": "費用の題を検索で引いた（3.1 a）。題に費用と補助金の両方があり、主は費用なので best は sg-pricing（3.5）" }
     },
     {
       "id": "s02",
@@ -21,21 +26,21 @@
           "history": [],
           "current": { "url": "/article-ai-chatbot-introduction", "reach": "top" },
           "visit": "first", "device": "pc", "passed": [] } },
-      "expected": { "visitor_type": "情報収集中の事業者", "industry": "不明・その他", "need": "AI導入・チャットボット", "stage": 1,
-        "relevant_cards": ["sg-chatbot"], "best_card": "sg-chatbot", "concerns": [], "cta_ok": false,
-        "alt": { "need": ["保守・運用"] } }
+      "expected": { "visitor_type": "事業者", "industry": "不明・その他", "need": "AI導入・チャットボット", "stage": 0,
+        "cards": { "best": "sg-chatbot", "relevant": ["sg-chatbot", "sg-pricing"] }, "concerns": ["cost"], "cta_ok": false,
+        "label_note": "題の主は導入ステップ、費用は従なので best は主題のサービス sg-chatbot（3.5 の 3）。題に費用があるので sg-pricing も relevant" }
     },
     {
       "id": "s03",
-      "note": "リスティング広告の費用対効果の記事に着地。広告を運用している事業者と読める",
+      "note": "リスティング広告の費用対効果の記事に着地",
       "request": { "session_id": "r_eval0003", "trigger": "T1", "page_url": "/article-listing-ads-cpc-roi",
         "state": { "ref": "google", "landing": "/article-listing-ads-cpc-roi",
           "history": [],
           "current": { "url": "/article-listing-ads-cpc-roi", "reach": "top" },
           "visit": "first", "device": "pc", "passed": [] } },
-      "expected": { "visitor_type": "情報収集中の事業者", "industry": "不明・その他", "need": "LP制作・改善", "stage": 0,
-        "relevant_cards": ["sg-lpo"], "best_card": "sg-lpo", "concerns": ["cost"], "cta_ok": false,
-        "alt": { "need": ["集客・SEO"], "visitor_type": ["同業者・学習者"] } }
+      "expected": { "visitor_type": "事業者", "industry": "不明・その他", "need": "LP制作・改善", "stage": 0,
+        "cards": { "best": "sg-lpo", "relevant": ["sg-lpo"] }, "concerns": [], "cta_ok": false,
+        "label_note": "題の「費用対効果」は広告費の話で、当社の料金への不安とは読めないので cost は付けない（3.6 迷ったら付けない）" }
     },
     {
       "id": "s04",
@@ -45,8 +50,8 @@
           "history": [],
           "current": { "url": "/article-llmo-basics-for-smb", "reach": "top" },
           "visit": "first", "device": "sp", "passed": [] } },
-      "expected": { "visitor_type": "情報収集中の事業者", "industry": "不明・その他", "need": "集客・SEO", "stage": 0,
-        "relevant_cards": ["sg-cms"], "best_card": "sg-cms", "concerns": [], "cta_ok": false }
+      "expected": { "visitor_type": "事業者", "industry": "不明・その他", "need": "集客・SEO", "stage": 0,
+        "cards": { "best": "sg-cms", "relevant": ["sg-cms"] }, "concerns": [], "cta_ok": false }
     },
     {
       "id": "s05",
@@ -56,9 +61,9 @@
           "history": [],
           "current": { "url": "/article-jizokuka-subsidy-website-2026", "reach": "top" },
           "visit": "first", "device": "pc", "passed": [] } },
-      "expected": { "visitor_type": "情報収集中の事業者", "industry": "不明・その他", "need": "補助金活用", "stage": 1,
-        "relevant_cards": ["sg-subsidy", "sg-web"], "best_card": "sg-subsidy", "concerns": ["cost"], "cta_ok": false,
-        "alt": { "need": ["新規サイト制作"] } }
+      "expected": { "visitor_type": "事業者", "industry": "不明・その他", "need": ["補助金活用", "新規サイト制作"], "stage": 0,
+        "cards": { "best": "sg-subsidy", "relevant": ["sg-subsidy", "sg-web"] }, "concerns": ["cost"], "cta_ok": false,
+        "label_note": "「補助金でホームページ制作」は補助金と制作のどちらを頼みたいか分けられない（3.3 の例）" }
     },
     {
       "id": "s06",
@@ -68,8 +73,8 @@
           "history": [],
           "current": { "url": "/article-website-system-maintenance-cost", "reach": "top" },
           "visit": "first", "device": "sp", "passed": [] } },
-      "expected": { "visitor_type": "情報収集中の事業者", "industry": "不明・その他", "need": "保守・運用", "stage": 1,
-        "relevant_cards": ["sg-support", "sg-pricing"], "best_card": "sg-support", "concerns": ["cost"], "cta_ok": false }
+      "expected": { "visitor_type": "事業者", "industry": "不明・その他", "need": "保守・運用", "stage": 0,
+        "cards": { "best": "sg-support", "relevant": ["sg-support", "sg-pricing"] }, "concerns": ["cost"], "cta_ok": false }
     },
     {
       "id": "s07",
@@ -79,9 +84,9 @@
           "history": [{ "url": "/article-homepage-production-cost-sme", "read": "deep" }],
           "current": { "url": "/pricing", "reach": "top" },
           "visit": "first", "device": "sp", "passed": [] } },
-      "expected": { "visitor_type": "情報収集中の事業者", "industry": "不明・その他", "need": "新規サイト制作", "stage": 1,
-        "relevant_cards": ["sg-web", "sg-works"], "best_card": "sg-web", "concerns": ["cost"], "cta_ok": false,
-        "alt": { "visitor_type": ["発注検討中の事業者"], "best_card": ["sg-works"] } }
+      "expected": { "visitor_type": "事業者", "industry": "不明・その他", "need": ["新規サイト制作", "サイトリニューアル"], "stage": 1,
+        "cards": { "best": ["sg-web", "sg-subsidy"], "relevant": ["sg-web", "sg-subsidy"] }, "concerns": ["cost"], "cta_ok": false,
+        "label_note": "「ホームページ制作」で新規かリニューアルか分からない。best は題の補助金活用に答える sg-subsidy と主題のサービス sg-web のどちらが上とも言えず集合（3.5 の 5）" }
     },
     {
       "id": "s08",
@@ -91,9 +96,9 @@
           "history": [{ "url": "/article-homepage-renewal-cost-guide", "read": "deep" }],
           "current": { "url": "/web", "reach": "top" },
           "visit": "first", "device": "sp", "passed": ["sg-pricing"] } },
-      "expected": { "visitor_type": "情報収集中の事業者", "industry": "不明・その他", "need": "サイトリニューアル", "stage": 1,
-        "relevant_cards": ["sg-works", "sg-subsidy"], "best_card": "sg-works", "concerns": ["cost"], "cta_ok": false,
-        "alt": { "visitor_type": ["発注検討中の事業者"] } }
+      "expected": { "visitor_type": "事業者", "industry": "不明・その他", "need": "サイトリニューアル", "stage": 1,
+        "cards": { "best": "sg-subsidy", "relevant": ["sg-subsidy"] }, "concerns": ["cost"], "cta_ok": false,
+        "label_note": "sg-pricing は passed、sg-web は現在のページで候補外。題の補助金から sg-subsidy" }
     },
     {
       "id": "s09",
@@ -103,9 +108,9 @@
           "history": [{ "url": "/article-homepage-renewal-failure-causes-sme", "read": "deep" }],
           "current": { "url": "/article-site-renewal-process-guide", "reach": "top" },
           "visit": "first", "device": "sp", "passed": ["sg-web"] } },
-      "expected": { "visitor_type": "情報収集中の事業者", "industry": "不明・その他", "need": "サイトリニューアル", "stage": 1,
-        "relevant_cards": ["sg-pricing", "sg-works"], "best_card": "sg-pricing", "concerns": [], "cta_ok": false,
-        "alt": { "best_card": ["sg-works"] } }
+      "expected": { "visitor_type": "事業者", "industry": "不明・その他", "need": "サイトリニューアル", "stage": 0,
+        "cards": { "best": "none", "relevant": [] }, "concerns": ["scope"], "cta_ok": false,
+        "label_note": "sg-web は passed。2本の題（失敗の事前チェック表・進め方）に料金・実績・補助金の手がかりが無い。scope は「事前チェック表」を外注前に決めることと読んだ" }
     },
     {
       "id": "s10",
@@ -115,9 +120,9 @@
           "history": [{ "url": "/solution-hr", "read": "deep" }],
           "current": { "url": "/works-hr", "reach": "top" },
           "visit": "first", "device": "pc", "passed": [] } },
-      "expected": { "visitor_type": "情報収集中の事業者", "industry": "人材", "need": "新規サイト制作", "stage": 1,
-        "relevant_cards": ["sg-pricing", "sg-web"], "best_card": "sg-pricing", "concerns": [], "cta_ok": false,
-        "alt": { "visitor_type": ["発注検討中の事業者"], "need": ["サイトリニューアル", "集客・SEO"], "best_card": ["sg-web"] } }
+      "expected": { "visitor_type": "事業者", "industry": "人材", "need": ["新規サイト制作", "サイトリニューアル"], "stage": 2,
+        "cards": { "best": "sg-pricing", "relevant": ["sg-web", "sg-pricing"] }, "concerns": ["trust"], "cta_ok": true,
+        "label_note": "業種パッケージだけが根拠なので need は集合（3.3）。パッケージ（主題のサービス）を じっくり読み実績が現在なので、次は料金（3.5 の 4）" }
     },
     {
       "id": "s11",
@@ -127,9 +132,9 @@
           "history": [],
           "current": { "url": "/article-clinic-web", "reach": "top" },
           "visit": "first", "device": "sp", "passed": [] } },
-      "expected": { "visitor_type": "情報収集中の事業者", "industry": "クリニック・医療", "need": "集客・SEO", "stage": 0,
-        "relevant_cards": ["sg-solution", "sg-works", "sg-cms"], "best_card": "sg-solution", "concerns": [], "cta_ok": false,
-        "alt": { "need": ["新規サイト制作"], "best_card": ["sg-works"] } }
+      "expected": { "visitor_type": "事業者", "industry": "クリニック・医療", "need": "集客・SEO", "stage": 0,
+        "cards": { "best": "sg-solution", "relevant": ["sg-solution", "sg-cms"] }, "concerns": [], "cta_ok": false,
+        "label_note": "業種の記事を検索で引いた。業種パッケージ未閲覧で best は sg-solution（3.5 の 1）" }
     },
     {
       "id": "s12",
@@ -139,33 +144,32 @@
           "history": [],
           "current": { "url": "/article-realty-lp", "reach": "top" },
           "visit": "first", "device": "pc", "passed": [] } },
-      "expected": { "visitor_type": "情報収集中の事業者", "industry": "不動産", "need": "LP制作・改善", "stage": 0,
-        "relevant_cards": ["sg-solution", "sg-lpo", "sg-works"], "best_card": "sg-solution", "concerns": [], "cta_ok": false,
-        "alt": { "best_card": ["sg-lpo"] } }
+      "expected": { "visitor_type": "事業者", "industry": "不動産", "need": "LP制作・改善", "stage": 0,
+        "cards": { "best": "sg-solution", "relevant": ["sg-solution", "sg-lpo"] }, "concerns": [], "cta_ok": false,
+        "label_note": "業種の記事を検索で引いた。best は業種パッケージ（3.5 の 1）、LP が主題なので sg-lpo も relevant" }
     },
     {
       "id": "s13",
-      "note": "「最短1ヶ月でローンチ」の記事に着地。公開までの期間が気になっている",
+      "note": "「最短1ヶ月でローンチ」の記事に着地",
       "request": { "session_id": "r_eval0013", "trigger": "T1", "page_url": "/article-website-launch-1month",
         "state": { "ref": "google", "landing": "/article-website-launch-1month",
           "history": [],
           "current": { "url": "/article-website-launch-1month", "reach": "top" },
           "visit": "first", "device": "sp", "passed": [] } },
-      "expected": { "visitor_type": "情報収集中の事業者", "industry": "不明・その他", "need": "新規サイト制作", "stage": 1,
-        "relevant_cards": ["sg-web"], "best_card": "sg-web", "concerns": ["schedule"], "cta_ok": false,
-        "alt": { "visitor_type": ["発注検討中の事業者"] } }
+      "expected": { "visitor_type": "事業者", "industry": "不明・その他", "need": "新規サイト制作", "stage": 0,
+        "cards": { "best": "sg-web", "relevant": ["sg-web"] }, "concerns": ["schedule"], "cta_ok": false }
     },
     {
       "id": "s14",
-      "note": "AI生成記事とスパムアップデートの記事に着地。AIで書いた記事の品質を気にしている",
+      "note": "AI生成記事とスパムアップデートの記事に着地",
       "request": { "session_id": "r_eval0014", "trigger": "T1", "page_url": "/article-ai-content-google-spam-update",
         "state": { "ref": "google", "landing": "/article-ai-content-google-spam-update",
           "history": [],
           "current": { "url": "/article-ai-content-google-spam-update", "reach": "top" },
           "visit": "first", "device": "pc", "passed": [] } },
-      "expected": { "visitor_type": "情報収集中の事業者", "industry": "不明・その他", "need": "集客・SEO", "stage": 0,
-        "relevant_cards": ["sg-chatbot", "sg-cms"], "best_card": "sg-chatbot", "concerns": ["ai_quality"], "cta_ok": false,
-        "alt": { "visitor_type": ["同業者・学習者"], "need": ["AI導入・チャットボット"], "best_card": ["sg-cms"] } }
+      "expected": { "visitor_type": ["事業者", "同業者・学習者"], "industry": "不明・その他", "need": ["AI導入・チャットボット", "other"], "stage": 0,
+        "cards": { "best": ["sg-chatbot", "none"], "relevant": ["sg-chatbot"] }, "concerns": ["ai_quality"], "cta_ok": false,
+        "label_note": "AI生成記事のスパム対策はサイト運営者にも SEO・制作の実務者にも読める題（2.3 どちらにも読める）。need は AIでの記事作成＋other、best は事業者でなければ何も出さないので集合（3.5）" }
     },
     {
       "id": "s15",
@@ -175,9 +179,9 @@
           "history": [{ "url": "/article-ai-seo-article-quality-check", "read": "deep" }, { "url": "/article-blog-bot", "read": "deep" }],
           "current": { "url": "/chatbot", "reach": "top" },
           "visit": "first", "device": "sp", "passed": [] } },
-      "expected": { "visitor_type": "情報収集中の事業者", "industry": "不明・その他", "need": "AI導入・チャットボット", "stage": 1,
-        "relevant_cards": ["sg-cms", "sg-pricing"], "best_card": "sg-cms", "concerns": ["ai_quality"], "cta_ok": false,
-        "alt": { "visitor_type": ["発注検討中の事業者"], "need": ["集客・SEO"], "best_card": ["sg-pricing"] } }
+      "expected": { "visitor_type": "事業者", "industry": "不明・その他", "need": "AI導入・チャットボット", "stage": 1,
+        "cards": { "best": "sg-cms", "relevant": ["sg-cms"] }, "concerns": ["ai_quality"], "cta_ok": false,
+        "label_note": "AI記事の運用・ブログボットの選び方の記事から /chatbot へ進んだ（3.1 d）。sg-chatbot は現在のページ。題の SEO・記事更新から sg-cms" }
     },
     {
       "id": "s16",
@@ -187,9 +191,9 @@
           "history": [{ "url": "/article-website-renewal-no-inhouse-staff", "read": "deep" }, { "url": "/support", "read": "deep" }],
           "current": { "url": "/web", "reach": "top" },
           "visit": "first", "device": "sp", "passed": [] } },
-      "expected": { "visitor_type": "情報収集中の事業者", "industry": "不明・その他", "need": "サイトリニューアル", "stage": 1,
-        "relevant_cards": ["sg-pricing", "sg-works"], "best_card": "sg-pricing", "concerns": ["scope"], "cta_ok": false,
-        "alt": { "visitor_type": ["発注検討中の事業者"], "need": ["保守・運用"], "best_card": ["sg-works"] } }
+      "expected": { "visitor_type": "事業者", "industry": "不明・その他", "need": ["サイトリニューアル", "保守・運用"], "stage": 2,
+        "cards": { "best": "sg-pricing", "relevant": ["sg-pricing", "sg-works"] }, "concerns": ["scope"], "cta_ok": true,
+        "label_note": "リニューアルの記事と運用サポートの両方を じっくり読んでおり、どちらを頼みたいか分けられない（3.3）。主題のサービス（/web）が現在なので次は料金" }
     },
     {
       "id": "s17",
@@ -199,9 +203,9 @@
           "history": [{ "url": "/article-recruit-site-cost-guide", "read": "deep" }, { "url": "/service/recruit-site", "read": "skim" }],
           "current": { "url": "/works", "reach": "top" },
           "visit": "first", "device": "pc", "passed": [] } },
-      "expected": { "visitor_type": "発注検討中の事業者", "industry": "不明・その他", "need": "採用強化", "stage": 2,
-        "relevant_cards": ["sg-pricing"], "best_card": "sg-pricing", "concerns": ["cost", "trust"], "cta_ok": true,
-        "alt": { "visitor_type": ["情報収集中の事業者"] } }
+      "expected": { "visitor_type": "事業者", "industry": "不明・その他", "need": "採用強化", "stage": 1,
+        "cards": { "best": "sg-pricing", "relevant": ["sg-pricing", "sg-web"] }, "concerns": ["cost", "trust"], "cta_ok": false,
+        "label_note": "採用サイトLPは3業種共通で業種は絞れない（3.2）。sg-recruit-site は見たページ、sg-works は現在のページで候補外。費用の題なので best は sg-pricing" }
     },
     {
       "id": "s18",
@@ -211,9 +215,9 @@
           "history": [{ "url": "/article-homepage-renewal-cost-by-industry", "read": "deep" }, { "url": "/article-website-launch-1month", "read": "skim" }, { "url": "/pricing", "read": "deep" }],
           "current": { "url": "/voice", "reach": "top" },
           "visit": "return", "device": "sp", "passed": [] } },
-      "expected": { "visitor_type": "発注検討中の事業者", "industry": "不明・その他", "need": "サイトリニューアル", "stage": 2,
-        "relevant_cards": ["sg-web", "sg-works"], "best_card": "sg-web", "concerns": ["cost", "schedule"], "cta_ok": true,
-        "alt": { "best_card": ["sg-works"] } }
+      "expected": { "visitor_type": "事業者", "industry": "不明・その他", "need": "サイトリニューアル", "stage": 2,
+        "cards": { "best": "sg-web", "relevant": ["sg-web", "sg-works"] }, "concerns": ["cost", "trust"], "cta_ok": true,
+        "label_note": "「業種別」の費用相場は特定の業種を指さない。声が現在のページで trust" }
     },
     {
       "id": "s19",
@@ -223,8 +227,9 @@
           "history": [{ "url": "/article-site-renewal-process-guide", "read": "skim" }, { "url": "/web", "read": "deep" }, { "url": "/pricing", "read": "deep" }, { "url": "/works-build", "read": "deep" }],
           "current": { "url": "/company", "reach": "top" },
           "visit": "return", "device": "pc", "passed": [] } },
-      "expected": { "visitor_type": "発注検討中の事業者", "industry": "建設・工務店", "need": "サイトリニューアル", "stage": 2,
-        "relevant_cards": ["sg-solution", "sg-support"], "best_card": "sg-solution", "concerns": ["cost", "trust"], "cta_ok": true }
+      "expected": { "visitor_type": "事業者", "industry": "建設・工務店", "need": ["新規サイト制作", "サイトリニューアル"], "stage": 2,
+        "cards": { "best": "sg-solution", "relevant": ["sg-solution"] }, "concerns": ["cost", "trust"], "cta_ok": true,
+        "label_note": "記事は流し見なので need は じっくり読んだ /web から集合。Web制作・料金・建設の実績は見たので、残る手がかりは業種パッケージ" }
     },
     {
       "id": "s20",
@@ -234,9 +239,9 @@
           "history": [{ "url": "/article-how-to-choose-web-agency", "read": "deep" }, { "url": "/works-realty", "read": "skim" }, { "url": "/voice", "read": "deep" }],
           "current": { "url": "/pricing", "reach": "top" },
           "visit": "first", "device": "pc", "passed": [] } },
-      "expected": { "visitor_type": "発注検討中の事業者", "industry": "不動産", "need": "新規サイト制作", "stage": 2,
-        "relevant_cards": ["sg-web", "sg-solution"], "best_card": "sg-web", "concerns": ["trust", "cost"], "cta_ok": true,
-        "alt": { "need": ["サイトリニューアル"], "best_card": ["sg-solution"] } }
+      "expected": { "visitor_type": "事業者", "industry": ["不動産", "不明・その他"], "need": ["新規サイト制作", "サイトリニューアル"], "stage": 2,
+        "cards": { "best": "sg-web", "relevant": ["sg-web"] }, "concerns": ["cost", "trust"], "cta_ok": true,
+        "label_note": "不動産の実績は流し見だけなので業種は集合（3.2）。実績ページを見ているので sg-works は外し、業種が集合なので sg-solution は候補外" }
     },
     {
       "id": "s21",
@@ -246,9 +251,9 @@
           "history": [{ "url": "/", "read": "skim" }, { "url": "/service/kanri-dantai", "read": "deep" }],
           "current": { "url": "/pricing", "reach": "top" },
           "visit": "first", "device": "sp", "passed": [] } },
-      "expected": { "visitor_type": "発注検討中の事業者", "industry": "外国人材（監理団体・登録支援機関・協同組合）", "need": "新規サイト制作", "stage": 2,
-        "relevant_cards": ["sg-works"], "best_card": "sg-works", "concerns": ["cost"], "cta_ok": true,
-        "alt": { "visitor_type": ["情報収集中の事業者"], "need": ["サイトリニューアル"] } }
+      "expected": { "visitor_type": "事業者", "industry": "外国人材（監理団体・登録支援機関・協同組合）", "need": ["新規サイト制作", "サイトリニューアル"], "stage": 2,
+        "cards": { "best": "sg-works", "relevant": ["sg-web", "sg-works"] }, "concerns": ["cost"], "cta_ok": true,
+        "label_note": "業種特化LP（主題のサービス）を じっくり読み、料金が現在なので次は実績（3.5 の 4）。外国人材のパッケージは無いので sg-solution は候補外" }
     },
     {
       "id": "s22",
@@ -258,9 +263,9 @@
           "history": [{ "url": "/pricing", "read": "deep" }, { "url": "/works-clinic", "read": "deep" }, { "url": "/solution-clinic", "read": "deep" }],
           "current": { "url": "/voice", "reach": "top" },
           "visit": "return", "device": "pc", "passed": [] } },
-      "expected": { "visitor_type": "発注検討中の事業者", "industry": "クリニック・医療", "need": "新規サイト制作", "stage": 3,
-        "relevant_cards": ["sg-web", "sg-support"], "best_card": "sg-web", "concerns": ["cost", "trust"], "cta_ok": true,
-        "alt": { "need": ["サイトリニューアル"] } }
+      "expected": { "visitor_type": "事業者", "industry": "クリニック・医療", "need": ["新規サイト制作", "サイトリニューアル"], "stage": 2,
+        "cards": { "best": "sg-web", "relevant": ["sg-web"] }, "concerns": ["cost", "trust"], "cta_ok": true,
+        "label_note": "業種パッケージだけが主題の根拠なので need は集合。料金・業種の実績・パッケージは見たので残る手がかりは sg-web" }
     },
     {
       "id": "s23",
@@ -270,9 +275,9 @@
           "history": [{ "url": "/article-homepage-estimate-reading-guide", "read": "deep" }, { "url": "/pricing", "read": "deep" }, { "url": "/works", "read": "deep" }, { "url": "/voice", "read": "skim" }, { "url": "/company", "read": "skim" }],
           "current": { "url": "/web", "reach": "end" },
           "visit": "return", "device": "pc", "passed": [] } },
-      "expected": { "visitor_type": "発注検討中の事業者", "industry": "不明・その他", "need": "新規サイト制作", "stage": 3,
-        "relevant_cards": [], "best_card": "none", "concerns": ["cost", "trust"], "cta_ok": true,
-        "alt": { "need": ["サイトリニューアル"], "best_card": ["sg-support"] } }
+      "expected": { "visitor_type": "事業者", "industry": "不明・その他", "need": ["新規サイト制作", "サイトリニューアル"], "stage": 2,
+        "cards": { "best": "none", "relevant": [] }, "concerns": ["cost", "trust"], "cta_ok": true,
+        "label_note": "見積書の見方は新規かリニューアルか分からない。Web制作・料金・実績を見ており、題に補助金・保守などの手がかりが無い" }
     },
     {
       "id": "s24",
@@ -282,9 +287,9 @@
           "history": [{ "url": "/article-homepage-renewal-case-study-by-industry", "read": "deep" }, { "url": "/works-retail", "read": "deep" }],
           "current": { "url": "/solution-retail", "reach": "top" },
           "visit": "first", "device": "sp", "passed": [] } },
-      "expected": { "visitor_type": "発注検討中の事業者", "industry": "小売・EC", "need": "サイトリニューアル", "stage": 2,
-        "relevant_cards": ["sg-pricing", "sg-web"], "best_card": "sg-pricing", "concerns": [], "cta_ok": true,
-        "alt": { "visitor_type": ["情報収集中の事業者"], "best_card": ["sg-web"] } }
+      "expected": { "visitor_type": "事業者", "industry": "小売・EC", "need": "サイトリニューアル", "stage": 2,
+        "cards": { "best": "sg-pricing", "relevant": ["sg-web", "sg-pricing"] }, "concerns": ["trust"], "cta_ok": true,
+        "label_note": "小売の実績を じっくり読んで業種を確定。小売のパッケージ（主題のサービス）が現在で、料金は未閲覧なので best は sg-pricing（3.5 の 4。s10 と同じ付け方）" }
     },
     {
       "id": "s25",
@@ -294,21 +299,21 @@
           "history": [{ "url": "/", "read": "skim" }, { "url": "/service/recruit-site", "read": "deep" }, { "url": "/works-build", "read": "skim" }],
           "current": { "url": "/feature-recruit", "reach": "top" },
           "visit": "first", "device": "pc", "passed": [] } },
-      "expected": { "visitor_type": "発注検討中の事業者", "industry": "建設・工務店", "need": "採用強化", "stage": 2,
-        "relevant_cards": ["sg-pricing", "sg-solution"], "best_card": "sg-pricing", "concerns": [], "cta_ok": true,
-        "alt": { "best_card": ["sg-solution"] } }
+      "expected": { "visitor_type": "事業者", "industry": ["建設・工務店", "不明・その他"], "need": "採用強化", "stage": 2,
+        "cards": { "best": "sg-pricing", "relevant": ["sg-web", "sg-pricing"] }, "concerns": [], "cta_ok": true,
+        "label_note": "採用サイトLPは3業種共通、建設の実績は流し見なので業種は集合（3.2）。LP と採用専門サイト制作（主題のサービス）を見たので次は料金。実績は流し見なので trust は付けない" }
     },
     {
       "id": "s26",
-      "note": "再訪で資料ページに直接着地 → 料金 → 実績。何を作りたいかは読み取れない",
+      "note": "再訪で資料ページに直接着地 → 料金 → 実績",
       "request": { "session_id": "r_eval0026", "trigger": "T2", "page_url": "/works",
         "state": { "ref": "direct", "landing": "/guidebook",
           "history": [{ "url": "/guidebook", "read": "deep" }, { "url": "/pricing", "read": "deep" }],
           "current": { "url": "/works", "reach": "top" },
           "visit": "return", "device": "pc", "passed": [] } },
-      "expected": { "visitor_type": "発注検討中の事業者", "industry": "不明・その他", "need": "other", "stage": 2,
-        "relevant_cards": [], "best_card": "none", "concerns": ["cost"], "cta_ok": true,
-        "alt": { "need": ["新規サイト制作", "サイトリニューアル"], "best_card": ["sg-web"] } }
+      "expected": { "visitor_type": "事業者", "industry": "不明・その他", "need": "other", "stage": 3,
+        "cards": { "best": "sg-web", "relevant": ["sg-web"] }, "concerns": ["cost", "trust"], "cta_ok": true,
+        "label_note": "資料・料金・実績だけで主題のページが無いので need は other。need other で stage 2 以上なので sg-web が手がかりに当たる（3.5）" }
     },
     {
       "id": "s27",
@@ -318,9 +323,9 @@
           "history": [{ "url": "/article-legacy-system-replacement-guide", "read": "deep" }, { "url": "/dx", "read": "skim" }, { "url": "/works-infra", "read": "deep" }],
           "current": { "url": "/pricing", "reach": "top" },
           "visit": "first", "device": "pc", "passed": [] } },
-      "expected": { "visitor_type": "発注検討中の事業者", "industry": "製造・インフラ", "need": "業務システム・DX", "stage": 2,
-        "relevant_cards": [], "best_card": "none", "concerns": ["cost"], "cta_ok": true,
-        "alt": { "visitor_type": ["情報収集中の事業者"], "best_card": ["sg-support", "sg-works"] } }
+      "expected": { "visitor_type": "事業者", "industry": "製造・インフラ", "need": "業務システム・DX", "stage": 2,
+        "cards": { "best": "none", "relevant": [] }, "concerns": ["cost", "trust", "scope"], "cta_ok": true,
+        "label_note": "DX・製造の実績は見たページ、料金は現在。製造・インフラのパッケージは無い。題の「進め方と費用」から scope と cost" }
     },
     {
       "id": "s28",
@@ -330,21 +335,21 @@
           "history": [{ "url": "/article-it-subsidy-homepage-eligibility-guide", "read": "deep" }, { "url": "/article-homepage-renewal-subsidy-cost-calculation", "read": "deep" }],
           "current": { "url": "/subsidy", "reach": "top" },
           "visit": "return", "device": "pc", "passed": [] } },
-      "expected": { "visitor_type": "発注検討中の事業者", "industry": "不明・その他", "need": "補助金活用", "stage": 2,
-        "relevant_cards": ["sg-web", "sg-pricing"], "best_card": "sg-web", "concerns": ["cost"], "cta_ok": true,
-        "alt": { "visitor_type": ["情報収集中の事業者"], "best_card": ["sg-pricing"] } }
+      "expected": { "visitor_type": "事業者", "industry": "不明・その他", "need": ["補助金活用", "サイトリニューアル"], "stage": 3,
+        "cards": { "best": "sg-pricing", "relevant": ["sg-pricing", "sg-web", "sg-works"] }, "concerns": ["cost"], "cta_ok": true,
+        "label_note": "補助金の記事2本（対象判定・実質負担額）で補助金とリニューアルのどちらを頼みたいか分けられない。sg-subsidy は現在のページ。題の実質負担額から best は sg-pricing" }
     },
     {
       "id": "s29",
-      "note": "Web制作のRFPの作り方の記事に着地。発注の準備をしている",
+      "note": "Web制作のRFPの作り方の記事に着地",
       "request": { "session_id": "r_eval0029", "trigger": "T1", "page_url": "/article-rfp-template-web-design",
         "state": { "ref": "google", "landing": "/article-rfp-template-web-design",
           "history": [],
           "current": { "url": "/article-rfp-template-web-design", "reach": "top" },
           "visit": "first", "device": "pc", "passed": [] } },
-      "expected": { "visitor_type": "発注検討中の事業者", "industry": "不明・その他", "need": "新規サイト制作", "stage": 2,
-        "relevant_cards": ["sg-web", "sg-pricing"], "best_card": "sg-web", "concerns": ["scope"], "cta_ok": true,
-        "alt": { "visitor_type": ["情報収集中の事業者"], "need": ["サイトリニューアル"] } }
+      "expected": { "visitor_type": "事業者", "industry": "不明・その他", "need": "新規サイト制作", "stage": 0,
+        "cards": { "best": "sg-web", "relevant": ["sg-web"] }, "concerns": ["scope"], "cta_ok": false,
+        "label_note": "RFP は 3.3 の表で新規サイト制作" }
     },
     {
       "id": "s30",
@@ -354,9 +359,9 @@
           "history": [{ "url": "/article-system-outsourcing-rfp-requirements-guide", "read": "deep" }, { "url": "/article-internal-system-outsourcing-requirements-checklist", "read": "deep" }],
           "current": { "url": "/dx", "reach": "top" },
           "visit": "first", "device": "pc", "passed": [] } },
-      "expected": { "visitor_type": "発注検討中の事業者", "industry": "不明・その他", "need": "業務システム・DX", "stage": 2,
-        "relevant_cards": ["sg-works", "sg-pricing"], "best_card": "sg-works", "concerns": ["scope"], "cta_ok": true,
-        "alt": { "visitor_type": ["情報収集中の事業者"], "best_card": ["sg-pricing"] } }
+      "expected": { "visitor_type": "事業者", "industry": "不明・その他", "need": "業務システム・DX", "stage": 1,
+        "cards": { "best": "none", "relevant": [] }, "concerns": ["scope"], "cta_ok": false,
+        "label_note": "sg-dx は現在のページ。要件定義の題に料金・実績の手がかりが無く、stage 1" }
     },
     {
       "id": "s31",
@@ -366,9 +371,9 @@
           "history": [{ "url": "/article-cheap-homepage-pitfalls-checklist", "read": "deep" }, { "url": "/voice", "read": "deep" }],
           "current": { "url": "/works-clinic", "reach": "top" },
           "visit": "first", "device": "sp", "passed": [] } },
-      "expected": { "visitor_type": "発注検討中の事業者", "industry": "クリニック・医療", "need": "新規サイト制作", "stage": 2,
-        "relevant_cards": ["sg-pricing", "sg-web", "sg-solution"], "best_card": "sg-pricing", "concerns": ["trust", "cost"], "cta_ok": true,
-        "alt": { "visitor_type": ["情報収集中の事業者"], "best_card": ["sg-web", "sg-solution"] } }
+      "expected": { "visitor_type": "事業者", "industry": ["クリニック・医療", "不明・その他"], "need": ["新規サイト制作", "サイトリニューアル"], "stage": 2,
+        "cards": { "best": "sg-pricing", "relevant": ["sg-pricing", "sg-web"] }, "concerns": ["cost", "trust"], "cta_ok": true,
+        "label_note": "クリニックの実績は現在のページだけなので業種は集合（3.2）。格安制作は新規かリニューアルか分からない。題の適正価格から best は sg-pricing" }
     },
     {
       "id": "s32",
@@ -378,9 +383,9 @@
           "history": [{ "url": "/pricing", "read": "deep" }, { "url": "/works-hr", "read": "skim" }],
           "current": { "url": "/web", "reach": "top" },
           "visit": "return", "device": "sp", "passed": [] } },
-      "expected": { "visitor_type": "発注検討中の事業者", "industry": "人材", "need": "新規サイト制作", "stage": 2,
-        "relevant_cards": ["sg-solution"], "best_card": "sg-solution", "concerns": ["cost"], "cta_ok": true,
-        "alt": { "need": ["サイトリニューアル"] } }
+      "expected": { "visitor_type": "事業者", "industry": ["人材", "不明・その他"], "need": ["新規サイト制作", "サイトリニューアル"], "stage": 2,
+        "cards": { "best": "none", "relevant": [] }, "concerns": ["cost"], "cta_ok": true,
+        "label_note": "人材の実績は流し見だけなので業種は集合。料金・実績は見たページ、Web制作は現在で、残る手がかりが無い" }
     },
     {
       "id": "s33",
@@ -391,7 +396,7 @@
           "current": { "url": "/article-ios-nfc-felica-slow-fix", "reach": "top" },
           "visit": "first", "device": "pc", "passed": [] } },
       "expected": { "visitor_type": "同業者・学習者", "industry": "不明・その他", "need": "other", "stage": 0,
-        "relevant_cards": [], "best_card": "none", "concerns": [], "cta_ok": false }
+        "cards": { "best": "none", "relevant": [] }, "concerns": [], "cta_ok": false }
     },
     {
       "id": "s34",
@@ -402,20 +407,19 @@
           "current": { "url": "/article-llm-guardrail-bypass-cases", "reach": "top" },
           "visit": "first", "device": "pc", "passed": [] } },
       "expected": { "visitor_type": "同業者・学習者", "industry": "不明・その他", "need": "other", "stage": 0,
-        "relevant_cards": [], "best_card": "none", "concerns": [], "cta_ok": false,
-        "alt": { "need": ["AI導入・チャットボット"] } }
+        "cards": { "best": "none", "relevant": [] }, "concerns": [], "cta_ok": false }
     },
     {
       "id": "s35",
-      "note": "Core Web Vitals の技術記事に着地。実装者の関心と読める",
+      "note": "Core Web Vitals の技術記事に着地",
       "request": { "session_id": "r_eval0035", "trigger": "T1", "page_url": "/article-core-web-vitals",
         "state": { "ref": "google", "landing": "/article-core-web-vitals",
           "history": [],
           "current": { "url": "/article-core-web-vitals", "reach": "top" },
           "visit": "first", "device": "sp", "passed": [] } },
       "expected": { "visitor_type": "同業者・学習者", "industry": "不明・その他", "need": "other", "stage": 0,
-        "relevant_cards": [], "best_card": "none", "concerns": [], "cta_ok": false,
-        "alt": { "visitor_type": ["情報収集中の事業者"], "need": ["サイトリニューアル"], "best_card": ["sg-web"] } }
+        "cards": { "best": "none", "relevant": [] }, "concerns": [], "cta_ok": false,
+        "label_note": "「Good を現実的に取得する」は実装手順の題（作る側向け）。中小企業向け5ステップの記事とは違う" }
     },
     {
       "id": "s36",
@@ -425,9 +429,9 @@
           "history": [{ "url": "/article-llm-guardrails-3-layer-architecture", "read": "deep" }, { "url": "/article-llm-guardrail-evaluation-metrics", "read": "deep" }],
           "current": { "url": "/product-vetonet", "reach": "top" },
           "visit": "first", "device": "pc", "passed": [] } },
-      "expected": { "visitor_type": "同業者・学習者", "industry": "不明・その他", "need": "other", "stage": 0,
-        "relevant_cards": [], "best_card": "none", "concerns": [], "cta_ok": false,
-        "alt": { "need": ["AI導入・チャットボット"] } }
+      "expected": { "visitor_type": ["同業者・学習者", "事業者"], "industry": "不明・その他", "need": "other", "stage": 0,
+        "cards": { "best": "none", "relevant": [] }, "concerns": [], "cta_ok": false,
+        "label_note": "作る側向けの記事から自社プロダクトへ進んだ（3.1 の集合の表）。作る側向けの記事の主題は自社の課題ではなく need の表に当たる主題が無いので other。作る側向けの LLM の記事は sg-chatbot の手がかりにしない" }
     },
     {
       "id": "s37",
@@ -438,7 +442,7 @@
           "current": { "url": "/article-core-nfc-felica-system-code-limit", "reach": "top" },
           "visit": "return", "device": "pc", "passed": [] } },
       "expected": { "visitor_type": "同業者・学習者", "industry": "不明・その他", "need": "other", "stage": 0,
-        "relevant_cards": [], "best_card": "none", "concerns": [], "cta_ok": false }
+        "cards": { "best": "none", "relevant": [] }, "concerns": [], "cta_ok": false }
     },
     {
       "id": "s38",
@@ -448,8 +452,9 @@
           "history": [{ "url": "/article-vetonet", "read": "deep" }],
           "current": { "url": "/product-vetonet", "reach": "top" },
           "visit": "first", "device": "pc", "passed": [] } },
-      "expected": { "visitor_type": "同業者・学習者", "industry": "不明・その他", "need": "other", "stage": 0,
-        "relevant_cards": [], "best_card": "none", "concerns": [], "cta_ok": false }
+      "expected": { "visitor_type": ["同業者・学習者", "事業者"], "industry": "不明・その他", "need": "other", "stage": 0,
+        "cards": { "best": "none", "relevant": [] }, "concerns": [], "cta_ok": false,
+        "label_note": "開発の裏側の記事（作る側向け）から自社プロダクトへ進んだ。s36 と同じ付け方" }
     },
     {
       "id": "s39",
@@ -460,7 +465,7 @@
           "current": { "url": "/article-llm-overfitting-detection-prevention", "reach": "top" },
           "visit": "first", "device": "pc", "passed": [] } },
       "expected": { "visitor_type": "同業者・学習者", "industry": "不明・その他", "need": "other", "stage": 0,
-        "relevant_cards": [], "best_card": "none", "concerns": [], "cta_ok": false }
+        "cards": { "best": "none", "relevant": [] }, "concerns": [], "cta_ok": false }
     },
     {
       "id": "s40",
@@ -470,9 +475,9 @@
           "history": [{ "url": "/article-ai-review-requirements-document", "read": "deep" }, { "url": "/article-data-migration-record-count-scale", "read": "skim" }],
           "current": { "url": "/column", "reach": "top" },
           "visit": "first", "device": "pc", "passed": [] } },
-      "expected": { "visitor_type": "同業者・学習者", "industry": "不明・その他", "need": "other", "stage": 0,
-        "relevant_cards": [], "best_card": "none", "concerns": [], "cta_ok": false,
-        "alt": { "visitor_type": ["情報収集中の事業者"], "need": ["業務システム・DX"], "best_card": ["sg-dx"] } }
+      "expected": { "visitor_type": ["事業者", "同業者・学習者"], "industry": "不明・その他", "need": ["業務システム・DX", "other"], "stage": 0,
+        "cards": { "best": ["sg-dx", "none"], "relevant": ["sg-dx"] }, "concerns": ["scope", "ai_quality"], "cta_ok": false,
+        "label_note": "要件定義書のAIレビューはどちらにも読める題（2.3）。データ移行の記事は流し見、コラム一覧は数えない。事業者なら主題はシステム開発の要件定義なので need は 業務システム・DX＋other。題の要件定義から scope、AIレビューの精度から ai_quality" }
     },
     {
       "id": "s41",
@@ -483,8 +488,7 @@
           "current": { "url": "/article-llm-guardrail-jailbreak-defense", "reach": "end" },
           "visit": "first", "device": "pc", "passed": [] } },
       "expected": { "visitor_type": "同業者・学習者", "industry": "不明・その他", "need": "other", "stage": 0,
-        "relevant_cards": [], "best_card": "none", "concerns": [], "cta_ok": false,
-        "alt": { "need": ["AI導入・チャットボット"] } }
+        "cards": { "best": "none", "relevant": [] }, "concerns": [], "cta_ok": false }
     },
     {
       "id": "s42",
@@ -495,7 +499,7 @@
           "current": { "url": "/staff", "reach": "top" },
           "visit": "first", "device": "pc", "passed": [] } },
       "expected": { "visitor_type": "求職者・学生", "industry": "不明・その他", "need": "other", "stage": 0,
-        "relevant_cards": [], "best_card": "none", "concerns": [], "cta_ok": false }
+        "cards": { "best": "none", "relevant": [] }, "concerns": [], "cta_ok": false }
     },
     {
       "id": "s43",
@@ -506,7 +510,7 @@
           "current": { "url": "/staff", "reach": "top" },
           "visit": "first", "device": "sp", "passed": [] } },
       "expected": { "visitor_type": "求職者・学生", "industry": "不明・その他", "need": "other", "stage": 0,
-        "relevant_cards": [], "best_card": "none", "concerns": [], "cta_ok": false }
+        "cards": { "best": "none", "relevant": [] }, "concerns": [], "cta_ok": false }
     },
     {
       "id": "s44",
@@ -517,7 +521,7 @@
           "current": { "url": "/news", "reach": "top" },
           "visit": "return", "device": "pc", "passed": [] } },
       "expected": { "visitor_type": "求職者・学生", "industry": "不明・その他", "need": "other", "stage": 0,
-        "relevant_cards": [], "best_card": "none", "concerns": [], "cta_ok": false }
+        "cards": { "best": "none", "relevant": [] }, "concerns": [], "cta_ok": false }
     },
     {
       "id": "s45",
@@ -528,7 +532,7 @@
           "current": { "url": "/company", "reach": "top" },
           "visit": "first", "device": "sp", "passed": [] } },
       "expected": { "visitor_type": "求職者・学生", "industry": "不明・その他", "need": "other", "stage": 0,
-        "relevant_cards": [], "best_card": "none", "concerns": [], "cta_ok": false }
+        "cards": { "best": "none", "relevant": [] }, "concerns": [], "cta_ok": false }
     },
     {
       "id": "s46",
@@ -538,9 +542,9 @@
           "history": [{ "url": "/article-multi-ai-parallel-productivity", "read": "deep" }, { "url": "/recruit", "read": "skim" }],
           "current": { "url": "/works-ai", "reach": "top" },
           "visit": "first", "device": "pc", "passed": [] } },
-      "expected": { "visitor_type": "求職者・学生", "industry": "不明・その他", "need": "other", "stage": 0,
-        "relevant_cards": [], "best_card": "none", "concerns": [], "cta_ok": false,
-        "alt": { "visitor_type": ["other", "同業者・学習者"] } }
+      "expected": { "visitor_type": ["事業者", "求職者・学生"], "industry": "不明・その他", "need": ["AI導入・チャットボット", "other"], "stage": 1,
+        "cards": { "best": ["sg-chatbot", "none"], "relevant": ["sg-chatbot"] }, "concerns": ["trust"], "cta_ok": false,
+        "label_note": "読み物から実績（現在）へ進んだので事業者（3.1 d）、採用情報の流し見で求職者を足す（集合の表）。AI活用の読み物なので need は AI導入＋other。AIの実績は業種を指さない" }
     },
     {
       "id": "s47",
@@ -551,8 +555,8 @@
           "current": { "url": "/", "reach": "top" },
           "visit": "first", "device": "pc", "passed": [] } },
       "expected": { "visitor_type": "求職者・学生", "industry": "不明・その他", "need": "other", "stage": 0,
-        "relevant_cards": [], "best_card": "none", "concerns": [], "cta_ok": false,
-        "alt": { "visitor_type": ["other"] } }
+        "cards": { "best": "none", "relevant": [] }, "concerns": [], "cta_ok": false,
+        "label_note": "採用情報に検索で着地。途中離脱でも「そこに来た」ことは残す（2.4 の例外）" }
     },
     {
       "id": "s48",
@@ -562,9 +566,9 @@
           "history": [{ "url": "/", "read": "bounce" }, { "url": "/company", "read": "deep" }],
           "current": { "url": "/staff", "reach": "top" },
           "visit": "first", "device": "pc", "passed": [] } },
-      "expected": { "visitor_type": "営業・売り込み", "industry": "不明・その他", "need": "other", "stage": 0,
-        "relevant_cards": [], "best_card": "none", "concerns": [], "cta_ok": false,
-        "alt": { "visitor_type": ["other", "求職者・学生"] } }
+      "expected": { "visitor_type": ["other", "営業・売り込み", "求職者・学生"], "industry": "不明・その他", "need": "other", "stage": 0,
+        "cards": { "best": "none", "relevant": [] }, "concerns": [], "cta_ok": false,
+        "label_note": "会社概要とスタッフ紹介だけ。売り込みと分かる手がかりが無く、スタッフ紹介は求職者にも見える（3.1 の集合の表）" }
     },
     {
       "id": "s49",
@@ -574,9 +578,9 @@
           "history": [{ "url": "/company", "read": "deep" }],
           "current": { "url": "/news", "reach": "top" },
           "visit": "first", "device": "pc", "passed": [] } },
-      "expected": { "visitor_type": "営業・売り込み", "industry": "不明・その他", "need": "other", "stage": 0,
-        "relevant_cards": [], "best_card": "none", "concerns": [], "cta_ok": false,
-        "alt": { "visitor_type": ["other"] } }
+      "expected": { "visitor_type": ["other", "営業・売り込み"], "industry": "不明・その他", "need": "other", "stage": 0,
+        "cards": { "best": "none", "relevant": [] }, "concerns": [], "cta_ok": false,
+        "label_note": "外部リンクから会社概要 → お知らせ。目的を決める手がかりが無い" }
     },
     {
       "id": "s50",
@@ -586,9 +590,9 @@
           "history": [{ "url": "/company", "read": "skim" }, { "url": "/staff", "read": "skim" }, { "url": "/privacy-handling", "read": "bounce" }],
           "current": { "url": "/", "reach": "top" },
           "visit": "return", "device": "pc", "passed": [] } },
-      "expected": { "visitor_type": "営業・売り込み", "industry": "不明・その他", "need": "other", "stage": 0,
-        "relevant_cards": [], "best_card": "none", "concerns": [], "cta_ok": false,
-        "alt": { "visitor_type": ["other"] } }
+      "expected": { "visitor_type": ["other", "営業・売り込み", "求職者・学生"], "industry": "不明・その他", "need": "other", "stage": 0,
+        "cards": { "best": "none", "relevant": [] }, "concerns": [], "cta_ok": false,
+        "label_note": "会社概要・スタッフ紹介・規約類・トップだけ。スタッフ紹介を見ているので求職者を足す" }
     },
     {
       "id": "s51",
@@ -598,9 +602,9 @@
           "history": [{ "url": "/", "read": "bounce" }, { "url": "/company", "read": "deep" }, { "url": "/staff", "read": "deep" }, { "url": "/works", "read": "bounce" }],
           "current": { "url": "/news", "reach": "top" },
           "visit": "first", "device": "pc", "passed": [] } },
-      "expected": { "visitor_type": "営業・売り込み", "industry": "不明・その他", "need": "other", "stage": 0,
-        "relevant_cards": [], "best_card": "none", "concerns": [], "cta_ok": false,
-        "alt": { "visitor_type": ["other", "求職者・学生"] } }
+      "expected": { "visitor_type": ["other", "営業・売り込み", "求職者・学生"], "industry": "不明・その他", "need": "other", "stage": 0,
+        "cards": { "best": "none", "relevant": [] }, "concerns": [], "cta_ok": false,
+        "label_note": "実績は途中離脱なので会社情報だけの場合と同じ（3.1 の集合の表）" }
     },
     {
       "id": "s52",
@@ -610,21 +614,21 @@
           "history": [{ "url": "/staff", "read": "deep" }, { "url": "/company", "read": "deep" }],
           "current": { "url": "/sitemap", "reach": "top" },
           "visit": "first", "device": "pc", "passed": [] } },
-      "expected": { "visitor_type": "営業・売り込み", "industry": "不明・その他", "need": "other", "stage": 0,
-        "relevant_cards": [], "best_card": "none", "concerns": [], "cta_ok": false,
-        "alt": { "visitor_type": ["other", "求職者・学生"] } }
+      "expected": { "visitor_type": ["other", "営業・売り込み", "求職者・学生"], "industry": "不明・その他", "need": "other", "stage": 0,
+        "cards": { "best": "none", "relevant": [] }, "concerns": [], "cta_ok": false,
+        "label_note": "外部リンクからスタッフ紹介 → 会社概要 → サイトマップ。目的を決める手がかりが無い" }
     },
     {
       "id": "s53",
-      "note": "日本のDXの遅れを論じる読み物に直接着地。事業者か学習者か決められない",
+      "note": "日本のDXの遅れを論じる読み物に直接着地",
       "request": { "session_id": "r_eval0053", "trigger": "T1", "page_url": "/article-japan-dx",
         "state": { "ref": "direct", "landing": "/article-japan-dx",
           "history": [],
           "current": { "url": "/article-japan-dx", "reach": "top" },
           "visit": "first", "device": "sp", "passed": [] } },
       "expected": { "visitor_type": "other", "industry": "不明・その他", "need": "other", "stage": 0,
-        "relevant_cards": [], "best_card": "none", "concerns": [], "cta_ok": false,
-        "alt": { "visitor_type": ["情報収集中の事業者", "同業者・学習者"], "need": ["業務システム・DX"] } }
+        "cards": { "best": "none", "relevant": [] }, "concerns": [], "cta_ok": false,
+        "label_note": "読み物1本に直接着地（3.1 other の a）" }
     },
     {
       "id": "s54",
@@ -635,8 +639,8 @@
           "current": { "url": "/article-claude-vs-gpt", "reach": "top" },
           "visit": "first", "device": "sp", "passed": [] } },
       "expected": { "visitor_type": "other", "industry": "不明・その他", "need": "other", "stage": 0,
-        "relevant_cards": [], "best_card": "none", "concerns": [], "cta_ok": false,
-        "alt": { "visitor_type": ["情報収集中の事業者", "同業者・学習者"], "need": ["AI導入・チャットボット"] } }
+        "cards": { "best": "none", "relevant": [] }, "concerns": [], "cta_ok": false,
+        "label_note": "ツール比較の読み物1本に SNS から着地（3.1 other の a）" }
     },
     {
       "id": "s55",
@@ -647,8 +651,8 @@
           "current": { "url": "/", "reach": "top" },
           "visit": "first", "device": "pc", "passed": [] } },
       "expected": { "visitor_type": "other", "industry": "不明・その他", "need": "other", "stage": 0,
-        "relevant_cards": [], "best_card": "none", "concerns": [], "cta_ok": false,
-        "alt": { "visitor_type": ["情報収集中の事業者"], "need": ["保守・運用"] } }
+        "cards": { "best": "none", "relevant": [] }, "concerns": [], "cta_ok": false,
+        "label_note": "記事は途中離脱で根拠にならず、トップは何も言わない（3.1 other の b）" }
     },
     {
       "id": "s56",
@@ -659,43 +663,44 @@
           "current": { "url": "/news", "reach": "top" },
           "visit": "first", "device": "pc", "passed": [] } },
       "expected": { "visitor_type": "other", "industry": "不明・その他", "need": "other", "stage": 0,
-        "relevant_cards": [], "best_card": "none", "concerns": [], "cta_ok": false }
+        "cards": { "best": "none", "relevant": [] }, "concerns": [], "cta_ok": false,
+        "label_note": "トップとお知らせだけ（3.1 other の c）。会社情報を見ていないので営業・売り込みは足さない" }
     },
     {
       "id": "s57",
-      "note": "AIリテラシーの読み物を流し見 → スタッフ紹介 → 会社概要。求職者とも営業とも取れる",
+      "note": "AIリテラシーの読み物を流し見 → スタッフ紹介 → 会社概要",
       "request": { "session_id": "r_eval0057", "trigger": "T2", "page_url": "/company",
         "state": { "ref": "google", "landing": "/article-ai-literacy-mindset-shift",
           "history": [{ "url": "/article-ai-literacy-mindset-shift", "read": "skim" }, { "url": "/staff", "read": "deep" }],
           "current": { "url": "/company", "reach": "top" },
           "visit": "first", "device": "pc", "passed": [] } },
-      "expected": { "visitor_type": "other", "industry": "不明・その他", "need": "other", "stage": 0,
-        "relevant_cards": [], "best_card": "none", "concerns": [], "cta_ok": false,
-        "alt": { "visitor_type": ["求職者・学生", "営業・売り込み"] } }
+      "expected": { "visitor_type": ["other", "営業・売り込み", "求職者・学生"], "industry": "不明・その他", "need": "other", "stage": 0,
+        "cards": { "best": "none", "relevant": [] }, "concerns": [], "cta_ok": false,
+        "label_note": "読み物は流し見で根拠にしない。残るのはスタッフ紹介と会社概要だけ（3.1 の集合の表）" }
     },
     {
       "id": "s58",
-      "note": "スタッフ紹介に着地 → 会社概要 → お知らせ → AIスタートアップの実績。会社そのものへの関心",
+      "note": "スタッフ紹介に着地 → 会社概要 → お知らせ → AIスタートアップの実績",
       "request": { "session_id": "r_eval0058", "trigger": "T2", "page_url": "/works-ai",
         "state": { "ref": "google", "landing": "/staff",
           "history": [{ "url": "/staff", "read": "deep" }, { "url": "/company", "read": "deep" }, { "url": "/news", "read": "skim" }],
           "current": { "url": "/works-ai", "reach": "top" },
           "visit": "first", "device": "pc", "passed": [] } },
-      "expected": { "visitor_type": "other", "industry": "不明・その他", "need": "other", "stage": 0,
-        "relevant_cards": [], "best_card": "none", "concerns": [], "cta_ok": false,
-        "alt": { "visitor_type": ["求職者・学生", "営業・売り込み"] } }
+      "expected": { "visitor_type": ["other", "営業・売り込み", "求職者・学生"], "industry": "不明・その他", "need": "other", "stage": 0,
+        "cards": { "best": "none", "relevant": [] }, "concerns": [], "cta_ok": false,
+        "label_note": "会社情報のほかに実績があるが現在のページ（流し見と同じ扱い）なので、会社情報だけの場合と同じ（3.1 の集合の表）" }
     },
     {
       "id": "s59",
-      "note": "再訪。PoC で終わるAI案件の記事に外部リンクから着地。題からAIの実装に関心があることだけ分かる",
+      "note": "再訪。PoC で終わるAI案件の記事に外部リンクから着地",
       "request": { "session_id": "r_eval0059", "trigger": "T1", "page_url": "/article-ai-poc",
         "state": { "ref": "other", "landing": "/article-ai-poc",
           "history": [],
           "current": { "url": "/article-ai-poc", "reach": "top" },
           "visit": "return", "device": "pc", "passed": [] } },
-      "expected": { "visitor_type": "other", "industry": "不明・その他", "need": "AI導入・チャットボット", "stage": 0,
-        "relevant_cards": ["sg-dx"], "best_card": "sg-dx", "concerns": [], "cta_ok": false,
-        "alt": { "visitor_type": ["情報収集中の事業者", "同業者・学習者"], "need": ["業務システム・DX", "other"], "best_card": ["none", "sg-chatbot"] } }
+      "expected": { "visitor_type": "other", "industry": "不明・その他", "need": "other", "stage": 0,
+        "cards": { "best": "none", "relevant": [] }, "concerns": [], "cta_ok": false,
+        "label_note": "読み物1本に外部リンクから着地（3.1 other の a）。再訪は根拠を変えない" }
     },
     {
       "id": "s60",
@@ -706,7 +711,128 @@
           "current": { "url": "/", "reach": "top" },
           "visit": "first", "device": "pc", "passed": [] } },
       "expected": { "visitor_type": "other", "industry": "不明・その他", "need": "other", "stage": 0,
-        "relevant_cards": [], "best_card": "none", "concerns": [], "cta_ok": false }
+        "cards": { "best": "none", "relevant": [] }, "concerns": [], "cta_ok": false,
+        "label_note": "自社プロダクトとトップだけ（3.1 other の c）" }
+    },
+    {
+      "id": "s61",
+      "note": "料金プランに検索から着地して じっくり → 制作実績を じっくり → 無料診断",
+      "request": { "session_id": "r_eval0061", "trigger": "T2", "page_url": "/diagnostic",
+        "state": { "ref": "google", "landing": "/pricing",
+          "history": [{ "url": "/pricing", "read": "deep" }, { "url": "/works", "read": "deep" }],
+          "current": { "url": "/diagnostic", "reach": "top" },
+          "visit": "first", "device": "pc", "passed": [] } },
+      "expected": { "visitor_type": "事業者", "industry": "不明・その他", "need": "サイトリニューアル", "stage": 3,
+        "cards": { "best": "sg-web", "relevant": ["sg-web"] }, "concerns": ["cost", "trust"], "cta_ok": true,
+        "label_note": "主題のページは無く、無料診断（今あるサイトの診断）への到達で need を判断（3.3）。料金・実績は見たページ" }
+    },
+    {
+      "id": "s62",
+      "note": "料金プランに検索から着地して じっくり → 建築の実績を じっくり → 声を流し見 → 無料診断",
+      "request": { "session_id": "r_eval0062", "trigger": "T2", "page_url": "/diagnostic",
+        "state": { "ref": "yahoo", "landing": "/pricing",
+          "history": [{ "url": "/pricing", "read": "deep" }, { "url": "/works-build", "read": "deep" }, { "url": "/voice", "read": "skim" }],
+          "current": { "url": "/diagnostic", "reach": "top" },
+          "visit": "first", "device": "sp", "passed": [] } },
+      "expected": { "visitor_type": "事業者", "industry": "建設・工務店", "need": "サイトリニューアル", "stage": 3,
+        "cards": { "best": "sg-solution", "relevant": ["sg-web", "sg-solution"] }, "concerns": ["cost", "trust"], "cta_ok": true,
+        "label_note": "無料診断への到達で need を判断（3.3）。建設のパッケージが未閲覧なので best は sg-solution（3.5 の 2）。声は流し見だが実績を じっくり読んでいるので trust" }
+    },
+    {
+      "id": "s63",
+      "note": "Web制作に直接着地して じっくり → 料金を流し見 → サービス紹介資料",
+      "request": { "session_id": "r_eval0063", "trigger": "T2", "page_url": "/guidebook",
+        "state": { "ref": "direct", "landing": "/web",
+          "history": [{ "url": "/web", "read": "deep" }, { "url": "/pricing", "read": "skim" }],
+          "current": { "url": "/guidebook", "reach": "top" },
+          "visit": "first", "device": "pc", "passed": [] } },
+      "expected": { "visitor_type": "事業者", "industry": "不明・その他", "need": ["新規サイト制作", "サイトリニューアル"], "stage": 3,
+        "cards": { "best": "sg-works", "relevant": ["sg-works"] }, "concerns": [], "cta_ok": true,
+        "label_note": "Web制作だけが主題の根拠で新規かリニューアルか分からない。料金は流し見だけなので cost は付けない（3.6）。sg-web・sg-pricing は見たページ、stage 3 で実績が未閲覧なので sg-works" }
+    },
+    {
+      "id": "s64",
+      "note": "リニューアル補助金の記事に検索から着地して じっくり → 補助金活用相談",
+      "request": { "session_id": "r_eval0064", "trigger": "T2", "page_url": "/subsidy",
+        "state": { "ref": "google", "landing": "/article-homepage-renewal-subsidy-guide",
+          "history": [{ "url": "/article-homepage-renewal-subsidy-guide", "read": "deep" }],
+          "current": { "url": "/subsidy", "reach": "top" },
+          "visit": "first", "device": "sp", "passed": [] } },
+      "expected": { "visitor_type": "事業者", "industry": "不明・その他", "need": ["補助金活用", "サイトリニューアル"], "stage": 3,
+        "cards": { "best": "sg-web", "relevant": ["sg-web", "sg-pricing", "sg-works"] }, "concerns": ["cost"], "cta_ok": true,
+        "label_note": "「リニューアル補助金」は補助金とリニューアルのどちらを頼みたいか分けられない（3.3）。sg-subsidy は現在のページ。stage 3 で料金・実績が未閲覧なので両方 relevant、best は主題のサービス sg-web（3.5 の 3）" }
+    },
+    {
+      "id": "s65",
+      "note": "再訪で料金に直接着地して流し見 → インフラ・製造の実績を じっくり → DX",
+      "request": { "session_id": "r_eval0065", "trigger": "T2", "page_url": "/dx",
+        "state": { "ref": "direct", "landing": "/pricing",
+          "history": [{ "url": "/pricing", "read": "skim" }, { "url": "/works-infra", "read": "deep" }],
+          "current": { "url": "/dx", "reach": "top" },
+          "visit": "return", "device": "sp", "passed": [] } },
+      "expected": { "visitor_type": "事業者", "industry": "製造・インフラ", "need": "業務システム・DX", "stage": 2,
+        "cards": { "best": "none", "relevant": [] }, "concerns": ["cost", "trust"], "cta_ok": true,
+        "label_note": "再訪で料金を見たので流し見でも stage 2（3.4）、cost も再訪の料金で付く。料金・製造の実績は見たページ、DX は現在。製造・インフラのパッケージは無く、残る手がかりが無い" }
+    },
+    {
+      "id": "s66",
+      "note": "再訪で料金に検索から着地して じっくり → 人材の実績を じっくり → 採用専門サイト制作を最後まで読んで滞在",
+      "request": { "session_id": "r_eval0066", "trigger": "T3", "page_url": "/feature-recruit",
+        "state": { "ref": "google", "landing": "/pricing",
+          "history": [{ "url": "/pricing", "read": "deep" }, { "url": "/works-hr", "read": "deep" }],
+          "current": { "url": "/feature-recruit", "reach": "end" },
+          "visit": "return", "device": "pc", "passed": [] } },
+      "expected": { "visitor_type": "事業者", "industry": "人材", "need": "採用強化", "stage": 2,
+        "cards": { "best": "sg-solution", "relevant": ["sg-solution", "sg-web"] }, "concerns": ["cost", "trust"], "cta_ok": true,
+        "label_note": "人材のパッケージが未閲覧で best は sg-solution（3.5 の 2）。採用サイトの制作を調べているので sg-web も relevant" }
+    },
+    {
+      "id": "s67",
+      "note": "不動産向けパッケージに検索から着地して じっくり → 不動産の実績を流し見 → 料金",
+      "request": { "session_id": "r_eval0067", "trigger": "T2", "page_url": "/pricing",
+        "state": { "ref": "google", "landing": "/solution-realty",
+          "history": [{ "url": "/solution-realty", "read": "deep" }, { "url": "/works-realty", "read": "skim" }],
+          "current": { "url": "/pricing", "reach": "top" },
+          "visit": "first", "device": "pc", "passed": [] } },
+      "expected": { "visitor_type": "事業者", "industry": "不動産", "need": ["新規サイト制作", "サイトリニューアル"], "stage": 2,
+        "cards": { "best": "sg-web", "relevant": ["sg-web"] }, "concerns": ["cost"], "cta_ok": true,
+        "label_note": "パッケージだけが主題の根拠なので need は集合（3.3）。パッケージ・不動産の実績は見たページ、料金は現在。実績は流し見なので trust は付けない" }
+    },
+    {
+      "id": "s68",
+      "note": "採用サイト費用の記事に検索から着地して じっくり → 建築のパッケージを じっくり → 建築の実績を じっくり → 料金を最後まで読んで滞在",
+      "request": { "session_id": "r_eval0068", "trigger": "T3", "page_url": "/pricing",
+        "state": { "ref": "yahoo", "landing": "/article-recruit-site-cost-guide",
+          "history": [{ "url": "/article-recruit-site-cost-guide", "read": "deep" }, { "url": "/solution-build", "read": "deep" }, { "url": "/works-build", "read": "deep" }],
+          "current": { "url": "/pricing", "reach": "end" },
+          "visit": "first", "device": "sp", "passed": [] } },
+      "expected": { "visitor_type": "事業者", "industry": "建設・工務店", "need": "採用強化", "stage": 2,
+        "cards": { "best": "sg-recruit-site", "relevant": ["sg-recruit-site", "sg-web"] }, "concerns": ["cost", "trust"], "cta_ok": true,
+        "label_note": "建設で採用サイトが主題なので sg-recruit-site が手がかりに当たり、業種向けを汎用の sg-web より優先（3.5 の 2 の考え方）。パッケージ・実績・料金は見たページ" }
+    },
+    {
+      "id": "s69",
+      "note": "リニューアルのRFPの記事に検索から着地して じっくり → 料金を じっくり → 実績を流し見 → 会社概要。Web制作のカードは見送り済み",
+      "request": { "session_id": "r_eval0069", "trigger": "T2", "page_url": "/company",
+        "state": { "ref": "google", "landing": "/article-corporate-site-rfp-guide",
+          "history": [{ "url": "/article-corporate-site-rfp-guide", "read": "deep" }, { "url": "/pricing", "read": "deep" }, { "url": "/works", "read": "skim" }],
+          "current": { "url": "/company", "reach": "top" },
+          "visit": "first", "device": "pc", "passed": ["sg-web"] } },
+      "expected": { "visitor_type": "事業者", "industry": "不明・その他", "need": "サイトリニューアル", "stage": 2,
+        "cards": { "best": "none", "relevant": [] }, "concerns": ["cost", "trust", "scope"], "cta_ok": true,
+        "label_note": "sg-web は passed、sg-pricing・sg-works は見たページ。題に補助金・保守の手がかりが無い。会社概要が現在で trust、RFP の題で scope" }
+    },
+    {
+      "id": "s70",
+      "note": "再訪。システム開発会社の選び方の記事に検索から着地して じっくり → 料金を じっくり → 実績を じっくり → 会社概要",
+      "request": { "session_id": "r_eval0070", "trigger": "T2", "page_url": "/company",
+        "state": { "ref": "yahoo", "landing": "/article-system-development-company-selection",
+          "history": [{ "url": "/article-system-development-company-selection", "read": "deep" }, { "url": "/pricing", "read": "deep" }, { "url": "/works", "read": "deep" }],
+          "current": { "url": "/company", "reach": "top" },
+          "visit": "return", "device": "pc", "passed": [] } },
+      "expected": { "visitor_type": "事業者", "industry": "不明・その他", "need": "業務システム・DX", "stage": 2,
+        "cards": { "best": "sg-dx", "relevant": ["sg-dx"] }, "concerns": ["cost", "trust"], "cta_ok": true,
+        "label_note": "「選び方」は trust 側（3.6）。料金・実績は見たページで、主題のサービス（/dx）が未閲覧なので best は sg-dx" }
     }
   ]
 }

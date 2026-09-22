@@ -1,14 +1,26 @@
 {
-  "_comment": "情報設計書 v1.0 の6章「出し分けルール」と7章「推薦アルゴリズム」の初期値。数値はシャドーモードのログを見て調整する。変更したら eval/ の評価セットで確認し直す。",
+  "_comment": "情報設計書 v1.0 の6章「出し分けルール」と7章「推薦アルゴリズム」の初期値。数値はシャドーモードのログを見て調整する。変更したら eval/ の評価セットで確認し直す。2026-09-21 のオーナー決定（docs/nq/decisions-2026-09-21.md）で、state（状態に何を入れるか）と cta（行6の強い CTA）のスイッチを足し、rel_floor を 0.45 にした。thresholds にあった stage_cta / stage_contact / cta_ok は cta に移した（rules.js は後方互換で thresholds にあれば読む）。評価の段階実行（decisions 6章の表）では、評価担当が state・cta.gate_visitor_types・rel_floor を一時的に前の値に戻して回す。ここに書いてある値は最終状態（段階5の列）。",
   "thresholds": {
     "visitor_type": 0.6,
     "concern": 0.6,
     "industry_switch": 0.6,
-    "stage_cta": 2,
+    "rel_gate": 0.55,
+    "rel_floor": 0.45
+  },
+  "state": {
+    "_comment": "モデルに渡す状態に、記事のタグを入れるか（decisions 3章）。article_need: catalog の need タグ（Jev がそのまま訪問者のニーズと答えるので渡さない。catalog.json には残す）。article_audience: 記事の対象読者（発注側向け／制作側・技術者向け／求職者向け）を着地ページと閲覧履歴の記事に「対象」として入れる。段階2の基準値を取るときだけ true / false を入れ替える。",
+    "article_need": false,
+    "article_audience": true
+  },
+  "cta": {
+    "_comment": "行6（強い CTA）の条件（decisions 2章）。gate_visitor_types: visitor_type の第1候補がこの中にあるときだけ行6を評価する（空なら制限なし＝段階2・3の基準値）。mode: score は stage（Score）の stage_cta 以上で ct-diagnostic、stage_contact 以上で ct-contact。noul は intent_compare が compare 以上で ct-diagnostic、intent_contact が contact 以上で ct-contact。どちらも cta_ok が cta_ok 以上であること。stage_cta の 1.165 は 2026-09-21 のフェーズ0 検証・段階4（docs/nq/eval-2026-09-21.md「3回目」）で決めた値: 新しい stage の文で 70件を回し、人が 2 以上と付けた 25件と 2 未満の 45件の Jev スコアを最もよく分ける値（正解率 97.1%。2 以上の検出 24/25・2 未満の除外 44/45。2 未満の最大 1.11 と 2 以上の下から2番目 1.22 の中点）。旧の仮置き 2.0 では 2 以上のうち 10/25 しか拾えなかった。Noul 2問は「候補を探している」0.6 以上が 2 以上の 40% にしか付かず Score に劣るので mode は score のまま。stage_contact 2.5 は据え置き（人が 3 と付けた 6件のうち Jev が 2.5 を超えたのは 2件で、3 と 2 を分ける値は無い）。しきい値はシャドーモードの実データで再確認する。",
+    "mode": "score",
+    "gate_visitor_types": ["事業者", "other"],
+    "stage_cta": 1.165,
     "stage_contact": 2.5,
     "cta_ok": 0.7,
-    "rel_gate": 0.55,
-    "rel_floor": 0.35
+    "compare": 0.6,
+    "contact": 0.6
   },
   "holdout_rate_default": 0.2,
   "client_timeout_ms": 1200,
@@ -40,7 +52,8 @@
       "feature": 0,
       "solution": 0,
       "product": 0,
-      "company": 0
+      "company": 0,
+      "recruit": 0
     }
   }
 }

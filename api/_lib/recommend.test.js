@@ -16,7 +16,7 @@ test.beforeEach(() => { useFixtures(); });
 
 test('データ0件: 期待値の順位は関連度の順と一致する（タグの一致や検討度があっても動かない）', () => {
   const a = answers({
-    rel: { 'sg-web': 0.62, 'sg-pricing': 0.81, 'sg-chatbot': 0.44, 'sg-works': 0.7, 'sg-solution': 0.36 },
+    rel: { 'sg-web': 0.62, 'sg-pricing': 0.81, 'sg-chatbot': 0.5, 'sg-works': 0.7, 'sg-solution': 0.46 },
     ind: ['不動産', 0.9], need: ['サイトリニューアル', 0.8], stage: 2.6,
   });
   for (const policy of ['prior', 'ts']) {
@@ -51,8 +51,8 @@ test('rel_gate: 最大の関連度が 0.55 未満ならデフォルト（探索�
   assert.strictEqual(run({ answers: answers({ rel: { 'sg-web': 0.55 } }) }).picks['slot-mid'].block_id, 'sg-web');
 });
 
-test('rel_floor: 0.35 未満は候補外。一様探索でも選ばれない', () => {
-  const a = answers({ rel: { 'sg-web': 0.8, 'sg-pricing': 0.349, 'sg-chatbot': 0.35, 'sg-works': 0.1 } });
+test('rel_floor: 0.45 未満は候補外。一様探索でも選ばれない（値は data/nq-rules.json の thresholds.rel_floor）', () => {
+  const a = answers({ rel: { 'sg-web': 0.8, 'sg-pricing': 0.449, 'sg-chatbot': 0.45, 'sg-works': 0.1 } });
   const rec = run({ answers: a });
   assert.strictEqual(entry(rec, 'sg-pricing').excluded, 'rel_floor');
   assert.strictEqual(entry(rec, 'sg-works').excluded, 'rel_floor');
@@ -63,6 +63,11 @@ test('rel_floor: 0.35 未満は候補外。一様探索でも選ばれない', (
     const r = run({ answers: a, rng: seededRng(seed) });
     for (const p of Object.values(r.picks)) assert.ok(['sg-web', 'sg-chatbot'].includes(p.block_id), `seed ${seed}: ${p.block_id}`);
   }
+  // 下限は data/nq-rules.json の thresholds.rel_floor を読む（評価の段階実行で 0.35 に戻せる）。キーが無ければ 0.45
+  useFixtures(null, { rules: (R) => { R.thresholds.rel_floor = 0.35; } });
+  assert.strictEqual(entry(run({ answers: a }), 'sg-pricing').excluded, undefined);
+  useFixtures(null, { rules: (R) => { delete R.thresholds.rel_floor; } });
+  assert.strictEqual(entry(run({ answers: a }), 'sg-pricing').excluded, 'rel_floor');
 });
 
 test('一様探索: 選択確率は厳密に 0.95·[最大か] + 0.05/候補数。合計は 1', () => {
@@ -101,7 +106,7 @@ test('一様探索: rng が 0.05 未満なら候補から等確率で選び、ex
 
 test('2枚同時: 2枚目は1枚目とページ群が違う候補から。選択確率は条件つき', () => {
   // /web と /chatbot は service、/pricing は trust、/works は works
-  const a = answers({ rel: { 'sg-web': 0.9, 'sg-chatbot': 0.8, 'sg-pricing': 0.6, 'sg-works': 0.4 } });
+  const a = answers({ rel: { 'sg-web': 0.9, 'sg-chatbot': 0.8, 'sg-pricing': 0.6, 'sg-works': 0.5 } });
   const rec = run({ answers: a });
   assert.strictEqual(rec.picks['slot-mid'].block_id, 'sg-web');
   // 関連度2位の sg-chatbot は同じページ群なので選ばない
@@ -121,8 +126,8 @@ test('2枚同時: 2枚目は1枚目とページ群が違う候補から。選択
 });
 
 test('2枚同時: 2枚目の候補の最大が rel_gate 未満なら、2枚目は選ばない（slot-end は変えない）', () => {
-  // sg-web と sg-chatbot は同じページ群なので、1枚目が sg-web なら2枚目の候補は sg-pricing（0.36）だけ
-  const a = answers({ rel: { 'sg-web': 0.9, 'sg-chatbot': 0.8, 'sg-pricing': 0.36 } });
+  // sg-web と sg-chatbot は同じページ群なので、1枚目が sg-web なら2枚目の候補は sg-pricing（0.46）だけ
+  const a = answers({ rel: { 'sg-web': 0.9, 'sg-chatbot': 0.8, 'sg-pricing': 0.46 } });
   const rec = run({ answers: a });
   assert.deepStrictEqual(Object.keys(rec.picks), ['slot-mid']);
   assert.strictEqual(rec.picks['slot-mid'].block_id, 'sg-web');
@@ -143,14 +148,14 @@ test('2枚同時: 2枚目の候補の最大が rel_gate 未満なら、2枚目�
   const edge = run({ answers: answers({ rel: { 'sg-web': 0.9, 'sg-chatbot': 0.8, 'sg-pricing': 0.55 } }) });
   assert.deepStrictEqual(edge.picks['slot-end'], { block_id: 'sg-pricing', propensity: 1 });
   // 門を通った候補の中では、rel_floor 以上のカードも探索の対象に残る（1枚目と同じ扱い）
-  const mixed = run({ answers: answers({ rel: { 'sg-web': 0.9, 'sg-pricing': 0.6, 'sg-works': 0.36 } }) });
+  const mixed = run({ answers: answers({ rel: { 'sg-web': 0.9, 'sg-pricing': 0.6, 'sg-works': 0.46 } }) });
   close(entry(mixed, 'sg-works').propensity['slot-end'], 0.05 / 2);
 });
 
 test('訪問者タイプで対象外のカード（only_visitor_types）は候補にも探索にも入らない', () => {
   // sg-recruit は「求職者・学生」のときだけ。関連度が高くても、事業者には出さない
   const rel = { 'sg-recruit': 0.7, 'sg-web': 0.6, 'sg-pricing': 0.5 };
-  const biz = answers({ vt: ['発注検討中の事業者', 0.9], rel });
+  const biz = answers({ vt: ['事業者', 0.9], rel });
   const rec = run({ answers: biz, slots: ['slot-next'] });
   assert.strictEqual(entry(rec, 'sg-recruit').excluded, 'visitor_type');
   assert.strictEqual(entry(rec, 'sg-recruit').rel, 0.7); // 関連度はログに残る
@@ -161,7 +166,7 @@ test('訪問者タイプで対象外のカード（only_visitor_types）は候�
     assert.notStrictEqual(run({ answers: biz, slots: ['slot-next'], rng: seededRng(seed) }).picks['slot-next'].block_id, 'sg-recruit', `seed ${seed}`);
   }
   // 外したカードの関連度では門を通さない
-  const only = run({ answers: answers({ vt: ['情報収集中の事業者', 0.5], rel: { 'sg-recruit': 0.9, 'sg-web': 0.4 } }) });
+  const only = run({ answers: answers({ vt: ['事業者', 0.5], rel: { 'sg-recruit': 0.9, 'sg-web': 0.5 } }) });
   assert.deepStrictEqual(only.picks, {});
   assert.strictEqual(only.reason, 'below_gate');
   // visitor_type の回答が無い・壊れているときも出さない
@@ -282,7 +287,7 @@ test('業種で行き先が変わるカード: 業種が決まらなければ sg
     assert.deepStrictEqual(rec.picks['slot-mid'], { block_id: 'sg-works', propensity: 1 });
   }
   // sg-solution しか関連が無く、業種も決まらなければデフォルト（外したカードの関連度では門を通さない）
-  const only = run({ answers: answers({ rel: { 'sg-solution': 0.95, 'sg-web': 0.4 } }) });
+  const only = run({ answers: answers({ rel: { 'sg-solution': 0.95, 'sg-web': 0.5 } }) });
   assert.deepStrictEqual(only.picks, {});
   assert.strictEqual(only.reason, 'below_gate');
 });

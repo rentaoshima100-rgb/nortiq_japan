@@ -20,10 +20,12 @@ test.beforeEach(() => {
 
 // 公式リファレンスの形（type は小文字、probabilities はマップ）
 const officialAnswers = () => ({
-  visitor_type: { type: 'choice', choice: '発注検討中の事業者', probabilities: { '発注検討中の事業者': 0.72, '情報収集中の事業者': 0.2, other: 0.08 }, confidence: 0.72 },
+  visitor_type: { type: 'choice', choice: '事業者', probabilities: { '事業者': 0.72, '同業者・学習者': 0.2, other: 0.08 }, confidence: 0.72 },
   industry: { type: 'choice', choice: '不動産', probabilities: { '不動産': 0.81, '不明・その他': 0.19 }, confidence: 0.81 },
   need: { type: 'choice', choice: 'サイトリニューアル', probabilities: { 'サイトリニューアル': 0.66 }, confidence: 0.66 },
   stage: { type: 'score', score: 2.1, legend: { 0: 'a', 1: 'b', 2: 'c', 3: 'd' }, probabilities: { 0: 0.05, 1: 0.15, 2: 0.45, 3: 0.35 }, confidence: 0.45 },
+  intent_compare: { type: 'noul', noul: 0.66 },
+  intent_contact: { type: 'noul', noul: 0.12 },
   'rel_sg-web': { type: 'noul', noul: 0.42 },
   'rel_sg-pricing': { type: 'noul', noul: 0.81 },
   'rel_sg-chatbot': { type: 'noul', noul: 0.07 },
@@ -42,11 +44,14 @@ test('Jev 正規化: 公式の形（マップ）', () => {
   const a = normalizeAnswers(officialAnswers(), Q);
   assert.deepStrictEqual(Object.keys(a), Object.keys(Q));
   assert.deepStrictEqual(a.visitor_type, {
-    choice: '発注検討中の事業者', confidence: 0.72,
-    probabilities: { '発注検討中の事業者': 0.72, '情報収集中の事業者': 0.2, other: 0.08 },
+    choice: '事業者', confidence: 0.72,
+    probabilities: { '事業者': 0.72, '同業者・学習者': 0.2, other: 0.08 },
   });
   assert.deepStrictEqual(a.stage, { score: 2.1, confidence: 0.45, probabilities: { 0: 0.05, 1: 0.15, 2: 0.45, 3: 0.35 } });
   assert.deepStrictEqual(a.concern_cost, { noul: 0.83 });
+  // 依頼意向の Noul 2問も noul の正規化形
+  assert.deepStrictEqual(a.intent_compare, { noul: 0.66 });
+  assert.deepStrictEqual(a.intent_contact, { noul: 0.12 });
   // カードごとの関連度は noul。キーは questions のまま（rel_<block_id>）
   assert.deepStrictEqual(a['rel_sg-pricing'], { noul: 0.81 });
   assert.deepStrictEqual(Object.keys(a).filter((k) => k.startsWith('rel_')), CANDIDATES.map((id) => 'rel_' + id));
@@ -63,13 +68,13 @@ test('Jev 正規化: DEV 記事の形（type が先頭大文字、score の prob
   const a = normalizeAnswers(raw, Q);
   assert.deepStrictEqual(a.stage.probabilities, { 0: 0.05, 1: 0.15, 2: 0.45, 3: 0.35 });
   assert.strictEqual(a.stage.score, 2.1);
-  assert.strictEqual(a.visitor_type.choice, '発注検討中の事業者');
+  assert.strictEqual(a.visitor_type.choice, '事業者');
 });
 
 test('Jev 正規化: choice の probabilities が配列（選択肢の並び順／{label, probability}）', () => {
   const raw = officialAnswers();
   const keys = Object.keys(Q.visitor_type.criteria);
-  raw.visitor_type = { choice: keys[1], probabilities: [0.1, 0.6, 0.1, 0.1, 0.05, 0.05] };
+  raw.visitor_type = { choice: keys[1], probabilities: [0.1, 0.6, 0.1, 0.15, 0.05] }; // 5ラベルの並び順
   raw.industry = { choice: '不動産', probabilities: [{ label: '不動産', probability: 0.7 }, { key: '人材', p: 0.3 }, { label: '架空', probability: 1 }] };
   const a = normalizeAnswers(raw, Q);
   assert.strictEqual(a.visitor_type.probabilities[keys[1]], 0.6);
@@ -131,7 +136,7 @@ test('Jev 正規化: 範囲外の値は丸めずに捨てる。丸め誤差だ�
   raw['rel_sg-works'] = { noul: 1.01 };
   raw['rel_sg-chatbot'] = { noul: -0.2 };
   // confidence が範囲外でも、分布が正しければ選んだ選択肢の確率で補う
-  raw.visitor_type = { choice: '発注検討中の事業者', confidence: 72, probabilities: { '発注検討中の事業者': 0.72, '情報収集中の事業者': 28 } };
+  raw.visitor_type = { choice: '事業者', confidence: 72, probabilities: { '事業者': 0.72, '同業者・学習者': 28 } };
   // score は正しく confidence だけ範囲外なら、分布の最大で補う
   raw.stage = { score: 2.1, confidence: 45, probabilities: { 0: 0.05, 1: 0.15, 2: 0.45, 3: 0.35 } };
   const stats = { out_of_range: 0 };
@@ -140,7 +145,7 @@ test('Jev 正規化: 範囲外の値は丸めずに捨てる。丸め誤差だ�
   assert.deepStrictEqual(a['rel_sg-pricing'], { noul: 0 });
   assert.deepStrictEqual(a['rel_sg-works'], { noul: null });
   assert.deepStrictEqual(a['rel_sg-chatbot'], { noul: null });
-  assert.deepStrictEqual(a.visitor_type, { choice: '発注検討中の事業者', confidence: 0.72, probabilities: { '発注検討中の事業者': 0.72 } });
+  assert.deepStrictEqual(a.visitor_type, { choice: '事業者', confidence: 0.72, probabilities: { '事業者': 0.72 } });
   assert.deepStrictEqual(a.stage, { score: 2.1, confidence: 0.45, probabilities: { 0: 0.05, 1: 0.15, 2: 0.45, 3: 0.35 } });
   assert.strictEqual(stats.out_of_range, 5);
   // 範囲外の score は、分布があっても期待値で補わない
@@ -190,7 +195,7 @@ test('stub: 決定的で、推薦とルールに通すと必ずデフォルト',
   assert.strictEqual(a.provider, 'stub');
   assert.deepStrictEqual(a.answers, b.answers);
   assert.deepStrictEqual(Object.keys(a.answers), Object.keys(Q));
-  // 関連度はどのカードも下限（0.35）未満
+  // 関連度はどのカードも下限（0.45）未満
   for (const id of CANDIDATES) assert.strictEqual(a.answers['rel_' + id].noul, 0.1);
   for (const trigger of ['T1', 'T2', 'T3']) {
     // 必ず一様探索に入る rng でも、門（rel_gate）の手前で止まる

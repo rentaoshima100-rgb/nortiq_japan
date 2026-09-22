@@ -1,0 +1,78 @@
+# 次ページ提案 (nq) の評価セットを回帰テストとして回す (設計書13章「記事が増えても回る設計」、
+# docs/nq/decisions-2026-09-21.md 1章)。
+#
+# なぜ必要か:
+#   指示文 (data/nq-labels.json)・文言 (data/blocks.json)・記事のメタ (data/catalog-*.json)・しきい値
+#   (data/nq-rules.json)・判定の部品 (api/_lib/{questions,state,rules,decide}.js) のどれを変えても、
+#   Jev の答えと出し分けの結果が変わりうる。変えるたびに eval/sessions.json (人が正解を付けた 70 件) を
+#   通し、決定一致率が基準値 (eval/baseline.json) から 5 ポイント以上下がるか、事業者への誤りが増えたら止める。
+#
+# 動き:
+#   1. node eval/run.js --check     評価セットの形と網羅 (モデルを呼ばない。secret が無くても回る)
+#   2. node eval/run.js --provider jev --baseline eval/baseline.json
+#      JEV_API_KEY の secret が無ければ「未設定」と出して exit 0 (オーナーが secret を登録するまで落とさない)。
+#      基準値が未設定 (decision_agreement が null) の間も比較せず通る。
+#   1回の評価は 1円未満 (入力 約 25 万トークン ≈ $0.01)。
+#
+# 依存パッケージは要らない (eval/ と api/_lib は依存ゼロ)。catalog はビルド生成物が無くても
+# eval/run.js が build.js の BLOG と data/catalog-*.json から同じ規則で組み立てる。
+# 結果 (状態・回答・選ばれたブロック。キーは含まない) は artifact に 30 日残す。
+name: nq-eval (評価セットの回帰テスト)
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "data/nq-*.json"
+      - "data/blocks.json"
+      - "data/catalog-*.json"
+      - "api/_lib/questions.js"
+      - "api/_lib/state.js"
+      - "api/_lib/rules.js"
+      - "api/_lib/decide.js"
+      # 決定文 (decisions 1章) の列挙より 2 つ広い。候補の絞り込み・順位 (recommend.js) と、承認・記事メタの読み方 (data.js) も
+      # 行5の結果を変えるため。build.js (BLOG) は記事の自動公開のたびに変わるので入れない (related の変化は評価セットの
+      # 決定一致率には効かない)。
+      - "api/_lib/recommend.js"
+      - "api/_lib/data.js"
+      - "eval/**"
+      - ".github/workflows/nq-eval.yml"
+  workflow_dispatch:
+
+concurrency:
+  group: nq-eval
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  eval:
+    # prerender ワークフロー自身のコミット (prerendered/ だけ) は paths で外れるが、念のため同じ判定を入れておく
+    if: "!contains(github.event.head_commit.message, '[prerender]')"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: 評価セットの形と網羅
+        run: node eval/run.js --check
+      - name: 評価 (Jev) と基準値との比較
+        env:
+          JEV_API_KEY: ${{ secrets.JEV_API_KEY }}
+        run: |
+          set -euo pipefail
+          if [ -z "${JEV_API_KEY:-}" ]; then
+            echo "::notice::JEV_API_KEY が未設定。評価は回さない (リポジトリの Secrets に JEV_API_KEY を登録すると回る)。"
+            exit 0
+          fi
+          node eval/run.js --provider jev --baseline eval/baseline.json --out eval/results/ci.json
+      - name: 結果を残す
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: nq-eval-results
+          path: eval/results/
+          if-no-files-found: ignore
+          retention-days: 30

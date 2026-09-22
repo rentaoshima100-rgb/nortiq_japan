@@ -328,6 +328,54 @@ test('モデルの失敗 → デフォルト。ログには失敗したことが
   assert.strictEqual(row.is_default, true);
 });
 
+test('同業者・学習者 → slot-mid に rl-related。応答の slot に related（関連度の高い順3本）。ログの answers に rel_article_* と intent_*、state に対象が残る', async () => {
+  process.env.NQ_ENABLED = '1';
+  process.env.NQ_HOLDOUT_RATE = '0';
+  process.env.SUPABASE_URL = 'https://example.supabase.co';
+  process.env.SUPABASE_SERVICE_ROLE_KEY = 'k';
+  decideLib.__setStubForTest({
+    visitor_type: { choice: '同業者・学習者', confidence: 0.9, probabilities: { '同業者・学習者': 0.9 } },
+    'rel_article_react-hooks-guide': { noul: 0.9 },
+    'rel_article_no-audience': { noul: 0.7 },
+    'rel_article_web-cost-guide': { noul: 0.2 },
+    'rel_article_intern-diary': { noul: 0.95 }, // 既読なので質問に無く、差し替えも効かない
+    intent_compare: { noul: 0.3 },
+  });
+  const state = Object.assign({}, body().state, { history: [{ url: '/article-intern-diary', read: 'skim' }] });
+  const res = await call(req(body({ state })));
+  assert.strictEqual(res.body.default, false);
+  // 0.9・0.7 の2本 ＋ floor（0.45）未満を落として候補の先頭（web-cost-guide）で埋めた1本
+  assert.deepStrictEqual(res.body.slots, {
+    'slot-mid': { block_id: 'rl-related', variant: 'default', related: ['react-hooks-guide', 'no-audience', 'web-cost-guide'] },
+  });
+  const row = logged.nq_decisions[0];
+  assert.deepStrictEqual(row.slots, res.body.slots);
+  assert.strictEqual(row.answers['rel_article_react-hooks-guide'].noul, 0.9);
+  assert.ok(!('rel_article_intern-diary' in row.answers));
+  assert.deepStrictEqual(row.answers.intent_compare, { noul: 0.3 });
+  assert.deepStrictEqual(row.answers.intent_contact, { noul: 0.1 });
+  assert.strictEqual(row.answers.visitor_type.choice, '同業者・学習者');
+  assert.strictEqual(row.state['着地ページ']['対象'], '発注側向け');
+  assert.strictEqual(row.state['着地ページ'].need, undefined);
+  assert.strictEqual(row.state['閲覧履歴'][0]['対象'], '求職者向け');
+  // 関連記事の質問数は候補（既読を除いた4本）ぶん。質問の合計は 40 以下
+  const asked = Object.keys(row.answers);
+  assert.deepStrictEqual(asked.filter((k) => k.startsWith('rel_article_')), ['rel_article_web-cost-guide', 'rel_article_renewal-checklist', 'rel_article_react-hooks-guide', 'rel_article_no-audience']);
+  assert.ok(asked.length <= 40);
+});
+
+test('行6 のゲート: 検討度が高くても、visitor_type の第1候補が求職者なら slot-bar は変えない', async () => {
+  process.env.NQ_ENABLED = '1';
+  process.env.NQ_HOLDOUT_RATE = '0';
+  const hot = { stage: { score: 3, confidence: 0.9, probabilities: {} }, cta_ok: { noul: 0.95 } };
+  const t2 = body({ trigger: 'T2', page_url: '/company', state: Object.assign({}, body().state, { history: [{ url: ARTICLE, read: 'deep' }], current: { url: '/company', reach: 'end' } }) });
+  decideLib.__setStubForTest(Object.assign({ visitor_type: { choice: '求職者・学生', confidence: 0.5, probabilities: { '求職者・学生': 0.5 } } }, hot));
+  isDefault(await call(req(t2)));
+  decideLib.__setStubForTest(Object.assign({ visitor_type: { choice: '事業者', confidence: 0.5, probabilities: { '事業者': 0.5 } } }, hot));
+  const res = await call(req(t2));
+  assert.deepStrictEqual(res.body.slots, { 'slot-bar': { block_id: 'ct-contact', variant: 'strong' } });
+});
+
 test('承認が1つも無ければ（本物の data/blocks.json の初期状態と同じ）、どんな回答でもデフォルト', async () => {
   useFixtures((blocks) => {
     for (const b of blocks) {

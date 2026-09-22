@@ -1,0 +1,54 @@
+{
+  "_comment": "テスト専用のしきい値とスイッチ。本物は data/nq-rules.json。2026-09-21 のオーナー決定の最終状態（decisions 6章の段階5の列）を写してある。テストは値を変えたいとき useFixtures の opts.rules で書き換える。",
+  "thresholds": {
+    "visitor_type": 0.6,
+    "concern": 0.6,
+    "industry_switch": 0.6,
+    "rel_gate": 0.55,
+    "rel_floor": 0.45
+  },
+  "state": {
+    "article_need": false,
+    "article_audience": true
+  },
+  "cta": {
+    "mode": "score",
+    "gate_visitor_types": ["事業者", "other"],
+    "stage_cta": 2,
+    "stage_contact": 2.5,
+    "cta_ok": 0.7,
+    "compare": 0.6,
+    "contact": 0.6
+  },
+  "holdout_rate_default": 0.2,
+  "client_timeout_ms": 1200,
+  "model_timeout_ms": 900,
+  "max_calls_per_session": 3,
+  "max_shows_per_block": 2,
+  "history_pages": 5,
+  "recommend": {
+    "explore_rate": 0.05,
+    "propensity_draws": 200,
+    "rel_logit_clip": 4,
+    "ope_weight_cap": 20,
+    "half_life_days": 60,
+    "goal_weight": 3,
+    "prior": {
+      "mean": { "bias": -3.5, "rel": 0.5 },
+      "sd_shared": 0.5,
+      "sd_card": 0.35
+    },
+    "goal_proximity_by_type": {
+      "goal": 1,
+      "industry_lp": 0.5,
+      "trust": 0.5,
+      "works": 0.5,
+      "service": 0,
+      "feature": 0,
+      "solution": 0,
+      "product": 0,
+      "company": 0,
+      "recruit": 0
+    }
+  }
+}

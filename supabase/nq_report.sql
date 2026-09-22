@@ -1,5 +1,6 @@
 -- 次ページ提案（nq）— 月次の意図レポートと KPI のクエリ集
--- （情報設計書 10章「月次の意図レポート」の9指標 ＋ 1章の KPI 4つ ＋ 運用の確認 K5「応答が間に合った割合」）。
+-- （情報設計書 10章「月次の意図レポート」の9指標 ＋ 1b「検討度と依頼意向の分布」（行6のしきい値の較正用）
+--  ＋ 1章の KPI 4つ ＋ 運用の確認 K5「応答が間に合った割合」）。
 --
 -- 使い方: supabase/nq_schema.sql を流してある Supabase の SQL Editor に、クエリを1つずつ貼って実行する
 -- （SQL Editor は最後の文の結果しか表示しないので、まとめて流さない）。
@@ -12,8 +13,11 @@
 --     ログに無い。サイト全体のセッション数と直帰は GA4 を見る。
 --   - 訪問者のタイプ・業種・ニーズ・不安は、セッションの中で回答が取れた最後の判定の値を使う
 --     （閲覧が進んだあとの判定ほど材料が多い）。
---   - しきい値（0.6、0.55 など）は data/nq-rules.json の thresholds と同じ値を直に書いてある。
+--   - しきい値（0.6、0.55、1.165、0.7 など）は data/nq-rules.json の thresholds と cta と同じ値を直に書いてある。
 --     あちらを変えたら、ここも変える。
+--   - 訪問者タイプは 2026-09-21 に5ラベル（事業者／同業者・学習者／求職者・学生／営業・売り込み／other）になった
+--     （docs/nq/decisions-2026-09-21.md 1章。旧「発注検討中の事業者」「情報収集中の事業者」は「事業者」に統合）。
+--     見込み客 = 「事業者」1ラベル。検討の進み具合は stage（0〜3）で見る。5ラベル化より前の判定ログは無い。
 --   - NQ_MODEL_PROVIDER=stub の期間は回答がすべて低確信なので、意図の指標（1〜4、8）は意味を持たない。
 --   - 13か月より前の月は生ログが無い。nq_monthly.metrics（件数）から計算する（末尾の付録）。
 --   - 「個別化した表示（personalized）」は nq_events の decision_id の有無では決まらない。クライアントは、判定の応答を
@@ -35,16 +39,16 @@
 -- =====================================================================
 
 -- ---------- 1. 見込み客率 ----------
--- 「発注検討中」と「情報収集中」の合計が全体に占める割合。サイト全体の集客の質を月ごとに追う。
+-- 訪問者タイプが「事業者」のセッションが全体に占める割合。サイト全体の集客の質を月ごとに追う。
 -- prospect_rate は選択だけで数えた値、prospect_rate_confident は確信度 0.6 以上に限った値（ルールが実際に使う線）。
+-- 検討の進み具合（旧の「発注検討中」「情報収集中」の区別）は、下の「1b. 検討度と依頼意向の分布」で stage として見る。
 with p as (select * from public.nq_month_range(-1)),
 s as (select x.* from p, public.nq_session_summary(p.t0, p.t1) x where x.answers is not null)
 select count(*) as sessions_judged,
-       count(*) filter (where answers -> 'visitor_type' ->> 'choice' = '発注検討中の事業者') as considering,
-       count(*) filter (where answers -> 'visitor_type' ->> 'choice' = '情報収集中の事業者') as researching,
-       round(count(*) filter (where answers -> 'visitor_type' ->> 'choice' in ('発注検討中の事業者', '情報収集中の事業者'))::numeric
+       count(*) filter (where answers -> 'visitor_type' ->> 'choice' = '事業者') as prospects,
+       round(count(*) filter (where answers -> 'visitor_type' ->> 'choice' = '事業者')::numeric
              / nullif(count(*), 0), 4) as prospect_rate,
-       round(count(*) filter (where answers -> 'visitor_type' ->> 'choice' in ('発注検討中の事業者', '情報収集中の事業者')
+       round(count(*) filter (where answers -> 'visitor_type' ->> 'choice' = '事業者'
                                 and (answers -> 'visitor_type' ->> 'confidence')::numeric >= 0.6)::numeric
              / nullif(count(*), 0), 4) as prospect_rate_confident
 from s;
@@ -60,17 +64,89 @@ from s
 group by 1
 order by sessions desc;
 
+-- ---------- 1b. 検討度と依頼意向の分布（事業者のセッション） ----------
+-- 行6（強い CTA）の材料。stage（Score 0〜3）と、依頼意向の Noul 2問（intent_compare「依頼先の候補を探している」、
+-- intent_contact「すぐに相談や見積もりを依頼したい」）、cta_ok の分布を、見込み客（visitor_type が「事業者」）に限って出す。
+-- 「事業者」と other のセッションだけが行6の対象（data/nq-rules.json の cta.gate_visitor_types）。
+-- しきい値は data/nq-rules.json の cta と同じ値（stage_cta 1.165 / stage_contact 2.5 / cta_ok 0.7 / compare 0.6 / contact 0.6）。
+-- stage_cta 1.165 は 2026-09-22 の評価（70件）で分布から決めた較正値。この線と、Score と Noul のどちらで行6を決めるか（cta.mode）は、この分布で確かめ直す
+-- （docs/nq/decisions-2026-09-21.md 2章）。stage の帯は、行6の線（1.165 / 2.5）で切ってある。
+-- ゴール到達（reached_goal）との対応も並べる: 帯ごとの goal_rate が上の帯ほど高ければ、検討度は実際の行動と合っている。
+-- 件数が少ない帯（目安30未満）は率を当てにしない。
+with p as (select * from public.nq_month_range(-1)),
+s as (
+  select x.* from p, public.nq_session_summary(p.t0, p.t1) x
+  where x.answers is not null and x.answers -> 'visitor_type' ->> 'choice' = '事業者'
+),
+b as (
+  select s.*,
+         (answers -> 'stage' ->> 'score')::numeric as stage,
+         (answers -> 'intent_compare' ->> 'noul')::numeric as intent_compare,
+         (answers -> 'intent_contact' ->> 'noul')::numeric as intent_contact,
+         (answers -> 'cta_ok' ->> 'noul')::numeric as cta_ok
+  from s
+)
+select case when stage is null then '(stage なし)'
+            when stage < 1 then '0〜1 未満（記事だけ）'
+            when stage < 1.165 then '1〜1.165 未満（流し見）'
+            when stage < 2.5 then '1.165〜2.5 未満（じっくり・再訪。行6 ct-diagnostic の帯）'
+            else '2.5 以上（診断・資料請求）' end as stage_band,
+       count(*) as sessions,
+       count(*) filter (where cta_ok >= 0.7) as cta_ok_070,
+       count(*) filter (where intent_compare >= 0.6) as compare_060,
+       count(*) filter (where intent_contact >= 0.6) as contact_060,
+       count(*) filter (where cta_ok >= 0.7 and intent_compare >= 0.6) as noul_diagnostic,
+       count(*) filter (where cta_ok >= 0.7 and intent_contact >= 0.6) as noul_contact,
+       count(*) filter (where reached_goal) as reached_goal,
+       round(count(*) filter (where reached_goal)::numeric / nullif(count(*), 0), 4) as goal_rate,
+       round(avg(intent_compare), 3) as avg_intent_compare,
+       round(avg(intent_contact), 3) as avg_intent_contact,
+       case when count(*) < 30 then '件数不足（目安30）' else '' end as note
+from b
+group by 1
+order by min(coalesce(stage, -1));
+
+-- Score（stage）と Noul（intent_*）の食い違い。行6を Score で決めたときと Noul で決めたときで、strong にするセッションが
+-- どれだけ重なるか。重なりが小さいまま Noul のほうが goal_rate が高ければ、cta.mode を noul に切り替える判断材料になる。
+with p as (select * from public.nq_month_range(-1)),
+s as (
+  select x.*,
+         (x.answers -> 'stage' ->> 'score')::numeric as stage,
+         (x.answers -> 'intent_compare' ->> 'noul')::numeric as intent_compare,
+         (x.answers -> 'intent_contact' ->> 'noul')::numeric as intent_contact,
+         (x.answers -> 'cta_ok' ->> 'noul')::numeric as cta_ok
+  from p, public.nq_session_summary(p.t0, p.t1) x
+  where x.answers is not null and x.answers -> 'visitor_type' ->> 'choice' in ('事業者', 'other')
+),
+j as (
+  select s.*,
+         (cta_ok >= 0.7 and stage >= 1.165) as strong_by_score,
+         (cta_ok >= 0.7 and (intent_compare >= 0.6 or intent_contact >= 0.6)) as strong_by_noul
+  from s
+)
+select case when strong_by_score and strong_by_noul then '両方で strong'
+            when strong_by_score then 'Score だけ strong'
+            when strong_by_noul then 'Noul だけ strong'
+            else 'どちらも weak' end as agreement,
+       count(*) as sessions,
+       count(*) filter (where reached_goal) as reached_goal,
+       round(count(*) filter (where reached_goal)::numeric / nullif(count(*), 0), 4) as goal_rate
+from j
+group by 1
+order by sessions desc;
+
 
 -- ---------- 2. 記事別の見込み客率 ----------
 -- 30セッション以上の記事だけ。高い記事のテーマを記事パイプラインで増やし、低いテーマは減らす。
 -- 記事は着地ページの title で分ける（判定ログの state には URL を残していない）。
+-- avg_stage は事業者のセッションだけの平均（同業者・求職者は定義上 0 側に寄るので、混ぜると記事の比較にならない）。
 with p as (select * from public.nq_month_range(-1)),
 s as (select x.* from p, public.nq_session_summary(p.t0, p.t1) x where x.answers is not null and x.landing_type = '記事')
 select landing_title,
        count(*) as sessions,
-       round(count(*) filter (where answers -> 'visitor_type' ->> 'choice' in ('発注検討中の事業者', '情報収集中の事業者'))::numeric
+       round(count(*) filter (where answers -> 'visitor_type' ->> 'choice' = '事業者')::numeric
              / count(*), 4) as prospect_rate,
-       round(avg((answers -> 'stage' ->> 'score')::numeric), 2) as avg_stage
+       round(avg((answers -> 'stage' ->> 'score')::numeric) filter (where answers -> 'visitor_type' ->> 'choice' = '事業者'), 2) as avg_stage
 from s
 group by landing_title
 having count(*) >= 30
@@ -79,12 +155,12 @@ order by prospect_rate desc, sessions desc;
 
 -- ---------- 3. 業種とニーズの分布 ----------
 -- 上位3つ。次に作るパッケージLPの優先順位に使う。「不明・その他」「other」は順位から外し、
--- 見込み客（発注検討中・情報収集中）に限る。営業や求職者の業種を LP の優先順位に混ぜないため。
+-- 見込み客（visitor_type が「事業者」）に限る。営業や求職者の業種を LP の優先順位に混ぜないため。
 with p as (select * from public.nq_month_range(-1)),
 s as (
   select x.* from p, public.nq_session_summary(p.t0, p.t1) x
   where x.answers is not null
-    and x.answers -> 'visitor_type' ->> 'choice' in ('発注検討中の事業者', '情報収集中の事業者')
+    and x.answers -> 'visitor_type' ->> 'choice' = '事業者'
 ),
 counted as (
   select k.axis,
@@ -499,12 +575,12 @@ where ev.created_at >= p.t0 and ev.created_at < p.t1 and ev.type = 'decide' and 
 
 -- 13か月より前の月（生ログは消えている）。nq_monthly の件数から主な割合を出す。
 -- answers の中は件数が1件以上あったラベルだけがキーになる（nq_snapshot_month の jsonb_object_agg）。
--- 0件のラベルはキーごと無いので、両方とも coalesce で 0 にしてから足す（片方でも null だと和が null になる）。
+-- 0件のラベルはキーごと無いので、coalesce で 0 にする。見込み客は visitor_type「事業者」の件数
+-- （5ラベル化より前の判定ログは無いので、旧2ラベルの合算は要らない）。
 -- 判定が0件の月（sessions_judged = 0）は nullif で null のまま。
 select to_char(month, 'YYYY-MM') as month,
        (metrics ->> 'sessions')::int as sessions,
-       round((coalesce((metrics -> 'answers' -> 'visitor_type' ->> '発注検討中の事業者')::numeric, 0)
-              + coalesce((metrics -> 'answers' -> 'visitor_type' ->> '情報収集中の事業者')::numeric, 0))
+       round(coalesce((metrics -> 'answers' -> 'visitor_type' ->> '事業者')::numeric, 0)
              / nullif((metrics ->> 'sessions_judged')::numeric, 0), 4) as prospect_rate,
        round((metrics -> 'holdout_compare' -> 'applied' ->> 'reached_service')::numeric
              / nullif((metrics -> 'holdout_compare' -> 'applied' ->> 'article_sessions')::numeric, 0), 4) as service_rate_applied,

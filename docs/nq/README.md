@@ -4,14 +4,18 @@
 「次に見せる1枚」を選んで出す仕組み。画面に出る文章が実行時に作られることはない。決めるのは「どれを出すか」だけ。
 
 - 取り決め（ファイルの持ち主・データ形式・API の形）: [`implementation-contract.md`](implementation-contract.md) ← **これが正**
+- 2026-09-21 のオーナー決定と実装の形（5ラベル・company 型・強い CTA・記事の audience・関連記事の候補・評価の回帰テスト）: [`decisions-2026-09-21.md`](decisions-2026-09-21.md) ← **コントラクトと食い違えばこちらが優先**
 - 人の判断が要る事項: [`open-decisions.md`](open-decisions.md)
 - 文言の出典表（承認のときに照合する）: [`copy-sources.md`](copy-sources.md)
 - Jev の API メモ: [`jev-api-notes.md`](jev-api-notes.md)
+- 評価セットの正解の付け方（基準書）: [`labeling-guide.md`](labeling-guide.md)／再ラベルの記録: [`eval-relabel-2026-09-21.md`](eval-relabel-2026-09-21.md)／評価の経緯: [`eval-2026-09-21.md`](eval-2026-09-21.md)
 - プライバシーポリシー追記の下書き: [`privacy-policy-draft.md`](privacy-policy-draft.md)
 
-> **いまの状態（2026-09-20）。** コードは入っているが、**何も表示されず、何も通信しない**。
+> **いまの状態（2026-09-22）。** コードは入っているが、**何も表示されず、何も通信しない**。
 > 23ブロックがすべて未承認（`approved_by` が空）で、`data/nq-config.json` の `api` / `session_log` / `events_api` は false、
 > Vercel の `NQ_ENABLED` も未設定。下の「フェーズごとのスイッチ」を上から順に入れていく。
+> フェーズ0 検証は段階実行まで済み、**完了条件（決定一致率 90% 以上・事業者への誤り 2件以下）を達成**（最終設定で 100%・0件。`eval-2026-09-21.md` の「3回目」）。
+> 次はフェーズ1（シャドーモード）。その前にプライバシーポリシーの追記、Supabase、Vercel の env が要る。
 
 ---
 
@@ -24,8 +28,9 @@ data/*.json（人が書く）
    ▼
 build.js（ビルド）
    │  ・承認済みの文言だけを window.NORTIQ_NQ として app.bundle.js の先頭に入れる
-   │  ・記事本文に slot-mid のマーカー <!--nq-slot-mid--> を入れ、est_read_sec / nq_block を記事メタに足す
-   │  ・api/_data/catalog.json を生成する（/api/suggest が URL から title などを引き直す表）
+   │  ・記事本文に slot-mid のマーカー <!--nq-slot-mid--> を入れ、est_read_sec / nq_block / related（関連記事の候補・最大12本）を記事メタに足す
+   │  ・api/_data/catalog.json を生成する（/api/suggest が URL から title などを引き直す表。記事には audience と related も入る）
+   │  ・記事の audience（対象読者）が無ければ「発注側向け」で仮置きして warn する
    │  ・assertNq() で data/*.json を検証する（不備は warn。NQ_STRICT=1 で throw）
    ▼
 クライアント（nq-suggest.jsx の window.NQ と <NqSlot>）
@@ -36,11 +41,11 @@ build.js（ビルド）
    │    （nq_decide / nq_decide_fail）を GA4 と /api/nq-event に送る
    ▼
 POST /api/suggest（api/suggest.js）
-   │  入口の防御 → 状態の組み立て（state.js。URL と列挙値から日本語の状態を作る）
-   │  → 質問の組み立て（questions.js。3軸＋検討度＋不安5つ＋cta_ok＋カードごとの関連度 rel_*）
+   │  入口の防御 → 状態の組み立て（state.js。URL と列挙値から日本語の状態を作る。記事には「対象」= audience を付け、need は付けない）
+   │  → 質問の組み立て（questions.js。3軸＋検討度＋依頼意向2問＋カードごとの関連度 rel_*＋関連記事の候補ごとの rel_article_*＋不安5つ＋cta_ok。最大37問・上限40）
    │  → 判定（decide.js。Jev を1回だけ呼ぶ）
    │  → 推薦（recommend.js。関連度を事前知識に、期待値で順位をつけて探索つきで選ぶ）
-   │  → 出し分けルール（rules.js。営業・求職者・同業者の扱い、文言の選択、slot-bar）
+   │  → 出し分けルール（rules.js。営業・求職者・同業者の扱い、関連記事3本の選択、文言の選択、slot-bar の強い CTA）
    │  → 記録（log.js → Supabase の nq_decisions）→ 応答
    ▼
 Supabase（nq_decisions / nq_events / nq_model / nq_transitions / nq_monthly）
@@ -61,9 +66,9 @@ GET /api/nq-train（Vercel Cron。毎晩 JST 03:00。NQ_LEARN=1 のときだけ�
 |---|---|
 | `data/blocks.json` | ブロックの文言と承認。**`approved_by` が空の文言は、バンドルにも API にも入らない** |
 | `data/catalog-pages.json` | 記事以外の全ページの type・タグ・`default_next`（ページ末尾に出すデフォルトのカード） |
-| `data/catalog-articles.json` | 記事のカテゴリ別の既定カードと、記事ごとの上書き（`overrides`）。`mid_before_h2` もここ |
-| `data/nq-labels.json` | 訪問者タイプ・業種・ニーズ・検討度・不安のラベルと Jev に渡す説明文 |
-| `data/nq-rules.json` | しきい値、タイムアウト、各種上限、推薦アルゴリズムの事前分布 |
+| `data/catalog-articles.json` | 記事のカテゴリ別の既定カードと、記事ごとの上書き（`overrides`）。`mid_before_h2`、記事の `audience`（対象読者）もここ |
+| `data/nq-labels.json` | 訪問者タイプ（5ラベル）・業種・ニーズ・検討度（`stage`。旧の文は `stage_legacy`）・依頼意向（`intents`）・不安のラベルと Jev に渡す説明文、記事の対象読者（`article_audience`）、関連記事の質問文（`rel_article`） |
+| `data/nq-rules.json` | しきい値（`thresholds`）、状態のスイッチ（`state`）、強い CTA の条件（`cta`）、タイムアウト、各種上限、推薦アルゴリズムの事前分布 |
 | `data/nq-config.json` | クライアントの動作モード（`enabled` `ga_events` `session_log` `api` `events_api`） |
 | `build.js` | 上の「ビルド」の処理。`const BLOG = [` には触らない |
 | `nq-suggest.jsx` | `window.NQ`（セッションログ・トリガー・計測）と `<NqSlot>` |
@@ -74,7 +79,10 @@ GET /api/nq-train（Vercel Cron。毎晩 JST 03:00。NQ_LEARN=1 のときだけ�
 | `api/_lib/*.js` | 判定の部品（純関数が中心）。`*.test.js` は `npm test` で回る |
 | `api/_data/catalog.json` | build.js の生成物（`.gitignore` 対象。コミットしない） |
 | `supabase/nq_schema.sql` `supabase/nq_report.sql` | テーブル定義／月次レポートと KPI のクエリ |
-| `eval/sessions.json` `eval/run.js` | 評価セット（60セッションの下書き）と評価ランナー |
+| `eval/sessions.json` `eval/run.js` | 評価セット（v2・70セッション。`labeling-guide.md` に従って盲検で付けた正解）と評価ランナー（決定一致率・事業者への誤り・stage の分布・基準値との比較） |
+| `eval/baseline.json` | 回帰テストの基準値（決定一致率・誤り件数・軸別の要約だけ。`--save-baseline` が書く。2026-09-22 にフェーズ0 検証の最終状態＝決定一致率 1.0・誤り 0 を記録） |
+| `eval/tag-articles.js` | 記事の audience を Jev の Choice で一括付与し、`data/catalog-articles.json` の `overrides` に書く（8章） |
+| `.github/workflows/nq-eval.yml` | data/nq-*.json・blocks.json・catalog-*.json・api/_lib の判定の部品・eval/** の push で評価セットを回し、基準値を下回れば落とす（`JEV_API_KEY` の secret が無い間は「未設定」で通る） |
 | `docs/nq/` | この手引きと関連文書 |
 
 ---
@@ -187,10 +195,38 @@ npm run serve
 5. 配信ブロックが1つも無い間（承認ゼロ）は、クライアントのランタイムは何もしない（`nq_goal` も送らない）。
    ベースラインが入り始めるのは、最初のブロックを承認してデプロイした日から。
 
-**フェーズ0 検証（本番には何も出さない）**
-1. `eval/sessions.json` の正解ラベルを人が見直す（LLM の下書きなので、そのまま使わない）。
-2. `node eval/run.js --provider jev --out eval/results/<日付>.json` を回す（キーは `.env.local` の `JEV_API_KEY`）。
-3. 完了の条件: 訪問者タイプの一致が8割以上。Sonnet との比較は行わない（2026-09-20 オーナー決定）。
+**フェーズ0 検証（本番には何も出さない。手順と完了条件は `decisions-2026-09-21.md` 1章・6章。2026-09-22 に完了）**
+1. 済: 基準書 `labeling-guide.md` を確定 → 60件を Jev の回答を見ずに付け直し → 高検討度の10件を足して70件（記録は `eval-relabel-2026-09-21.md`）。
+   人が stage 2 以上と付けた件数は 60件で 15、70件で 25（しきい値の較正の材料。同 4章）。
+2. 済: 段階実行（1回 1円未満。段階ごとの結果は `eval-2026-09-21.md` の「3回目」）。data/*.json のスイッチを一時的に前の値に戻して回し、最後に最終状態へ戻した:
+
+   | 段階 | `nq-rules.json` | `nq-labels.json` | `catalog-pages.json` | 結果（決定一致率・事業者への誤り） |
+   |---|---|---|---|---|
+   | 2 基準値 | `state.article_need: true` / `state.article_audience: false` / `cta.gate_visitor_types: []` / `thresholds.rel_floor: 0.35` | `stage` を `stage_legacy` の文に入れ替え | /company /staff を `trust` | 98.6%（69/70）・1件 |
+   | 3 need を外し audience を渡す | `article_need: false` / `article_audience: true` | 同上 | 同上 | 100%・0件 |
+   | 4 company 型・stage の文・行6のゲート | `cta.gate_visitor_types: ["事業者","other"]` | `stage` は新の文 | `company` | 100%・0件。stage の分布から `cta.stage_cta` を **1.165** に（2 以上 24/25・2 未満 44/45。分離できるので `cta.mode` は score のまま） |
+   | 5 下限 0.45 | `rel_floor: 0.45`、`cta.stage_cta: 1.165` | 同上 | 同上 | 100%・0件（同じ設定の3回で不動）。最終状態（いまのリポジトリの値）→ `eval/baseline.json` |
+
+   注意: `eval/run.js` は `data/catalog-pages.json` の上に build.js の生成物 `api/_data/catalog.json` を重ねるので、段階2・3 のように **ページの type を戻して回すときは生成物も同じ値になっている必要がある**
+   （`node build.js` で作り直すか、生成物を退けて data だけで組む。3回目はプリロードでメモリ上だけ差し替えた）。
+   記事の audience は段階3の前に `npm run nq:tag-articles` で付けてある（8章）。
+   ```bash
+   node eval/run.js --check                                   # 形と網羅（モデルは呼ばない）
+   node eval/run.js --provider jev                            # 結果は eval/results/<YYYYMMDD-HHMM>.json に残る
+   node eval/run.js --provider jev --save-baseline            # 結果を受け入れると決めたときだけ eval/baseline.json を書き換える
+   npm run nq:eval:check                                      # = --provider jev --baseline eval/baseline.json
+   ```
+3. 完了の条件: **決定一致率 90% 以上、かつ「人が事業者と付けたのに決定が sg-recruit か関連記事になった」誤りが 2件以下**（`run.js` の [主指標]）。
+   決定一致 = 人のラベル（確信度 1.0）と Jev の回答（実際の確信度・0.6 のゲート）をそれぞれルール表に通し、行2／行3／行4／行5以降 の分類が同じこと。
+   人のラベルが許容集合なら、集合から作れる分類のどれかに入れば一致。完全一致・第2候補込みの数字は使わない。Sonnet との比較は行わない（2026-09-20 オーナー決定）。
+   **2026-09-22 の判定: 達成**（最終設定で 100%・0件。基準値の段階2でも 98.6%・1件）。70件で ±11 ポイントの誤差があるので、100% は「大きな誤りが残っていない」の意味。本番の検証はシャドーモードで行う。
+4. 達成したのでシャドーモードへ（下の「フェーズ1」）。以後、指示文（`nq-labels.json`）・`blocks.json`・記事の audience / topic・しきい値・モデル版（`JEV_MODEL`）のどれかを変えるたびに
+   `npm run nq:eval:check` を回す（`.github/workflows/nq-eval.yml` が push で自動実行）。**決定一致率が 5 ポイント以上下がる、または誤りが増えたら止める**（設計書13章の回帰テスト）。
+   回し方: 変更をローカルに入れる → `node eval/run.js --check`（形と網羅） → `npm run nq:eval:check`（Jev を呼ぶ。約 $0.01・70件で 30秒ほど。末尾の「判定: 通る／止める」と exit code を見る）。
+   「止める」なら変更を戻すか、原因を直してから再実行する。結果を受け入れて基準値を進めるときだけ `node eval/run.js --provider jev --save-baseline`（基準値の変更はコミットに含め、`eval-2026-09-21.md` に理由を1行残す）。
+   同じ設定でも実行ごとに 1〜3件は動く（stage の score のゆらぎ 平均 0.02・最大 0.13、visitor_type の確信度 最大 0.09）。しきい値付近の 1件の差は誤差とみる。
+   新しい topic やカードを足すときは、それが正解になる評価セッションも足す（`--check` の網羅の警告）。
+   CI（生成物 `api/_data/catalog.json` が無い環境）では、`run.js` が `overrides[slug]` の在る記事の need／industry をカテゴリの既定から補わない件が残っている（`eval-2026-09-21.md` 3回目「残る問題」6）。直るまで CI の数字はローカルと少し違いうる。
 
 **フェーズ1 シャドーモード（判定と記録だけ。表示は変えない。1週間）**
 1. プライバシーポリシーの追記を公開する（`privacy-policy-draft.md`。専門家の確認を先に済ませる）。
@@ -319,6 +355,37 @@ GA4 の管理 → カスタム定義で、**イベントスコープ** のディ
 ```
 キーは BLOG の `slug`（`article-` 接頭辞なし）。`need` / `industry` は `data/nq-labels.json` のラベルと同じ語だけを使う。
 
+### 記事の audience（対象読者）を付ける（2026-09-21 決定 3章）
+記事の `need` タグは Jev に渡さなくなった（タグをそのまま訪問者のニーズと答えるため）。代わりに、記事が **発注側向け／制作側・技術者向け／求職者向け** の
+どれに向けて書かれたかを `audience` として渡す（状態のキーは「対象」。着地ページと閲覧履歴の記事に付く）。
+```json
+"<slug>": { "audience": "制作側・技術者向け", "audience_confidence": 0.91 }
+```
+- 無ければ build.js が **「発注側向け」で仮置き**し、ビルドログに1行 warn を出す（「audience が無い記事 N本を…仮置きしています」）。
+  制作側向けと誤ると事業者から提案カードが消えるが、逆は技術者にカードが1枚出るだけなので、安全な側に倒してある。
+- 既存の記事にまとめて付けるには:
+  ```bash
+  node eval/tag-articles.js --dry-run       # 対象の本数と概算原価だけ（106本で約 $0.005。キー不要）
+  npm run nq:tag-articles                   # = node eval/tag-articles.js（--only-missing が既定。audience が無い記事だけ）
+  node eval/tag-articles.js --all           # 全記事を付け直す（既存の audience を上書き）
+  node eval/tag-articles.js --slugs a,b     # 指定の記事だけ
+  ```
+  キーは `.env.local` の `JEV_API_KEY`。結果は `overrides[slug]` に `audience` と `audience_confidence` をマージして書く（ほかのフィールドは保持）。
+  確信度 0.6 未満には `_review: true` が付く。**実行後、0.6 未満の記事と無作為 20本（出力に列挙される）を本文を読んで確かめ**、
+  直した slug と理由を `docs/nq/article-audience-review.md` に記録し、確かめた行から `_review` を外す。
+  付けたら `node build.js` の仮置き warn が消え、`npm run nq:eval:check` で評価セットを回す（audience は判定を変える）。
+- 列挙値は `data/nq-labels.json` の `article_audience.criteria` の3語ちょうど。表記ゆれは build.js が bad 警告して無視する。
+- 新しく自動公開された記事は、パイプライン（`nortiq-pipeline`）が `overrides[slug].audience` を書くまで仮置きで動く（下の「13章のパイプライン側」）。
+
+### 設計書13章「記事が増えても回る設計」のうち、このリポジトリの外にあるもの
+このリポジトリで受けているのは「実行時に Jev へ渡す候補の数を固定する」（記事ごとの `related` 最大12本・質問数の上限40）、
+「記事のメタの仮置き」（audience）、「評価セットの回帰テスト」（`nq-eval.yml`）の3つ。次の3つは **別リポジトリ `nortiq-pipeline` の仕事**で、ここには無い:
+- 記事のメタ（topic・audience・業種・既定カード・関連候補）を keyword 段で付けて `data/catalog-articles.json` の `overrides[slug]` に書く。
+  書かれていない記事は build.js の既定（カテゴリの既定カード・audience の仮置き・related の自動計算）で動く。
+- 夜間バッチのキャッシュ（J1 の buyer_intent はクエリ単位、answers は（記事の内容ハッシュ、クエリ）単位。J7 の探索範囲は同クラスタ＋クリック上位30記事）。
+- 承認は新記事につき hold の1回だけ・J2 は hold の前・既存記事への変更は週1回まとめて上限つき。
+パイプラインが `data/catalog-articles.json` を書くときは `overrides` のキーを足すだけにし、`build.js` の BLOG には何も足さない（下の J2 の受け口と同じ）。
+
 ### slot-mid の位置を記事ごとに決める（設計書12章 J2 の受け口）
 `overrides` の `mid_before_h2` に「本文の n 番目（1始まり）の h2 の直前」を書く。
 ```json
@@ -349,25 +416,50 @@ GA4 の管理 → カスタム定義で、**イベントスコープ** のディ
 
 ---
 
-## 9. しきい値の調整
+## 9. しきい値とスイッチの調整
 
-しきい値は `data/nq-rules.json` の `thresholds`。API は `data/*.json` を直接読むので、デプロイした時点から効く。
+しきい値は `data/nq-rules.json`。API は `data/*.json` を直接読むので、デプロイした時点から効く。
+
+| キー | 意味 | いまの値 |
+|---|---|---|
+| `thresholds.visitor_type` | 行2〜4（営業・求職者・同業者）の確信度の線 | 0.6 |
+| `thresholds.concern` / `industry_switch` | 不安の文言を選ぶ線／業種版に切り替える線 | 0.6 / 0.6 |
+| `thresholds.rel_gate` | 関連度の門。最大がこれ未満ならデフォルト（探索もしない） | 0.55 |
+| `thresholds.rel_floor` | 候補の下限（探索と2枚目、関連記事3本の選択に効く。1位は取りこぼさない） | 0.45（2026-09-21 に 0.35 から） |
+| `state.article_need` | 記事の need タグを状態（着地ページ）に入れるか | false |
+| `state.article_audience` | 記事の audience を「対象」として状態に入れるか | true |
+| `cta.mode` | 行6（強い CTA）を Score（`stage`）で決めるか Noul 2問（`intent_*`）で決めるか | `score` |
+| `cta.gate_visitor_types` | visitor_type の第1候補がこの中のときだけ行6を評価する（空なら無条件） | `["事業者","other"]` |
+| `cta.stage_cta` / `stage_contact` | mode=score のとき ct-diagnostic / ct-contact になる stage の線 | 1.165（2026-09-22 に 2.0 から）/ 2.5 |
+| `cta.cta_ok` | 行6に要る cta_ok の線（両 mode 共通） | 0.7 |
+| `cta.compare` / `contact` | mode=noul のとき ct-diagnostic / ct-contact になる Noul の線 | 0.6 / 0.6 |
+
+`cta.stage_cta` の 1.165 は、フェーズ0 検証の段階4（2026-09-22）で、人が 2 以上と付けた 25件と 2 未満の 45件の Jev スコア分布（`run.js` の [検討度の分布]）から
+「2 以上と未満を最もよく分ける値」として決めたもの（正解率 97.1%。旧の仮置き 2.0 では 2 以上のうち 10/25 しか拾えなかった）。分離できたので `cta.mode` は `score` のまま
+（`decisions-2026-09-21.md` 2章、`eval-2026-09-21.md` の「3回目」）。行6 の出方は 1.15〜1.40 のどこに線を置いても評価セットでは同じなので、シャドーモードの 1b の分布で置き直す。
+`supabase/nq_report.sql` の直書き（2.0）は 1.165 に合わせて直す。
 
 1. シャドーモード（または本番）の `nq_decisions` を見て、どの線を動かすか決める。
    例: 営業・求職者の取り違えが多い → `visitor_type` を上げる。デフォルトばかりになる → `rel_gate` を下げる。
+   強い CTA の材料は `supabase/nq_report.sql` の 1b（stage と Noul 2問の分布、Score と Noul の食い違い）。
 2. `data/nq-rules.json` を変える。
-3. 評価セットで確認し直す。前回の結果と見比べて、悪くなった軸が無いか見る。
+3. 評価セットで確認し直す。基準値（`eval/baseline.json`）と比べ、決定一致率が 5 ポイント以上下がるか事業者への誤りが増えたら exit 1 になる。
    ```bash
-   node eval/run.js --check                      # 評価セットの形だけ確かめる（モデルは呼ばない）
+   node eval/run.js --check                      # 評価セットの形と網羅だけ確かめる（モデルは呼ばない）
    node eval/run.js --provider stub              # 配線の確認（常にデフォルトになる）
-   node eval/run.js --provider jev --out eval/results/2026-10-01-rel-gate-050.json
+   npm run nq:eval                               # = node eval/run.js --provider jev（結果は eval/results/<YYYYMMDD-HHMM>.json）
+   npm run nq:eval:check                         # = --provider jev --baseline eval/baseline.json（回帰テスト）
+   node eval/run.js --provider jev --save-baseline   # 結果を受け入れると決めたときだけ基準値を書き換える
    ```
-   `--limit N` で先頭 N 件、`--ids s01,s17` で指定のセッションだけ、`--verbose` で1件ずつの回答を出す。
-   結果の置き場 `eval/results/` は `.gitignore` の対象（実行のたびに増えるため）。見比べる相手は手元に残しておく。
-   1回の呼び出しは入力 約2,700トークン（質問は21〜23問）。60件で約16万トークン、原価は1円前後。
+   `--limit N` で先頭 N 件、`--ids s01,s17` で指定のセッションだけ、`--verbose` で1件ずつの回答、`--out <file>` で結果の置き場を指定。
+   結果の置き場 `eval/results/` は `.gitignore` の対象（実行のたびに増えるため）。基準値は `eval/baseline.json` にコミットする（要約だけ。生の回答は入れない）。
+   1回の呼び出しは質問 23〜37問。70件で約25万トークン、原価は 1円前後（$0.01）。
+   結果の `meta.data_sha256` に、そのとき使った data/*.json の sha256 が残る（指示文・しきい値・文言のどれで結果が変わったかを追える）。
 4. `npm test` を回す。
-5. `supabase/nq_report.sql` は同じしきい値（0.6、0.55 など）を直に書いてある。**変えたら SQL も手で直す。**
+5. `supabase/nq_report.sql` は同じしきい値（0.6、0.55、2.0、0.7 など）を直に書いてある。**変えたら SQL も手で直す。**
 6. ラベル（`data/nq-labels.json`）を変えたときも、同じ手順で確認し直す。ラベルの追加と変更は四半期に1回にまとめる。
+7. main に push すると `.github/workflows/nq-eval.yml` が同じ比較を自動で回す（リポジトリの Secrets に `JEV_API_KEY` を登録すると Jev まで回る。
+   未登録の間は「未設定」と出して通る）。
 
 クライアントが読む値（`client_timeout_ms` `max_calls_per_session` `max_shows_per_block` `history_pages`）はバンドルに入るので、
 変えるとプリレンダの CI が走る。`history_pages` はサーバがモデルに渡す履歴の件数で、クライアントは絞らずに送る
@@ -413,3 +505,6 @@ GA4 の管理 → カスタム定義で、**イベントスコープ** のディ
 - 特徴量の並び（`api/_lib/features.js` の `FEATURES`）や意味を変えたのに、`recommend.js` の `POLICY_VERSION` を上げない
   （過去のログと混ぜて学習してしまう）。
 - 依存パッケージを足す（api/ と eval/ は依存ゼロ）。新しい色・フォント・`:root` のトークンを足す。
+- 指示文（`data/nq-labels.json`）・`blocks.json`・記事の audience / topic・しきい値・`JEV_MODEL` を変えたのに、評価セット（`npm run nq:eval:check`）を回さない。
+  評価セットの正解を Jev の回答に合わせて直す（`labeling-guide.md` の手順で、回答を見ずに付け直す）。
+- `data/catalog-articles.json` の記事の `audience` に、`article_audience` の3語以外の文字列を書く（build.js が無視して仮置きに落とす）。

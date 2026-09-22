@@ -1,5 +1,5 @@
 {
-  "_comment": "情報設計書 v1.0 の2章 catalog.json のうち、記事以外の全ページ（固定ルート・/sitemap・/quick-diagnosis・静的LP）。front matter がリポジトリに無いため手で持つ。title は Jev に渡す短い表示名で、「｜Nortiq Labs」やSEOキーワードを入れない。industry / need は data/nq-labels.json のラベルと同じ語だけを使う（サイト上の表記が「建築・工務店」「小売 / EC」「インフラ・製造」でも、ここではラベルの語にそろえる）。audience は肯定文で書く（Jev は指示を文字どおりに読むため、否定形は誤判定の原因になる）。summary は60字以内で、数字はそのページの表記に合わせる。ページの価格や内容を変えたらここも直す。suggestable:true は block_id が data/blocks.json に在るページだけ。default_next は slot-next のデフォルトカードで、sg-works / sg-solution を指定したページは industry の先頭で by_industry を引く。ページを追加したら build.js の SITEMAP_ROUTES と同時にここへ1件足す。",
+  "_comment": "情報設計書 v1.0 の2章 catalog.json のうち、記事以外の全ページ（固定ルート・/sitemap・/quick-diagnosis・静的LP）。front matter がリポジトリに無いため手で持つ。title は Jev に渡す短い表示名で、「｜Nortiq Labs」やSEOキーワードを入れない。industry / need は data/nq-labels.json のラベルと同じ語だけを使う（サイト上の表記が「建築・工務店」「小売 / EC」「インフラ・製造」でも、ここではラベルの語にそろえる）。audience は肯定文で書く（Jev は指示を文字どおりに読むため、否定形は誤判定の原因になる）。summary は60字以内で、数字はそのページの表記に合わせる。ページの価格や内容を変えたらここも直す。suggestable:true は block_id が data/blocks.json に在るページだけ。default_next は slot-next のデフォルトカードで、sg-works / sg-solution を指定したページは industry の先頭で by_industry を引く。ページを追加したら build.js の SITEMAP_ROUTES と同時にここへ1件足す。2026-09-21 のオーナー決定（docs/nq/decisions-2026-09-21.md 2章）で、/company と /staff は type company（Jev には「会社情報」として渡す。default_next は null）、/recruit は type recruit（「採用情報」）にした。会社概要やスタッフ紹介を「信頼・条件」として渡すと、求職者や営業に高い検討度が付いたため。",
   "version": 1,
   "pages": [
     {
@@ -136,7 +136,7 @@
     },
     {
       "url": "/company",
-      "type": "trust",
+      "type": "company",
       "title": "会社概要",
       "industry": [],
       "need": [],
@@ -144,11 +144,11 @@
       "summary": "沿革、基本情報（商号、設立、代表、所在地、事業内容）、アクセスを掲載。本社は京都市中京区。",
       "suggestable": false,
       "block_id": null,
-      "default_next": "sg-works"
+      "default_next": null
     },
     {
       "url": "/staff",
-      "type": "trust",
+      "type": "company",
       "title": "チーム・スタッフ紹介",
       "industry": [],
       "need": [],
@@ -156,11 +156,11 @@
       "summary": "Founder、CTO・Computer Scientist、Data Scientist の専門領域と経歴を紹介。",
       "suggestable": false,
       "block_id": null,
-      "default_next": "sg-works"
+      "default_next": null
     },
     {
       "url": "/recruit",
-      "type": "company",
+      "type": "recruit",
       "title": "採用情報",
       "industry": [],
       "need": [],

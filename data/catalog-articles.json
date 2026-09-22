@@ -2,48 +2,721 @@
   "_comment": "記事（build.js の BLOG）の拡張メタ。BLOG 配列は外部の公開ワーカが書き換えるので触らず、ここに置く。キーは BLOG の slug（article- 接頭辞なし）。解決順は overrides → category_defaults[category] → category_defaults[\"*\"]。自動公開された記事はここに無くてもカテゴリ既定で動く。overrides は「カテゴリ既定のカードが明らかに合わない記事」だけに絞る（迷う記事は既定のまま）。block_id が sg-solution / sg-works の記事は industry の先頭の業種で by_industry を引く。industry / need は data/nq-labels.json のラベルと同じ語だけを使う。",
   "version": 1,
   "category_defaults": {
-    "Web制作": { "block_id": "sg-web", "need": ["新規サイト制作", "サイトリニューアル"], "industry": [] },
-    "技術": { "block_id": "sg-dx", "need": ["業務システム・DX"], "industry": [] },
-    "AI活用": { "block_id": "sg-chatbot", "need": ["AI導入・チャットボット"], "industry": [] },
-    "DX 観察記": { "block_id": "sg-dx", "need": ["業務システム・DX"], "industry": [] },
-    "SEO": { "block_id": "sg-cms", "need": ["集客・SEO"], "industry": [] },
-    "マーケティング": { "block_id": "sg-lpo", "need": ["LP制作・改善"], "industry": [] },
-    "業種別": { "block_id": "sg-solution", "need": ["新規サイト制作"], "industry": [] },
-    "*": { "block_id": "sg-web", "need": [], "industry": [] }
+    "Web制作": {
+      "block_id": "sg-web",
+      "need": [
+        "新規サイト制作",
+        "サイトリニューアル"
+      ],
+      "industry": []
+    },
+    "技術": {
+      "block_id": "sg-dx",
+      "need": [
+        "業務システム・DX"
+      ],
+      "industry": []
+    },
+    "AI活用": {
+      "block_id": "sg-chatbot",
+      "need": [
+        "AI導入・チャットボット"
+      ],
+      "industry": []
+    },
+    "DX 観察記": {
+      "block_id": "sg-dx",
+      "need": [
+        "業務システム・DX"
+      ],
+      "industry": []
+    },
+    "SEO": {
+      "block_id": "sg-cms",
+      "need": [
+        "集客・SEO"
+      ],
+      "industry": []
+    },
+    "マーケティング": {
+      "block_id": "sg-lpo",
+      "need": [
+        "LP制作・改善"
+      ],
+      "industry": []
+    },
+    "業種別": {
+      "block_id": "sg-solution",
+      "need": [
+        "新規サイト制作"
+      ],
+      "industry": []
+    },
+    "*": {
+      "block_id": "sg-web",
+      "need": [],
+      "industry": []
+    }
   },
   "overrides": {
-    "jizokuka-subsidy-website-2026": { "block_id": "sg-subsidy", "need": ["補助金活用", "新規サイト制作"], "industry": [] },
-    "homepage-renewal-subsidy-guide": { "block_id": "sg-subsidy", "need": ["補助金活用", "サイトリニューアル"], "industry": [] },
-    "homepage-renewal-subsidy-cost-calculation": { "block_id": "sg-subsidy", "need": ["補助金活用", "サイトリニューアル"], "industry": [] },
-    "it-subsidy-homepage-eligibility-guide": { "block_id": "sg-subsidy", "need": ["補助金活用", "新規サイト制作", "サイトリニューアル"], "industry": [] },
-    "subsidy-for-business-system-dx": { "block_id": "sg-subsidy", "need": ["補助金活用", "業務システム・DX"], "industry": [] },
-    "subsidy-2026-digital-ai": { "block_id": "sg-subsidy", "need": ["補助金活用"], "industry": [] },
-    "website-renewal-unexpected-additional-cost": { "block_id": "sg-pricing", "need": ["サイトリニューアル"], "industry": [] },
-    "competitive-quotes-subcontract-antitrust-law": { "block_id": "sg-pricing", "need": ["新規サイト制作", "サイトリニューアル"], "industry": [] },
-    "homepage-renewal-security-cost": { "block_id": "sg-pricing", "need": ["サイトリニューアル"], "industry": [] },
-    "cheap-homepage-pitfalls-checklist": { "block_id": "sg-pricing", "need": ["新規サイト制作"], "industry": [] },
-    "homepage-estimate-reading-guide": { "block_id": "sg-pricing", "need": ["新規サイト制作", "サイトリニューアル"], "industry": [] },
-    "homepage-production-cost-sme": { "block_id": "sg-pricing", "need": ["新規サイト制作"], "industry": [] },
-    "homepage-renewal-cost-guide": { "block_id": "sg-pricing", "need": ["サイトリニューアル"], "industry": [] },
-    "homepage-renewal-cost-by-industry": { "block_id": "sg-pricing", "need": ["サイトリニューアル"], "industry": [] },
-    "web-production-cost-guide": { "block_id": "sg-pricing", "need": ["新規サイト制作"], "industry": [] },
-    "recruit-site-cost-guide": { "block_id": "sg-recruit-site", "need": ["採用強化"], "industry": [] },
-    "lp-production-cost-guide": { "block_id": "sg-lpo", "need": ["LP制作・改善"], "industry": [] },
-    "website-security-measures-new-business-impact": { "block_id": "sg-support", "need": ["保守・運用"], "industry": [] },
-    "ipa-security-guideline-smb": { "block_id": "sg-support", "need": ["保守・運用"], "industry": [] },
-    "sme-cyber-attack-statistics": { "block_id": "sg-support", "need": ["保守・運用"], "industry": [] },
-    "homepage-security-measures-sme": { "block_id": "sg-support", "need": ["新規サイト制作", "保守・運用"], "industry": [] },
-    "website-system-maintenance-cost": { "block_id": "sg-support", "need": ["保守・運用"], "industry": [] },
-    "wordpress-vs-nextjs-comparison": { "block_id": "sg-cms", "need": ["新規サイト制作", "サイトリニューアル"], "industry": [] },
-    "cms-comparison-wordpress-small-business": { "block_id": "sg-cms", "need": ["新規サイト制作"], "industry": [] },
-    "btob-web-marketing": { "block_id": "sg-cms", "need": ["集客・SEO"], "industry": [] },
-    "page-speed-conversion": { "block_id": "sg-web", "need": ["サイトリニューアル"], "industry": [] },
-    "core-web-vitals": { "block_id": "sg-web", "need": ["サイトリニューアル"], "industry": [] },
-    "office-work-automation": { "block_id": "sg-dx", "need": ["業務システム・DX", "AI導入・チャットボット"], "industry": [] },
-    "ai-development-outsourcing-design-review-guide": { "block_id": "sg-dx", "need": ["AI導入・チャットボット", "業務システム・DX"], "industry": [] },
-    "image-data-structuring-model-selection": { "block_id": "sg-dx", "need": ["AI導入・チャットボット", "業務システム・DX"], "industry": [] },
-    "homepage-renewal-case-study-by-industry": { "block_id": "sg-works", "need": ["サイトリニューアル"], "industry": [] },
-    "clinic-web": { "block_id": "sg-solution", "need": ["集客・SEO", "新規サイト制作"], "industry": ["クリニック・医療"] },
-    "realty-lp": { "block_id": "sg-solution", "need": ["LP制作・改善"], "industry": ["不動産"] }
+    "jizokuka-subsidy-website-2026": {
+      "block_id": "sg-subsidy",
+      "need": [
+        "補助金活用",
+        "新規サイト制作"
+      ],
+      "industry": [],
+      "audience": "発注側向け",
+      "audience_confidence": 1
+    },
+    "homepage-renewal-subsidy-guide": {
+      "block_id": "sg-subsidy",
+      "need": [
+        "補助金活用",
+        "サイトリニューアル"
+      ],
+      "industry": [],
+      "audience": "発注側向け",
+      "audience_confidence": 1
+    },
+    "homepage-renewal-subsidy-cost-calculation": {
+      "block_id": "sg-subsidy",
+      "need": [
+        "補助金活用",
+        "サイトリニューアル"
+      ],
+      "industry": [],
+      "audience": "発注側向け",
+      "audience_confidence": 1
+    },
+    "it-subsidy-homepage-eligibility-guide": {
+      "block_id": "sg-subsidy",
+      "need": [
+        "補助金活用",
+        "新規サイト制作",
+        "サイトリニューアル"
+      ],
+      "industry": [],
+      "audience": "発注側向け",
+      "audience_confidence": 1
+    },
+    "subsidy-for-business-system-dx": {
+      "block_id": "sg-subsidy",
+      "need": [
+        "補助金活用",
+        "業務システム・DX"
+      ],
+      "industry": [],
+      "audience": "発注側向け",
+      "audience_confidence": 1,
+      "_reviewed": true
+    },
+    "subsidy-2026-digital-ai": {
+      "block_id": "sg-subsidy",
+      "need": [
+        "補助金活用"
+      ],
+      "industry": [],
+      "audience": "発注側向け",
+      "audience_confidence": 1
+    },
+    "website-renewal-unexpected-additional-cost": {
+      "block_id": "sg-pricing",
+      "need": [
+        "サイトリニューアル"
+      ],
+      "industry": [],
+      "audience": "発注側向け",
+      "audience_confidence": 1,
+      "_reviewed": true
+    },
+    "competitive-quotes-subcontract-antitrust-law": {
+      "block_id": "sg-pricing",
+      "need": [
+        "新規サイト制作",
+        "サイトリニューアル"
+      ],
+      "industry": [],
+      "audience": "発注側向け",
+      "audience_confidence": 1,
+      "_reviewed": true
+    },
+    "homepage-renewal-security-cost": {
+      "block_id": "sg-pricing",
+      "need": [
+        "サイトリニューアル"
+      ],
+      "industry": [],
+      "audience": "発注側向け",
+      "audience_confidence": 1
+    },
+    "cheap-homepage-pitfalls-checklist": {
+      "block_id": "sg-pricing",
+      "need": [
+        "新規サイト制作"
+      ],
+      "industry": [],
+      "audience": "発注側向け",
+      "audience_confidence": 1
+    },
+    "homepage-estimate-reading-guide": {
+      "block_id": "sg-pricing",
+      "need": [
+        "新規サイト制作",
+        "サイトリニューアル"
+      ],
+      "industry": [],
+      "audience": "発注側向け",
+      "audience_confidence": 1,
+      "_reviewed": true
+    },
+    "homepage-production-cost-sme": {
+      "block_id": "sg-pricing",
+      "need": [
+        "新規サイト制作"
+      ],
+      "industry": [],
+      "audience": "発注側向け",
+      "audience_confidence": 1
+    },
+    "homepage-renewal-cost-guide": {
+      "block_id": "sg-pricing",
+      "need": [
+        "サイトリニューアル"
+      ],
+      "industry": [],
+      "audience": "発注側向け",
+      "audience_confidence": 1
+    },
+    "homepage-renewal-cost-by-industry": {
+      "block_id": "sg-pricing",
+      "need": [
+        "サイトリニューアル"
+      ],
+      "industry": [],
+      "audience": "発注側向け",
+      "audience_confidence": 1
+    },
+    "web-production-cost-guide": {
+      "block_id": "sg-pricing",
+      "need": [
+        "新規サイト制作"
+      ],
+      "industry": [],
+      "audience": "発注側向け",
+      "audience_confidence": 1,
+      "_reviewed": true
+    },
+    "recruit-site-cost-guide": {
+      "block_id": "sg-recruit-site",
+      "need": [
+        "採用強化"
+      ],
+      "industry": [],
+      "audience": "発注側向け",
+      "audience_confidence": 1
+    },
+    "lp-production-cost-guide": {
+      "block_id": "sg-lpo",
+      "need": [
+        "LP制作・改善"
+      ],
+      "industry": [],
+      "audience": "発注側向け",
+      "audience_confidence": 0.99
+    },
+    "website-security-measures-new-business-impact": {
+      "block_id": "sg-support",
+      "need": [
+        "保守・運用"
+      ],
+      "industry": [],
+      "audience": "発注側向け",
+      "audience_confidence": 0.96
+    },
+    "ipa-security-guideline-smb": {
+      "block_id": "sg-support",
+      "need": [
+        "保守・運用"
+      ],
+      "industry": [],
+      "audience": "発注側向け",
+      "audience_confidence": 0.87,
+      "_reviewed": true
+    },
+    "sme-cyber-attack-statistics": {
+      "block_id": "sg-support",
+      "need": [
+        "保守・運用"
+      ],
+      "industry": [],
+      "audience": "発注側向け",
+      "audience_confidence": 1
+    },
+    "homepage-security-measures-sme": {
+      "block_id": "sg-support",
+      "need": [
+        "新規サイト制作",
+        "保守・運用"
+      ],
+      "industry": [],
+      "audience": "発注側向け",
+      "audience_confidence": 0.99
+    },
+    "website-system-maintenance-cost": {
+      "block_id": "sg-support",
+      "need": [
+        "保守・運用"
+      ],
+      "industry": [],
+      "audience": "発注側向け",
+      "audience_confidence": 1
+    },
+    "wordpress-vs-nextjs-comparison": {
+      "block_id": "sg-cms",
+      "need": [
+        "新規サイト制作",
+        "サイトリニューアル"
+      ],
+      "industry": [],
+      "audience": "発注側向け",
+      "audience_confidence": 0.9
+    },
+    "cms-comparison-wordpress-small-business": {
+      "block_id": "sg-cms",
+      "need": [
+        "新規サイト制作"
+      ],
+      "industry": [],
+      "audience": "発注側向け",
+      "audience_confidence": 1
+    },
+    "btob-web-marketing": {
+      "block_id": "sg-cms",
+      "need": [
+        "集客・SEO"
+      ],
+      "industry": [],
+      "audience": "発注側向け",
+      "audience_confidence": 0.99,
+      "_reviewed": true
+    },
+    "page-speed-conversion": {
+      "block_id": "sg-web",
+      "need": [
+        "サイトリニューアル"
+      ],
+      "industry": [],
+      "audience": "発注側向け",
+      "audience_confidence": 0.36,
+      "_reviewed": true
+    },
+    "core-web-vitals": {
+      "block_id": "sg-web",
+      "need": [
+        "サイトリニューアル"
+      ],
+      "industry": [],
+      "audience": "制作側・技術者向け",
+      "audience_confidence": 1,
+      "_reviewed": true
+    },
+    "office-work-automation": {
+      "block_id": "sg-dx",
+      "need": [
+        "業務システム・DX",
+        "AI導入・チャットボット"
+      ],
+      "industry": [],
+      "audience": "発注側向け",
+      "audience_confidence": 0.91
+    },
+    "ai-development-outsourcing-design-review-guide": {
+      "block_id": "sg-dx",
+      "need": [
+        "AI導入・チャットボット",
+        "業務システム・DX"
+      ],
+      "industry": [],
+      "audience": "発注側向け",
+      "audience_confidence": 1
+    },
+    "image-data-structuring-model-selection": {
+      "block_id": "sg-dx",
+      "need": [
+        "AI導入・チャットボット",
+        "業務システム・DX"
+      ],
+      "industry": [],
+      "audience": "発注側向け",
+      "audience_confidence": 0.51,
+      "_reviewed": true
+    },
+    "homepage-renewal-case-study-by-industry": {
+      "block_id": "sg-works",
+      "need": [
+        "サイトリニューアル"
+      ],
+      "industry": [],
+      "audience": "発注側向け",
+      "audience_confidence": 1
+    },
+    "clinic-web": {
+      "block_id": "sg-solution",
+      "need": [
+        "集客・SEO",
+        "新規サイト制作"
+      ],
+      "industry": [
+        "クリニック・医療"
+      ],
+      "audience": "発注側向け",
+      "audience_confidence": 0.82
+    },
+    "realty-lp": {
+      "block_id": "sg-solution",
+      "need": [
+        "LP制作・改善"
+      ],
+      "industry": [
+        "不動産"
+      ],
+      "audience": "発注側向け",
+      "audience_confidence": 0.43,
+      "_reviewed": true
+    },
+    "disability-welfare-financial-report": {
+      "audience": "発注側向け",
+      "audience_confidence": 0.7
+    },
+    "website-project-delay-causes": {
+      "audience": "発注側向け",
+      "audience_confidence": 1
+    },
+    "kaigo-productivity-committee-records": {
+      "audience": "発注側向け",
+      "audience_confidence": 0.91
+    },
+    "website-renewal-site-reputation-policy": {
+      "audience": "発注側向け",
+      "audience_confidence": 1,
+      "_reviewed": true
+    },
+    "fax-order-entry-digitization": {
+      "audience": "発注側向け",
+      "audience_confidence": 0.86
+    },
+    "customer-reviews-stealth-marketing-rules": {
+      "audience": "発注側向け",
+      "audience_confidence": 0.26,
+      "_reviewed": true
+    },
+    "website-renewal-acceptance-checklist": {
+      "audience": "発注側向け",
+      "audience_confidence": 1,
+      "_reviewed": true
+    },
+    "womens-advancement-act-disclosure": {
+      "audience": "発注側向け",
+      "audience_confidence": 0.36,
+      "_reviewed": true
+    },
+    "website-renewal-agency-handover": {
+      "audience": "発注側向け",
+      "audience_confidence": 0.99
+    },
+    "supply-chain-security-assessment-scheme": {
+      "audience": "発注側向け",
+      "audience_confidence": 0.72
+    },
+    "sme-generative-ai-adoption-rate-comparison": {
+      "audience": "発注側向け",
+      "audience_confidence": 1
+    },
+    "system-development-agile-contract-guide": {
+      "audience": "発注側向け",
+      "audience_confidence": 1
+    },
+    "system-development-fp-estimate-validity": {
+      "audience": "発注側向け",
+      "audience_confidence": 1
+    },
+    "website-renewal-no-inhouse-staff": {
+      "audience": "発注側向け",
+      "audience_confidence": 1
+    },
+    "system-development-outsourcing-contract-types": {
+      "audience": "発注側向け",
+      "audience_confidence": 1,
+      "_reviewed": true
+    },
+    "website-renewal-kpi-metrics": {
+      "audience": "発注側向け",
+      "audience_confidence": 0.36,
+      "_reviewed": true
+    },
+    "website-absence-risk-smb": {
+      "audience": "発注側向け",
+      "audience_confidence": 1
+    },
+    "ai-review-requirements-document": {
+      "audience": "発注側向け",
+      "audience_confidence": 1,
+      "_reviewed": true
+    },
+    "ai-content-google-spam-update": {
+      "audience": "発注側向け",
+      "audience_confidence": 0.94,
+      "_reviewed": true
+    },
+    "data-migration-record-count-scale": {
+      "audience": "発注側向け",
+      "audience_confidence": 0.89
+    },
+    "pos-system-outsourcing-specification-checklist": {
+      "audience": "発注側向け",
+      "audience_confidence": 1,
+      "_reviewed": true
+    },
+    "system-outsourcing-rfp-requirements-guide": {
+      "audience": "発注側向け",
+      "audience_confidence": 1
+    },
+    "rfp-template-web-design": {
+      "audience": "発注側向け",
+      "audience_confidence": 1
+    },
+    "homepage-core-web-vitals-guide": {
+      "audience": "発注側向け",
+      "audience_confidence": 0.28,
+      "_reviewed": true
+    },
+    "llm-guardrail-monthly-cost-sme-guide": {
+      "audience": "発注側向け",
+      "audience_confidence": 0.91
+    },
+    "site-renewal-process-guide": {
+      "audience": "発注側向け",
+      "audience_confidence": 1,
+      "_reviewed": true
+    },
+    "llm-guardrail-inhouse-vs-cloud-api": {
+      "audience": "発注側向け",
+      "audience_confidence": 0.97
+    },
+    "llm-guardrail-bypass-cases": {
+      "audience": "制作側・技術者向け",
+      "audience_confidence": 0.95,
+      "_reviewed": true
+    },
+    "system-development-company-selection": {
+      "audience": "発注側向け",
+      "audience_confidence": 1
+    },
+    "llmo-cited-by-ai-search-implementation": {
+      "audience": "発注側向け",
+      "audience_confidence": 0.93,
+      "_reviewed": true
+    },
+    "excel-to-system-migration-guide": {
+      "audience": "発注側向け",
+      "audience_confidence": 0.99
+    },
+    "crm-build-vs-package-comparison": {
+      "audience": "発注側向け",
+      "audience_confidence": 1,
+      "_reviewed": true
+    },
+    "reservation-system-development-cost": {
+      "audience": "発注側向け",
+      "audience_confidence": 1
+    },
+    "legacy-system-replacement-guide": {
+      "audience": "発注側向け",
+      "audience_confidence": 0.99,
+      "_reviewed": true
+    },
+    "corporate-site-rfp-guide": {
+      "audience": "発注側向け",
+      "audience_confidence": 1
+    },
+    "internal-system-outsourcing-requirements-checklist": {
+      "audience": "発注側向け",
+      "audience_confidence": 1
+    },
+    "homepage-renewal-failure-causes-sme": {
+      "audience": "発注側向け",
+      "audience_confidence": 1,
+      "_reviewed": true
+    },
+    "in-house-system-cloud-migration-cost-guide": {
+      "audience": "発注側向け",
+      "audience_confidence": 1
+    },
+    "llm-guardrail-evaluation-metrics": {
+      "audience": "制作側・技術者向け",
+      "audience_confidence": 1,
+      "_reviewed": true
+    },
+    "llm-guardrails-3-layer-architecture": {
+      "audience": "制作側・技術者向け",
+      "audience_confidence": 1,
+      "_reviewed": true
+    },
+    "ios17-nfc-felica-system-code-limit": {
+      "audience": "制作側・技術者向け",
+      "audience_confidence": 1,
+      "_reviewed": true
+    },
+    "llm-guardrail-evaluation-method": {
+      "audience": "制作側・技術者向け",
+      "audience_confidence": 1,
+      "_reviewed": true
+    },
+    "homepage-renewal-timing-guide": {
+      "audience": "発注側向け",
+      "audience_confidence": 1
+    },
+    "ios-nfc-felica-detection-time-comparison": {
+      "audience": "制作側・技術者向け",
+      "audience_confidence": 1,
+      "_reviewed": true
+    },
+    "core-nfc-felica-system-code-limit": {
+      "audience": "制作側・技術者向け",
+      "audience_confidence": 1,
+      "_reviewed": true
+    },
+    "ai-chatbot-industry-suitability": {
+      "audience": "発注側向け",
+      "audience_confidence": 1,
+      "_reviewed": true
+    },
+    "in-house-system-outsourcing-cost": {
+      "audience": "発注側向け",
+      "audience_confidence": 1,
+      "_reviewed": true
+    },
+    "llm-overfitting-detection-prevention": {
+      "audience": "制作側・技術者向け",
+      "audience_confidence": 1,
+      "_reviewed": true
+    },
+    "ai-seo-article-quality-check": {
+      "audience": "発注側向け",
+      "audience_confidence": 0.96,
+      "_reviewed": true
+    },
+    "llm-guardrail-jailbreak-defense": {
+      "audience": "制作側・技術者向け",
+      "audience_confidence": 1,
+      "_reviewed": true
+    },
+    "system-development-outsourcing-cost-guide": {
+      "audience": "発注側向け",
+      "audience_confidence": 1
+    },
+    "homepage-renewal-timing-checklist": {
+      "audience": "発注側向け",
+      "audience_confidence": 1,
+      "_reviewed": true
+    },
+    "ios-nfc-felica-slow-fix": {
+      "audience": "制作側・技術者向け",
+      "audience_confidence": 1,
+      "_reviewed": true
+    },
+    "blog-bot": {
+      "audience": "発注側向け",
+      "audience_confidence": 0.54,
+      "_reviewed": true
+    },
+    "homepage-renewal-301-redirect-guide": {
+      "audience": "発注側向け",
+      "audience_confidence": 0.32,
+      "_reviewed": true
+    },
+    "website-renewal-guide": {
+      "audience": "発注側向け",
+      "audience_confidence": 1
+    },
+    "llmo-basics-for-smb": {
+      "audience": "発注側向け",
+      "audience_confidence": 0.91
+    },
+    "listing-ads-cpc-roi": {
+      "audience": "発注側向け",
+      "audience_confidence": 0.68
+    },
+    "google-business-profile-meo": {
+      "audience": "発注側向け",
+      "audience_confidence": 0.51,
+      "_reviewed": true
+    },
+    "website-not-converting": {
+      "audience": "発注側向け",
+      "audience_confidence": 0.92
+    },
+    "ai-chatbot-introduction": {
+      "audience": "発注側向け",
+      "audience_confidence": 1
+    },
+    "smb-dx-first-step": {
+      "audience": "発注側向け",
+      "audience_confidence": 1
+    },
+    "website-launch-1month": {
+      "audience": "発注側向け",
+      "audience_confidence": 1
+    },
+    "multi-ai-parallel-productivity": {
+      "audience": "発注側向け",
+      "audience_confidence": 0.28,
+      "_reviewed": true
+    },
+    "aio-llmo-reality-check": {
+      "audience": "発注側向け",
+      "audience_confidence": 0.95
+    },
+    "ai-literacy-mindset-shift": {
+      "audience": "発注側向け",
+      "audience_confidence": 0.93,
+      "_reviewed": true
+    },
+    "benchmark-competitor-success": {
+      "audience": "発注側向け",
+      "audience_confidence": 0.58,
+      "_reviewed": true
+    },
+    "how-to-choose-web-agency": {
+      "audience": "発注側向け",
+      "audience_confidence": 1
+    },
+    "vetonet": {
+      "audience": "制作側・技術者向け",
+      "audience_confidence": 1,
+      "_reviewed": true
+    },
+    "wordpress-stall": {
+      "audience": "発注側向け",
+      "audience_confidence": 0.66
+    },
+    "japan-dx": {
+      "audience": "発注側向け",
+      "audience_confidence": 1
+    },
+    "ai-poc": {
+      "audience": "発注側向け",
+      "audience_confidence": 1
+    },
+    "claude-vs-gpt": {
+      "audience": "発注側向け",
+      "audience_confidence": 0.92
+    },
+    "pos-integration-single-source-of-truth": {
+      "audience": "発注側向け",
+      "audience_confidence": 0.98,
+      "_reviewed": true
+    }
   }
 }

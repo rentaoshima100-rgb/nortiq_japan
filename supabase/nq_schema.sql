@@ -180,6 +180,10 @@ $$;
 -- sg-subsidy を押して /subsidy を読んだセッションが K2（記事→サービス遷移率）にも K3（ゴール到達率）にも
 -- 数えられないので、計測上は中間層と同じに数える 'goal_info' に分ける（docs/nq/open-decisions.md の E9）。
 -- 特徴量の側（data/catalog-pages.json の type: goal、goal_proximity = 1）は設計書2章のまま変えない。
+-- 2026-09-21（docs/nq/decisions-2026-09-21.md 2章）: /company と /staff は 'trust' から 'company'（会社情報）、
+-- /recruit は 'company' から 'recruit'（採用情報）に変えた。catalog-pages.json の type と同じ分け方にするため。
+-- 会社概要・スタッフ紹介は求職者や営業も読むので「サービス系ページ」（K2 の到達先）には数えない。
+-- 5ラベル化より前の判定ログは無い（api:false で未稼働）ので、集計の連続性は切れない。
 create or replace function public.nq_page_group(url text)
 returns text
 language sql immutable
@@ -192,11 +196,12 @@ as $$
     when url in ('/web', '/chatbot', '/dx') then 'service'
     when url ~ '^/feature-' then 'feature'
     when url = '/works' or url ~ '^/works-' then 'works'
-    when url in ('/pricing', '/voice', '/support', '/staff', '/company') then 'trust'
+    when url in ('/pricing', '/voice', '/support') then 'trust'
     when url ~ '^/product-' then 'product'
     when url in ('/diagnostic', '/guidebook') then 'goal'
     when url = '/subsidy' then 'goal_info'
-    when url = '/recruit' then 'company'
+    when url in ('/company', '/staff') then 'company'
+    when url = '/recruit' then 'recruit'
     when url = '/' then 'top'
     else 'other'
   end

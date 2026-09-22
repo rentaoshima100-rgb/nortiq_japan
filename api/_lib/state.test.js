@@ -5,6 +5,7 @@ const { useFixtures } = require('./__fixtures__/setup');
 const { buildState, normalizeUrl, resolvePage } = require('./state');
 
 const ARTICLE = '/article-website-renewal-unexpected-additional-cost';
+const TECH = '/article-react-hooks-guide';
 
 const raw = (over) => Object.assign({
   ref: 'google',
@@ -18,14 +19,14 @@ const raw = (over) => Object.assign({
 
 test.beforeEach(() => { useFixtures(); });
 
-test('設計書6章の例と同じ形の日本語 state を返す', () => {
+test('設計書6章の例と同じ形の日本語 state を返す（記事の need は渡さず、対象を渡す）', () => {
   const r = buildState(raw());
   assert.strictEqual(r.ok, true);
   assert.deepStrictEqual(r.state, {
     '流入元': 'Google検索',
-    '着地ページ': { title: 'サイトリニューアル 追加費用が発生する原因と対策', type: '記事', topic: 'Web制作', need: ['サイトリニューアル'] },
+    '着地ページ': { title: 'サイトリニューアル 追加費用が発生する原因と対策', type: '記事', topic: 'Web制作', '対象': '発注側向け' },
     '閲覧履歴': [
-      { title: 'サイトリニューアル 追加費用が発生する原因と対策', type: '記事', '読み方': 'じっくり' },
+      { title: 'サイトリニューアル 追加費用が発生する原因と対策', type: '記事', '対象': '発注側向け', '読み方': 'じっくり' },
       { title: '料金プラン', type: '信頼・条件', '読み方': '流し見' },
     ],
     '現在のページ': { title: '料金プラン', type: '信頼・条件', '到達': '半分' },
@@ -35,6 +36,69 @@ test('設計書6章の例と同じ形の日本語 state を返す', () => {
   });
   assert.strictEqual(r.currentUrl, '/pricing');
   assert.strictEqual(r.landingUrl, ARTICLE);
+});
+
+test('対象: 着地ページと閲覧履歴の記事に付く。現在のページと記事以外のページには付かない', () => {
+  const r = buildState(raw({
+    landing: '/web',
+    history: [{ url: '/web', read: 'deep' }, { url: TECH, read: 'skim' }, { url: '/article-intern-diary', read: 'bounce' }],
+    current: { url: TECH, reach: 'half' },
+  }));
+  // /web は service。need はページのタグなので記事のスイッチに関係なく入る
+  assert.deepStrictEqual(r.state['着地ページ'], { title: 'Web制作', type: 'サービス機能', need: ['新規サイト制作', 'サイトリニューアル'] });
+  assert.deepStrictEqual(r.state['閲覧履歴'], [
+    { title: 'Web制作', type: 'サービス機能', '読み方': 'じっくり' },
+    { title: 'React Hooks の使い方', type: '記事', '対象': '制作側・技術者向け', '読み方': '流し見' },
+    { title: 'インターン日記', type: '記事', '対象': '求職者向け', '読み方': '途中離脱' },
+  ]);
+  // 現在のページには入れない（決定 3章: 着地ページと閲覧履歴の記事）
+  assert.deepStrictEqual(r.state['現在のページ'], { title: 'React Hooks の使い方', type: '記事', '到達': '半分' });
+});
+
+test('対象: 未設定の記事・列挙に無い値・catalog に無い記事はキーごと省く（自由文は入らない）', () => {
+  const r = buildState(raw({
+    landing: '/article-no-audience',
+    history: [{ url: '/article-bad-audience', read: 'deep' }, { url: '/article-just-published', read: 'skim' }],
+  }));
+  assert.deepStrictEqual(r.state['着地ページ'], { title: '対象読者が未設定の記事', type: '記事', topic: 'AI活用' });
+  assert.deepStrictEqual(r.state['閲覧履歴'], [
+    { title: '対象読者が列挙に無い記事', type: '記事', '読み方': 'じっくり' },
+    { type: '記事', '読み方': '流し見' },
+  ]);
+  assert.ok(!JSON.stringify(r.state).includes('全員向け'));
+  // labels に article_audience が無ければ既定の3語で判定する（発注側向けは通り、列挙外は落ちる）
+  useFixtures(null, { labels: (L) => { delete L.article_audience; } });
+  const d = buildState(raw({ history: [{ url: ARTICLE, read: 'deep' }, { url: '/article-bad-audience', read: 'deep' }] }));
+  assert.strictEqual(d.state['閲覧履歴'][0]['対象'], '発注側向け');
+  assert.strictEqual(d.state['閲覧履歴'][1]['対象'], undefined);
+});
+
+test('スイッチ: rules.state.article_need / article_audience（評価の段階実行用）。無ければ need 無し・対象あり', () => {
+  const landing = () => buildState(raw()).state['着地ページ'];
+  const hist = () => buildState(raw()).state['閲覧履歴'][0];
+  // 段階2の基準値: need を渡し、対象を渡さない
+  useFixtures(null, { rules: (R) => { R.state = { article_need: true, article_audience: false }; } });
+  assert.deepStrictEqual(landing(), { title: 'サイトリニューアル 追加費用が発生する原因と対策', type: '記事', topic: 'Web制作', need: ['サイトリニューアル'] });
+  assert.deepStrictEqual(hist(), { title: 'サイトリニューアル 追加費用が発生する原因と対策', type: '記事', '読み方': 'じっくり' });
+  // 両方
+  useFixtures(null, { rules: (R) => { R.state = { article_need: true, article_audience: true }; } });
+  assert.deepStrictEqual(Object.keys(landing()), ['title', 'type', 'topic', 'need', '対象']);
+  // キーが無い（古い nq-rules.json）→ 最終状態（need 無し・対象あり）
+  useFixtures(null, { rules: (R) => { delete R.state; } });
+  assert.deepStrictEqual(Object.keys(landing()), ['title', 'type', 'topic', '対象']);
+  // 値が真偽値でない（"false" など）は安全な側に倒す: need は渡さない。audience は false のときだけ止まる
+  useFixtures(null, { rules: (R) => { R.state = { article_need: 'true', article_audience: 'false' }; } });
+  assert.deepStrictEqual(Object.keys(landing()), ['title', 'type', 'topic', '対象']);
+});
+
+test('ページ型のラベルは page_type_labels から（company「会社情報」・recruit「採用情報」）。無い型は other', () => {
+  const r = buildState(raw({ landing: '/company', history: [{ url: '/company', read: 'deep' }, { url: '/staff', read: 'skim' }, { url: '/recruit', read: 'skim' }], current: { url: '/recruit', reach: 'end' } }));
+  assert.deepStrictEqual(r.state['着地ページ'], { title: '会社概要', type: '会社情報' });
+  assert.deepStrictEqual(r.state['閲覧履歴'].map((h) => h.type), ['会社情報', '会社情報', '採用情報']);
+  assert.strictEqual(r.state['現在のページ'].type, '採用情報');
+  // labels に recruit が無い（古い nq-labels.json）なら other のラベルに落ちる
+  useFixtures(null, { labels: (L) => { delete L.page_type_labels.recruit; } });
+  assert.strictEqual(buildState(raw({ current: { url: '/recruit', reach: 'end' } })).state['現在のページ'].type, 'その他');
 });
 
 test('URL 正規化: クエリとハッシュを落とし、末尾スラッシュを外す', () => {
@@ -135,7 +199,7 @@ test('自由文は state に入らない（余計なフィールド・title の�
   const r = buildState({
     ref: 'google',
     landing: ARTICLE,
-    history: [{ url: '/web', read: 'deep', title: INJECT, note: INJECT, type: INJECT }],
+    history: [{ url: '/web', read: 'deep', title: INJECT, note: INJECT, type: INJECT, '対象': INJECT, audience: INJECT }],
     current: { url: '/pricing', reach: 'half', title: INJECT, query: INJECT },
     visit: 'first',
     device: 'pc',
@@ -151,19 +215,20 @@ test('自由文は state に入らない（余計なフィールド・title の�
 });
 
 test('state の文字列は、catalog とラベルに在る語だけでできている', () => {
-  const { catalog } = useFixtures();
-  const labels = require('../../data/nq-labels.json');
+  const { catalog, labels } = useFixtures();
   const allowed = new Set();
   for (const p of Object.values(catalog)) {
     [p.title, p.topic].concat(p.industry || [], p.need || []).forEach((s) => s && allowed.add(s));
   }
   Object.values(labels.page_type_labels).forEach((s) => allowed.add(s));
+  Object.keys(labels.article_audience.criteria).forEach((s) => allowed.add(s));
   Object.values(labels.state_enums).forEach((m) => Object.values(m).forEach((s) => allowed.add(s)));
   const strings = [];
   const walk = (v) => {
     if (typeof v === 'string') strings.push(v);
     else if (v && typeof v === 'object') Object.values(v).forEach(walk);
   };
-  walk(buildState(raw({ ref: 'ai', visit: 'return', device: 'pc' })).state);
+  walk(buildState(raw({ ref: 'ai', visit: 'return', device: 'pc', history: [{ url: TECH, read: 'deep' }, { url: '/company', read: 'skim' }] })).state);
+  assert.ok(strings.includes('制作側・技術者向け'));
   for (const s of strings) assert.ok(allowed.has(s), s);
 });

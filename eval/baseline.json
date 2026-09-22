@@ -1,0 +1,57 @@
+{
+  "_comment": "eval/run.js --save-baseline が書く基準値。--baseline で比べ、決定一致率が 5 ポイント以上下がるか事業者への誤りが増えたら exit 1（設計書13章の回帰テスト）。数字は要約だけで、生の回答は入れない。更新するのは、指示文・blocks・audience・しきい値・モデル版を変えて評価し直し、結果を受け入れると決めたとき。",
+  "version": 1,
+  "recorded_at": "2026-09-22T07:14:27.180Z",
+  "model": "jev-1.13.0",
+  "sessions": {
+    "file": "eval/sessions.json",
+    "n": 70,
+    "answered": 70,
+    "sha256": "48a0c5263a0074270eca9a481a1cd450fa1ea3076bead79924996a659fe100d4"
+  },
+  "data_sha256": {
+    "data/nq-labels.json": "0b501ad36ee1d06b793445693b09bac372e4413baa26108c394543bd43bb27bd",
+    "data/nq-rules.json": "000d81ff69f94e3a0b81aac84318ddc8d72c61fab515894ebe75f10c01b84f78",
+    "data/blocks.json": "80d856a93da87cb02f88a09ac88e0b7185b8343e6a9a0f1a9bbc3c00e97514ae",
+    "data/catalog-articles.json": "078f9ee15800ea542a6e47a2106da4ac5f54778af9270da10bf5d2f211eeb90c",
+    "data/catalog-pages.json": "f8a1a6b501e7b63ac69028f53f86e6fd915ba7fe1be15bd668a55b4c9cebc164"
+  },
+  "decision_agreement": 1,
+  "business_errors": 0,
+  "axes": {
+    "visitor_type": {
+      "strict": 0.9,
+      "lenient": 0.9142857142857143,
+      "effective": 0.9142857142857143
+    },
+    "industry": {
+      "strict": 1,
+      "lenient": 1,
+      "effective": 1
+    },
+    "need": {
+      "strict": 0.8285714285714286,
+      "lenient": 0.8428571428571429,
+      "effective": 0.8428571428571429
+    }
+  },
+  "stage": {
+    "exact": 0.7857142857142857,
+    "within1": 1,
+    "best_threshold": 1.165,
+    "n_human_ge2": 25
+  },
+  "cards": {
+    "top1": 0.5945945945945946,
+    "top1_in_relevant": 0.8108108108108109,
+    "precision": 0.5930232558139535,
+    "recall": 0.85
+  },
+  "concerns": {
+    "precision": 0.9803921568627451,
+    "recall": 0.8771929824561403
+  },
+  "cta_ok": {
+    "accuracy": 0.9
+  }
+}

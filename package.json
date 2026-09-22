@@ -14,7 +14,10 @@
     "pricing:check": "node pricing-check.js",
     "render-pdf": "node render-pdf.mjs",
     "serve": "npx --yes serve dist -l 5173",
-    "test": "node --test \"api/_lib/*.test.js\""
+    "test": "node --test \"api/_lib/*.test.js\"",
+    "nq:eval": "node eval/run.js --provider jev",
+    "nq:eval:check": "node eval/run.js --provider jev --baseline eval/baseline.json",
+    "nq:tag-articles": "node eval/tag-articles.js"
   },
   "dependencies": {
     "sharp": "^0.33.5"

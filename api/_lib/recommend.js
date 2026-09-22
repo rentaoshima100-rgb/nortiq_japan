@@ -20,8 +20,9 @@
 // どちらも 5% は候補の中から等確率で選ぶ（一様探索）。どのカードの選択確率も 0 にしないためで、
 // これが無いと、記録した選択確率の逆数で重みづけするオフポリシー評価（7章「6. 評価」）が成り立たない。
 //
-// 探索の範囲は、関連度が rel_floor 以上のカードに限る。最大の関連度が rel_gate 未満なら
-// 何も選ばない（探索もしない）。訪問者から見て的外れな提案は、探索であっても出さない。
+// 探索の範囲は、関連度が rel_floor 以上のカードに限る（下限は探索と2枚目の候補にしか効かず、
+// 1位のカードは取りこぼさない）。最大の関連度が rel_gate 未満なら何も選ばない（探索もしない）。
+// 訪問者から見て的外れな提案は、探索であっても出さない。
 // 2枚目（slot-end）も同じで、1枚目を除いた候補の最大が rel_gate 未満なら2枚目は選ばない。
 // 訪問者タイプで対象外になるカード（blocks.json の only_visitor_types）は、候補にも探索にも入れない。
 
@@ -42,7 +43,9 @@ function config() {
   const pick = (o, k, d) => (fin(o[k]) != null ? o[k] : d);
   return {
     rel_gate: pick(t, 'rel_gate', 0.55),
-    rel_floor: pick(t, 'rel_floor', 0.35),
+    // 候補の下限。2026-09-21 決定 4章で 0.35 → 0.45（0.35〜0.45 の帯は当たり7・外れ18）。値は data/nq-rules.json の
+    // thresholds.rel_floor が正で、ここはキーが無いときの受け皿。rules.js の関連記事の下限も同じキーを読む。
+    rel_floor: pick(t, 'rel_floor', 0.45),
     industry_switch: pick(t, 'industry_switch', 0.6),
     explore_rate: Math.min(1, Math.max(0, pick(r, 'explore_rate', 0.05))),
     propensity_draws: Math.max(1, Math.round(pick(r, 'propensity_draws', 200))),

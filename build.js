@@ -231,9 +231,10 @@ function warnArticleLayoutRisks(entry, md) {
 // 入力は data/*.json (人が書く)。BLOG は外部の公開ワーカが書き換えるので、記事の拡張メタは
 // BLOG に足さず data/catalog-articles.json に置いてある。出力は3つ。
 //   window.NORTIQ_NQ        app.bundle.js の先頭。承認済みの文言だけを入れる (承認がキルスイッチ)
-//   NORTIQ_ARTICLES[slug]   est_read_sec / nq_block を足す。本文HTMLには slot-mid のマーカーを入れる
-//   api/_data/catalog.json  /api/suggest が URL から title・type・タグを引き直すための表
+//   NORTIQ_ARTICLES[slug]   est_read_sec / nq_block / related を足す。本文HTMLには slot-mid のマーカーを入れる
+//   api/_data/catalog.json  /api/suggest が URL から title・type・タグ・audience・related を引き直すための表
 //
+// 記事のメタ (audience・related) の取り決めは docs/nq/decisions-2026-09-21.md の3章と5章。
 // 記事を理由にビルドを落とさないこと。記事は人がいない時間にも自動公開され、main への push は
 // そのまま本番デプロイになる。データの不備は warn にとどめ、NQ_STRICT=1 のときだけ
 // 「人が書くファイルの不備」を throw に上げる (記事に由来するものは NQ_STRICT でも warn のまま)。
@@ -243,6 +244,20 @@ const NQ_MID_FROM = 0.40;                   // 本文のこの地点より前に
 const NQ_MID_TO = 0.70;
 const NQ_MID_AIM = 0.55;
 const NQ_END_DEFAULT = 'sg-guidebook';      // slot-end のデフォルト (資料ダウンロードのカード)
+
+// 記事の audience (だれに向けて書かれた記事か)。列挙値で、api/_lib/state.js が着地ページ・閲覧履歴の記事に
+// 「対象」として Jev に渡す。ページやカードの audience (catalog-pages.json / blocks.json) は関連度の
+// 質問文で、名前は同じでも役割が違う。
+// 記事の need は状態に渡さなくなった (Jev がタグをそのまま答え、技術記事を読んだだけの人に
+// 「AI導入」のニーズが付いたため)。代わりに、この audience で「発注側の人か、作る側の人か」を伝える。
+const NQ_ARTICLE_AUDIENCES = ['発注側向け', '制作側・技術者向け', '求職者向け'];
+// audience が無い記事の仮置き。制作側向けと誤ると事業者から提案カードが消えるが、逆の誤りは技術者に
+// カードが1枚出るだけなので、安全な側 (発注側向け) に倒す。仮置きした記事は warn で知らせる。
+const NQ_ARTICLE_AUDIENCE_DEFAULT = '発注側向け';
+// 関連記事の候補数 (設計書13章「記事が増えても回る設計」)。記事ごとにビルド時に結び付けておき、
+// 実行時は questions.js がこの中からだけ Jev に関連度を聞き、rules.js が3本を選ぶ。
+// 記事が 1,000 本になっても、1回の判定で Jev に渡す質問数 (最大37) は増えない。
+const NQ_RELATED_MAX = 12;
 
 // 画面に出すフィールドと字数上限。ここに無いキー (approved_by など内部用) は配信物に入れない。
 // 字数は全角半角とも1字 ([...str].length)。
@@ -382,6 +397,9 @@ function resolveNqRef(nq, blockId, industries) {
 
 // 記事の拡張メタ。解決順は overrides → category_defaults[category] → category_defaults["*"]。
 // 自動公開された記事は overrides に無く、カテゴリも未知でありうる。そのときは "*" で動かす。
+// audience は overrides → カテゴリ既定 (未知のカテゴリなら "*") の順で、列挙にある値だけを採る。
+// どちらにも無ければ仮置き (audience_placeholder: true。assertNq がまとめて warn する)。
+// パイプライン側 (nortiq-pipeline) や eval/tag-articles.js が overrides に書けば、次のビルドから仮置きが外れる。
 function nqArticleMeta(nq, a) {
   const defs = nq.articles.category_defaults;
   const ov = nqOwn(nq.articles.overrides, a.slug) && nq.articles.overrides[a.slug] && typeof nq.articles.overrides[a.slug] === 'object'
@@ -392,6 +410,8 @@ function nqArticleMeta(nq, a) {
   const base = cat || star;
   const industry = Array.isArray(ov.industry) ? ov.industry : (Array.isArray(base.industry) ? base.industry : []);
   const need = Array.isArray(ov.need) ? ov.need : (Array.isArray(base.need) ? base.need : []);
+  const audienceOf = (o) => (o && NQ_ARTICLE_AUDIENCES.indexOf(o.audience) >= 0 ? o.audience : null);
+  const audience = audienceOf(ov) || audienceOf(base);
   let ref = null;
   const skipped = [];
   for (const [from, id] of [['overrides', ov.block_id], ['category_defaults', cat && cat.block_id], ['*', star.block_id]]) {
@@ -400,7 +420,44 @@ function nqArticleMeta(nq, a) {
     if (r.ref) { ref = r.ref; break; }
     skipped.push({ from, id, why: r.why });
   }
-  return { nq_block: ref, industry, need, knownCategory, skipped, mid_before_h2: ov.mid_before_h2 };
+  return {
+    nq_block: ref, industry, need, knownCategory, skipped, mid_before_h2: ov.mid_before_h2,
+    audience: audience || NQ_ARTICLE_AUDIENCE_DEFAULT, audience_placeholder: !audience,
+  };
+}
+
+// 関連記事の候補。記事ごとに最大 NQ_RELATED_MAX 本の slug を、決定的な並びで結び付ける。
+//   同カテゴリ → 同 need (1語でも共通) → 同業種 (同上) → 残り。各段は新着順 (date の降順。同日は BLOG の並び)
+// 自分自身と noindex の記事は入れない (noindex は一覧にも出さない記事。components.jsx の listedArticles() と同じ扱い)。
+// 実行時は、questions.js がこの並びの各記事に関連度を聞き、rules.js が高い順に3本 (足りなければ先頭から) を選ぶ。
+// クライアント (nq-suggest.jsx) は判定が無いとき、先頭3本を既読を除いて出す。旧の「同カテゴリの新着順」と
+// 同じ並びが先頭に来るので、判定が無い場面の見た目は変わらない。
+// items は BLOG の並びで { slug, category, date, noindex, need, industry }。戻り値は slug → slug[]。
+function nqRelatedSlugs(items) {
+  const pool = items
+    .map((a, i) => ({ a, i }))
+    .filter((x) => !x.a.noindex)
+    .sort((x, y) => String(y.a.date || '').localeCompare(String(x.a.date || '')) || x.i - y.i)
+    .map((x) => x.a);
+  const shares = (xs, ys) => xs.some((w) => ys.indexOf(w) >= 0);
+  const out = {};
+  for (const cur of items) {
+    const picked = [];
+    const tiers = [
+      (a) => a.category === cur.category,
+      (a) => shares(a.need, cur.need),
+      (a) => shares(a.industry, cur.industry),
+      () => true,
+    ];
+    for (const ok of tiers) {
+      for (const a of pool) {
+        if (picked.length >= NQ_RELATED_MAX) break;
+        if (a.slug !== cur.slug && picked.indexOf(a.slug) < 0 && ok(a)) picked.push(a.slug);
+      }
+    }
+    out[cur.slug] = picked;
+  }
+  return out;
 }
 
 // タグ・実体参照・空白を除いた文字数 (est_read_sec と slot-mid の位置決めに使う)
@@ -476,7 +533,10 @@ function insertNqMidMarker(html, chars, wantH2, where) {
 }
 
 // /api/suggest 用の catalog。クライアントは URL と列挙値しか送らないので、Jev に渡す title・type・
-// タグはサーバがこの表から引き直す。audience / summary / block_id など内部用の項目は入れない。
+// タグはサーバがこの表から引き直す。固定ページの audience (関連度の質問文) / summary / block_id など
+// 内部用の項目は入れない。記事には audience (列挙値。state.js が「対象」として渡す) と related
+// (関連記事の候補 slug。questions.js がこの中からだけ関連度を聞く) を入れる。need は状態に渡さなくなったが、
+// J1・J3・レポートが使うので残す。
 function buildNqCatalog(nq, articles) {
   const pages = {};
   const list = (v) => (Array.isArray(v) ? v.filter((x) => typeof x === 'string') : []);
@@ -486,7 +546,10 @@ function buildNqCatalog(nq, articles) {
   for (const a of BLOG) {
     if (!articles[a.slug]) continue; // md が無く、ページとして存在しない
     const m = nqArticleMeta(nq, a);
-    pages['/article-' + a.slug] = { title: a.title, type: 'article', topic: a.category, industry: list(m.industry), need: list(m.need) };
+    pages['/article-' + a.slug] = {
+      title: a.title, type: 'article', topic: a.category, industry: list(m.industry), need: list(m.need),
+      audience: m.audience, related: list(articles[a.slug].related),
+    };
   }
   return { pages };
 }
@@ -531,6 +594,18 @@ function assertNq(nq, fixedRoutes, lpRoutes) {
   const needs = labelSet('need');
   const pageTypes = nq.labels.page_type_labels ? new Set(Object.keys(nq.labels.page_type_labels)) : null;
   const pageUrls = new Set(nq.pages.map((p) => p.url));
+  // 記事 audience の列挙は build.js (NQ_ARTICLE_AUDIENCES) と data/nq-labels.json (article_audience.criteria) の2か所に在る。
+  // 食い違うと、ここの検査を通った値を api/_lib/data.js の articleAudience() が列挙外として落とし、記事の「対象」が
+  // 黙って Jev に渡らなくなる。人が書くファイルの不備なので bad。
+  const audienceLabels = labelSet('article_audience');
+  if (audienceLabels) {
+    const inLabels = [...audienceLabels].sort().join(' / ');
+    const inBuild = NQ_ARTICLE_AUDIENCES.slice().sort().join(' / ');
+    if (inLabels !== inBuild) {
+      bad.push('data/nq-labels.json の article_audience.criteria (' + inLabels + ') が build.js の NQ_ARTICLE_AUDIENCES (' + inBuild
+        + ') と食い違っています — どちらかにそろえてください (記事の「対象」が Jev に渡らなくなります)。');
+    }
+  }
   // ファイルごと読めなかったとき (上の problems で報告済み) に、相手側の全件を「無い」と言わないための目印
   const haveBlocks = nq.blocks.length > 0;
   const havePages = nq.pages.length > 0;
@@ -696,6 +771,12 @@ function assertNq(nq, fixedRoutes, lpRoutes) {
     if (e.mid_before_h2 != null && !(Number.isInteger(e.mid_before_h2) && e.mid_before_h2 >= 1)) {
       bad.push(where + ': mid_before_h2 は1以上の整数 (本文の n 番目の h2) で書いてください。');
     }
+    // 列挙外の audience は state.js が「対象」として Jev にそのまま渡してしまうので、ここで止める
+    // (書いた人の不備なので bad。値は無視して次の既定か仮置きに落ちる)。
+    if (e.audience != null && NQ_ARTICLE_AUDIENCES.indexOf(e.audience) < 0) {
+      bad.push(where + ': audience ' + JSON.stringify(e.audience) + ' は使えません — ' + NQ_ARTICLE_AUDIENCES.join(' / ')
+        + ' のどれかにしてください (この指定は無視して次の既定に落とします)。');
+    }
   };
   for (const c of Object.keys(defs)) checkArticleEntry(A + 'category_defaults.' + c, defs[c]);
   const slugs = new Set(BLOG.map((a) => a.slug));
@@ -704,9 +785,11 @@ function assertNq(nq, fixedRoutes, lpRoutes) {
     if (!slugs.has(slug)) soft.push(A + 'overrides.' + slug + ': build.js の BLOG に無い slug です — 統合・削除した記事なら、この行も消してください。');
   }
   const unknownCats = {};
+  const audiencePlaceholder = [];
   for (const a of BLOG) {
     const m = nqArticleMeta(nq, a);
     if (!m.knownCategory) (unknownCats[a.category] = unknownCats[a.category] || []).push(a.slug);
+    if (m.audience_placeholder) audiencePlaceholder.push(a.slug);
     // 業種が決まらずに既定へ落ちた記事のうち、overrides に人が書いたものだけ知らせる。
     // カテゴリ既定が sg-solution (業種別) で industry が空の記事が "*" に落ちるのは取り決めどおりで、
     // 自動公開のたびに警告が増えるだけになる。承認待ち (unapproved) と、上で報告済みの unknown も数えない。
@@ -720,6 +803,13 @@ function assertNq(nq, fixedRoutes, lpRoutes) {
   for (const c of Object.keys(unknownCats)) {
     soft.push(A + 'category_defaults: カテゴリ「' + c + '」の既定がありません (' + unknownCats[c].length + '本: ' + unknownCats[c].slice(0, 3).join(', ')
       + (unknownCats[c].length > 3 ? ' ほか' : '') + ') — "*" の既定で動かしています。カテゴリを足すなら category_defaults に1行足してください。');
+  }
+  // audience の仮置きは記事1本ごとに出さず、まとめて1行にする (自動公開のたびに未設定の記事が増えるため)。
+  // 記事に由来するので NQ_STRICT でも warn のまま。仮置きは安全な側 (発注側向け) なので公開は止めない。
+  if (audiencePlaceholder.length) {
+    soft.push(A + 'audience が無い記事 ' + audiencePlaceholder.length + '本を「' + NQ_ARTICLE_AUDIENCE_DEFAULT + '」で仮置きしています ('
+      + audiencePlaceholder.slice(0, 3).join(', ') + (audiencePlaceholder.length > 3 ? ' ほか' : '')
+      + ') — overrides か category_defaults に audience (' + NQ_ARTICLE_AUDIENCES.join(' / ') + ') を書くか、eval/tag-articles.js で付けてください。');
   }
 
   for (const msg of soft.concat(bad)) console.warn('  ! ' + msg);
@@ -735,6 +825,7 @@ marked.setOptions({ gfm: true, breaks: false, headerIds: false, mangle: false })
 function buildArticles(nq) {
   const out = {};
   const mid = { override: 0, h2: 0, h3: 0, short: 0, 'no-heading': 0, broken: 0 };
+  const nqMetaBySlug = {}; // 関連記事の候補 (need / industry で結び付ける) に使う
   for (const a of BLOG) {
     const mdPath = path.join(ROOT, 'content', 'blog', a.slug + '.md');
     if (!fs.existsSync(mdPath)) { console.warn(`  ! missing ${a.slug}.md`); continue; }
@@ -755,6 +846,7 @@ function buildArticles(nq) {
     let html = parsed;
     try {
       const nqMeta = nqArticleMeta(nq, a);
+      nqMetaBySlug[a.slug] = nqMeta;
       const placed = insertNqMidMarker(parsed, chars, nqMeta.mid_before_h2, a.slug);
       mid[placed.how || placed.why]++;
       if (placed.why === 'broken') {
@@ -775,6 +867,22 @@ function buildArticles(nq) {
   console.log('  → slot-mid: ' + placedCount + '本に挿入 (h2 ' + mid.h2 + ' / h3 ' + mid.h3 + ' / mid_before_h2 指定 ' + mid.override + ') / '
     + skippedCount + '本は無し (' + NQ_MID_MIN_CHARS + '字未満 ' + mid.short + ' / 40〜70%に見出しなし ' + mid['no-heading']
     + ' / HTMLの開閉が不整合 ' + mid.broken + ')');
+
+  // 関連記事の候補 (related)。全記事が出そろってから結び付ける (md の無い記事は候補にも入れない)。
+  // nq の準備に失敗した記事はタグ無しとして扱い、カテゴリと新着順だけで結び付ける。
+  // 既存のフィールドは変えず、related を後ろに足すだけ (articles.js の形は extra-pages.jsx などが読む)。
+  const related = nqRelatedSlugs(BLOG.filter((a) => out[a.slug]).map((a) => {
+    const m = nqMetaBySlug[a.slug] || {};
+    return { slug: a.slug, category: a.category, date: a.date, noindex: !!a.noindex, need: m.need || [], industry: m.industry || [] };
+  }));
+  let relatedTotal = 0;
+  for (const slug of Object.keys(out)) {
+    out[slug].related = related[slug] || [];
+    relatedTotal += out[slug].related.length;
+  }
+  const n = Object.keys(out).length;
+  console.log('  → related: ' + n + '本の記事に関連記事の候補を最大 ' + NQ_RELATED_MAX + '本ずつ (平均 '
+    + (n ? (relatedTotal / n).toFixed(1) : '0') + '本)');
   return out;
 }
 

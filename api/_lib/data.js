@@ -20,6 +20,8 @@ function tryRequire(load) {
 const EMPTY_BLOCKS = { version: 1, blocks: [] };
 
 // catalog-pages.json（配列）を catalog.json と同じ { url: {title,type,topic?,industry,need} } に直す。
+// 記事の audience / related は build.js の生成物にしか無い（こちらは固定ページだけなので持たない）。
+// ページの audience（Jev への関連度の質問文）は内部用なので、ここでも落とす。
 function pagesToMap(file) {
   const out = {};
   const pages = file && Array.isArray(file.pages) ? file.pages : [];
@@ -139,6 +141,53 @@ function selectableCardIds() {
     .map((b) => b.block_id);
 }
 
+// ---- 記事のメタ（2026-09-21 決定 3章・5章）----
+//
+// build.js が api/_data/catalog.json の記事に audience（対象読者の列挙値）と related（関連候補の slug、
+// 最大12本）を出す。どちらも「在れば使い、無ければ無いなりに動く」（ビルド前の catalog や、
+// catalog-pages.json への代替読み込みでは記事にこの2つが無い）。
+
+const ARTICLE_PREFIX = '/article-';
+// 記事の対象読者の既定の列挙。data/nq-labels.json の article_audience.criteria が正で、ここは無いときの受け皿。
+const ARTICLE_AUDIENCES = ['発注側向け', '制作側・技術者向け', '求職者向け'];
+// ビルド時に結び付ける関連候補の上限（設計書13章）。実行時の質問数を固定するための天井なので、
+// catalog にそれより多く入っていてもここで切る。
+const MAX_RELATED = 12;
+const SLUG_RE = /^[a-z0-9][a-z0-9-]{0,118}$/;
+
+// 記事の audience の列挙（labels.article_audience.criteria のキー）。無ければ既定の3語。
+function articleAudienceLabels() {
+  const aa = store.labels && store.labels.article_audience;
+  const crit = aa && aa.criteria && typeof aa.criteria === 'object' && !Array.isArray(aa.criteria) ? aa.criteria : null;
+  const keys = crit ? Object.keys(crit).filter((k) => k && k.trim()) : [];
+  return keys.length ? keys : ARTICLE_AUDIENCES.slice();
+}
+
+// 記事の audience（列挙値）。記事以外のページ・値が無い・列挙に無い値は null。
+// ページの audience（catalog-pages / blocks の「〜人向け」の文）とは役割が違い、記事の列挙値だけを状態に入れる。
+// 列挙に無い値を通すと、catalog に書かれた任意の文字列が Jev の状態に入る経路になるので、ここで落とす。
+function articleAudience(page) {
+  if (!page || page.type !== 'article' || typeof page.audience !== 'string') return null;
+  const v = page.audience.trim();
+  return v && articleAudienceLabels().includes(v) ? v : null;
+}
+
+// 記事の関連候補（slug の配列。最大 MAX_RELATED。自分自身・重複・slug の形でないものは除く）。
+// url は '/article-<slug>'。記事でない・related が無ければ []。
+function relatedSlugs(url) {
+  if (typeof url !== 'string' || !url.startsWith(ARTICLE_PREFIX)) return [];
+  const page = Object.prototype.hasOwnProperty.call(store.catalog || {}, url) ? store.catalog[url] : null;
+  if (!page || page.type !== 'article' || !Array.isArray(page.related)) return [];
+  const self = url.slice(ARTICLE_PREFIX.length);
+  const out = [];
+  for (const s of page.related) {
+    if (typeof s !== 'string' || !SLUG_RE.test(s) || s === self || out.includes(s)) continue;
+    out.push(s);
+    if (out.length >= MAX_RELATED) break;
+  }
+  return out;
+}
+
 module.exports = {
   get labels() { return store.labels; },
   get rules() { return store.rules; },
@@ -152,6 +201,11 @@ module.exports = {
   industryFor,
   selectableCardIds,
   pagesToMap,
+  articleAudienceLabels,
+  articleAudience,
+  relatedSlugs,
+  ARTICLE_PREFIX,
+  MAX_RELATED,
   // テスト・評価専用。blocks.json / catalog.json が未作成でも fixture で動かせるようにする。
   // blocks / catalog はファイルの形（{blocks:[...]} / {pages:{...}}）のまま渡してよい。
   // includeUnapproved:true を渡すと、未承認の variant も承認済みとして扱う。承認前の下書きを

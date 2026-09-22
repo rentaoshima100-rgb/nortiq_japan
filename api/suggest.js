@@ -4,11 +4,14 @@
 //   { session_id: "r_8f3k2m", trigger: "T1"|"T2"|"T3", page_url: "/article-xxx",
 //     state: { ref, landing, history:[{url,read}], current:{url,reach}, visit, device, passed:[block_id] } }
 //   -> { decision_id, default, shadow, policy,
-//        slots: { "slot-mid": { block_id, variant, industry?, propensity? }, ... } }
+//        slots: { "slot-mid": { block_id, variant, industry?, propensity?, related? }, ... } }
 //
 // クライアントが送るのは URL と列挙値だけ。モデルに渡す文章はサーバが catalog から組み立てる
 // （api/_lib/state.js）。画面に出る文言はすべて事前に承認したもので、ここで決めるのは
 // 「どの承認済みブロックを出すか」だけ。
+// related は rl-related（関連記事）のときだけ付く slug の配列（最大3本。設計書13章）。現在のページの
+// 関連候補（catalog の related、最大12本）に Jev が付けた関連度（answers の rel_article_<slug>）から
+// rules.js が選ぶ。クライアントは決定に related があればそれを、無ければ従来どおり自分で並べる。
 //
 // 判定は4段（設計書6章）: 状態を組み立てる → モデルに1回でまとめて聞く（decide）→
 // 推薦アルゴリズムがカードに順位をつけて選ぶ（recommend）→ ルールで出すかどうかを決める（applyRules）。
@@ -101,7 +104,8 @@ module.exports = async (req, res) => {
     const shadow = process.env.NQ_SHADOW === '1';
 
     // ホールドアウトとシャドーでも判定は行う。意図レポートの母数と、適用群との比較に要る。
-    const { questions, candidates } = buildQuestions({ passed: built.passed, currentUrl: built.currentUrl, viewedUrls: built.viewedUrls });
+    // related_candidates は現在のページが記事のときの関連候補（slug）。ルールが rl-related の3本を選ぶのに使う。
+    const { questions, candidates, related_candidates } = buildQuestions({ passed: built.passed, currentUrl: built.currentUrl, viewedUrls: built.viewedUrls });
     // nq_model は prior のときも読む。prior は学習済みの重みを使わない（recommend.js）が、aux（V と cov）を
     // 渡さないと、ログの features の dv / cov が必ず 0 になる。その行で何か月学習しても w_dv / w_cov の
     // 事後分布は事前分布のままで、ts に切り替えた瞬間に未学習の重みの雑音がそのまま探索に乗ってしまう。
@@ -137,7 +141,14 @@ module.exports = async (req, res) => {
       });
     }
 
-    const ruled = applyRules({ answers: decided && decided.answers, trigger, currentUrl: built.currentUrl, viewedUrls: built.viewedUrls, picks: rec && rec.picks });
+    const ruled = applyRules({
+      answers: decided && decided.answers,
+      trigger,
+      currentUrl: built.currentUrl,
+      viewedUrls: built.viewedUrls,
+      picks: rec && rec.picks,
+      relatedCandidates: related_candidates,
+    });
     const served = !holdout && !shadow && !ruled.is_default;
 
     // slots には「ルールが選んだもの」を残す（ホールドアウトとシャドーでは返していないが、
@@ -153,6 +164,7 @@ module.exports = async (req, res) => {
       shadow,
       is_default: !served,
       state: built.state,
+      // 質問した全部の回答（visitor_type・stage・intent_*・rel_<block_id>・rel_article_<slug>・concern_*・cta_ok）をそのまま残す。
       answers: decided ? decided.answers : null,
       // 候補ごとの関連度・特徴量・期待値・選択確率。夜間の学習とオフポリシー評価の材料になる。
       candidates: rec ? rec.candidates : null,

@@ -18,6 +18,20 @@
 > `decide.js` の `anthropic` プロバイダ、`ANTHROPIC_API_KEY` / `ANTHROPIC_MODEL`、`eval/run.js` の `--provider anthropic`、文書中の Sonnet 比較の記述は **作らない。既に在れば削除する**。
 > プロバイダは `stub` と `jev` の2つだけ（`decide(state, questions)` の差し替え口は残す）。Jev の実キーは `.env.local` の `JEV_API_KEY`（コミットしない）。
 
+> **2026-09-21 オーナー決定（設計書 v1.0 改訂: 2・3・6・7・10・13・14章）。** 決定文と実装の形は
+> [`decisions-2026-09-21.md`](decisions-2026-09-21.md) に固定してあり、**本書と食い違う箇所はそちらが優先**。本書は該当する節を追記・修正してある。変わった点の要約:
+> - **訪問者タイプは5ラベル**: 事業者／同業者・学習者／求職者・学生／営業・売り込み／other（旧「発注検討中の事業者」「情報収集中の事業者」は「事業者」に統合。検討の進み具合は `stage` で表す）。
+>   評価の完了条件は「決定一致率 90% 以上、かつ 事業者への誤り（人が事業者なのに行3か行4）2件以下」（1章）。
+> - **ページ型 `company` / `recruit`**: `/company` `/staff` は type `company`（状態には「会社情報」）、`/recruit` は `recruit`（「採用情報」）。どちらも `default_next` は null（2章・2.2）。
+> - **強い CTA（行6）**: `data/nq-rules.json` の `cta`（`mode` score｜noul、`gate_visitor_types`、`stage_cta` / `stage_contact` / `cta_ok` / `compare` / `contact`）を `rules.js` の `ctaConfig()` が読む。
+>   visitor_type の第1候補が `gate_visitor_types`（事業者・other）のときだけ評価する。stage の指示文は「当社のページをどれだけ読んだか」の4段階に変え、依頼意向の Noul 2問（`intent_compare` / `intent_contact`）を常に聞く（6.2・6.3）。
+> - **状態のスイッチ**: `data/nq-rules.json` の `state: { article_need: false, article_audience: true }`。記事の need タグは状態に渡さず、記事の **audience（対象読者。発注側向け／制作側・技術者向け／求職者向け）** を着地ページと閲覧履歴の記事に `"対象"` として渡す（6.2 の state.js）。
+> - **関連記事の候補（設計書13章）**: build.js が記事ごとに `related`（slug、最大12本）を `window.NORTIQ_ARTICLES[slug]` と `api/_data/catalog.json` に出し、questions.js は現在のページが記事ならその候補に `rel_article_<slug>`（Noul）を聞く。
+>   rules.js は rl-related を出す場面で関連度の高い順に3本を slot の `related` に入れ、nq-suggest.jsx はそれを優先する。1回の質問数は最大 37（上限 40 を assert）（3.1・3.3・4.1・4.4・6.1・6.2）。
+> - **記事の audience**: `data/catalog-articles.json` の `overrides[slug].audience`（`category_defaults` にも置ける）。どちらにも無ければ build.js が「発注側向け」で仮置きして warn。`eval/tag-articles.js` が Jev の Choice で一括付与する（2.3・3.3・3.4）。
+> - **関連度の下限 `rel_floor` は 0.45**（表示の門 `rel_gate` 0.55 は据え置き）（6.4）。
+> - **評価**: `eval/sessions.json` は v2（許容集合・`cards`）の70件。`eval/run.js` は決定一致率・事業者への誤り・stage の分布・`--baseline` の回帰テスト（`eval/baseline.json`、`.github/workflows/nq-eval.yml`）を持つ。
+
 ---
 
 ## 0. 絶対に守ること
@@ -134,6 +148,9 @@ JSX の構文確認は `npx babel --presets @babel/preset-react <file> > /dev/nu
 - `default_next` を持てるのは type が service / feature / solution / works / trust のページだけ。
   自分自身を指すブロックや、`selectable:false` のブロックは指定しない。LP（industry_lp）は今回 null。
 - 記事一覧 `/column` は type `article`、`suggestable:false`。
+- **2026-09-21**: `/company` `/staff` は type `company`（`page_type_labels` は「会社情報」）、`/recruit` は type `recruit`（「採用情報」）。
+  どちらも `default_next` は null（`company` / `recruit` は `default_next` を持てる型に入っていないので、slot-next のデフォルトも出ない）。
+  会社概要・スタッフ紹介を「信頼・条件」として渡すと、求職者や営業に高い検討度が付く（`decisions-2026-09-21.md` 2章）。
 
 ### 2.3 `data/catalog-articles.json`（U2）
 
@@ -152,19 +169,32 @@ JSX の構文確認は `npx babel --presets @babel/preset-react <file> > /dev/nu
   },
   "overrides": {
     "<slug>": { "block_id": "sg-pricing", "need": ["サイトリニューアル"], "industry": ["不動産"], "summary": "60字以内（任意）",
-                "mid_before_h2": 4 }   // 任意。12章 J2 が決めた slot-mid の位置。「本文の n 番目（1始まり）の <h2 の直前」
+                "mid_before_h2": 4,    // 任意。12章 J2 が決めた slot-mid の位置。「本文の n 番目（1始まり）の <h2 の直前」
+                "audience": "発注側向け",          // 2026-09-21。対象読者の列挙値: 発注側向け | 制作側・技術者向け | 求職者向け
+                "audience_confidence": 0.93,       // eval/tag-articles.js が書く（build.js は読まない）
+                "_review": true }                  // 確信度 0.6 未満の印（人が本文で確かめたら外す）
   }
 }
 ```
 
 - キーは BLOG の `slug`（`article-` 接頭辞なし）。カテゴリ名は BLOG の実データの表記（`'DX 観察記'` は半角スペース入り）。
 - `block_id` が `sg-solution` / `sg-works` の記事は、`industry` の先頭の業種で `by_industry` を引く。引けなければ `"*"` の既定に落とす。
-- 記事の `audience` は持たない（記事は提案先にしない＝ suggestable:false）。
+- 記事は提案先にしない（suggestable:false）ので、ページやカードの audience（関連度の質問文）は持たない。
+- **2026-09-21 記事の `audience`（対象読者）**: `overrides[slug].audience`、無ければ `category_defaults[category].audience`。
+  列挙値（`data/nq-labels.json` の `article_audience.criteria` のキー）だけを採り、列挙外は build.js が bad 警告して無視する。
+  どちらにも無ければ **「発注側向け」で仮置きして warn**（制作側向けと誤ると事業者から提案カードが消えるが、逆は技術者にカードが1枚出るだけ）。
+  `api/_lib/state.js` が着地ページと閲覧履歴の記事に `"対象"` として Jev に渡す。記事の `need` は状態に渡さない（catalog.json には残す）。
+  既存記事への一括付与は `eval/tag-articles.js`（README 8章）。パイプライン（nortiq-pipeline）が新記事に付けるときも `overrides[slug]` に書く。
 
 ### 2.4 共通データ（済）
 
 - `data/nq-labels.json`: 3章のラベルと説明、ページ種別の日本語ラベル、state の列挙値→日本語、関連度の指示文（`rel.instructions`。`{audience}` を含む1文）。
-- `data/nq-rules.json`: 6章のしきい値と各種上限。
+  **2026-09-21**: `visitor_type` は5ラベル、`stage` は新しい4段階の文（旧の文は `stage_legacy`。questions.js は読まない。評価の段階実行用）、
+  `intents`（`intent_compare` / `intent_contact`。キーがそのまま質問キー）、`article_audience`（記事の対象読者の3ラベル。tag-articles.js の Choice と build.js の列挙）、
+  `rel_article`（関連記事の質問文。`{title}` と `{audience}`）、`page_type_labels` に `company` / `recruit`。
+- `data/nq-rules.json`: 6章のしきい値と各種上限。**2026-09-21**: `thresholds.rel_floor` 0.45、`state`（`article_need` / `article_audience`。状態に何を入れるかのスイッチ）、
+  `cta`（行6の条件。`mode` / `gate_visitor_types` / `stage_cta` / `stage_contact` / `cta_ok` / `compare` / `contact`）、`recommend.goal_proximity_by_type` に `company: 0` `recruit: 0`。
+  評価の段階実行（`decisions-2026-09-21.md` 6章の表）では、評価担当がこれらを一時的に前の値に戻して回す。
 - `data/nq-config.json`: クライアントの動作モード。初期値は `api:false`・`session_log:false`・`events_api:false`。
 
 ---
@@ -188,6 +218,10 @@ JSX の構文確認は `npx babel --presets @babel/preset-react <file> > /dev/nu
   - `sg-solution` / `sg-works` の業種版は `"ID@業種"`（例 `"sg-solution@不動産"`）の形で渡す。`pages[url].next` も同じ形式。
     業種版が配信物（承認済み）に無ければ、ビルド側で `"*"` の既定（`sg-works` はトップレベル）へ落としてから渡す。
     クライアントは引けなければ何も描かない。処理に失敗した記事は `nq_block: null`。
+- **2026-09-21 関連記事の候補 `related`**（設計書13章）: 記事メタに `related: ["<slug>", …]`（`article-` 接頭辞なし、最大 `NQ_RELATED_MAX` = 12、
+  自分と noindex の記事を除く）。並びは「同カテゴリ → 同 need → 同業種 → 残り」、各段は新着順。先頭3本は旧の「同カテゴリの新着順」と同じ並びになるので、
+  判定が無いときの見た目は変わらない。`api/_data/catalog.json` の記事にも同じ配列を出す（3.3）。記事ごとに固定の候補を持つことで、
+  記事が 1,000 本になっても Jev に聞く関連記事は最大12本に収まる。
 
 ### 3.2 `window.NORTIQ_NQ`（app.bundle.js の先頭に連結）
 ```js
@@ -216,8 +250,13 @@ window.NORTIQ_NQ = {
 
 ### 3.3 API 用の生成物
 - `api/_data/catalog.json` を生成する（`.gitignore` に `api/_data/` を追加）。中身は
-  `{ "pages": { "<url>": { title, type, topic?, industry, need } } }`。記事は `/article-<slug>` をキーに
+  `{ "pages": { "<url>": { title, type, topic?, industry, need, audience?, related? } } }`。記事は `/article-<slug>` をキーに
   BLOG ＋ catalog-articles.json から導出（`type:"article"`、`topic` = category）。固定ページと LP は catalog-pages.json から。
+  - **2026-09-21**: 記事には `audience`（2.3 の列挙値。仮置きを含めて必ず入る）と `related`（3.1 と同じ slug の配列、最大12）が付く。
+    固定ページ・LP には無い。`need` は状態には渡さないが、J1・J3・レポート用に残す。
+    例: `"/article-clinic-web": { "title": "…", "type": "article", "topic": "業種別", "industry": ["クリニック・医療"], "need": ["集客・SEO", "新規サイト制作"], "audience": "発注側向け", "related": ["realty-lp", …] }`。
+    `api/_lib/data.js` の代替読み込み（catalog.json が無いとき catalog-pages.json だけで動く）では記事に `audience` / `related` が無く、
+    「対象」は付かず関連記事の質問も出ない（判定は続く）。
 - blocks / labels / rules は API が `data/*.json` を直接 `require` するので生成しない。
 
 ### 3.4 検証 `assertNq()`（初回リリースは **すべて warn**。`NQ_STRICT=1` で throw に上がる。ただし記事に由来する検証は 0章2 を優先して常に warn）
@@ -228,7 +267,9 @@ window.NORTIQ_NQ = {
 - catalog-pages: SITEMAP_ROUTES の固定ルート・`/sitemap`・`/quick-diagnosis`・LP_ROUTES が全部載っているか／
   `suggestable:true` なのに `audience` が空／`block_id`・`default_next` が blocks に在るか／
   `industry`・`need` の語がラベル集合に在るか／`summary` ≤60字／type が page_type_labels に在るか。
-- catalog-articles: overrides の slug が BLOG に在るか（無ければ warn）／未知カテゴリ（warn して `"*"`）。
+- catalog-articles: overrides の slug が BLOG に在るか（無ければ warn）／未知カテゴリ（warn して `"*"`）／
+  **2026-09-21**: `audience` が列挙外（bad。値は無視して次の既定か仮置きに落ちる）／audience が無い記事の仮置き（本数と先頭3本をまとめて1行の warn。
+  記事に由来するので NQ_STRICT でも warn のまま）／`data/nq-labels.json` の `article_audience.criteria` と build.js の `NQ_ARTICLE_AUDIENCES` の食い違い（bad）。
 - 失敗メッセージは既存の `assertNoDraftScaffolding` と同じ流儀（ファイル名・ID・対処法を日本語で）。
 
 ### 3.5 その他
@@ -253,8 +294,10 @@ window.NORTIQ_NQ = {
   - `NQ.inert` : boolean。0章3の条件に当たれば true。inert のときは下の副作用系がすべて no-op。
   - `NQ.pageView(path)` : app.jsx の route 監視から呼ぶ。履歴の追記、T2 判定、ゴール検知（`/diagnostic` `/guidebook`）。
   - `NQ.articleReady(slug, el)` : 記事本文が DOM に入った後に呼ぶ。T1（実際の scroll イベント・`scrollY>0`・本文の25%通過）を仕掛ける。
-  - `NQ.get(slot)` → `{ block_id, variant, industry } | null` / `NQ.subscribe(fn)` → unsubscribe。
-  - `NQ.markSeen(slot)` : スロットが一度画面に入ったら、そのページでは中身を固定する（以降の決定を無視）。
+  - `NQ.get(slot)` → `{ block_id, variant, industry, related } | null` / `NQ.subscribe(fn)` → unsubscribe。
+    `related` は **2026-09-21** に増えた。rl-related の決定にだけ入る slug の配列（`/article-` 無し。関連度の高い順、最大12）。無ければ null。
+    `NQ.resolve(ref)` の戻り値にも `related`（kind が related のときだけ。それ以外は null）が付く。
+  - `NQ.markSeen(slot, shown)` : スロットが一度画面に入ったら、そのページでは中身を固定する（以降の決定を無視）。`shown` に `related` を渡すとその並びで固定する。
   - `NQ.track(name, params)` : `config.ga_events` なら `window.nqTrack(name, params)`。`config.events_api` なら
     `navigator.sendBeacon('/api/nq-event', JSON)` も送る。
   - `NQ.viewed()` : このセッションで開いたページのパスの配列（いまのページを含む）。関連記事から既読を外すのに使う。
@@ -332,8 +375,11 @@ window.NORTIQ_NQ = {
   既定の文言のままのバー（block_id なし）は GA4 だけに送り、`/api/nq-event` には投げない。
 - `sendInquiry()` の成功直後に `NQ.goal('contact')`。フォームの入力内容は渡さない。
   静的LP（`assets/lp/common/lp.js`）のフォーム送達も、同じ goal として記録する（4.2）。
-- `rl-related` の3本は「同カテゴリの未読の新着順」。未読が足りなければ、全カテゴリの未読、既読の順に埋めて常に3本にする
-  （既読は `NQ.viewed()`。`session_log` が false の間はフルリロードで消え、従来と同じ並びに戻る）。
+- `rl-related` の3本（**2026-09-21 改訂**。`nqRelatedArticles(related)`）: 優先順に
+  (1) 決定の `slots[slot].related`（rules.js が関連度の高い順に選んだ slug。0〜3本、最大12本まで受ける。存在しない slug・noindex・自分自身は落とす）→
+  (2) `NORTIQ_ARTICLES[slug].related`（ビルド時の候補。先頭3本は旧の「同カテゴリ新着順」と同じ）→ (3) 同カテゴリの新着 → 全カテゴリの新着。
+  既読（`NQ.viewed()`）は (1)〜(3) のどれでも除き、未読が足りないときだけ既読で埋めて常に3本にする（記事が2本しか無ければ2本）。
+  決定が無い・`related` が無い旧 articles.js では従来の並びに戻る（`session_log` が false の間はフルリロードで既読が消え、従来と同じ並びになる）。
 - `window.nqTrack` に `__NORTIQ_PRERENDER__` ガードを足す。
 
 ---
@@ -380,6 +426,9 @@ window.NORTIQ_NQ = {
              "slot-bar": { "block_id": "ct-diagnostic", "variant": "strong" } } }
 ```
 - `sg-solution` / `sg-works` は `industry` キー（業種ラベル）を付けて返す: `{ "block_id":"sg-works", "variant":"default", "industry":"不動産" }`。
+- **2026-09-21**: `rl-related` は `related`（slug の配列。関連度の高い順に最大3本）を付けて返す:
+  `"slot-mid": { "block_id": "rl-related", "variant": "default", "related": ["clinic-web", "realty-lp", "seo-basics"] }`。
+  候補が無い（記事以外のページ・すでに全部読んだ）ときはキーごと無く、クライアントが従来どおり選ぶ（4.4）。
 - 処理の順: メソッド／`NQ_ENABLED!=='1'` なら即デフォルト → Content-Type が `application/json` 以外は即デフォルト
   （`/api/suggest` のみ。プリフライトなしのクロスオリジン POST を受けないため。nq-event は sendBeacon の text/plain を受ける）／ボディ上限 8KB →
   Origin 検証（nortiqlab.com / www は名前で許可。それ以外は同一オリジン = Origin（無ければ Referer）のホストが x-forwarded-host（無ければ host）と
@@ -395,22 +444,23 @@ window.NORTIQ_NQ = {
 ### 6.2 `api/_lib/`
 | ファイル | 公開する関数 |
 |---|---|
-| `data.js` | `labels` `rules` `blocks`（`data/*.json` を require。承認済み variant だけを配信対象として扱うヘルパー `deliverable(block, variant)`）、`catalog`（`../_data/catalog.json` を try/catch で require。無ければ catalog-pages.json だけで代替） |
+| `data.js` | `labels` `rules` `blocks`（`data/*.json` を require。承認済み variant だけを配信対象として扱うヘルパー `deliverable(block, variant)`）、`catalog`（`../_data/catalog.json` を try/catch で require。無ければ catalog-pages.json だけで代替）。**2026-09-21**: `articleAudienceLabels()`（`labels.article_audience.criteria` のキー。無ければ既定の3語）、`articleAudience(page)`（記事の audience の列挙値。列挙外・記事以外は null）、`relatedSlugs(url)`（記事の `related`。自分・重複・slug の形でないものを除き最大 `MAX_RELATED` = 12） |
 | `guard.js` | `checkOrigin(req)`（本番ドメインは名前で、それ以外は同一オリジンだけ許可。6.1）`isBot(ua)` `validSessionId(s)` `isHoldout(sessionId, rate)` |
-| `state.js` | `buildState(raw)` → `{ ok, state, currentUrl, landingUrl, passed }`。設計書6章の日本語キーの state を返す |
-| `questions.js` | `buildQuestions({ passed, currentUrl, viewedUrls })` → `{ questions, candidates }`。質問は visitor_type / industry / need（Choice）、stage（Score）、concern_×5、cta_ok（Noul）＋ **カードごとの関連度 `rel_<block_id>`（Noul。指示文は「この訪問者は次の説明に当てはまる：{audience}」）**。関連度を聞くカード（= candidates）は `selectable` かつ承認済みで、`passed`・現在のページ自身を指すブロック・すでに読んだページを指すブロックを除いたもの（7章「1. 候補を絞る」。ここは学習させずルールで固定）。`sg-solution` / `sg-works` はブロックの audience で1問ずつ |
+| `state.js` | `buildState(raw)` → `{ ok, state, currentUrl, landingUrl, passed, viewedUrls, revisit }`。設計書6章の日本語キーの state を返す。**2026-09-21**: 着地ページと閲覧履歴の記事に `"対象"`（記事の audience の列挙値。現在のページには付けない）。記事の `need` は `rules.state.article_need === true` のときだけ着地ページに入れる（既定は入れない）。`"対象"` は `rules.state.article_audience !== false` のとき（既定は入れる）。ページ型のラベルは `labels.page_type_labels`（company → 会社情報、recruit → 採用情報） |
+| `questions.js` | `buildQuestions({ passed, currentUrl, viewedUrls })` → `{ questions, candidates, related_candidates }`。質問の並びは visitor_type / industry / need（Choice）、stage（Score。`labels.stage`）、**`intent_compare` / `intent_contact`（Noul。`labels.intents`。行6の mode=noul 用。Score と並べて常に両方聞く）**、**カードごとの関連度 `rel_<block_id>`（Noul。指示文は「この訪問者は次の説明に当てはまる：{audience}」）**、**関連記事の候補ごとの `rel_article_<slug>`（Noul。「この訪問者は次の記事を読むと役に立つ：{title}（{audience}）」。`labels.rel_article.instructions`）**、concern_×5、cta_ok。関連度を聞くカード（= candidates）は `selectable` かつ承認済みで、`passed`・現在のページ自身を指すブロック・すでに読んだページを指すブロックを除いたもの（7章「1. 候補を絞る」。ここは学習させずルールで固定）。`sg-solution` / `sg-works` はブロックの audience で1問ずつ。`related_candidates` は現在のページが記事のとき catalog の `related` から既読と catalog に無い記事を除いた slug の配列（`pickRelated()`。それ以外は `[]`）。質問数が `MAX_QUESTIONS`（40）を超えたら assert で throw（suggest.js が拾ってデフォルト。設計書13章「1回の質問数は固定」） |
 | `features.js` | `FEATURES`（共有の重みの並び。下記 6.4）、`featureVector({ rel, card, answers, slot, currentUrl, revisit, aux })` → number[]、`priorModel(cardIds)` → `{ mean, variance }` |
 | `recommend.js` | `recommend({ answers, candidates, slots, currentUrl, revisit, model, policy, rng })` → `{ picks: { [slot]: { block_id, propensity } }, candidates: [...ログ用], policy, explored }`。純関数（rng を注入できる）。blocks の `only_visitor_types` に在る訪問者タイプ（`answers.visitor_type.choice`。確信度は問わない）のときだけ候補にする。外した候補は `excluded:'visitor_type'`（`sg-recruit` は「求職者・学生」だけ。関連度は聞き続け、ログに残る） |
 | `model.js` | `async loadModel()` → 最新の `nq_model` 行（mean / variance / aux）を Supabase から読み、モジュールスコープに10分キャッシュ。未設定・失敗・0行なら `priorModel()`。応答を遅らせない（300ms 上限）。`NQ_POLICY=ts` で最新の行が3日より古ければ `[nq] model stale_days N` をログに出す（重みは使い続ける） |
 | `decide.js` | `async decide(state, questions, opts)` → `{ provider, model, answers, latency_ms }`。`NQ_MODEL_PROVIDER` = `stub`（既定）/ `jev`。answers は正規化形（下記）。0〜1（score は 0〜段階数−1）の外の数値は丸めずに「回答なし」（null）として扱い、`[nq] jev out_of_range <個数>` をログに出す |
-| `rules.js` | `applyRules({ answers, trigger, currentUrl, viewedUrls, picks })` → `{ slots, is_default, matched, skipped }`。純関数。行5のカードは `recommend()` の結果（picks）を受け取って配置する。すでに読んだページ（viewedUrls）を指す提案カードは、ルールが直接決める行3の `sg-recruit` も含めて採用しない（`rs-*` / `ct-*` は対象外） |
+| `rules.js` | `applyRules({ answers, trigger, currentUrl, viewedUrls, picks, relatedCandidates? })` → `{ slots, is_default, matched, skipped }`。純関数。行5のカードは `recommend()` の結果（picks）を受け取って配置する。すでに読んだページ（viewedUrls）を指す提案カードは、ルールが直接決める行3の `sg-recruit` も含めて採用しない（`rs-*` / `ct-*` は対象外）。**2026-09-21**: `relatedCandidates`（questions.js が質問した slug の配列）は任意で、無ければ `pickRelated()` で同じ集合を組み直す。rl-related を置くとき slot に `related`（`pickRelatedArticles()`: `rel_article_<slug>` が `rel_floor` 以上のものを高い順に `RELATED_COUNT` = 3 本。足りなければ候補の先頭で埋める。候補が無ければキー無し）。行6は `ctaConfig()`（`rules.cta`。後方互換で `thresholds.stage_cta / stage_contact / cta_ok` も読む）の `mode` と `gate_visitor_types` で決める（6.3） |
 | `log.js` | `logDecision(row)` `logEvent(row)`。`SUPABASE_URL` 未設定なら no-op。PostgREST へ fetch（`Prefer: return=minimal`、400ms タイムアウト）。IP・UA 全文は保存しない |
 
 answers の正規化形:
 ```js
 { visitor_type: { choice, confidence, probabilities: {label: p} }, industry: {...}, need: {...},
-  stage: { score, confidence, probabilities }, concern_cost: { noul }, ..., cta_ok: { noul },
-  "rel_sg-web": { noul }, "rel_sg-pricing": { noul }, ... }
+  stage: { score, confidence, probabilities }, intent_compare: { noul }, intent_contact: { noul },
+  concern_cost: { noul }, ..., cta_ok: { noul },
+  "rel_sg-web": { noul }, "rel_sg-pricing": { noul }, ..., "rel_article_clinic-web": { noul }, ... }
 ```
 
 Jev プロバイダ: `POST https://api.typesafe.ai/v1/systemone`、`Authorization: Bearer ${JEV_API_KEY}`、
@@ -419,22 +469,29 @@ body `{ model: JEV_MODEL（既定 "jev-1.13.0"。latest は使わない）, stat
 score の `probabilities` は配列・マップの両方を受ける。`AbortSignal.timeout(rules.model_timeout_ms)`。リトライしない。
 詳細は `docs/nq/jev-api-notes.md`。
 
-### 6.3 ルール（設計書6章の表 ＋ 未定義部分の暫定）
+### 6.3 ルール（設計書6章の表 ＋ 未定義部分の暫定。2026-09-21 決定 2章・5章を反映）
+訪問者タイプは5ラベル（事業者／同業者・学習者／求職者・学生／営業・売り込み／other）。行2〜4が見るのは後ろの3つで、事業者と other は行5以降に進む。
 1. ホールドアウト・bot・エラー・タイムアウト → デフォルト
 2. visitor_type「営業・売り込み」≥0.6 → 何も変えない
 3. 「求職者・学生」≥0.6 → カードのスロット（T1: slot-mid ／ T2: slot-next）に `sg-recruit`
-4. 「同業者・学習者」≥0.6 → T1 の slot-mid に `rl-related`（T2 は何も変えない）。記事3本の並びはクライアントが決める（7章は同じ式で並べるとするが、記事ごとの関連度を取らないので v1 は同カテゴリの新着順。学習開始後の課題として open-decisions に残す）
+4. 「同業者・学習者」≥0.6 → T1 の slot-mid に `rl-related`（T2 は何も変えない）。記事3本は **質問した関連候補（`rel_article_<slug>`）の関連度の高い順**に slot の `related` に入れる（`rel_floor` 未満は落とし、足りなければ候補の先頭で埋める）。候補が無ければ `related` を付けず、クライアントが従来どおり決める（4.4）
 5. 関連度 `rel_*` の最大値 ≥0.55 → 6.4 の推薦アルゴリズムが選んだカード。variant は「≥0.6 で最大の不安」に対応するものがブロックに在ればそれ、無ければ default。
    - T1: 1枚目を slot-mid に。slot-end は (a)「最大の不安 ≥0.6 で、かつ1枚目にその不安の variant が無い」なら `rs-<不安>`、(b) そうでなければ推薦アルゴリズムの2枚目（1枚目と違うページ群）、(c) 2枚目の候補が無ければ変えない。
    - T2: 1枚目を slot-next に。
    - `sg-solution` / `sg-works`: industry の確信度 ≥0.6 かつ `by_industry` に在れば業種版。無ければ `sg-works` はトップレベル、`sg-solution` は候補から外す。
-6. stage ≥2.0 かつ cta_ok ≥0.7 → slot-bar を strong に。stage ≥2.5 なら `ct-contact`、それ未満は `ct-diagnostic`（行5と同時に成立してよい。行2〜4に当たったら評価しない）
+6. 強い CTA（`data/nq-rules.json` の `cta`。`rules.js` の `ctaConfig()`）。行5と同時に成立してよい。行2〜4に当たったら評価しない。
+   - **ゲート**: visitor_type の第1候補（確信度は問わない）が `cta.gate_visitor_types`（既定 `["事業者","other"]`）に在るときだけ評価する。空なら無条件（段階2・3の基準値の形）。
+   - `mode: "score"`（既定）: cta_ok ≥ `cta.cta_ok`（0.7）かつ stage ≥ `cta.stage_cta`（2.0。仮置き。人が 2 以上と付けたセッションの Jev スコア分布から置き換える）→ slot-bar を strong に。stage ≥ `cta.stage_contact`（2.5）なら `ct-contact`、それ未満は `ct-diagnostic`。
+   - `mode: "noul"`（Score で分離できなければ切り替える）: cta_ok ≥ `cta.cta_ok` かつ `intent_contact` ≥ `cta.contact`（0.6）→ `ct-contact`、そうでなく `intent_compare` ≥ `cta.compare`（0.6）→ `ct-diagnostic`。
+     ct-contact にも cta_ok を要求する（決定文は後者に cta_ok が掛かるか曖昧だが、強い方の CTA の条件を緩めない側に倒した）。
+   - 旧の `thresholds.stage_cta / stage_contact / cta_ok` は `cta` に統合（`cta` に無ければ thresholds を読む後方互換だけ残す）。
 7. どれにも当たらない → デフォルト
 
 ### 6.4 推薦アルゴリズム（設計書7章）
 
-- **候補**: 6.2 の candidates のうち、関連度 ≥ `rel_floor`（0.35）で、`only_visitor_types` の制限（6.2）に掛からないカード。
-  最大の関連度 < `rel_gate`（0.55）ならデフォルト（探索もしない）。
+- **候補**: 6.2 の candidates のうち、関連度 ≥ `rel_floor`（**0.45**。2026-09-21 決定 4章で 0.35 から上げた。0.35〜0.45 の帯は 当たり7・外れ18）で、`only_visitor_types` の制限（6.2）に掛からないカード。
+  最大の関連度 < `rel_gate`（0.55。据え置き）ならデフォルト（探索もしない）。下限は探索と2枚目の候補にしか効かず、1位のカードは取りこぼさない。0.45〜0.55 の帯はシャドーモードの実データで再確認する。
+  `rel_floor` は関連記事の候補（6.3 の行4）にも同じ値を使う。
 - **特徴量**（共有の重み10個。この順で固定。`FEATURES`）:
   `bias`（常に1）, `rel`（関連度のロジット。±4で打ち切り）, `dv`（V(提案先) − V(現在のページ)。aux に無ければ 0）,
   `cov`（現在のページ→提案先の遷移割合の対数比。無ければ 0）, `ind_match`（Jev の industry が提案先ページの industry タグに在れば1）,
@@ -520,6 +577,8 @@ sendBeacon の文字列ボディを受ける。ホワイトリスト検証のう
 | 完了条件「応答の9割が1.2秒以内」の測り方が未定義。nq_decide は応答したときだけ | 捨てた回も `nq_decide_fail` として数え、`nq_events` に `type:'decide'`（result, latency_ms）を足す | `nq_decisions.latency_ms` は Jev の時間だけで 900ms で頭打ち。打ち切った回はブラウザからしか数えられない |
 | 候補の絞り込みは「訪問者タイプで対象外のカードを除く」 | blocks の `only_visitor_types`（`sg-recruit` だけ） | どのカードがどのタイプ向けかをデータで持つ。関連度は聞き続け、除外はログで検証できる |
 | slot-mid は J2 が決めた節の直後 | overrides の `mid_before_h2` を読む口だけ用意。無ければ 40〜70% の規則 | J2 の本体は nortiq-pipeline 側。未判定の記事は設計書も「50〜60%地点」 |
-| RelatedList の3本も7章の式で並べる | v1 は同カテゴリの新着順 | 記事ごとの関連度を Jev に聞いておらず、特徴量が作れない。学習開始（フェーズ3）の課題 |
+| RelatedList の3本も7章の式で並べる | 2026-09-21 から: ビルド時に記事ごと最大12本の候補を結び付け、実行時に Jev がその中の関連度（`rel_article_<slug>`）で3本を選ぶ。判定が無いときは候補の先頭3本（＝旧の同カテゴリ新着順） | 記事が増えても質問数を固定するため（設計書13章）。7章の式（dv / cov）で並べるのは学習開始（フェーズ3）の課題のまま |
+| 記事の need タグを状態に渡す | 渡さない。代わりに記事の `audience`（対象読者）を「対象」として渡す | Jev がタグをそのまま訪問者のニーズと答え、技術記事を読んだだけの人に「AI導入」が付いた（2026-09-21 決定 3章） |
+| /company /staff は「信頼・条件」 | type `company`（会社情報）。/recruit は `recruit`（採用情報） | 会社概要・スタッフ紹介を見た求職者・営業に高い検討度が付いた（2026-09-21 決定 2章） |
 | nq_model は mean / variance / n_impressions | `aux`（V と cov）と `ope`（オフポリシー評価）の列を足す | リクエスト時に dv / cov を引く置き場と、月次レポートの「推定改善幅」の置き場が要る |
 | 12章 J1〜J9 | このリポジトリでは未実装 | 記事パイプラインは別リポジトリ（nortiq-pipeline）。Search Console API の接続など前提が未決 |

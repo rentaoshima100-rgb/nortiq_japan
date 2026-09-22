@@ -1,6 +1,7 @@
 // ============================================================
 // Nortiq Labs — 次ページ提案 (nq)
 // 情報設計書「Jevによる次ページ提案 v1.0」/ docs/nq/implementation-contract.md 4章
+// (関連記事の候補と決定は docs/nq/decisions-2026-09-21.md 5章1 が優先)
 //
 //  1. window.NQ  … React に依存しない単一ストア (セッションログ / トリガー / 計測 / 決定の配布)
 //  2. <NqSlot/>  … slot-mid / slot-end / slot-next の差し込み口
@@ -20,6 +21,10 @@ const NQ = (function () {
   const VISIT_KEY = 'nq_v';   // localStorage: 再訪フラグ '1' のみ。ID は持たない
   const MAX_PAGES = 30;       // 履歴の保持上限。API にもこの件数まで送る (モデルに渡す直近5件への絞り込みはサーバ側)
   const MAX_PASSED = 20;
+  // 関連記事 (rl-related) の候補の上限。ビルド時に記事ごと最大 12 本 (NORTIQ_ARTICLES[slug].related) を結び付け、
+  // 実行時はその中から選ぶ (設計書13章「実行時に Jev へ渡す候補の数を固定する」/ docs/nq/decisions-2026-09-21.md 5章1)。
+  // 画面に出す本数 (3) は表示側の NQ_RELATED_SHOW。
+  const RELATED_MAX = 12;
   const GOALS = ['diagnostic', 'guidebook', 'contact'];
   const TRIGGER_SLOTS = { T1: ['slot-mid', 'slot-end'], T2: ['slot-next', 'slot-bar'] };
   // /api/nq-event に流す種別。nq_decide / nq_decide_fail は、どちらも type "decide" の1行になる
@@ -104,6 +109,21 @@ const NQ = (function () {
       while (out.length < 10) out += abc[Math.floor(Math.random() * 36)];
     }
     return 'r_' + out;
+  }
+  // 記事 slug の配列 (決定の related)。文字列以外・重複・上限超えを落とし、空なら null。
+  // 実在するかは描画側 (nqRelatedArticles) が NORTIQ_ARTICLES で確かめる。
+  function slugList(v) {
+    if (!Array.isArray(v)) return null;
+    const out = [];
+    v.forEach((s) => {
+      if (typeof s === 'string' && /^[A-Za-z0-9][A-Za-z0-9_-]*$/.test(s) && out.indexOf(s) < 0 && out.length < RELATED_MAX) out.push(s);
+    });
+    return out.length ? out : null;
+  }
+  // ストアが持つ決定の形 { block_id, variant, industry, related }。resolve() の結果や画面に出した中身から
+  // この4つだけを写す (文言はここに持たない)。related は関連記事の slug 配列で、無ければ null。
+  function decisionOf(d) {
+    return { block_id: d.block_id, variant: d.variant, industry: d.industry || null, related: slugList(d.related) };
   }
 
   // 流入元。リファラのドメインと utm_source だけを見る (検索語は取れない)。
@@ -348,6 +368,8 @@ const NQ = (function () {
   // ---------- ブロックの解決 ----------
   // ref は「ブロックID」または「ブロックID@業種」(sg-solution / sg-works のデフォルト表示用)。
   // 記事の業種をクライアントは持たないので、build 側が nq_block / pages.next にこの形式で渡す。
+  // API の決定はオブジェクト { block_id, variant, industry, related }。related は rl-related のときだけ、
+  // サーバが記事の候補から関連度の高い順に選んだ slug の配列 (コントラクト 6.1 / decisions-2026-09-21.md 5章1)。
   function parseRef(ref) {
     if (!ref) return null;
     if (typeof ref === 'object') return ref.block_id ? ref : null;
@@ -374,7 +396,9 @@ const NQ = (function () {
     if (!hit) return null;
     const target = (src && src.target_url) || b.target_url || null;
     if (!target && b.action !== 'contact' && b.kind !== 'related') return null;
+    // related (記事 slug の配列) は関連記事ブロックにだけ意味がある。他の種類に付いていても捨てる。
     return { block_id: d.block_id, variant: hit.name, industry: src ? d.industry : null,
+             related: b.kind === 'related' ? slugList(d.related) : null,
              kind: b.kind, action: b.action || null, target_url: target, copy: hit.copy };
   }
   // slot-next のデフォルト。出してよいのは中間ページ (service / feature / solution / works / trust) だけ。
@@ -430,7 +454,7 @@ const NQ = (function () {
       if (!r) return;
       if ((slot === 'slot-bar') !== (r.kind === 'cta')) return; // カードの枠に CTA、バーにカードは入れない
       if ((s.shown[r.block_id] || 0) >= maxShows) return;        // 同じブロックは1セッション2回まで
-      pv.decisions[slot] = { block_id: r.block_id, variant: r.variant, industry: r.industry };
+      pv.decisions[slot] = decisionOf(r);
       changed = true;
     });
     if (changed) notify();
@@ -569,10 +593,11 @@ const NQ = (function () {
       pv.el = el;
     }),
 
+    // 返す形は { block_id, variant, industry, related }。related は rl-related の決定にだけ入る slug の配列 (無ければ null)。
     get: safe((slot) => {
       if (!active() || !pv || pv.path !== curPath()) return null;
       const d = Object.prototype.hasOwnProperty.call(pv.fixed, slot) ? pv.fixed[slot] : pv.decisions[slot];
-      return d ? { block_id: d.block_id, variant: d.variant, industry: d.industry || null } : null;
+      return d ? decisionOf(d) : null;
     }, null),
 
     subscribe: (fn) => {
@@ -583,13 +608,13 @@ const NQ = (function () {
 
     // スロットが一度画面に入ったら、そのページでは中身を固定する。
     // shown を渡すと「いま実際に描画している中身」で固定する (null = デフォルト)。
-    // 省略時はストアの決定で固定する。
+    // 省略時はストアの決定で固定する。関連記事は slug の配列 (related) ごと固定するので、並びも変わらない。
     markSeen: safe(function (slot, shown) {
       if (!active()) return;
       ensurePage();
       if (Object.prototype.hasOwnProperty.call(pv.fixed, slot)) return;
       const d = arguments.length > 1 ? shown : pv.decisions[slot];
-      pv.fixed[slot] = d && d.block_id ? { block_id: d.block_id, variant: d.variant, industry: d.industry || null } : null;
+      pv.fixed[slot] = d && d.block_id ? decisionOf(d) : null;
     }),
 
     // nq_shown はページ表示ごと・スロットごとに1回。デフォルト表示でも送る (比較の分母をそろえる)。
@@ -669,27 +694,40 @@ function nqBlockLinkProps(r, onNavigate, onContact, onClick) {
   return { ...base, onClick: (e) => { onClick(); if (orig) orig(e); } };
 }
 
-// rl-related の3本。現在の記事と同じカテゴリを新しい順に、足りなければ全カテゴリの新着で埋める。
-// このセッションですでに読んだ記事は後回しにする (設計書7章「すでに読んだページを除く」)。
-// 完全には除かず、未読で3本に届かないときだけ既読で埋める (RelatedList は3本・固定の高さが前提)。
+// rl-related の3本 (設計書13章 / docs/nq/decisions-2026-09-21.md 5章1)。
+// 候補の出どころは3段階。前の段から順に採り、3本に届かなければ次の段で埋める。
+//   1. 決定の related: サーバが記事の候補 (≤12本) から関連度の高い順に選んだ slug (行4、rl-related を出す場面)
+//   2. NORTIQ_ARTICLES[slug].related: build.js が記事ごとに結び付けた候補 (≤12本)。先頭から
+//   3. 従来の並び: 同カテゴリの新着 → 全カテゴリの新着 (related を持たない古い articles.js のため)
+// このセッションですでに読んだ記事は除く (設計書7章「すでに読んだページを除く」。既読は NQ.viewed())。
+// ただし未読で3本に届かないときだけ、同じ順で既読を足して3本にする (RelatedList は3本・固定の高さが前提。
+// 候補が記事ごと最大12本あるので、既読で埋まるのは実際には読み尽くしたときだけ)。
 // 既読の一覧が変わるのはページ遷移のときだけなので、同じページ表示の間に描き直しても並びは変わらない。
-// session_log が false の間はフルリロードで既読が消え、従来と同じ並びに戻る。
-function nqRelatedArticles() {
-  if (typeof listedArticles !== 'function') return [];
+// session_log が false の間はフルリロードで既読が消え、候補の先頭からの並びに戻る。
+// related: 決定の slug 配列 (NQ.resolve の結果の related)。デフォルト表示や旧形式の応答では null。
+const NQ_RELATED_SHOW = 3;
+function nqRelatedArticles(related) {
+  const store = (typeof window !== 'undefined' && window.NORTIQ_ARTICLES) || {};
   const m = /^\/article-(.+)$/.exec(NQ.path());
   const curSlug = m ? m[1] : null;
-  const cur = curSlug && window.NORTIQ_ARTICLES ? window.NORTIQ_ARTICLES[curSlug] : null;
+  const cur = curSlug ? store[curSlug] : null;
+  // 出せる記事だけ。一覧に出ない noindex (下書き) と自分自身は、どの段でも除く
+  // (components.jsx の listedArticles() と同じ条件。slug は同じオブジェクトに引けるので重複は indexOf で弾ける)。
+  const listed = (a) => !!a && typeof a === 'object' && !a.noindex && a.slug !== curSlug;
+  const own = (s) => Object.prototype.hasOwnProperty.call(store, s); // 'constructor' のような継承プロパティを記事と取り違えない
+  const bySlug = (slugs) => (Array.isArray(slugs) ? slugs : []).map((s) => (own(s) ? store[s] : null)).filter(listed);
   // date は 'YYYY.MM.DD' 固定なので文字列比較で足りる。同日は一覧の並び (新着順) を保つ。
-  const pool = listedArticles()
-    .filter((a) => a.slug !== curSlug)
+  const newest = Object.keys(store).map((s) => store[s]).filter(listed)
     .sort((a, b) => String(b.date || '').localeCompare(String(a.date || '')));
+  const sameCat = (a) => !!cur && a.category === cur.category;
+  const sources = [bySlug(related), bySlug(cur && cur.related), newest.filter(sameCat), newest];
   const seen = new Set(NQ.viewed());
   const unread = (a) => !seen.has('/article-' + a.slug);
-  const sameCat = (a) => !!cur && a.category === cur.category;
-  // 優先順: 同カテゴリの未読 → 全カテゴリの未読 → (最後の手段) 既読の同カテゴリ → 既読の全件
   const picked = [];
-  [(a) => sameCat(a) && unread(a), unread, sameCat, () => true].forEach((ok) => {
-    pool.forEach((a) => { if (picked.length < 3 && picked.indexOf(a) < 0 && ok(a)) picked.push(a); });
+  [unread, () => true].forEach((ok) => {
+    sources.forEach((list) => {
+      list.forEach((a) => { if (picked.length < NQ_RELATED_SHOW && picked.indexOf(a) < 0 && ok(a)) picked.push(a); });
+    });
   });
   return picked;
 }
@@ -789,7 +827,11 @@ function NqSlot({ slot, defaultBlock, onNavigate, onContact }) {
     const SWAP_MS = 150; // styles.css の --nq-dur-swap と同じ値
     let tOut = null;
     let tIn = null;
-    const same = (p, d) => (!p && !d) || (!!p && !!d && p.block_id === d.block_id && p.variant === d.variant && p.industry === d.industry);
+    // 関連記事は slug の並び (related) まで同じときだけ「同じ決定」。デフォルトも rl-related のページで、
+    // サーバが選んだ3本が届いたときに、ブロックが同じという理由で差し替えを見送らないため。
+    const sameList = (a, b) => (a || []).join(',') === (b || []).join(',');
+    const same = (p, d) => (!p && !d) || (!!p && !!d && p.block_id === d.block_id && p.variant === d.variant && p.industry === d.industry
+                                          && sameList(p.related, d.related));
     const commit = () => {
       if (tOut) { clearTimeout(tOut); tOut = null; }
       // 待っている間に画面へ入って固定されていれば、ここで返るのは固定した中身 (= いまの表示)。
@@ -844,14 +886,16 @@ function NqSlot({ slot, defaultBlock, onNavigate, onContact }) {
   let r = nqCardOk(picked, onContact) ? picked : def;
   let items = null;
   if (r.kind === 'related') {
-    items = nqRelatedArticles();
+    // 決定に related (サーバが選んだ slug) があればそれを先に、無ければ記事の候補 (build.js の related) の先頭から
+    items = nqRelatedArticles(r.related);
     if (!items.length) {
       if (r === def) return null;
       r = def; // 記事が1本も無ければ関連記事は出せない。デフォルトに戻す
       if (r.kind === 'related') return null;
     }
   }
-  shownRef.current = { block_id: r.block_id, variant: r.variant, industry: r.industry, is_default: r === def };
+  // related も持たせる。画面に入ったときの markSeen がこの中身で固定するので、並びまで変わらない。
+  shownRef.current = { block_id: r.block_id, variant: r.variant, industry: r.industry, related: r.related || null, is_default: r === def };
 
   const onClick = (target) => NQ.click(slot, shownRef.current, target);
   const link = r.kind === 'related' ? null

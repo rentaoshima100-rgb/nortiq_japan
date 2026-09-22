@@ -4,6 +4,12 @@
 // 必ずここで catalog から引き直す。状態の中の文章は判定を動かしうるので（設計書6章）、
 // 訪問者やよそのスクリプトが書いた文字列が1文字も入らない作りにしておく。
 // 秒数やスクロール率の数値も受け取らない（クライアントが deep / half などの言葉に直して送る）。
+//
+// 返す state の形（設計書6章の例 ＋ 2026-09-21 決定 3章）:
+//   { 流入元, 着地ページ: { title, type, topic?, industry?, need?, 対象? },
+//     閲覧履歴: [{ title, type, 対象?, 読み方 }], 現在のページ: { title, type, 到達 }, 訪問, デバイス, 見送った提案 }
+// 「対象」は記事の audience（発注側向け／制作側・技術者向け／求職者向け）。記事の need は既定では入れない
+// （data/nq-rules.json の state.article_need / state.article_audience で切り替え）。
 
 const data = require('./data');
 
@@ -40,6 +46,8 @@ function resolvePage(u) {
   return null;
 }
 
+// ページ型の日本語ラベルは data/nq-labels.json の page_type_labels から（company「会社情報」、recruit「採用情報」も
+// そこに在る前提。無い型は other に落とす）。
 const typeLabel = (type) => {
   const map = (data.labels && data.labels.page_type_labels) || {};
   return map[type] || map.other || 'その他';
@@ -50,15 +58,37 @@ const enumLabel = (group, key) => {
   return typeof key === 'string' && Object.prototype.hasOwnProperty.call(map, key) ? map[key] : null;
 };
 
+// 状態に記事のタグを入れるかのスイッチ（data/nq-rules.json の state。2026-09-21 決定 3章）。
+//  - article_need: 記事の need タグ。Jev がタグをそのまま訪問者のニーズと答えるので、既定は渡さない。
+//  - article_audience: 記事の対象読者（発注側向け／制作側・技術者向け／求職者向け）を「対象」として渡す。既定は渡す。
+// キーが無ければ最終状態（need 無し・audience 有り）。評価の段階実行で評価担当が一時的に入れ替える。
+function stateSwitches() {
+  const s = (data.rules && data.rules.state) || {};
+  return {
+    article_need: s.article_need === true,
+    article_audience: s.article_audience !== false,
+  };
+}
+
 // catalog 由来の語だけでページを表す。title が無いページ（未登録の記事）は title ごと省く。
-function describe(page, extra) {
+//  opts.tags     着地ページ向け。topic・industry・need を付ける（記事の need はスイッチが立っているときだけ）
+//  opts.audience 記事なら「対象」（audience の列挙値）を付ける。着地ページと閲覧履歴の記事に入れる
+//                （決定 3章。現在のページには入れない）。列挙に無い値・未設定の記事はキーごと省く
+function describe(page, opts) {
+  const o = opts || {};
+  const sw = stateSwitches();
+  const isArticle = page.type === 'article';
   const out = {};
   if (page.title) out.title = String(page.title);
   out.type = typeLabel(page.type);
-  if (extra) {
+  if (o.tags) {
     if (page.topic) out.topic = String(page.topic);
     if (Array.isArray(page.industry) && page.industry.length) out.industry = page.industry.slice();
-    if (Array.isArray(page.need) && page.need.length) out.need = page.need.slice();
+    if (Array.isArray(page.need) && page.need.length && (!isArticle || sw.article_need)) out.need = page.need.slice();
+  }
+  if (o.audience && isArticle && sw.article_audience) {
+    const aud = data.articleAudience(page);
+    if (aud) out['対象'] = aud;
   }
   return out;
 }
@@ -95,7 +125,7 @@ function buildState(raw) {
     const p = resolvePage(h.url);
     const read = enumLabel('read', h.read);
     if (!p || !read) continue;
-    history.push(Object.assign(describe(p.page, false), { '読み方': read }));
+    history.push(Object.assign(describe(p.page, { audience: true }), { '読み方': read }));
     if (!viewedUrls.includes(p.url)) viewedUrls.push(p.url);
   }
 
@@ -108,9 +138,9 @@ function buildState(raw) {
 
   const state = {
     '流入元': ref,
-    '着地ページ': describe(landing.page, true),
+    '着地ページ': describe(landing.page, { tags: true, audience: true }),
     '閲覧履歴': history.slice(-limit),
-    '現在のページ': Object.assign(describe(current.page, false), { '到達': reach }),
+    '現在のページ': Object.assign(describe(current.page, {}), { '到達': reach }),
     '訪問': visit,
     'デバイス': device,
     '見送った提案': passed.slice(),
