@@ -61,6 +61,7 @@ const ORG_SAME_AS = [
 // desc → meta description / og:description / BlogPosting.description に使う。
 //        未指定の記事は app.jsx の SEO_DESC か自動生成の定型文にフォールバックする
 const BLOG = [
+  { slug: 'disability-welfare-financial-report', category: '技術', date: '2026.09.22', read: '8 min', title: '障害福祉の経営情報報告｜期限と未報告減算の要点', img: 'assets/blog-default.png', desc: '経営情報の報告は毎会計年度終了後3か月以内が原則で、最初の報告には経過措置の期限があります。障害福祉の事業所が揃える資料、報告項目、情報公表未報告減算の考え方を手順で解説します。', supervised: true },
   { slug: 'website-renewal-site-reputation-policy', category: 'Web制作', date: '2026.09.21', read: '5 min', title: 'ホームページリニューアルとGoogleサイト評判ポリシー対応', img: 'assets/blog-default.png', desc: 'ホームページリニューアル時に関わるGoogleのサイト評判の不正使用ポリシーについて、2026年8月の改定内容と確認すべき手順を実装者視点で解説します。', supervised: true },
   { slug: 'kaigo-productivity-committee-records', category: '技術', date: '2026.09.21', read: '9 min', title: '介護の生産性向上委員会、記録と共有の仕組み化手順', img: 'assets/blog-default.png', desc: '介護の生産性向上委員会は2027年度から義務になります。3か月に1回以上の開催をどう記録し、現場へどう共有するかを、議事録の項目設計から外注範囲の切り分けまで手順で解説します。', supervised: true },
   { slug: 'website-project-delay-causes', category: 'Web制作', date: '2026.09.21', read: '8 min', title: 'ホームページ制作の納期は、なぜ延びるのか', img: 'assets/blog-default.png', desc: 'ホームページ制作の納期が延びる原因は、原稿の確定、写真の手配、社内の確認という発注者側の3か所に集まります。着手前に何をどこまで揃えればよいかを、所要時間つきの手順で解説します。', supervised: true },
