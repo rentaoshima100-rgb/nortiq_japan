@@ -33,6 +33,7 @@ const ARTICLE_ROUTES = (() => {
 })();
 
 const ROUTES_ALLOWLIST = [
+  '/article-construction-daily-report-outsourcing-requirements',
   '/article-ai-chatbot-acceptance-criteria',
   '/article-japan-ai-usage-rate-low',
   '/article-system-development-acceptance-criteria-contract',
