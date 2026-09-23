@@ -33,6 +33,7 @@ const ARTICLE_ROUTES = (() => {
 })();
 
 const ROUTES_ALLOWLIST = [
+  '/article-review-structured-data-fake-review-policy',
   '/article-website-renewal-content-audit',
   '/article-construction-daily-report-outsourcing-requirements',
   '/article-ai-chatbot-acceptance-criteria',
