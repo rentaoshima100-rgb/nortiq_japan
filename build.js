@@ -61,6 +61,7 @@ const ORG_SAME_AS = [
 // desc → meta description / og:description / BlogPosting.description に使う。
 //        未指定の記事は app.jsx の SEO_DESC か自動生成の定型文にフォールバックする
 const BLOG = [
+  { slug: 'llmo-tool-japanese-support', category: 'AI活用', date: '2026.09.23', read: '9 min', title: 'LLMOツールの日本語対応｜中小企業の選び方', img: 'assets/blog-default.png', desc: 'LLMOツールの日本語対応を確かめる3つの観点と、自社で測る場合との比較をまとめました。Googleの公式説明をもとに、llms.txtや構造化データの扱い、契約前に確認する項目まで、中小企業の判断に必要な材料を整理します。', supervised: true },
   { slug: 'review-structured-data-fake-review-policy', category: 'Web制作', date: '2026.09.23', read: '5 min', title: 'レビュー構造化データの偽レビュー対応方法', img: 'assets/blog-default.png', desc: 'Googleのレビュー構造化データガイドライン改定で禁止された偽レビュー・インセンティブ非開示レビューへの具体的な対応方法を手順で解説します。', supervised: true },
   { slug: 'website-renewal-content-audit', category: 'Web制作', date: '2026.09.23', read: '8 min', title: 'サイトリニューアルのページ棚卸し、残す基準の作り方', img: 'assets/blog-default.png', desc: 'サイトリニューアル前の既存ページの棚卸しについて、残す、統合する、削除するをどの数字で判断するかを解説します。一覧に入れる項目、表示回数やクリック数の読み方、削除したページのURLの行き先の決め方までをまとめました。', supervised: true },
   { slug: 'construction-daily-report-outsourcing-requirements', category: '技術', date: '2026.09.23', read: '9 min', title: '建設業の作業日報をデジタル化｜外注前に決める要件', img: 'assets/blog-default.png', desc: '建設業の作業日報をデジタル化する前に、自社で決めておく要件を整理します。入力項目と集計の単位、給与計算や会計への渡し方、現場で使われるためのオフライン入力の条件まで、外注の見積もりがそろう形で解説します。', supervised: true },
