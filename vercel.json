@@ -67,6 +67,7 @@
       "destination": "/app.html"
     }
   ],
+  "regions": ["hnd1"],
   "functions": {
     "api/diagnose.js": {
       "maxDuration": 30
