@@ -11,11 +11,14 @@
 - 評価セットの正解の付け方（基準書）: [`labeling-guide.md`](labeling-guide.md)／再ラベルの記録: [`eval-relabel-2026-09-21.md`](eval-relabel-2026-09-21.md)／評価の経緯: [`eval-2026-09-21.md`](eval-2026-09-21.md)
 - プライバシーポリシー追記の下書き: [`privacy-policy-draft.md`](privacy-policy-draft.md)
 
-> **いまの状態（2026-09-22 シャドーモード開始）。** 23ブロックを承認し（オーナー決定 (a)）、**記事と中間ページにデフォルトのカードが出ている**。
-> `data/nq-config.json` は `session_log` / `api` / `events_api` が true で、訪問者が記事を25%まで読むと `/api/suggest` が呼ばれ、
-> 判定は Supabase の `nq_decisions` に `shadow = true` で記録される。**表示はデフォルトのまま**（Vercel の `NQ_SHADOW=1`）。
+> **いまの状態（2026-09-22 フェーズ2 本番適用）。** 23ブロックを承認し（オーナー決定 (a)）、記事と中間ページにカードが出ている。
+> `data/nq-config.json` は `session_log` / `api` / `events_api` が true で、訪問者が記事を25%まで読むと `/api/suggest` が呼ばれる。
+> 同じ日にシャドーモードを始めたが、**オーナーの指示で同日中にフェーズ2へ進めた**（Vercel の env から `NQ_SHADOW` を外して Redeploy）。
+> **8割のセッションに個別化した表示が出る。2割はホールドアウトで常にデフォルト**（`NQ_HOLDOUT_RATE` 未設定 = 0.2）。
+> `NQ_POLICY` は未設定（prior。学習済みの重みは順位に使わない）、`NQ_LEARN` も未設定（夜間バッチは何もしない）。
+> 判定は Supabase の `nq_decisions` に記録される（`shadow = false`）。**シャドーの1週間の観察は行っていない**（`open-decisions.md` E10）。
 > プライバシーポリシーは同じ日に改定（8〜11）。**専門家の確認は未実施**（`open-decisions.md` A5）。
-> 終了判定は **2026-09-29**（5章「フェーズ1」の冒頭）。止め方は10章。
+> 最初の1〜2日で見るものは5章「フェーズ2」。止め方は10章。
 ---
 
 ## 1. 全体像
@@ -218,7 +221,7 @@ npm run serve
 3. 完了の条件: **決定一致率 90% 以上、かつ「人が事業者と付けたのに決定が sg-recruit か関連記事になった」誤りが 2件以下**（`run.js` の [主指標]）。
    決定一致 = 人のラベル（確信度 1.0）と Jev の回答（実際の確信度・0.6 のゲート）をそれぞれルール表に通し、行2／行3／行4／行5以降 の分類が同じこと。
    人のラベルが許容集合なら、集合から作れる分類のどれかに入れば一致。完全一致・第2候補込みの数字は使わない。Sonnet との比較は行わない（2026-09-20 オーナー決定）。
-   **2026-09-22 の判定: 達成**（最終設定で 100%・0件。基準値の段階2でも 98.6%・1件）。70件で ±11 ポイントの誤差があるので、100% は「大きな誤りが残っていない」の意味。本番の検証はシャドーモードで行う。
+   **2026-09-22 の判定: 達成**（最終設定で 100%・0件。基準値の段階2でも 98.6%・1件）。70件で ±11 ポイントの誤差があるので、100% は「大きな誤りが残っていない」の意味。本番の検証は、本番適用（フェーズ2）の実データで行う（シャドーの1週間は取らなかった。`open-decisions.md` E10）。
 4. 達成したのでシャドーモードへ（下の「フェーズ1」）。以後、指示文（`nq-labels.json`）・`blocks.json`・記事の audience / topic・しきい値・モデル版（`JEV_MODEL`）のどれかを変えるたびに
    `npm run nq:eval:check` を回す（`.github/workflows/nq-eval.yml` が push で自動実行）。**決定一致率が 5 ポイント以上下がる、または誤りが増えたら止める**（設計書13章の回帰テスト）。
    回し方: 変更をローカルに入れる → `node eval/run.js --check`（形と網羅） → `npm run nq:eval:check`（Jev を呼ぶ。約 $0.01・70件で 30秒ほど。末尾の「判定: 通る／止める」と exit code を見る）。
@@ -227,38 +230,30 @@ npm run serve
    新しい topic やカードを足すときは、それが正解になる評価セッションも足す（`--check` の網羅の警告）。
    CI（生成物 `api/_data/catalog.json` が無い環境）では、`run.js` が `overrides[slug]` の在る記事の need／industry をカテゴリの既定から補わない件が残っている（`eval-2026-09-21.md` 3回目「残る問題」6）。直るまで CI の数字はローカルと少し違いうる。
 
-**フェーズ1 シャドーモード（判定と記録だけ。表示は変えない。1週間）**
+**フェーズ1 シャドーモード（判定と記録だけ。表示は変えない）**
 
-> **開始日: 2026-09-22。終了判定の日: 2026-09-29（1週間後）。**
+> **2026-09-22 開始 → 同日中にオーナーの指示でフェーズ2へ。シャドーの1週間の観察は行わなかった。**
 > オーナー決定 (a)（2026-09-22）: 23ブロックを承認してデフォルトのカードを出し始め（フェーズ0 準備）、そのままシャドーモードに入る。
-> 下の 1〜4 のうち、Vercel の env（3）は入れて Redeploy 済みで、本番の `/api/suggest` はシャドーで動き `nq_decisions` に `shadow = true` の行が入り始めている。
-> 承認（3章）・プライバシーポリシーの追記の公開（1）・`data/nq-config.json` のフラグ（4）は 2026-09-22 の同じ変更にまとめて入れる
+> 下の 1〜4 は 2026-09-22 にまとめて実施し、本番の `/api/suggest` はシャドーで動いて `nq_decisions` に `shadow = true` の行が入った。
+> 承認（3章）・プライバシーポリシーの追記の公開（1）・`data/nq-config.json` のフラグ（4）は同じ変更にまとめて入れた
 > （フラグだけ先に push しない。11章「ポリシーの追記を公開する前に true にしない」）。
-> 開始時点の設定（承認 23/23、`nq-rules.json` の値、モデル版 `jev-1.13.0`）は `eval-2026-09-21.md` 末尾の「シャドーモード開始」に記録してある。
+> 開始時点の設定（承認 23/23、`nq-rules.json` の値、モデル版 `jev-1.13.0`）と、同日中にフェーズ2へ進んだ経緯は
+> `eval-2026-09-21.md` 末尾の「シャドーモード開始」に記録してある。
 >
-> **2026-09-29 に見るもの（判定に使うクエリ。Supabase の SQL Editor に1つずつ貼る）**
-> - 応答時間（完了条件 5）: `supabase/nq_report.sql` の **K5** の `within_1200_rate` が 0.9 以上か。K5 の冒頭の `p` をシャドーの1週間に置き換える（以降は K5 のまま）:
->   ```sql
->   with p as (select timestamptz '2026-09-22 00:00+09' as t0, timestamptz '2026-09-29 00:00+09' as t1),
->   ```
->   `note` に「件数不足（目安100）」と出たら、判定を延ばして件数がそろってから見る。0.9 に届かないときの切り分けは 5 の箇条書き（K5 の `timeout_rate` と K4 の `model_failed_rate`）。
-> - 判定の目視（完了条件 5）: 直近50件を読んで、明らかな誤りが1割未満（5件未満）か。
->   ```sql
->   select decision_id, created_at, page_url, state, answers, slots
->   from public.nq_decisions where shadow order by created_at desc limit 50;
->   ```
->   見る点: `state` の閲覧に対して `answers` の visitor_type が営業・求職者・同業者を取り違えていないか、`slots` のカードが着地ページと閲覧に合っているか、
->   行6（`ct-*`）が事業者以外に出ていないか、記事1本のセッションに高い確信度が付いていないか（`eval-2026-09-21.md` の「残る問題」）。
-> - あわせて見る: 1b の stage の分布（`cta.stage_cta` 1.165 の線の置き直し。9章）、K4 の `model_failed_rate`、初日に 6 の catalog 同梱の SQL。
+> **その日のうちに、オーナーの指示で `NQ_SHADOW` を外してフェーズ2（本番適用）に進んだ。** 当初の終了判定日 2026-09-29 は使わない。
+> 見送ったのは、1週間ぶんの応答時間の分布と、判定50件を事前に目視すること。**これはフェーズ2の運用のなかで見る**（下の「フェーズ2」の
+> 「最初の1〜2日で見るもの」。同じ SQL を使い、期間を 2026-09-22 以降にする）。見送った理由・代わりに何で担保するか・いつ見るかは
+> `open-decisions.md` の **E10**。
 >
 > **止め方**
+> - シャドーに戻す（個別化の表示だけ止めて記録は続ける）: Vercel の env `NQ_SHADOW=1` → Redeploy。
 > - サーバ側（Jev の呼び出しと記録を止める）: Vercel の env `NQ_ENABLED` を外す（または `0`）→ Redeploy。API が即デフォルトを返し、`/api/nq-event` は 204。
 > - クライアント側（通信を止める）: `data/nq-config.json` の `api` を false（イベントの記録も止めるなら `events_api` も false）→ push。1バイトも送らない。
 > - 急ぐときは Vercel の Instant Rollback で直前のデプロイに戻す（10章）。
 
 1. プライバシーポリシーの追記を公開する（`privacy-policy-draft.md`。専門家の確認を先に済ませる）。
 2. Supabase を準備する（6章）。すでに `nq_schema.sql` を流してある場合も、**最新のものをもう一度流す**
-   （`nq_events` に `result` / `latency_ms` の列が足される。足さないまま始めると、下の手順5で使う decide の行だけが
+   （`nq_events` に `result` / `latency_ms` の列が足される。足さないまま始めると、K5 が使う decide の行だけが
    PostgREST に 400 で弾かれ、Vercel のログに `[nq] log http nq_events 400` が出る。ほかのイベントは影響を受けない）。
 3. Vercel の env を入れて Redeploy: `NQ_ENABLED=1` `NQ_SHADOW=1` `NQ_MODEL_PROVIDER=jev` `JEV_API_KEY` `JEV_MODEL=jev-1.13.0`
    `SUPABASE_URL` `SUPABASE_SERVICE_ROLE_KEY`。`NQ_POLICY` と `NQ_LEARN` は入れない。
@@ -279,35 +274,98 @@ npm run serve
    `NQ_ENABLED` を最後に `1` にする（それ以外を先に入れても、`NQ_ENABLED` が `1` でなければ API は即デフォルトを返し、Jev も Supabase も呼ばない）。
 4. `data/nq-config.json` の `session_log` `api` `events_api` を true にしてコミットする。**必ず 3 のあとに行う**
    （先にクライアントを開けると、API が毎回デフォルトを返すだけの無駄な通信になる）。2026-09-22 に true にした。
-5. 完了の条件: `nq_decisions` を50件目視して明らかな誤りが1割未満。**応答の9割が1.2秒以内**。
-   - 測るのは、ブラウザが数えた `/api/suggest` の往復。クライアントは呼び出し1回につき必ず1件、結果を送る:
-     採用できる応答が届けば `nq_decide`、1.2秒（`client_timeout_ms`）で打ち切った回・HTTP エラー・JSON でない応答・通信の失敗は
-     `nq_decide_fail`（`reason` = timeout / http / format / network）。どちらにもブラウザで測った `latency_ms` が付く。
-     `events_api` が true なら、同じ内容が `nq_events` に `type = 'decide'`（`result` = ok / timeout / …）で入る。
-   - 判定は **`supabase/nq_report.sql` の K5** の `within_1200_rate` が 0.9 以上か（期間はシャドーの1週間に合わせて `p` を書き換える）。
-     GA4 で見るなら、イベント数の `nq_decide ÷ (nq_decide + nq_decide_fail)`。広告ブロックは両方を同じ率で落とすので、比は保たれる。
-   - **`nq_decisions.latency_ms` では判定できない。** あれは Jev の呼び出しだけの時間で、`model_timeout_ms`（900）で頭打ちになり、
-     関数の起動待ち（コールドスタート）・ログの書き込み・往復の通信を含まない。必ず 1200 未満になるので、条件が常に満たされて見える。
-     こちらは「遅い原因が Jev かどうか」の切り分けに使う（K4 の `model_failed_rate` と `latency_p90_ms`）。
-   - 0.9 に届かないとき: K5 の `timeout_rate` が高く K4 の `model_failed_rate` が低ければ、遅いのは関数の起動か回線
-     （`vercel.json` の `regions` を見直す）。両方高ければ Jev（`data/nq-rules.json` の `model_timeout_ms`、`jev-api-notes.md` の実測メモ）。
-   - ページを閉じて応答を待たなかった回は、どちらのイベントにもならない（分子にも分母にも入らない）。
-6. 完了の条件（初日に見る）: `api/_data/catalog.json` が Function に同梱されていること。ビルドの生成物なので、同梱に失敗しても
-   エラーにならず、記事が title / topic / タグ無しの `{type:'記事'}` だけで Jev に渡る（`open-decisions.md` E6）。
-   次の SQL で、記事に着地した判定のうち title が付いている割合を見る。ほぼ 0% なら同梱に失敗している
-   （公開直後で catalog に無い記事は title 無しが正常なので、100% にはならない）。
-   ```sql
-   select count(*) filter (where state -> '着地ページ' ? 'title') as with_title, count(*) as decisions
-   from public.nq_decisions where state -> '着地ページ' ->> 'type' = '記事';
-   ```
+5.（当初の完了条件だった「50件の目視」と「応答の9割が1.2秒以内」、初日の catalog 同梱の確認は、フェーズ2の
+   「最初の1〜2日で見るもの」に移した。同じ SQL を使い、期間を 2026-09-22 以降にする。）
 
-**フェーズ2 本番適用（事前知識のみ）**
-1. `NQ_SHADOW` を外して Redeploy。`NQ_POLICY` は **未設定（prior）のまま**。8割に適用、2割はホールドアウト。
-   - あわせて `CRON_SECRET` と `NQ_LEARN=1` もここで入れておくとよい（夜間バッチが毎晩 `nq_model` に1行足す）。
-     prior の間、学習済みの重みは順位に使われない。使われるのは `aux`（V と cov）だけで、ログの特徴量 `dv` / `cov` に値が入り始める。
-     フェーズ3まで入れずにいると、`dv` / `cov` が 0 の行しか貯まらず、この2つの重みが未学習のまま ts に切り替わる（`open-decisions.md` D2）。
-2. シャドーのログを見て、しきい値を1回調整する（9章）。
-3. 完了の条件: しきい値を1回調整済み。表示の不具合なし。
+**フェーズ2 本番適用（事前知識のみ）— 2026-09-22 開始**
+
+> **2026-09-22。** オーナーの指示で、シャドーモードを始めた日のうちにここへ進んだ。シャドーの1週間の観察は行っていない（`open-decisions.md` E10）。
+> 代わりに、フェーズ0 検証の結果（決定一致率 100%・事業者への誤り 0、70件）と、ホールドアウト2割・失敗時は常にデフォルト・10章のキルスイッチで担保する。
+> 当初フェーズ1で見るはずだったものは、下の「最初の1〜2日で見るもの」に入っている。
+
+**手順**
+1. Vercel の env から **`NQ_SHADOW` を外す**（または `0`）→ **Redeploy**。
+   入れる場所はフェーズ1の 3 と同じ（Vercel → チーム `nortiqs-projects` → プロジェクト `files` → Settings → Environment Variables。対象は Production と Preview）。
+   - `NQ_POLICY` は **未設定（prior）のまま**、`NQ_LEARN` も **未設定のまま**。`NQ_HOLDOUT_RATE` も未設定
+     （= `data/nq-rules.json` の `holdout_rate_default` 0.2）。**8割のセッションに個別化を適用し、2割はホールドアウト**（常にデフォルト。`session_id` のハッシュで決まる）。
+   - `data/*.json` は変えない（クライアントのフラグはフェーズ1のまま。`api` / `events_api` / `session_log` は true）。
+2. 応答の `shadow` が **false** になったことを確かめる。本番の記事を開き、25%までスクロールして DevTools → Network の `/api/suggest` の応答 JSON を見る
+   （形は `{ decision_id, default, shadow, policy, slots }`）。
+   - `shadow: false` かつ `default: false` で `slots` に中身がある → 個別化が適用された回。
+   - `shadow: false` かつ `default: true` で `slots` が `{}` → ホールドアウト・確信不足・失敗のどれか（表示はデフォルトのまま。正常）。
+   - `shadow: true` がまだ返る → env の反映漏れ。Redeploy し直す。
+3. `nq_decisions` に `shadow = false` の行が入り始めたことを確かめる。
+   ```sql
+   select shadow, is_default, holdout, count(*)
+   from public.nq_decisions where created_at >= timestamptz '2026-09-22 00:00+09'
+   group by 1, 2, 3 order by 1, 2, 3;
+   ```
+4. `CRON_SECRET` と `NQ_LEARN=1` は、ここで入れておくとよい（夜間バッチが毎晩 `nq_model` に1行足す）。
+   prior の間、学習済みの重みは順位に使われない。使われるのは `aux`（V と cov）だけで、ログの特徴量 `dv` / `cov` に値が入り始める。
+   フェーズ3まで入れずにいると、`dv` / `cov` が 0 の行しか貯まらず、この2つの重みが未学習のまま ts に切り替わる（`open-decisions.md` D2）。
+   入れるなら先に `/api/nq-train` を1回叩いて 200 と `truncated` がすべて false であることを確かめる（`open-decisions.md` E6）。
+
+**最初の1〜2日で見るもの**（Supabase の SQL Editor に1つずつ貼る。どれも月次レポートと同じクエリで、期間だけ置き換える）
+
+どのクエリも冒頭の `p` を次に差し替える（月初は `nq_month_range(-1)`（先月）に行が無いため）。K2 は月ごとに出るので置き換え不要。
+```sql
+with p as (select timestamptz '2026-09-22 00:00+09' as t0, now() as t1),
+```
+
+| 見るもの | クエリ | 目安 |
+|---|---|---|
+| 応答が間に合った割合 | **K5** の `within_1200_rate` | **0.9 以上**。`note` に「件数不足（目安100）」と出たら件数がそろうまで判断を延ばす |
+| 判定の目視 | 下の SQL で直近50件 | 明らかな誤りが **1割未満（5件未満）** |
+| カードの CTR | **K1**（mode 別・訪問者タイプ別。ブロック別は 5） | `personalized` の行が出ていること。率は件数がたまるまで見ない |
+| ホールドアウト比較 | **K2**（`applied` / `holdout` / `shadow` の別に出る）。統計的な比較は **9** | 傾向だけ。`applied` が `holdout` を大きく下回っていないか |
+| 行6（強い CTA）の出方 | **1b**（`cta.stage_cta` 1.165 の線。「stage 1.165〜1.6 かつ cta_ok 0.7 以上」の内訳） | 求職者・営業に `ct-*` が出ていないこと |
+| other・低確信率 | **K4**（`other_or_low_rate` と `model_failed_rate` / `latency_p90_ms`） | 2割を超える軸はラベルかブロックの見直し（フェーズ4） |
+| catalog の同梱（初日） | 下の SQL | ほぼ 0% なら同梱に失敗（`open-decisions.md` E6） |
+
+- **判定の目視（50件）**
+  ```sql
+  select decision_id, created_at, page_url, holdout, is_default, state, answers, slots
+  from public.nq_decisions
+  where created_at >= timestamptz '2026-09-22 00:00+09'
+  order by created_at desc limit 50;
+  ```
+  見る点: `state` の閲覧に対して `answers` の visitor_type が営業・求職者・同業者を取り違えていないか、`slots` のカードが着地ページと閲覧に合っているか、
+  行6（`ct-*`）が事業者以外に出ていないか、記事1本のセッションに高い確信度が付いていないか（`eval-2026-09-21.md` の「残る問題」）。
+  **ホールドアウトの行（`holdout = true`）も判定そのものは行われている**ので、目視の対象に入れてよい（`slots` に「出していたら何だったか」が残る）。
+- **応答時間の測り方**（K5 を使う理由）
+  - 測るのは、ブラウザが数えた `/api/suggest` の往復。クライアントは呼び出し1回につき必ず1件、結果を送る:
+    採用できる応答が届けば `nq_decide`、1.2秒（`client_timeout_ms`）で打ち切った回・HTTP エラー・JSON でない応答・通信の失敗は
+    `nq_decide_fail`（`reason` = timeout / http / format / network）。どちらにもブラウザで測った `latency_ms` が付く。
+    `events_api` が true なら、同じ内容が `nq_events` に `type = 'decide'`（`result` = ok / timeout / …）で入る。
+  - GA4 で見るなら、イベント数の `nq_decide ÷ (nq_decide + nq_decide_fail)`。広告ブロックは両方を同じ率で落とすので、比は保たれる。
+  - **`nq_decisions.latency_ms` では判定できない。** あれは Jev の呼び出しだけの時間で、`model_timeout_ms`（900）で頭打ちになり、
+    関数の起動待ち（コールドスタート）・ログの書き込み・往復の通信を含まない。必ず 1200 未満になるので、条件が常に満たされて見える。
+    こちらは「遅い原因が Jev かどうか」の切り分けに使う（K4 の `model_failed_rate` と `latency_p90_ms`）。
+  - 0.9 に届かないとき: K5 の `timeout_rate` が高く K4 の `model_failed_rate` が低ければ、遅いのは関数の起動か回線
+    （`vercel.json` の `regions` を見直す）。両方高ければ Jev（`data/nq-rules.json` の `model_timeout_ms`、`jev-api-notes.md` の実測メモ）。
+  - ページを閉じて応答を待たなかった回は、どちらのイベントにもならない（分子にも分母にも入らない）。
+  - K5 の下にある **突き合わせのクエリ**（`served_but_not_seen`）も見る。サーバは個別化を返したのにブラウザが待ちきれなかった回で、
+    ここが多いと適用群の実質の個別化率が判定ログの見かけより低い。フェーズ2で初めて意味を持つ数字。
+- **catalog の同梱（初日に見る）**: `api/_data/catalog.json` が Function に同梱されていること。ビルドの生成物なので、同梱に失敗しても
+  エラーにならず、記事が title / topic / タグ無しの `{type:'記事'}` だけで Jev に渡る（`open-decisions.md` E6）。
+  次の SQL で、記事に着地した判定のうち title が付いている割合を見る。ほぼ 0% なら同梱に失敗している
+  （公開直後で catalog に無い記事は title 無しが正常なので、100% にはならない）。
+  ```sql
+  select count(*) filter (where state -> '着地ページ' ? 'title') as with_title, count(*) as decisions
+  from public.nq_decisions where state -> '着地ページ' ->> 'type' = '記事';
+  ```
+- 悪いほうに出たら、まず止める（10章）。個別化だけ止めるなら `NQ_SHADOW=1` に戻す（カードのデフォルト表示は残る）。
+
+**しきい値を動かすとき**
+1. 上の 1b・K4・目視50件から、どの線を動かすか決める（例: 営業・求職者の取り違えが多い → `thresholds.visitor_type` を上げる。
+   デフォルトばかりになる → `rel_gate` を下げる。行6 が出すぎ／出なさすぎ → `cta.stage_cta`）。
+2. **手順は9章のとおり**（`data/nq-rules.json` を変える → `npm run nq:eval:check` で回帰テスト → `npm test` → `supabase/nq_report.sql` の
+   直書きの値を手で直す → push）。決定一致率が 5 ポイント以上下がるか事業者への誤りが増えたら止める。
+3. 動かすのは **1回にまとめる**（同時に複数の線を動かすと、どれが効いたか分からなくなる）。
+
+**フェーズ2 の完了条件（= 次の「フェーズ3 学習開始」に進む条件）**
+- **個別化した表示が 300回** たまったこと（数え方の SQL は次の「フェーズ3 学習開始」の 1）。ホールドアウトとデフォルト表示は数えない。
+- あわせて、しきい値を1回調整済みで、表示の不具合が出ていないこと。
 
 **フェーズ3 学習開始**
 1. 個別化した表示が **300回** たまったことを確かめる。
@@ -379,7 +437,7 @@ GA4 の管理 → カスタム定義で、**イベントスコープ** のディ
 | `reason` | `nq_decide_fail` の理由。timeout / http / format / network |
 
 `nq_decide` / `nq_decide_fail` の `latency_ms`（ブラウザで測った `/api/suggest` の往復時間）は、分布を GA4 で見たいときだけ
-**カスタム指標**（単位: ミリ秒）として登録する。フェーズ1の完了条件はイベント数の比で出せるので、登録しなくても判定できる。
+**カスタム指標**（単位: ミリ秒）として登録する。K5 の「応答が間に合った割合」はイベント数の比で出せるので、登録しなくても判定できる。
 
 **`decision_id` は登録しない。** 値の種類が多すぎて GA4 では (other) に丸められ、レポートで使えない。
 判定単位の分析は Supabase を正とする。GA4 は「デフォルト表示を含めた全体の CTR」とホールドアウト比較の分母に使う。
@@ -478,10 +536,10 @@ GA4 の管理 → カスタム定義で、**イベントスコープ** のディ
 
 `cta.stage_cta` の 1.165 は、フェーズ0 検証の段階4（2026-09-22）で、人が 2 以上と付けた 25件と 2 未満の 45件の Jev スコア分布（`run.js` の [検討度の分布]）から
 「2 以上と未満を最もよく分ける値」として決めたもの（正解率 97.1%。旧の仮置き 2.0 では 2 以上のうち 10/25 しか拾えなかった）。分離できたので `cta.mode` は `score` のまま
-（`decisions-2026-09-21.md` 2章、`eval-2026-09-21.md` の「3回目」）。行6 の出方は 1.15〜1.40 のどこに線を置いても評価セットでは同じなので、シャドーモードの 1b の分布で置き直す。
+（`decisions-2026-09-21.md` 2章、`eval-2026-09-21.md` の「3回目」）。行6 の出方は 1.15〜1.40 のどこに線を置いても評価セットでは同じなので、本番適用（フェーズ2）の 1b の分布で置き直す。
 `supabase/nq_report.sql` の直書き（2.0）は 1.165 に合わせて直す。
 
-1. シャドーモード（または本番）の `nq_decisions` を見て、どの線を動かすか決める。
+1. 本番適用（フェーズ2）の `nq_decisions` を見て、どの線を動かすか決める（見るものは5章「フェーズ2」の「最初の1〜2日で見るもの」）。
    例: 営業・求職者の取り違えが多い → `visitor_type` を上げる。デフォルトばかりになる → `rel_gate` を下げる。
    強い CTA の材料は `supabase/nq_report.sql` の 1b（stage と Noul 2問の分布、Score と Noul の食い違い）。
 2. `data/nq-rules.json` を変える。
@@ -511,19 +569,30 @@ GA4 の管理 → カスタム定義で、**イベントスコープ** のディ
 
 ## 10. キルスイッチ一覧
 
+本番適用（フェーズ2、2026-09-22〜）で使うのは、まずこの4つ。(a) → (b) → (c) の順に止める範囲が広くなる。(d) はデプロイごと1つ前に戻す別口。
+
+- **(a) 個別化だけ止める** — Vercel の env を **`NQ_SHADOW=1`** に戻す → Redeploy。判定と記録は続き、**カードのデフォルト表示は残る**
+  （訪問者から見た画面はフェーズ0 準備と同じ。ログは貯まり続けるので、原因を調べながら止められる）。表示に問題が出たら、まずこれ。
+- **(b) Jev と記録を止める** — Vercel の env から **`NQ_ENABLED` を外す**（または `0`）→ Redeploy。Jev も Supabase も呼ばない。
+  `/api/nq-event` は 204。カードのデフォルト表示は残る。原価・障害・レート制限が理由のときはこれ。
+- **(c) カードごと消す** — **`data/nq-config.json` の `enabled` を false** → push。スロットを一切描画せず、導入前の見た目に戻る。
+- **(d) 直前のデプロイに戻す** — Vercel の **Instant Rollback**。いちばん速い。ただし **env の変更は戻らない**ので、原因が env なら (a) か (b) を先に行う。
+
+(a)(b)(d) は Vercel の操作だけで、コミットも push も要らない。(c) は `data/**` の変更なのでプリレンダの CI が走り、反映まで数分かかる。
+
 | 止めたいもの | やること | 効き方 |
 |---|---|---|
-| 個別化の表示だけ（記録は続ける） | Vercel env `NQ_SHADOW=1` → Redeploy | 応答が常に `default:true` になる |
-| Jev の呼び出しと記録を全部 | Vercel env `NQ_ENABLED` を外す → Redeploy | API が即デフォルトを返す。`/api/nq-event` は 204 |
+| **(a)** 個別化の表示だけ（記録は続ける） | Vercel env `NQ_SHADOW=1` → Redeploy | 応答が常に `default:true, shadow:true` になる。デフォルトのカードは出たまま |
+| **(b)** Jev の呼び出しと記録を全部 | Vercel env `NQ_ENABLED` を外す → Redeploy | API が即デフォルトを返す。`/api/nq-event` は 204 |
 | Jev の呼び出しだけ（配線は残す） | `NQ_MODEL_PROVIDER=stub` → Redeploy | 常に低確信 → 常にデフォルト |
 | 学習済みモデルの利用 | `NQ_POLICY` を外す → Redeploy | 事前知識だけの順位（prior）に戻る |
 | 夜間の学習 | `NQ_LEARN` を外す → Redeploy | バッチは何も読まず何も書かない |
 | クライアントからの通信 | `data/nq-config.json` の `api` / `events_api` を false → push | 1バイトも送らない |
 | Storage への書き込み | `session_log` を false → push | メモリ上だけで動く |
 | 特定のブロック・文言 | `data/blocks.json` の `approved_by` を空に → push | バンドルからも API の候補からも消える |
-| スロットの描画すべて | `enabled` を false → push | デフォルトのカードも出なくなる（導入前の見た目に戻る） |
+| **(c)** スロットの描画すべて | `data/nq-config.json` の `enabled` を false → push | デフォルトのカードも出なくなる（導入前の見た目に戻る） |
+| **(d)** 直前のデプロイに戻す | Vercel の Instant Rollback | コードとデータが1つ前のデプロイに戻る。env の変更は戻らない |
 
-急ぐときは Vercel の Instant Rollback で直前のデプロイに戻すのがいちばん速い。
 自動で倒れる場面: プリレンダ・bot・`navigator.webdriver`・Storage が使えない環境ではクライアントが何もしない。
 タイムアウト（クライアント 1.2 秒、Jev 0.9 秒）・エラー・入力不備・ホールドアウトは、すべてデフォルトのまま。
 
