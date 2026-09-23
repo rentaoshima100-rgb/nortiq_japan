@@ -61,6 +61,7 @@ const ORG_SAME_AS = [
 // desc → meta description / og:description / BlogPosting.description に使う。
 //        未指定の記事は app.jsx の SEO_DESC か自動生成の定型文にフォールバックする
 const BLOG = [
+  { slug: 'website-renewal-content-audit', category: 'Web制作', date: '2026.09.23', read: '8 min', title: 'サイトリニューアルのページ棚卸し、残す基準の作り方', img: 'assets/blog-default.png', desc: 'サイトリニューアル前の既存ページの棚卸しについて、残す、統合する、削除するをどの数字で判断するかを解説します。一覧に入れる項目、表示回数やクリック数の読み方、削除したページのURLの行き先の決め方までをまとめました。', supervised: true },
   { slug: 'construction-daily-report-outsourcing-requirements', category: '技術', date: '2026.09.23', read: '9 min', title: '建設業の作業日報をデジタル化｜外注前に決める要件', img: 'assets/blog-default.png', desc: '建設業の作業日報をデジタル化する前に、自社で決めておく要件を整理します。入力項目と集計の単位、給与計算や会計への渡し方、現場で使われるためのオフライン入力の条件まで、外注の見積もりがそろう形で解説します。', supervised: true },
   { slug: 'ai-chatbot-acceptance-criteria', category: 'AI活用', date: '2026.09.22', read: '8 min', title: 'AIチャットボット外注の検収、受け入れ基準の決め方', img: 'assets/blog-default.png', desc: 'AIチャットボットを外注する際の検収条件の決め方を解説します。確率的に動作する回答精度をどう合格基準にするか、質問を業務影響で分けた水準の決め方、精度以外の確認軸、不合格時の再評価と改修の範囲までをまとめました。', supervised: true },
   { slug: 'japan-ai-usage-rate-low', category: 'AI活用', date: '2026.09.22', read: '5 min', title: '日本の生成AI個人利用率が低い理由｜国際比較データ', img: 'assets/blog-default.png', desc: '日本の生成AI個人利用率は26.7%で、米国68.8%・中国81.2%と比べて低水準です。低い理由と企業の活用実態、中小企業が取るべき一歩を解説します。', supervised: true },
