@@ -61,6 +61,7 @@ const ORG_SAME_AS = [
 // desc → meta description / og:description / BlogPosting.description に使う。
 //        未指定の記事は app.jsx の SEO_DESC か自動生成の定型文にフォールバックする
 const BLOG = [
+  { slug: 'women-empowerment-act-disclosure-website', category: 'Web制作', date: '2026.09.24', read: '8 min', title: '女性活躍推進法の情報公表、自社サイトへの掲載手順', img: 'assets/blog-default.png', desc: '女性活躍推進法の改正で、101人以上の企業に男女間賃金差異と女性管理職比率の公表が義務付けられました。自社サイトのどこにどの形式で掲載するか、初回の期限と毎年の更新の回し方、制作会社への依頼内容を手順で整理します。', supervised: true },
   { slug: 'back-button-hijacking-spam-policy-guide', category: 'AI活用', date: '2026.09.24', read: '5 min', title: 'バックボタンハイジャック対策｜Google新ポリシー', img: 'assets/blog-default.png', desc: 'Googleが新設したバックボタンハイジャックのスパムポリシーについて、該当する実装の確認手順と修正方法を解説します。', supervised: true },
   { slug: 'website-renewal-maintenance-structure-guide', category: 'Web制作', date: '2026.09.24', read: '5 min', title: 'リニューアル後の運用体制と保守契約の決め方', img: 'assets/blog-default.png', desc: 'サイトリニューアル後、誰が更新作業や保守を担当するかを決める手順と、保守契約の範囲の決め方を解説します。体制未整備のリスクも紹介します。', supervised: true },
   { slug: 'site-migration-without-email-downtime', category: 'Web制作', date: '2026.09.24', read: '8 min', title: 'サイト移転でメールを止めない｜リニューアルの手続き', img: 'assets/blog-default.png', desc: 'ホームページのリニューアルでサーバを移すとき、社内のメールを止めないための手順をまとめました。契約先の洗い出し、切替の順序、ドメインの指定事業者変更、制作会社との分担、旧サーバの解約時期まで解説します。', supervised: true },
