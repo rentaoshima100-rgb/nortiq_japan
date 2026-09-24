@@ -33,6 +33,7 @@ const ARTICLE_ROUTES = (() => {
 })();
 
 const ROUTES_ALLOWLIST = [
+  '/article-non-functional-requirements-performance-guide',
   '/article-women-empowerment-act-disclosure-website',
   '/article-back-button-hijacking-spam-policy-guide',
   '/article-website-renewal-maintenance-structure-guide',

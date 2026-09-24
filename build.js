@@ -61,6 +61,7 @@ const ORG_SAME_AS = [
 // desc → meta description / og:description / BlogPosting.description に使う。
 //        未指定の記事は app.jsx の SEO_DESC か自動生成の定型文にフォールバックする
 const BLOG = [
+  { slug: 'non-functional-requirements-performance-guide', category: '技術', date: '2026.09.24', read: '8 min', title: 'システム開発の非機能要件、性能の決め方と発注手順', img: 'assets/blog-default.png', desc: 'システム開発の非機能要件をどう決めるかを、IPA非機能要求グレードの6大項目に沿って整理します。応答速度や同時利用者数の書き方、測定条件の揃え方、決めた水準を検収条件として契約書に落とすまでの手順を解説します。', supervised: true },
   { slug: 'women-empowerment-act-disclosure-website', category: 'Web制作', date: '2026.09.24', read: '8 min', title: '女性活躍推進法の情報公表、自社サイトへの掲載手順', img: 'assets/blog-default.png', desc: '女性活躍推進法の改正で、101人以上の企業に男女間賃金差異と女性管理職比率の公表が義務付けられました。自社サイトのどこにどの形式で掲載するか、初回の期限と毎年の更新の回し方、制作会社への依頼内容を手順で整理します。', supervised: true },
   { slug: 'back-button-hijacking-spam-policy-guide', category: 'AI活用', date: '2026.09.24', read: '5 min', title: 'バックボタンハイジャック対策｜Google新ポリシー', img: 'assets/blog-default.png', desc: 'Googleが新設したバックボタンハイジャックのスパムポリシーについて、該当する実装の確認手順と修正方法を解説します。', supervised: true },
   { slug: 'website-renewal-maintenance-structure-guide', category: 'Web制作', date: '2026.09.24', read: '5 min', title: 'リニューアル後の運用体制と保守契約の決め方', img: 'assets/blog-default.png', desc: 'サイトリニューアル後、誰が更新作業や保守を担当するかを決める手順と、保守契約の範囲の決め方を解説します。体制未整備のリスクも紹介します。', supervised: true },
