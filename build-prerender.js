@@ -33,6 +33,7 @@ const ARTICLE_ROUTES = (() => {
 })();
 
 const ROUTES_ALLOWLIST = [
+  '/article-back-button-hijacking-spam-policy-guide',
   '/article-website-renewal-maintenance-structure-guide',
   '/article-site-migration-without-email-downtime',
   '/article-outsource-vs-inhouse-vs-package-comparison',
