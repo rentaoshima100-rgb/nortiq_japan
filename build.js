@@ -61,6 +61,7 @@ const ORG_SAME_AS = [
 // desc → meta description / og:description / BlogPosting.description に使う。
 //        未指定の記事は app.jsx の SEO_DESC か自動生成の定型文にフォールバックする
 const BLOG = [
+  { slug: 'system-development-source-code-copyright', category: '技術', date: '2026.09.24', read: '8 min', title: 'システム開発の外注｜ソースコード著作権の決め方', img: 'assets/blog-default.png', desc: '外注したシステムのソースコードの著作権について、契約で何を決めるかを整理しました。著作権法第27条と第28条の特掲、既存部品やオープンソースの扱い、IPAのモデル取引・契約書の使い方、納品物の範囲まで解説します。', supervised: true },
   { slug: 'core-system-data-integration-outsourcing', category: '技術', date: '2026.09.23', read: '8 min', title: '基幹システムのデータ連携、外注前に決める発注手順', img: 'assets/blog-default.png', desc: '基幹システムのデータ連携を外注する前に決めることを解説します。読み取りと書き込みの可否など相手の仕様の確認方法、API連携やファイル連携など4つの方式の選び方、件数の見積もり、責任範囲の決め方までをまとめました。', supervised: true },
   { slug: 'llmo-tool-japanese-support', category: 'AI活用', date: '2026.09.23', read: '9 min', title: 'LLMOツールの日本語対応｜中小企業の選び方', img: 'assets/blog-default.png', desc: 'LLMOツールの日本語対応を確かめる3つの観点と、自社で測る場合との比較をまとめました。Googleの公式説明をもとに、llms.txtや構造化データの扱い、契約前に確認する項目まで、中小企業の判断に必要な材料を整理します。', supervised: true },
   { slug: 'review-structured-data-fake-review-policy', category: 'Web制作', date: '2026.09.23', read: '5 min', title: 'レビュー構造化データの偽レビュー対応方法', img: 'assets/blog-default.png', desc: 'Googleのレビュー構造化データガイドライン改定で禁止された偽レビュー・インセンティブ非開示レビューへの具体的な対応方法を手順で解説します。', supervised: true },
