@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="ja" style="--accent: hsl(354, 92%, 45%); --accent-hi: hsl(354, 95%, 52%); --accent-soft: hsl(354, 90%, 95%);"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Google tag (gtag.js) — GA4 + Google Ads conversion tracking -->
+  <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-EYTD1TWR7T"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-EYTD1TWR7T');
+    window.NORTIQ_CONV = { contact: null, diagnostic: null };
+  </script>
+  <title>AI検索の流入を計測する方法｜GA4と参照元の確認 — Nortiq Labs</title>
+  <meta name="description" content="AI検索からの流入を、Search ConsoleとGoogleアナリティクス4で確認する手順を解説します。生成AIパフォーマンスレポートの5項目、chatgpt.comなどの参照元表記、データ保持期間の設定までまとめます。">
+  <link rel="icon" href="/assets/nortiq-fav.png" type="image/png">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Nortiq Labs">
+  <!-- 記事ルートでは app.jsx が og:type を article に変え、下の2つに日付を入れる。
+       setMetaContent は既存要素しか書き換えないため、空のまま置いておく必要がある -->
+  <meta property="article:published_time" content="2026-09-24">
+  <meta property="article:modified_time" content="2026-09-24">
+  <meta property="og:title" content="AI検索の流入を計測する方法｜GA4と参照元の確認 — Nortiq Labs">
+  <meta property="og:description" content="AI検索からの流入を、Search ConsoleとGoogleアナリティクス4で確認する手順を解説します。生成AIパフォーマンスレポートの5項目、chatgpt.comなどの参照元表記、データ保持期間の設定までまとめます。">
+  <meta property="og:url" content="https://nortiqlab.com/article-ai-search-traffic-measurement">
+  <meta property="og:image" content="https://nortiqlab.com/assets/blog-default.png">
+  <meta property="og:locale" content="ja_JP">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="AI検索の流入を計測する方法｜GA4と参照元の確認 — Nortiq Labs">
+  <meta name="twitter:description" content="AI検索からの流入を、Search ConsoleとGoogleアナリティクス4で確認する手順を解説します。生成AIパフォーマンスレポートの5項目、chatgpt.comなどの参照元表記、データ保持期間の設定までまとめます。">
+  <meta name="twitter:image" content="https://nortiqlab.com/assets/blog-default.png">
+  <link rel="stylesheet" href="/styles.css?v=b412012e5d">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://nortiqlab.com/#org","name":"Nortiq Labs","url":"https://nortiqlab.com/","logo":"https://nortiqlab.com/assets/nortiq-mark.png","image":"https://nortiqlab.com/assets/og-image.png","description":"京都のWeb制作×AI実装カンパニー。オリジナルデザインのホームページ制作からAIチャットボット導入、DXコンサルティングまで一気通貫で支援。初回相談無料・営業日24時間以内に返信します。","slogan":"日本のDX、世界水準で巻き返す。","foundingDate":"2025","numberOfEmployees":5,"address":{"@type":"PostalAddress","addressCountry":"JP","postalCode":"604-0012","addressRegion":"京都府","addressLocality":"京都市中京区","streetAddress":"竪大恩寺町751"},"areaServed":{"@type":"Country","name":"Japan"},"alternateName":["株式会社ノーティックラボ","ノーティックラボ"],"knowsAbout":["Web制作","AIチャットボット","DX","機械学習","SEO","LP制作 / LPO","業務自動化","データ分析"],"founder":{"@type":"Person","@id":"https://nortiqlab.com/#renta","name":"Renta Oshima","alternateName":"大島蓮太","jobTitle":"Founder / Engineer","worksFor":{"@id":"https://nortiqlab.com/#org"},"description":"米国 UC Berkeley で AI 研究。日本の中小企業向け DX 支援を起業。"}},{"@type":"WebSite","@id":"https://nortiqlab.com/#website","name":"Nortiq Labs","url":"https://nortiqlab.com/","publisher":{"@id":"https://nortiqlab.com/#org"},"inLanguage":"ja"},{"@type":"ProfessionalService","name":"Nortiq Labs","url":"https://nortiqlab.com/","description":"京都のWeb制作×AI実装カンパニー。オリジナルデザインのホームページ制作からAIチャットボット導入、DXコンサルティングまで一気通貫で支援。初回相談無料・営業日24時間以内に返信します。","areaServed":"JP","serviceType":["Web制作","AIチャットボット導入","DX・ML実装","補助金活用のDX導入相談"],"provider":{"@id":"https://nortiqlab.com/#org"}}]}</script>
+  <!-- defer: この2本 (計約139KB) は head にあって描画をブロックしていた。
+       ページの初期表示はプリレンダ済みHTMLで完結するのでJSを待つ必要がない。
+       defer は文書順に実行されるため react → react-dom → articles.js →
+       app.bundle.js の順序は保たれる。 -->
+  <script src="/assets/vendor/react.production.min.js?v=b412012e5d" defer=""></script>
+  <script src="/assets/vendor/react-dom.production.min.js?v=b412012e5d" defer=""></script>
+<script src="/articles/ai-search-traffic-measurement.js" defer="" data-article="ai-search-traffic-measurement"></script><link rel="canonical" href="https://nortiqlab.com/article-ai-search-traffic-measurement"><script type="application/ld+json" id="route-ld">[{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"トップ","item":"https://nortiqlab.com/"},{"@type":"ListItem","position":2,"name":"コラム","item":"https://nortiqlab.com/column"},{"@type":"ListItem","position":3,"name":"AI検索の流入を計測する方法","item":"https://nortiqlab.com/article-ai-search-traffic-measurement"}]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"AI検索の流入を計測する方法｜GA4と参照元の確認","description":"AI検索からの流入を、Search ConsoleとGoogleアナリティクス4で確認する手順を解説します。生成AIパフォーマンスレポートの5項目、chatgpt.comなどの参照元表記、データ保持期間の設定までまとめます。","image":"https://nortiqlab.com/assets/blog-default.png","url":"https://nortiqlab.com/article-ai-search-traffic-measurement","inLanguage":"ja","articleSection":"AI活用","datePublished":"2026-09-24","dateModified":"2026-09-24","author":{"@type":"Organization","@id":"https://nortiqlab.com/#org","name":"Nortiq Labs"},"publisher":{"@id":"https://nortiqlab.com/#org"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://nortiqlab.com/article-ai-search-traffic-measurement","reviewedBy":{"@id":"https://nortiqlab.com/#renta"}}}]</script></head>
+<body>
+  <div id="app"><header class="nav" role="banner"><div class="nav-inner"><a class="nav-logo" href="/" style="cursor: pointer;"><span class="nav-logo-mark"></span><span class="wordmark"><span class="wordmark-main">NORTIQ</span><span class="wordmark-sub">LABS</span></span></a><nav class="nav-links" aria-label="メインナビゲーション"><div class="nav-link-wrap"><a class="nav-link" href="/">トップ</a></div><div class="nav-link-wrap"><a class="nav-link">機能<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></a></div><div class="nav-link-wrap"><a class="nav-link">制作実績<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></a></div><div class="nav-link-wrap"><a class="nav-link">業種ソリューション<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></a></div><div class="nav-link-wrap"><a class="nav-link" href="/voice">ご利用会社様の声</a></div><div class="nav-link-wrap"><a class="nav-link" href="/support">サポート</a></div><div class="nav-link-wrap"><a class="nav-link" href="/pricing">料金プラン</a></div><div class="nav-link-wrap"><a class="nav-link" aria-current="page">コンテンツ<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></a></div><div class="nav-link-wrap"><a class="nav-link" href="/diagnostic">無料診断</a></div></nav><div class="nav-cta-wrap"><button class="btn btn-primary btn-sm" type="button"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><path d="M22 6l-10 7L2 6"></path></svg>メールでお問合せ</button><button class="hamburger" aria-label="メニューを開く" aria-expanded="false"><span></span><span></span><span></span></button></div></div><div class="nav-drawer"><div class="nav-drawer-panel"><div class="nav-drawer-head"><span class="nav-logo" style="font-size: 18px;"><span class="nav-logo-mark" aria-hidden="true"></span><span class="wordmark"><span class="wordmark-main">NORTIQ</span><span class="wordmark-sub">LABS</span></span></span><button class="drawer-close" aria-label="閉じる"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M6 18L18 6"></path></svg></button></div><nav class="nav-drawer-body"><a class="drawer-item" href="/"><span>トップ</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><div class="drawer-group"><button class="drawer-item drawer-group-head"><span>機能</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></button><div class="drawer-group-body"><div class="drawer-subgroup"><h5>サービス別 機能一覧</h5><a class="drawer-sub-item" href="/web"><span>Web制作 機能一覧</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/chatbot"><span>AIチャットボット 機能一覧</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/dx"><span>DX・ML 機能一覧</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></div><div class="drawer-subgroup"><h5>技術領域</h5><a class="drawer-sub-item" href="/feature-lpo"><span>LP制作 / LPO</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/feature-recruit"><span>採用専門サイト</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/feature-analytics"><span>アクセス解析カスタム実装</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/feature-cms"><span>CMS / 記事更新システム</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></div><div class="drawer-subgroup"><h5>自社プロダクト</h5><a class="drawer-sub-item" href="/product-vetonet"><span>VetoNet (AI Security)</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/product-wpchat"><span>ブログボット（AI投稿アシスタント）</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/product-tennis"><span>Tennis フォームチェック</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></div></div></div><div class="drawer-group"><button class="drawer-item drawer-group-head"><span>制作実績</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></button><div class="drawer-group-body"><div class="drawer-subgroup"><h5>業種から探す</h5><a class="drawer-sub-item" href="/works-clinic"><span>クリニック・医療</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/works-realty"><span>不動産</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/works-build"><span>建築・工務店</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/works-hr"><span>人材</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/works-retail"><span>小売 / EC</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/works-infra"><span>インフラ・製造</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/works-ai"><span>AIスタートアップ</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></div><div class="drawer-subgroup"><h5>強化LP別</h5><a class="drawer-sub-item" href="/works-lp-corp"><span>コーポレートサイト</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/works-lp-recruit"><span>採用LP</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/works-lp-ec"><span>EC連動LP</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></div><div class="drawer-subgroup"><h5>実績まとめ</h5><a class="drawer-sub-item" href="/works"><span>全実績一覧</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></div></div></div><div class="drawer-group"><button class="drawer-item drawer-group-head"><span>業種ソリューション</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></button><div class="drawer-group-body"><div class="drawer-subgroup"><h5>業種別パッケージ</h5><a class="drawer-sub-item" href="/solution-clinic"><span>クリニック・医療 DXパッケージ</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/solution-realty"><span>不動産 集客×管理パッケージ</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/solution-build"><span>建築 ブランド×案件管理</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/solution-hr"><span>人材 マッチング×集客</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/solution-retail"><span>小売・EC OMOパッケージ</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></div><div class="drawer-subgroup"><h5>業種特化LP (NEW)</h5><a class="drawer-sub-item" href="/service/kanri-dantai"><span>監理団体・登録支援機関向け</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/service/recruit-site"><span>建設・運送・介護の採用サイト</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></div></div></div><a class="drawer-item" href="/voice"><span>ご利用会社様の声</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-item" href="/support"><span>サポート</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-item" href="/pricing"><span>料金プラン</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><div class="drawer-group"><button class="drawer-item drawer-group-head"><span>コンテンツ</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></button><div class="drawer-group-body"><div class="drawer-subgroup"><h5>メディア</h5><a class="drawer-sub-item" href="/column"><span>コラム / 技術ブログ</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/news"><span>お知らせ</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/guidebook"><span>サービス紹介資料</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/subsidy"><span>補助金活用相談</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></div></div></div><a class="drawer-item" href="/diagnostic"><span>無料診断</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></nav><div class="nav-drawer-foot"><button class="btn btn-primary btn-lg" type="button" style="width: 100%;"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><path d="M22 6l-10 7L2 6"></path></svg>資料請求・お問い合わせ</button></div></div></div></header><div><main class="page-fade"><nav aria-label="Breadcrumb" style="padding: 14px 0px; border-bottom: 1px solid var(--border); background: var(--bg-2);"><div class="container"><ol class="row-tight" style="list-style: none; padding: 0px; margin: 0px; font-size: 12px; color: var(--text-3);"><li class="row-tight" style="gap: 8px;"><a href="/" style="cursor: pointer; color: var(--text-2);">トップ</a></li><li class="row-tight" style="gap: 8px;"><span style="color: var(--text-4);">›</span><a href="/column" style="cursor: pointer; color: var(--text-2);">コラム</a></li><li class="row-tight" style="gap: 8px;"><span style="color: var(--text-4);">›</span><span style="color: var(--text);">AI検索の流入を計測する方法｜GA4と参照元の確認</span></li></ol></div></nav><article><header style="padding-top: clamp(48px, 7vw, 90px); padding-bottom: 32px;"><div class="container" style="max-width: 820px;"><div class="row" style="gap: 12px; margin-bottom: 24px; color: var(--text-3); font-size: 13px; flex-wrap: wrap;"><span class="tag" style="color: var(--accent); border-color: var(--accent);">AI活用</span><span class="num">2026.09.24</span><span>·</span><span>10 min read</span><span>·</span><span>Nortiq Labs</span></div><h1 class="display-l fadein is-in" style="margin-bottom: 8px;">AI検索の流入を計測する方法｜GA4と参照元の確認</h1></div></header><div class="container" style="max-width: 880px; margin-bottom: 8px;"><div class="article-cover tone-blue" role="img" aria-label="AI検索の流入を計測する方法｜GA4と参照元の確認" style="aspect-ratio: 21 / 9;"><span class="article-cover-cat">AI活用</span><span class="article-cover-title">AI検索の流入を計測する方法</span><span class="article-cover-brand">NORTIQ LABS · COLUMN</span></div></div><div class="container" style="max-width: 780px; margin-top: 24px; margin-bottom: 64px;"><div><div class="article-prose article-body"><h2>AI検索からの流入は、どこで確認できますか？</h2>
+<p>Search Consoleで表示回数を、Googleアナリティクス4で遷移を確認します。どちらも御社がすでに使っている可能性が高い無料の画面です。</p>
+<p>新しいツールを契約する必要はありません。まずこの2つで、何が分かって何が分からないかを整理します。</p>
+<h3>2つの画面で見るものが違う</h3>
+<p>見ている対象が違います。整理すると次のとおりです。</p>
+<table>
+<thead>
+<tr>
+<th>画面</th>
+<th>分かること</th>
+<th>分からないこと</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Search Console 生成AIパフォーマンスレポート</td>
+<td>Googleの生成AI機能でサイトへのリンクが表示された回数</td>
+<td>クリック数、CTR、検索クエリ</td>
+</tr>
+<tr>
+<td>Googleアナリティクス4 トラフィック獲得レポート</td>
+<td>AIサービスから実際に遷移してきたセッション</td>
+<td>表示されたが遷移しなかった分</td>
+</tr>
+</tbody></table>
+<p>Search Consoleの生成AIパフォーマンスレポートは、2026年6月3日に追加されました。AI OverviewsやAIモードでの表示回数を、公式のデータとして確認できるようになっています。</p>
+<p>出典: <a href="https://support.google.com/webmasters/answer/16984139?hl=ja">Search Consoleヘルプ「生成 AI パフォーマンス レポート（検索）」</a>、<a href="https://www.suzukikenichi.com/blog/google-releases-ai-perfomance-reports-in-search-console/">海外SEO情報ブログの解説</a></p>
+<p>Googleアナリティクス4の側では、AIサービスからの遷移を参照元で見分けます。こちらは2026年6月に、デフォルトチャネルグループへ「AI Assistant」が追加されています。</p>
+<p>出典: <a href="https://jinrai.co.jp/blog/2026/07/22/ga4-ai-search-traffic/">株式会社仁頼「GA4でAI検索の流入を計測する3つの設定【2026】」</a></p>
+<h3>片方だけでは判断できない理由</h3>
+<p>片方だけを見ると、原因の切り分けができません。</p>
+<p>たとえばAI検索からの流入が0件だったとします。考えられる状態は2つあります。</p>
+<ol>
+<li>そもそも生成AI機能に表示されていない。この場合はSearch Console側の表示回数も0です。</li>
+<li>表示はされているが、遷移が起きていない。この場合はSearch Console側に表示回数が立ちます。</li>
+</ol>
+<p>1番と2番では、次に打つ手が変わります。1番は表示されるための施策の話です。2番は、AIの回答内で自社の名前が出ていても、そこから先へ進む理由が示せていないという話になります。</p>
+<p>両方の数字を並べて初めて、どちらの状態かが分かります。次のセクションから、それぞれの画面の見方を順に説明します。</p>
+<h2>Search Consoleでは何が分かりますか？</h2>
+<p>生成AIパフォーマンスレポートで、AI OverviewsとAIモードでの表示回数を確認できます。Googleが公式に出しているデータです。</p>
+<p>このレポートは2026年6月3日に追加されました。外部ツールの推定値ではなく、Google側の集計値である点が特徴です。</p>
+<h3>見られる5つの項目</h3>
+<p>確認できる項目は5つです。インプレッション、ページ、国、デバイス、日付で構成されます。</p>
+<p>出典: <a href="https://www.suzukikenichi.com/blog/google-releases-ai-perfomance-reports-in-search-console/">海外SEO情報ブログ「Google、Search ConsoleにAI検索パフォーマンスレポートをリリース！」</a></p>
+<p>ここでのインプレッションは、Google検索の生成AI機能でユーザにサイトへのリンクが表示された回数を指します。ページ別に見られるため、どの記事が引用されているかを把握できます。</p>
+<p>御社での使い方としては、ページ別の表示回数を月次で控えておく形が実務的です。所要時間は1回5分ほどです。</p>
+<h3>クリックと検索クエリは未対応</h3>
+<p>現時点では、クリック、CTR、検索クエリには対応していません。</p>
+<p>出典: <a href="https://www.suzukikenichi.com/blog/google-releases-ai-perfomance-reports-in-search-console/">海外SEO情報ブログの解説</a></p>
+<p>検索クエリが見られないため、「どんな質問で引用されたか」は分かりません。ページ単位の表示回数から推測する形になります。</p>
+<p>クリック数が出ないことも、読み方に影響します。表示回数だけでは、そこから遷移が起きたかどうかが判断できません。遷移の確認はGoogleアナリティクス4側で行います。詳しくは次のセクションで説明します。</p>
+<h3>従来のレポートとの二重計上に注意</h3>
+<p>つまずきやすい点がここです。生成AI機能ぶんの数値は、従来の検索パフォーマンスレポートに含まれたまま合算されています。</p>
+<p>新しく追加されたのは、そこから生成AI機能ぶんだけを抜き出して見るビューです。</p>
+<p>出典: <a href="https://www.suzukikenichi.com/blog/google-releases-ai-perfomance-reports-in-search-console/">海外SEO情報ブログの解説</a></p>
+<p>つまり、従来の表示回数と生成AIパフォーマンスレポートの表示回数を足し算すると、二重に数えることになります。月次の報告資料を作る際は、この点にご注意ください。</p>
+<p>正しい読み方は、従来の表示回数を全体として置き、そのうち生成AI機能ぶんがいくつかという形で見ることです。次の形で控えておくと混乱しません。</p>
+<table>
+<thead>
+<tr>
+<th>指標</th>
+<th>意味</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>検索パフォーマンスの表示回数</td>
+<td>生成AI機能ぶんを含む全体の数値</td>
+</tr>
+<tr>
+<td>生成AIパフォーマンスの表示回数</td>
+<td>上記のうち生成AI機能による分</td>
+</tr>
+<tr>
+<td>差分</td>
+<td>従来の検索結果による分</td>
+</tr>
+</tbody></table>
+<h2>GA4ではAIサービスからの流入をどう見分けますか？</h2>
+<p>トラフィック獲得レポートの参照元/メディアで、chatgpt.comなどのドメインを確認します。AIサービスからの遷移は、通常の外部サイトからの流入と同じ仕組みで記録されます。</p>
+<p>特別な設定を入れなくても、既定の状態で参照元として残っています。</p>
+<h3>主なAIサービスの参照元表記</h3>
+<p>代表的なサービスの表記は次のとおりです。</p>
+<table>
+<thead>
+<tr>
+<th>サービス</th>
+<th>参照元/メディアの表記</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ChatGPT</td>
+<td>chatgpt.com / referral</td>
+</tr>
+<tr>
+<td>Gemini</td>
+<td>gemini.google.com / referral</td>
+</tr>
+<tr>
+<td>Perplexity</td>
+<td>perplexity.ai / referral</td>
+</tr>
+</tbody></table>
+<p>出典: <a href="https://www.llmo-navi.com/articles/ga4-chatgpt-traffic-measurement-2026">LLMOナビ「ChatGPT経由のアクセスはGA4で測れる？計測手順と精度向上策｜2026年版」</a></p>
+<p>確認の手順は次のとおりです。所要時間は5分ほどです。</p>
+<ol>
+<li>Googleアナリティクス4を開き、レポートからトラフィック獲得を選ぶ。</li>
+<li>表の行の項目を「セッションの参照元/メディア」に切り替える。</li>
+<li>検索欄にchatgptと入力して絞り込む。他のサービスも同様に絞り込みます。</li>
+</ol>
+<p>つまずきやすい点は、行の項目が既定では「セッションのデフォルトチャネルグループ」になっていることです。参照元/メディアに切り替えないと、個別のドメインが見えません。</p>
+<h3>AI Assistantチャネルとその限界</h3>
+<p>2026年6月には、デフォルトチャネルグループに「AI Assistant」が追加されました。同月上旬からデータへの反映が確認されています。</p>
+<p>出典: <a href="https://jinrai.co.jp/blog/2026/07/22/ga4-ai-search-traffic/">株式会社仁頼「GA4でAI検索の流入を計測する3つの設定【2026】」</a></p>
+<p>このチャネルを使うと、複数のAIサービスをまとめて見られます。ただし限界が2つあります。</p>
+<ol>
+<li>定義に含まれない参照元は、ReferralやOrganic Searchに散らばります。新しいサービスや、あまり知られていないサービスは拾いきれません。</li>
+<li>追加された2026年6月より前のデータは、遡って再分類されません。過去との比較をする場合は、この点を踏まえて読みます。</li>
+</ol>
+<p>出典: <a href="https://jinrai.co.jp/blog/2026/07/22/ga4-ai-search-traffic/">株式会社仁頼の解説</a></p>
+<p>2番は報告資料で誤解を招きやすい箇所です。「今年からAI経由の流入が増えた」と見えても、分類が始まっただけということがあります。前年同月と比べる場合は、参照元/メディアの生の数値で比べてください。</p>
+<p>1番への対処としては、カスタムチャネルグループを作る方法があります。作り方は次のセクションで説明します。</p>
+<h2>計測を始める前に、どんな設定が必要ですか？</h2>
+<p>Googleアナリティクス4のデータ保持期間を、既定の2か月から14か月へ変更します。この設定を先に済ませてください。</p>
+<p>保持期間を過ぎたデータは探索レポートから削除されます。後から延ばしても、消えた分は戻りません。</p>
+<h3>データ保持期間の設定</h3>
+<p>既定値は2か月です。無料版では14か月まで延長できます。</p>
+<p>出典: <a href="https://www.ebis.ne.jp/column/ga4-data-retention-period/">アドエビス「GA4のデータ保持期間を徹底解説！」</a></p>
+<p>有料のGoogleアナリティクス360では、26か月、38か月、50か月も選べます。中小企業の御社であれば、無料版の14か月で足ります。</p>
+<p>設定の手順は次のとおりです。所要時間は3分ほどです。</p>
+<ol>
+<li>管理から、データ設定のデータ保持を開く。</li>
+<li>イベントデータの保持を14か月に変更する。</li>
+<li>保存する。</li>
+</ol>
+<p>つまずきやすい点は、この設定が管理者権限でないと変更できないことです。権限が無い場合は、アカウントの管理者に依頼してください。制作会社にアカウントを作ってもらった場合、管理者が外部のままになっていることがあります。</p>
+<h3>カスタムチャネルグループの作り方</h3>
+<p>前のセクションで触れたとおり、AI Assistantチャネルの定義に含まれない参照元は他のチャネルに散らばります。まとめて見たい場合は、カスタムチャネルグループを作ります。</p>
+<p>手順は次のとおりです。所要時間は15分ほどです。</p>
+<ol>
+<li>管理から、データの表示のチャネルグループを開く。</li>
+<li>新しいチャネルグループを作成する。</li>
+<li>条件として、参照元に含まれる文字列でAIサービスのドメインを列挙する。</li>
+<li>名前を付けて保存する。</li>
+</ol>
+<p>3番で列挙するドメインは、自社に流入がある分だけで足ります。前のセクションの手順で参照元/メディアを確認し、実際に出ているものを入れてください。</p>
+<p>もう1つの方法として、URLにパラメータを付けて配布する形もあります。ただしAI検索からの流入は、御社が配布したURLではなくAIが提示したリンクから来ます。パラメータを付けられないため、この方法は補助にとどまります。</p>
+<p>設定が終わったら、1か月ほど数字が溜まるのを待ちます。その間に、Search Console側の生成AIパフォーマンスレポートも月次で控えておいてください。</p>
+</div><aside class="nq-slot" data-slot="slot-mid" aria-label="おすすめのページ"><div class="nq-suggest" data-block="sg-chatbot" data-variant="default"><p class="nq-suggest__eyebrow">ブログ更新が止まりがちな方へ</p><h3 class="nq-suggest__title"><a href="/chatbot">質問するだけで記事が書ける、AI投稿ツール。</a></h3><p class="nq-suggest__body">AIチャットボットに質問しながら骨子を作り、本文展開、WordPress投稿までを自動化。初期費用10万円〜（税別）。</p><span class="nq-suggest__cta" aria-hidden="true">機能と料金を見る →</span></div></aside><div class="article-prose article-body"><h2>数字を読むとき、何に注意しますか？</h2>
+<p>表示はあるのに遷移が無い場合と、そもそも表示が無い場合を切り分けて読みます。打つ手が変わるためです。</p>
+<p>数字が小さいうちは、増減に一喜一憂しないことも大切です。母数が小さいと、数件の差が大きな比率に見えます。</p>
+<h3>2つの数字の組み合わせで読む</h3>
+<p>Search Consoleの表示回数と、Googleアナリティクス4の遷移数を組み合わせます。状態は4つに分かれます。</p>
+<table>
+<thead>
+<tr>
+<th>表示回数</th>
+<th>遷移数</th>
+<th>読み方</th>
+<th>次に見ること</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>0</td>
+<td>0</td>
+<td>生成AI機能に出ていません</td>
+<td>該当テーマのページがあるか、内容が問いに答えているか</td>
+</tr>
+<tr>
+<td>あり</td>
+<td>0</td>
+<td>出ているが遷移していません</td>
+<td>引用されているページの内容と、先を読む理由があるか</td>
+</tr>
+<tr>
+<td>あり</td>
+<td>あり</td>
+<td>出て遷移もしています</td>
+<td>どのページが効いているかを控えます</td>
+</tr>
+<tr>
+<td>0</td>
+<td>あり</td>
+<td>Google以外のAIサービス経由です</td>
+<td>参照元でどのサービスか確認します</td>
+</tr>
+</tbody></table>
+<p>4番目の組み合わせは見落とされがちです。Search Consoleが見ているのはGoogle検索の生成AI機能だけです。ChatGPTやPerplexityからの流入は、Search Consoleには現れません。</p>
+<h3>計測できない流入が残る</h3>
+<p>すべてが数字になるわけではありません。残る範囲を把握しておきます。</p>
+<ol>
+<li>AIの回答内に自社名や内容が出ても、リンクがクリックされなければGoogleアナリティクス4には残りません。認知はされているのに、数字は0のままという状態が起こります。</li>
+<li>検索クエリが分からないため、どんな質問で引用されたかは追えません。前のセクションで触れたとおり、生成AIパフォーマンスレポートは検索クエリに未対応です。</li>
+<li>アプリ内のブラウザや、参照元情報が送られない環境からの遷移は、Direct（直接）として記録されることがあります。</li>
+</ol>
+<p>3番があるため、Directの数値が不自然に増えていないかもあわせて見てください。ただしDirectはブックマークや入力による訪問も含むため、AI経由と断定はできません。増減の傾向を見る程度にとどめます。</p>
+<p>ここまでの注意点を踏まえると、月次で見る指標は多くありません。生成AI機能での表示回数、AIサービスからの遷移数、Directの推移の3つで足ります。最初の数か月は、この3つを並べて記録することをおすすめします。</p>
+<h2>計測した結果を、次の施策にどう使いますか？</h2>
+<p>表示が取れているページと取れていないページを分け、取れているページの構成を横展開します。推測ではなく、実際に引用されたページを基準にします。</p>
+<p>数か月ぶんの記録が溜まってから着手してください。1か月の数値では判断できません。</p>
+<h3>まず見る3つの切り口</h3>
+<p>見る順番は次のとおりです。</p>
+<ol>
+<li>ページ別の表示回数を降順に並べる。上位のページに共通する形式を探します。所要時間は30分ほどです。</li>
+<li>上位ページの構成を確認する。見出しが問いの形か、答えが見出しの直下にあるか、表や箇条書きで整理されているかを見ます。</li>
+<li>表示はあるが遷移が無いページを抜き出す。前のセクションの表の2番目の状態です。本文に、続きを読む理由が書かれているかを確認します。</li>
+</ol>
+<p>2番で見つかった形式を、他のページにも適用していきます。つまずきやすい点は、上位ページの本数が少ないうちに一般化してしまうことです。3本程度では傾向とは言えません。10本以上溜まってから判断してください。</p>
+<p>3番の対処は、記事を増やすことではありません。既存のページに、具体的な数値や手順を足す作業になります。AIの回答で要約されても、原文を見る理由が残る内容かどうかという観点です。</p>
+<h3>中小企業がどこまでやるかの目安</h3>
+<p>どこまで手をかけるかは、利用の広がりを見て判断します。総務省の情報通信白書では、生成AIを使ったことがある個人の割合は日本で26.7%です。米国は68.8%、ドイツは59.2%、中国は81.2%でした。</p>
+<p>出典: <a href="https://www.soumu.go.jp/johotsusintokei/whitepaper/ja/r07/html/nd112210.html">総務省「令和7年版 情報通信白書 個人におけるAI利用の現状」</a></p>
+<p>個人の利用では、日本はまだ差があります。一方で企業側は広がっています。令和8年版の情報通信白書では、何らかの業務で生成AIを使っていると回答した企業の割合は日本で86.4%でした。米国は90.9%、ドイツは91.6%、中国は98.1%です。</p>
+<p>出典: <a href="https://www.soumu.go.jp/main_content/001082851.pdf">総務省「令和8年版情報通信白書（概要）」</a>（2026年7月）</p>
+<p>この差は、御社の読者がどちらかによって判断が変わることを意味します。法人向けの情報を出しているなら、AI検索経由の流入は今後増える見込みで見ておくほうが自然です。個人向けであれば、従来の検索の比重がまだ高い状態です。</p>
+<p>いずれにしても、まずは計測を始めておくことをおすすめします。設定にかかる時間は合計で20分ほどで、費用はかかりません。数か月後に判断する材料が手元に残ります。</p>
+<p>当社では、計測の設定から、引用されやすい記事の構成づくりまで一貫して支援しています。自社の数字をどう読めばよいか分からない場合は、<a href="/diagnostic">無料診断</a>でご相談ください。現状の設定を確認し、何から着手すべきかを整理します。</p>
+<p>AI検索そのものへの対策については、当社の別記事で基本から整理しています。計測と対策をあわせてご覧ください。</p>
+<h2>よくあるご質問</h2>
+<p>この記事に関して多い質問と回答をまとめます。</p>
+<h3>生成AIパフォーマンスレポートはどこから開きますか</h3>
+<p>Search Consoleの左側のメニューから、検索パフォーマンスの配下にあるビューを選びます。プロパティによっては表示までに時間がかかる場合があります。</p>
+<p>このレポートは2026年6月3日に追加されました。メニューに見当たらない場合は、Search Consoleのプロパティが正しく所有権確認されているかをご確認ください。</p>
+<h3>AI検索経由のクリック数は分かりますか</h3>
+<p>現時点では分かりません。生成AIパフォーマンスレポートで確認できるのは、インプレッション、ページ、国、デバイス、日付の5項目です。クリック、CTR、検索クエリには対応していません。</p>
+<p>出典: <a href="https://www.suzukikenichi.com/blog/google-releases-ai-perfomance-reports-in-search-console/">海外SEO情報ブログの解説</a></p>
+<p>遷移があったかどうかは、Googleアナリティクス4の参照元で確認します。</p>
+<h3>ChatGPT経由の流入はGA4のどこに表示されますか</h3>
+<p>トラフィック獲得レポートで確認します。行の項目を「セッションの参照元/メディア」に切り替えてください。chatgpt.com / referral として表示されます。</p>
+<p>出典: <a href="https://www.llmo-navi.com/articles/ga4-chatgpt-traffic-measurement-2026">LLMOナビの解説</a></p>
+<p>Geminiはgemini.google.com / referralです。Perplexityはperplexity.ai / referralと記録されます。既定のチャネルグループ表示のままだと見えないため、切り替えが必要です。</p>
+<h3>データ保持期間を14か月に変えると過去のデータも戻りますか</h3>
+<p>戻りません。既定の2か月を過ぎて削除されたデータは復元されません。</p>
+<p>出典: <a href="https://www.ebis.ne.jp/column/ga4-data-retention-period/">アドエビス「GA4のデータ保持期間を徹底解説！」</a></p>
+<p>そのため、計測を始めると決めた時点ですぐに設定を変更してください。所要時間は3分ほどです。なお、標準レポートの集計値は保持期間の影響を受けにくい一方、探索レポートは影響を受けます。</p>
+<h3>AI検索からの流入が0件の場合、何を確認すればよいですか</h3>
+<p>まずSearch Console側の表示回数を確認します。表示回数も0であれば、生成AI機能に出ていない状態です。表示回数があるのに遷移が0であれば、出てはいるが遷移が起きていない状態になります。</p>
+<p>前者は該当するテーマのページがあるか、後者は本文に原文を読む理由があるかという観点で見直します。</p>
+<h3>外部のLLMO計測ツールは必要ですか</h3>
+<p>まずは不要です。Search ConsoleとGoogleアナリティクス4で、表示回数と遷移数は確認できます。費用もかかりません。</p>
+<p>外部ツールは、AIの回答内での言及そのものを追う用途で使われます。ただし御社の流入がまだ少ない段階では、判断材料になるほどのデータが集まりません。数か月ぶんの記録が溜まり、判断に足りないと分かった時点で検討することをおすすめします。</p>
+<h2>関連リンク</h2>
+<ul>
+<li><a href="/article-946f788a-2be8-4bf5-955c-30494a0a7aa4">中小企業が始めるLLMO対策の基本</a></li>
+<li><a href="/article-a44cb4f8-87fc-4f8f-929c-1f5b4eda57cf">LLMOツールの日本語対応と中小企業の選び方</a></li>
+<li><a href="/article-4b1bdfd2-0d51-4e80-98e8-7326a5ff6280">ホームページの効果測定で見るKPI指標</a></li>
+<li><a href="/article-a9fc91b3-aa63-48d1-b8b3-38a2e277338b">AI生成記事のGoogleスパムアップデート対策</a></li>
+<li><a href="/diagnostic">AI検索の計測設定を無料診断で確認する</a></li>
+<li><a href="/guidebook">DXガイドブックでAI活用の進め方を確認する</a></li>
+</ul>
+</div></div><div style="margin-top: 32px; padding: 16px 20px; background: var(--bg-2); border-radius: 10px; font-size: 13px; color: var(--text-3); line-height: 1.8;"><div>監修: 大島蓮太（株式会社ノーティックラボ代表 / AIエンジニア）</div><div>本記事はAIを活用して制作しています</div></div><aside class="nq-slot" data-slot="slot-end" aria-label="次に読むページ"><div class="nq-suggest" data-block="sg-guidebook" data-variant="default"><p class="nq-suggest__eyebrow">この記事を読んだ方へ</p><h3 class="nq-suggest__title"><a href="/guidebook">サービス紹介資料を無料でダウンロード。</a></h3><p class="nq-suggest__body">制作の進め方・実績・料金プラン・制作の流れを、全11ページのPDFにまとめています。費用はかかりません。</p><span class="nq-suggest__cta" aria-hidden="true">資料を見る →</span></div></aside></div><section class="section-pad" style="background: var(--bg-2);"><div class="container" style="max-width: 880px;"><h3 class="display-s" style="margin-bottom: 24px;">関連記事</h3><div class="grid-3"><a class="article-card fadein is-in" href="/article-business-system-maintenance-outsourcing" style="cursor: pointer;"><div class="article-cover tone-ink" role="img" aria-label="業務システム外注｜担当者がいない場合の運用保守" style="aspect-ratio: 16 / 10;"><span class="article-cover-cat">技術</span><span class="article-cover-title">業務システム外注</span><span class="article-cover-brand">NORTIQ LABS · COLUMN</span></div><div class="article-meta"><span style="color: var(--accent);">技術</span><span class="article-meta-sep">·</span><span>2026.09.24</span></div><h3 class="article-title">業務システム外注｜担当者がいない場合の運用保守</h3></a><a class="article-card fadein is-in" href="/article-truck-dispatch-daily-report-system" style="cursor: pointer;"><div class="article-cover tone-ink" role="img" aria-label="運送業の配車・運行日報システム｜外注前に決める要件" style="aspect-ratio: 16 / 10;"><span class="article-cover-cat">技術</span><span class="article-cover-title">運送業の配車・運行日報システム</span><span class="article-cover-brand">NORTIQ LABS · COLUMN</span></div><div class="article-meta"><span style="color: var(--accent);">技術</span><span class="article-meta-sep">·</span><span>2026.09.24</span></div><h3 class="article-title">運送業の配車・運行日報システム｜外注前に決める要件</h3></a><a class="article-card fadein is-in" href="/article-construction-site-document-sharing" style="cursor: pointer;"><div class="article-cover tone-ink" role="img" aria-label="建設現場の写真・書類共有｜外注前に決める要件" style="aspect-ratio: 16 / 10;"><span class="article-cover-cat">技術</span><span class="article-cover-title">建設現場の写真・書類共有</span><span class="article-cover-brand">NORTIQ LABS · COLUMN</span></div><div class="article-meta"><span style="color: var(--accent);">技術</span><span class="article-meta-sep">·</span><span>2026.09.24</span></div><h3 class="article-title">建設現場の写真・書類共有｜外注前に決める要件</h3></a></div></div></section></article><section class="t_inq_wrap fadein is-in"><div class="container"><h2>こうした観点をベースに、<br>貴社の DX を一緒に考えませんか。</h2><div class="t_inq_btns"><button class="btn btn-primary" type="button"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><path d="M22 6l-10 7L2 6"></path></svg>資料請求はこちら</button><a class="btn btn-primary" href="/diagnostic"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><path d="M21 21l-4.35-4.35"></path></svg>ホームページ無料診断</a></div><p class="t_inq_time">営業日 24時間以内に担当者よりご返信します。</p></div></section></main></div><footer class="footer"><div class="container"><div class="footer-grid"><div class="footer-brand"><div class="nav-logo" style="margin-bottom: 16px;"><span class="nav-logo-mark"></span><span class="wordmark"><span class="wordmark-main">NORTIQ</span><span class="wordmark-sub">LABS</span></span></div><p class="body" style="font-size: 13px; max-width: 320px; margin-bottom: 24px;">日本のDX、世界水準で巻き返す。<br>Web制作からAI・DX実装までの技術チーム。</p><button class="btn btn-primary btn-sm" type="button"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><path d="M22 6l-10 7L2 6"></path></svg>資料請求はこちら</button></div><div class="footer-col"><h4>制作実績</h4><ul><li><a href="/works">全実績一覧</a></li><li><a href="/works-clinic">クリニック・医療</a></li><li><a href="/works-realty">不動産</a></li><li><a href="/works-build">建築・工務店</a></li><li><a href="/works-hr">人材</a></li><li><a href="/works-retail">小売 / EC</a></li><li><a href="/works-infra">インフラ・製造</a></li><li><a href="/works-ai">AIスタートアップ</a></li><li><a href="/works-lp-corp">コーポレートLP</a></li><li><a href="/works-lp-recruit">採用LP</a></li><li><a href="/works-lp-ec">EC連動LP</a></li><li><a href="/works-video">動画制作事例</a></li></ul></div><div class="footer-col"><h4>機能・サービス</h4><ul><li><a href="/web">Web制作 機能一覧</a></li><li><a href="/chatbot">AIチャットボット 機能一覧</a></li><li><a href="/dx">DX・ML 機能一覧</a></li><li><a href="/feature-lpo">LP制作 / LPO</a></li><li><a href="/feature-recruit">採用専門サイト</a></li><li><a href="/feature-analytics">アクセス解析</a></li></ul><h4 style="margin-top: 24px;">自社プロダクト</h4><ul><li><a href="/product-vetonet">VetoNet</a></li><li><a href="/product-wpchat">ブログボット（AI投稿アシスタント）</a></li><li><a href="/product-tennis">Tennis フォームチェック</a></li></ul></div><div class="footer-col"><h4>サポート・コンサル</h4><ul><li><a href="/support">運用サポート</a></li><li><a href="/voice">ご利用会社様の声</a></li><li><a href="/diagnostic">サイト無料診断 (URL入力)</a></li><li><a href="/column">技術ブログ / コラム</a></li><li><a href="/news">お知らせ</a></li><li><a href="/subsidy">補助金活用相談</a></li><li><a href="/guidebook">サービス紹介資料</a></li></ul><h4 style="margin-top: 24px;">業種別ソリューション</h4><ul><li><a href="/solution-clinic">クリニック・医療</a></li><li><a href="/solution-realty">不動産</a></li><li><a href="/solution-build">建築・工務店</a></li><li><a href="/solution-hr">人材</a></li><li><a href="/solution-retail">小売 / EC</a></li><li><a href="/service/kanri-dantai">監理団体・登録支援機関</a></li><li><a href="/service/recruit-site">建設・運送・介護 採用サイト</a></li></ul><h4 style="margin-top: 24px;">会社</h4><ul><li><a href="/company">会社概要</a></li><li><a href="/staff">チーム / スタッフ</a></li><li><a href="/recruit">採用情報</a></li><li><a href="/pricing">料金プラン</a></li><li><a href="/sitemap">サイトマップ</a></li></ul></div></div><div class="footer-bottom"><span>© 2026 Nortiq Labs Inc. All rights reserved.</span><div class="row" style="gap: 24px;"><a href="/privacy" style="color: var(--text-3);">プライバシーポリシー</a><a href="/terms" style="color: var(--text-3);">利用規約</a><a href="/privacy-handling" style="color: var(--text-3);">個人情報の取扱い</a></div></div></div></footer><div class="modal-backdrop"><div class="modal" role="dialog" aria-modal="true"><button class="modal-close" aria-label="閉じる"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M6 18L18 6"></path></svg></button><div style="margin-bottom: 24px;"><div class="eyebrow eyebrow-accent" style="margin-bottom: 12px;">CONTACT</div><h3 class="display-s" style="margin-bottom: 8px;">資料請求・お問い合わせ</h3><p class="small">初回相談は無料です。営業日24時間以内にご返信します。</p></div><form novalidate=""><div class="field"><label>貴社名<span class="req">必須</span></label><input type="text" placeholder="株式会社○○" value=""></div><div class="field"><label>ご担当者名<span class="req">必須</span></label><input type="text" placeholder="山田 太郎" value=""></div><div class="field"><label>メールアドレス<span class="req">必須</span></label><input type="email" placeholder="you@example.com" value=""></div><div class="field"><label>電話番号<span class="req">必須</span></label><input type="tel" placeholder="03-XXXX-XXXX" value=""></div><div class="field"><label>カテゴリー<span class="req">必須</span></label><div class="cb-group"><label class=""><input type="checkbox">Web制作</label><label class=""><input type="checkbox">AIチャットボット</label><label class=""><input type="checkbox">DX・ML</label><label class=""><input type="checkbox">業務自動化</label><label class=""><input type="checkbox">LP制作</label><label class=""><input type="checkbox">採用サイト</label></div></div><div class="field"><label>お問い合わせ内容<span class="req">必須</span></label><div class="cb-group"><label class=""><input type="checkbox">新規HP制作</label><label class=""><input type="checkbox">HPリニューアル</label><label class=""><input type="checkbox">AIチャットボット導入</label><label class=""><input type="checkbox">DX・ML 実装</label><label class=""><input type="checkbox">業務自動化</label><label class=""><input type="checkbox">リスティング広告</label><label class=""><input type="checkbox">コンサルティング</label></div></div><div class="field"><label>ご相談内容<span class="any">任意</span></label><div class="cb-group"><label class=""><input type="checkbox">HPが無い</label><label class=""><input type="checkbox">問い合わせを増やしたい</label><label class=""><input type="checkbox">サービス資料がほしい</label><label class=""><input type="checkbox">無料診断</label><label class=""><input type="checkbox">デザインを改善したい</label><label class=""><input type="checkbox">SEOを上げたい</label><label class=""><input type="checkbox">AI活用したい</label><label class=""><input type="checkbox">業務効率化したい</label><label class=""><input type="checkbox">補助金活用を相談したい</label></div></div><div class="field"><label>本サイトを知ったきっかけ<span class="any">任意</span></label><select><option value="">選択してください</option><option value="Google検索">Google検索</option><option value="Yahoo検索">Yahoo検索</option><option value="AIチャット (ChatGPT/Claude/Gemini等)">AIチャット (ChatGPT/Claude/Gemini等)</option><option value="ご紹介">ご紹介</option><option value="メール">メール</option><option value="DMチラシ">DMチラシ</option><option value="SNS (X/LinkedIn)">SNS (X/LinkedIn)</option><option value="以前から知っていた">以前から知っていた</option><option value="その他">その他</option></select></div><div class="field"><label>サイトURL<span class="any">任意</span></label><input type="text" placeholder="https://" value=""></div><div class="field"><label>その他ご質問<span class="any">任意</span></label><textarea placeholder="ご質問・ご相談がございましたらお気軽にご記入ください。"></textarea></div><div class="field field-check"><input type="checkbox" id="agree" style="margin-top: 2px;"><label for="agree" style="cursor: pointer;"><a href="/privacy-handling" target="_blank" rel="noopener noreferrer" style="color: var(--accent); text-decoration: underline;">個人情報の取り扱い</a>に同意します<span class="req">必須</span></label></div><div style="margin-top: 8px; text-align: center;"><button class="btn btn-primary btn-lg" type="submit">同意して送信する<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></button></div></form></div></div><nav class="sp-bottom-nav" aria-label="モバイル下部ナビ"><ul><li><a href="/"><span class="icn"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-8 9 8M5 10v10h14V10"></path></svg></span><span>トップ</span></a></li><li><a href="/works"><span class="icn"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect></svg></span><span>制作実績</span></a></li><li><a href="/pricing"><span class="icn"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4l8 11 8-11M7 13h10M7 17h10"></path></svg></span><span>料金</span></a></li><li><button type="button"><span class="icn"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><path d="M22 6l-10 7L2 6"></path></svg></span><span>資料請求</span></button></li><li><a href="/sitemap"><span class="icn"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M4 12h16M4 17h16"></path></svg></span><span>メニュー</span></a></li></ul></nav><div class="sticky-cta" role="region" aria-label="ご相談の案内"><span class="pulse"></span><span>初回相談無料 · 営業日24h以内にご返信</span><button>資料請求 →</button><button class="sticky-cta-close" aria-label="閉じる"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M6 18L18 6"></path></svg></button></div></div>
+  <script src="/articles.js?v=b412012e5d" defer=""></script>
+  <script src="/app.bundle.js?v=b412012e5d" defer=""></script>
+
+
+</body></html>
