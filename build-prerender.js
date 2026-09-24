@@ -33,6 +33,7 @@ const ARTICLE_ROUTES = (() => {
 })();
 
 const ROUTES_ALLOWLIST = [
+  '/article-business-system-maintenance-outsourcing',
   '/article-truck-dispatch-daily-report-system',
   '/article-construction-site-document-sharing',
   '/article-tokyo-homepage-production-companies',

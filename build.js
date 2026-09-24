@@ -61,6 +61,7 @@ const ORG_SAME_AS = [
 // desc → meta description / og:description / BlogPosting.description に使う。
 //        未指定の記事は app.jsx の SEO_DESC か自動生成の定型文にフォールバックする
 const BLOG = [
+  { slug: 'business-system-maintenance-outsourcing', category: '技術', date: '2026.09.24', read: '10 min', title: '業務システム外注｜担当者がいない場合の運用保守', img: 'assets/blog-default.png', desc: '業務システムを外注したあと、運用と保守を誰が担うかを整理します。システム担当者がいない中小企業は3割弱です。委託と社内の線引き、準委任と請負の使い分け、保守費用の見積もりで確認する5点まで解説します。', supervised: true },
   { slug: 'truck-dispatch-daily-report-system', category: '技術', date: '2026.09.24', read: '12 min', title: '運送業の配車・運行日報システム｜外注前に決める要件', img: 'assets/blog-default.png', desc: '運送業の配車・運行日報システムを外注する前に決める要件を整理します。荷待時間の業務記録は2025年4月1日から全車両が対象です。運行記録計と点呼記録の保存期間、拘束時間の集計、機器連携の確認点まで解説します。', supervised: true },
   { slug: 'construction-site-document-sharing', category: '技術', date: '2026.09.24', read: '9 min', title: '建設現場の写真・書類共有｜外注前に決める要件', img: 'assets/blog-default.png', desc: '建設現場の写真や書類を外出先から探せるようにするための要件を解説します。施工管理アプリ導入後もExcel運用が62.5%残る実態を踏まえ、探し方からの逆算、既存ツールとの役割分担、要件の書き方までまとめます。', supervised: true },
   { slug: 'tokyo-homepage-production-companies', category: 'Web制作', date: '2026.09.24', read: '7 min', title: '東京都のホームページ制作会社一覧｜掲載基準と選び方', img: 'assets/blog-default.png', desc: '東京都でホームページ制作を依頼できる会社を、公式サイトで確認できた事実だけで一覧にしました。掲載基準、対応エリアと得意分野の見方、見積もりの比べ方までまとめています。', supervised: true },
