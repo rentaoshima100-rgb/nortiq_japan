@@ -33,6 +33,7 @@ const ARTICLE_ROUTES = (() => {
 })();
 
 const ROUTES_ALLOWLIST = [
+  '/article-ai-search-traffic-measurement',
   '/article-business-system-maintenance-outsourcing',
   '/article-truck-dispatch-daily-report-system',
   '/article-construction-site-document-sharing',
