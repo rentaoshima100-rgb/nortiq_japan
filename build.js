@@ -61,6 +61,7 @@ const ORG_SAME_AS = [
 // desc → meta description / og:description / BlogPosting.description に使う。
 //        未指定の記事は app.jsx の SEO_DESC か自動生成の定型文にフォールバックする
 const BLOG = [
+  { slug: 'website-renewal-maintenance-structure-guide', category: 'Web制作', date: '2026.09.24', read: '5 min', title: 'リニューアル後の運用体制と保守契約の決め方', img: 'assets/blog-default.png', desc: 'サイトリニューアル後、誰が更新作業や保守を担当するかを決める手順と、保守契約の範囲の決め方を解説します。体制未整備のリスクも紹介します。', supervised: true },
   { slug: 'site-migration-without-email-downtime', category: 'Web制作', date: '2026.09.24', read: '8 min', title: 'サイト移転でメールを止めない｜リニューアルの手続き', img: 'assets/blog-default.png', desc: 'ホームページのリニューアルでサーバを移すとき、社内のメールを止めないための手順をまとめました。契約先の洗い出し、切替の順序、ドメインの指定事業者変更、制作会社との分担、旧サーバの解約時期まで解説します。', supervised: true },
   { slug: 'outsource-vs-inhouse-vs-package-comparison', category: '技術', date: '2026.09.24', read: '6 min', title: '業務システムの外注・内製・パッケージ比較｜中小企業の選び方', img: 'assets/blog-default.png', desc: '業務システムを外注・内製・パッケージのどれで進めるべきか、費用・運用負荷・向く企業規模の4軸で比較します。企業タイプ別のおすすめも紹介します。', supervised: true },
   { slug: 'system-development-source-code-copyright', category: '技術', date: '2026.09.24', read: '8 min', title: 'システム開発の外注｜ソースコード著作権の決め方', img: 'assets/blog-default.png', desc: '外注したシステムのソースコードの著作権について、契約で何を決めるかを整理しました。著作権法第27条と第28条の特掲、既存部品やオープンソースの扱い、IPAのモデル取引・契約書の使い方、納品物の範囲まで解説します。', supervised: true },
