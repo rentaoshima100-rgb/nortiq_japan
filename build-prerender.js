@@ -33,6 +33,7 @@ const ARTICLE_ROUTES = (() => {
 })();
 
 const ROUTES_ALLOWLIST = [
+  '/article-tokyo-homepage-production-companies',
   '/article-website-security-requirements-rfq',
   '/article-construction-management-excel-duplication',
   '/article-manufacturing-paperless-field-forms',

@@ -61,6 +61,7 @@ const ORG_SAME_AS = [
 // desc → meta description / og:description / BlogPosting.description に使う。
 //        未指定の記事は app.jsx の SEO_DESC か自動生成の定型文にフォールバックする
 const BLOG = [
+  { slug: 'tokyo-homepage-production-companies', category: 'Web制作', date: '2026.09.24', read: '7 min', title: '東京都のホームページ制作会社一覧｜掲載基準と選び方', img: 'assets/blog-default.png', desc: '東京都でホームページ制作を依頼できる会社を、公式サイトで確認できた事実だけで一覧にしました。掲載基準、対応エリアと得意分野の見方、見積もりの比べ方までまとめています。', supervised: true },
   { slug: 'website-security-requirements-rfq', category: 'Web制作', date: '2026.09.24', read: '11 min', title: 'ホームページ制作の発注でセキュリティ要件を書面化する手順', img: 'assets/blog-default.png', desc: 'ホームページ制作を発注するとき、セキュリティ要件を見積書と仕様書のどこにどう書かせるかを整理します。IPAの公的基準を指定する方法、相見積もりの比較軸、保守契約での責任範囲の決め方まで、発注前に確認する項目を解説します。', supervised: true },
   { slug: 'construction-management-excel-duplication', category: '技術', date: '2026.09.24', read: '9 min', title: '施工管理システム導入後もExcelが残る原因と要件の直し方', img: 'assets/blog-default.png', desc: '施工管理システムの導入後もExcel台帳が残る原因を、調査結果から整理します。情報の正の決め方、要件として書き直す3点、改修と乗り換えの判断の目安までを手順と表で解説します。', supervised: true },
   { slug: 'manufacturing-paperless-field-forms', category: '技術', date: '2026.09.24', read: '8 min', title: '製造業の現場帳票ペーパーレスが進まない原因と外注手順', img: 'assets/blog-default.png', desc: '製造業の現場帳票のペーパーレスが進まない原因を、着手率と完了率の調査から整理します。どの帳票から着手するかの基準、外注前に自社で決める3点、見積もりで確認する項目を手順で解説します。', supervised: true },
