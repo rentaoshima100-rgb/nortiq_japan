@@ -61,6 +61,7 @@ const ORG_SAME_AS = [
 // desc → meta description / og:description / BlogPosting.description に使う。
 //        未指定の記事は app.jsx の SEO_DESC か自動生成の定型文にフォールバックする
 const BLOG = [
+  { slug: 'manufacturing-paperless-field-forms', category: '技術', date: '2026.09.24', read: '8 min', title: '製造業の現場帳票ペーパーレスが進まない原因と外注手順', img: 'assets/blog-default.png', desc: '製造業の現場帳票のペーパーレスが進まない原因を、着手率と完了率の調査から整理します。どの帳票から着手するかの基準、外注前に自社で決める3点、見積もりで確認する項目を手順で解説します。', supervised: true },
   { slug: 'website-renewal-baseline-metrics', category: 'Web制作', date: '2026.09.24', read: '8 min', title: 'ホームページリニューアル前に記録する指標と保持期間', img: 'assets/blog-default.png', desc: 'ホームページのリニューアル前に記録しておく指標を、検索の実績、アクセス、表示速度、ページ一覧の4つに整理します。Search Consoleは最長16か月という保持期間の上限と、記録の手順も解説します。', supervised: true },
   { slug: 'non-functional-requirements-performance-guide', category: '技術', date: '2026.09.24', read: '8 min', title: 'システム開発の非機能要件、性能の決め方と発注手順', img: 'assets/blog-default.png', desc: 'システム開発の非機能要件をどう決めるかを、IPA非機能要求グレードの6大項目に沿って整理します。応答速度や同時利用者数の書き方、測定条件の揃え方、決めた水準を検収条件として契約書に落とすまでの手順を解説します。', supervised: true },
   { slug: 'women-empowerment-act-disclosure-website', category: 'Web制作', date: '2026.09.24', read: '8 min', title: '女性活躍推進法の情報公表、自社サイトへの掲載手順', img: 'assets/blog-default.png', desc: '女性活躍推進法の改正で、101人以上の企業に男女間賃金差異と女性管理職比率の公表が義務付けられました。自社サイトのどこにどの形式で掲載するか、初回の期限と毎年の更新の回し方、制作会社への依頼内容を手順で整理します。', supervised: true },
