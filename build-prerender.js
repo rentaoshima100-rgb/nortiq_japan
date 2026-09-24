@@ -33,6 +33,7 @@ const ARTICLE_ROUTES = (() => {
 })();
 
 const ROUTES_ALLOWLIST = [
+  '/article-outsource-vs-inhouse-vs-package-comparison',
   '/article-system-development-source-code-copyright',
   '/article-core-system-data-integration-outsourcing',
   '/article-llmo-tool-japanese-support',
