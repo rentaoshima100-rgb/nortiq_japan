@@ -61,6 +61,7 @@ const ORG_SAME_AS = [
 // desc → meta description / og:description / BlogPosting.description に使う。
 //        未指定の記事は app.jsx の SEO_DESC か自動生成の定型文にフォールバックする
 const BLOG = [
+  { slug: 'construction-management-excel-duplication', category: '技術', date: '2026.09.24', read: '9 min', title: '施工管理システム導入後もExcelが残る原因と要件の直し方', img: 'assets/blog-default.png', desc: '施工管理システムの導入後もExcel台帳が残る原因を、調査結果から整理します。情報の正の決め方、要件として書き直す3点、改修と乗り換えの判断の目安までを手順と表で解説します。', supervised: true },
   { slug: 'manufacturing-paperless-field-forms', category: '技術', date: '2026.09.24', read: '8 min', title: '製造業の現場帳票ペーパーレスが進まない原因と外注手順', img: 'assets/blog-default.png', desc: '製造業の現場帳票のペーパーレスが進まない原因を、着手率と完了率の調査から整理します。どの帳票から着手するかの基準、外注前に自社で決める3点、見積もりで確認する項目を手順で解説します。', supervised: true },
   { slug: 'website-renewal-baseline-metrics', category: 'Web制作', date: '2026.09.24', read: '8 min', title: 'ホームページリニューアル前に記録する指標と保持期間', img: 'assets/blog-default.png', desc: 'ホームページのリニューアル前に記録しておく指標を、検索の実績、アクセス、表示速度、ページ一覧の4つに整理します。Search Consoleは最長16か月という保持期間の上限と、記録の手順も解説します。', supervised: true },
   { slug: 'non-functional-requirements-performance-guide', category: '技術', date: '2026.09.24', read: '8 min', title: 'システム開発の非機能要件、性能の決め方と発注手順', img: 'assets/blog-default.png', desc: 'システム開発の非機能要件をどう決めるかを、IPA非機能要求グレードの6大項目に沿って整理します。応答速度や同時利用者数の書き方、測定条件の揃え方、決めた水準を検収条件として契約書に落とすまでの手順を解説します。', supervised: true },

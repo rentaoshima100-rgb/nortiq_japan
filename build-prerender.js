@@ -33,6 +33,7 @@ const ARTICLE_ROUTES = (() => {
 })();
 
 const ROUTES_ALLOWLIST = [
+  '/article-construction-management-excel-duplication',
   '/article-manufacturing-paperless-field-forms',
   '/article-website-renewal-baseline-metrics',
   '/article-non-functional-requirements-performance-guide',
