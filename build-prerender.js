@@ -33,6 +33,7 @@ const ARTICLE_ROUTES = (() => {
 })();
 
 const ROUTES_ALLOWLIST = [
+  '/article-home-care-record-app-outsourcing-requirements',
   '/article-website-copyright-material-usage',
   '/article-ai-search-traffic-measurement',
   '/article-business-system-maintenance-outsourcing',

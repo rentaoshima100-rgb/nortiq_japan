@@ -61,6 +61,7 @@ const ORG_SAME_AS = [
 // desc → meta description / og:description / BlogPosting.description に使う。
 //        未指定の記事は app.jsx の SEO_DESC か自動生成の定型文にフォールバックする
 const BLOG = [
+  { slug: 'home-care-record-app-outsourcing-requirements', category: '技術', date: '2026.09.25', read: '9 min', title: '訪問介護の記録アプリ外注｜決める要件7項目', img: 'assets/blog-default.png', desc: '訪問介護の記録アプリを外注する前に決める要件を7項目で整理します。既存の介護ソフトとの接続範囲、LIFEへのCSV連携、端末と委託先の安全管理、自治体のICT導入支援事業の条件まで、公的資料を根拠に解説します。', supervised: true },
   { slug: 'website-copyright-material-usage', category: 'Web制作', date: '2026.09.24', read: '9 min', title: 'ホームページ制作の著作権｜写真素材の利用範囲と契約', img: 'assets/blog-default.png', desc: 'ホームページ制作で納品されたデザインや写真を、他の用途に使ってよいかを解説します。著作権法第61条第2項の特掲要件、契約書で確認する3つの条項、素材の出どころによる違いまで整理します。', supervised: true },
   { slug: 'ai-search-traffic-measurement', category: 'AI活用', date: '2026.09.24', read: '10 min', title: 'AI検索の流入を計測する方法｜GA4と参照元の確認', img: 'assets/blog-default.png', desc: 'AI検索からの流入を、Search ConsoleとGoogleアナリティクス4で確認する手順を解説します。生成AIパフォーマンスレポートの5項目、chatgpt.comなどの参照元表記、データ保持期間の設定までまとめます。', supervised: true },
   { slug: 'business-system-maintenance-outsourcing', category: '技術', date: '2026.09.24', read: '10 min', title: '業務システム外注｜担当者がいない場合の運用保守', img: 'assets/blog-default.png', desc: '業務システムを外注したあと、運用と保守を誰が担うかを整理します。システム担当者がいない中小企業は3割弱です。委託と社内の線引き、準委任と請負の使い分け、保守費用の見積もりで確認する5点まで解説します。', supervised: true },
