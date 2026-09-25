@@ -90,10 +90,25 @@ ROUTES['solution-retail'].title = 'Shopify OMOパッケージ｜店舗×ECの在
 
 // Detail templates (single work / article example pages)
 
+// 記事ページのルートかどうか。レーンA/B (article-) とレーンC (ceo-) の両方。
+// ここを article- だけで判定すると、代表ブログが meta description・OG画像・
+// noindex判定・パンくず・JSON-LD のすべてから漏れる。
+function isArticleRoute(route) {
+  return !!route && (route.indexOf('article-') === 0 || route.indexOf('ceo-') === 0);
+}
+
+// ルートIDからslugを取り出す。プレフィックスの長さがレーンで違う
+// (article- は8文字、ceo- は4文字) ので、固定長で切らない。
+function slugFromRoute(route) {
+  if (route.indexOf('ceo-') === 0) return route.slice(4);
+  if (route.indexOf('article-') === 0) return route.slice(8);
+  return '';
+}
+
 // Blog articles — one route per slug (content from window.NORTIQ_ARTICLES)
 Object.keys((typeof window !== 'undefined' && window.NORTIQ_ARTICLES) || {}).forEach((slug) => {
   const a = window.NORTIQ_ARTICLES[slug];
-  ROUTES['article-' + slug] = {
+  ROUTES[(a.lane === 'C' ? 'ceo-' : 'article-') + slug] = {
     c: () => window.ArticleDetailPage,
     title: `${a.title} — Nortiq Labs`,
     argName: 'slug', argVal: slug,
@@ -288,8 +303,8 @@ const NOINDEX_ROUTES = { sitemap: true, 'quick-diagnosis': true };
 // そこを1箇所直せば sitemap.xml・記事一覧・関連記事・この meta robots がまとめて揃う。
 function isNoindexRoute(route) {
   if (NOINDEX_ROUTES[route]) return true;
-  if (route && route.indexOf('article-') === 0) {
-    const a = ((typeof window !== 'undefined' && window.NORTIQ_ARTICLES) || {})[route.slice('article-'.length)];
+  if (isArticleRoute(route)) {
+    const a = ((typeof window !== 'undefined' && window.NORTIQ_ARTICLES) || {})[slugFromRoute(route)];
     return !!(a && a.noindex);
   }
   return false;
@@ -297,8 +312,8 @@ function isNoindexRoute(route) {
 function descFor(route) {
   // Explicit per-route description wins (incl. SEO-tuned article descriptions).
   if (SEO_DESC[route]) return SEO_DESC[route];
-  if (route && route.indexOf('article-') === 0) {
-    const slug = route.slice('article-'.length);
+  if (isArticleRoute(route)) {
+    const slug = slugFromRoute(route);
     const a = ((typeof window !== 'undefined' && window.NORTIQ_ARTICLES) || {})[slug];
     if (!a) return DEFAULT_DESC;
     // 記事メタの desc (パイプラインが P-12 で生成し BLOG エントリに載せる) を優先。
@@ -311,8 +326,8 @@ function descFor(route) {
 // (assets/blog-*.png, same image referenced by the BlogPosting JSON-LD); every
 // other route falls back to the site-wide og-image.png.
 function ogImageFor(route) {
-  if (route && route.indexOf('article-') === 0) {
-    const slug = route.slice('article-'.length);
+  if (isArticleRoute(route)) {
+    const slug = slugFromRoute(route);
     const a = ((typeof window !== 'undefined' && window.NORTIQ_ARTICLES) || {})[slug];
     if (a && a.img) return NORTIQ_SITE + '/' + String(a.img).replace(/^\//, '');
   }
@@ -367,8 +382,8 @@ function isoDate(d) { return (d || '').replace(/\./g, '-'); }
 function pageLd(route, url) {
   const desc = descFor(route);
   // Article routes (incl. #1 /article-japan-dx) → BlogPosting referencing #org.
-  if (route.indexOf('article-') === 0) {
-    const slug = route.slice('article-'.length);
+  if (isArticleRoute(route)) {
+    const slug = slugFromRoute(route);
     const a = ((typeof window !== 'undefined' && window.NORTIQ_ARTICLES) || {})[slug];
     if (!a) return null;
     const img = a.img ? NORTIQ_SITE + '/' + String(a.img).replace(/^\//, '') : NORTIQ_SITE + '/assets/og-image.png';
@@ -531,7 +546,7 @@ function routeLd(route) {
   const out = [];
   if (route !== 'top') {
     const crumbs = [{ '@type': 'ListItem', position: 1, name: 'トップ', item: NORTIQ_SITE + '/' }];
-    const parent = CRUMB_PARENT[route] || (route.indexOf('article-') === 0 ? ARTICLE_CRUMB_PARENT : null);
+    const parent = CRUMB_PARENT[route] || (isArticleRoute(route) ? ARTICLE_CRUMB_PARENT : null);
     if (parent) {
       crumbs.push({ '@type': 'ListItem', position: 2, name: parent.name, item: NORTIQ_SITE + pathFor(parent.id) });
     }
@@ -621,9 +636,9 @@ function App() {
     setMetaContent('meta[name="twitter:image"]', ogImg);
     // 記事ページは og:type を article にし、公開日・更新日を出す。
     // 全ページ website のままだと、SNSもAI検索もこれを「記事」と認識しない。
-    const isArticle = route.indexOf('article-') === 0;
+    const isArticle = isArticleRoute(route);
     const art = isArticle
-      ? ((typeof window !== 'undefined' && window.NORTIQ_ARTICLES) || {})[route.slice('article-'.length)]
+      ? ((typeof window !== 'undefined' && window.NORTIQ_ARTICLES) || {})[slugFromRoute(route)]
       : null;
     setMetaContent('meta[property="og:type"]', isArticle ? 'article' : 'website');
     setMetaContent('meta[property="article:published_time"]', art ? isoDate(art.date) : '');
