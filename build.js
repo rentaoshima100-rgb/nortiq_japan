@@ -61,6 +61,7 @@ const ORG_SAME_AS = [
 // desc → meta description / og:description / BlogPosting.description に使う。
 //        未指定の記事は app.jsx の SEO_DESC か自動生成の定型文にフォールバックする
 const BLOG = [
+  { slug: 'truck-dock-booking-system-requirements', category: '技術', date: '2026.09.25', read: '10 min', title: 'トラック予約受付システム｜外注前に決める要件', img: 'assets/blog-default.png', desc: 'トラック予約受付システムを外注する前に決める要件をまとめました。予約の単位と枠の決め方、物流効率化法が求める記録、運送会社側の業務記録との関係、提案の比較観点を公的資料の出典つきで解説します。', supervised: true },
   { slug: 'homepage-renewal-internal-approval-roi', category: 'Web制作', date: '2026.09.25', read: '8 min', title: 'ホームページリニューアルの稟議｜使える数字', img: 'assets/blog-default.png', desc: 'ホームページリニューアルの社内稟議で使える数字をまとめました。総務省の開設率、Core Web Vitalsの公式基準、補助金の補助率をもとに、費用対効果の説明と決裁者の質問への備え方を解説します。', supervised: true },
   { slug: 'home-care-record-app-outsourcing-requirements', category: '技術', date: '2026.09.25', read: '9 min', title: '訪問介護の記録アプリ外注｜決める要件7項目', img: 'assets/blog-default.png', desc: '訪問介護の記録アプリを外注する前に決める要件を7項目で整理します。既存の介護ソフトとの接続範囲、LIFEへのCSV連携、端末と委託先の安全管理、自治体のICT導入支援事業の条件まで、公的資料を根拠に解説します。', supervised: true },
   { slug: 'website-copyright-material-usage', category: 'Web制作', date: '2026.09.24', read: '9 min', title: 'ホームページ制作の著作権｜写真素材の利用範囲と契約', img: 'assets/blog-default.png', desc: 'ホームページ制作で納品されたデザインや写真を、他の用途に使ってよいかを解説します。著作権法第61条第2項の特掲要件、契約書で確認する3つの条項、素材の出どころによる違いまで整理します。', supervised: true },

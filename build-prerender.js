@@ -33,6 +33,7 @@ const ARTICLE_ROUTES = (() => {
 })();
 
 const ROUTES_ALLOWLIST = [
+  '/article-truck-dock-booking-system-requirements',
   '/article-homepage-renewal-internal-approval-roi',
   '/article-home-care-record-app-outsourcing-requirements',
   '/article-website-copyright-material-usage',
