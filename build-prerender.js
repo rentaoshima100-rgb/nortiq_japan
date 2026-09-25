@@ -33,6 +33,7 @@ const ARTICLE_ROUTES = (() => {
 })();
 
 const ROUTES_ALLOWLIST = [
+  '/article-homepage-renewal-internal-approval-roi',
   '/article-home-care-record-app-outsourcing-requirements',
   '/article-website-copyright-material-usage',
   '/article-ai-search-traffic-measurement',
