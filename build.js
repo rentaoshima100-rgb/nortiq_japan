@@ -61,6 +61,7 @@ const ORG_SAME_AS = [
 // desc → meta description / og:description / BlogPosting.description に使う。
 //        未指定の記事は app.jsx の SEO_DESC か自動生成の定型文にフォールバックする
 const BLOG = [
+  { slug: 'website-vulnerability-contract-maintenance-scope', category: 'Web制作', date: '2026.09.26', read: '9 min', title: 'ホームページ公開後の脆弱性｜契約と保守の責任範囲', img: 'assets/blog-default.png', desc: '脆弱性を指摘されたら、影響範囲の記録とログの保全を先に行い、契約書の検収日と期間制限を確認します。契約不適合責任と保守契約の境目、費用負担が変わる原因の区分、対応の3段階を具体的に示します。', supervised: true },
   { slug: 'care-life-data-submission-requirements', category: '技術', date: '2026.09.26', read: '11 min', title: '介護のLIFEデータ提出｜CSV連携仕様と外注要件', img: 'assets/blog-default.png', desc: 'LIFEへのデータ提出に対応する記録システムを外注するとき、要件に書くのは対応する様式の範囲、CSV仕様の版、取込エラーを直せる画面の3点です。厚生労働省の仕様書が定める形式と、つまずきやすい箇所を具体的に示します。', supervised: true },
   { slug: 'construction-invoice-job-cost-requirements', category: '技術', date: '2026.09.26', read: '11 min', title: '建設業の請求書受領を電子化｜外注前に決める要件', img: 'assets/blog-default.png', desc: '請求書の受領を電子化するとき、建設業が外注前に決めることは工事番号の体系、原価科目への割り当て、会計ソフトへ渡すデータ形式の3点です。電子帳簿保存法の保存要件と、実装でつまずきやすい箇所も具体的に示します。', supervised: true },
   { slug: 'system-outsourcing-personal-data-supervision', category: '技術', date: '2026.09.26', read: '9 min', title: 'システム外注の個人情報｜委託先監督と契約の書き方', img: 'assets/blog-default.png', desc: '委託先の監督は契約書に条項を入れるだけでは足りません。取扱いの範囲、再委託、保管場所、事故時の報告、終了時の削除の5項目を契約に書き、確認の頻度と方法を決めて記録に残すまでの手順を具体的に示します。', supervised: true },

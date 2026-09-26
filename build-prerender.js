@@ -33,6 +33,7 @@ const ARTICLE_ROUTES = (() => {
 })();
 
 const ROUTES_ALLOWLIST = [
+  '/article-website-vulnerability-contract-maintenance-scope',
   '/article-care-life-data-submission-requirements',
   '/article-construction-invoice-job-cost-requirements',
   '/article-system-outsourcing-personal-data-supervision',
