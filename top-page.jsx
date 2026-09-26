@@ -226,7 +226,7 @@ function TopPage({ onNavigate, onContact }) {
             <h2 className="section-title fadein">Inside Nortiq Labs</h2>
             <p className="section-sub fadein">なぜ私たちが「世界水準」と言えるのか</p>
             <p className="lede fadein" style={{ margin: '24px auto 0' }}>
-              実績数字 / 自社プロダクト / 研究背景 / 運用体制 ─ 6つの角度から、Nortiq Labs の中身を開示します。
+              実績数字 / 自社プロダクト / チーム / 運用体制 ─ 6つの角度から、Nortiq Labs の中身を開示します。
             </p>
           </div>
           <div className="bento">
@@ -460,7 +460,7 @@ function TopPage({ onNavigate, onContact }) {
             />
             <VoiceBubble
               tag="中堅不動産 (大阪)"
-              quote="他社は『AIできます』止まりだが、Nortiqは実装の中身まで説明してくれて納得感があった。米国の技術背景は伊達じゃない。判断材料がきちんと揃う、貴重なパートナーです。"
+              quote="他社は『AIできます』止まりだが、Nortiqは実装の中身まで説明してくれて納得感があった。判断材料がきちんと揃う、貴重なパートナーです。"
               name="T.M."
               role="経営企画"
               src="assets/voice-realty-tm.png"

@@ -173,7 +173,7 @@ function WebPage({ onNavigate, onContact }) {
             { title: "集客導線の組み込み", desc: "ヒアリングでターゲットと検索キーワードを言語化し、コンテンツ構成 / 内部リンク / SEO までを一気通貫設計。" },
             { title: "Core Web Vitals Good 全域", desc: "LCP 1.5s 以下を標準目標として実装。フッターにスコアバッジを表示するレベルで、技術的に妥協しません。" },
             { title: "アクセシビリティ WCAG 2.1 AA", desc: "業界標準準拠。コンプライアンス重視の企業の選定基準もクリアします。" },
-            { title: "バイリンガル対応可", desc: "必要に応じて日本語 × 英語の二言語サイトも構築。米国チームの強みを活かしたコピーライティングも。" },
+            { title: "バイリンガル対応可", desc: "必要に応じて日本語 × 英語の二言語サイトも構築。英語のコピーライティングにも対応します。" },
           ]}/>
         </div>
       </section>
@@ -560,7 +560,7 @@ function DXPage({ onNavigate, onContact }) {
         sub={<>データを、本当の経営判断に変える。</>}
         watermark="DX"
         pageNo="03"
-        lede="ML 実装 / 業務自動化 / データ分析基盤 / 生成 AI 業務組み込み。米国 UC Berkeley での研究背景を持つ代表のもと、Engineer × Data Scientist × Computer Scientist チームで本格 DX を伴走。"
+        lede="ML 実装 / 業務自動化 / データ分析基盤 / 生成 AI 業務組み込み。Engineer × Data Scientist × Computer Scientist チームで本格 DX を伴走。"
         badges={["Python", "PyTorch / TF", "AWS / GCP", "MLOps", poc.name + ' ' + pocFrom + priceTax()]}
         onContact={() => onContact('dx')}
         subCta="料金プランを見る"
@@ -674,10 +674,10 @@ function DXPage({ onNavigate, onContact }) {
           <SectionHead
             eyebrow="TEAM / 担当チーム"
             title="技術背景を、隠しません。"
-            lede="米国 UC Berkeley での研究背景を持つ代表のもとに集まった技術チーム。Engineer / Data Scientist / Computer Scientist の三職能が連携します。"
+            lede="AI・Web の実装を担う技術チーム。Engineer / Data Scientist / Computer Scientist の三職能が連携します。"
           />
           <div className="grid-3">
-            <TeamCard role="Founder · 代表" name="Renta Oshima" desc="米国 UC Berkeley で AI 研究。日本の中小企業向け DX 支援を起業。" tags={["AI Research", "Full-stack", "JP / EN"]} src="assets/staff-founder.jpg"/>
+            <TeamCard role="Founder" name="代表" desc="日本の中小企業向け DX 支援を起業。" tags={["AI Engineering", "Full-stack", "JP / EN"]} src="assets/staff-founder.jpg"/>
             <TeamCard role="Data Scientist" name="D.S." desc="AI のコア部分を担う。統計モデリング・ML 実装のエキスパート。" tags={["Statistics", "ML Core", "MLOps"]} src="assets/staff-ds.jpg"/>
             <TeamCard role="CTO · Computer Scientist" name="C.S." desc="計算理論・分散システム。VetoNet とテニス分析 SaaS の開発主担当 兼 CTO。" tags={["Distributed", "Security", "Rust"]} src="assets/staff-cto.jpg"/>
           </div>

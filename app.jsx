@@ -234,7 +234,7 @@ const SEO_DESC = {
   'works-clinic': 'あおぞらFamily Clinic、AIRA CLINIC GINZA、白藍デンタル等のWeb制作・AIチャットボット導入事例。予約+110%・問い合わせ2.4倍の医療業界向け実績を掲載します。',
   'article-website-launch-1month': '「来月までにサイトを公開したい」を叶えます。Web制作が通常2〜4ヶ月かかる理由と、AIを駆使して品質を保ちながら最短1ヶ月でローンチする方法を、京都のNortiq Labsが解説します。',
   'article-aio-llmo-reality-check': 'GoogleのAI Overviewsで注目のAIO・LLMO対策。しかし現状の対策は効果が見えにくく陳腐化も早いのが実情です。日本人のAI検索利用率の最新データをもとに、中小企業が今やるべきことを冷静に解説します。',
-  'article-multi-ai-parallel-productivity': '「AIを使ったけど変わらなかった」のは使い方の問題です。契約書・コード・マーケを並行処理する複数AI活用で生産性は激変します。UC Berkeley出身チームが実践するAI活用術を、データとともに解説します。',
+  'article-multi-ai-parallel-productivity': '「AIを使ったけど変わらなかった」のは使い方の問題です。契約書・コード・マーケを並行処理する複数AI活用で生産性は激変します。AI実装チームが実践するAI活用術を、データとともに解説します。',
   'article-ai-literacy-mindset-shift': 'アカウントを配っても現場でAIが使われない。中小企業の約6割がAIを活用できていない原因は、技術ではなく発想にあります。「どれだけ自分でやらないか」という思考転換と、定着のための進め方を解説します。',
   'article-google-business-profile-meo': '「常連と紹介で回っているから大丈夫」は危険です。Googleビジネスプロフィール最適化で7倍のクリックを獲得できるデータも。実店舗が地域検索で見つけてもらうためのローカルSEO・MEO対策を解説します。',
   'article-btob-web-marketing': 'SNS全盛でも、BtoBではWeb集客が最も費用対効果の高い手法です。自ら検索する高意欲層をリードに変える仕組みとは。ブログ運営で67%多いリードを得るデータをもとに、Nortiq Labsが解説します。',
@@ -336,9 +336,6 @@ function setMetaContent(selector, value) {
 // (see build.js), so sub-page nodes only REFERENCE them by @id — provider /
 // publisher / author links resolve without re-declaring those nodes.
 const NORTIQ_ORG_ID = NORTIQ_SITE + '/#org';
-// 監修者。ノードの実体は静的シェルの @graph 側 (build.js の Organization.founder) にあり、
-// ここは @id 参照のみ。#org と同じ扱い。
-const NORTIQ_PERSON_ID = NORTIQ_SITE + '/#renta';
 const NORTIQ_WEBSITE_ID = NORTIQ_SITE + '/#website';
 const ORG_REF = { '@id': NORTIQ_ORG_ID };
 const SERVICE_LD = {
@@ -384,11 +381,11 @@ function pageLd(route, url) {
       datePublished: date, dateModified: modified,
       author: { '@type': 'Organization', '@id': NORTIQ_ORG_ID, name: 'Nortiq Labs' },
       publisher: ORG_REF,
-      // 承認済み記事には可視の「監修: 大島蓮太」が出る (supervised フラグ)。
-      // 構造化データ側も揃える。reviewedBy は WebPage のプロパティなので
+      // 承認済み記事には可視の監修表記が出る (supervised フラグ)。個人名は出さない方針なので、
+      // 構造化データ側も監修者を会社 (#org) にする。reviewedBy は WebPage のプロパティなので
       // BlogPosting 直下ではなく mainEntityOfPage に置く。
       mainEntityOfPage: a.supervised
-        ? { '@type': 'WebPage', '@id': url, reviewedBy: { '@id': NORTIQ_PERSON_ID } }
+        ? { '@type': 'WebPage', '@id': url, reviewedBy: ORG_REF }
         : { '@type': 'WebPage', '@id': url },
     };
   }

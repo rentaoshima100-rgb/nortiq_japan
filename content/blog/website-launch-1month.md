@@ -64,7 +64,7 @@ AIの活用で変わるのは、定型作業の処理速度です。Nortiq Labs�
 
 ## Nortiqの「速くて丁寧な」ローンチプロセス
 
-Nortiq Labsは、Next.js・TypeScript・React・Supabase・Vercelといったモダンスタックと、Claude API・OpenAI APIを組み合わせた開発体制を持っています。代表の大島蓮太（AIエンジニア）はUC BerkeleyでRAG・Fine-tuning・Computer Visionを研究・実装してきた背景を持ち、コンサルタントではなく「実装者として書き、作る」ことが当社の根幹にあります。
+Nortiq Labsは、Next.js・TypeScript・React・Supabase・Vercelといったモダンスタックと、Claude API・OpenAI APIを組み合わせた開発体制を持っています。代表（AIエンジニア）はRAG・Fine-tuning・Computer Visionを自ら実装してきた経験を持ち、コンサルタントではなく「実装者として書き、作る」ことが当社の根幹にあります。
 
 当社のWeb制作は30万円〜（LIGHTプラン）で、STANDARDプランは60万円〜、PREMIUMプランは120万円〜です（いずれも税別）。このうちPREMIUMプランでは、Core Web Vitals（Googleが定めるページ表示品質の指標）のGood評価を保証します。
 

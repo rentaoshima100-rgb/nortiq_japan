@@ -171,7 +171,7 @@ function RecruitPage({ onNavigate, onContact }) {
       <PageHero
         eyebrow="RECRUIT / 採用情報"
         title={<>日本のDXを、<br/>世界水準で変える仲間を。</>}
-        lede="米国 AI 研究の知見を、日本の中小企業の現場に届けるチーム。エンジニア / Data Scientist / Designer / Consultant、各領域でメンバーを募集しています。"
+        lede="AI の実装力を、日本の中小企業の現場に届けるチーム。エンジニア / Data Scientist / Designer / Consultant、各領域でメンバーを募集しています。"
         badges={["5 名 → 拡大採用中", "京都 + フルリモート可", "ストックオプション制度"]}
         onContact={onContact}
         ctaLabel="求人にエントリー"
@@ -768,7 +768,7 @@ function ArticleDetailPage({ onNavigate, onContact, slug }) {
           )}
           {article.supervised && (
             <div style={{ marginTop: 32, padding: '16px 20px', background: 'var(--bg-2)', borderRadius: 10, fontSize: 13, color: 'var(--text-3)', lineHeight: 1.8 }}>
-              <div>監修: 大島蓮太（株式会社ノーティックラボ代表 / AIエンジニア）</div>
+              <div>監修: 株式会社ノーティックラボ 代表（AIエンジニア）</div>
               <div>本記事はAIを活用して制作しています</div>
             </div>
           )}

@@ -169,7 +169,7 @@ function WorksPage({ category, onNavigate, onContact }) {
 function VoicePage({ onNavigate, onContact }) {
   const voices = [
     { tag: "クリニック (東京)", name: "A.K.", role: "代表取締役・院長", size: "xl", q: "Web制作からの付き合いで、半年後にAIチャットボットも導入。ブログ更新の負担がなくなり、SEO流入が1.8倍になりました。「Webのプロが横にいる」感覚を、初めて持てた気がします。" },
-    { tag: "中堅不動産 (大阪)", name: "T.M.", role: "経営企画", size: "md", q: "他社は『AIできます』止まりだが、Nortiqは実装の中身まで説明してくれて納得感があった。米国の技術背景は伊達じゃない。" },
+    { tag: "中堅不動産 (大阪)", name: "T.M.", role: "経営企画", size: "md", q: "他社は『AIできます』止まりだが、Nortiqは実装の中身まで説明してくれて納得感があった。" },
     { tag: "工務店 (神奈川)", name: "S.W.", role: "代表取締役", size: "lg", q: "案件管理システム × ブランドサイトの統合で、現場の工数が38%減りました。何より、毎月の定例で改善が前に進むのが嬉しい。" },
     { tag: "人材 (東京)", name: "Y.N.", role: "事業責任者", size: "md", q: "採用LPの応募数が52%増。コピーライティングまで一緒に詰めてくれる伴走型は、ありがたいです。" },
     { tag: "AIスタートアップ (東京)", name: "K.H.", role: "Founder/CEO", size: "lg", q: "シードラウンドのタイミングでLPを発注。商談化率が4倍以上になり、調達後のリードタイム短縮に直結しました。技術系の会社にこそ、技術背景のあるWebチームが必要だと痛感。" },
@@ -631,8 +631,8 @@ function GuidebookPage({ onNavigate, onContact }) {
       <PageHero
         eyebrow="SALES DECK / サービス紹介資料"
         title={<>成果につながる、<br/>コーポレートサイトを。</>}
-        lede="Nortiq Labs のWeb制作サービスをまとめた営業資料 (PDF・全11ページ)。制作の進め方・実績・料金プラン・制作の流れまで、これ一冊でご確認いただけます。"
-        badges={["全11ページ", "無料DL", "Web制作 / DX"]}
+        lede="Nortiq Labs のWeb制作サービスをまとめた営業資料 (PDF・全9ページ)。制作の進め方・実績・料金プラン・制作の流れまで、これ一冊でご確認いただけます。"
+        badges={["全9ページ", "無料DL", "Web制作 / DX"]}
         onContact={onContact}
         ctaLabel="資料を無料DLする"
       />
@@ -642,7 +642,7 @@ function GuidebookPage({ onNavigate, onContact }) {
             <div className="guidebook-viewer">
               <iframe
                 src="assets/Nortiq_Service_Deck.pdf#view=FitH"
-                title="Nortiq Labs サービス紹介資料 (全11ページ)"
+                title="Nortiq Labs サービス紹介資料 (全9ページ)"
                 loading="lazy"
               />
             </div>
@@ -652,11 +652,9 @@ function GuidebookPage({ onNavigate, onContact }) {
                 <li>よくある課題 — 今のサイト、こんな状態になっていませんか</li>
                 <li>制作サービス — 設計から公開、その後の運用まで</li>
                 <li>制作実績・ポートフォリオ — 数字と事例</li>
-                <li>選ばれる理由 — シリコンバレー水準の技術を中小企業の現場に</li>
                 <li>料金プラン — {NORTIQ_PRICING.web.plans.map((p) => p.name).join(' / ')}</li>
                 <li>制作の流れ — お問い合わせから最短で</li>
                 <li>成果の声</li>
-                <li>会社概要・代表 — チームと歩み</li>
                 <li>無料相談のご案内</li>
               </ol>
               <div className="row" style={{ marginTop: 32, gap: 16, flexWrap: 'wrap' }}>
@@ -667,7 +665,7 @@ function GuidebookPage({ onNavigate, onContact }) {
                   別タブで全文を読む<Icon name="arrow-right" size={14}/>
                 </a>
               </div>
-              <p className="small text-mono" style={{ color: 'var(--text-3)', marginTop: 16 }}>PDF · 全11ページ · 約4.7MB</p>
+              <p className="small text-mono" style={{ color: 'var(--text-3)', marginTop: 16 }}>PDF · 全9ページ · 約3.4MB</p>
               {/* PDF はリポジトリの外で作る画像PDFで、サイトの料金表 (NORTIQ_PRICING) と同時には直せない。
                   金額の正は /pricing だと分かるよう、料金ページへの導線を置く。 */}
               <p className="small" style={{ color: 'var(--text-3)', marginTop: 8 }}>最新の料金は<a {...navProps('pricing', onNavigate)} style={{ color: 'var(--accent)', cursor: 'pointer' }}>料金プランのページ</a>でご確認いただけます（{NORTIQ_PRICING.taxNote}）。</p>
@@ -747,7 +745,7 @@ function CompanyPage({ onNavigate, onContact }) {
       <PageHero
         eyebrow="COMPANY / 会社概要"
         title={<>Nortiq Labs、<br/>と申します。</>}
-        lede="米国の AI 研究背景を持つエンジニアと、日本の経営課題に向き合うコンサルタントによる、技術と現場の両輪を持つチームです。"
+        lede="AI・Web の実装を担うエンジニアと、日本の経営課題に向き合うコンサルタントによる、技術と現場の両輪を持つチームです。"
         badges={["設立 2025", "本社 京都市中京区", "従業員 5 名"]}
         onContact={onContact}
         ctaLabel="採用情報"
@@ -770,7 +768,7 @@ function CompanyPage({ onNavigate, onContact }) {
               <div className="timeline-date">2025</div>
               <div className="timeline-content">
                 <h3>創業 / Nortiq Labs Inc. 設立</h3>
-                <p>代表 Renta Oshima が、米国 UC Berkeley での AI 研究背景をもとに、日本の中小企業向け DX 支援を専門とする会社として京都で創業。</p>
+                <p>日本の中小企業向け DX 支援を専門とする会社として京都で創業。</p>
               </div>
             </li>
             <li className="timeline-item fadein" data-delay="80">
@@ -808,7 +806,6 @@ function CompanyPage({ onNavigate, onContact }) {
             {[
               ["商号", "Nortiq Labs Inc. (株式会社ノーティック ラボ)"],
               ["設立", "2025年"],
-              ["代表取締役", "Renta Oshima"],
               ["所在地", "〒604-0012 京都府京都市中京区竪大恩寺町 751"],
               ["資本金", "100 万円"],
               ["従業員数", "5 名"],
@@ -861,7 +858,7 @@ function CompanyPage({ onNavigate, onContact }) {
 // ============================================================
 function StaffPage({ onNavigate, onContact }) {
   const members = [
-    { role: "Founder · 代表", name: "Renta Oshima", desc: "米国 UC Berkeley で AI 研究。日本の中小企業向け DX 支援を起業。事業全体と顧客並走の責任者。", tags: ["AI Research", "Full-stack", "JP / EN"], img: "assets/staff-founder.jpg" },
+    { role: "Founder", name: "代表", desc: "日本の中小企業向け DX 支援を起業。事業全体と顧客並走の責任者。", tags: ["AI Engineering", "Full-stack", "JP / EN"], img: "assets/staff-founder.jpg" },
     { role: "CTO · Computer Scientist", name: "Takenosuke", desc: "計算理論・分散システムが専門。自社プロダクト VetoNet (AI Security) とテニスフォーム分析 SaaS の開発主担当 兼 CTO。", tags: ["Distributed", "Security", "Rust"], img: "assets/staff-cto.jpg" },
     { role: "Data Scientist", name: "Ashwin", desc: "AI のコア部分を担うデータサイエンティスト。統計モデリングと ML 実装のエキスパートとして、分析基盤の設計から実装までを牽引。", tags: ["Statistics", "ML Core", "MLOps"], img: "assets/staff-ds.jpg" },
   ];
@@ -872,7 +869,7 @@ function StaffPage({ onNavigate, onContact }) {
         eyebrow="STAFF / チーム"
         title={<>専門家が、<br/>専門家として並走する。</>}
         lede="Founder / CTO・Computer Scientist / Data Scientist — 各領域のプロが、お客様1社にチーム編成で並走します。"
-        badges={["代表 3 名体制", "米国 1 拠点", "全員フルリモートOK"]}
+        badges={["代表 3 名体制", "全員フルリモートOK"]}
         onContact={onContact}
       />
       <section className="section-pad">

@@ -1212,7 +1212,7 @@ async function build() {
   <!-- Analytics off: set GA4_ID / GADS_ID (+ conversion labels) in build.js to emit gtag.js. -->`;
 
   const FAQ_QA = [
-    { q: 'Nortiq Labs はどんな会社ですか？', a: `米国 UC Berkeley での AI 研究背景を持つ代表のもと、日本の経営課題に向き合うメンバーで構成された技術チームです。Web制作・AIチャットボット・DX/ML 実装まで、中小企業のDXを段階的に支援します。これまで${NORTIQ_STATS.clients}社の制作・支援実績があります（2025年・京都設立）。` },
+    { q: 'Nortiq Labs はどんな会社ですか？', a: `日本の経営課題に向き合う、AI・Web の実装者で構成された技術チームです。Web制作・AIチャットボット・DX/ML 実装まで、中小企業のDXを段階的に支援します。これまで${NORTIQ_STATS.clients}社の制作・支援実績があります（2025年・京都設立）。` },
     { q: 'Web制作の費用はどれくらいですか？', a: 'オリジナルデザインのWeb制作は30万円から承っています。ページ数・機能・要件に応じてお見積もりし、公開後の運用・改善まで伴走します。' },
     { q: 'AIチャットボットは導入できますか？', a: 'はい。WordPress連携のAI投稿アシスタントをはじめ、問い合わせ対応やブログ更新を自動化するAIチャットボットの導入を、実装の中身まで説明しながら支援します。' },
     { q: '補助金は活用できますか？', a: 'IT導入補助金などの活用を視野に入れた DX 投資のご相談を承っています。なお、補助金申請の手続きサポート（登録 IT 導入支援事業者としての対応）は現在準備中です。' },
@@ -1232,9 +1232,6 @@ async function build() {
         alternateName: ['株式会社ノーティックラボ', 'ノーティックラボ'],
         ...(ORG_SAME_AS.length ? { sameAs: ORG_SAME_AS } : {}),
         knowsAbout: ['Web制作', 'AIチャットボット', 'DX', '機械学習', 'SEO', 'LP制作 / LPO', '業務自動化', 'データ分析'],
-        // @id を付けて記事側から参照できるようにする。記事ページの reviewedBy が
-        // このノードを指すので、可視の「監修: 大島蓮太」と構造化データが一致する。
-        founder: { '@type': 'Person', '@id': SITE + '/#renta', name: 'Renta Oshima', alternateName: '大島蓮太', jobTitle: 'Founder / Engineer', worksFor: { '@id': SITE + '/#org' }, description: '米国 UC Berkeley で AI 研究。日本の中小企業向け DX 支援を起業。' },
       },
       { '@type': 'WebSite', '@id': SITE + '/#website', name: 'Nortiq Labs', url: SITE + '/', publisher: { '@id': SITE + '/#org' }, inLanguage: 'ja' },
       { '@type': 'ProfessionalService', name: 'Nortiq Labs', url: SITE + '/', description: DESC, areaServed: 'JP', serviceType: ['Web制作', 'AIチャットボット導入', 'DX・ML実装', '補助金活用のDX導入相談'], provider: { '@id': SITE + '/#org' } },
