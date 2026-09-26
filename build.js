@@ -61,6 +61,7 @@ const ORG_SAME_AS = [
 // desc → meta description / og:description / BlogPosting.description に使う。
 //        未指定の記事は app.jsx の SEO_DESC か自動生成の定型文にフォールバックする
 const BLOG = [
+  { slug: 'construction-invoice-job-cost-requirements', category: '技術', date: '2026.09.26', read: '11 min', title: '建設業の請求書受領を電子化｜外注前に決める要件', img: 'assets/blog-default.png', desc: '請求書の受領を電子化するとき、建設業が外注前に決めることは工事番号の体系、原価科目への割り当て、会計ソフトへ渡すデータ形式の3点です。電子帳簿保存法の保存要件と、実装でつまずきやすい箇所も具体的に示します。', supervised: true },
   { slug: 'system-outsourcing-personal-data-supervision', category: '技術', date: '2026.09.26', read: '9 min', title: 'システム外注の個人情報｜委託先監督と契約の書き方', img: 'assets/blog-default.png', desc: '委託先の監督は契約書に条項を入れるだけでは足りません。取扱いの範囲、再委託、保管場所、事故時の報告、終了時の削除の5項目を契約に書き、確認の頻度と方法を決めて記録に残すまでの手順を具体的に示します。', supervised: true },
   { slug: 'truck-dock-booking-system-requirements', category: '技術', date: '2026.09.25', read: '10 min', title: 'トラック予約受付システム｜外注前に決める要件', img: 'assets/blog-default.png', desc: 'トラック予約受付システムを外注する前に決める要件をまとめました。予約の単位と枠の決め方、物流効率化法が求める記録、運送会社側の業務記録との関係、提案の比較観点を公的資料の出典つきで解説します。', supervised: true },
   { slug: 'homepage-renewal-internal-approval-roi', category: 'Web制作', date: '2026.09.25', read: '8 min', title: 'ホームページリニューアルの稟議｜使える数字', img: 'assets/blog-default.png', desc: 'ホームページリニューアルの社内稟議で使える数字をまとめました。総務省の開設率、Core Web Vitalsの公式基準、補助金の補助率をもとに、費用対効果の説明と決裁者の質問への備え方を解説します。', supervised: true },
