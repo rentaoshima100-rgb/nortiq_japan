@@ -33,6 +33,7 @@ const ARTICLE_ROUTES = (() => {
 })();
 
 const ROUTES_ALLOWLIST = [
+  '/article-care-life-data-submission-requirements',
   '/article-construction-invoice-job-cost-requirements',
   '/article-system-outsourcing-personal-data-supervision',
   '/article-truck-dock-booking-system-requirements',
