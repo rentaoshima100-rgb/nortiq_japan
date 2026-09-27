@@ -33,6 +33,7 @@ const ARTICLE_ROUTES = (() => {
 })();
 
 const ROUTES_ALLOWLIST = [
+  '/article-excel-legacy-migration-outsourcing',
   '/article-site-renewal-ranking-drop-diagnosis',
   '/article-website-launch-switchover-rollback',
   '/article-website-vulnerability-contract-maintenance-scope',

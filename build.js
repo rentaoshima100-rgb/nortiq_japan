@@ -61,6 +61,7 @@ const ORG_SAME_AS = [
 // desc → meta description / og:description / BlogPosting.description に使う。
 //        未指定の記事は app.jsx の SEO_DESC か自動生成の定型文にフォールバックする
 const BLOG = [
+  { slug: 'excel-legacy-migration-outsourcing', category: '技術', date: '2026.09.27', read: '12 min', title: '属人化したExcelを業務システムへ引き継ぐ手順', img: 'assets/blog-default.png', desc: 'Excelの属人化は、マクロの解読より先に入力と出力の記録から着手します。記録する4種類、解読を発注するときの範囲の指定、見積もりが膨らまないための対象外の決め方を、所要時間つきで解説します。', supervised: true },
   { slug: 'site-renewal-ranking-drop-diagnosis', category: 'Web制作', date: '2026.09.27', read: '12 min', title: 'リニューアル後に順位が下がった原因の切り分け手順', img: 'assets/blog-default.png', desc: 'リニューアル後の順位低下は、公開日と低下開始日、Googleが公表する更新の開始日を並べると原因が絞れます。URL検査ツールとインデックスの確認手順、待つべき症状と直すべき症状の線引きを示します。', supervised: true },
   { slug: 'website-launch-switchover-rollback', category: 'Web制作', date: '2026.09.27', read: '12 min', title: 'リニューアル公開当日の切り替え手順と切り戻し', img: 'assets/blog-default.png', desc: '公開の切り替えは、公開前の確認、クロール拒否の解除、DNSの切り替え、公開後の確認の4段で進めます。DNS方式ではTTLの時間だけ新旧が混在するため、戻すまでの時間も方式で変わります。', supervised: true },
   { slug: 'website-vulnerability-contract-maintenance-scope', category: 'Web制作', date: '2026.09.26', read: '9 min', title: 'ホームページ公開後の脆弱性｜契約と保守の責任範囲', img: 'assets/blog-default.png', desc: '脆弱性を指摘されたら、影響範囲の記録とログの保全を先に行い、契約書の検収日と期間制限を確認します。契約不適合責任と保守契約の境目、費用負担が変わる原因の区分、対応の3段階を具体的に示します。', supervised: true },
