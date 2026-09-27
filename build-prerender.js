@@ -33,6 +33,7 @@ const ARTICLE_ROUTES = (() => {
 })();
 
 const ROUTES_ALLOWLIST = [
+  '/article-site-renewal-ranking-drop-diagnosis',
   '/article-website-launch-switchover-rollback',
   '/article-website-vulnerability-contract-maintenance-scope',
   '/article-care-life-data-submission-requirements',
