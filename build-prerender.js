@@ -33,6 +33,7 @@ const ARTICLE_ROUTES = (() => {
 })();
 
 const ROUTES_ALLOWLIST = [
+  '/article-system-development-subcontracting-check-requirements',
   '/article-manufacturing-lot-inspection-record-requirements',
   '/article-excel-legacy-migration-outsourcing',
   '/article-site-renewal-ranking-drop-diagnosis',
