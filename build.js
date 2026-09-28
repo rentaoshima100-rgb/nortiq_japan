@@ -61,6 +61,7 @@ const ORG_SAME_AS = [
 // desc → meta description / og:description / BlogPosting.description に使う。
 //        未指定の記事は app.jsx の SEO_DESC か自動生成の定型文にフォールバックする
 const BLOG = [
+  { slug: 'trucking-roll-call-record-digitization-requirements', category: '技術', date: '2026.09.28', read: '8 min', title: '運送業の点呼記録簿を電子化｜外注前の要件', img: 'assets/blog-default.png', desc: '運送業で点呼記録簿を電子化するとき、外注前に決める要件を整理します。法定の記載事項と1年の保存期間、改善基準告示の上限に沿った1日と1か月と1年の集計、監査時の検索条件、用意する資料の3点を解説します。', supervised: true },
   { slug: 'system-development-subcontracting-check-requirements', category: '技術', date: '2026.09.28', read: '8 min', title: 'システム開発の再委託｜契約で確認する4項目', img: 'assets/blog-default.png', desc: 'システム開発を外注した先が開発の一部を別会社に再委託する場合、発注側が確認すべき点を整理します。体制図と見積書からの確認方法、契約に書く4項目、2026年1月施行の取適法で変わった適用基準と支払条件を解説します。', supervised: true },
   { slug: 'manufacturing-lot-inspection-record-requirements', category: '技術', date: '2026.09.28', read: '9 min', title: '製造業のロット検品記録｜外注前に決める6項目', img: 'assets/blog-default.png', desc: '製造業でロット番号から検品履歴と使用材料をたどる仕組みを外注する前に決める要件を整理します。記録に持たせる6項目、法令で定まる保存期間、現場が入力し続けられる画面の作り方、制作会社に渡す資料の3点を具体的に解説します。', supervised: true },
   { slug: 'excel-legacy-migration-outsourcing', category: '技術', date: '2026.09.27', read: '12 min', title: '属人化したExcelを業務システムへ引き継ぐ手順', img: 'assets/blog-default.png', desc: 'Excelの属人化は、マクロの解読より先に入力と出力の記録から着手します。記録する4種類、解読を発注するときの範囲の指定、見積もりが膨らまないための対象外の決め方を、所要時間つきで解説します。', supervised: true },
