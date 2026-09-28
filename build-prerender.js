@@ -33,6 +33,7 @@ const ARTICLE_ROUTES = (() => {
 })();
 
 const ROUTES_ALLOWLIST = [
+  '/article-website-renewal-accessibility-requirements',
   '/article-trucking-roll-call-record-digitization-requirements',
   '/article-system-development-subcontracting-check-requirements',
   '/article-manufacturing-lot-inspection-record-requirements',
