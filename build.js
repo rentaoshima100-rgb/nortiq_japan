@@ -61,6 +61,7 @@ const ORG_SAME_AS = [
 // desc → meta description / og:description / BlogPosting.description に使う。
 //        未指定の記事は app.jsx の SEO_DESC か自動生成の定型文にフォールバックする
 const BLOG = [
+  { slug: 'wholesale-inventory-stocktaking-requirements', category: 'Web制作', date: '2026.09.28', read: '8 min', title: '卸売業の在庫と棚卸｜外注前に決める要件', img: 'assets/blog-default.png', desc: '卸売業で在庫と棚卸の記録をシステムに移すとき、外注前に決める要件を整理します。在庫を数える単位と増減の時点、記録に持たせる8項目、棚卸差異の扱い、既存の仕組みとの情報源の切り分け方を解説します。', supervised: true },
   { slug: 'website-renewal-accessibility-requirements', category: 'Web制作', date: '2026.09.28', read: '8 min', title: 'リニューアルのアクセシビリティ要件5項目の決め方', img: 'assets/blog-default.png', desc: 'ホームページリニューアルでアクセシビリティをどこまで要件に入れるかを整理します。仕様書に書ける5項目と書き方、受け入れ時の確認方法、新規作成分と既存改修分を分けた費用の見積もり方を中小企業の発注担当者向けに解説します。', supervised: true },
   { slug: 'trucking-roll-call-record-digitization-requirements', category: '技術', date: '2026.09.28', read: '8 min', title: '運送業の点呼記録簿を電子化｜外注前の要件', img: 'assets/blog-default.png', desc: '運送業で点呼記録簿を電子化するとき、外注前に決める要件を整理します。法定の記載事項と1年の保存期間、改善基準告示の上限に沿った1日と1か月と1年の集計、監査時の検索条件、用意する資料の3点を解説します。', supervised: true },
   { slug: 'system-development-subcontracting-check-requirements', category: '技術', date: '2026.09.28', read: '8 min', title: 'システム開発の再委託｜契約で確認する4項目', img: 'assets/blog-default.png', desc: 'システム開発を外注した先が開発の一部を別会社に再委託する場合、発注側が確認すべき点を整理します。体制図と見積書からの確認方法、契約に書く4項目、2026年1月施行の取適法で変わった適用基準と支払条件を解説します。', supervised: true },
