@@ -61,6 +61,7 @@ const ORG_SAME_AS = [
 // desc → meta description / og:description / BlogPosting.description に使う。
 //        未指定の記事は app.jsx の SEO_DESC か自動生成の定型文にフォールバックする
 const BLOG = [
+  { slug: 'manufacturing-lot-inspection-record-requirements', category: '技術', date: '2026.09.28', read: '9 min', title: '製造業のロット検品記録｜外注前に決める6項目', img: 'assets/blog-default.png', desc: '製造業でロット番号から検品履歴と使用材料をたどる仕組みを外注する前に決める要件を整理します。記録に持たせる6項目、法令で定まる保存期間、現場が入力し続けられる画面の作り方、制作会社に渡す資料の3点を具体的に解説します。', supervised: true },
   { slug: 'excel-legacy-migration-outsourcing', category: '技術', date: '2026.09.27', read: '12 min', title: '属人化したExcelを業務システムへ引き継ぐ手順', img: 'assets/blog-default.png', desc: 'Excelの属人化は、マクロの解読より先に入力と出力の記録から着手します。記録する4種類、解読を発注するときの範囲の指定、見積もりが膨らまないための対象外の決め方を、所要時間つきで解説します。', supervised: true },
   { slug: 'site-renewal-ranking-drop-diagnosis', category: 'Web制作', date: '2026.09.27', read: '12 min', title: 'リニューアル後に順位が下がった原因の切り分け手順', img: 'assets/blog-default.png', desc: 'リニューアル後の順位低下は、公開日と低下開始日、Googleが公表する更新の開始日を並べると原因が絞れます。URL検査ツールとインデックスの確認手順、待つべき症状と直すべき症状の線引きを示します。', supervised: true },
   { slug: 'website-launch-switchover-rollback', category: 'Web制作', date: '2026.09.27', read: '12 min', title: 'リニューアル公開当日の切り替え手順と切り戻し', img: 'assets/blog-default.png', desc: '公開の切り替えは、公開前の確認、クロール拒否の解除、DNSの切り替え、公開後の確認の4段で進めます。DNS方式ではTTLの時間だけ新旧が混在するため、戻すまでの時間も方式で変わります。', supervised: true },
