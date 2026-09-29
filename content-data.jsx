@@ -452,6 +452,20 @@ const SUBSIDY_CONTENT = {
 };
 
 // -------------------- リード獲得 (/guidebook /diagnosis) --------------------
+// /guidebook の「サービス別の資料」。PDF はリポジトリの外で作ったもの (assets/decks/)。
+// 差し替えたら pages と size も直す。
+const SALES_DECKS = [
+  { file: 'Nortiq_Corporate_ServiceGuide.pdf', tag: 'Web制作', title: 'コーポレートサイト制作サービスのご案内', pages: 16, size: '1.2MB' },
+  { file: 'Nortiq_LP_ServiceGuide.pdf', tag: 'Web制作', title: 'LP制作サービスのご案内', pages: 16, size: '0.7MB' },
+  { file: 'Nortiq_EC_ServiceGuide.pdf', tag: 'Web制作', title: 'ECサイト制作サービスのご案内', pages: 14, size: '0.7MB' },
+  { file: 'Nortiq_MEO_ServiceGuide.pdf', tag: '集客', title: 'MEO対策サービスのご案内', pages: 14, size: '0.7MB' },
+  { file: 'Nortiq_AIChatbot_ServiceGuide.pdf', tag: 'AI', title: 'AIチャットボット開発サービスのご案内', pages: 16, size: '0.8MB' },
+  { file: 'Nortiq_System_ServiceGuide.pdf', tag: 'システム開発', title: 'システム開発サービスのご案内', pages: 15, size: '0.7MB' },
+  { file: 'Nortiq_Snap_ProductGuide.pdf', tag: '自社プロダクト', title: '在庫管理アプリ Nortiq Snap のご案内', pages: 14, size: '0.7MB' },
+  { file: 'Nortiq_KanriDantai_ServiceGuide.pdf', tag: '監理団体・登録支援機関', title: '制度対応サイト制作のご案内', pages: 15, size: '0.9MB' },
+  { file: 'Nortiq_IkuseiShuro_Guide.pdf', tag: '監理団体・登録支援機関', title: '育成就労制度 準備ガイド', pages: 13, size: '0.7MB' },
+];
+
 const GUIDEBOOK_CONTENT = {
   who: {
     title: "こんな方におすすめです",
@@ -1113,7 +1127,7 @@ Object.assign(window, {
   openShowcase, ShowcaseViewer,
   NORTIQ_PRICING, priceNum, priceFrom, priceRange, priceMonthly, priceMonthlyRange, priceInitPlusMonthly,
   priceTax, priceConsult, pricePeriod, pricePlanFeatures, pricePlanRows,
-  INDUSTRY_CONTENT, LP_KNOWHOW, VIDEO_KNOWHOW, SUBSIDY_CONTENT, GUIDEBOOK_CONTENT,
+  INDUSTRY_CONTENT, LP_KNOWHOW, VIDEO_KNOWHOW, SUBSIDY_CONTENT, GUIDEBOOK_CONTENT, SALES_DECKS,
   DIAGNOSIS_CONTENT, FEATURE_CONTENT, SOLUTION_CONTENT, SYSTEM_TEMPLATES, SystemTemplates, SUPPORT_CONTENT, PRICING_EXTRA, RECRUIT_EXTRA,
   CDCards, CDSteps, CDFaq, CDLaws, RelatedColumns, IndustrySections, ExtraContent, SolutionExtra, SubsidySections,
 });

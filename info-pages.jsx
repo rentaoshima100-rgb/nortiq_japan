@@ -673,6 +673,24 @@ function GuidebookPage({ onNavigate, onContact }) {
           </div>
         </div>
       </section>
+      <section className="section-pad" style={{ background: 'var(--bg-2)', borderTop: '1px solid var(--border)', borderBottom: '1px solid var(--border)' }}>
+        <div className="container">
+          <SectionHead eyebrow="SERVICE GUIDES / サービス別の資料" title="サービスごとの資料も、無料でご覧いただけます。" lede="検討中のサービスに合わせてお選びください。PDF をそのまま開くか、ダウンロードできます。"/>
+          <div className="grid-3">
+            {SALES_DECKS.map((d) => (
+              <div key={d.file} className="card" style={{ display: 'flex', flexDirection: 'column' }}>
+                <p className="small text-mono" style={{ color: 'var(--text-3)', marginBottom: 8 }}>{d.tag}</p>
+                <h3 style={{ fontSize: 18, fontWeight: 600, margin: 0, marginBottom: 12, lineHeight: 1.5 }}>{d.title}</h3>
+                <p className="small text-mono" style={{ color: 'var(--text-3)', margin: 0, marginBottom: 20 }}>PDF · 全{d.pages}ページ · 約{d.size}</p>
+                <div className="row" style={{ marginTop: 'auto', gap: 12, flexWrap: 'wrap' }}>
+                  <a className="btn btn-primary" href={'assets/decks/' + d.file} target="_blank" rel="noopener">資料を開く<Icon name="arrow-right" size={14}/></a>
+                  <a className="btn btn-ghost" href={'assets/decks/' + d.file} download><Icon name="arrow-down" size={14}/>ダウンロード</a>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
       <CDCards title={GUIDEBOOK_CONTENT.who.title} sub={GUIDEBOOK_CONTENT.who.sub} items={GUIDEBOOK_CONTENT.who.items}/>
       <CDSteps title={GUIDEBOOK_CONTENT.after.title} sub={GUIDEBOOK_CONTENT.after.sub} items={GUIDEBOOK_CONTENT.after.items}/>
       <CDFaq title="よくある質問" items={GUIDEBOOK_CONTENT.faqs}/>
