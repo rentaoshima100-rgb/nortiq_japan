@@ -33,6 +33,7 @@ const ARTICLE_ROUTES = (() => {
 })();
 
 const ROUTES_ALLOWLIST = [
+  '/article-order-data-electronic-storage-requirements',
   '/article-wholesale-inventory-stocktaking-requirements',
   '/article-website-renewal-accessibility-requirements',
   '/article-trucking-roll-call-record-digitization-requirements',
