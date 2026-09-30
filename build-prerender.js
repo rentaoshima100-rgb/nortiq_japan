@@ -33,6 +33,7 @@ const ARTICLE_ROUTES = (() => {
 })();
 
 const ROUTES_ALLOWLIST = [
+  '/article-ai-development-outsourcing-accuracy-criteria',
   '/article-construction-estimate-contract-invoice-requirements',
   '/article-multilingual-website-cost-requirements',
   '/article-search-console-generative-ai-report',
