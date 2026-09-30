@@ -61,6 +61,7 @@ const ORG_SAME_AS = [
 // desc → meta description / og:description / BlogPosting.description に使う。
 //        未指定の記事は app.jsx の SEO_DESC か自動生成の定型文にフォールバックする
 const BLOG = [
+  { slug: 'construction-estimate-contract-invoice-requirements', category: '技術', date: '2026.09.30', read: '10 min', title: '建設業の見積と請求をつなぐ外注要件', img: 'assets/blog-default.png', desc: '建設業で見積から契約、請求へ同じ数値を打ち直す作業をなくす方法を解説します。見積明細の粒度の決め方、変更契約と出来高の持たせ方、電子化したときの保存要件、外注前に自社で準備する5つのことをまとめました。', supervised: true },
   { slug: 'multilingual-website-cost-requirements', category: 'Web制作', date: '2026.09.29', read: '9 min', title: 'ホームページの多言語対応、費用の内訳と要件', img: 'assets/blog-default.png', desc: 'ホームページの多言語対応では、翻訳と実装のどちらが制作費に含まれるかで見積もりが変わります。費用を初期費用、月額、オプション、従量課金の4区分に分け、見積もり前に決める要件7項目を解説します。', supervised: true },
   { slug: 'search-console-generative-ai-report', category: 'AI活用', date: '2026.09.29', read: '9 min', title: 'Search Consoleの生成AIレポートの見方と限界', img: 'assets/blog-default.png', desc: 'Search Consoleの生成AIパフォーマンスレポートは、AIによる概要とAIモードでの表示回数を確認できます。見られる5項目と、クエリやクリックが見られない理由、数字を施策の判断に使う手順を解説します。', supervised: true },
   { slug: 'ai-development-poc-contract-phases', category: 'AI活用', date: '2026.09.29', read: '10 min', title: 'AI開発の外注、PoCと本開発を分ける契約の決め方', img: 'assets/blog-default.png', desc: 'AI開発の外注では、PoCと本開発を分けて契約するのが原則です。経済産業省が示す4段階をもとに、段階ごとの契約の型、成果物、費用の決め方と、本開発へ進む判断の基準を解説します。', supervised: true },
