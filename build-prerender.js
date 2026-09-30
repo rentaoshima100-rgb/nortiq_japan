@@ -33,6 +33,7 @@ const ARTICLE_ROUTES = (() => {
 })();
 
 const ROUTES_ALLOWLIST = [
+  '/article-website-domain-server-contract-ownership',
   '/article-logistics-efficiency-act-shipper-recording-requirements',
   '/article-ai-development-outsourcing-accuracy-criteria',
   '/article-construction-estimate-contract-invoice-requirements',

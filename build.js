@@ -61,6 +61,7 @@ const ORG_SAME_AS = [
 // desc → meta description / og:description / BlogPosting.description に使う。
 //        未指定の記事は app.jsx の SEO_DESC か自動生成の定型文にフォールバックする
 const BLOG = [
+  { slug: 'website-domain-server-contract-ownership', category: 'Web制作', date: '2026.09.30', read: '10 min', title: 'ホームページ制作 契約名義とサーバ権限の決め方', img: 'assets/blog-default.png', desc: 'ホームページ制作の発注前に決めるドメインとサーバの契約名義、管理画面の権限、解約と移管の手順を解説します。解析ツールとサーチコンソールの所有者の決め方、RFPと契約書への書き方の例も掲載しています。', supervised: true },
   { slug: 'logistics-efficiency-act-shipper-recording-requirements', category: '技術', date: '2026.09.30', read: '10 min', title: '物流効率化法 荷主の記録と報告の要件', img: 'assets/blog-default.png', desc: '物流効率化法で荷主に求められる荷待ち時間等の把握と報告に向けて、記録の仕組みを外注するときの要件を解説します。特定事業者の判断基準、記録する4つの時刻、集計と修正履歴、非機能要件の決め方までまとめました。', supervised: true },
   { slug: 'ai-development-outsourcing-accuracy-criteria', category: 'AI活用', date: '2026.09.30', read: '9 min', title: 'AI開発の外注 精度の合格ラインの決め方', img: 'assets/blog-default.png', desc: 'AI開発を外注するとき、精度の合格ラインを発注側としてどう決めるかを解説します。業務の許容範囲から逆算する手順、見逃しと誤検知を分けて置く理由、PoCの結果で確定させる進め方、検収で確認する成果物までまとめました。', supervised: true },
   { slug: 'construction-estimate-contract-invoice-requirements', category: '技術', date: '2026.09.30', read: '10 min', title: '建設業の見積と請求をつなぐ外注要件', img: 'assets/blog-default.png', desc: '建設業で見積から契約、請求へ同じ数値を打ち直す作業をなくす方法を解説します。見積明細の粒度の決め方、変更契約と出来高の持たせ方、電子化したときの保存要件、外注前に自社で準備する5つのことをまとめました。', supervised: true },
