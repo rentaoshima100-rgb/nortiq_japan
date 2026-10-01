@@ -61,6 +61,7 @@ const ORG_SAME_AS = [
 // desc → meta description / og:description / BlogPosting.description に使う。
 //        未指定の記事は app.jsx の SEO_DESC か自動生成の定型文にフォールバックする
 const BLOG = [
+  { slug: 'kaigo-ict-subsidy-record-system', category: '技術', date: '2026.10.01', read: '8 min', title: '介護記録システムの補助金｜対象経費と申請の流れ', img: 'assets/blog-default.png', desc: '紙とExcelの介護記録をシステムに移すときに使える補助制度を整理します。介護テクノロジー導入支援事業 (旧ICT導入支援事業) の対象経費、補助率4分の3の要件、補助上限、申請の流れと締切の確認先までまとめました。', supervised: true },
   { slug: 'clinic-reservation-web-questionnaire-requirements', category: '技術', date: '2026.10.01', read: '8 min', title: '診療所の予約とWeb問診｜外注前に決める要件', img: 'assets/blog-default.png', desc: '電話予約と紙の問診票をWebに移すときに外注前に決める要件をまとめます。予約の枠の作り方、問診項目の絞り方、電子カルテへ渡す3つの方法、個人情報保護法の条文を要件に落とす手順、再委託と保守の確認項目まで整理します。', supervised: true },
   { slug: 'digital-ai-subsidy-business-system', category: '技術', date: '2026.10.01', read: '8 min', title: 'デジタル化・AI導入補助金で業務システムは対象？', img: 'assets/blog-default.png', desc: 'デジタル化・AI導入補助金 (旧IT導入補助金) で業務システムの開発費が対象になるかを、中小企業庁と公式サイトの記載から整理します。対象経費の区分、補助率と補助額、申請の順番、交付決定前の契約が対象外になる理由までまとめました。', supervised: true },
   { slug: 'ai-chatbot-wrong-answer-responsibility', category: 'AI活用', date: '2026.10.01', read: '7 min', title: 'AIチャットボットの誤回答｜責任分担と運用体制', img: 'assets/blog-default.png', desc: 'AIチャットボットが誤った回答をしたときの責任は、契約での合意で決まります。公的ガイドラインが決めていることと決めていないこと、契約に落とす4項目、誤回答を見つける運用体制と対応手順を実装者の視点で整理します。', supervised: true },

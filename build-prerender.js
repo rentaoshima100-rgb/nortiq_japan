@@ -33,6 +33,7 @@ const ARTICLE_ROUTES = (() => {
 })();
 
 const ROUTES_ALLOWLIST = [
+  '/article-kaigo-ict-subsidy-record-system',
   '/article-clinic-reservation-web-questionnaire-requirements',
   '/article-digital-ai-subsidy-business-system',
   '/article-ai-chatbot-wrong-answer-responsibility',
