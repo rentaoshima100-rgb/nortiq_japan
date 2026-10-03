@@ -61,6 +61,7 @@ const ORG_SAME_AS = [
 // desc → meta description / og:description / BlogPosting.description に使う。
 //        未指定の記事は app.jsx の SEO_DESC か自動生成の定型文にフォールバックする
 const BLOG = [
+  { slug: 'website-backup-recovery-requirements', category: 'Web制作', date: '2026.10.03', read: '9 min', title: 'リニューアルのバックアップ要件｜発注時の5項目', img: 'assets/blog-default.png', desc: 'リニューアルの発注時に決めるバックアップの要件を5項目に整理しました。復旧地点と復旧時間の決め方、見積書への書き方、引き渡し前の復旧試験の手順を、警察庁の復旧期間の統計とIPAの枠組みに沿って解説します。', supervised: true },
   { slug: 'copyright-assignment-website-renewal', category: 'Web制作', date: '2026.10.03', read: '10 min', title: 'ホームページ著作権の譲渡｜改変できる契約の確認手順', img: 'assets/blog-default.png', desc: 'ホームページの著作権を譲渡する契約で、第27条と第28条の特掲が無いと改変の権利が留保されたと推定されます。契約書のどこを見るか、不足していた場合に覚書で補う手順を、著作権法の条文原文に沿って整理しました。', supervised: true },
   { slug: 'outsourcing-data-breach-reporting', category: '技術', date: '2026.10.03', read: '10 min', title: '外注先で個人データが漏れたら｜報告の役割分担', img: 'assets/blog-default.png', desc: '外注先の環境で個人データが漏れた場合、個人情報保護委員会への報告と本人への通知を行うのは委託元です。根拠となる条文、速報と確報の期限、契約に書く5項目、最初の24時間の手順を整理しました。', supervised: true },
   { slug: 'kaigo-ict-subsidy-record-system', category: '技術', date: '2026.10.01', read: '8 min', title: '介護記録システムの補助金｜対象経費と申請の流れ', img: 'assets/blog-default.png', desc: '紙とExcelの介護記録をシステムに移すときに使える補助制度を整理します。介護テクノロジー導入支援事業 (旧ICT導入支援事業) の対象経費、補助率4分の3の要件、補助上限、申請の流れと締切の確認先までまとめました。', supervised: true },
