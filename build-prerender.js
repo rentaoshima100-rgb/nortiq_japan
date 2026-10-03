@@ -33,6 +33,7 @@ const ARTICLE_ROUTES = (() => {
 })();
 
 const ROUTES_ALLOWLIST = [
+  '/article-copyright-assignment-website-renewal',
   '/article-outsourcing-data-breach-reporting',
   '/article-kaigo-ict-subsidy-record-system',
   '/article-clinic-reservation-web-questionnaire-requirements',
