@@ -61,6 +61,7 @@ const ORG_SAME_AS = [
 // desc → meta description / og:description / BlogPosting.description に使う。
 //        未指定の記事は app.jsx の SEO_DESC か自動生成の定型文にフォールバックする
 const BLOG = [
+  { slug: 'source-code-transfer-cost-contract', category: '技術', date: '2026.10.05', read: '11 min', title: 'ソースコード譲渡の費用と契約｜改変できる条件', img: 'assets/blog-default.png', desc: 'ソースコードの譲渡費用は、見積書のどの行に現れるのかを解説します。著作権法第27条と第28条の特掲がなければ改変の権利は残る点、譲渡と利用許諾で費用と自由度がどう変わるか、金額を左右する4つの要因を条文の出典つきで整理します。', supervised: true },
   { slug: 'chatbot-inquiries-not-decreasing', category: 'AI活用', date: '2026.10.04', read: '8 min', title: 'AIチャットボットで問い合わせが減らない原因', img: 'assets/blog-default.png', desc: 'AIチャットボットを導入しても問い合わせが減らない原因を、設置場所、回答範囲、運用の3つに切り分けて解説します。回答ログの見方、件数の多い質問から直す手順、導入前と同じ条件で効果を測る方法まで整理します。', supervised: true },
   { slug: 'ai-search-outsourcing-checklist', category: 'AI活用', date: '2026.10.04', read: '9 min', title: 'AI検索対策の外注｜制作会社への確認項目5つ', img: 'assets/blog-default.png', desc: 'AI検索対策を制作会社や記事制作の外注先に依頼するとき、発注側が確認する5項目を整理します。Google公式が求める条件、引用を制御する4種類の指定、生成AI記事のファクトチェックの担当、第三者コンテンツの取り決めまで解説します。', supervised: true },
   { slug: 'subsidy-spec-change-after-approval', category: 'Web制作', date: '2026.10.03', read: '11 min', title: '補助金の交付決定後に仕様を変える｜確認手順', img: 'assets/blog-default.png', desc: '補助金の交付決定を受けた後にサイトの仕様を変えたい場合の確認手順をまとめました。公募要領が定める事業実施の順序、補助対象外となる経費、実施期間、ITツールを減らす場合の辞退の扱いを整理しています。', supervised: true },
