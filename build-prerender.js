@@ -33,6 +33,7 @@ const ARTICLE_ROUTES = (() => {
 })();
 
 const ROUTES_ALLOWLIST = [
+  '/article-generative-ai-internal-usage-policy',
   '/article-construction-contract-electronic-requirements',
   '/article-ai-chatbot-liability-contract-clauses',
   '/article-source-code-assignment-fee-negotiation',
