@@ -61,6 +61,7 @@ const ORG_SAME_AS = [
 // desc → meta description / og:description / BlogPosting.description に使う。
 //        未指定の記事は app.jsx の SEO_DESC か自動生成の定型文にフォールバックする
 const BLOG = [
+  { slug: 'ai-chatbot-liability-contract-clauses', category: 'AI活用', date: '2026.10.07', read: '8 min', title: 'AIチャットボット誤回答の責任を契約書に書く5条項', img: 'assets/blog-default.png', desc: 'AIチャットボットの誤回答の責任は、契約書の書き方で決まります。誤回答の定義、検知と報告、是正の期限、損害の範囲、追加学習の扱いという5条項の決め方を、国のガイドラインを根拠に発注者の立場から整理しました。', supervised: true },
   { slug: 'source-code-assignment-fee-negotiation', category: '技術', date: '2026.10.06', read: '9 min', title: 'ソースコード譲渡の追加費用｜見積もりの交渉手順', img: 'assets/blog-default.png', desc: 'ソースコードの譲渡費用は何に対する対価なのかを解説します。見積書を初期費用・月額・オプション・従量課金に分けて読む方法と、発注前に確認する契約の5項目を示します (2026年10月時点)。', supervised: true },
   { slug: 'source-code-transfer-cost-contract', category: '技術', date: '2026.10.05', read: '11 min', title: 'ソースコード譲渡の費用と契約｜改変できる条件', img: 'assets/blog-default.png', desc: 'ソースコードの譲渡費用は、見積書のどの行に現れるのかを解説します。著作権法第27条と第28条の特掲がなければ改変の権利は残る点、譲渡と利用許諾で費用と自由度がどう変わるか、金額を左右する4つの要因を条文の出典つきで整理します。', supervised: true },
   { slug: 'chatbot-inquiries-not-decreasing', category: 'AI活用', date: '2026.10.04', read: '8 min', title: 'AIチャットボットで問い合わせが減らない原因', img: 'assets/blog-default.png', desc: 'AIチャットボットを導入しても問い合わせが減らない原因を、設置場所、回答範囲、運用の3つに切り分けて解説します。回答ログの見方、件数の多い質問から直す手順、導入前と同じ条件で効果を測る方法まで整理します。', supervised: true },

@@ -33,6 +33,7 @@ const ARTICLE_ROUTES = (() => {
 })();
 
 const ROUTES_ALLOWLIST = [
+  '/article-ai-chatbot-liability-contract-clauses',
   '/article-source-code-assignment-fee-negotiation',
   '/article-source-code-transfer-cost-contract',
   '/article-chatbot-inquiries-not-decreasing',
