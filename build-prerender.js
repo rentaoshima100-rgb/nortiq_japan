@@ -33,6 +33,7 @@ const ARTICLE_ROUTES = (() => {
 })();
 
 const ROUTES_ALLOWLIST = [
+  '/article-generative-ai-concerns-policy-statistics',
   '/article-ai-camera-video-data-location-check',
   '/article-sme-common-edi-implementation-guide',
   '/article-business-system-availability-requirements',

@@ -61,6 +61,7 @@ const ORG_SAME_AS = [
 // desc → meta description / og:description / BlogPosting.description に使う。
 //        未指定の記事は app.jsx の SEO_DESC か自動生成の定型文にフォールバックする
 const BLOG = [
+  { slug: 'generative-ai-concerns-policy-statistics', category: 'AI活用', date: '2026.10.08', read: '8 min', title: '生成AI導入の懸念と方針策定率の統計', img: 'assets/blog-default.png', desc: '総務省の令和7年版情報通信白書をもとに、生成AI導入の懸念事項の内訳と活用方針の策定率を整理します。情報漏えいの懸念は27.6パーセント、方針を定めた中小企業は約34パーセントで、何から手を付けるかも解説します。', supervised: true },
   { slug: 'ai-camera-video-data-location-check', category: '技術', date: '2026.10.08', read: '9 min', title: 'AIカメラの映像データ保存先、確認の手順', img: 'assets/blog-default.png', desc: 'AIカメラの映像や特徴量データがどこに保存され誰が触れるのかを確かめる手順を解説します。公開文書の見る場所、国外保存で増える確認、契約の文言だけでは足りない理由、外注先に伝える要件の5項目をまとめました。', supervised: true },
   { slug: 'sme-common-edi-implementation-guide', category: '技術', date: '2026.10.08', read: '8 min', title: '中小企業共通EDIの導入、取引先との進め方', img: 'assets/blog-default.png', desc: '中小企業共通EDIで電話とFAXの受発注を置き換える手順を解説します。取引先の件数の数え方、標準の中身と項目数、既存の基幹システムを残せる条件、電子化後の保存の義務、使える支援制度までを順にまとめました。', supervised: true },
   { slug: 'business-system-availability-requirements', category: '技術', date: '2026.10.08', read: '9 min', title: '業務システム外注、稼働率と復旧要件の決め方', img: 'assets/blog-default.png', desc: '業務システムを外注するときの稼働率、RTO、RPO、運用時間の決め方を手順で解説します。IPAの非機能要求グレードの使い方と、自治体の非機能要件に書かれた記載例をもとに、発注書へ数値で落とす流れと確認すべき5項目をまとめました。', supervised: true },
