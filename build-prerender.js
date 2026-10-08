@@ -33,6 +33,7 @@ const ARTICLE_ROUTES = (() => {
 })();
 
 const ROUTES_ALLOWLIST = [
+  '/article-ai-camera-video-data-location-check',
   '/article-sme-common-edi-implementation-guide',
   '/article-business-system-availability-requirements',
   '/article-haccp-record-system-requirements',
