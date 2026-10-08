@@ -61,6 +61,7 @@ const ORG_SAME_AS = [
 // desc → meta description / og:description / BlogPosting.description に使う。
 //        未指定の記事は app.jsx の SEO_DESC か自動生成の定型文にフォールバックする
 const BLOG = [
+  { slug: 'business-system-availability-requirements', category: '技術', date: '2026.10.08', read: '9 min', title: '業務システム外注、稼働率と復旧要件の決め方', img: 'assets/blog-default.png', desc: '業務システムを外注するときの稼働率、RTO、RPO、運用時間の決め方を手順で解説します。IPAの非機能要求グレードの使い方と、自治体の非機能要件に書かれた記載例をもとに、発注書へ数値で落とす流れと確認すべき5項目をまとめました。', supervised: true },
   { slug: 'haccp-record-system-requirements', category: '技術', date: '2026.10.08', read: '8 min', title: '食品製造のHACCP記録システム、外注の要件', img: 'assets/blog-default.png', desc: '食品製造の衛生管理記録をシステムにするとき、何を残し、どの期間保存し、外注先に何を要件として伝えるかを手順で解説します。入力者と修正履歴の確認、見積もりの内訳、ロット追跡との切り分けまでまとめました。', supervised: true },
   { slug: 'generative-ai-internal-usage-policy', category: 'AI活用', date: '2026.10.07', read: '7 min', title: '中小企業の生成AI利用ルール｜1日で作る7項目', img: 'assets/blog-default.png', desc: '生成AIの社内ルールは、使ってよいツールより先に入力してよい情報の線引きから決めます。情報を3区分に分ける手順、A4で1枚に収める7項目の雛形、決めた後の運用と見直しの頻度を、中小企業向けに整理しました。', supervised: true },
   { slug: 'construction-contract-electronic-requirements', category: '技術', date: '2026.10.07', read: '8 min', title: '建設工事の請負契約を電子契約にする要件と手順', img: 'assets/blog-default.png', desc: '工事の請負契約書は建設業法第19条第3項により電子契約で締結できます。相手方の承諾の取り方、見読性・原本性・本人性という3つの技術的基準、電子契約サービスの型の選び方を、中小の建設会社向けに手順で整理しました。', supervised: true },

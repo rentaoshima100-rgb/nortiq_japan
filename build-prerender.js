@@ -33,6 +33,7 @@ const ARTICLE_ROUTES = (() => {
 })();
 
 const ROUTES_ALLOWLIST = [
+  '/article-business-system-availability-requirements',
   '/article-haccp-record-system-requirements',
   '/article-generative-ai-internal-usage-policy',
   '/article-construction-contract-electronic-requirements',
