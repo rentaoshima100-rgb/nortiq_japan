@@ -61,6 +61,7 @@ const ORG_SAME_AS = [
 // desc → meta description / og:description / BlogPosting.description に使う。
 //        未指定の記事は app.jsx の SEO_DESC か自動生成の定型文にフォールバックする
 const BLOG = [
+  { slug: 'haccp-record-system-requirements', category: '技術', date: '2026.10.08', read: '8 min', title: '食品製造のHACCP記録システム、外注の要件', img: 'assets/blog-default.png', desc: '食品製造の衛生管理記録をシステムにするとき、何を残し、どの期間保存し、外注先に何を要件として伝えるかを手順で解説します。入力者と修正履歴の確認、見積もりの内訳、ロット追跡との切り分けまでまとめました。', supervised: true },
   { slug: 'generative-ai-internal-usage-policy', category: 'AI活用', date: '2026.10.07', read: '7 min', title: '中小企業の生成AI利用ルール｜1日で作る7項目', img: 'assets/blog-default.png', desc: '生成AIの社内ルールは、使ってよいツールより先に入力してよい情報の線引きから決めます。情報を3区分に分ける手順、A4で1枚に収める7項目の雛形、決めた後の運用と見直しの頻度を、中小企業向けに整理しました。', supervised: true },
   { slug: 'construction-contract-electronic-requirements', category: '技術', date: '2026.10.07', read: '8 min', title: '建設工事の請負契約を電子契約にする要件と手順', img: 'assets/blog-default.png', desc: '工事の請負契約書は建設業法第19条第3項により電子契約で締結できます。相手方の承諾の取り方、見読性・原本性・本人性という3つの技術的基準、電子契約サービスの型の選び方を、中小の建設会社向けに手順で整理しました。', supervised: true },
   { slug: 'ai-chatbot-liability-contract-clauses', category: 'AI活用', date: '2026.10.07', read: '8 min', title: 'AIチャットボット誤回答の責任を契約書に書く5条項', img: 'assets/blog-default.png', desc: 'AIチャットボットの誤回答の責任は、契約書の書き方で決まります。誤回答の定義、検知と報告、是正の期限、損害の範囲、追加学習の扱いという5条項の決め方を、国のガイドラインを根拠に発注者の立場から整理しました。', supervised: true },
