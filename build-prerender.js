@@ -33,6 +33,7 @@ const ARTICLE_ROUTES = (() => {
 })();
 
 const ROUTES_ALLOWLIST = [
+  '/article-article-author-supervisor-attribution',
   '/article-access-control-audit-log-requirements',
   '/article-old-server-cancellation-after-renewal',
   '/article-generative-ai-concerns-policy-statistics',
