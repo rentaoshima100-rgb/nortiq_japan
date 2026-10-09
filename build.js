@@ -61,6 +61,7 @@ const ORG_SAME_AS = [
 // desc → meta description / og:description / BlogPosting.description に使う。
 //        未指定の記事は app.jsx の SEO_DESC か自動生成の定型文にフォールバックする
 const BLOG = [
+  { slug: 'change-domain-on-renewal-decision', category: 'Web制作', date: '2026.10.09', read: '10 min', title: 'ホームページリニューアルでドメインを変えるか', img: 'assets/blog-default.png', desc: 'ホームページリニューアルでドメインを変えるべきかを、5つの質問で判断できる形に整理します。変えた場合の検索での変動と反映の期間、必要な作業、変えない場合に残る制約をGoogle公式の記載に沿って解説します。', supervised: true },
   { slug: 'article-author-supervisor-attribution', category: 'Web制作', date: '2026.10.09', read: '8 min', title: '記事制作の外注、著者と監修の表記の決め方', img: 'assets/blog-default.png', desc: '記事制作を外注するとき、著者名を自社名と担当者名と外注先の書き手のどれにするかの決め方を解説します。監修と名乗れる人の線引き、表記の型、公開前の確認と委託契約に入れる項目まで示します。', supervised: true },
   { slug: 'access-control-audit-log-requirements', category: '技術', date: '2026.10.09', read: '9 min', title: '業務システム外注のアクセス権限と操作ログの要件', img: 'assets/blog-default.png', desc: '顧客データを扱う業務システムを外注するとき、アクセス権限と操作ログをどこまで要件に書くかを解説します。役割と操作の対応表の作り方、記録する4項目、保存期間の決め方を公的資料に沿って整理します。', supervised: true },
   { slug: 'old-server-cancellation-after-renewal', category: 'Web制作', date: '2026.10.09', read: '10 min', title: 'ホームページリニューアル後に旧サーバを解約する時期', img: 'assets/blog-default.png', desc: 'ホームページリニューアル後に旧サーバをいつ解約してよいかを、転送の保持期間と保存期間の根拠から整理します。解約前に取り出すデータ5つと、止める順序、確認のチェックリストも示します。', supervised: true },

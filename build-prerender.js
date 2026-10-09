@@ -33,6 +33,7 @@ const ARTICLE_ROUTES = (() => {
 })();
 
 const ROUTES_ALLOWLIST = [
+  '/article-change-domain-on-renewal-decision',
   '/article-article-author-supervisor-attribution',
   '/article-access-control-audit-log-requirements',
   '/article-old-server-cancellation-after-renewal',
