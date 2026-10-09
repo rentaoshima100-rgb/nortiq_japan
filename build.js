@@ -61,6 +61,7 @@ const ORG_SAME_AS = [
 // desc → meta description / og:description / BlogPosting.description に使う。
 //        未指定の記事は app.jsx の SEO_DESC か自動生成の定型文にフォールバックする
 const BLOG = [
+  { slug: 'old-server-cancellation-after-renewal', category: 'Web制作', date: '2026.10.09', read: '10 min', title: 'ホームページリニューアル後に旧サーバを解約する時期', img: 'assets/blog-default.png', desc: 'ホームページリニューアル後に旧サーバをいつ解約してよいかを、転送の保持期間と保存期間の根拠から整理します。解約前に取り出すデータ5つと、止める順序、確認のチェックリストも示します。', supervised: true },
   { slug: 'generative-ai-concerns-policy-statistics', category: 'AI活用', date: '2026.10.08', read: '8 min', title: '生成AI導入の懸念と方針策定率の統計', img: 'assets/blog-default.png', desc: '総務省の令和7年版情報通信白書をもとに、生成AI導入の懸念事項の内訳と活用方針の策定率を整理します。情報漏えいの懸念は27.6パーセント、方針を定めた中小企業は約34パーセントで、何から手を付けるかも解説します。', supervised: true },
   { slug: 'ai-camera-video-data-location-check', category: '技術', date: '2026.10.08', read: '9 min', title: 'AIカメラの映像データ保存先、確認の手順', img: 'assets/blog-default.png', desc: 'AIカメラの映像や特徴量データがどこに保存され誰が触れるのかを確かめる手順を解説します。公開文書の見る場所、国外保存で増える確認、契約の文言だけでは足りない理由、外注先に伝える要件の5項目をまとめました。', supervised: true },
   { slug: 'sme-common-edi-implementation-guide', category: '技術', date: '2026.10.08', read: '8 min', title: '中小企業共通EDIの導入、取引先との進め方', img: 'assets/blog-default.png', desc: '中小企業共通EDIで電話とFAXの受発注を置き換える手順を解説します。取引先の件数の数え方、標準の中身と項目数、既存の基幹システムを残せる条件、電子化後の保存の義務、使える支援制度までを順にまとめました。', supervised: true },
