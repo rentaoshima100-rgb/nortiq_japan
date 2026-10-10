@@ -61,6 +61,7 @@ const ORG_SAME_AS = [
 // desc → meta description / og:description / BlogPosting.description に使う。
 //        未指定の記事は app.jsx の SEO_DESC か自動生成の定型文にフォールバックする
 const BLOG = [
+  { slug: 'kaigo-ict-subsidy-standard-amount', category: '技術', date: '2026.10.10', read: '12 min', title: '介護ICT補助金の補助基準額｜職員数と都道府県の差', img: 'assets/blog-default.png', desc: '介護ソフトのICT補助金が職員数ごとにいくらまで出るか、都道府県で補助率がどう違うかを6県の実施要綱から整理しました。常勤換算での職員数の数え方、定着促進費用の上積み、対象外経費も解説します。', supervised: true },
   { slug: 'homepage-renewal-full-or-partial', category: 'Web制作', date: '2026.10.10', read: '11 min', title: 'ホームページリニューアルは全面か部分改修か｜判断基準', img: 'assets/blog-default.png', desc: 'ホームページリニューアルを全面にするか部分改修にとどめるかを、URLを変えるかどうかで切り分ける方法を解説します。Google公式の記述をもとに、判断の5手順と確認事項までまとめます。', supervised: true },
   { slug: 'cms-editor-customization-requirements', category: 'Web制作', date: '2026.10.09', read: '9 min', title: 'CMSの編集画面をカスタマイズする外注の要件', img: 'assets/blog-default.png', desc: 'CMSの編集画面をカスタマイズして外注するときの要件の決め方を解説します。変えやすい部分と手間が大きい部分、専用のブロックで作れること、要件の表の書き方、費用が増えやすい要素を整理します。', supervised: true },
   { slug: 'change-domain-on-renewal-decision', category: 'Web制作', date: '2026.10.09', read: '10 min', title: 'ホームページリニューアルでドメインを変えるか', img: 'assets/blog-default.png', desc: 'ホームページリニューアルでドメインを変えるべきかを、5つの質問で判断できる形に整理します。変えた場合の検索での変動と反映の期間、必要な作業、変えない場合に残る制約をGoogle公式の記載に沿って解説します。', supervised: true },
