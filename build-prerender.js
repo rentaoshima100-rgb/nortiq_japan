@@ -33,6 +33,7 @@ const ARTICLE_ROUTES = (() => {
 })();
 
 const ROUTES_ALLOWLIST = [
+  '/article-fax-order-form-ai-ocr-outsourcing',
   '/article-homepage-content-photo-preparation',
   '/article-kaigo-ict-subsidy-standard-amount',
   '/article-homepage-renewal-full-or-partial',
