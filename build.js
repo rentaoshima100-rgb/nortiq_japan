@@ -61,6 +61,7 @@ const ORG_SAME_AS = [
 // desc → meta description / og:description / BlogPosting.description に使う。
 //        未指定の記事は app.jsx の SEO_DESC か自動生成の定型文にフォールバックする
 const BLOG = [
+  { slug: 'order-digitalization-rate-statistics', category: '技術', date: '2026.10.11', read: '10 min', title: '受発注の電子化率｜中小企業の公的データ', img: 'assets/blog-default.png', desc: '中小企業の受発注の電子化がどこまで進んでいるかを、中小企業庁と国税庁の公的資料の数字で整理します。IT利用の割合と導入率の違い、出典と年次の添え方、自社の取引先の対応状況を件数で数える手順まで示します。', supervised: true },
   { slug: 'fax-order-form-ai-ocr-outsourcing', category: 'AI活用', date: '2026.10.11', read: '9 min', title: 'FAX注文書のAI読み取り外注｜精度の確認手順', img: 'assets/blog-default.png', desc: '紙やFAXで届く注文書をAIで読み取る仕組みの外注について、自社の注文書30枚で精度を測る手順、項目単位での測り方、人が確認する工程の置き場所、要件書に書く項目を、国税庁と中小企業庁の資料をもとに整理します。', supervised: true },
   { slug: 'homepage-content-photo-preparation', category: 'Web制作', date: '2026.10.11', read: '9 min', title: 'ホームページ制作の原稿と写真｜分担の決め方', img: 'assets/blog-default.png', desc: 'ホームページ制作で原稿と写真をどこまで自社で用意するかを、見積もりを取る前に決める手順です。分担表の作り方、自社しか出せない情報の見分け方、費目への現れ方、補助金の制約まで順に整理します。', supervised: true },
   { slug: 'kaigo-ict-subsidy-standard-amount', category: '技術', date: '2026.10.10', read: '12 min', title: '介護ICT補助金の補助基準額｜職員数と都道府県の差', img: 'assets/blog-default.png', desc: '介護ソフトのICT補助金が職員数ごとにいくらまで出るか、都道府県で補助率がどう違うかを6県の実施要綱から整理しました。常勤換算での職員数の数え方、定着促進費用の上積み、対象外経費も解説します。', supervised: true },
