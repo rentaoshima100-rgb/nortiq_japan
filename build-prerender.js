@@ -33,6 +33,7 @@ const ARTICLE_ROUTES = (() => {
 })();
 
 const ROUTES_ALLOWLIST = [
+  '/article-construction-cost-management-requirements',
   '/article-website-vulnerability-report-statistics',
   '/article-sme-no-it-staff-ratio-statistics',
   '/article-jizokuka-subsidy-website-cost-limit',
