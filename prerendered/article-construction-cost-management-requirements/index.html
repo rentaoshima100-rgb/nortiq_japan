@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="ja" style="--accent: hsl(354, 92%, 45%); --accent-hi: hsl(354, 95%, 52%); --accent-soft: hsl(354, 90%, 95%);"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Google tag (gtag.js) — GA4 + Google Ads conversion tracking -->
+  <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-EYTD1TWR7T"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-EYTD1TWR7T');
+    window.NORTIQ_CONV = { contact: null, diagnostic: null };
+  </script>
+  <title>建設業の原価管理システム｜実行予算の外注要件7項目 — Nortiq Labs</title>
+  <meta name="description" content="建設業の原価管理システムを外注する前に決めることを、実行予算の粒度、実績の入力元、差異を見る頻度、法定要件、既存システムとの分担の順に整理します。建設業法と施行令の定めも要件に落とし込みます。">
+  <link rel="icon" href="/assets/nortiq-fav.png" type="image/png">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Nortiq Labs">
+  <!-- 記事ルートでは app.jsx が og:type を article に変え、下の2つに日付を入れる。
+       setMetaContent は既存要素しか書き換えないため、空のまま置いておく必要がある -->
+  <meta property="article:published_time" content="2026-10-12">
+  <meta property="article:modified_time" content="2026-10-12">
+  <meta property="og:title" content="建設業の原価管理システム｜実行予算の外注要件7項目 — Nortiq Labs">
+  <meta property="og:description" content="建設業の原価管理システムを外注する前に決めることを、実行予算の粒度、実績の入力元、差異を見る頻度、法定要件、既存システムとの分担の順に整理します。建設業法と施行令の定めも要件に落とし込みます。">
+  <meta property="og:url" content="https://nortiqlab.com/article-construction-cost-management-requirements">
+  <meta property="og:image" content="https://nortiqlab.com/assets/blog-default.png">
+  <meta property="og:locale" content="ja_JP">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="建設業の原価管理システム｜実行予算の外注要件7項目 — Nortiq Labs">
+  <meta name="twitter:description" content="建設業の原価管理システムを外注する前に決めることを、実行予算の粒度、実績の入力元、差異を見る頻度、法定要件、既存システムとの分担の順に整理します。建設業法と施行令の定めも要件に落とし込みます。">
+  <meta name="twitter:image" content="https://nortiqlab.com/assets/blog-default.png">
+  <link rel="stylesheet" href="/styles.css?v=24a1c665db">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://nortiqlab.com/#org","name":"Nortiq Labs","url":"https://nortiqlab.com/","logo":"https://nortiqlab.com/assets/nortiq-mark.png","image":"https://nortiqlab.com/assets/og-image.png","description":"京都のWeb制作×AI実装カンパニー。オリジナルデザインのホームページ制作からAIチャットボット導入、DXコンサルティングまで一気通貫で支援。初回相談無料・営業日24時間以内に返信します。","slogan":"日本のDX、世界水準で巻き返す。","foundingDate":"2025","numberOfEmployees":5,"address":{"@type":"PostalAddress","addressCountry":"JP","postalCode":"604-0012","addressRegion":"京都府","addressLocality":"京都市中京区","streetAddress":"竪大恩寺町751"},"areaServed":{"@type":"Country","name":"Japan"},"alternateName":["株式会社ノーティックラボ","ノーティックラボ"],"knowsAbout":["Web制作","AIチャットボット","DX","機械学習","SEO","LP制作 / LPO","業務自動化","データ分析"]},{"@type":"WebSite","@id":"https://nortiqlab.com/#website","name":"Nortiq Labs","url":"https://nortiqlab.com/","publisher":{"@id":"https://nortiqlab.com/#org"},"inLanguage":"ja"},{"@type":"ProfessionalService","name":"Nortiq Labs","url":"https://nortiqlab.com/","description":"京都のWeb制作×AI実装カンパニー。オリジナルデザインのホームページ制作からAIチャットボット導入、DXコンサルティングまで一気通貫で支援。初回相談無料・営業日24時間以内に返信します。","areaServed":"JP","serviceType":["Web制作","AIチャットボット導入","DX・ML実装","補助金活用のDX導入相談"],"provider":{"@id":"https://nortiqlab.com/#org"}}]}</script>
+  <!-- defer: この2本 (計約139KB) は head にあって描画をブロックしていた。
+       ページの初期表示はプリレンダ済みHTMLで完結するのでJSを待つ必要がない。
+       defer は文書順に実行されるため react → react-dom → articles.js →
+       app.bundle.js の順序は保たれる。 -->
+  <script src="/assets/vendor/react.production.min.js?v=24a1c665db" defer=""></script>
+  <script src="/assets/vendor/react-dom.production.min.js?v=24a1c665db" defer=""></script>
+<script src="/articles/construction-cost-management-requirements.js" defer="" data-article="construction-cost-management-requirements"></script><link rel="canonical" href="https://nortiqlab.com/article-construction-cost-management-requirements"><script type="application/ld+json" id="route-ld">[{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"トップ","item":"https://nortiqlab.com/"},{"@type":"ListItem","position":2,"name":"コラム","item":"https://nortiqlab.com/column"},{"@type":"ListItem","position":3,"name":"建設業の原価管理システム","item":"https://nortiqlab.com/article-construction-cost-management-requirements"}]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"建設業の原価管理システム｜実行予算の外注要件7項目","description":"建設業の原価管理システムを外注する前に決めることを、実行予算の粒度、実績の入力元、差異を見る頻度、法定要件、既存システムとの分担の順に整理します。建設業法と施行令の定めも要件に落とし込みます。","image":"https://nortiqlab.com/assets/blog-default.png","url":"https://nortiqlab.com/article-construction-cost-management-requirements","inLanguage":"ja","articleSection":"技術","datePublished":"2026-10-12","dateModified":"2026-10-12","author":{"@type":"Organization","@id":"https://nortiqlab.com/#org","name":"Nortiq Labs"},"publisher":{"@id":"https://nortiqlab.com/#org"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://nortiqlab.com/article-construction-cost-management-requirements","reviewedBy":{"@id":"https://nortiqlab.com/#org"}}}]</script></head>
+<body>
+  <div id="app"><header class="nav" role="banner"><div class="nav-inner"><a class="nav-logo" href="/" style="cursor: pointer;"><span class="nav-logo-mark"></span><span class="wordmark"><span class="wordmark-main">NORTIQ</span><span class="wordmark-sub">LABS</span></span></a><nav class="nav-links" aria-label="メインナビゲーション"><div class="nav-link-wrap"><a class="nav-link" href="/">トップ</a></div><div class="nav-link-wrap"><a class="nav-link">機能<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></a></div><div class="nav-link-wrap"><a class="nav-link">制作実績<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></a></div><div class="nav-link-wrap"><a class="nav-link">業種ソリューション<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></a></div><div class="nav-link-wrap"><a class="nav-link" href="/voice">ご利用会社様の声</a></div><div class="nav-link-wrap"><a class="nav-link" href="/support">サポート</a></div><div class="nav-link-wrap"><a class="nav-link" href="/pricing">料金プラン</a></div><div class="nav-link-wrap"><a class="nav-link" aria-current="page">コンテンツ<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></a></div><div class="nav-link-wrap"><a class="nav-link" href="/diagnostic">無料診断</a></div></nav><div class="nav-cta-wrap"><button class="btn btn-primary btn-sm" type="button"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><path d="M22 6l-10 7L2 6"></path></svg>メールでお問合せ</button><button class="hamburger" aria-label="メニューを開く" aria-expanded="false"><span></span><span></span><span></span></button></div></div><div class="nav-drawer"><div class="nav-drawer-panel"><div class="nav-drawer-head"><span class="nav-logo" style="font-size: 18px;"><span class="nav-logo-mark" aria-hidden="true"></span><span class="wordmark"><span class="wordmark-main">NORTIQ</span><span class="wordmark-sub">LABS</span></span></span><button class="drawer-close" aria-label="閉じる"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M6 18L18 6"></path></svg></button></div><nav class="nav-drawer-body"><a class="drawer-item" href="/"><span>トップ</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><div class="drawer-group"><button class="drawer-item drawer-group-head"><span>機能</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></button><div class="drawer-group-body"><div class="drawer-subgroup"><h5>サービス別 機能一覧</h5><a class="drawer-sub-item" href="/web"><span>Web制作 機能一覧</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/chatbot"><span>AIチャットボット 機能一覧</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/dx"><span>DX・ML 機能一覧</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></div><div class="drawer-subgroup"><h5>技術領域</h5><a class="drawer-sub-item" href="/feature-lpo"><span>LP制作 / LPO</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/feature-recruit"><span>採用専門サイト</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/feature-analytics"><span>アクセス解析カスタム実装</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/feature-cms"><span>CMS / 記事更新システム</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></div><div class="drawer-subgroup"><h5>自社プロダクト</h5><a class="drawer-sub-item" href="/product-vetonet"><span>VetoNet (AI Security)</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/product-wpchat"><span>ブログボット（AI投稿アシスタント）</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/product-tennis"><span>Tennis フォームチェック</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></div></div></div><div class="drawer-group"><button class="drawer-item drawer-group-head"><span>制作実績</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></button><div class="drawer-group-body"><div class="drawer-subgroup"><h5>業種から探す</h5><a class="drawer-sub-item" href="/works-clinic"><span>クリニック・医療</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/works-realty"><span>不動産</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/works-build"><span>建築・工務店</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/works-hr"><span>人材</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/works-retail"><span>小売 / EC</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/works-infra"><span>インフラ・製造</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/works-ai"><span>AIスタートアップ</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></div><div class="drawer-subgroup"><h5>強化LP別</h5><a class="drawer-sub-item" href="/works-lp-corp"><span>コーポレートサイト</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/works-lp-recruit"><span>採用LP</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/works-lp-ec"><span>EC連動LP</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></div><div class="drawer-subgroup"><h5>実績まとめ</h5><a class="drawer-sub-item" href="/works"><span>全実績一覧</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></div></div></div><div class="drawer-group"><button class="drawer-item drawer-group-head"><span>業種ソリューション</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></button><div class="drawer-group-body"><div class="drawer-subgroup"><h5>業種別パッケージ</h5><a class="drawer-sub-item" href="/solution-clinic"><span>クリニック・医療 DXパッケージ</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/solution-realty"><span>不動産 集客×管理パッケージ</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/solution-build"><span>建築 ブランド×案件管理</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/solution-hr"><span>人材 マッチング×集客</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/solution-retail"><span>小売・EC OMOパッケージ</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></div><div class="drawer-subgroup"><h5>業種特化LP (NEW)</h5><a class="drawer-sub-item" href="/service/kanri-dantai"><span>監理団体・登録支援機関向け</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/service/recruit-site"><span>建設・運送・介護の採用サイト</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></div></div></div><a class="drawer-item" href="/voice"><span>ご利用会社様の声</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-item" href="/support"><span>サポート</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-item" href="/pricing"><span>料金プラン</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><div class="drawer-group"><button class="drawer-item drawer-group-head"><span>コンテンツ</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></button><div class="drawer-group-body"><div class="drawer-subgroup"><h5>メディア</h5><a class="drawer-sub-item" href="/column"><span>コラム / 技術ブログ</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/news"><span>お知らせ</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/guidebook"><span>サービス紹介資料</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/subsidy"><span>補助金活用相談</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></div></div></div><a class="drawer-item" href="/diagnostic"><span>無料診断</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></nav><div class="nav-drawer-foot"><button class="btn btn-primary btn-lg" type="button" style="width: 100%;"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><path d="M22 6l-10 7L2 6"></path></svg>資料請求・お問い合わせ</button></div></div></div></header><div><main class="page-fade"><nav aria-label="Breadcrumb" style="padding: 14px 0px; border-bottom: 1px solid var(--border); background: var(--bg-2);"><div class="container"><ol class="row-tight" style="list-style: none; padding: 0px; margin: 0px; font-size: 12px; color: var(--text-3);"><li class="row-tight" style="gap: 8px;"><a href="/" style="cursor: pointer; color: var(--text-2);">トップ</a></li><li class="row-tight" style="gap: 8px;"><span style="color: var(--text-4);">›</span><a href="/column" style="cursor: pointer; color: var(--text-2);">コラム</a></li><li class="row-tight" style="gap: 8px;"><span style="color: var(--text-4);">›</span><span style="color: var(--text);">建設業の原価管理システム｜実行予算の外注要件7項目</span></li></ol></div></nav><article><header style="padding-top: clamp(48px, 7vw, 90px); padding-bottom: 32px;"><div class="container" style="max-width: 820px;"><div class="row" style="gap: 12px; margin-bottom: 24px; color: var(--text-3); font-size: 13px; flex-wrap: wrap;"><span class="tag" style="color: var(--accent); border-color: var(--accent);">技術</span><span class="num">2026.10.12</span><span>·</span><span>9 min read</span><span>·</span><span>Nortiq Labs</span></div><h1 class="display-l fadein is-in" style="margin-bottom: 8px;">建設業の原価管理システム｜実行予算の外注要件7項目</h1></div></header><div class="container" style="max-width: 880px; margin-bottom: 8px;"><div class="article-cover tone-ink" role="img" aria-label="建設業の原価管理システム｜実行予算の外注要件7項目" style="aspect-ratio: 21 / 9;"><span class="article-cover-cat">技術</span><span class="article-cover-title">建設業の原価管理システム</span><span class="article-cover-brand">NORTIQ LABS · COLUMN</span></div></div><div class="container" style="max-width: 780px; margin-top: 24px; margin-bottom: 64px;"><div><div class="article-prose article-body"><h2>まず決めるのは、実行予算の粒度です</h2>
+<p>最初に決めるのは、実行予算をどの単位で持つかです。工種別か、原価科目別か、あるいは両方の掛け合わせかを決めます。この粒度が決まらないと、実績をどこから集めるかも決まりません。</p>
+<h3>工種別か原価科目別か、どちらで持つかを決める</h3>
+<p>粒度の選び方は、差異を見て何を直したいかで変わります。</p>
+<table>
+<thead>
+<tr>
+<th>粒度</th>
+<th>分かること</th>
+<th>入力の手間</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>工種別 (基礎、躯体、内装等)</td>
+<td>どの工種で予算を超えたか</td>
+<td>実績を工種に割り当てる必要があります</td>
+</tr>
+<tr>
+<td>原価科目別 (労務費、材料費、外注費、経費)</td>
+<td>どの費目で超えたか</td>
+<td>伝票の費目をそのまま使えます</td>
+</tr>
+<tr>
+<td>工種別と原価科目別の掛け合わせ</td>
+<td>工種のどの費目で超えたか</td>
+<td>両方の割り当てが必要です</td>
+</tr>
+</tbody></table>
+<p>掛け合わせが最も細かく見えますが、現場に入力の負担が寄ります。まずは原価科目別で始め、工種別は主要な工種に限る形も選べます。</p>
+<h3>見積の内訳をそのまま使えるか確かめる</h3>
+<p>実行予算は、見積の内訳を元に組むことが多いです。ここで建設業法の定めが手がかりになります。</p>
+<p>建設業法第20条第1項は、工事内容に応じ、工事の種別ごとの材料費、労務費、材料費等その他施工のために必要な経費の内訳と、工事の工程ごとの作業及びその準備に必要な日数を記載した見積書を作成するよう努めなければならないと定めています (出典: e-Gov法令検索「建設業法」)。</p>
+<p>見積の粒度が「工事の種別ごとの内訳」として法令に示されているため、見積の明細をそのまま実行予算の単位に写せる構造にしておくと、後の打ち直しがなくなります。既存の見積書がこの粒度で作られているかを先に確かめてください。</p>
+<h3>所要時間の目安とつまずきやすい点</h3>
+<p>粒度を決める作業は、過去の工事2件から3件の見積書と実績の資料を並べて行います。半日から1日を見ておけば足ります。</p>
+<p>つまずきやすいのは、経費の扱いです。現場共通でかかる経費を工種に割り当てようとすると、割り当ての規則を決める議論が長くなります。最初は共通の費目として別に持ち、工種へは配賦しない形から始めると止まりません。配賦の決め方は後述します。</p>
+<p>なお、見積の作成手段そのものが表計算ソフト中心という実態もあります。建設業で見積・契約・請求業務を担当する300人を対象に2026年8月3日から4日に実施された調査では、見積作成手段はExcel・スプレッドシートが42.3%、建設業向けシステムが18.7%、紙・手書きが7.7%でした (出典: 現場TECH「建設業バックオフィスDX実態調査・第一弾」)。既存の見積が表計算ソフトであることを前提に、移行の手順を決める必要があります。</p>
+<h2>実績原価を、どこから集めるかを4つに分けて決める</h2>
+<p>実績は労務費、材料費、外注費、経費の4つに分けます。それぞれについて、どの書類から、いつ数字が入るのかを決めます。</p>
+<h3>労務費は日報の出面から</h3>
+<p>自社の職人の労務費は、日報の出面 (誰が何日入ったか) に単価を掛けて出します。要件として決めることは次の3点です。</p>
+<ol>
+<li>出面を工事と工種のどこまで紐づけて入力するか</li>
+<li>単価を誰がいつ登録するか (人別か職種別か)</li>
+<li>日報が未提出の日をどう扱うか</li>
+</ol>
+<p>つまずきやすいのは3です。日報が数日遅れると、その分だけ実績が小さく見え、差異が実際より良く出ます。未提出の日を一覧で出せるようにしておくと、数字の読み違いを防げます。日報そのものの要件は別の記事で扱います。</p>
+<h3>材料費は納品書または請求書から</h3>
+<p>材料費は、納品書を入力する方式と、請求書を受け取ってから入力する方式があります。</p>
+<table>
+<thead>
+<tr>
+<th>入力元</th>
+<th>入るタイミング</th>
+<th>向いている場合</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>納品書</td>
+<td>現場に入った時点</td>
+<td>差異を早く見たい場合</td>
+</tr>
+<tr>
+<td>請求書</td>
+<td>月末締めの後</td>
+<td>入力の手間を抑えたい場合</td>
+</tr>
+</tbody></table>
+<p>差異を早く見たいのであれば納品書です。ただし現場で納品書を入力する手間が増えます。所要は1件あたり数分でも、件数が多い現場では積み上がります。どちらにするかは現場ごとに変えられる設計にしておくと運用が続きます。</p>
+<h3>外注費は注文書と出来高から</h3>
+<p>外注費は、注文書の金額を予算側に置き、出来高の査定で実績を積みます。決めることは、出来高をどの単位 (月次、工程の節目) で査定するか、査定した金額を誰が入力するかです。</p>
+<p>つまずきやすいのは、注文書を出さずに口頭で頼んだ作業です。この分は実績の入力時に初めて現れ、差異が急に悪化します。注文書のない発注を検出できるよう、実績の入力時に注文書との紐づけを必須にするかどうかを決めてください。</p>
+<h3>経費の扱いと配賦の決め方</h3>
+<p>現場共通でかかる経費 (仮設、運搬、安全管理等) は、工種に割り当てずに共通の費目として持つのが始めやすい形です。</p>
+<p>配賦をするのであれば、規則を1つに絞ります。工事金額の比率で配る、労務の人日で配る、のどちらかです。規則を複数持つと、月次で数字が合わなくなったときに原因を追えません。</p>
+<h2>差異をいつ見るかを決める</h2>
+<p>差異を見る頻度を、月次ではなく週次または日次のどこに置くかを先に決めます。この頻度が、入力の締めの設計を左右します。</p>
+<h3>締めのタイミングと入力の遅れをどう扱うか</h3>
+<p>頻度を上げるほど、入力の遅れが数字に効いてきます。</p>
+<table>
+<thead>
+<tr>
+<th>頻度</th>
+<th>必要な入力の速さ</th>
+<th>向いている工事</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>月次</td>
+<td>月末締めで間に合う</td>
+<td>工期が長く、月内の変動が小さい工事</td>
+</tr>
+<tr>
+<td>週次</td>
+<td>週明けまでに前週分が入る</td>
+<td>工期が数か月で、手を打てば間に合う工事</td>
+</tr>
+<tr>
+<td>日次</td>
+<td>当日または翌日に入る</td>
+<td>短工期で、変動が大きい工事</td>
+</tr>
+</tbody></table>
+<p>週次にするのであれば、週明けの時点で前週分がどれだけ入っているかを示す画面が必要です。入力率が分からないまま差異を見ると、入力が遅れているだけの工事を「予算内」と誤読します。</p>
+<p>所要時間の目安として、締めの運用を決める打ち合わせは1回2時間程度です。つまずきやすいのは、現場と事務で締めの認識がずれることです。誰がいつまでに何を入れるかを文字にしてください。</p>
+<h3>未請求の材料と外注をどう見込むか</h3>
+<p>請求書が届く前の材料と外注をどう扱うかで、差異の見え方が変わります。選べる形は3つです。</p>
+<ol>
+<li>発注または納品の時点で見込みとして計上する</li>
+<li>請求が届いた時点で計上し、それまでは実績に含めない</li>
+<li>見込みと確定を分けて両方を表示する</li>
+</ol>
+<p>3が最も正確ですが、画面と入力の設計が増えます。1は早く見えますが、発注の取り消しや数量の変更を直す運用が必要です。どれを選ぶかは、差異を見る頻度と合わせて決めます。</p>
+<p>実装の側で注意が必要なのは、見込みから確定への切り替えです。同じ費用が見込みと確定で二重に残ると、実績が膨らみます。確定の入力時に見込みを打ち消す仕組みを要件に入れてください。</p>
+<h3>差異が出たときに誰が見て誰が動くか</h3>
+<p>差異を見る仕組みは、見るだけでは効きません。発注の前に次を決めておきます。</p>
+<ul>
+<li>どの閾値を超えたら知らせるか (金額か、率か)</li>
+<li>誰に知らせるか (現場責任者、工務、経営)</li>
+<li>知らせを受けた人が何をするか (原因の確認、設計変更の相談、追加請求の検討)</li>
+</ul>
+<p>閾値は、最初は1つに絞るのが続けやすい形です。工事ごとに閾値を変えられるようにすると、設定の管理が負担になります。</p>
+<h2>見積と契約、請求の法定要件を要件に織り込む</h2>
+<p>実行予算の元になる見積と契約には、建設業法が定める記載事項があります。システムの項目は、これを満たす形で設計します。</p>
+<h3>請負契約の書面記載事項と電磁的措置の条件</h3>
+<p>建設業法第19条第1項は、請負契約の当事者は契約の締結に際して同項が掲げる事項を書面に記載し、署名又は記名押印をして相互に交付しなければならないと定めています。列挙されている事項は第1号から第16号までの16項目です。工事内容、請負代金の額、工事着手の時期及び工事完成の時期、前金払又は出来形部分に対する支払の定めをするときはその支払の時期及び方法などが含まれます (出典: e-Gov法令検索「建設業法」第19条第1項)。</p>
+<p>同条第2項により、これらの事項を変更するときも、変更の内容を書面にして相互に交付することになります。追加変更のたびに版が増えるため、システムでは契約の版を履歴として持たせる必要があります。実行予算の変更も、この版と対応づけておくと後から追えます。</p>
+<p>電子に置き換えることもできます。同条第3項は、前二項の措置に代えて、政令で定めるところにより契約の相手方の承諾を得て、国土交通省令で定める情報通信の技術を利用する方法を講ずることができると定めています。相手方の承諾と、省令で定める方法であることが条件です (出典: 同法第19条第3項)。</p>
+<h3>見積書の内訳と見積期間の法定要件</h3>
+<p>見積の内訳については前のセクションで触れました。ここでは期間の定めを押さえます。</p>
+<p>建設業法施行令第5条の9は、見積期間を次のように定めています。</p>
+<table>
+<thead>
+<tr>
+<th>工事一件の予定価格</th>
+<th>見積期間</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>500万円に満たない工事</td>
+<td>1日以上</td>
+</tr>
+<tr>
+<td>500万円以上5000万円に満たない工事</td>
+<td>10日以上</td>
+</tr>
+<tr>
+<td>5000万円以上の工事</td>
+<td>15日以上</td>
+</tr>
+</tbody></table>
+<p>ただし書きにより、やむを得ない事情があるときは、第2号と第3号の期間を5日以内に限り短縮できます (出典: e-Gov法令検索「建設業法施行令」第5条の9)。</p>
+<p>下請に見積を依頼する機能を作る場合、この期間を満たしているかを画面で確かめられるようにしておくと安全です。依頼日と回答期限を記録し、予定価格の区分に応じた期間を下回る場合に警告を出す、という要件になります。</p>
+<h3>電子取引データの保存義務との関係</h3>
+<p>見積書や契約書、請求書を電子でやり取りする設計にする場合は、保存の要件も要件定義に含めます。</p>
+<p>国税庁の電子帳簿等保存制度特設サイトは、取引情報を含む電子データをやり取りした場合の保存義務や保存方法が電子帳簿保存法により定められていると説明しています (出典: 国税庁 電子帳簿等保存制度特設サイト)。</p>
+<p>検索機能については、売上高による基準があります。国税庁の資料では、検索機能が不要とされる対象者の売上高の基準が、改正前の1000万円以下から5000万円以下に変わり、2024年1月1日以後にやり取りする分に適用されるとされています。令和4年度税制改正の宥恕措置は2023年12月31日が適用期限でした (出典: 国税庁「電子帳簿保存法の内容が改正されました」令和5年4月)。</p>
+<p>自社がどちらに当たるかで、検索の要件が変わります。要件定義の前に確かめてください。</p>
+</div><aside class="nq-slot" data-slot="slot-mid" aria-label="おすすめのページ"><div class="nq-suggest" data-block="sg-dx" data-variant="default"><p class="nq-suggest__eyebrow">業務の自動化をお考えの方へ</p><h3 class="nq-suggest__title"><a href="/dx">検証して、判断して、進めるDX・ML実装。</a></h3><p class="nq-suggest__body">ML実装、業務自動化、データ分析基盤、生成AIの業務組み込み。フェーズごとにGO/NO-GOを判断できます。</p><span class="nq-suggest__cta" aria-hidden="true">詳しく見る →</span></div></aside><div class="article-prose article-body"><h2>既存の仕組みとの切り分けを決める</h2>
+<p>日報、請求書の受領、施工管理のツールが既にある場合は、どの数字をどちらで持つかを先に決めます。決めないまま作ると、同じ数字を2か所に入れる運用が残ります。</p>
+<h3>日報の出面を原価に使う場合の受け渡し</h3>
+<p>日報の仕組みが既にあるなら、出面のデータを原価側へ渡す形にします。決めることは3点です。</p>
+<ol>
+<li>渡す単位 (日別の出面か、工事別の合計か)</li>
+<li>渡す頻度 (日次の自動連携か、月次のファイル取り込みか)</li>
+<li>渡した後に日報側で修正があった場合、原価側をどう直すか</li>
+</ol>
+<p>実装の側で注意が必要なのは3です。訂正を上書きで反映すると、締めた月の数字が後から動きます。締めた月は動かさず、翌月で調整する形にするのか、締め前なら上書きするのかを要件に明記してください。日報そのものの要件は別の記事で扱います。</p>
+<h3>請求書の受領と工事別原価の関係</h3>
+<p>請求書の受領を電子化している場合、その仕組みから材料費と外注費を取るか、原価側で別に入力するかを選びます。</p>
+<table>
+<thead>
+<tr>
+<th>方式</th>
+<th>利点</th>
+<th>気をつける点</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>受領の仕組みから取る</td>
+<td>二重入力がなくなります</td>
+<td>工事と工種への割り当てを誰がするかを決める必要があります</td>
+</tr>
+<tr>
+<td>原価側で別に入力する</td>
+<td>割り当てを入力時に行えます</td>
+<td>同じ請求書を2か所で扱うことになります</td>
+</tr>
+</tbody></table>
+<p>請求書には複数の工事がまとまっていることがあります。1枚を複数の工事に分ける操作を、どちらの仕組みで行うかが分かれ目です。請求書の受領の要件そのものは別の記事に譲ります。</p>
+<h3>施工管理ツールとの役割分担</h3>
+<p>施工管理のツールには、工程や写真、原価の機能が含まれていることがあります。機能が重なる場合は、どの数字を正とするかを1つに決めます。</p>
+<p>決め方は単純です。入力する人が多い側に入力を寄せ、集計する側は受け取るだけにします。現場が毎日触るツールに原価の入力を足すのか、事務が触る仕組みに集めるのかで、続くかどうかが変わります。</p>
+<p>両方で原価を持たせると、どちらが正しいかを確かめる作業が毎月発生します。重なっている機能は、使わないことを決めるのも要件です。導入後に表計算ソフトが残る原因については、別の記事で扱っています。</p>
+<h2>発注の前にまとめる要件の一覧</h2>
+<p>ここまでの決定事項を、粒度、入力元、頻度、法定要件、既存システムとの分担の5つに分けて1枚にまとめます。これを見積もりの前提として渡します。</p>
+<h3>要件として書き出す項目</h3>
+<p>まとめる内容は次のとおりです。</p>
+<ol>
+<li>実行予算の粒度 (工種別か原価科目別か、掛け合わせるか)</li>
+<li>実績の入力元 (労務費、材料費、外注費、経費のそれぞれについて、どの書類から、いつ)</li>
+<li>差異を見る頻度と、締めのルール (誰がいつまでに何を入れるか)</li>
+<li>未請求分の扱い (見込み計上か、確定のみか、併記か)</li>
+<li>通知の閾値と通知先、受けた人の対応</li>
+<li>建設業法と電子帳簿保存法に関する項目 (契約の版の履歴、見積期間の確認、電子データの保存と検索)</li>
+<li>既存システムとの分担 (どの数字をどちらで持つか、受け渡しの単位と頻度)</li>
+</ol>
+<p>この7項目が埋まっていれば、見積もりの精度は上がります。埋まらない項目があるときは、そこが見積もりの幅になると考えてください。</p>
+<p>所要時間の目安は、社内の打ち合わせ2回から3回です。1回目で粒度と入力元、2回目で頻度と締め、3回目で既存システムとの分担を決める配分が進めやすい形です。</p>
+<h3>実装者が見るつまずきやすい箇所</h3>
+<p>要件を受ける側から見て、後で問題になりやすいのは次の3点です。</p>
+<table>
+<thead>
+<tr>
+<th>箇所</th>
+<th>何が起きるか</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>締めた月のデータの訂正</td>
+<td>後から数字が動き、過去の報告と合わなくなります。締め後の訂正を認めるかを決めていないと、実装で判断できません</td>
+</tr>
+<tr>
+<td>見込みと確定の二重計上</td>
+<td>同じ費用が両方に残り、実績が膨らみます。確定時に見込みを打ち消す処理が必要です</td>
+</tr>
+<tr>
+<td>工事の途中での粒度の変更</td>
+<td>工期の途中で工種を分け直すと、過去の実績の割り当てが合わなくなります。変更を許すかどうかを決めてください</td>
+</tr>
+</tbody></table>
+<p>いずれも、仕様を決めていないと実装の側で勝手に決めることになり、後から食い違いが出ます。</p>
+<h3>見積もりを受け取ったあとの確認</h3>
+<p>見積もりが届いたら、上の7項目のどれに当たる作業なのかが分かる形になっているかを確かめます。</p>
+<ul>
+<li>項目名が機能名だけになっていないか (「原価管理機能」では範囲が分かりません)</li>
+<li>既存システムとの受け渡しが、別の費用として立っているか</li>
+<li>締めや訂正の扱いが、仕様として書かれているか</li>
+</ul>
+<p>分からない行があれば、どの決定事項に対応するのかを質問してください。質問に答えられない見積もりは、範囲が決まっていない見積もりです。</p>
+<h2>当社が支援できる範囲</h2>
+<p>当社は、実行予算の粒度と入力元の整理から要件の書き起こしまでを支援します。既存の仕組みとの切り分けも含めて設計します。</p>
+<h3>要件整理の進め方</h3>
+<p>はじめに、過去の工事2件から3件の資料をお借りします。見積書、実行予算の表、実績の集計、日報の控えがあれば十分です。</p>
+<p>そのうえで次の順に進めます。</p>
+<ol>
+<li>既存の見積の粒度を確かめ、実行予算の単位を決めます (半日から1日)</li>
+<li>実績の入力元を費目ごとに決めます (1回2時間程度の打ち合わせ)</li>
+<li>差異を見る頻度と締めのルールを決めます (同じく2時間程度)</li>
+<li>既存システムとの分担と受け渡しを決めます</li>
+<li>以上を要件の一覧にまとめ、見積もりの前提とします</li>
+</ol>
+<p>つまずきやすいのは2です。材料費を納品書から取るか請求書から取るかで、現場の作業が変わります。現場の担当者を打ち合わせに入れていただくと、決めたあとに戻る手戻りが減ります。</p>
+<h3>公開後の運用で受け持てる範囲</h3>
+<p>稼働した後に当社が受け持てるのは次の作業です。</p>
+<table>
+<thead>
+<tr>
+<th>作業</th>
+<th>受け持ち方</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>マスタの更新</td>
+<td>原価科目や工種、単価の登録を依頼に応じて代行します</td>
+</tr>
+<tr>
+<td>締めの支援</td>
+<td>入力の漏れを一覧で出し、締め前に確認できる形で渡します</td>
+</tr>
+<tr>
+<td>改修</td>
+<td>粒度や通知の条件を変える場合の修正を行います</td>
+</tr>
+</tbody></table>
+<p>運用で何を社内に残すかは、要件整理の段階で分担表として決めます。担当者が兼任の場合は、その時間に収まる範囲に絞ります。</p>
+<h3>相談の入口</h3>
+<p>いまは表計算ソフトで管理しており、何から手をつけるか決まっていないという段階でもご相談いただけます。過去の工事の資料を見ながら、実行予算の粒度と入力元の候補を整理してお渡しします。</p>
+<p>発注の前に決める項目をまとめた資料もありますので、社内での検討にお使いください。</p>
+<h2>よくあるご質問</h2>
+<p>この記事に関して多い質問と回答をまとめます。</p>
+<h3>実行予算は工種別と原価科目別のどちらで持つべきですか</h3>
+<p>差異を見て何を直したいかで決まります。どの工種で予算を超えたかを見たいなら工種別、どの費目で超えたかを見たいなら原価科目別です。両方を掛け合わせると最も細かく見えますが、実績を両方に割り当てる入力が必要になります。まず原価科目別で始め、工種別は主要な工種に限る形も選べます。</p>
+<h3>日報の出面から労務費を出す場合、何を要件に書けばよいですか</h3>
+<p>出面を工事と工種のどこまで紐づけるか、単価を人別か職種別のどちらで登録するか、日報が未提出の日をどう扱うかの3点です。未提出の日がある状態で差異を見ると、実績が小さく見えて予算内と誤読します。未提出の一覧を出せるようにしておいてください。</p>
+<h3>まだ請求が来ていない材料費や外注費は、差異にどう反映しますか</h3>
+<p>発注または納品の時点で見込みとして計上する、請求が届いてから計上する、見込みと確定を分けて両方を表示するの3つから選びます。差異を早く見たいなら見込みの計上が必要です。その場合は、確定の入力時に見込みを打ち消す仕組みを要件に入れてください。入れないと同じ費用が二重に残ります。</p>
+<h3>既に施工管理ツールを使っている場合、原価管理は別に作るべきですか</h3>
+<p>機能が重なる場合は、どの数字を正とするかを1つに決めてから判断します。決め方は、入力する人が多い側に入力を寄せ、集計する側は受け取るだけにすることです。両方で原価を持つと、どちらが正しいかを確かめる作業が毎月発生します。使わない機能を決めることも要件の1つです。</p>
+<h3>見積や契約の書類を電子で扱うとき、法令上の要件はありますか</h3>
+<p>あります。建設業法第19条第3項は、契約の書面の交付に代えて電子の方法を用いる場合、契約の相手方の承諾を得ることと、国土交通省令で定める方法であることを条件としています。国土交通省は「電磁的措置による建設工事の請負契約の締結に係るガイドライン」を定めています。</p>
+<p>あわせて、電子でやり取りした取引情報の保存義務が電子帳簿保存法に定められています。検索機能が不要とされる売上高の基準は、2024年1月1日以後にやり取りする分について5000万円以下です (改正前は1000万円以下)。</p>
+<p>出典: e-Gov法令検索「建設業法」、国土交通省「電磁的措置による建設工事の請負契約の締結に係るガイドライン」、国税庁「電子帳簿保存法の内容が改正されました」(令和5年4月)</p>
+<h2>関連リンク</h2>
+<ul>
+<li><a href="/guidebook">発注前に決めることをまとめたガイドブック</a></li>
+<li><a href="/diagnostic">いまの管理のまま何ができるかの無料診断</a></li>
+<li><a href="/column">建設業の業務システムに関する解説記事一覧</a></li>
+<li><a href="/pricing">システム開発の料金プラン</a></li>
+</ul>
+</div></div><div style="margin-top: 32px; padding: 16px 20px; background: var(--bg-2); border-radius: 10px; font-size: 13px; color: var(--text-3); line-height: 1.8;"><div>監修: 株式会社ノーティックラボ 代表（AIエンジニア）</div><div>本記事はAIを活用して制作しています</div></div><aside class="nq-slot" data-slot="slot-end" aria-label="次に読むページ"><div class="nq-suggest" data-block="sg-guidebook" data-variant="default"><p class="nq-suggest__eyebrow">この記事を読んだ方へ</p><h3 class="nq-suggest__title"><a href="/guidebook">サービス紹介資料を無料でダウンロード。</a></h3><p class="nq-suggest__body">制作の進め方・実績・料金プラン・制作の流れを、全11ページのPDFにまとめています。費用はかかりません。</p><span class="nq-suggest__cta" aria-hidden="true">資料を見る →</span></div></aside></div><section class="section-pad" style="background: var(--bg-2);"><div class="container" style="max-width: 880px;"><h3 class="display-s" style="margin-bottom: 24px;">関連記事</h3><div class="grid-3"><a class="article-card fadein is-in" href="/article-website-vulnerability-report-statistics" style="cursor: pointer;"><div class="article-cover tone-red" role="img" aria-label="ホームページの脆弱性届出は累計13,599件｜IPA統計" style="aspect-ratio: 16 / 10;"><span class="article-cover-cat">Web制作</span><span class="article-cover-title">ホームページの脆弱性届出は累計13,599件</span><span class="article-cover-brand">NORTIQ LABS · COLUMN</span></div><div class="article-meta"><span style="color: var(--accent);">Web制作</span><span class="article-meta-sep">·</span><span>2026.10.12</span></div><h3 class="article-title">ホームページの脆弱性届出は累計13,599件｜IPA統計</h3></a><a class="article-card fadein is-in" href="/article-sme-no-it-staff-ratio-statistics" style="cursor: pointer;"><div class="article-cover tone-ink" role="img" aria-label="中小企業のシステム担当者不在は27.5%｜規模別の統計" style="aspect-ratio: 16 / 10;"><span class="article-cover-cat">技術</span><span class="article-cover-title">中小企業のシステム担当者不在は27.5%</span><span class="article-cover-brand">NORTIQ LABS · COLUMN</span></div><div class="article-meta"><span style="color: var(--accent);">技術</span><span class="article-meta-sep">·</span><span>2026.10.12</span></div><h3 class="article-title">中小企業のシステム担当者不在は27.5%｜規模別の統計</h3></a><a class="article-card fadein is-in" href="/article-jizokuka-subsidy-website-cost-limit" style="cursor: pointer;"><div class="article-cover tone-red" role="img" aria-label="小規模事業者持続化補助金 ウェブサイト関連費の上限は30万円" style="aspect-ratio: 16 / 10;"><span class="article-cover-cat">Web制作</span><span class="article-cover-title">小規模事業者持続化補助金 ウェブサイト関連費の上限は30万円</span><span class="article-cover-brand">NORTIQ LABS · COLUMN</span></div><div class="article-meta"><span style="color: var(--accent);">Web制作</span><span class="article-meta-sep">·</span><span>2026.10.12</span></div><h3 class="article-title">小規模事業者持続化補助金 ウェブサイト関連費の上限は30万円</h3></a></div></div></section></article><section class="t_inq_wrap fadein is-in"><div class="container"><h2>こうした観点をベースに、<br>貴社の DX を一緒に考えませんか。</h2><div class="t_inq_btns"><button class="btn btn-primary" type="button"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><path d="M22 6l-10 7L2 6"></path></svg>資料請求はこちら</button><a class="btn btn-primary" href="/diagnostic"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><path d="M21 21l-4.35-4.35"></path></svg>ホームページ無料診断</a></div><p class="t_inq_time">営業日 24時間以内に担当者よりご返信します。</p></div></section></main></div><footer class="footer"><div class="container"><div class="footer-grid"><div class="footer-brand"><div class="nav-logo" style="margin-bottom: 16px;"><span class="nav-logo-mark"></span><span class="wordmark"><span class="wordmark-main">NORTIQ</span><span class="wordmark-sub">LABS</span></span></div><p class="body" style="font-size: 13px; max-width: 320px; margin-bottom: 24px;">日本のDX、世界水準で巻き返す。<br>Web制作からAI・DX実装までの技術チーム。</p><button class="btn btn-primary btn-sm" type="button"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><path d="M22 6l-10 7L2 6"></path></svg>資料請求はこちら</button></div><div class="footer-col"><h4>制作実績</h4><ul><li><a href="/works">全実績一覧</a></li><li><a href="/works-clinic">クリニック・医療</a></li><li><a href="/works-realty">不動産</a></li><li><a href="/works-build">建築・工務店</a></li><li><a href="/works-hr">人材</a></li><li><a href="/works-retail">小売 / EC</a></li><li><a href="/works-infra">インフラ・製造</a></li><li><a href="/works-ai">AIスタートアップ</a></li><li><a href="/works-lp-corp">コーポレートLP</a></li><li><a href="/works-lp-recruit">採用LP</a></li><li><a href="/works-lp-ec">EC連動LP</a></li><li><a href="/works-video">動画制作事例</a></li></ul></div><div class="footer-col"><h4>機能・サービス</h4><ul><li><a href="/web">Web制作 機能一覧</a></li><li><a href="/chatbot">AIチャットボット 機能一覧</a></li><li><a href="/dx">DX・ML 機能一覧</a></li><li><a href="/feature-lpo">LP制作 / LPO</a></li><li><a href="/feature-recruit">採用専門サイト</a></li><li><a href="/feature-analytics">アクセス解析</a></li></ul><h4 style="margin-top: 24px;">自社プロダクト</h4><ul><li><a href="/product-vetonet">VetoNet</a></li><li><a href="/product-wpchat">ブログボット（AI投稿アシスタント）</a></li><li><a href="/product-tennis">Tennis フォームチェック</a></li></ul></div><div class="footer-col"><h4>サポート・コンサル</h4><ul><li><a href="/support">運用サポート</a></li><li><a href="/voice">ご利用会社様の声</a></li><li><a href="/diagnostic">サイト無料診断 (URL入力)</a></li><li><a href="/column">技術ブログ / コラム</a></li><li><a href="/news">お知らせ</a></li><li><a href="/subsidy">補助金活用相談</a></li><li><a href="/guidebook">サービス紹介資料</a></li></ul><h4 style="margin-top: 24px;">業種別ソリューション</h4><ul><li><a href="/solution-clinic">クリニック・医療</a></li><li><a href="/solution-realty">不動産</a></li><li><a href="/solution-build">建築・工務店</a></li><li><a href="/solution-hr">人材</a></li><li><a href="/solution-retail">小売 / EC</a></li><li><a href="/service/kanri-dantai">監理団体・登録支援機関</a></li><li><a href="/service/recruit-site">建設・運送・介護 採用サイト</a></li></ul><h4 style="margin-top: 24px;">会社</h4><ul><li><a href="/company">会社概要</a></li><li><a href="/staff">チーム / スタッフ</a></li><li><a href="/recruit">採用情報</a></li><li><a href="/pricing">料金プラン</a></li><li><a href="/sitemap">サイトマップ</a></li></ul></div></div><div class="footer-bottom"><span>© 2026 Nortiq Labs Inc. All rights reserved.</span><div class="row" style="gap: 24px;"><a href="/privacy" style="color: var(--text-3);">プライバシーポリシー</a><a href="/terms" style="color: var(--text-3);">利用規約</a><a href="/privacy-handling" style="color: var(--text-3);">個人情報の取扱い</a></div></div></div></footer><div class="modal-backdrop"><div class="modal" role="dialog" aria-modal="true"><button class="modal-close" aria-label="閉じる"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M6 18L18 6"></path></svg></button><div style="margin-bottom: 24px;"><div class="eyebrow eyebrow-accent" style="margin-bottom: 12px;">CONTACT</div><h3 class="display-s" style="margin-bottom: 8px;">資料請求・お問い合わせ</h3><p class="small">初回相談は無料です。営業日24時間以内にご返信します。</p></div><form novalidate=""><div class="field"><label>貴社名<span class="req">必須</span></label><input type="text" placeholder="株式会社○○" value=""></div><div class="field"><label>ご担当者名<span class="req">必須</span></label><input type="text" placeholder="山田 太郎" value=""></div><div class="field"><label>メールアドレス<span class="req">必須</span></label><input type="email" placeholder="you@example.com" value=""></div><div class="field"><label>電話番号<span class="req">必須</span></label><input type="tel" placeholder="03-XXXX-XXXX" value=""></div><div class="field"><label>カテゴリー<span class="req">必須</span></label><div class="cb-group"><label class=""><input type="checkbox">Web制作</label><label class=""><input type="checkbox">AIチャットボット</label><label class=""><input type="checkbox">DX・ML</label><label class=""><input type="checkbox">業務自動化</label><label class=""><input type="checkbox">LP制作</label><label class=""><input type="checkbox">採用サイト</label></div></div><div class="field"><label>お問い合わせ内容<span class="req">必須</span></label><div class="cb-group"><label class=""><input type="checkbox">新規HP制作</label><label class=""><input type="checkbox">HPリニューアル</label><label class=""><input type="checkbox">AIチャットボット導入</label><label class=""><input type="checkbox">DX・ML 実装</label><label class=""><input type="checkbox">業務自動化</label><label class=""><input type="checkbox">リスティング広告</label><label class=""><input type="checkbox">コンサルティング</label></div></div><div class="field"><label>ご相談内容<span class="any">任意</span></label><div class="cb-group"><label class=""><input type="checkbox">HPが無い</label><label class=""><input type="checkbox">問い合わせを増やしたい</label><label class=""><input type="checkbox">サービス資料がほしい</label><label class=""><input type="checkbox">無料診断</label><label class=""><input type="checkbox">デザインを改善したい</label><label class=""><input type="checkbox">SEOを上げたい</label><label class=""><input type="checkbox">AI活用したい</label><label class=""><input type="checkbox">業務効率化したい</label><label class=""><input type="checkbox">補助金活用を相談したい</label></div></div><div class="field"><label>本サイトを知ったきっかけ<span class="any">任意</span></label><select><option value="">選択してください</option><option value="Google検索">Google検索</option><option value="Yahoo検索">Yahoo検索</option><option value="AIチャット (ChatGPT/Claude/Gemini等)">AIチャット (ChatGPT/Claude/Gemini等)</option><option value="ご紹介">ご紹介</option><option value="メール">メール</option><option value="DMチラシ">DMチラシ</option><option value="SNS (X/LinkedIn)">SNS (X/LinkedIn)</option><option value="以前から知っていた">以前から知っていた</option><option value="その他">その他</option></select></div><div class="field"><label>サイトURL<span class="any">任意</span></label><input type="text" placeholder="https://" value=""></div><div class="field"><label>その他ご質問<span class="any">任意</span></label><textarea placeholder="ご質問・ご相談がございましたらお気軽にご記入ください。"></textarea></div><div class="field field-check"><input type="checkbox" id="agree" style="margin-top: 2px;"><label for="agree" style="cursor: pointer;"><a href="/privacy-handling" target="_blank" rel="noopener noreferrer" style="color: var(--accent); text-decoration: underline;">個人情報の取り扱い</a>に同意します<span class="req">必須</span></label></div><div style="margin-top: 8px; text-align: center;"><button class="btn btn-primary btn-lg" type="submit">同意して送信する<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></button></div></form></div></div><nav class="sp-bottom-nav" aria-label="モバイル下部ナビ"><ul><li><a href="/"><span class="icn"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-8 9 8M5 10v10h14V10"></path></svg></span><span>トップ</span></a></li><li><a href="/works"><span class="icn"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect></svg></span><span>制作実績</span></a></li><li><a href="/pricing"><span class="icn"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4l8 11 8-11M7 13h10M7 17h10"></path></svg></span><span>料金</span></a></li><li><button type="button"><span class="icn"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><path d="M22 6l-10 7L2 6"></path></svg></span><span>資料請求</span></button></li><li><a href="/sitemap"><span class="icn"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M4 12h16M4 17h16"></path></svg></span><span>メニュー</span></a></li></ul></nav><div class="sticky-cta" role="region" aria-label="ご相談の案内"><span class="pulse"></span><span>初回相談無料 · 営業日24h以内にご返信</span><button>資料請求 →</button><button class="sticky-cta-close" aria-label="閉じる"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M6 18L18 6"></path></svg></button></div></div>
+  <script src="/articles.js?v=24a1c665db" defer=""></script>
+  <script src="/app.bundle.js?v=24a1c665db" defer=""></script>
+
+
+</body></html>
