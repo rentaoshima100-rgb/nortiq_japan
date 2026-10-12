@@ -61,6 +61,7 @@ const ORG_SAME_AS = [
 // desc → meta description / og:description / BlogPosting.description に使う。
 //        未指定の記事は app.jsx の SEO_DESC か自動生成の定型文にフォールバックする
 const BLOG = [
+  { slug: 'sme-no-it-staff-ratio-statistics', category: '技術', date: '2026.10.12', read: '9 min', title: '中小企業のシステム担当者不在は27.5%｜規模別の統計', img: 'assets/blog-default.png', desc: '社内にシステム担当者がいない中小企業は全体で27.5%、従業員10人から29人では48.2%です。kubellとノークリサーチ、東京商工会議所の調査から、規模別の不在率と専任・兼任の推移を出典つきで整理します。', supervised: true },
   { slug: 'jizokuka-subsidy-website-cost-limit', category: 'Web制作', date: '2026.10.12', read: '9 min', title: '小規模事業者持続化補助金 ウェブサイト関連費の上限は30万円', img: 'assets/blog-default.png', desc: '小規模事業者持続化補助金のウェブサイト関連費は、第20回公募の公募要領で補助金交付申請額の上限が30万円 (税込) と定められています。ホームページ制作費の対象と対象外、単独申請の禁止、見積もりの要件を整理します。', supervised: true },
   { slug: 'order-digitalization-rate-statistics', category: '技術', date: '2026.10.11', read: '10 min', title: '受発注の電子化率｜中小企業の公的データ', img: 'assets/blog-default.png', desc: '中小企業の受発注の電子化がどこまで進んでいるかを、中小企業庁と国税庁の公的資料の数字で整理します。IT利用の割合と導入率の違い、出典と年次の添え方、自社の取引先の対応状況を件数で数える手順まで示します。', supervised: true },
   { slug: 'fax-order-form-ai-ocr-outsourcing', category: 'AI活用', date: '2026.10.11', read: '9 min', title: 'FAX注文書のAI読み取り外注｜精度の確認手順', img: 'assets/blog-default.png', desc: '紙やFAXで届く注文書をAIで読み取る仕組みの外注について、自社の注文書30枚で精度を測る手順、項目単位での測り方、人が確認する工程の置き場所、要件書に書く項目を、国税庁と中小企業庁の資料をもとに整理します。', supervised: true },
