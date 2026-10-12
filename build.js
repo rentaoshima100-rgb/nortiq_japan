@@ -61,6 +61,7 @@ const ORG_SAME_AS = [
 // desc → meta description / og:description / BlogPosting.description に使う。
 //        未指定の記事は app.jsx の SEO_DESC か自動生成の定型文にフォールバックする
 const BLOG = [
+  { slug: 'renewal-deleted-pages-404-410', category: 'Web制作', date: '2026.10.12', read: '10 min', title: 'サイトリニューアルで削除するページ｜404と410の指示', img: 'assets/blog-default.png', desc: 'サイトリニューアルで無くすページは、内容を引き継ぐ新ページがあればリダイレクト、なければ404または410で削除します。制作会社へ渡す指示書の列と、公開後に確かめる順序まで解説します。', supervised: true },
   { slug: 'construction-cost-management-requirements', category: '技術', date: '2026.10.12', read: '9 min', title: '建設業の原価管理システム｜実行予算の外注要件7項目', img: 'assets/blog-default.png', desc: '建設業の原価管理システムを外注する前に決めることを、実行予算の粒度、実績の入力元、差異を見る頻度、法定要件、既存システムとの分担の順に整理します。建設業法と施行令の定めも要件に落とし込みます。', supervised: true },
   { slug: 'website-vulnerability-report-statistics', category: 'Web制作', date: '2026.10.12', read: '9 min', title: 'ホームページの脆弱性届出は累計13,599件｜IPA統計', img: 'assets/blog-default.png', desc: 'ホームページの脆弱性は、IPAの窓口に累計13,599件が届出されています。届出全体20,315件の約7割です。直近四半期の65件、修正完了の累計8,956件まで、公表値と出典を添えて整理します。', supervised: true },
   { slug: 'sme-no-it-staff-ratio-statistics', category: '技術', date: '2026.10.12', read: '9 min', title: '中小企業のシステム担当者不在は27.5%｜規模別の統計', img: 'assets/blog-default.png', desc: '社内にシステム担当者がいない中小企業は全体で27.5%、従業員10人から29人では48.2%です。kubellとノークリサーチ、東京商工会議所の調査から、規模別の不在率と専任・兼任の推移を出典つきで整理します。', supervised: true },
