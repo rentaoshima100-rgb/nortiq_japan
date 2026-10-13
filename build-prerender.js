@@ -33,6 +33,7 @@ const ARTICLE_ROUTES = (() => {
 })();
 
 const ROUTES_ALLOWLIST = [
+  '/article-ai-ocr-order-form-accuracy-requirements',
   '/article-renewal-deleted-pages-404-410',
   '/article-construction-cost-management-requirements',
   '/article-website-vulnerability-report-statistics',
