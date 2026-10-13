@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="ja" style="--accent: hsl(354, 92%, 45%); --accent-hi: hsl(354, 95%, 52%); --accent-soft: hsl(354, 90%, 95%);"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Google tag (gtag.js) — GA4 + Google Ads conversion tracking -->
+  <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-EYTD1TWR7T"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-EYTD1TWR7T');
+    window.NORTIQ_CONV = { contact: null, diagnostic: null };
+  </script>
+  <title>AI-OCR注文書の読み取り要件｜200dpi等の法令基準 — Nortiq Labs</title>
+  <meta name="description" content="紙とFAXの注文書をAIで読み取る仕組みの外注要件を整理します。国税庁の一問一答にもとづく解像度200dpi相当以上などの法令の水準と、項目ごとの正答率の合格ラインの決め方、人の確認を残す工程を解説します。">
+  <link rel="icon" href="/assets/nortiq-fav.png" type="image/png">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Nortiq Labs">
+  <!-- 記事ルートでは app.jsx が og:type を article に変え、下の2つに日付を入れる。
+       setMetaContent は既存要素しか書き換えないため、空のまま置いておく必要がある -->
+  <meta property="article:published_time" content="2026-10-13">
+  <meta property="article:modified_time" content="2026-10-13">
+  <meta property="og:title" content="AI-OCR注文書の読み取り要件｜200dpi等の法令基準 — Nortiq Labs">
+  <meta property="og:description" content="紙とFAXの注文書をAIで読み取る仕組みの外注要件を整理します。国税庁の一問一答にもとづく解像度200dpi相当以上などの法令の水準と、項目ごとの正答率の合格ラインの決め方、人の確認を残す工程を解説します。">
+  <meta property="og:url" content="https://nortiqlab.com/article-ai-ocr-order-form-accuracy-requirements">
+  <meta property="og:image" content="https://nortiqlab.com/assets/blog-default.png">
+  <meta property="og:locale" content="ja_JP">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="AI-OCR注文書の読み取り要件｜200dpi等の法令基準 — Nortiq Labs">
+  <meta name="twitter:description" content="紙とFAXの注文書をAIで読み取る仕組みの外注要件を整理します。国税庁の一問一答にもとづく解像度200dpi相当以上などの法令の水準と、項目ごとの正答率の合格ラインの決め方、人の確認を残す工程を解説します。">
+  <meta name="twitter:image" content="https://nortiqlab.com/assets/blog-default.png">
+  <link rel="stylesheet" href="/styles.css?v=4546817f28">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://nortiqlab.com/#org","name":"Nortiq Labs","url":"https://nortiqlab.com/","logo":"https://nortiqlab.com/assets/nortiq-mark.png","image":"https://nortiqlab.com/assets/og-image.png","description":"京都のWeb制作×AI実装カンパニー。オリジナルデザインのホームページ制作からAIチャットボット導入、DXコンサルティングまで一気通貫で支援。初回相談無料・営業日24時間以内に返信します。","slogan":"日本のDX、世界水準で巻き返す。","foundingDate":"2025","numberOfEmployees":5,"address":{"@type":"PostalAddress","addressCountry":"JP","postalCode":"604-0012","addressRegion":"京都府","addressLocality":"京都市中京区","streetAddress":"竪大恩寺町751"},"areaServed":{"@type":"Country","name":"Japan"},"alternateName":["株式会社ノーティックラボ","ノーティックラボ"],"knowsAbout":["Web制作","AIチャットボット","DX","機械学習","SEO","LP制作 / LPO","業務自動化","データ分析"]},{"@type":"WebSite","@id":"https://nortiqlab.com/#website","name":"Nortiq Labs","url":"https://nortiqlab.com/","publisher":{"@id":"https://nortiqlab.com/#org"},"inLanguage":"ja"},{"@type":"ProfessionalService","name":"Nortiq Labs","url":"https://nortiqlab.com/","description":"京都のWeb制作×AI実装カンパニー。オリジナルデザインのホームページ制作からAIチャットボット導入、DXコンサルティングまで一気通貫で支援。初回相談無料・営業日24時間以内に返信します。","areaServed":"JP","serviceType":["Web制作","AIチャットボット導入","DX・ML実装","補助金活用のDX導入相談"],"provider":{"@id":"https://nortiqlab.com/#org"}}]}</script>
+  <!-- defer: この2本 (計約139KB) は head にあって描画をブロックしていた。
+       ページの初期表示はプリレンダ済みHTMLで完結するのでJSを待つ必要がない。
+       defer は文書順に実行されるため react → react-dom → articles.js →
+       app.bundle.js の順序は保たれる。 -->
+  <script src="/assets/vendor/react.production.min.js?v=4546817f28" defer=""></script>
+  <script src="/assets/vendor/react-dom.production.min.js?v=4546817f28" defer=""></script>
+<script src="/articles/ai-ocr-order-form-accuracy-requirements.js" defer="" data-article="ai-ocr-order-form-accuracy-requirements"></script><link rel="canonical" href="https://nortiqlab.com/article-ai-ocr-order-form-accuracy-requirements"><script type="application/ld+json" id="route-ld">[{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"トップ","item":"https://nortiqlab.com/"},{"@type":"ListItem","position":2,"name":"コラム","item":"https://nortiqlab.com/column"},{"@type":"ListItem","position":3,"name":"AI-OCR注文書の読み取り要件","item":"https://nortiqlab.com/article-ai-ocr-order-form-accuracy-requirements"}]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"AI-OCR注文書の読み取り要件｜200dpi等の法令基準","description":"紙とFAXの注文書をAIで読み取る仕組みの外注要件を整理します。国税庁の一問一答にもとづく解像度200dpi相当以上などの法令の水準と、項目ごとの正答率の合格ラインの決め方、人の確認を残す工程を解説します。","image":"https://nortiqlab.com/assets/blog-default.png","url":"https://nortiqlab.com/article-ai-ocr-order-form-accuracy-requirements","inLanguage":"ja","articleSection":"AI活用","datePublished":"2026-10-13","dateModified":"2026-10-13","author":{"@type":"Organization","@id":"https://nortiqlab.com/#org","name":"Nortiq Labs"},"publisher":{"@id":"https://nortiqlab.com/#org"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://nortiqlab.com/article-ai-ocr-order-form-accuracy-requirements","reviewedBy":{"@id":"https://nortiqlab.com/#org"}}}]</script></head>
+<body>
+  <div id="app"><header class="nav" role="banner"><div class="nav-inner"><a class="nav-logo" href="/" style="cursor: pointer;"><span class="nav-logo-mark"></span><span class="wordmark"><span class="wordmark-main">NORTIQ</span><span class="wordmark-sub">LABS</span></span></a><nav class="nav-links" aria-label="メインナビゲーション"><div class="nav-link-wrap"><a class="nav-link" href="/">トップ</a></div><div class="nav-link-wrap"><a class="nav-link">機能<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></a></div><div class="nav-link-wrap"><a class="nav-link">制作実績<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></a></div><div class="nav-link-wrap"><a class="nav-link">業種ソリューション<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></a></div><div class="nav-link-wrap"><a class="nav-link" href="/voice">ご利用会社様の声</a></div><div class="nav-link-wrap"><a class="nav-link" href="/support">サポート</a></div><div class="nav-link-wrap"><a class="nav-link" href="/pricing">料金プラン</a></div><div class="nav-link-wrap"><a class="nav-link" aria-current="page">コンテンツ<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></a></div><div class="nav-link-wrap"><a class="nav-link" href="/diagnostic">無料診断</a></div></nav><div class="nav-cta-wrap"><button class="btn btn-primary btn-sm" type="button"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><path d="M22 6l-10 7L2 6"></path></svg>メールでお問合せ</button><button class="hamburger" aria-label="メニューを開く" aria-expanded="false"><span></span><span></span><span></span></button></div></div><div class="nav-drawer"><div class="nav-drawer-panel"><div class="nav-drawer-head"><span class="nav-logo" style="font-size: 18px;"><span class="nav-logo-mark" aria-hidden="true"></span><span class="wordmark"><span class="wordmark-main">NORTIQ</span><span class="wordmark-sub">LABS</span></span></span><button class="drawer-close" aria-label="閉じる"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M6 18L18 6"></path></svg></button></div><nav class="nav-drawer-body"><a class="drawer-item" href="/"><span>トップ</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><div class="drawer-group"><button class="drawer-item drawer-group-head"><span>機能</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></button><div class="drawer-group-body"><div class="drawer-subgroup"><h5>サービス別 機能一覧</h5><a class="drawer-sub-item" href="/web"><span>Web制作 機能一覧</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/chatbot"><span>AIチャットボット 機能一覧</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/dx"><span>DX・ML 機能一覧</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></div><div class="drawer-subgroup"><h5>技術領域</h5><a class="drawer-sub-item" href="/feature-lpo"><span>LP制作 / LPO</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/feature-recruit"><span>採用専門サイト</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/feature-analytics"><span>アクセス解析カスタム実装</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/feature-cms"><span>CMS / 記事更新システム</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></div><div class="drawer-subgroup"><h5>自社プロダクト</h5><a class="drawer-sub-item" href="/product-vetonet"><span>VetoNet (AI Security)</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/product-wpchat"><span>ブログボット（AI投稿アシスタント）</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/product-tennis"><span>Tennis フォームチェック</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></div></div></div><div class="drawer-group"><button class="drawer-item drawer-group-head"><span>制作実績</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></button><div class="drawer-group-body"><div class="drawer-subgroup"><h5>業種から探す</h5><a class="drawer-sub-item" href="/works-clinic"><span>クリニック・医療</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/works-realty"><span>不動産</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/works-build"><span>建築・工務店</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/works-hr"><span>人材</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/works-retail"><span>小売 / EC</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/works-infra"><span>インフラ・製造</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/works-ai"><span>AIスタートアップ</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></div><div class="drawer-subgroup"><h5>強化LP別</h5><a class="drawer-sub-item" href="/works-lp-corp"><span>コーポレートサイト</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/works-lp-recruit"><span>採用LP</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/works-lp-ec"><span>EC連動LP</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></div><div class="drawer-subgroup"><h5>実績まとめ</h5><a class="drawer-sub-item" href="/works"><span>全実績一覧</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></div></div></div><div class="drawer-group"><button class="drawer-item drawer-group-head"><span>業種ソリューション</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></button><div class="drawer-group-body"><div class="drawer-subgroup"><h5>業種別パッケージ</h5><a class="drawer-sub-item" href="/solution-clinic"><span>クリニック・医療 DXパッケージ</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/solution-realty"><span>不動産 集客×管理パッケージ</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/solution-build"><span>建築 ブランド×案件管理</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/solution-hr"><span>人材 マッチング×集客</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/solution-retail"><span>小売・EC OMOパッケージ</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></div><div class="drawer-subgroup"><h5>業種特化LP (NEW)</h5><a class="drawer-sub-item" href="/service/kanri-dantai"><span>監理団体・登録支援機関向け</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/service/recruit-site"><span>建設・運送・介護の採用サイト</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></div></div></div><a class="drawer-item" href="/voice"><span>ご利用会社様の声</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-item" href="/support"><span>サポート</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-item" href="/pricing"><span>料金プラン</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><div class="drawer-group"><button class="drawer-item drawer-group-head"><span>コンテンツ</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></button><div class="drawer-group-body"><div class="drawer-subgroup"><h5>メディア</h5><a class="drawer-sub-item" href="/column"><span>コラム / 技術ブログ</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/news"><span>お知らせ</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/guidebook"><span>サービス紹介資料</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/subsidy"><span>補助金活用相談</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></div></div></div><a class="drawer-item" href="/diagnostic"><span>無料診断</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></nav><div class="nav-drawer-foot"><button class="btn btn-primary btn-lg" type="button" style="width: 100%;"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><path d="M22 6l-10 7L2 6"></path></svg>資料請求・お問い合わせ</button></div></div></div></header><div><main class="page-fade"><nav aria-label="Breadcrumb" style="padding: 14px 0px; border-bottom: 1px solid var(--border); background: var(--bg-2);"><div class="container"><ol class="row-tight" style="list-style: none; padding: 0px; margin: 0px; font-size: 12px; color: var(--text-3);"><li class="row-tight" style="gap: 8px;"><a href="/" style="cursor: pointer; color: var(--text-2);">トップ</a></li><li class="row-tight" style="gap: 8px;"><span style="color: var(--text-4);">›</span><a href="/column" style="cursor: pointer; color: var(--text-2);">コラム</a></li><li class="row-tight" style="gap: 8px;"><span style="color: var(--text-4);">›</span><span style="color: var(--text);">AI-OCR注文書の読み取り要件｜200dpi等の法令基準</span></li></ol></div></nav><article><header style="padding-top: clamp(48px, 7vw, 90px); padding-bottom: 32px;"><div class="container" style="max-width: 820px;"><div class="row" style="gap: 12px; margin-bottom: 24px; color: var(--text-3); font-size: 13px; flex-wrap: wrap;"><span class="tag" style="color: var(--accent); border-color: var(--accent);">AI活用</span><span class="num">2026.10.13</span><span>·</span><span>10 min read</span><span>·</span><span>Nortiq Labs</span></div><h1 class="display-l fadein is-in" style="margin-bottom: 8px;">AI-OCR注文書の読み取り要件｜200dpi等の法令基準</h1></div></header><div class="container" style="max-width: 880px; margin-bottom: 8px;"><div class="article-cover tone-blue" role="img" aria-label="AI-OCR注文書の読み取り要件｜200dpi等の法令基準" style="aspect-ratio: 21 / 9;"><span class="article-cover-cat">AI活用</span><span class="article-cover-title">AI-OCR注文書の読み取り要件</span><span class="article-cover-brand">NORTIQ LABS · COLUMN</span></div></div><div class="container" style="max-width: 780px; margin-top: 24px; margin-bottom: 64px;"><div><div class="article-prose article-body"><h2>AI-OCRの外注で、要件書に最初に書くことは？</h2>
+<p>読み取りの水準は2種類に分けて書きます。法令で決まっている保存のための水準と、自社で決める項目単位の正答率です。この2つを混ぜて1つの精度として発注すると、検収の段になって何を合格とするかで揉めます。</p>
+<p>注文書の読み取りを外注する前提として、取引の入口が紙とFAXのまま残っている状況があります。中小企業庁「中小企業のデジタル化に向けて」(令和2年7月) は、企業間取引の電子化が進まず、7割程度の中小企業が電話・FAX・電子メールでの受発注取引を継続しているとし、EDIの導入率は2割程度としています。取引先が紙のままである限り、読み取りの工程は自社に残ります。</p>
+<h3>法令で決まっている水準と、自社で決める水準の違い</h3>
+<p>受け取った注文書を国税関係書類としてスキャナ保存する場合、画像の仕様には決まった下限があります。国税庁「電子帳簿保存法 スキャナ保存」のパンフレットは、要件として解像度200dpi相当以上 (A4サイズで約387万画素相当) による読み取りができることを挙げ、階調は赤・緑・青それぞれ256階調 (24ビット) での読み取りを原則としています。</p>
+<p>一方で、品番や数量を何パーセント正しく読めれば合格かという水準は、法令にはありません。自社の注文書を使って自社で測り、自社で決めることになります。2つの水準の性質は次のように分かれます。</p>
+<table>
+<thead>
+<tr>
+<th>水準</th>
+<th>決める主体</th>
+<th>外注の扱い</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>画像の仕様 (解像度、階調、画素数)</td>
+<td>法令で下限が決まっている</td>
+<td>満たすことを前提条件として明記する</td>
+</tr>
+<tr>
+<td>項目単位の正答率 (品番、数量、納期等)</td>
+<td>御社が決める</td>
+<td>測り方と合格ラインを要件書に書く</td>
+</tr>
+</tbody></table>
+<h3>要件書に書く2つの水準の関係</h3>
+<p>書く順序は、画像の仕様が先、正答率が後です。画像の仕様は交渉の対象ではなく満たすべき前提であり、ここを外すと読み取りの精度が良くても保存の要件を満たしません。</p>
+<p>実装の面では、精度を上げたい一心で画像を圧縮したり白黒2値に落とす設定にしてしまう例が、つまずきやすい箇所です。文字の輪郭がはっきりして読み取りの数値は上がる場合がありますが、階調の要件から外れます。読み取り用の画像と保存用の画像を分けて持つ設計にするか、保存要件を満たす設定のまま精度を測るかを、発注時に決めておきます。</p>
+<p>画像の仕様の詳細は次のセクションで、正答率の決め方はその後のセクションで扱います。</p>
+<h2>保存のための読み取り水準は、どこまで法令で決まっている？</h2>
+<p>注文書を国税関係書類としてスキャナ保存する場合、解像度200dpi相当以上、赤・緑・青それぞれ256階調以上、4ポイントの文字を認識できることが要件です。いずれも電子帳簿保存法施行規則第2条第6項に根拠があり、交渉で下げられる水準ではありません。</p>
+<h3>解像度と階調の下限</h3>
+<p>国税庁「電子帳簿保存法一問一答【スキャナ保存関係】」(令和4年6月) は、同規則第2条第6項第2号イにもとづき、スキャニング時の解像度を25.4ミリメートル当たり200ドット以上とし、赤色・緑色・青色の階調をそれぞれ256階調以上で読み取ることを挙げています。同規則第2条第7項に規定する一般書類については、白色から黒色までの階調が256階調以上、いわゆるグレースケールでも可とされています。</p>
+<p>注文書がこの一般書類に当たるかどうかは書類の性質で変わるため、迷う場合は256階調のまま運用する方が安全です。</p>
+<h3>スマートフォンで撮る場合の画素数</h3>
+<p>複合機を使わず、現場でスマートフォンで撮る運用にする場合は、解像度ではなく画素数で判断します。同一問一答の問26は、A4サイズについて次のように計算しています。</p>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>計算</th>
+<th>必要な値</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>縦</td>
+<td>11.69インチ×200ドット</td>
+<td>2,338画素</td>
+</tr>
+<tr>
+<td>横</td>
+<td>8.27インチ×200ドット</td>
+<td>1,654画素</td>
+</tr>
+<tr>
+<td>総画素数</td>
+<td>2,338画素×1,654画素</td>
+<td>約387万画素以上 (3,867,052画素)</td>
+</tr>
+</tbody></table>
+<p>A4より小さい書類を画面最大で保存する場合も、縦2,338画素と横1,654画素をそれぞれ満たす必要があるとされています。総画素数だけを満たしていても、縦横のいずれかが足りなければ要件から外れる点に注意してください。</p>
+<h3>4ポイントの文字を認識できることの意味</h3>
+<p>同規則第2条第6項第5号ニには「4ポイントの大きさの文字を認識することができること」と定められています。これはAIの読み取り精度の話ではなく、画像の上でその大きさの文字が判読できるかという意味です。</p>
+<p>この判定は厳しく運用されます。同一問一答の問41は、JIS X6933に準拠したテストチャートについて、JISの目視試験では各ポイントごとに34文字中18文字以上が認識できれば合格とされる一方、国税関係書類のスキャナ保存では4ポイントの文字およびISO図形言語が100パーセント認識できる設定で入力しなければならないと述べています。</p>
+<p>テストチャートが手元にない場合の扱いも示されています。問40によれば、読取解像度200dpi以上かつ赤・緑・青それぞれ256階調以上かつ非圧縮または可逆圧縮で入力していれば、4ポイントの大きさの文字が認識できるものとして取り扱われます。実務上は、この3条件を要件書にそのまま書くのが最も確実です。</p>
+<p>なお以上は令和4年6月版の記載であり、その後の改正で解像度・階調・書類の大きさに関する情報そのものを保存する要件は廃止されています。読み取り時に満たすべき水準と、保存すべき情報は別の論点です。発注時には最新版の一問一答で該当箇所を確認してください。</p>
+<h2>項目単位の正答率は、何パーセントを合格ラインにする？</h2>
+<p>公的な基準値はありません。合格ラインは項目ごとに分け、段階的に決めていく方式が公的なガイドラインの考え方です。正解率を何パーセントとするといった水準を定めた公的な基準は、調べた範囲では確認できませんでした。</p>
+<h3>品番、数量、納期で合格ラインを分ける理由</h3>
+<p>1つの正答率でまとめると、誤りの重さの違いが消えます。品番を1文字読み違えれば別の製品が出ていきますが、備考欄の読み落ちは出荷に影響しません。項目ごとに扱いを分けて要件書に書きます。</p>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>誤読の影響</th>
+<th>要件の書き方の例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>品番、数量</td>
+<td>誤出荷、欠品に直結する</td>
+<td>読み取り結果を確定前に必ず人が通す対象とする</td>
+</tr>
+<tr>
+<td>納期、希望日</td>
+<td>納期遅れの連絡が発生する</td>
+<td>合格ラインを定めたうえで差異の一覧を出させる</td>
+</tr>
+<tr>
+<td>備考、担当者名</td>
+<td>業務の進行に影響しにくい</td>
+<td>読み取れなければ空欄のまま確定できるようにする</td>
+</tr>
+</tbody></table>
+<h3>探索的段階型で決めるという考え方</h3>
+<p>経済産業省は「AI・データの利用に関する契約ガイドライン」を策定しており、そのAI編 (平成30年6月) は、契約の時点で成果の内容や性能が確定しにくいというAI技術の特性を踏まえ、アセスメント段階、PoC段階、開発段階、追加学習段階の4段階に分けて進める探索的段階型の開発方式と、各段階の契約方式や条項例を示しています。発注側から見ると、最初の契約で最終的な精度を約束させる形にしないことが前提に置かれています。</p>
+<p>これは精度を決めないという話ではありません。PoC段階で御社の注文書を使って実測し、その数値を見てから開発段階の合格ラインを確定する、という順序にするという意味です。同省は契約時に確認する事項を整理した「AIの利用・開発に関する契約チェックリスト」も公開しています。</p>
+<p>品質を何の軸で見るかは、AIプロダクト品質保証コンソーシアム (QA4AI、2018年4月1日設立) のガイドラインが参考になります。同ガイドラインは、品質保証を構築し評価する際の軸として Data Integrity (データの整合性)、Model Robustness (モデルの頑健性)、System Quality (システムの品質)、Process Agility (プロセスの機敏性)、Customer Expectation (顧客の期待) の5つを挙げています。最新版の2025.04版は2025年4月10日に公開されました。読み取りの数値だけでなく、学習データの整合性や運用時のシステムの品質まで含めて合格を判断する枠組みです。</p>
+<p>品質項目の一覧としては、産業技術総合研究所「機械学習品質マネジメントガイドライン」第4版 (2023年12月12日公開) も使えます。</p>
+<h3>評価用のデータを誰が用意するか</h3>
+<p>ここが要件書で抜けやすい箇所です。評価に使う注文書を御社が何件出すのか、取引先ごとの書式を何種類含めるのかを決めないまま発注すると、発注先が選んだ読みやすい見本で測った数値が出てきます。</p>
+<p>実装の面では、評価用のデータを発注先の学習にも使ってしまうと、評価の数値が実態より高く出ます。学習に使う分と評価に使う分を分けることを、要件書に1行入れておいてください。</p>
+<h2>人の確認は、どの工程に残す？</h2>
+<p>誤読が出荷や請求に出る前の1箇所に集約します。読み取った内容を確定する画面で、金額と数量と品番だけを目視で通す形が現実的です。確認の工程を複数に散らすと、どこで見たのかが曖昧になり、結局どこも見なくなります。</p>
+<h3>全件確認と抜き取り確認の境目</h3>
+<p>境目は、誤読がそのまま外に出るかどうかです。後工程に人の判断が必ず入る項目は抜き取りでかまいませんが、読み取った値がそのまま伝票や出荷指示になる項目は全件通します。</p>
+<ol>
+<li>読み取り結果が自動で後工程に流れる項目を洗い出す (所要時間の目安: 半日)</li>
+<li>そのうち、御社の外に出る項目 (品番、数量、金額、納期) を全件確認の対象にする</li>
+<li>残りの項目は、読み取りの確信度が低いものだけ画面上で色を変えて示す</li>
+<li>1週間ごとに、人が直した件数と項目を集計する (つまずきやすい点: 集計の仕組みを後から足すのは手間がかかるため、最初から要件に入れます)</li>
+</ol>
+<p>確信度での振り分けを使う場合は、しきい値を発注先に任せないでください。しきい値を上げれば人の確認が増え、下げれば誤りが通ります。どちらに寄せるかは業務の判断であり、御社が決める事項です。</p>
+<h3>検索の要件が人の入力を前提にしている箇所</h3>
+<p>見落としやすいのが、保存した注文書を後から探せるようにする要件です。国税庁「電子帳簿保存法一問一答【スキャナ保存関係】」(令和4年6月) の問43は、検索機能の要件として次の3点を挙げています。</p>
+<ol>
+<li>取引年月日その他の日付、取引金額、取引先を検索の条件として設定できること</li>
+<li>日付または金額は、範囲を指定して条件を設定できること</li>
+<li>2以上の任意の記録項目を組み合わせて条件を設定できること</li>
+</ol>
+<p>そのうえで同問は、スキャナで読み取った画像データをテキスト化して保存する機能が備わっていない場合であっても、取引年月日その他の日付、取引金額、取引先を手入力するなどして検索の条件として設定できるようにする必要があるとしています。つまり、読み取りが効かない書式が混ざっていても、この3項目は人が入れてでも埋めることが前提になっています。</p>
+<p>要件書では、この3項目を「読み取りに失敗しても空欄で確定させない項目」として明示しておきます。読み取れなかったときに人の入力画面へ回す動線がないと、後から探せない注文書が溜まります。</p>
+<p>なお同問は、税務職員による質問検査権に基づくデータのダウンロードの求めに応じられるようにしている場合は、範囲指定と項目の組み合わせの機能の確保は不要としています。機能を作るか運用で代えるかの判断材料になるため、発注前に経理の担当者と確認しておいてください。</p>
+</div><aside class="nq-slot" data-slot="slot-mid" aria-label="おすすめのページ"><div class="nq-suggest" data-block="sg-chatbot" data-variant="default"><p class="nq-suggest__eyebrow">ブログ更新が止まりがちな方へ</p><h3 class="nq-suggest__title"><a href="/chatbot">質問するだけで記事が書ける、AI投稿ツール。</a></h3><p class="nq-suggest__body">AIチャットボットに質問しながら骨子を作り、本文展開、WordPress投稿までを自動化。初期費用10万円〜（税別）。</p><span class="nq-suggest__cta" aria-hidden="true">機能と料金を見る →</span></div></aside><div class="article-prose article-body"><h2>要件書に書く項目を、どの順で決める？</h2>
+<p>読み取り対象の書式を数え、項目を決め、合格ラインと確認工程を決め、最後に保存の要件を当てる順で進めます。逆から進めると、保存の要件を満たす設定で精度を測り直すことになり、やり直しが発生します。</p>
+<h3>取引先ごとの書式を数える</h3>
+<p>最初の作業は、書式を数えることです。同じ「注文書」でも、取引先ごとに項目の位置と名称が違えば、読み取りの仕組みから見れば別の書式です。</p>
+<ol>
+<li>直近3か月に届いた注文書を全部集め、取引先ごとに1枚ずつ見本を取る (所要時間の目安: 1日)</li>
+<li>項目の位置が同じものをまとめ、書式が何種類あるかを数える (つまずきやすい点: 同じ取引先でも、支店ごとや担当者ごとに様式が違う場合があります)</li>
+<li>書式ごとに、月あたりの枚数を書き添える</li>
+<li>枚数の多い順に並べ、上位の何種類までを対象にするかを決める</li>
+</ol>
+<p>全書式を対象にする必要はありません。枚数の少ない書式は人の入力のまま残し、対象を絞った方が合格ラインの確認も楽になります。要件書には、対象とする書式の種類数と、対象外の書式をどう扱うかを書きます。</p>
+<h3>つまずきやすい箇所と所要時間の目安</h3>
+<p>発注前の準備で詰まりやすいのは、次の4点です。</p>
+<table>
+<thead>
+<tr>
+<th>決めること</th>
+<th>詰まりやすい理由</th>
+<th>目安</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>読み取り対象の書式</td>
+<td>現場に届く書式の全体像を誰も把握していない</td>
+<td>1日から3日</td>
+</tr>
+<tr>
+<td>抽出する項目</td>
+<td>基幹システム側の必須項目と一致していない</td>
+<td>半日</td>
+</tr>
+<tr>
+<td>合格ラインと評価データ</td>
+<td>誰が何件用意するかが決まらない</td>
+<td>半日</td>
+</tr>
+<tr>
+<td>読み取れない場合の動線</td>
+<td>例外の処理を決めずに発注してしまう</td>
+<td>半日</td>
+</tr>
+</tbody></table>
+<p>このうち最も時間を取られるのは1番目です。注文書が営業部とFAX受付と現場に分かれて届いている場合、集めるだけで数日かかります。</p>
+<p>実装の面で注意したいのは、基幹システム側の必須項目との突き合わせです。読み取りで埋まる項目と、基幹システムが登録時に必須としている項目が一致していないと、読み取りが成功しても登録でエラーになります。要件書を書く前に、基幹システムの登録画面の必須項目を一覧にしておいてください。</p>
+<p>項目を決めたあとの合格ラインの考え方は前のセクション、発注先への確認事項は次のセクションで扱います。</p>
+<h2>発注先に確認しておく質問は？</h2>
+<p>精度の測り方、再学習の費用、書式が増えたときの扱い、読み取れなかった注文書の扱いの4点を先に確認します。いずれも契約後に揉めやすく、見積書の金額だけを比べていると差が見えない箇所です。</p>
+<h3>精度をどのデータで測ったかを聞く</h3>
+<p>提示された精度の数値は、測り方を聞かないと比べられません。次の3点をそのまま質問してください。</p>
+<ol>
+<li>測定に使った帳票は何種類、何枚か (つまずきやすい点: 種類数だけで枚数を答えない場合があります)</li>
+<li>文字単位で測ったか、項目単位で測ったか</li>
+<li>測定に使った帳票は、学習にも使ったものか</li>
+</ol>
+<p>文字単位の正答率は、項目単位より高く出ます。1文字でも違えば品番としては使えないため、御社が見たいのは項目単位の数値です。測り方が違う数値を並べて比べると、低い方が実は良いという判断違いが起きます。</p>
+<h3>書式の追加が費用に入るかを聞く</h3>
+<p>運用が始まってから必ず起きるのが、書式の追加です。取引先が様式を変えた、新しい取引先が増えた、という形で発生します。</p>
+<table>
+<thead>
+<tr>
+<th>確認する項目</th>
+<th>聞き方の例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>書式追加の費用</td>
+<td>1書式の追加はいくらか、見積書のどの費目に入るか</td>
+</tr>
+<tr>
+<td>再学習の範囲</td>
+<td>精度が落ちたときの再学習は保守の範囲か、別見積か</td>
+</tr>
+<tr>
+<td>対応の期間</td>
+<td>書式を渡してから使えるまで何営業日か</td>
+</tr>
+<tr>
+<td>読み取り失敗時の動線</td>
+<td>読み取れない注文書は、どの画面に溜まり、誰が処理するか</td>
+</tr>
+</tbody></table>
+<p>4番目は特に抜けやすい箇所です。読み取れなかった注文書が誰の画面にも出ないまま溜まると、受注の取りこぼしになります。一覧として見えること、未処理の件数が分かることを要件書に書いてください。</p>
+<p>あわせて、納品後に精度が合格ラインを下回ったときの扱いも確認します。再学習で対応するのか、合格ラインを見直すのか、どちらを先に試すのかを決めておくと、運用開始後の話し合いが短くなります。</p>
+<h3>費用の内訳で見るところ</h3>
+<p>見積書では、読み取りの部分と、基幹システムへ取り込む部分を分けて出してもらってください。この2つは工程も難易度も別で、まとめた金額では相見積もりの比較ができません。読み取りは既製の仕組みを使い、取り込みの部分だけを作るという切り分けも選択肢になります。</p>
+<h2>導入後は何を測り続ける？</h2>
+<p>読み取りの正答率ではなく、人が直した件数と、直した項目の内訳を記録します。要件の見直しに使える数値がこれだけです。正答率は評価用のデータに対する数値であり、日々届く注文書の実態とはずれていきます。</p>
+<h3>修正件数の記録の取り方</h3>
+<p>記録するのは4つだけです。多く取ろうとすると続きません。</p>
+<table>
+<thead>
+<tr>
+<th>記録する項目</th>
+<th>使い道</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>修正した件数 (週ごと)</td>
+<td>人の確認にかかる工数の見通しを立てる</td>
+</tr>
+<tr>
+<td>修正した項目の内訳</td>
+<td>どの項目の読み取りを直すべきかを判断する</td>
+</tr>
+<tr>
+<td>書式ごとの修正率</td>
+<td>対象から外す書式、追加で学習させる書式を決める</td>
+</tr>
+<tr>
+<td>読み取れずに人の入力へ回った件数</td>
+<td>例外処理の負荷を見る</td>
+</tr>
+</tbody></table>
+<p>この記録は、仕組みの中で自動的に残るようにしてください。確定画面で人が値を書き換えたときに、変更前と変更後を残しておくだけで足ります。あとから集計の仕組みを足すと、画面の作り直しになることがあります。</p>
+<p>内訳が偏っていれば手の打ち方が決まります。特定の取引先の書式だけ修正率が高いのであれば、その書式の追加学習を依頼するか、その取引先にだけ様式の変更を相談するという選択になります。</p>
+<h3>機器や設定の変化に備えた定期の確認</h3>
+<p>設定は一度決めれば終わりではありません。国税庁「電子帳簿保存法一問一答【スキャナ保存関係】」(令和4年6月) の問42は「常に4ポイントの文字が認識できる設定等で入力する必要があることから、入力作業前にテストを行うことが望まれます」と回答しています。解説では、購入した当初は4ポイントの文字が認識できる設定であっても、スキャナ機器の調子などにより毎回同じ設定では認識できなくなる場合も想定されると説明しています。</p>
+<p>機器の導入時に1回確認すれば足りるという整理にはなっていません。運用に組み込む形として、次の2つを決めておきます。</p>
+<ol>
+<li>複合機やスキャナの設定を変えたときに、解像度200dpi相当以上と赤・緑・青それぞれ256階調以上を満たしているかを確認する担当者</li>
+<li>確認した日付と設定値を残す場所 (つまずきやすい点: 機器の入れ替えや修理の後に設定が初期値へ戻る場合があります)</li>
+</ol>
+<p>スマートフォンでの撮影を併用している場合は、端末を買い替えたときの画素数も同じ扱いです。A4サイズで約387万画素以上という目安を、運用手順に書いておいてください。</p>
+<h3>要件書づくりで迷ったら</h3>
+<p>書式の棚卸しと合格ラインの決め方は、発注前の作業量としては地味ですが、ここを飛ばすと検収で判断できなくなります。社内に専任の担当者がいない場合、この部分だけでも外から手を入れる価値があります。</p>
+<p>当社 (株式会社ノーティックラボ) は、業務システムの構築とあわせて、発注前の要件の整理から伴走する形で関わっています。注文書の書式の棚卸し、抽出項目と基幹システムの必須項目の突き合わせ、合格ラインの決め方の設計までを一緒に進めることができます。読み取りの仕組みを当社で作るか既製のものを使うかも、書式の種類数と枚数を見てから判断します。</p>
+<p>現状の受注業務のどこを仕組みに任せられるかを整理したい段階であれば、<a href="/diagnostic">無料診断</a>からご相談ください。</p>
+<h2>よくあるご質問</h2>
+<p>この記事に関して多い質問と回答をまとめます。</p>
+<h3>AI-OCRの読み取り精度は何パーセントなら合格ですか？</h3>
+<p>一律の答えはありません。正解率を何パーセントとするといった水準を定めた公的な基準は確認できていないため、御社の注文書を使って測った数値で決めます。品番や数量のように誤読がそのまま外に出る項目と、備考欄のように業務の進行に影響しにくい項目で、合格ラインを分けてください。</p>
+<h3>注文書をスキャンして原本の紙を捨ててよいのはどんな場合ですか？</h3>
+<p>スキャナ保存の要件をすべて満たして保存できている場合に限られます。本文で触れた解像度と階調と4ポイントの文字の認識に加えて、入力の期間やタイムスタンプ、検索の機能など複数の要件があり、これらを満たしていない保存は要件を満たした保存になりません。廃棄の判断は顧問の税理士に確認してから進めてください。</p>
+<h3>スマートフォンで撮影した注文書でも保存の要件を満たせますか？</h3>
+<p>画素数が足りていれば満たせます。国税庁「電子帳簿保存法一問一答【スキャナ保存関係】」(令和4年6月) の問26は、A4サイズについて約387万画素以上が必要であるとし、縦2,338画素と横1,654画素をそれぞれ満たす必要があるとしています。端末を買い替えたときは、設定が変わっていないかを確認してください。</p>
+<h3>手書きの注文書は読み取りの対象にできますか？</h3>
+<p>対象にはできますが、活字より読み取りの数値は下がりやすく、御社の実物で測らないと見通しが立ちません。手書きの書式が何種類あり、月に何枚届くかを数えたうえで、読み取りの対象にするか人の入力のまま残すかを決めるのが現実的です。数量と品番だけ読み取り、残りは人が入れるという分け方も選べます。</p>
+<h3>読み取れなかった注文書は、どう扱う取り決めにしておくべきですか？</h3>
+<p>人の入力画面へ回す動線と、未処理の件数が見えることを要件書に書いてください。読み取れない注文書がどの画面にも出ないまま溜まると、受注の取りこぼしになります。あわせて、誰がいつまでに処理するかを運用側で決めておきます。</p>
+<h2>関連リンク</h2>
+<ul>
+<li><a href="/diagnostic">注文書の読み取りを外注する前の要件整理を無料診断で相談する</a></li>
+<li><a href="/guidebook">受発注のデジタル化の進め方をまとめたDXガイドブック</a></li>
+<li><a href="/subsidy">デジタル化・AI導入補助金を使った業務システムの導入</a></li>
+<li><a href="/pricing">業務システム構築の料金の目安</a></li>
+<li><a href="/column">中小企業の受発注と業務システムに関する解説記事の一覧</a></li>
+</ul>
+</div></div><div style="margin-top: 32px; padding: 16px 20px; background: var(--bg-2); border-radius: 10px; font-size: 13px; color: var(--text-3); line-height: 1.8;"><div>監修: 株式会社ノーティックラボ 代表（AIエンジニア）</div><div>本記事はAIを活用して制作しています</div></div><aside class="nq-slot" data-slot="slot-end" aria-label="次に読むページ"><div class="nq-suggest" data-block="sg-guidebook" data-variant="default"><p class="nq-suggest__eyebrow">この記事を読んだ方へ</p><h3 class="nq-suggest__title"><a href="/guidebook">サービス紹介資料を無料でダウンロード。</a></h3><p class="nq-suggest__body">制作の進め方・実績・料金プラン・制作の流れを、全11ページのPDFにまとめています。費用はかかりません。</p><span class="nq-suggest__cta" aria-hidden="true">資料を見る →</span></div></aside></div><section class="section-pad" style="background: var(--bg-2);"><div class="container" style="max-width: 880px;"><h3 class="display-s" style="margin-bottom: 24px;">関連記事</h3><div class="grid-3"><a class="article-card fadein is-in" href="/article-renewal-deleted-pages-404-410" style="cursor: pointer;"><div class="article-cover tone-red" role="img" aria-label="サイトリニューアルで削除するページ｜404と410の指示" style="aspect-ratio: 16 / 10;"><span class="article-cover-cat">Web制作</span><span class="article-cover-title">サイトリニューアルで削除するページ</span><span class="article-cover-brand">NORTIQ LABS · COLUMN</span></div><div class="article-meta"><span style="color: var(--accent);">Web制作</span><span class="article-meta-sep">·</span><span>2026.10.12</span></div><h3 class="article-title">サイトリニューアルで削除するページ｜404と410の指示</h3></a><a class="article-card fadein is-in" href="/article-construction-cost-management-requirements" style="cursor: pointer;"><div class="article-cover tone-ink" role="img" aria-label="建設業の原価管理システム｜実行予算の外注要件7項目" style="aspect-ratio: 16 / 10;"><span class="article-cover-cat">技術</span><span class="article-cover-title">建設業の原価管理システム</span><span class="article-cover-brand">NORTIQ LABS · COLUMN</span></div><div class="article-meta"><span style="color: var(--accent);">技術</span><span class="article-meta-sep">·</span><span>2026.10.12</span></div><h3 class="article-title">建設業の原価管理システム｜実行予算の外注要件7項目</h3></a><a class="article-card fadein is-in" href="/article-website-vulnerability-report-statistics" style="cursor: pointer;"><div class="article-cover tone-red" role="img" aria-label="ホームページの脆弱性届出は累計13,599件｜IPA統計" style="aspect-ratio: 16 / 10;"><span class="article-cover-cat">Web制作</span><span class="article-cover-title">ホームページの脆弱性届出は累計13,599件</span><span class="article-cover-brand">NORTIQ LABS · COLUMN</span></div><div class="article-meta"><span style="color: var(--accent);">Web制作</span><span class="article-meta-sep">·</span><span>2026.10.12</span></div><h3 class="article-title">ホームページの脆弱性届出は累計13,599件｜IPA統計</h3></a></div></div></section></article><section class="t_inq_wrap fadein is-in"><div class="container"><h2>こうした観点をベースに、<br>貴社の DX を一緒に考えませんか。</h2><div class="t_inq_btns"><button class="btn btn-primary" type="button"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><path d="M22 6l-10 7L2 6"></path></svg>資料請求はこちら</button><a class="btn btn-primary" href="/diagnostic"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><path d="M21 21l-4.35-4.35"></path></svg>ホームページ無料診断</a></div><p class="t_inq_time">営業日 24時間以内に担当者よりご返信します。</p></div></section></main></div><footer class="footer"><div class="container"><div class="footer-grid"><div class="footer-brand"><div class="nav-logo" style="margin-bottom: 16px;"><span class="nav-logo-mark"></span><span class="wordmark"><span class="wordmark-main">NORTIQ</span><span class="wordmark-sub">LABS</span></span></div><p class="body" style="font-size: 13px; max-width: 320px; margin-bottom: 24px;">日本のDX、世界水準で巻き返す。<br>Web制作からAI・DX実装までの技術チーム。</p><button class="btn btn-primary btn-sm" type="button"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><path d="M22 6l-10 7L2 6"></path></svg>資料請求はこちら</button></div><div class="footer-col"><h4>制作実績</h4><ul><li><a href="/works">全実績一覧</a></li><li><a href="/works-clinic">クリニック・医療</a></li><li><a href="/works-realty">不動産</a></li><li><a href="/works-build">建築・工務店</a></li><li><a href="/works-hr">人材</a></li><li><a href="/works-retail">小売 / EC</a></li><li><a href="/works-infra">インフラ・製造</a></li><li><a href="/works-ai">AIスタートアップ</a></li><li><a href="/works-lp-corp">コーポレートLP</a></li><li><a href="/works-lp-recruit">採用LP</a></li><li><a href="/works-lp-ec">EC連動LP</a></li><li><a href="/works-video">動画制作事例</a></li></ul></div><div class="footer-col"><h4>機能・サービス</h4><ul><li><a href="/web">Web制作 機能一覧</a></li><li><a href="/chatbot">AIチャットボット 機能一覧</a></li><li><a href="/dx">DX・ML 機能一覧</a></li><li><a href="/feature-lpo">LP制作 / LPO</a></li><li><a href="/feature-recruit">採用専門サイト</a></li><li><a href="/feature-analytics">アクセス解析</a></li></ul><h4 style="margin-top: 24px;">自社プロダクト</h4><ul><li><a href="/product-vetonet">VetoNet</a></li><li><a href="/product-wpchat">ブログボット（AI投稿アシスタント）</a></li><li><a href="/product-tennis">Tennis フォームチェック</a></li></ul></div><div class="footer-col"><h4>サポート・コンサル</h4><ul><li><a href="/support">運用サポート</a></li><li><a href="/voice">ご利用会社様の声</a></li><li><a href="/diagnostic">サイト無料診断 (URL入力)</a></li><li><a href="/column">技術ブログ / コラム</a></li><li><a href="/news">お知らせ</a></li><li><a href="/subsidy">補助金活用相談</a></li><li><a href="/guidebook">サービス紹介資料</a></li></ul><h4 style="margin-top: 24px;">業種別ソリューション</h4><ul><li><a href="/solution-clinic">クリニック・医療</a></li><li><a href="/solution-realty">不動産</a></li><li><a href="/solution-build">建築・工務店</a></li><li><a href="/solution-hr">人材</a></li><li><a href="/solution-retail">小売 / EC</a></li><li><a href="/service/kanri-dantai">監理団体・登録支援機関</a></li><li><a href="/service/recruit-site">建設・運送・介護 採用サイト</a></li></ul><h4 style="margin-top: 24px;">会社</h4><ul><li><a href="/company">会社概要</a></li><li><a href="/staff">チーム / スタッフ</a></li><li><a href="/recruit">採用情報</a></li><li><a href="/pricing">料金プラン</a></li><li><a href="/sitemap">サイトマップ</a></li></ul></div></div><div class="footer-bottom"><span>© 2026 Nortiq Labs Inc. All rights reserved.</span><div class="row" style="gap: 24px;"><a href="/privacy" style="color: var(--text-3);">プライバシーポリシー</a><a href="/terms" style="color: var(--text-3);">利用規約</a><a href="/privacy-handling" style="color: var(--text-3);">個人情報の取扱い</a></div></div></div></footer><div class="modal-backdrop"><div class="modal" role="dialog" aria-modal="true"><button class="modal-close" aria-label="閉じる"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M6 18L18 6"></path></svg></button><div style="margin-bottom: 24px;"><div class="eyebrow eyebrow-accent" style="margin-bottom: 12px;">CONTACT</div><h3 class="display-s" style="margin-bottom: 8px;">資料請求・お問い合わせ</h3><p class="small">初回相談は無料です。営業日24時間以内にご返信します。</p></div><form novalidate=""><div class="field"><label>貴社名<span class="req">必須</span></label><input type="text" placeholder="株式会社○○" value=""></div><div class="field"><label>ご担当者名<span class="req">必須</span></label><input type="text" placeholder="山田 太郎" value=""></div><div class="field"><label>メールアドレス<span class="req">必須</span></label><input type="email" placeholder="you@example.com" value=""></div><div class="field"><label>電話番号<span class="req">必須</span></label><input type="tel" placeholder="03-XXXX-XXXX" value=""></div><div class="field"><label>カテゴリー<span class="req">必須</span></label><div class="cb-group"><label class=""><input type="checkbox">Web制作</label><label class=""><input type="checkbox">AIチャットボット</label><label class=""><input type="checkbox">DX・ML</label><label class=""><input type="checkbox">業務自動化</label><label class=""><input type="checkbox">LP制作</label><label class=""><input type="checkbox">採用サイト</label></div></div><div class="field"><label>お問い合わせ内容<span class="req">必須</span></label><div class="cb-group"><label class=""><input type="checkbox">新規HP制作</label><label class=""><input type="checkbox">HPリニューアル</label><label class=""><input type="checkbox">AIチャットボット導入</label><label class=""><input type="checkbox">DX・ML 実装</label><label class=""><input type="checkbox">業務自動化</label><label class=""><input type="checkbox">リスティング広告</label><label class=""><input type="checkbox">コンサルティング</label></div></div><div class="field"><label>ご相談内容<span class="any">任意</span></label><div class="cb-group"><label class=""><input type="checkbox">HPが無い</label><label class=""><input type="checkbox">問い合わせを増やしたい</label><label class=""><input type="checkbox">サービス資料がほしい</label><label class=""><input type="checkbox">無料診断</label><label class=""><input type="checkbox">デザインを改善したい</label><label class=""><input type="checkbox">SEOを上げたい</label><label class=""><input type="checkbox">AI活用したい</label><label class=""><input type="checkbox">業務効率化したい</label><label class=""><input type="checkbox">補助金活用を相談したい</label></div></div><div class="field"><label>本サイトを知ったきっかけ<span class="any">任意</span></label><select><option value="">選択してください</option><option value="Google検索">Google検索</option><option value="Yahoo検索">Yahoo検索</option><option value="AIチャット (ChatGPT/Claude/Gemini等)">AIチャット (ChatGPT/Claude/Gemini等)</option><option value="ご紹介">ご紹介</option><option value="メール">メール</option><option value="DMチラシ">DMチラシ</option><option value="SNS (X/LinkedIn)">SNS (X/LinkedIn)</option><option value="以前から知っていた">以前から知っていた</option><option value="その他">その他</option></select></div><div class="field"><label>サイトURL<span class="any">任意</span></label><input type="text" placeholder="https://" value=""></div><div class="field"><label>その他ご質問<span class="any">任意</span></label><textarea placeholder="ご質問・ご相談がございましたらお気軽にご記入ください。"></textarea></div><div class="field field-check"><input type="checkbox" id="agree" style="margin-top: 2px;"><label for="agree" style="cursor: pointer;"><a href="/privacy-handling" target="_blank" rel="noopener noreferrer" style="color: var(--accent); text-decoration: underline;">個人情報の取り扱い</a>に同意します<span class="req">必須</span></label></div><div style="margin-top: 8px; text-align: center;"><button class="btn btn-primary btn-lg" type="submit">同意して送信する<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></button></div></form></div></div><nav class="sp-bottom-nav" aria-label="モバイル下部ナビ"><ul><li><a href="/"><span class="icn"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-8 9 8M5 10v10h14V10"></path></svg></span><span>トップ</span></a></li><li><a href="/works"><span class="icn"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect></svg></span><span>制作実績</span></a></li><li><a href="/pricing"><span class="icn"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4l8 11 8-11M7 13h10M7 17h10"></path></svg></span><span>料金</span></a></li><li><button type="button"><span class="icn"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><path d="M22 6l-10 7L2 6"></path></svg></span><span>資料請求</span></button></li><li><a href="/sitemap"><span class="icn"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M4 12h16M4 17h16"></path></svg></span><span>メニュー</span></a></li></ul></nav><div class="sticky-cta" role="region" aria-label="ご相談の案内"><span class="pulse"></span><span>初回相談無料 · 営業日24h以内にご返信</span><button>資料請求 →</button><button class="sticky-cta-close" aria-label="閉じる"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M6 18L18 6"></path></svg></button></div></div>
+  <script src="/articles.js?v=4546817f28" defer=""></script>
+  <script src="/app.bundle.js?v=4546817f28" defer=""></script>
+
+
+</body></html>
