@@ -1256,7 +1256,11 @@ async function build() {
   const GADS_ON = looksReal(GADS_ID, /^AW-[0-9]{6,}$/);
   const sendTo = (label) => (GADS_ON && label && !/X{4,}/.test(label)) ? `'${GADS_ID}/${label}'` : 'null';
   const loaderId = GA4_ON ? GA4_ID : (GADS_ON ? GADS_ID : '');
-  const analyticsHead = loaderId ? `
+  // 広告の属性 (gclid / gbraid / wbraid / utm_*) を 1st-party Cookie に保存するスニペット。gtag の有無に関わらず全ページに入れる
+  // (SPA のシェルと lp/ の {{ANALYTICS}} の両方)。読み出しは window.NORTIQ_ATTR.get()。
+  const attrHead = `
+  <script>${fs.readFileSync(path.join(ROOT, 'assets', 'attr.inline.js'), 'utf8').replace(/\/\*[\s\S]*?\*\//g, '').replace(/\n\s*/g, '\n').trim()}</script>`;
+  const analyticsHead = (loaderId ? `
   <!-- Google tag (gtag.js) — GA4 + Google Ads conversion tracking -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=${loaderId}"></script>
   <script>
@@ -1265,7 +1269,7 @@ async function build() {
     gtag('js', new Date());${GA4_ON ? `\n    gtag('config', '${GA4_ID}');` : ''}${GADS_ON ? `\n    gtag('config', '${GADS_ID}');` : ''}
     window.NORTIQ_CONV = { contact: ${sendTo(GADS_LABEL_CONTACT)}, diagnostic: ${sendTo(GADS_LABEL_DIAGNOSTIC)} };
   </script>` : `
-  <!-- Analytics off: set GA4_ID / GADS_ID (+ conversion labels) in build.js to emit gtag.js. -->`;
+  <!-- Analytics off: set GA4_ID / GADS_ID (+ conversion labels) in build.js to emit gtag.js. -->`) + attrHead;
 
   const FAQ_QA = [
     { q: 'Nortiq Labs はどんな会社ですか？', a: `日本の経営課題に向き合う、AI・Web の実装者で構成された技術チームです。Web制作・AIチャットボット・DX/ML 実装まで、中小企業のDXを段階的に支援します。これまで${NORTIQ_STATS.clients}社の制作・支援実績があります（2025年・京都設立）。` },
@@ -1389,6 +1393,15 @@ async function build() {
     };
     walkLp(LP_DIR);
     console.log(`• copied lp/ → dist/ (${LP_ROUTES.length} page(s), assets ?v=${lpVer})`);
+  }
+
+  // Google広告用LP (品質スコア対策): data/lp/*.json → dist/lp/<field>/(<variant>/)index.html (lp-qs-build.js)。
+  // 親LP (/lp/system, /lp/renewal) だけを sitemap に載せる。バリエーションは canonical が親を指す。
+  {
+    const { buildLpQs } = require(path.join(ROOT, 'lp-qs-build.js'));
+    const r = buildLpQs({ dist: DIST, analytics: analyticsHead.trim() });
+    LP_ROUTES.push(...r.parentRoutes);
+    console.log(`• built lp-qs → dist/lp/ (${r.pages.length} pages; sitemap: ${r.parentRoutes.join(', ')})`);
   }
 
   console.log('• emitting robots.txt + sitemap.xml');
@@ -1517,7 +1530,14 @@ async function build() {
         const s = path.join(src, e.name);
         const d = path.join(dest, e.name);
         if (e.isDirectory()) { fs.mkdirSync(d, { recursive: true }); overlay(s, d); }
-        else { fs.copyFileSync(s, d); if (e.name === 'index.html') pages++; }
+        else if (e.name === 'index.html') {
+          // 古いスナップショットに広告属性スニペット (attrHead) が無ければ </head> の手前に入れる。
+          // CI が prerendered/ を作り直せば最初から入るので、この補いは何もしなくなる。
+          let html = fs.readFileSync(s, 'utf8');
+          if (!html.includes('nq_attr') && /<\/head>/i.test(html)) html = html.replace(/<\/head>/i, attrHead.trim() + '\n</head>');
+          fs.writeFileSync(d, html, 'utf8'); pages++;
+        }
+        else fs.copyFileSync(s, d);
       }
     };
     overlay(PRERENDERED, DIST);

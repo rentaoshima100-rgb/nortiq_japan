@@ -131,10 +131,14 @@ if (typeof window !== 'undefined') window.nqPageView = nqPageView;
 // sends a real email via Resend (no mail-client dependency). Throws on failure
 // so callers can show an error state.
 async function sendInquiry(form, kind = 'main') {
+  // attribution (gclid / gbraid / wbraid / utm_* / landing_url): build.js inlines assets/attr.inline.js in <head>,
+  // which keeps them in a 1st-party cookie for 90 days; every SPA form (modal included) sends them here.
+  let attr = {};
+  try { if (window.NORTIQ_ATTR && typeof window.NORTIQ_ATTR.get === 'function') attr = window.NORTIQ_ATTR.get(); } catch (_) { attr = {}; }
   const res = await fetch('/api/contact', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ ...form, kind }),
+    body: JSON.stringify({ ...attr, ...form, kind }),
   });
   if (!res.ok) {
     const e = await res.json().catch(() => ({}));

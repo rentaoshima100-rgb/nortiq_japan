@@ -553,6 +553,30 @@
       "suggestable": false,
       "block_id": null,
       "default_next": null
+    },
+    {
+      "url": "/lp/system",
+      "type": "service",
+      "title": "業務システム開発（Google広告用LP）",
+      "industry": [],
+      "need": ["業務システム・DX"],
+      "audience": "業務システムや業務アプリの開発を外注したい人向け",
+      "summary": "業務システム開発の外注はPoC 50万円〜（税別）。30分の無料要件整理で範囲と費用の目安を整理。",
+      "suggestable": false,
+      "block_id": null,
+      "default_next": null
+    },
+    {
+      "url": "/lp/renewal",
+      "type": "service",
+      "title": "ホームページのリニューアル（Google広告用LP）",
+      "industry": [],
+      "need": ["サイトリニューアル"],
+      "audience": "ホームページやコーポレートサイトのリニューアルを依頼したい人向け",
+      "summary": "URLを送るだけでトップページの作り直し案を無料で作成。リニューアルは30万円〜（税別）。",
+      "suggestable": false,
+      "block_id": null,
+      "default_next": null
     }
   ]
 }

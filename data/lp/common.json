@@ -1,0 +1,44 @@
+{
+  "_comment": "Google広告用LP (/lp/system, /lp/renewal) の共通データ。金額・期間は {{price:web.light}} のような印で書き、lp-qs-build.js が content-data.jsx の NORTIQ_PRICING から埋める (数字を手で写さない)。",
+  "site": "https://nortiqlab.com",
+  "brand": "Nortiq Labs",
+  "company": {
+    "name": "NORTIQLAB株式会社",
+    "brand_note": "ブランド名 Nortiq Labs",
+    "postal": "604-0012",
+    "address": "京都府京都市中京区竪大恩寺町751",
+    "region": "京都府",
+    "locality": "京都市中京区",
+    "street": "竪大恩寺町751",
+    "business": "Web制作、業務システム・業務アプリの受託開発、AI導入・DX支援",
+    "email": "info@nortiqlab.com",
+    "founded": "2026年8月（2025年より事業を開始）",
+    "founding_date": "2026-08",
+    "representative": "",
+    "_representative_note": "代表者名は空なら表示しない (サイト方針で氏名は載せない)"
+  },
+  "reply": "営業日24時間以内にメールで返信します",
+  "nav": [
+    { "href": "#pricing", "label": "料金" },
+    { "href": "#cases", "label": "実績" },
+    { "href": "#process", "label": "進め方" },
+    { "href": "#faq", "label": "FAQ" }
+  ],
+  "form": {
+    "field_label": "ご相談の分野",
+    "field_options": ["業務システム開発", "ホームページのリニューアル", "ホームページの新規制作", "広告計測の支援", "その他"],
+    "budget_label": "ご予算の目安",
+    "message_label": "ご相談内容",
+    "privacy_text": "お預かりした個人情報は、お問い合わせへの回答とご相談内容のご案内にのみ利用します。",
+    "privacy_link": "/privacy",
+    "privacy_link_label": "プライバシーポリシー",
+    "done_title": "お申し込みを受け付けました。",
+    "done_note": "届かない場合は迷惑メールフォルダをご確認のうえ、info@nortiqlab.com までご連絡ください。"
+  },
+  "footer_links": [
+    { "href": "/", "label": "Nortiq Labs トップ" },
+    { "href": "/company", "label": "会社概要" },
+    { "href": "/privacy", "label": "プライバシーポリシー" },
+    { "href": "/privacy-handling", "label": "個人情報の取扱い" }
+  ]
+}

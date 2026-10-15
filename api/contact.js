@@ -53,6 +53,20 @@ module.exports = async (req, res) => {
     ['業種', body.industry],
     ['募集職種', body.jobs],
     ['流入LP', body.lp],
+    // Google広告用LP (/lp/system, /lp/renewal) と、サイト全体の属性 Cookie (assets/attr.inline.js) から
+    ['ご相談の分野', body.field],
+    ['ご予算の目安', body.budget],
+    ['分野 (lead_field)', body.lead_field],
+    ['LPバリエーション', body.lp_variant],
+    ['gclid', body.gclid],
+    ['gbraid', body.gbraid],
+    ['wbraid', body.wbraid],
+    ['utm_source', body.utm_source],
+    ['utm_medium', body.utm_medium],
+    ['utm_campaign', body.utm_campaign],
+    ['utm_term', body.utm_term],
+    ['utm_content', body.utm_content],
+    ['ランディングURL', body.landing_url],
   ].filter(([, v]) => v != null && String(v).trim() !== '');
 
   const tableRows = rows.map(([k, v]) =>
