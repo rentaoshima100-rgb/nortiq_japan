@@ -101,7 +101,7 @@
 - `?gclid=TESTGCLID123&utm_source=google&utm_medium=cpc&utm_campaign=test_camp` で着地 → Cookie `nq_attr` に保存され、送信ペイロードに gclid / utm_* / lead_field / lp_variant / landing_url が入ることを確認。
 - 未入力で送信 → 3項目にエラー表示、送信されない。
 - ローカルは Resend の鍵が無いので `/api/contact` が 500 → エラー文を表示、ボタンが戻る、**generate_lead は発火しない**（dataLayer を監視して 0 回）。
-- 成功時の発火（1回）と通知メールの項目は、プレビュー環境でテスト送信して確認する（3章）。
+- 成功時の発火（1回）と通知メールの項目は、Resend をモックしたローカル環境で確認した（3章）。
 - 375px / 1366px で横はみ出し 0、コンソールエラー 0（API の 500 を除く）。スクリーンショットは `outputs/review-shots/lpqs-*.png`（git 管理外）。
 
 ### 2-3. 既存サイトの表記との整合（確認して見つかったもの）
@@ -123,8 +123,8 @@
 
 - [x] 12ページが静的に出力され、ページのソースに H1 が含まれている
 - [x] 全ページの FV に価格とオファーがある
-- [ ] テスト送信で、通知メールに分野・バリエーション・gclid・utm が入る → プレビュー環境で実施（3章に結果を追記）
-- [x] generate_lead が送信成功時に1回だけ発火し、エラー時は発火しない（エラー時はローカルで確認、成功時はプレビューで確認）
+- [x] テスト送信で、通知メールに分野・バリエーション・gclid・utm が入る（Resend をモックしたローカルで本文を確認。実際の受信はプレビューで要実施、3章）
+- [x] generate_lead が送信成功時に1回だけ発火し、エラー時は発火しない（成功時・エラー時ともローカルで確認、二重クリックでも1回）
 - [x] canonical、sitemap、robots.txt の対応が済んでいる
 - [x] validate-ads.js が全件パスする
 - [x] Lighthouse（モバイル）の結果を記録した
@@ -134,7 +134,17 @@
 
 ## 3. プレビュー
 
-（push 後に追記）
+- ブランチ: `feat/lp-quality-score`（origin に push 済み。Vercel プロジェクト `files` の Git 連携でプレビューが作られた）
+- プレビューURL（ブランチ別名）: https://files-git-feat-lp-quality-score-nortiqs-projects.vercel.app
+  - 例: https://files-git-feat-lp-quality-score-nortiqs-projects.vercel.app/lp/system/gaichu
+- **プレビューは Vercel Authentication で保護されている**（未ログインだと vercel.com の SSO に 302）。Vercel にログインしたブラウザで開く。
+  このため、プレビューに対する自動テスト（実際のメール送信・generate_lead の実測）はここからは実行していない。
+  自動で確認したいときは、プロジェクト設定の「Protection Bypass for Automation」でシークレットを発行するか、プレビューの保護を一時的に外す（どちらも設定変更なので実施していない）。
+- 代わりに、ローカルで Resend の送信だけを差し替えた（API 側の `fetch('https://api.resend.com/emails')` をモックして、送るはずのメール本文を受け取る）環境で成功経路を確認した:
+  - `/lp/renewal/corporate?gclid=…&gbraid=…&utm_*=…` に着地 → パラメータ無しで `/lp/renewal/site` に移動 → 送信。Cookie 経由で属性が引き継がれた。
+  - 送信 1 回で `/api/contact` への POST は 1 回、`generate_lead` は 1 回（`{event:'generate_lead', lead_field:'renewal', lp_variant:'site'}`）。送信中にボタンを強制的に再クリックしても POST は増えない。完了パネルが表示されフォーカスが移る。
+  - 通知メールの本文（text）に、ご相談の分野／ご予算の目安／分野(lead_field)=renewal／LPバリエーション=site／gclid／gbraid／utm_source〜utm_content／ランディングURL（着地時のURL、パラメータ付き）が入ることを確認。件名は「【お問い合わせ】テスト会社 様 (lp-renewal)」。
+- 実環境（Resend 経由で rdaichi27@gmail.com に届くメール）での1通のテスト送信は、プレビューを開ける人が実施する（フォームに「テスト」と分かる会社名で送る）。
 
 ---
 
