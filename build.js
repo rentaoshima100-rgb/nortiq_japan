@@ -61,6 +61,7 @@ const ORG_SAME_AS = [
 // desc → meta description / og:description / BlogPosting.description に使う。
 //        未指定の記事は app.jsx の SEO_DESC か自動生成の定型文にフォールバックする
 const BLOG = [
+  { slug: 'ecommerce-payment-privacy-requirements', category: 'Web制作', date: '2026.10.19', read: '11 min', title: 'ECサイト外注で決める決済と顧客情報の要件', img: 'assets/blog-default.png', desc: 'ECサイトの構築を外注する前に、決済と顧客情報について決めておく要件を整理します。カード情報を自社で持たない構成の考え方、決済代行との分担、漏えい時の報告期限から逆算した連絡体制の決め方を、公的資料をもとに説明します。', supervised: true },
   { slug: 'ai-ocr-order-form-accuracy-requirements', category: 'AI活用', date: '2026.10.13', read: '10 min', title: 'AI-OCR注文書の読み取り要件｜200dpi等の法令基準', img: 'assets/blog-default.png', desc: '紙とFAXの注文書をAIで読み取る仕組みの外注要件を整理します。国税庁の一問一答にもとづく解像度200dpi相当以上などの法令の水準と、項目ごとの正答率の合格ラインの決め方、人の確認を残す工程を解説します。', supervised: true },
   { slug: 'renewal-deleted-pages-404-410', category: 'Web制作', date: '2026.10.12', read: '10 min', title: 'サイトリニューアルで削除するページ｜404と410の指示', img: 'assets/blog-default.png', desc: 'サイトリニューアルで無くすページは、内容を引き継ぐ新ページがあればリダイレクト、なければ404または410で削除します。制作会社へ渡す指示書の列と、公開後に確かめる順序まで解説します。', supervised: true },
   { slug: 'construction-cost-management-requirements', category: '技術', date: '2026.10.12', read: '9 min', title: '建設業の原価管理システム｜実行予算の外注要件7項目', img: 'assets/blog-default.png', desc: '建設業の原価管理システムを外注する前に決めることを、実行予算の粒度、実績の入力元、差異を見る頻度、法定要件、既存システムとの分担の順に整理します。建設業法と施行令の定めも要件に落とし込みます。', supervised: true },
