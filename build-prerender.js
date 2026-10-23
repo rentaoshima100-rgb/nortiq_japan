@@ -29,7 +29,17 @@ const ARTICLE_ROUTES = (() => {
   const src = fs.readFileSync(path.join(__dirname, 'build.js'), 'utf8');
   const m = src.match(/const BLOG = \[([\s\S]*?)\n\];/);
   if (!m) return [];
-  return [...m[1].matchAll(/slug: '([^']+)'/g)].map((x) => '/article-' + x[1]);
+  // エントリ行ごとに lane を見てプレフィックスを決める。レーンC (代表ブログ) は
+  // /ceo-<slug>。slugだけ拾って /article- を付けると、代表ブログが
+  // プリレンダから漏れてSNSクローラに初期HTMLのmetaが届かなくなる。
+  return m[1]
+    .split('\n')
+    .map((line) => {
+      const slug = line.match(/slug: '([^']+)'/);
+      if (!slug) return null;
+      return (/lane: 'C'/.test(line) ? '/ceo-' : '/article-') + slug[1];
+    })
+    .filter(Boolean);
 })();
 
 const ROUTES_ALLOWLIST = [
