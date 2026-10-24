@@ -418,7 +418,9 @@ async function main() {
   // 止めないと約150ルートぶんの page_view が毎回 GA4 に入り、次ページ提案 (nq) の効果を比べる
   // ベースラインを汚す。gtag.js 自体を落とすので、アプリ側が積む dataLayer もどこにも送られない。
   // シェルの <script async src=".../gtag/js"> の要素は残る (通信だけ失敗する) ので、保存するHTMLは変わらない。
-  await page.route(/^https?:[/][/]([^/]+[.])?(googletagmanager|google-analytics)[.]com[/]/, (route) => route.abort());
+  // Clarity (clarity.ms) も同じ理由で止める。止めないとプリレンダのたびに約150セッション分の
+  // 録画・ヒートマップが Clarity に入り、本物の訪問者の行動が埋もれる。
+  await page.route(/^https?:[/][/]([^/]+[.])?(googletagmanager[.]com|google-analytics[.]com|clarity[.]ms)[/]/, (route) => route.abort());
 
   let ok = 0;
   for (const route of allRoutes) {

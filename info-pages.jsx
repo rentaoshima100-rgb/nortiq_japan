@@ -398,6 +398,8 @@ function PricingPage({ onNavigate, onContact }) {
         subCta="ホームページ無料診断"
         subCtaTo="diagnostic"
         nav={onNavigate}
+        visual={<ConvBanner id="pricing-hero" eager src="assets/banners/pricing-hero.png" width={1200} height={1200}
+          alt={'Web制作の料金プラン3枚のカード：ライト ' + priceFrom(P.web.plans[0].min) + '（明朗会計）、スタンダード ' + priceFrom(P.web.plans[1].min) + '（おすすめ）、プレミアム ' + priceFrom(P.web.plans[2].min) + '。いずれも税別'}/>}
       />
 
       {blocks.map((block, i) => (
@@ -635,6 +637,8 @@ function GuidebookPage({ onNavigate, onContact }) {
         badges={["全9ページ", "無料DL", "Web制作 / DX"]}
         onContact={onContact}
         ctaLabel="資料を無料DLする"
+        visual={<ConvBanner id="guidebook-hero" eager src="assets/banners/guidebook-hero.png" width={1200} height={1200}
+          alt="サービス紹介資料 2026年版（PDF）の冊子とタブレット表示のイメージ。無料ダウンロード"/>}
       />
       <section className="section-pad">
         <div className="container">

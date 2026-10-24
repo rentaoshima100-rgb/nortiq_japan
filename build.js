@@ -1257,7 +1257,20 @@ async function build() {
   const GADS_ON = looksReal(GADS_ID, /^AW-[0-9]{6,}$/);
   const sendTo = (label) => (GADS_ON && label && !/X{4,}/.test(label)) ? `'${GADS_ID}/${label}'` : 'null';
   const loaderId = GA4_ON ? GA4_ID : (GADS_ON ? GADS_ID : '');
-  const analyticsHead = loaderId ? `
+  // Microsoft Clarity (ヒートマップ・セッション録画・GA4連携済み)。
+  //   CLARITY_ID            Clarity プロジェクトID (設定 > 概要)  → "xxxxxxxxxx"
+  // gtag と同じく、全ページ共通の <head> (index.html / app.html / 静的LP / 404) に入る。
+  // プリレンダ時は build-prerender.js が clarity.ms への通信を止める (訪問者ではないため)。
+  const CLARITY_ID = 'z2wvw7aod2';
+  const CLARITY_ON = looksReal(CLARITY_ID, /^[a-z0-9]{8,}$/);
+  const clarityHead = CLARITY_ON ? `
+  <!-- Microsoft Clarity — heatmaps & session recordings -->
+  <script>
+    (function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+    t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+    y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window, document, "clarity", "script", "${CLARITY_ID}");
+  </script>` : '';
+  const analyticsHead = (loaderId ? `
   <!-- Google tag (gtag.js) — GA4 + Google Ads conversion tracking -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=${loaderId}"></script>
   <script>
@@ -1266,7 +1279,7 @@ async function build() {
     gtag('js', new Date());${GA4_ON ? `\n    gtag('config', '${GA4_ID}');` : ''}${GADS_ON ? `\n    gtag('config', '${GADS_ID}');` : ''}
     window.NORTIQ_CONV = { contact: ${sendTo(GADS_LABEL_CONTACT)}, diagnostic: ${sendTo(GADS_LABEL_DIAGNOSTIC)} };
   </script>` : `
-  <!-- Analytics off: set GA4_ID / GADS_ID (+ conversion labels) in build.js to emit gtag.js. -->`;
+  <!-- Analytics off: set GA4_ID / GADS_ID (+ conversion labels) in build.js to emit gtag.js. -->`) + clarityHead;
 
   const FAQ_QA = [
     { q: 'Nortiq Labs はどんな会社ですか？', a: `日本の経営課題に向き合う、AI・Web の実装者で構成された技術チームです。Web制作・AIチャットボット・DX/ML 実装まで、中小企業のDXを段階的に支援します。これまで${NORTIQ_STATS.clients}社の制作・支援実績があります（2025年・京都設立）。` },

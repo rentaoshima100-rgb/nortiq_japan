@@ -90,6 +90,20 @@ function TopPage({ onNavigate, onContact }) {
         </div>
       </section>
 
+      {/* =========== CV バナー (ファーストビュー直下): 無料モックアップ → 相談フォーム =========== */}
+      {/* ヒーローの実績マーキーは残し、その直下に置く。クリック率は GA4 の banner_click (banner_id=top-hero) で見る。 */}
+      <section className="conv-banner-section">
+        <div className="container">
+          <ConvBanner
+            id="top-hero" eager
+            src="assets/banners/top-hero-pc.png" width={1600} height={397}
+            srcSp="assets/banners/top-hero-sp.png" widthSp={1080} heightSp={1341}
+            alt="ホームページ制作、まずは無料モックアップから。契約前に、御社サイトの完成イメージをお見せします。無料で相談する（初回相談無料・営業日24時間以内に返信・制作・支援実績30社+）"
+            onClick={() => onContact('web')}
+          />
+        </div>
+      </section>
+
       {/* =========== Mix marquee (stats + values) =========== */}
       <MixMarquee items={[
         { num: `${NORTIQ_STATS.clients}+`, text: "Companies Supported" },
@@ -271,8 +285,18 @@ function TopPage({ onNavigate, onContact }) {
         </div>
       </section>
 
-      {/* =========== Red CTA Strip =========== */}
-      <RedCTAStrip onContact={onContact} onNavigate={onNavigate}/>
+      {/* =========== CV バナー (資料請求): 文字だけだった赤帯 (RedCTAStrip) を画像化 =========== */}
+      <section className="conv-banner-section" style={{ padding: '48px 0 32px' }}>
+        <div className="container">
+          <ConvBanner
+            id="cta-band"
+            src="assets/banners/cta-band.png" width={1600} height={397}
+            srcSp="assets/banners/cta-band-sp.png" widthSp={1080} heightSp={1341}
+            alt="Web制作・AI・DXの資料を、無料でお届けします。初回相談無料。営業日24時間以内に担当者からご返信します。資料請求（無料）。ホームページ無料診断もあります"
+            onClick={onContact}
+          />
+        </div>
+      </section>
 
       {/* =========== ホームページ機能 (Feature 3 cards) =========== */}
       <section className="section-pad">

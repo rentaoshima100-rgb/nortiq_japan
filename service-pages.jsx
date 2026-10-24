@@ -141,6 +141,8 @@ function WebPage({ onNavigate, onContact }) {
         subCta="制作実績を見る"
         subCtaTo="works"
         nav={onNavigate}
+        visual={<ConvBanner id="web-hero" eager src="assets/banners/web-hero.png" width={1200} height={1200}
+          alt="集客できるホームページ制作のイメージ：担当者が提案するサイト画面（PC・スマホ）と、お問い合わせ数が伸びるグラフ。オリジナルデザイン・スマホ最適化・SEO内部対策"/>}
       />
 
       {/* PAINS */}
@@ -315,6 +317,8 @@ function ChatbotPage({ onNavigate, onContact }) {
         subCta="製品詳細を見る"
         subCtaTo="product-wpchat"
         nav={onNavigate}
+        visual={<ConvBanner id="chatbot-hero" eager src="assets/banners/chatbot-hero.png" width={1200} height={1200}
+          alt="AIチャットボットのイメージ：「今週のブログ記事を書いて」と頼むと「できました！」と記事が仕上がる。質問するだけで記事が書ける"/>}
       />
 
       {/* SPIRAL OF DECLINE */}
@@ -566,6 +570,8 @@ function DXPage({ onNavigate, onContact }) {
         subCta="料金プランを見る"
         subCtaTo="pricing"
         nav={onNavigate}
+        visual={<ConvBanner id="dx-hero" eager src="assets/banners/dx-hero.png" width={1200} height={1200}
+          alt="DX・機械学習の実装支援のイメージ：KPIダッシュボードと業務フロー、伸びるグラフ。業務自動化・データ分析・ML実装"/>}
       />
 
       {/* WHY STAGED */}

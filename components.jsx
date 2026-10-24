@@ -505,6 +505,58 @@ function Placeholder({ label = "Image", caption, aspect = "16/9", height, childr
   );
 }
 
+// -------------------- Conversion banner (画像バナー + 表示/クリック計測) --------------------
+// assets/banners/ の画像を CTA・ヒーロービジュアルとして置く。GA4 に banner_view (50%以上
+// 見えた時に1回) と banner_click を banner_id / page_path 付きで送るので、探索レポートで
+// 「どのバナーが見られ・押され・資料請求につながったか」を Clarity のヒートマップと突き合わせられる。
+// 画像内の文言は alt にそのまま入れる (読み上げ・SEO)。
+//   src / srcSp : PNG のパス (同名 .webp は build.js の optimizeImages が生成する)。
+//                 srcSp を渡すと 767px 以下でそちらに差し替える (縦長のスマホ版)。
+//   to + nav    : ルート遷移 (クローラが辿れる実 <a href> を出す)。
+//   onClick     : モーダルを開くなど URL を持たない操作。
+//   どちらも無ければ装飾画像 (表示計測だけ行う)。
+function ConvBanner({ id, src, srcSp, alt, width, height, widthSp, heightSp, to, nav, onClick, eager, className, style }) {
+  const ref = React.useRef(null);
+  const pagePath = () => (typeof location !== 'undefined' ? location.pathname : '');
+  React.useEffect(() => {
+    const el = ref.current;
+    if (!el || typeof IntersectionObserver === 'undefined') return;
+    let seen = false;
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (seen || !e.isIntersecting) return;
+        seen = true;
+        nqTrack('banner_view', { banner_id: id, page_path: pagePath() });
+        io.disconnect();
+      });
+    }, { threshold: 0.5 });
+    io.observe(el);
+    return () => io.disconnect();
+  }, [id]);
+  const track = () => nqTrack('banner_click', { banner_id: id, page_path: pagePath() });
+  const webp = (s) => s.replace(/\.(png|jpe?g)$/i, '.webp');
+  const picture = (
+    <picture>
+      {srcSp && <source media="(max-width: 767px)" srcSet={webp(srcSp)} type="image/webp" width={widthSp} height={heightSp}/>}
+      {srcSp && <source media="(max-width: 767px)" srcSet={srcSp} width={widthSp} height={heightSp}/>}
+      <source srcSet={webp(src)} type="image/webp" width={width} height={height}/>
+      <img src={src} alt={alt} width={width} height={height} loading={eager ? 'eager' : 'lazy'} decoding="async"/>
+    </picture>
+  );
+  const cls = ['conv-banner', className].filter(Boolean).join(' ');
+  if (to && nav) {
+    const p = navProps(to, nav);
+    return <a ref={ref} className={cls} data-banner={id} style={style} href={p.href} onClick={(e) => { track(); p.onClick(e); }}>{picture}</a>;
+  }
+  if (onClick) {
+    return (
+      <a ref={ref} className={cls} data-banner={id} style={style} href="#request" role="button"
+         onClick={(e) => { e.preventDefault(); track(); onClick(e); }}>{picture}</a>
+    );
+  }
+  return <div ref={ref} className={cls} data-banner={id} style={style}>{picture}</div>;
+}
+
 // -------------------- FAQ --------------------
 function FAQ({ items }) {
   const [open, setOpen] = React.useState(0);
@@ -1223,7 +1275,9 @@ function CTAStrip(props) { return React.createElement(RedCTAStrip, props); }
 // subCta は subCtaTo (遷移先ルートID) + nav が揃ったときだけ描画する。
 // 以前は onClick も href も無い <Button> を全サブページに出しており、押しても何も起きない
 // ボタンが常設されていた (クローラから見ればリンクが無い)。
-function PageHero({ eyebrow, title, sub, lede, badges, onContact, ctaLabel = "資料請求はこちら", subCta = "デモを見る", subCtaTo, nav, watermark, pageNo }) {
+// visual: 右カラムに置くビジュアル (ConvBanner など)。渡すと PC では 2 カラム、SP では文章の下に積む。
+// 以前は下層ページのヒーローが左寄せの文章だけで右半分が空いていた。
+function PageHero({ eyebrow, title, sub, lede, badges, onContact, ctaLabel = "資料請求はこちら", subCta = "デモを見る", subCtaTo, nav, watermark, pageNo, visual }) {
   return (
     <section className="page-hero">
       <div className="page-hero-deco">
@@ -1231,7 +1285,7 @@ function PageHero({ eyebrow, title, sub, lede, badges, onContact, ctaLabel = "�
         <div className="page-hero-band"></div>
         {pageNo && <div className="page-hero-no">/ {pageNo}</div>}
       </div>
-      <div className="container" style={{ position: 'relative', zIndex: 2 }}>
+      <div className={'container' + (visual ? ' page-hero-grid' : '')} style={{ position: 'relative', zIndex: 2 }}>
         <div style={{ maxWidth: 1100 }}>
           {eyebrow && (
             <div className="main-eyebrow fadein" style={{ marginBottom: 24 }}>
@@ -1253,6 +1307,7 @@ function PageHero({ eyebrow, title, sub, lede, badges, onContact, ctaLabel = "�
             )}
           </div>
         </div>
+        {visual && <div className="page-hero-visual fadein" data-delay="250">{visual}</div>}
       </div>
     </section>
   );

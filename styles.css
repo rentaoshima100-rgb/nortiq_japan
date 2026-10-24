@@ -5116,3 +5116,43 @@ video, iframe { max-width: 100%; }
   position: absolute;
   inset: calc((100% - var(--nq-tap)) / 2);
 }
+
+/* ================= Conversion banners (assets/banners, ConvBanner) ================== */
+/* 画像バナー。PC は 4:1 の横長、SP は 4:5 の縦長を <picture> で出し分ける (ConvBanner の srcSp)。 */
+.conv-banner {
+  display: block;
+  max-width: 1400px;
+  margin: 0 auto;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  line-height: 0;
+  box-shadow: 0 10px 30px rgba(17, 17, 17, 0.06);
+}
+.conv-banner img { width: 100%; height: auto; display: block; }
+a.conv-banner { transition: transform 0.25s ease, box-shadow 0.25s ease; }
+a.conv-banner:hover { transform: translateY(-2px); box-shadow: 0 16px 40px rgba(230, 0, 18, 0.14); }
+.conv-banner-section { padding: 28px 0 12px; }
+.conv-banner-section + .conv-banner-section { padding-top: 0; }
+/* ヒーロー右カラム (PageHero の visual)。文章側を広めに取り、見出しは一段小さくして
+   「AIチャットボッ/ト」のような語中改行を避ける (ビジュアル無しのページは従来どおり 88px まで)。 */
+.page-hero-grid { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: 48px; align-items: center; }
+.page-hero-grid .display-xl { font-size: clamp(36px, 4.6vw, 64px); }
+.page-hero-grid .display-l { font-size: clamp(26px, 3.2vw, 42px); }
+.page-hero-visual .conv-banner { box-shadow: none; max-width: 520px; }
+/* 無料診断ヒーロー: 文章+フォームを左、ビジュアルを右に */
+.diag-hero-grid { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr); gap: 40px; align-items: center; }
+.diag-hero-grid .diag-hero-inner { text-align: left; margin: 0; }
+.diag-hero-grid .diag-hero-sub, .diag-hero-grid .diag-form { margin-left: 0; }
+.diag-hero-visual .conv-banner { box-shadow: none; max-width: 520px; }
+@media (max-width: 900px) {
+  .page-hero-grid { grid-template-columns: 1fr; }
+  .page-hero-visual { max-width: 440px; margin: 28px auto 0; }
+  .diag-hero-grid { grid-template-columns: 1fr; }
+  .diag-hero-grid .diag-hero-inner { text-align: center; margin: 0 auto; }
+  .diag-hero-grid .diag-hero-sub, .diag-hero-grid .diag-form { margin-left: auto; }
+  .diag-hero-visual { max-width: 400px; margin: 32px auto 0; }
+}
+@media (max-width: 640px) {
+  .conv-banner-section { padding: 20px 0 8px; }
+  .conv-banner { border-radius: 12px; }
+}

@@ -1042,13 +1042,18 @@ function DiagnosticLPPage({ onNavigate, onContact }) {
     <main className="page-fade diag-page">
       {/* Hero */}
       <section className="diag-hero">
-        <div className="diag-wrap">
+        <div className="diag-wrap diag-hero-grid">
           <div className="diag-hero-inner">
             <span className="diag-badge">完全無料・登録不要</span>
             <h1 className="diag-h1">URLを入れるだけで、<br/>サイトの<span className="hl">「本当の課題」</span><span className="nw">が見える。</span></h1>
             <p className="diag-hero-sub">テクニカルSEO・AI可視性・競合比較まで、NORTIQLAB の専門家が改善提案までお届けします。</p>
             <DiagUrlForm onContact={onContact}/>
             <p className="diag-social"><strong>登録不要</strong> ・ URLを入れるだけ ・ <strong>その場で結果表示</strong></p>
+          </div>
+          {/* 右カラム: 診断レポートのイメージ (SP ではフォームの下に積む) */}
+          <div className="diag-hero-visual">
+            <ConvBanner id="diagnostic-hero" eager src="assets/banners/diagnostic-hero.png" width={1200} height={1200}
+              alt="ホームページ無料診断レポートのイメージ：総合スコア72/100、SEO・表示速度・AI可視性・競合比較の4項目をチェック。URLを入れるだけ・登録不要"/>
           </div>
         </div>
       </section>
