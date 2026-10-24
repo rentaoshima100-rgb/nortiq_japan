@@ -4,7 +4,10 @@
    stripe decoration, character-friendly tone (placeholder ver).
 ============================================================ */
 
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600;700;900&family=Noto+Serif+JP:wght@500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+/* Web フォント (Noto Sans JP / Space Grotesk) は build.js が <head> に <link> で入れる (FONTS_URL)。
+   以前はここで @import していたが、@import は styles.css の取得・解析が終わってから Google Fonts の
+   CSS (約200KB) を取りに行くため、描画がその分 (モバイルの Lighthouse で3秒前後) 遅れていた。
+   Noto Serif JP はどこにも使っていなかったので読み込みをやめ、600 は 700 で代用する。 */
 
 :root {
   /* Type stacks (per IA doc) */
@@ -25,10 +28,14 @@
   --text: #111111;
   --text-2: #333333;
   /* #999999 は白背景に対しコントラスト 2.85:1 で WCAG AA (4.5:1) を大きく下回っていた。
-     #757575 は 4.6:1。補助テキスト・キャプション・タグの大半がこの2トークンを参照している。 */
-  --text-3: #757575;
-  --text-4: #757575;
+     #757575 は白で 4.6:1 だが、灰色面 (--bg-2 #F5F5F5: eyebrow・フッター下部・料金表の見出し) では
+     4.2:1 で AA を割っていた。#6B6B6B は白 5.3:1 / #F5F5F5 4.9:1 でどちらも通る。
+     補助テキスト・キャプション・タグの大半がこの2トークンを参照している。 */
+  --text-3: #6B6B6B;
+  --text-4: #6B6B6B;
   --accent: #E60012;
+  /* 赤い文字を淡い赤 (--accent-soft) の上に載せるときの色。--accent のままだと 3.9:1 で AA を割る (タグ等)。 */
+  --accent-text: #B8000E;
   --accent-2: #E93F48;
   --accent-hi: #FF1A2D;
   --accent-soft: #FCE0E2;
@@ -534,7 +541,7 @@ section { position: relative; }
   padding: 5px 10px;
   font-size: 12px;
   font-weight: 600;
-  color: var(--accent);
+  color: var(--accent-text);
   border: 1px solid var(--accent);
   border-radius: 3px;
   background: var(--accent-soft);
@@ -658,7 +665,7 @@ picture { display: contents; }
   gap: 48px;
   margin-bottom: 56px;
 }
-.footer-col h4 {
+.footer-col h3, .footer-col h4 {
   font-size: 13px;
   color: var(--text);
   font-weight: 700;
@@ -920,79 +927,16 @@ picture { display: contents; }
 /* ================= Hero =================== */
 .main-wrap {
   position: relative;
-  min-height: 640px;
-  height: clamp(640px, 76vh, 820px);
   overflow: hidden;
   background:
     radial-gradient(120% 90% at 85% 8%, var(--accent-soft-2) 0%, transparent 55%),
     var(--bg);
   border-bottom: 4px solid var(--accent);
 }
-/* 実績スクリーンショットの「作品の壁」。perspective で奥へ倒し込み、
-   下端は veil (.main-wrap::after) で紙面へ溶かす。 */
-.main-bg {
-  position: absolute;
-  inset: -16% -10%;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 20px;
-  padding: 0;
-  opacity: 0.3;
-  transform: perspective(1100px) rotateX(22deg) rotateZ(-8deg);
-  transform-origin: 50% 32%;
-  pointer-events: none;
-}
-/* コピーの背後に白のプールを敷き、下端は紙面へ溶かす */
-.main-wrap::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(640px 430px at 50% 44%, rgba(255,255,255,0.85) 0%, rgba(255,255,255,0.55) 45%, transparent 74%),
-              linear-gradient(90deg, var(--bg) 0%, transparent 16%, transparent 84%, var(--bg) 100%),
-              linear-gradient(180deg, rgba(255,255,255,0.3) 0%, transparent 28%, transparent 52%, var(--bg) 94%);
-  pointer-events: none;
-  z-index: 1;
-}
-.main-col {
-  position: relative;
-  overflow: hidden;
-}
-.main-col-track {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  animation: vscroll-down 60s linear infinite;
-}
-.main-col-img {
-  aspect-ratio: 4 / 3;
-  border-radius: 8px;
-  flex-shrink: 0;
-  overflow: hidden;
-  background: var(--bg-2);
-  border: 1px solid var(--border);
-  box-shadow: 0 18px 40px rgba(17,17,17,0.14);
-}
-.main-col-img img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: top center;
-  display: block;
-}
-.main-col-rev .main-col-track { animation: vscroll-up 60s linear infinite; }
-@keyframes vscroll-down {
-  from { transform: translateY(0); }
-  to   { transform: translateY(-50%); }
-}
-@keyframes vscroll-up {
-  from { transform: translateY(-50%); }
-  to   { transform: translateY(0); }
-}
-.main-col-track .ph {
-  aspect-ratio: 4 / 3;
-  border-radius: 8px;
-  flex-shrink: 0;
-}
+/* 2026-10: 実績スクリーンショットの「作品の壁」(4列×16枚の無限スクロール) は廃止した。
+   64枚の <img> がファーストビューに並び、LCP がその中の lazy 画像 (モバイルの Lighthouse で 12秒超)
+   になっていた。代わりに納品バナー (assets/banners/01, 02) をファーストビューに置く (.hero-banner、
+   ファイル末尾の「2026-10 サイト改修」ブロック)。 */
 
 .main-inner {
   position: relative;
@@ -2614,7 +2558,8 @@ picture { display: contents; }
   border-radius: 4px;
 }
 .tagcloud a:hover { color: var(--accent); background: var(--accent-soft); transform: scale(1.06); }
-.tagcloud a.w1 { font-size: 14px; opacity: 0.6; }
+/* w1 は opacity 0.6 だと白地で実効 #858585 (3.7:1) になり AA を割っていた。0.8 で #5C5C5C (6.7:1)。 */
+.tagcloud a.w1 { font-size: 14px; opacity: 0.8; }
 .tagcloud a.w2 { font-size: 18px; opacity: 0.75; }
 .tagcloud a.w3 { font-size: 24px; }
 .tagcloud a.w4 { font-size: 32px; color: var(--text); }
@@ -2771,8 +2716,6 @@ picture { display: contents; }
   .voice-content::before { display: none; }
   .company-row { grid-template-columns: 1fr; gap: 6px; }
   .content-row { grid-template-columns: 1fr; gap: 8px; }
-  .main-bg { grid-template-columns: repeat(2, 1fr); }
-  .main-bg .main-col:nth-child(n+3) { display: none; }
   .sp-bottom-nav { display: block; }
   body { padding-bottom: 72px; }
   .side-tab { display: none; }
@@ -2946,7 +2889,7 @@ picture { display: contents; }
   .nav-cta-wrap .btn svg { display: none; }
 
   /* Hero scale */
-  .main-wrap { min-height: 520px; height: auto; padding-bottom: 32px; }
+  .main-wrap { padding-bottom: 32px; }
   .main-inner { padding: 56px 18px 40px; }
   .main-title { font-size: clamp(28px, 9vw, 40px); line-height: 1.25; }
   .main-wordmark-bg { font-size: 90px; bottom: -10px; }
@@ -2959,10 +2902,6 @@ picture { display: contents; }
   .main-cta-row { margin-top: 28px; gap: 10px; flex-direction: column; align-items: stretch; }
   .main-cta-row .btn { width: 100%; padding: 14px 18px; font-size: 13px; }
 
-  /* Hero background slider visible only as faint backdrop */
-  .main-bg { opacity: 0.18; gap: 8px; padding: 8px; }
-  .main-bg .main-col:nth-child(n+3) { display: none; }
-  .main-bg { grid-template-columns: 1fr 1fr; }
   .geo-blob { display: none; }
 
   /* Section padding */
@@ -5116,3 +5055,137 @@ video, iframe { max-width: 100%; }
   position: absolute;
   inset: calc((100% - var(--nq-tap)) / 2);
 }
+
+/* ============================================================
+   2026-10 サイト改修: 納品バナー (assets/banners/) の配置・ヒーロー刷新・ナビの a11y
+   (配置の指示は docs/banners-placement-guide-2026-10-24.md)
+============================================================ */
+/* --- トップ ファーストビュー (バナー 01: PC 4:1 / 02: SP 4:5) --- */
+.main-inner { padding-top: clamp(24px, 3vw, 40px); }
+.hero-banner {
+  display: block;
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto clamp(28px, 4vw, 48px);
+  border-radius: 16px;
+  overflow: hidden;
+  background: var(--bg-2);
+  box-shadow: 0 18px 44px rgba(17,17,17,0.12);
+  transition: transform 200ms ease, box-shadow 200ms ease;
+}
+.hero-banner:hover { transform: translateY(-2px); box-shadow: 0 24px 52px rgba(230,0,18,0.16); }
+.hero-banner img { width: 100%; height: auto; display: block; aspect-ratio: 2400 / 595; }
+@media (max-width: 767px) {
+  .main-inner { padding-top: 16px; }
+  .hero-banner { border-radius: 12px; margin-bottom: 24px; }
+  .hero-banner img { aspect-ratio: 1080 / 1341; }
+}
+
+/* --- 共通CTA帯 (バナー 03): 768px 以上は画像、SP は従来の赤帯 (.t_inq_wrap) --- */
+.cta-band-wrap { padding: var(--section-y-sm) 0; }
+.cta-band {
+  display: block;
+  border-radius: 16px;
+  overflow: hidden;
+  background: var(--accent);
+  box-shadow: 0 14px 36px rgba(17,17,17,0.12);
+  transition: transform 200ms ease, box-shadow 200ms ease;
+}
+.cta-band:hover { transform: translateY(-2px); box-shadow: 0 20px 44px rgba(230,0,18,0.18); }
+.cta-band img { width: 100%; height: auto; display: block; aspect-ratio: 2400 / 595; }
+.cta-band-links { text-align: center; margin: 14px 0 0; font-size: 13px; }
+.cta-band-links a { color: var(--text-2); font-weight: 700; display: inline-flex; align-items: center; gap: 6px; cursor: pointer; }
+.cta-band-links a:hover { color: var(--accent); }
+@media (max-width: 767px) { .cta-band-wrap { display: none; } }
+@media (min-width: 768px) { .t_inq_sp-only { display: none; } }
+
+/* --- 下層ページのヒーロー右側ビジュアル (バナー 04-07, 09) --- */
+.page-hero-grid { display: grid; grid-template-columns: minmax(0, 1fr); }
+.page-hero-has-visual .page-hero-grid { grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); gap: 48px; align-items: center; }
+.page-hero-visual img { width: 100%; max-width: 520px; height: auto; display: block; margin-left: auto; border-radius: 20px; }
+/* 2カラムになった分、見出しを一段小さくする (88px のままだと「AIチャットボッ|ト」のように語の途中で折れる) */
+@media (min-width: 768px) {
+  .page-hero-has-visual h1.display-xl { font-size: clamp(34px, 3.6vw, 50px); }
+  .page-hero-has-visual .display-l { font-size: clamp(22px, 2.3vw, 32px); }
+}
+@media (max-width: 1024px) { .page-hero-has-visual .page-hero-grid { gap: 32px; } }
+@media (max-width: 767px) {
+  .page-hero-has-visual .page-hero-grid { grid-template-columns: minmax(0, 1fr); gap: 28px; }
+  .page-hero-visual img { max-width: 420px; margin: 0 auto; }
+}
+
+/* --- 無料診断 ヒーロー (バナー 08): PC は見出しの横、SP は URL 入力欄の上 --- */
+.diag-hero-visual img { width: 100%; max-width: 300px; height: auto; display: block; margin: 0 auto 28px; }
+@media (min-width: 960px) {
+  .diag-hero-inner.diag-hero-has-visual {
+    max-width: 1100px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 400px;
+    column-gap: 56px;
+    align-items: center;
+    text-align: left;
+  }
+  .diag-hero-has-visual > * { grid-column: 1; }
+  .diag-hero-has-visual .diag-badge { justify-self: start; }
+  .diag-hero-has-visual .diag-hero-visual { grid-column: 2; grid-row: 1 / span 8; align-self: center; }
+  .diag-hero-has-visual .diag-hero-visual img { max-width: 400px; margin: 0; }
+  .diag-hero-has-visual .diag-hero-sub { margin-left: 0; }
+  .diag-hero-has-visual .diag-form { margin-left: 0; }
+  .diag-hero-has-visual .diag-trust { justify-content: flex-start; }
+}
+
+/* --- PICK UP カード・PROMO カードのサムネ (バナー 08 / 09) --- */
+.pickup-body { display: flex; gap: 16px; align-items: flex-start; padding: 24px; }
+.pickup-text { flex: 1 1 auto; min-width: 0; }
+.pickup-thumb { flex: 0 0 88px; width: 88px; }
+.pickup-thumb img { width: 100%; height: auto; display: block; border-radius: 12px; border: 1px solid var(--border); }
+@media (min-width: 768px) { .promo-card-has-thumb { padding-right: 136px; } }
+.promo-thumb { position: absolute; right: 20px; bottom: 20px; width: 100px; }
+.promo-thumb img { width: 100%; height: auto; display: block; border-radius: 14px; }
+@media (max-width: 767px) {
+  /* SP は見出しに全幅を使わせ、本文と CTA だけサムネを避ける (カード全体の右余白だと題名が「資|料」で折れる) */
+  .promo-card-has-thumb .promo-desc, .promo-card-has-thumb .promo-cta { padding-right: 92px; }
+  .promo-thumb { width: 76px; right: 16px; bottom: 16px; }
+}
+
+/* --- 料金ページ下部の資料導線 (バナー 09) --- */
+.guide-lead {
+  display: grid;
+  grid-template-columns: 200px minmax(0, 1fr);
+  gap: 32px;
+  align-items: center;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 28px 32px;
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+  transition: all 200ms;
+}
+.guide-lead:hover { border-color: var(--accent); box-shadow: 0 12px 30px rgba(0,0,0,0.10); transform: translateY(-2px); }
+.guide-lead-visual img { width: 100%; height: auto; display: block; border-radius: 16px; }
+@media (max-width: 767px) {
+  .guide-lead { grid-template-columns: minmax(0, 1fr); gap: 20px; padding: 24px 20px; text-align: center; }
+  .guide-lead-visual img { max-width: 160px; margin: 0 auto; }
+  .guide-lead .btn { width: 100%; justify-content: center; }
+}
+
+/* --- 初回表示ではページ全体のフェードインを掛けない ---
+   <main class="page-fade"> の不透明度 0 → 1 (380ms) が、プリレンダ済み HTML の最初の描画にも掛かっていた。
+   Chrome は不透明度 0 で描かれた要素を LCP 候補にしないため、画像が読み込み済みでも LCP が 1.5〜2 秒遅れて
+   記録されていた (ローカル計測: 画像の描画 2.4〜2.8 秒 → 0.8 秒)。SPA 内の遷移では app.jsx が
+   <html class="spa-nav"> を付けてから描画するので、遷移時のフェードは従来どおり。 */
+html:not(.spa-nav) .page-fade { animation: none; }
+
+/* --- コントラスト (axe color-contrast) の残り: 淡い赤の上の赤文字は --accent-text に揃える ---
+   トップのヒーローのタグ (.main-box li) は --accent (JS が hsl(354,92%,45%) に差し替える) で 4.3:1、
+   無料診断のバッジと所要時間は --accent-2 で 3.4:1 だった。 */
+.main-box li { color: var(--accent-text); }
+.diag-badge { color: var(--accent-text); }
+.diag-step-time { color: var(--accent-text); }
+
+/* --- ナビ: メガメニューの開閉を <button> にした (href の無い <a> はキーボードで到達できず、クローラにはリンクに見えない) --- */
+button.nav-link { background: none; border: 0; margin: 0; font-family: inherit; line-height: inherit; }
+.megamenu[hidden] { display: none !important; }
+/* HashTag / TagCloud を <a href> または <button> にした分のリセット (見た目は従来どおり) */
+button.kw-pill, .tagcloud button { background: none; border: 0; margin: 0; font-family: inherit; line-height: inherit; cursor: pointer; }

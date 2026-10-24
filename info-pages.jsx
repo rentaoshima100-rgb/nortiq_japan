@@ -398,6 +398,9 @@ function PricingPage({ onNavigate, onContact }) {
         subCta="ホームページ無料診断"
         subCtaTo="diagnostic"
         nav={onNavigate}
+        /* 納品バナー 04 (3プランの料金カード)。画像内の金額は作成時点の NORTIQ_PRICING と同じ。料金を変えたら画像も作り直す。
+           alt の金額は NORTIQ_PRICING から組み立てる (金額を手で書かない決まり)。 */
+        visual={{ base: 'assets/banners/04_pricing_1x1', alt: `Web制作の料金プランのイメージ: ${P.web.plans.map((p) => p.name + ' ' + priceFrom(p.min)).join('、')}（${P.taxNote}）。電卓を持った赤いマスコット` }}
       />
 
       {blocks.map((block, i) => (
@@ -413,6 +416,9 @@ function PricingPage({ onNavigate, onContact }) {
       ))}
 
       <ExtraContent blocks={PRICING_EXTRA} onNavigate={onNavigate}/>
+
+      {/* 納品バナー 09: 料金ページ下部の資料導線 (/guidebook) */}
+      <GuidebookLead onNavigate={onNavigate}/>
 
       <CTAStrip onContact={onContact} onNavigate={onNavigate} title="プランの組み合わせ、ご相談ください。"/>
     </main>
@@ -635,6 +641,7 @@ function GuidebookPage({ onNavigate, onContact }) {
         badges={["全9ページ", "無料DL", "Web制作 / DX"]}
         onContact={onContact}
         ctaLabel="資料を無料DLする"
+        visual={{ base: 'assets/banners/09_guidebook_1x1', alt: 'サービス紹介資料 (2026年版・PDF) の冊子とタブレット表示、資料を読む赤いマスコット。無料ダウンロード' }}
       />
       <section className="section-pad">
         <div className="container">
@@ -764,7 +771,7 @@ function CompanyPage({ onNavigate, onContact }) {
         eyebrow="COMPANY / 会社概要"
         title={<>Nortiq Labs、<br/>と申します。</>}
         lede="AI・Web の実装を担うエンジニアと、日本の経営課題に向き合うコンサルタントによる、技術と現場の両輪を持つチームです。"
-        badges={["設立 2025", "本社 京都市中京区", "従業員 5 名"]}
+        badges={["設立 2026年8月", "本社 京都市中京区", "従業員 5 名"]}
         onContact={onContact}
         ctaLabel="採用情報"
         subCta="チーム紹介"
@@ -785,8 +792,8 @@ function CompanyPage({ onNavigate, onContact }) {
             <li className="timeline-item fadein">
               <div className="timeline-date">2025</div>
               <div className="timeline-content">
-                <h3>創業 / Nortiq Labs Inc. 設立</h3>
-                <p>日本の中小企業向け DX 支援を専門とする会社として京都で創業。</p>
+                <h3>事業開始</h3>
+                <p>日本の中小企業向け DX 支援を専門に、京都で事業を開始。</p>
               </div>
             </li>
             <li className="timeline-item fadein" data-delay="80">
@@ -810,6 +817,13 @@ function CompanyPage({ onNavigate, onContact }) {
                 <p>VetoNet (AI agent security) とテニスフォーム分析 SaaS の研究開発を進め、技術検証の成果を商用案件にフィードバック。</p>
               </div>
             </li>
+            <li className="timeline-item fadein" data-delay="320">
+              <div className="timeline-date">2026.08</div>
+              <div className="timeline-content">
+                <h3>NORTIQLAB株式会社 設立</h3>
+                <p>法人化し、NORTIQLAB株式会社として京都市中京区に設立。</p>
+              </div>
+            </li>
           </ol>
         </div>
       </section>
@@ -823,7 +837,7 @@ function CompanyPage({ onNavigate, onContact }) {
           <dl className="company-table">
             {[
               ["商号", "Nortiq Labs Inc. (株式会社ノーティック ラボ)"],
-              ["設立", "2025年"],
+              ["設立", "2026年8月（2025年より事業を開始）"],
               ["所在地", "〒604-0012 京都府京都市中京区竪大恩寺町 751"],
               ["資本金", "100 万円"],
               ["従業員数", "5 名"],
@@ -876,7 +890,7 @@ function CompanyPage({ onNavigate, onContact }) {
 // ============================================================
 function StaffPage({ onNavigate, onContact }) {
   const members = [
-    { role: "Founder", name: "代表", desc: "日本の中小企業向け DX 支援を起業。事業全体と顧客並走の責任者。", tags: ["AI Engineering", "Full-stack", "JP / EN"], img: "assets/staff-founder.jpg" },
+    { role: "Founder", name: "代表", desc: "日本の中小企業向け DX 支援を起業。事業全体と顧客並走の責任者。", tags: ["AI Engineering", "Full-stack", "JP / EN"] },
     { role: "CTO · Computer Scientist", name: "Takenosuke", desc: "計算理論・分散システムが専門。自社プロダクト VetoNet (AI Security) とテニスフォーム分析 SaaS の開発主担当 兼 CTO。", tags: ["Distributed", "Security", "Rust"], img: "assets/staff-cto.jpg" },
     { role: "Data Scientist", name: "Ashwin", desc: "AI のコア部分を担うデータサイエンティスト。統計モデリングと ML 実装のエキスパートとして、分析基盤の設計から実装までを牽引。", tags: ["Statistics", "ML Core", "MLOps"], img: "assets/staff-ds.jpg" },
   ];
@@ -895,7 +909,7 @@ function StaffPage({ onNavigate, onContact }) {
           <div className="grid-3" style={{ gap: 24 }}>
             {members.map((m, i) => (
               <div key={i} className="card" style={{ padding: 0, overflow: 'hidden' }}>
-                <Placeholder label="" caption="" aspect="3/4" src={m.img} alt={`Nortiq Labs ${m.role} ${m.name}`}/>
+                <Placeholder label={m.img ? "" : m.role.split(" · ")[0]} caption="" aspect="3/4" src={m.img} alt={`Nortiq Labs ${m.role} ${m.name}`}/>
                 <div style={{ padding: 24 }}>
                   <p className="small text-mono" style={{ color: 'var(--text-3)', marginBottom: 4 }}>{m.role}</p>
                   <h3 style={{ fontSize: 19, fontWeight: 600, margin: 0, marginBottom: 12, letterSpacing: '-0.01em' }}>{m.name}</h3>

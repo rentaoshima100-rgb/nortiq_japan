@@ -6,8 +6,23 @@ const babel = require('@babel/core');
 const { minify } = require('terser');
 const { marked } = require('marked');
 const sharp = require('sharp');
+const csso = require('csso');
 
 const ROOT = __dirname;
+
+// Web フォント。styles.css の @import から <head> の <link> に移した (2026-10)。
+// Noto Serif JP は未使用、Noto Sans JP 600 は 700 で代用 (ウェイト1本ぶんのフォント取得を減らす)。
+// 変えたら 404.html と lp-qs-build.js (あれば) も同じ URL を見る。
+const FONTS_URL = 'https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Space+Grotesk:wght@400;500;600;700&display=swap';
+// 描画をブロックせずに読む定石: preconnect で接続だけ先に張り、media="print" で読み込んで onload で all に切り替える。
+// display=swap なので、フォント到着前は代替フォントで描画し、到着後に入れ替わる (従来と同じ挙動)。
+// build-prerender.js は、スナップショットに残る media="all" を print に戻す (restoreAsyncFontLink)。
+const FONTS_HEAD = `
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" as="style" href="${FONTS_URL}">
+  <link rel="stylesheet" href="${FONTS_URL}" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="${FONTS_URL}"></noscript>`;
 const DIST = path.join(ROOT, 'dist');
 
 // 実績・体制の数字は content-data.jsx の NORTIQ_STATS を唯一の出典にする。
@@ -1042,6 +1057,10 @@ async function optimizeImages(assetsDir) {
   for (const file of files) {
     const base = path.basename(file);
     if (ICON_SKIP.has(base)) continue;
+    // assets/banners/ (2026-10 納品のバナー) は触らない。WebP は納品のまま、srcset 用の縮小版と JPEG の
+    // フォールバックはリポジトリに入れてある (再生成が要るなら docs/site-refresh-2026-10.md)。
+    // ここで 1600px に縮めると、PC の 1400px 幅 (2倍密度) で文字入りのバナーがぼやける。
+    if (file.split(path.sep).includes('banners')) continue;
     const ext = path.extname(file).toLowerCase();
     try {
       // Read into a Buffer first — sharp can't reliably read & overwrite the
@@ -1177,8 +1196,21 @@ async function build() {
   fs.writeFileSync(path.join(NQ_API_DATA, 'catalog.json'), JSON.stringify(nqCatalog), 'utf8');
   console.log(`  → api/_data/catalog.json (${Object.keys(nqCatalog.pages).length} ページ: 記事 ${Object.keys(articles).length} + 固定ページ・LP ${nq.pages.length})`);
 
-  console.log('• copying styles.css');
-  fs.copyFileSync(path.join(ROOT, 'styles.css'), path.join(DIST, 'styles.css'));
+  console.log('• copying styles.css (minified)');
+  // csso で空白・コメントだけ落とす (restructure: false — 宣言の並べ替えはしない。カスケードの順序が変わると
+  // 見た目が変わりうる)。約 165KB → 125KB。Vercel が brotli 圧縮したあとでも転送量が数 KB 減り、
+  // ブラウザの解析が速くなる。ソースの styles.css はそのまま (読みやすさ優先)。
+  {
+    const raw = fs.readFileSync(path.join(ROOT, 'styles.css'), 'utf8');
+    let css = raw;
+    try {
+      css = csso.minify(raw, { restructure: false, comments: false }).css;
+    } catch (e) {
+      console.warn('  ! css minify skipped: ' + e.message);
+    }
+    fs.writeFileSync(path.join(DIST, 'styles.css'), css, 'utf8');
+    console.log(`  → dist/styles.css (${(raw.length / 1024).toFixed(1)} KB → ${(css.length / 1024).toFixed(1)} KB)`);
+  }
 
   console.log('• copying assets/');
   copyDir(path.join(ROOT, 'assets'), path.join(DIST, 'assets'));
@@ -1257,19 +1289,27 @@ async function build() {
   const GADS_ON = looksReal(GADS_ID, /^AW-[0-9]{6,}$/);
   const sendTo = (label) => (GADS_ON && label && !/X{4,}/.test(label)) ? `'${GADS_ID}/${label}'` : 'null';
   const loaderId = GA4_ON ? GA4_ID : (GADS_ON ? GADS_ID : '');
+  // gtag.js 本体 (約190KB) は DOMContentLoaded 後に読む (2026-10)。
+  // <head> で async にしていたときは、モバイルで React の起動 (defer) と gtag の初期化が同じ主スレッドを
+  // 取り合い、操作可能になるのが遅れていた (Lighthouse: サードパーティのブロック 約0.9秒)。
+  // defer のスクリプトは DOMContentLoaded より前に実行されるので、gtag はその後になる。
+  // dataLayer と gtag() は先に用意するので、読み込み前の gtag('config') / イベントは失われない
+  // (gtag.js が来た時点でまとめて送られる。page_view は 1〜2秒遅れて計測される)。
   const analyticsHead = loaderId ? `
-  <!-- Google tag (gtag.js) — GA4 + Google Ads conversion tracking -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=${loaderId}"></script>
+  <!-- Google tag (gtag.js) — GA4 + Google Ads conversion tracking (本体は DOMContentLoaded 後に読む) -->
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());${GA4_ON ? `\n    gtag('config', '${GA4_ID}');` : ''}${GADS_ON ? `\n    gtag('config', '${GADS_ID}');` : ''}
     window.NORTIQ_CONV = { contact: ${sendTo(GADS_LABEL_CONTACT)}, diagnostic: ${sendTo(GADS_LABEL_DIAGNOSTIC)} };
+    (function(){var s=document.createElement('script');s.async=true;s.fetchPriority='low';s.src='https://www.googletagmanager.com/gtag/js?id=${loaderId}';
+      function go(){document.head.appendChild(s);}
+      if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',go);}else{go();}})();
   </script>` : `
   <!-- Analytics off: set GA4_ID / GADS_ID (+ conversion labels) in build.js to emit gtag.js. -->`;
 
   const FAQ_QA = [
-    { q: 'Nortiq Labs はどんな会社ですか？', a: `日本の経営課題に向き合う、AI・Web の実装者で構成された技術チームです。Web制作・AIチャットボット・DX/ML 実装まで、中小企業のDXを段階的に支援します。これまで${NORTIQ_STATS.clients}社の制作・支援実績があります（2025年・京都設立）。` },
+    { q: 'Nortiq Labs はどんな会社ですか？', a: `日本の経営課題に向き合う、AI・Web の実装者で構成された技術チームです。Web制作・AIチャットボット・DX/ML 実装まで、中小企業のDXを段階的に支援します。これまで${NORTIQ_STATS.clients}社の制作・支援実績があります（2025年に京都で事業を開始、2026年8月に法人設立）。` },
     { q: 'Web制作の費用はどれくらいですか？', a: 'オリジナルデザインのWeb制作は30万円から承っています。ページ数・機能・要件に応じてお見積もりし、公開後の運用・改善まで伴走します。' },
     { q: 'AIチャットボットは導入できますか？', a: 'はい。WordPress連携のAI投稿アシスタントをはじめ、問い合わせ対応やブログ更新を自動化するAIチャットボットの導入を、実装の中身まで説明しながら支援します。' },
     { q: '補助金は活用できますか？', a: 'IT導入補助金などの活用を視野に入れた DX 投資のご相談を承っています。なお、補助金申請の手続きサポート（登録 IT 導入支援事業者としての対応）は現在準備中です。' },
@@ -1283,7 +1323,7 @@ async function build() {
       {
         '@type': 'Organization', '@id': SITE + '/#org', name: 'Nortiq Labs', url: SITE + '/',
         logo: SITE + '/assets/nortiq-mark.png', image: OG_IMAGE, description: DESC,
-        slogan: '日本のDX、世界水準で巻き返す。', foundingDate: '2025', numberOfEmployees: NORTIQ_STATS.team,
+        slogan: '日本のDX、世界水準で巻き返す。', foundingDate: '2026-08', numberOfEmployees: NORTIQ_STATS.team,
         address: { '@type': 'PostalAddress', addressCountry: 'JP', postalCode: '604-0012', addressRegion: '京都府', addressLocality: '京都市中京区', streetAddress: '竪大恩寺町751' },
         areaServed: { '@type': 'Country', name: 'Japan' },
         alternateName: ['株式会社ノーティックラボ', 'ノーティックラボ'],
@@ -1308,6 +1348,13 @@ async function build() {
   <meta name="description" content="${DESC}">
   <link rel="canonical" href="${SITE}/">
   <link rel="icon" href="assets/nortiq-fav.png" type="image/png">
+  <link rel="apple-touch-icon" href="assets/nortiq-icon.png">
+  <meta name="theme-color" content="#E60012">
+  <!-- トップのファーストビュー画像 (LCP 要素) を最優先で取りに行かせる。<picture> の source と同じ srcset / sizes に
+       して二重取得を防ぐ (top-page.jsx の BannerImg と合わせること)。この2行はトップ専用で、build-prerender.js が
+       他ルートのスナップショットからは外す (data-only-home)。 -->
+  <link rel="preload" as="image" type="image/webp" imagesrcset="assets/banners/02_top_hero_sp_4x5-780.webp 780w, assets/banners/02_top_hero_sp_4x5.webp 1080w" imagesizes="100vw" media="(max-width: 767px)" data-only-home>
+  <link rel="preload" as="image" type="image/webp" imagesrcset="assets/banners/01_top_hero_pc_4x1-1400.webp 1400w, assets/banners/01_top_hero_pc_4x1.webp 2400w" imagesizes="(max-width: 1400px) 100vw, 1400px" media="(min-width: 768px)" data-only-home>
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Nortiq Labs">
   <!-- 記事ルートでは app.jsx が og:type を article に変え、下の2つに日付を入れる。
@@ -1323,7 +1370,7 @@ async function build() {
   <meta name="twitter:title" content="${TITLE}">
   <meta name="twitter:description" content="${DESC}">
   <meta name="twitter:image" content="${OG_IMAGE}">
-  <link rel="stylesheet" href="styles.css?v=${ver}">
+  <link rel="stylesheet" href="styles.css?v=${ver}">${FONTS_HEAD}
   <script type="application/ld+json">${jsonLd}</script>
   <!-- defer: この2本 (計約139KB) は head にあって描画をブロックしていた。
        ページの初期表示はプリレンダ済みHTMLで完結するのでJSを待つ必要がない。
@@ -1464,6 +1511,9 @@ async function build() {
 <title>ページが見つかりません (404) — Nortiq Labs</title>
 <link rel="icon" href="/assets/nortiq-fav.png">
 <link rel="stylesheet" href="/styles.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="${FONTS_URL}">
 <style>
   .nf-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:40px 20px;font-family:'Noto Sans JP',system-ui,sans-serif;background:#fff;color:#1a1a1a}
   .nf-box{max-width:560px;text-align:center}

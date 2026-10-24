@@ -36,6 +36,7 @@ function DetailHero({ tag, title, lede, badges, onContact, ctaLabel = "資料請
               src={visualSrc}
               alt={`${tag.split(' / ')[1] || tag}のサービスイメージ`}
               fit
+              loading="eager"
             />
           </div>
         </div>

@@ -636,7 +636,11 @@ function App() {
       s.textContent = JSON.stringify(items.length === 1 ? items[0] : items);
       document.head.appendChild(s);
     }
-    window.scrollTo({ top: 0, behavior: 'instant' });
+    // 着地時に #request (トップの資料請求フォーム) が付いていればそこへ。ヒーローバナー・共通CTA帯の
+    // JS 無し時のリンク先で、JS ありの通常クリックはモーダルを開くのでここは通らない。
+    const target = window.location.hash === '#request' ? document.getElementById('request') : null;
+    if (target) target.scrollIntoView({ block: 'start' });
+    else window.scrollTo({ top: 0, behavior: 'instant' });
 
     // GA4 page_view for the SPA navigation that just happened. pushState/popstate
     // have already updated window.location by the time this effect runs, and
@@ -685,6 +689,9 @@ function App() {
       if (id === 'diagnostic' && typeof window.nqTrack === 'function') {
         window.nqTrack('diagnostic_cta_click', {}, 'diagnostic');
       }
+      // SPA 内の遷移であることを CSS に伝える (.page-fade のフェードインはこのときだけ掛ける。
+      // 初回表示に掛けると、プリレンダ済み HTML の LCP が 1.5〜2 秒遅れて記録される)。
+      document.documentElement.classList.add('spa-nav');
       setRoute(id);
       window.history.pushState({ id }, '', pathFor(id));
     } else {
@@ -696,6 +703,7 @@ function App() {
   React.useEffect(() => {
     const onPopState = () => {
       const id = idFromPath(window.location.pathname);
+      document.documentElement.classList.add('spa-nav');
       setRoute(ROUTES[id] ? id : 'top');
     };
     window.addEventListener('popstate', onPopState);

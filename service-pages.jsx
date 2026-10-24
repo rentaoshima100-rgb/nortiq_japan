@@ -74,7 +74,7 @@ function PricingTable({ rows, featuredIndex, note }) {
           <div key={r.key || i} className={`price-card ${i === featured ? 'featured' : ''}`}>
             <div className="row" style={{ justifyContent: 'space-between' }}>
               <span className="step-num">{r.plan}</span>
-              {i === featured && <span className="tag" style={{ color: 'var(--accent)', borderColor: 'var(--accent)' }}>RECOMMENDED</span>}
+              {i === featured && <span className="tag" style={{ color: 'var(--accent-text)', borderColor: 'var(--accent)' }}>RECOMMENDED</span>}
             </div>
             {(r.amount != null || r.tagline) && (
               <div className="stack-s">
@@ -141,6 +141,7 @@ function WebPage({ onNavigate, onContact }) {
         subCta="制作実績を見る"
         subCtaTo="works"
         nav={onNavigate}
+        visual={{ base: 'assets/banners/05_web_1x1', alt: '集客できるホームページ制作のイメージ: 担当者とサイト画面、お問い合わせ数の推移グラフ。オリジナルデザイン・スマホ最適化・SEO内部対策' }}
       />
 
       {/* PAINS */}
@@ -315,6 +316,7 @@ function ChatbotPage({ onNavigate, onContact }) {
         subCta="製品詳細を見る"
         subCtaTo="product-wpchat"
         nav={onNavigate}
+        visual={{ base: 'assets/banners/06_chatbot_1x1', alt: 'AIチャットボットのイメージ: 「今週のブログ記事を書いて」と頼むと「できました！」と記事が仕上がる。質問するだけで記事が書ける' }}
       />
 
       {/* SPIRAL OF DECLINE */}
@@ -566,6 +568,7 @@ function DXPage({ onNavigate, onContact }) {
         subCta="料金プランを見る"
         subCtaTo="pricing"
         nav={onNavigate}
+        visual={{ base: 'assets/banners/07_dx_1x1', alt: 'DX・機械学習の実装支援のイメージ: 担当者と KPI ダッシュボード (グラフ・業務フロー)。業務自動化・データ分析・ML実装' }}
       />
 
       {/* WHY STAGED */}
@@ -677,7 +680,7 @@ function DXPage({ onNavigate, onContact }) {
             lede="AI・Web の実装を担う技術チーム。Engineer / Data Scientist / Computer Scientist の三職能が連携します。"
           />
           <div className="grid-3">
-            <TeamCard role="Founder" name="代表" desc="日本の中小企業向け DX 支援を起業。" tags={["AI Engineering", "Full-stack", "JP / EN"]} src="assets/staff-founder.jpg"/>
+            <TeamCard role="Founder" name="代表" desc="日本の中小企業向け DX 支援を起業。" tags={["AI Engineering", "Full-stack", "JP / EN"]}/>
             <TeamCard role="Data Scientist" name="D.S." desc="AI のコア部分を担う。統計モデリング・ML 実装のエキスパート。" tags={["Statistics", "ML Core", "MLOps"]} src="assets/staff-ds.jpg"/>
             <TeamCard role="CTO · Computer Scientist" name="C.S." desc="計算理論・分散システム。VetoNet とテニス分析 SaaS の開発主担当 兼 CTO。" tags={["Distributed", "Security", "Rust"]} src="assets/staff-cto.jpg"/>
           </div>

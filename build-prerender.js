@@ -342,8 +342,24 @@ function startServer(shellHtml) {
 // Rewrite relative asset URLs to root-absolute so they resolve from any sub-path.
 function toAbsolutePaths(html) {
   return html
-    .replace(/(\s(?:src|href|srcset)=")(assets\/)/g, '$1/$2')
+    .replace(/(\s(?:src|href)=")(assets\/)/g, '$1/$2')
+    // srcset / imagesrcset は候補が複数並ぶ ("assets/a.webp 1400w, assets/b.webp 2400w") ので全部書き換える
+    .replace(/(\s(?:srcset|imagesrcset)=")([^"]*)"/g, (m, head, list) => head + list.replace(/(^|,\s*)assets\//g, '$1/assets/') + '"')
     .replace(/(\s(?:src|href)=")(app\.bundle\.js|articles\.js|styles\.css)/g, '$1/$2');
+}
+
+// トップ専用の <link rel="preload" ... data-only-home> (ファーストビュー画像の先読み) を、他ルートのスナップショットから外す。
+// シェル (app.html) 由来で全ルートの <head> に入るが、トップ以外では 85KB の無駄な取得になる。
+function stripHomeOnly(html, route) {
+  if (route === '/') return html;
+  return html.replace(/\s*<link[^>]*\sdata-only-home(?:="")?[^>]*>/g, '');
+}
+
+// Web フォントの <link> は build.js が media="print" onload="this.media='all'" で入れている (描画をブロックしない
+// 読み方)。描画後の DOM を保存すると onload 済みで media="all" になっており、そのまま配信すると
+// スナップショットでは描画をブロックする通常の読み込みに戻ってしまう。print に戻す。
+function restoreAsyncFontLink(html) {
+  return html.replace(/media="all"(\s+onload="this\.media='all'")/g, 'media="print"$1');
 }
 
 // 未承認の文言が入った dist/ からはスナップショットを作らない。
@@ -417,7 +433,8 @@ async function main() {
   // プリレンダ中は Google のタグを読み込ませない。シェルには本番の GA4 タグが入っているので、
   // 止めないと約150ルートぶんの page_view が毎回 GA4 に入り、次ページ提案 (nq) の効果を比べる
   // ベースラインを汚す。gtag.js 自体を落とすので、アプリ側が積む dataLayer もどこにも送られない。
-  // シェルの <script async src=".../gtag/js"> の要素は残る (通信だけ失敗する) ので、保存するHTMLは変わらない。
+  // gtag.js は build.js のインラインスクリプトが DOMContentLoaded 後に <script> を追加して読む (2026-10)。
+  // 追加された要素は document.head に残るが、通信だけ失敗するので保存する HTML は変わらない。
   await page.route(/^https?:[/][/]([^/]+[.])?(googletagmanager|google-analytics)[.]com[/]/, (route) => route.abort());
 
   let ok = 0;
@@ -452,7 +469,7 @@ async function main() {
       });
       await page.waitForTimeout(400);
       const html = '<!DOCTYPE html>\n' + await page.evaluate(() => document.documentElement.outerHTML);
-      const out = toAbsolutePaths(html);
+      const out = stripHomeOnly(restoreAsyncFontLink(toAbsolutePaths(html)), route);
       const file = routeToFile(route);
       fs.mkdirSync(path.dirname(file), { recursive: true });
       fs.writeFileSync(file, out, 'utf8');

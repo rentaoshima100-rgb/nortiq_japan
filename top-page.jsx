@@ -35,21 +35,28 @@ function TopPage({ onNavigate, onContact }) {
   return (
     <main className="page-fade">
 
-      {/* =========== HERO: 4-col vertical scroll bg + 3 medals =========== */}
+      {/* =========== HERO: 納品バナー (PC 4:1 / SP 4:5) + H1 + 3 medals ===========
+          2026-10: 以前の背景 (実績スクリーンショット 4列×16枚の無限スクロール) は廃止。64枚の <img> が
+          ファーストビューに並び、LCP がその中の lazy 画像になっていた (モバイルの Lighthouse で 12秒超)。
+          バナーは納品ガイド (nortiq_banners_web.zip の README) の配置 #1/#2。全体が資料請求への導線で、
+          クリックは他の CTA と同じくモーダルを開く。JS が無い環境では #request (ページ下部のフォーム) へ飛ぶ。
+          fadein は付けない (LCP 要素が JS まで透明のままになる)。 */}
       <section className="main-wrap">
         <span className="geo-blob b1"></span>
         <span className="geo-blob b2"></span>
         <span className="geo-blob b3"></span>
         <div className="main-wordmark-bg" aria-hidden="true">NORTIQ LABS</div>
 
-        <div className="main-bg" aria-hidden="true">
-          <VScrollCol direction="down" images={["assets/hero-01.png", "assets/work-asia-exchange.png", "assets/hero-02.png", "assets/work-pleast.png", "assets/hero-03.png", "assets/work-renewal.png", "assets/hero-04.png", "assets/work-rakuyu.png"]}/>
-          <VScrollCol direction="up"   images={["assets/work-cocopa.png", "assets/hero-05.png", "assets/work-pleast.png", "assets/hero-06.png", "assets/work-asia-exchange.png", "assets/hero-07.png", "assets/work-renewal.png", "assets/hero-08.png"]}/>
-          <VScrollCol direction="down" images={["assets/hero-02.png", "assets/work-rakuyu.png", "assets/hero-04.png", "assets/work-cocopa.png", "assets/hero-06.png", "assets/work-taketora.png", "assets/hero-08.png", "assets/work-pleast.png"]}/>
-          <VScrollCol direction="up"   images={["assets/work-panza.png", "assets/hero-01.png", "assets/work-asia-exchange.png", "assets/hero-03.png", "assets/work-cocopa.png", "assets/hero-05.png", "assets/work-renewal.png", "assets/hero-07.png"]}/>
-        </div>
-
         <div className="main-inner">
+          <a className="hero-banner" href="#request" onClick={(e) => { if (onContact) { e.preventDefault(); onContact(); } }}>
+            <BannerImg
+              base="assets/banners/01_top_hero_pc_4x1" widths={[1400, 2400]} sizes="(max-width: 1400px) 100vw, 1400px"
+              width={2400} height={595} eager
+              mobile={{ base: 'assets/banners/02_top_hero_sp_4x5', width: 1080, height: 1341, widths: [780, 1080] }}
+              alt="ホームページ制作、まずは無料モックアップから。契約前に、御社サイトの完成イメージをお見せします。無料で相談する。初回相談無料・営業日24時間以内に返信・制作・支援実績30社+"
+            />
+          </a>
+
           <div className="main-eyebrow fadein">NORTIQ LABS · KYOTO</div>
 
           {/* H1 は「このページが何のページか」を検索エンジンとAIクローラに伝える枠。
@@ -94,7 +101,7 @@ function TopPage({ onNavigate, onContact }) {
       <MixMarquee items={[
         { num: `${NORTIQ_STATS.clients}+`, text: "Companies Supported" },
         { num: String(NORTIQ_STATS.team), text: "Team Members" },
-        { num: "2025", text: "Founded" },
+        { num: "2025", text: "Since" },
         { num: "24h", text: "Response SLA" },
         { num: priceFrom(NORTIQ_PRICING.web.plans[0].min), text: `Web 制作 開始価格${priceTax()}` },
         { num: String(NORTIQ_STATS.industries), text: "業種カバー" },
@@ -171,7 +178,7 @@ function TopPage({ onNavigate, onContact }) {
               </div>
               <div className="promo-cta">詳しく見る <Icon name="arrow-right" size={14}/></div>
             </a>
-            <a className="promo-card fadein" data-delay="120" {...navProps('guidebook', onNavigate)}>
+            <a className="promo-card promo-card-has-thumb fadein" data-delay="120" {...navProps('guidebook', onNavigate)}>
               <div className="promo-tag">無料DL</div>
               <div className="promo-num">02</div>
               <div className="promo-body">
@@ -180,6 +187,10 @@ function TopPage({ onNavigate, onContact }) {
                 <p className="promo-desc">制作の進め方・実績・料金プラン・制作の流れを一冊に。</p>
               </div>
               <div className="promo-cta">ダウンロード <Icon name="arrow-right" size={14}/></div>
+              {/* 納品バナー 09 (資料の表紙) をサムネに */}
+              <div className="promo-thumb" aria-hidden="true">
+                <BannerImg base="assets/banners/09_guidebook_1x1" widths={[600, 1200]} sizes="100px" width={1200} height={1200} alt=""/>
+              </div>
             </a>
             <a className="promo-card promo-card-feature fadein" data-delay="240" {...navProps('product-wpchat', onNavigate)}>
               <div className="promo-tag">主力プロダクト</div>
@@ -345,7 +356,7 @@ function TopPage({ onNavigate, onContact }) {
                 ['クリニック', 'blue', false], ['不動産', 'green', true], ['建築', 'gold', false],
                 ['工務店', 'blue2', false], ['人材', 'orange', false], ['小売', 'blue', true],
               ].map((k, i) => (
-                <HashTag key={i} color={k[1]} big={k[2]} onClick={() => onNavigate('works')}>{k[0]}</HashTag>
+                <HashTag key={i} color={k[1]} big={k[2]} to="works" nav={onNavigate}>{k[0]}</HashTag>
               ))}
             </div>
             <div className="kw-row kw-row-rev">
@@ -358,7 +369,7 @@ function TopPage({ onNavigate, onContact }) {
                 ['コーポレートLP', 'blue', true], ['採用LP', 'green', false], ['EC連動LP', 'orange', false],
                 ['動画制作', 'blue2', true], ['動画SEO', 'gold', false], ['WordPress', 'blue', false],
               ].map((k, i) => (
-                <HashTag key={i} color={k[1]} big={k[2]} onClick={() => onNavigate('works')}>{k[0]}</HashTag>
+                <HashTag key={i} color={k[1]} big={k[2]} to="works" nav={onNavigate}>{k[0]}</HashTag>
               ))}
             </div>
           </div>
@@ -373,7 +384,7 @@ function TopPage({ onNavigate, onContact }) {
             <p className="section-sub fadein">TOPICS · WEIGHTED CLOUD</p>
           </div>
           <TagCloud
-            onTagClick={() => onNavigate('column')}
+            to="column" nav={onNavigate}
             tags={[
               { label: "Web制作", w: 5 },
               { label: "AIチャットボット", w: 4 },
@@ -527,11 +538,13 @@ function TopPage({ onNavigate, onContact }) {
               accent="var(--tag-blue2)"
               to={'column'} nav={onNavigate}
             />
+            {/* 以前は to が無く、「詳しく見る」を押しても何も起きないカードだった。リスティング広告の記事へ繋ぐ。 */}
             <PickupCard
               label="LISTING"
               title="リスティング広告支援"
               desc="集客に効くリスティング広告、業種別キーワード設計から運用代行まで。"
               accent="var(--tag-orange)"
+              to={'article-listing-ads-cpc-roi'} nav={onNavigate}
             />
             <PickupCard
               label="DIAGNOSIS"
@@ -539,13 +552,16 @@ function TopPage({ onNavigate, onContact }) {
               desc="現状の課題を、Nortiq 独自の30項目チェックリストで分析します。"
               accent="var(--accent)"
               to={'diagnostic'} nav={onNavigate}
+              thumb={{ base: 'assets/banners/08_diagnostic_1x1', alt: 'ホームページ無料診断の結果イメージ (SEO・表示速度・AI可視性・競合比較)' }}
             />
           </div>
         </div>
       </section>
 
-      {/* =========== 大型インライン資料請求フォーム =========== */}
-      <section className="section-pad" style={{ background: 'var(--bg-2)' }}>
+      {/* =========== 大型インライン資料請求フォーム ===========
+          id="request": ヒーローバナー・共通CTA帯の JS 無し時の飛び先 (/#request)。app.jsx が着地時のハッシュを見て
+          ここまでスクロールする。 */}
+      <section id="request" className="section-pad" style={{ background: 'var(--bg-2)', scrollMarginTop: 80 }}>
         <div className="container" style={{ maxWidth: 920 }}>
           <div className="section-head">
             <h2 className="section-title fadein">まずは無料で資料請求</h2>
@@ -565,24 +581,6 @@ function TopPage({ onNavigate, onContact }) {
 // ============================================================
 // Sub-components
 // ============================================================
-
-function VScrollCol({ direction, images }) {
-  const items = [...images, ...images];
-  return (
-    <div className={`main-col ${direction === 'up' ? 'main-col-rev' : ''}`}>
-      <div className="main-col-track">
-        {items.map((src, i) => (
-          <div key={i} className="main-col-img">
-            {/* ヒーロー背景のマーキーは装飾。同じ画像を約40枚繰り返して流しているため、
-                説明的な alt を出すと同一文字列が40回並ぶだけのノイズになる。
-                親の .main-bg は既に aria-hidden。 */}
-            <Picture src={src} alt="" loading="lazy"/>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
 
 // to (ルートID) + nav が渡ればカード全体を実リンクにする。カード型UIの遷移を
 // onClick だけで実装すると、クローラからは行き先の無いブロックにしか見えない。
@@ -725,7 +723,7 @@ function GalleryTabs({ onNavigate }) {
         <div className="grid-3" style={{ marginTop: 32 }}>
           {data[tab].slice(0, 6).map((w, i) => (
             <a key={i} className="card card-link fadein" data-delay={i * 80} style={{ padding: 0, overflow: 'hidden', cursor: 'pointer' }}
-               {...(w.demo ? { onClick: (e) => { e.preventDefault(); openShowcase(w.demo, w.t); } } : navProps(w.route, onNavigate))}>
+               {...(w.demo ? { href: w.demo, onClick: (e) => { e.preventDefault(); openShowcase(w.demo, w.t); } } : navProps(w.route, onNavigate))}>
               <WorkShot work={{ img: w.img, title: w.t, tag: w.tag }}/>
               <div style={{ padding: '18px 22px 20px' }}>
                 <div className="row" style={{ justifyContent: 'space-between', marginBottom: 12 }}>
@@ -813,17 +811,25 @@ function ContentTabs({ onNavigate }) {
   );
 }
 
-function PickupCard({ label, title, desc, accent, onClick, to, nav }) {
+// thumb: { base, alt } で右上に 1:1 のサムネ (納品バナー 08 等) を出す。
+function PickupCard({ label, title, desc, accent, onClick, to, nav, thumb }) {
   const Tag = to && nav ? 'a' : 'article';
   const linkProps = to && nav ? navProps(to, nav) : { onClick };
   return (
     <Tag className="pickup-card fadein" {...linkProps}>
       <div className="pickup-accent" style={{ background: accent }}></div>
-      <div style={{ padding: 24 }}>
-        <p className="pickup-label" style={{ color: accent }}>{label}</p>
-        <h3 className="pickup-title">{title}</h3>
-        <p className="pickup-desc">{desc}</p>
-        <span className="pickup-cta">詳しく見る <Icon name="arrow-right" size={14}/></span>
+      <div className="pickup-body">
+        <div className="pickup-text">
+          <p className="pickup-label" style={{ color: accent }}>{label}</p>
+          <h3 className="pickup-title">{title}</h3>
+          <p className="pickup-desc">{desc}</p>
+          <span className="pickup-cta">詳しく見る <Icon name="arrow-right" size={14}/></span>
+        </div>
+        {thumb && (
+          <div className="pickup-thumb">
+            <BannerImg base={thumb.base} widths={[600, 1200]} sizes="88px" width={1200} height={1200} alt={thumb.alt}/>
+          </div>
+        )}
       </div>
     </Tag>
   );

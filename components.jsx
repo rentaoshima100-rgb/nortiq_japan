@@ -305,18 +305,35 @@ function Nav({ current, onNavigate, onContact, onSideForm }) {
                 className="nav-link-wrap"
                 onMouseEnter={() => hasMega && enter(item.id)}
                 onMouseLeave={() => hasMega && leave()}
+                onBlur={(e) => { if (hasMega && !e.currentTarget.contains(e.relatedTarget)) leave(); }}
+                onKeyDown={(e) => { if (e.key === 'Escape') setOpenMega(null); }}
               >
-                <a
-                  className="nav-link"
-                  aria-current={current === item.id ? 'page' : undefined}
-                  aria-expanded={openMega === item.id ? 'true' : undefined}
-                  {...(hasMega ? {} : navProps(item.id, onNavigate))}
-                >
-                  {item.label}
-                  {hasMega && <Icon name="arrow-down" size={11}/>}
-                </a>
-                {hasMega && openMega === item.id && (
-                  <div className="megamenu" onMouseEnter={() => enter(item.id)} onMouseLeave={leave}>
+                {/* 2026-10: 開閉トリガーは <button>。href の無い <a> はキーボードで到達できず、
+                    Lighthouse (SEO) も「クロールできないリンク」として全ページで減点していた。
+                    パネルは常に DOM に置いて hidden で畳む (クローラと JS 無効環境にもメニューのリンクが見える)。 */}
+                {hasMega ? (
+                  <button
+                    type="button"
+                    className="nav-link"
+                    aria-current={current === item.id ? 'page' : undefined}
+                    aria-haspopup="true"
+                    aria-expanded={openMega === item.id ? 'true' : 'false'}
+                    onClick={() => (openMega === item.id ? setOpenMega(null) : enter(item.id))}
+                  >
+                    {item.label}
+                    <Icon name="arrow-down" size={11}/>
+                  </button>
+                ) : (
+                  <a
+                    className="nav-link"
+                    aria-current={current === item.id ? 'page' : undefined}
+                    {...navProps(item.id, onNavigate)}
+                  >
+                    {item.label}
+                  </a>
+                )}
+                {hasMega && (
+                  <div className="megamenu" hidden={openMega !== item.id} onMouseEnter={() => enter(item.id)} onMouseLeave={leave}>
                     <div className="megamenu-inner">
                       {item.columns.map((col, ci) => (
                         <div key={ci} className="megamenu-col">
@@ -466,15 +483,45 @@ if (typeof window !== 'undefined') window.IndustryLpBanner = IndustryLpBanner;
 // -------------------- Picture (WebP + raster fallback) --------------------
 // Serves an optimized .webp (generated at build time) with the original PNG/JPEG
 // as fallback. `picture { display: contents }` keeps layout identical to a bare img.
-function Picture({ src, alt = '', className, loading, style }) {
+// loading は既定で lazy (2026-10)。トップでは画面外の一覧カードの画像 18 枚が eager で、ファーストビューの
+// 画像 (LCP) と帯域を取り合っていた。ファーストビューに置く画像だけ loading="eager" を渡す (DetailHero の製品ビジュアル等)。
+function Picture({ src, alt = '', className, loading = 'lazy', style }) {
   const webp = typeof src === 'string' && /\.(png|jpe?g)$/i.test(src)
     ? src.replace(/\.(png|jpe?g)$/i, '.webp') : null;
-  const img = <img src={src} alt={alt} className={className} loading={loading} style={style}/>;
+  const img = <img src={src} alt={alt} className={className} loading={loading} decoding="async" style={style}/>;
   return webp ? (<picture><source srcSet={webp} type="image/webp"/>{img}</picture>) : img;
 }
 
+// -------------------- Banner image (assets/banners/*, 2026-10 納品の9点) --------------------
+// WebP を優先し、JPEG をフォールバックにする。widths は用意してある幅 (例 [1400, 2400])。
+// 最大幅のファイルは "<base>.webp" (納品のまま)、それ以外は "<base>-<幅>.webp" (sharp で縮小)。
+// 画像に文字が入っているので、alt には画像内の文言をそのまま入れる (SEO・読み上げ)。
+// mobile を渡すと 767px 以下でその画像に切り替える (トップのファーストビュー 4:1 ↔ 4:5)。
+// width/height は <source> にも付ける: 縦横比が違う画像に切り替わる前にブラウザが正しい高さを確保できる。
+// eager は LCP 候補 (ファーストビュー) にだけ使う。遅延読込にすると LCP が数秒遅れる。
+function BannerImg({ base, alt, width, height, widths, sizes, eager = false, className, mobile }) {
+  const maxW = Math.max(...widths);
+  const file = (w) => (w === maxW ? `${base}.webp` : `${base}-${w}.webp`);
+  const srcSet = widths.map((w) => `${file(w)} ${w}w`).join(', ');
+  const extra = eager ? { fetchpriority: 'high' } : { loading: 'lazy' };
+  // mobile.widths があれば SP 用も srcset にする (例 [780, 1080]: 2倍密度の 390px 端末は 780 で足りる)。
+  const mobileSrcSet = mobile
+    ? (mobile.widths
+      ? mobile.widths.map((w) => `${w === Math.max(...mobile.widths) ? mobile.base + '.webp' : mobile.base + '-' + w + '.webp'} ${w}w`).join(', ')
+      : `${mobile.base}.webp`)
+    : null;
+  return (
+    <picture className={className}>
+      {mobile && <source media="(max-width: 767px)" type="image/webp" srcSet={mobileSrcSet} sizes={mobile.widths ? (mobile.sizes || '100vw') : undefined} width={mobile.width} height={mobile.height}/>}
+      {mobile && <source media="(max-width: 767px)" srcSet={`${mobile.base}.jpg`} width={mobile.width} height={mobile.height}/>}
+      <source type="image/webp" srcSet={srcSet} sizes={sizes} width={width} height={height}/>
+      <img src={`${base}.jpg`} alt={alt} width={width} height={height} decoding="async" {...extra}/>
+    </picture>
+  );
+}
+
 // -------------------- Placeholder image --------------------
-function Placeholder({ label = "Image", caption, aspect = "16/9", height, children, src, fit = false, alt }) {
+function Placeholder({ label = "Image", caption, aspect = "16/9", height, children, src, fit = false, alt, loading }) {
   const style = {
     aspectRatio: height ? undefined : aspect,
     height: height || undefined,
@@ -483,7 +530,7 @@ function Placeholder({ label = "Image", caption, aspect = "16/9", height, childr
   if (src) {
     return (
       <div className={`ph ph-image${fit ? ' ph-fit' : ''}`} style={style}>
-        <Picture src={src} alt={alt !== undefined ? alt : (label || '')}/>
+        <Picture src={src} alt={alt !== undefined ? alt : (label || '')} loading={loading}/>
         {label && <span className="ph-label" style={{ background: 'rgba(255,255,255,0.92)' }}>{label}</span>}
         {caption && <div className="ph-caption" style={{ color: '#fff', textShadow: '0 1px 3px rgba(0,0,0,0.6)' }}>{caption}</div>}
       </div>
@@ -549,7 +596,7 @@ function Footer({ onNavigate, onContact }) {
           </div>
 
           <div className="footer-col">
-            <h4>制作実績</h4>
+            <h3>制作実績</h3>
             <ul>
               <li><a {...navProps('works', onNavigate)}>全実績一覧</a></li>
               <li><a {...navProps('works-clinic', onNavigate)}>クリニック・医療</a></li>
@@ -567,7 +614,7 @@ function Footer({ onNavigate, onContact }) {
           </div>
 
           <div className="footer-col">
-            <h4>機能・サービス</h4>
+            <h3>機能・サービス</h3>
             <ul>
               <li><a {...navProps('web', onNavigate)}>Web制作 機能一覧</a></li>
               <li><a {...navProps('chatbot', onNavigate)}>AIチャットボット 機能一覧</a></li>
@@ -576,7 +623,7 @@ function Footer({ onNavigate, onContact }) {
               <li><a {...navProps('feature-recruit', onNavigate)}>採用専門サイト</a></li>
               <li><a {...navProps('feature-analytics', onNavigate)}>アクセス解析</a></li>
             </ul>
-            <h4 style={{ marginTop: 24 }}>自社プロダクト</h4>
+            <h3 style={{ marginTop: 24 }}>自社プロダクト</h3>
             <ul>
               <li><a {...navProps('product-vetonet', onNavigate)}>VetoNet</a></li>
               <li><a {...navProps('product-wpchat', onNavigate)}>ブログボット（AI投稿アシスタント）</a></li>
@@ -585,7 +632,7 @@ function Footer({ onNavigate, onContact }) {
           </div>
 
           <div className="footer-col">
-            <h4>サポート・コンサル</h4>
+            <h3>サポート・コンサル</h3>
             <ul>
               <li><a {...navProps('support', onNavigate)}>運用サポート</a></li>
               <li><a {...navProps('voice', onNavigate)}>ご利用会社様の声</a></li>
@@ -595,7 +642,7 @@ function Footer({ onNavigate, onContact }) {
               <li><a {...navProps('subsidy', onNavigate)}>補助金活用相談</a></li>
               <li><a {...navProps('guidebook', onNavigate)}>サービス紹介資料</a></li>
             </ul>
-            <h4 style={{ marginTop: 24 }}>業種別ソリューション</h4>
+            <h3 style={{ marginTop: 24 }}>業種別ソリューション</h3>
             <ul>
               <li><a {...navProps('solution-clinic', onNavigate)}>クリニック・医療</a></li>
               <li><a {...navProps('solution-realty', onNavigate)}>不動産</a></li>
@@ -605,7 +652,7 @@ function Footer({ onNavigate, onContact }) {
               <li><a href="/service/kanri-dantai">監理団体・登録支援機関</a></li>
               <li><a href="/service/recruit-site">建設・運送・介護 採用サイト</a></li>
             </ul>
-            <h4 style={{ marginTop: 24 }}>会社</h4>
+            <h3 style={{ marginTop: 24 }}>会社</h3>
             <ul>
               <li><a {...navProps('company', onNavigate)}>会社概要</a></li>
               <li><a {...navProps('staff', onNavigate)}>チーム / スタッフ</a></li>
@@ -702,7 +749,7 @@ function ContactModal({ open, onClose, defaultCategory = '' }) {
 
   return (
     <div className={`modal-backdrop${open ? ' open' : ''}`} onClick={(e) => e.target === e.currentTarget && onClose()}>
-      <div className="modal" role="dialog" aria-modal="true">
+      <div className="modal" role="dialog" aria-modal="true" aria-label="資料請求・お問い合わせ">
         <button className="modal-close" onClick={onClose} aria-label="閉じる"><Icon name="close" size={16}/></button>
 
         {stage === 'done' ? (
@@ -751,22 +798,22 @@ function ContactModal({ open, onClose, defaultCategory = '' }) {
             <form onSubmit={submit} noValidate>
               <div className="field">
                 <label>貴社名<span className="req">必須</span></label>
-                <input type="text" value={form.company} onChange={onChange('company')} placeholder="株式会社○○"/>
+                <input type="text" value={form.company} onChange={onChange('company')} placeholder="株式会社○○" aria-label="貴社名" autoComplete="organization"/>
                 {errors.company && <div className="err">{errors.company}</div>}
               </div>
               <div className="field">
                 <label>ご担当者名<span className="req">必須</span></label>
-                <input type="text" value={form.name} onChange={onChange('name')} placeholder="山田 太郎"/>
+                <input type="text" value={form.name} onChange={onChange('name')} placeholder="山田 太郎" aria-label="ご担当者名" autoComplete="name"/>
                 {errors.name && <div className="err">{errors.name}</div>}
               </div>
               <div className="field">
                 <label>メールアドレス<span className="req">必須</span></label>
-                <input type="email" value={form.email} onChange={onChange('email')} placeholder="you@example.com"/>
+                <input type="email" value={form.email} onChange={onChange('email')} placeholder="you@example.com" aria-label="メールアドレス" autoComplete="email"/>
                 {errors.email && <div className="err">{errors.email}</div>}
               </div>
               <div className="field">
                 <label>電話番号<span className="req">必須</span></label>
-                <input type="tel" value={form.phone} onChange={onChange('phone')} placeholder="03-XXXX-XXXX"/>
+                <input type="tel" value={form.phone} onChange={onChange('phone')} placeholder="03-XXXX-XXXX" aria-label="電話番号" autoComplete="tel"/>
                 {errors.phone && <div className="err">{errors.phone}</div>}
               </div>
               <div className="field">
@@ -806,14 +853,14 @@ function ContactModal({ open, onClose, defaultCategory = '' }) {
               </div>
               <div className="field">
                 <label>本サイトを知ったきっかけ<span className="any">任意</span></label>
-                <select value={form.source} onChange={onChange('source')}>
+                <select value={form.source} onChange={onChange('source')} aria-label="本サイトを知ったきっかけ">
                   <option value="">選択してください</option>
                   {SOURCE_OPTIONS.map(o => <option key={o} value={o}>{o}</option>)}
                 </select>
               </div>
               <div className="field">
                 <label>サイトURL<span className="any">任意</span></label>
-                <input type="text" value={form.siteUrl} onChange={onChange('siteUrl')} placeholder="https://"/>
+                <input type="text" value={form.siteUrl} onChange={onChange('siteUrl')} placeholder="https://" aria-label="サイトURL" inputMode="url"/>
               </div>
               <div className="field">
                 <label>その他ご質問<span className="any">任意</span></label>
@@ -914,28 +961,28 @@ function BigInlineForm() {
           <tr>
             <th>貴社名<span className="req">必須</span></th>
             <td>
-              <input type="text" value={form.company} onChange={onChange('company')} placeholder="株式会社○○"/>
+              <input type="text" value={form.company} onChange={onChange('company')} placeholder="株式会社○○" aria-label="貴社名" autoComplete="organization"/>
               {errors.company && <div className="err">{errors.company}</div>}
             </td>
           </tr>
           <tr>
             <th>ご担当者名<span className="req">必須</span></th>
             <td>
-              <input type="text" value={form.name} onChange={onChange('name')} placeholder="山田 太郎"/>
+              <input type="text" value={form.name} onChange={onChange('name')} placeholder="山田 太郎" aria-label="ご担当者名" autoComplete="name"/>
               {errors.name && <div className="err">{errors.name}</div>}
             </td>
           </tr>
           <tr>
             <th>メールアドレス<span className="req">必須</span></th>
             <td>
-              <input type="email" value={form.email} onChange={onChange('email')} placeholder="you@example.com"/>
+              <input type="email" value={form.email} onChange={onChange('email')} placeholder="you@example.com" aria-label="メールアドレス" autoComplete="email"/>
               {errors.email && <div className="err">{errors.email}</div>}
             </td>
           </tr>
           <tr>
             <th>電話番号<span className="req">必須</span></th>
             <td>
-              <input type="tel" value={form.phone} onChange={onChange('phone')} placeholder="03-XXXX-XXXX"/>
+              <input type="tel" value={form.phone} onChange={onChange('phone')} placeholder="03-XXXX-XXXX" aria-label="電話番号" autoComplete="tel"/>
               {errors.phone && <div className="err">{errors.phone}</div>}
             </td>
           </tr>
@@ -956,7 +1003,7 @@ function BigInlineForm() {
           <tr>
             <th>住所<span className="req">必須</span></th>
             <td>
-              <input type="text" value={form.address} onChange={onChange('address')} placeholder="京都府京都市…"/>
+              <input type="text" value={form.address} onChange={onChange('address')} placeholder="京都府京都市…" aria-label="住所" autoComplete="street-address"/>
               {errors.address && <div className="err">{errors.address}</div>}
             </td>
           </tr>
@@ -991,7 +1038,7 @@ function BigInlineForm() {
           <tr>
             <th>本サイトを知ったきっかけ<span className="any">任意</span></th>
             <td>
-              <select value={form.source} onChange={onChange('source')}>
+              <select value={form.source} onChange={onChange('source')} aria-label="本サイトを知ったきっかけ">
                 <option value="">選択してください</option>
                 {SOURCE_OPTIONS.map(o => <option key={o} value={o}>{o}</option>)}
               </select>
@@ -999,11 +1046,11 @@ function BigInlineForm() {
           </tr>
           <tr>
             <th>最寄り駅<span className="any">任意</span></th>
-            <td><input type="text" value={form.station} onChange={onChange('station')}/></td>
+            <td><input type="text" value={form.station} onChange={onChange('station')} aria-label="最寄り駅"/></td>
           </tr>
           <tr>
             <th>サイトURL<span className="any">任意</span></th>
-            <td><input type="text" value={form.siteUrl} onChange={onChange('siteUrl')} placeholder="https://"/></td>
+            <td><input type="text" value={form.siteUrl} onChange={onChange('siteUrl')} placeholder="https://" aria-label="サイトURL" inputMode="url"/></td>
           </tr>
         </tbody>
       </table>
@@ -1199,7 +1246,27 @@ function RedCTAStrip({ onContact, onNavigate, title }) {
   return (
     <>
       <NqSlotMount slot="slot-next" onNavigate={onNavigate} onContact={onContact}/>
-      <section className="t_inq_wrap fadein">
+      {/* 2026-10: 定型文のときは 768px 以上で納品バナー 03 (資料請求の帯) を出す。
+          クリックは他の CTA と同じく資料請求モーダル。JS が無い環境とクローラには /#request (トップの
+          インラインフォーム) へのリンクとして見える。4:1 の画像は SP では文字が読めないので、SP は
+          従来の赤帯 (下) を残す。title 付き (採用・お知らせ等、文言を変えているページ) は従来どおり。 */}
+      {!title && (
+        <section className="cta-band-wrap fadein" aria-label="資料請求のご案内">
+          <div className="container">
+            <a className="cta-band" href="/#request" onClick={(e) => { if (onContact) { e.preventDefault(); onContact(); } }}>
+              <BannerImg
+                base="assets/banners/03_cta_band_4x1" widths={[1400, 2400]} sizes="(max-width: 1232px) calc(100vw - 32px), 1200px"
+                width={2400} height={595}
+                alt="Web制作・AI・DXの資料を、無料でお届けします。初回相談無料。営業日24時間以内に担当者からご返信します。資料請求（無料）"
+              />
+            </a>
+            <p className="cta-band-links">
+              <a {...(onNavigate ? navProps('diagnostic', onNavigate) : { href: '/diagnostic' })}>ホームページ無料診断もあります <Icon name="arrow-right" size={12}/></a>
+            </p>
+          </div>
+        </section>
+      )}
+      <section className={`t_inq_wrap fadein${title ? '' : ' t_inq_sp-only'}`}>
         <div className="container">
           {/* br だけだとSPで3行になり、br を消すだけだと「AI運用まずは無料で」と
               2つのフレーズが繋がってしまう。フレーズ単位の .phrase で分ける。 */}
@@ -1223,16 +1290,19 @@ function CTAStrip(props) { return React.createElement(RedCTAStrip, props); }
 // subCta は subCtaTo (遷移先ルートID) + nav が揃ったときだけ描画する。
 // 以前は onClick も href も無い <Button> を全サブページに出しており、押しても何も起きない
 // ボタンが常設されていた (クローラから見ればリンクが無い)。
-function PageHero({ eyebrow, title, sub, lede, badges, onContact, ctaLabel = "資料請求はこちら", subCta = "デモを見る", subCtaTo, nav, watermark, pageNo }) {
+// visual: { base, alt } を渡すと、ヒーロー右半分 (以前は空白) に 1:1 の納品バナー (assets/banners/04-07, 09) を出す。
+// 767px 以下では見出し・ボタンの下に中央寄せ (最大 420px)。
+function PageHero({ eyebrow, title, sub, lede, badges, onContact, ctaLabel = "資料請求はこちら", subCta = "デモを見る", subCtaTo, nav, watermark, pageNo, visual }) {
   return (
-    <section className="page-hero">
+    <section className={`page-hero${visual ? ' page-hero-has-visual' : ''}`}>
       <div className="page-hero-deco">
         {watermark && <div className="page-hero-watermark">{watermark}</div>}
         <div className="page-hero-band"></div>
         {pageNo && <div className="page-hero-no">/ {pageNo}</div>}
       </div>
       <div className="container" style={{ position: 'relative', zIndex: 2 }}>
-        <div style={{ maxWidth: 1100 }}>
+        <div className="page-hero-grid">
+        <div className="page-hero-text" style={{ maxWidth: 1100 }}>
           {eyebrow && (
             <div className="main-eyebrow fadein" style={{ marginBottom: 24 }}>
               {eyebrow}
@@ -1253,6 +1323,40 @@ function PageHero({ eyebrow, title, sub, lede, badges, onContact, ctaLabel = "�
             )}
           </div>
         </div>
+        {visual && (
+          <div className="page-hero-visual">
+            <BannerImg
+              base={visual.base} widths={[600, 1200]} sizes="(max-width: 767px) 420px, (max-width: 1024px) 38vw, 520px"
+              width={1200} height={1200} eager alt={visual.alt}
+            />
+          </div>
+        )}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// 料金ページ下部などに置く資料導線 (納品バナー 09)。/guidebook へのリンクカード。
+function GuidebookLead({ onNavigate }) {
+  return (
+    <section className="section-pad-sm" style={{ background: 'var(--bg-2)', borderTop: '1px solid var(--border)' }}>
+      <div className="container">
+        <a className="guide-lead fadein" {...(onNavigate ? navProps('guidebook', onNavigate) : { href: '/guidebook' })}>
+          <div className="guide-lead-visual">
+            <BannerImg
+              base="assets/banners/09_guidebook_1x1" widths={[600, 1200]} sizes="(max-width: 767px) 160px, 200px"
+              width={1200} height={1200}
+              alt="サービス紹介資料（PDF・全9ページ）の表紙と、資料を案内する赤いマスコット"
+            />
+          </div>
+          <div className="guide-lead-body">
+            <p className="eyebrow eyebrow-accent" style={{ marginBottom: 10 }}>SALES DECK / 無料ダウンロード</p>
+            <h2 className="display-s" style={{ margin: '0 0 10px' }}>料金の目安と制作の流れを、資料でまとめて確認する。</h2>
+            <p className="small" style={{ margin: '0 0 18px', color: 'var(--text-2)' }}>Web制作サービス紹介資料 (PDF・全9ページ)。制作の進め方・実績・料金プラン・制作の流れを一冊に。</p>
+            <span className="btn btn-primary">資料を無料ダウンロード <Icon name="arrow-right" size={14}/></span>
+          </div>
+        </a>
       </div>
     </section>
   );
@@ -1435,13 +1539,14 @@ function MixMarquee({ items }) {
 }
 
 // -------------------- Tag cloud (weighted) --------------------
-function TagCloud({ tags, onTagClick }) {
+// to (ルートID) + nav があれば各タグを href 付きのリンクにする (トップでは全タグが /column へ)。
+function TagCloud({ tags, onTagClick, to, nav }) {
   return (
     <div className="tagcloud">
       {tags.map((t, i) => (
-        <a key={i} className={`w${t.w || 3}`} onClick={() => onTagClick && onTagClick(t.label)}>
-          {t.label}
-        </a>
+        to && nav
+          ? <a key={i} className={`w${t.w || 3}`} {...navProps(to, nav)}>{t.label}</a>
+          : <button key={i} type="button" className={`w${t.w || 3}`} onClick={() => onTagClick && onTagClick(t.label)}>{t.label}</button>
       ))}
     </div>
   );
@@ -1610,11 +1715,21 @@ function useMagnetic() {
   }, []);
 }
 
-function HashTag({ children, color = 'blue', big = false, onClick }) {
+// to (ルートID) + nav を渡すと href 付きの本物のリンクになる (href の無い <a> はクローラにはリンクに見えず、
+// キーボードでも到達できない)。onClick だけのときは <button>。
+function HashTag({ children, color = 'blue', big = false, onClick, to, nav }) {
+  const cls = `kw-pill c-${color}${big ? ' big' : ''}`;
+  if (to && nav) {
+    return (
+      <a className={cls} {...navProps(to, nav)}>
+        <span className="tag-mark">#</span>{children}
+      </a>
+    );
+  }
   return (
-    <a className={`kw-pill c-${color}${big ? ' big' : ''}`} onClick={onClick}>
+    <button type="button" className={cls} onClick={onClick}>
       <span className="tag-mark">#</span>{children}
-    </a>
+    </button>
   );
 }
 

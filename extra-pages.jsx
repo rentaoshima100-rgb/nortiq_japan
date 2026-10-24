@@ -723,7 +723,7 @@ function ArticleDetailPage({ onNavigate, onContact, slug }) {
         <header style={{ paddingTop: 'clamp(48px, 7vw, 90px)', paddingBottom: 32 }}>
           <div className="container" style={{ maxWidth: 820 }}>
             <div className="row" style={{ gap: 12, marginBottom: 24, color: 'var(--text-3)', fontSize: 13, flexWrap: 'wrap' }}>
-              <span className="tag" style={{ color: 'var(--accent)', borderColor: 'var(--accent)' }}>{article.category}</span>
+              <span className="tag" style={{ color: 'var(--accent-text)', borderColor: 'var(--accent)' }}>{article.category}</span>
               <span className="num">{article.date}</span>
               {article.updated && article.updated !== article.date && (
                 <>
@@ -1043,10 +1043,18 @@ function DiagnosticLPPage({ onNavigate, onContact }) {
       {/* Hero */}
       <section className="diag-hero">
         <div className="diag-wrap">
-          <div className="diag-hero-inner">
+          {/* 納品バナー 08: 960px 以上は見出しの横 (CSS grid の2列目)、それ未満は URL 入力欄の上 */}
+          <div className="diag-hero-inner diag-hero-has-visual">
             <span className="diag-badge">完全無料・登録不要</span>
             <h1 className="diag-h1">URLを入れるだけで、<br/>サイトの<span className="hl">「本当の課題」</span><span className="nw">が見える。</span></h1>
             <p className="diag-hero-sub">テクニカルSEO・AI可視性・競合比較まで、NORTIQLAB の専門家が改善提案までお届けします。</p>
+            <div className="diag-hero-visual">
+              <BannerImg
+                base="assets/banners/08_diagnostic_1x1" widths={[600, 1200]} sizes="(max-width: 959px) 300px, 400px"
+                width={1200} height={1200} eager
+                alt="ホームページ無料診断の結果イメージ: 総合スコア 72/100、SEO・表示速度・AI可視性・競合比較の4項目にチェック。URLを入れるだけ・登録不要"
+              />
+            </div>
             <DiagUrlForm onContact={onContact}/>
             <p className="diag-social"><strong>登録不要</strong> ・ URLを入れるだけ ・ <strong>その場で結果表示</strong></p>
           </div>
