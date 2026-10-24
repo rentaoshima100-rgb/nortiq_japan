@@ -400,7 +400,7 @@ function PricingPage({ onNavigate, onContact }) {
         nav={onNavigate}
         /* 納品バナー 04 (3プランの料金カード)。画像内の金額は作成時点の NORTIQ_PRICING と同じ。料金を変えたら画像も作り直す。
            alt の金額は NORTIQ_PRICING から組み立てる (金額を手で書かない決まり)。 */
-        visual={{ base: 'assets/banners/04_pricing_1x1', alt: `Web制作の料金プランのイメージ: ${P.web.plans.map((p) => p.name + ' ' + priceFrom(p.min)).join('、')}（${P.taxNote}）。電卓を持った赤いマスコット` }}
+        visual={{ id: 'pricing-hero', base: 'assets/banners/04_pricing_1x1', alt: `Web制作の料金プランのイメージ: ${P.web.plans.map((p) => p.name + ' ' + priceFrom(p.min)).join('、')}（${P.taxNote}）。電卓を持った赤いマスコット` }}
       />
 
       {blocks.map((block, i) => (
@@ -641,7 +641,7 @@ function GuidebookPage({ onNavigate, onContact }) {
         badges={["全9ページ", "無料DL", "Web制作 / DX"]}
         onContact={onContact}
         ctaLabel="資料を無料DLする"
-        visual={{ base: 'assets/banners/09_guidebook_1x1', alt: 'サービス紹介資料 (2026年版・PDF) の冊子とタブレット表示、資料を読む赤いマスコット。無料ダウンロード' }}
+        visual={{ id: 'guidebook-hero', base: 'assets/banners/09_guidebook_1x1', alt: 'サービス紹介資料 (2026年版・PDF) の冊子とタブレット表示、資料を読む赤いマスコット。無料ダウンロード' }}
       />
       <section className="section-pad">
         <div className="container">

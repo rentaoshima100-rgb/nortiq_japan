@@ -48,14 +48,14 @@ function TopPage({ onNavigate, onContact }) {
         <div className="main-wordmark-bg" aria-hidden="true">NORTIQ LABS</div>
 
         <div className="main-inner">
-          <a className="hero-banner" href="#request" onClick={(e) => { if (onContact) { e.preventDefault(); onContact(); } }}>
+          <TrackedBanner id="top-hero" tag="a" className="hero-banner" href="#request" onClick={(e) => { if (onContact) { e.preventDefault(); onContact('web'); } }}>
             <BannerImg
               base="assets/banners/01_top_hero_pc_4x1" widths={[1400, 2400]} sizes="(max-width: 1400px) 100vw, 1400px"
               width={2400} height={595} eager
               mobile={{ base: 'assets/banners/02_top_hero_sp_4x5', width: 1080, height: 1341, widths: [780, 1080] }}
               alt="ホームページ制作、まずは無料モックアップから。契約前に、御社サイトの完成イメージをお見せします。無料で相談する。初回相談無料・営業日24時間以内に返信・制作・支援実績30社+"
             />
-          </a>
+          </TrackedBanner>
 
           <div className="main-eyebrow fadein">NORTIQ LABS · KYOTO</div>
 

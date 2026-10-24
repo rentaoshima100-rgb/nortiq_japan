@@ -141,7 +141,7 @@ function WebPage({ onNavigate, onContact }) {
         subCta="制作実績を見る"
         subCtaTo="works"
         nav={onNavigate}
-        visual={{ base: 'assets/banners/05_web_1x1', alt: '集客できるホームページ制作のイメージ: 担当者とサイト画面、お問い合わせ数の推移グラフ。オリジナルデザイン・スマホ最適化・SEO内部対策' }}
+        visual={{ id: 'web-hero', base: 'assets/banners/05_web_1x1', alt: '集客できるホームページ制作のイメージ: 担当者とサイト画面、お問い合わせ数の推移グラフ。オリジナルデザイン・スマホ最適化・SEO内部対策' }}
       />
 
       {/* PAINS */}
@@ -316,7 +316,7 @@ function ChatbotPage({ onNavigate, onContact }) {
         subCta="製品詳細を見る"
         subCtaTo="product-wpchat"
         nav={onNavigate}
-        visual={{ base: 'assets/banners/06_chatbot_1x1', alt: 'AIチャットボットのイメージ: 「今週のブログ記事を書いて」と頼むと「できました！」と記事が仕上がる。質問するだけで記事が書ける' }}
+        visual={{ id: 'chatbot-hero', base: 'assets/banners/06_chatbot_1x1', alt: 'AIチャットボットのイメージ: 「今週のブログ記事を書いて」と頼むと「できました！」と記事が仕上がる。質問するだけで記事が書ける' }}
       />
 
       {/* SPIRAL OF DECLINE */}
@@ -568,7 +568,7 @@ function DXPage({ onNavigate, onContact }) {
         subCta="料金プランを見る"
         subCtaTo="pricing"
         nav={onNavigate}
-        visual={{ base: 'assets/banners/07_dx_1x1', alt: 'DX・機械学習の実装支援のイメージ: 担当者と KPI ダッシュボード (グラフ・業務フロー)。業務自動化・データ分析・ML実装' }}
+        visual={{ id: 'dx-hero', base: 'assets/banners/07_dx_1x1', alt: 'DX・機械学習の実装支援のイメージ: 担当者と KPI ダッシュボード (グラフ・業務フロー)。業務自動化・データ分析・ML実装' }}
       />
 
       {/* WHY STAGED */}

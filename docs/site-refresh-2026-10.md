@@ -10,7 +10,7 @@
 | # | ファイル (assets/banners/) | 置いた場所 | 実装 |
 |---|---|---|---|
 | 01 / 02 | `01_top_hero_pc_4x1` / `02_top_hero_sp_4x5` | トップのファーストビュー（PC 4:1 / 767px 以下は 4:5） | `top-page.jsx` `.hero-banner`。クリックは資料請求モーダル、JS 無しでは `/#request` |
-| 03 | `03_cta_band_4x1` | 全ページ共通のフッター直前 CTA 帯（768px 以上）。SP は従来の赤帯のまま（4:1 では文字が読めない） | `components.jsx` `RedCTAStrip`。`title` 付きのページ（採用・お知らせ等）は従来どおり |
+| 03 / 10 | `03_cta_band_4x1` / `10_cta_band_sp_4x5` | 全ページ共通のフッター直前 CTA 帯（PC 4:1 / 767px 以下は PR #18 で作られた縦長版） | `components.jsx` `RedCTAStrip`。`title` 付きのページ（採用・お知らせ等）は従来の赤帯のまま |
 | 04 | `04_pricing_1x1` | `/pricing` ヒーロー右 | `PageHero` の `visual` prop |
 | 05 | `05_web_1x1` | `/web` ヒーロー右 | 同上 |
 | 06 | `06_chatbot_1x1` | `/chatbot` ヒーロー右 | 同上 |
@@ -25,6 +25,13 @@
   **画像の中の金額（30/60/120万円〜）は作成時点の値。料金を変えたら 04 の画像も作り直すこと。**
 - トップのヒーロー背景だった「作品の壁」（実績スクショ 4 列 × 16 枚の無限スクロール）は廃止した。
   64 枚の `<img>` がファーストビューに並び、LCP がその中の lazy 画像（モバイル Lighthouse 12 秒超）になっていた。
+- **表示・クリック計測**（PR #18 の `ConvBanner` と同じ仕様）: `TrackedBanner` が 50% 以上見えたときに `banner_view`、クリックで `banner_click` を
+  `banner_id` / `page_path` 付きで GA4 に送る（`nqTrack` 経由、プリレンダ中は送らない）。banner_id は `top-hero` `cta-band` `web-hero`
+  `chatbot-hero` `dx-hero` `pricing-hero` `guidebook-hero` `diagnostic-hero` `guide-lead`。
+  GA4 の「管理 → カスタム定義 → イベントスコープ」に `banner_id` を登録すると探索レポートで比較できる。
+- **Microsoft Clarity**（PR #18 から取り込み）: `build.js` の `CLARITY_ID`。gtag と同じく DOMContentLoaded 後に読む。プリレンダ中は
+  `clarity.ms` への通信を止める。プライバシーポリシー 8 条に Clarity（ヒートマップ・セッション再生）の記載を追加し、改定日を 2026-10-24 に。
+- PR #18（`feat/clarity-conv-banners`）は同じ 9 点を別実装で置いていたので、`-s ours` でマージして履歴に残し、機能（Clarity・計測・SP 版の CTA 帯画像）はこの実装に移した。
 
 ## 2. 速度
 

@@ -435,7 +435,9 @@ async function main() {
   // ベースラインを汚す。gtag.js 自体を落とすので、アプリ側が積む dataLayer もどこにも送られない。
   // gtag.js は build.js のインラインスクリプトが DOMContentLoaded 後に <script> を追加して読む (2026-10)。
   // 追加された要素は document.head に残るが、通信だけ失敗するので保存する HTML は変わらない。
-  await page.route(/^https?:[/][/]([^/]+[.])?(googletagmanager|google-analytics)[.]com[/]/, (route) => route.abort());
+  // Clarity (clarity.ms) も同じ理由で止める。止めないとプリレンダのたびに約150セッション分の
+  // 録画・ヒートマップが Clarity に入り、本物の訪問者の行動が埋もれる (PR #18 より)。
+  await page.route(/^https?:[/][/]([^/]+[.])?(googletagmanager[.]com|google-analytics[.]com|clarity[.]ms)[/]/, (route) => route.abort());
 
   let ok = 0;
   for (const route of allRoutes) {

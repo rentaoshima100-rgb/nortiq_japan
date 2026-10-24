@@ -492,6 +492,40 @@ function Picture({ src, alt = '', className, loading = 'lazy', style }) {
   return webp ? (<picture><source srcSet={webp} type="image/webp"/>{img}</picture>) : img;
 }
 
+// -------------------- Banner tracking (banner_view / banner_click → GA4) --------------------
+// PR #18 (feat/clarity-conv-banners) の ConvBanner と同じイベント名・パラメータ。50% 以上見えたときに 1 回
+// banner_view、クリックで banner_click を banner_id / page_path 付きで送る (nqTrack 経由。プリレンダ中は送らない)。
+// GA4 側は「管理 → カスタム定義 → イベントスコープ」に banner_id を登録すると、探索レポートで
+// どのバナーが見られ・押され・資料請求につながったかを Clarity のヒートマップと突き合わせられる。
+function useBannerView(ref, id) {
+  React.useEffect(() => {
+    const el = ref.current;
+    if (!el || !id || typeof IntersectionObserver === 'undefined') return undefined;
+    let seen = false;
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (seen || !e.isIntersecting) return;
+        seen = true;
+        nqTrack('banner_view', { banner_id: id, page_path: location.pathname });
+        io.disconnect();
+      });
+    }, { threshold: 0.5 });
+    io.observe(el);
+    return () => io.disconnect();
+  }, [id]);
+}
+function trackBannerClick(id) {
+  nqTrack('banner_click', { banner_id: id, page_path: location.pathname });
+}
+// 計測付きの入れ物。tag は 'a' か 'div'。onClick は計測の後に呼ぶ (navProps の onClick もここに渡す)。
+function TrackedBanner({ id, tag = 'div', onClick, children, ...rest }) {
+  const ref = React.useRef(null);
+  useBannerView(ref, id);
+  const Tag = tag;
+  const handle = (e) => { trackBannerClick(id); if (onClick) onClick(e); };
+  return <Tag ref={ref} data-banner={id} onClick={handle} {...rest}>{children}</Tag>;
+}
+
 // -------------------- Banner image (assets/banners/*, 2026-10 納品の9点) --------------------
 // WebP を優先し、JPEG をフォールバックにする。widths は用意してある幅 (例 [1400, 2400])。
 // 最大幅のファイルは "<base>.webp" (納品のまま)、それ以外は "<base>-<幅>.webp" (sharp で縮小)。
@@ -1246,27 +1280,29 @@ function RedCTAStrip({ onContact, onNavigate, title }) {
   return (
     <>
       <NqSlotMount slot="slot-next" onNavigate={onNavigate} onContact={onContact}/>
-      {/* 2026-10: 定型文のときは 768px 以上で納品バナー 03 (資料請求の帯) を出す。
+      {/* 2026-10: 定型文のときは納品バナー 03 (資料請求の帯。PC 4:1 / 767px 以下は PR #18 の SP 版 4:5) を出す。
           クリックは他の CTA と同じく資料請求モーダル。JS が無い環境とクローラには /#request (トップの
-          インラインフォーム) へのリンクとして見える。4:1 の画像は SP では文字が読めないので、SP は
-          従来の赤帯 (下) を残す。title 付き (採用・お知らせ等、文言を変えているページ) は従来どおり。 */}
+          インラインフォーム) へのリンクとして見える。title 付き (採用・お知らせ等、文言を変えているページ) は
+          従来の赤帯 (下) のまま。表示・クリックは banner_id=cta-band で GA4 に送る。 */}
       {!title && (
         <section className="cta-band-wrap fadein" aria-label="資料請求のご案内">
           <div className="container">
-            <a className="cta-band" href="/#request" onClick={(e) => { if (onContact) { e.preventDefault(); onContact(); } }}>
+            <TrackedBanner id="cta-band" tag="a" className="cta-band" href="/#request" onClick={(e) => { if (onContact) { e.preventDefault(); onContact(); } }}>
               <BannerImg
                 base="assets/banners/03_cta_band_4x1" widths={[1400, 2400]} sizes="(max-width: 1232px) calc(100vw - 32px), 1200px"
                 width={2400} height={595}
+                mobile={{ base: 'assets/banners/10_cta_band_sp_4x5', width: 1080, height: 1341, widths: [780, 1080], sizes: 'calc(100vw - 32px)' }}
                 alt="Web制作・AI・DXの資料を、無料でお届けします。初回相談無料。営業日24時間以内に担当者からご返信します。資料請求（無料）"
               />
-            </a>
+            </TrackedBanner>
             <p className="cta-band-links">
               <a {...(onNavigate ? navProps('diagnostic', onNavigate) : { href: '/diagnostic' })}>ホームページ無料診断もあります <Icon name="arrow-right" size={12}/></a>
             </p>
           </div>
         </section>
       )}
-      <section className={`t_inq_wrap fadein${title ? '' : ' t_inq_sp-only'}`}>
+      {title && (
+      <section className="t_inq_wrap fadein">
         <div className="container">
           {/* br だけだとSPで3行になり、br を消すだけだと「AI運用まずは無料で」と
               2つのフレーズが繋がってしまう。フレーズ単位の .phrase で分ける。 */}
@@ -1278,6 +1314,7 @@ function RedCTAStrip({ onContact, onNavigate, title }) {
           <p className="t_inq_time">営業日 24時間以内に担当者よりご返信します。</p>
         </div>
       </section>
+      )}
     </>
   );
 }
@@ -1324,12 +1361,12 @@ function PageHero({ eyebrow, title, sub, lede, badges, onContact, ctaLabel = "�
           </div>
         </div>
         {visual && (
-          <div className="page-hero-visual">
+          <TrackedBanner id={visual.id || 'page-hero'} className="page-hero-visual">
             <BannerImg
               base={visual.base} widths={[600, 1200]} sizes="(max-width: 767px) 420px, (max-width: 1024px) 38vw, 520px"
               width={1200} height={1200} eager alt={visual.alt}
             />
-          </div>
+          </TrackedBanner>
         )}
         </div>
       </div>
@@ -1342,7 +1379,7 @@ function GuidebookLead({ onNavigate }) {
   return (
     <section className="section-pad-sm" style={{ background: 'var(--bg-2)', borderTop: '1px solid var(--border)' }}>
       <div className="container">
-        <a className="guide-lead fadein" {...(onNavigate ? navProps('guidebook', onNavigate) : { href: '/guidebook' })}>
+        <TrackedBanner id="guide-lead" tag="a" className="guide-lead fadein" {...(onNavigate ? navProps('guidebook', onNavigate) : { href: '/guidebook' })}>
           <div className="guide-lead-visual">
             <BannerImg
               base="assets/banners/09_guidebook_1x1" widths={[600, 1200]} sizes="(max-width: 767px) 160px, 200px"
@@ -1356,7 +1393,7 @@ function GuidebookLead({ onNavigate }) {
             <p className="small" style={{ margin: '0 0 18px', color: 'var(--text-2)' }}>Web制作サービス紹介資料 (PDF・全9ページ)。制作の進め方・実績・料金プラン・制作の流れを一冊に。</p>
             <span className="btn btn-primary">資料を無料ダウンロード <Icon name="arrow-right" size={14}/></span>
           </div>
-        </a>
+        </TrackedBanner>
       </div>
     </section>
   );

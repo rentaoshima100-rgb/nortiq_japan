@@ -1295,7 +1295,21 @@ async function build() {
   // defer のスクリプトは DOMContentLoaded より前に実行されるので、gtag はその後になる。
   // dataLayer と gtag() は先に用意するので、読み込み前の gtag('config') / イベントは失われない
   // (gtag.js が来た時点でまとめて送られる。page_view は 1〜2秒遅れて計測される)。
-  const analyticsHead = loaderId ? `
+  // Microsoft Clarity (ヒートマップ・セッション録画。GA4 連携済み)。PR #18 (feat/clarity-conv-banners) から取り込み。
+  //   CLARITY_ID  Clarity プロジェクトID (設定 > 概要)。空にすればタグを出さない。
+  // gtag と同じく全ページ共通の <head> (index.html / app.html / 静的LP / 404) に入り、本体は DOMContentLoaded 後に読む
+  // (React の起動と主スレッドを取り合わせない)。clarity() の呼び出しはキューに積まれるので読み込み前でも失われない。
+  // プリレンダ時は build-prerender.js が clarity.ms への通信を止める (訪問者ではないため)。
+  const CLARITY_ID = 'z2wvw7aod2';
+  const CLARITY_ON = looksReal(CLARITY_ID, /^[a-z0-9]{8,}$/);
+  const clarityHead = CLARITY_ON ? `
+  <!-- Microsoft Clarity — heatmaps & session recordings (本体は DOMContentLoaded 後に読む) -->
+  <script>
+    (function(c,l,a,r,i){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+    function go(){var t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;l.head.appendChild(t);}
+    if(l.readyState==='loading'){l.addEventListener('DOMContentLoaded',go);}else{go();}})(window, document, "clarity", "script", "${CLARITY_ID}");
+  </script>` : '';
+  const analyticsHead = (loaderId ? `
   <!-- Google tag (gtag.js) — GA4 + Google Ads conversion tracking (本体は DOMContentLoaded 後に読む) -->
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -1306,7 +1320,7 @@ async function build() {
       function go(){document.head.appendChild(s);}
       if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',go);}else{go();}})();
   </script>` : `
-  <!-- Analytics off: set GA4_ID / GADS_ID (+ conversion labels) in build.js to emit gtag.js. -->`;
+  <!-- Analytics off: set GA4_ID / GADS_ID (+ conversion labels) in build.js to emit gtag.js. -->`) + clarityHead;
 
   const FAQ_QA = [
     { q: 'Nortiq Labs はどんな会社ですか？', a: `日本の経営課題に向き合う、AI・Web の実装者で構成された技術チームです。Web制作・AIチャットボット・DX/ML 実装まで、中小企業のDXを段階的に支援します。これまで${NORTIQ_STATS.clients}社の制作・支援実績があります（2025年に京都で事業を開始、2026年8月に法人設立）。` },

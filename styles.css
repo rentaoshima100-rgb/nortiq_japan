@@ -5093,11 +5093,14 @@ video, iframe { max-width: 100%; }
 }
 .cta-band:hover { transform: translateY(-2px); box-shadow: 0 20px 44px rgba(230,0,18,0.18); }
 .cta-band img { width: 100%; height: auto; display: block; aspect-ratio: 2400 / 595; }
+@media (max-width: 767px) {
+  /* SP は PR #18 の縦長 (4:5) 画像に切り替える (BannerImg の mobile)。 */
+  .cta-band img { aspect-ratio: 1080 / 1341; }
+  .cta-band { border-radius: 12px; }
+}
 .cta-band-links { text-align: center; margin: 14px 0 0; font-size: 13px; }
 .cta-band-links a { color: var(--text-2); font-weight: 700; display: inline-flex; align-items: center; gap: 6px; cursor: pointer; }
 .cta-band-links a:hover { color: var(--accent); }
-@media (max-width: 767px) { .cta-band-wrap { display: none; } }
-@media (min-width: 768px) { .t_inq_sp-only { display: none; } }
 
 /* --- 下層ページのヒーロー右側ビジュアル (バナー 04-07, 09) --- */
 .page-hero-grid { display: grid; grid-template-columns: minmax(0, 1fr); }
