@@ -1082,6 +1082,12 @@ async function optimizeImages(assetsDir) {
       // Emit a WebP sibling for <picture> progressive enhancement.
       const webpBuf = await sized(sharp(buffer)).webp({ quality: 78 }).toBuffer();
       fs.writeFileSync(file.replace(/\.(png|jpe?g)$/i, '.webp'), webpBuf);
+      // 480px 幅の WebP も出す (srcset 用)。トップのヒーロー背景「作品の壁」は 1 列 300px 前後の表示なので、
+      // 1600px 幅 (60〜140KB) ではなくこちら (10〜20KB) を読む (top-page.jsx VScrollCol)。
+      if (meta.width && meta.width >= 960) {
+        const smallBuf = await sharp(buffer).resize({ width: 480, withoutEnlargement: true }).webp({ quality: 78 }).toBuffer();
+        fs.writeFileSync(file.replace(/\.(png|jpe?g)$/i, '-480.webp'), smallBuf);
+      }
     } catch (e) {
       console.warn(`  ! image opt skipped ${path.relative(assetsDir, file)}: ${e.message}`);
     }
@@ -1364,11 +1370,6 @@ async function build() {
   <link rel="icon" href="assets/nortiq-fav.png" type="image/png">
   <link rel="apple-touch-icon" href="assets/nortiq-icon.png">
   <meta name="theme-color" content="#E60012">
-  <!-- トップのファーストビュー画像 (LCP 要素) を最優先で取りに行かせる。<picture> の source と同じ srcset / sizes に
-       して二重取得を防ぐ (top-page.jsx の BannerImg と合わせること)。この2行はトップ専用で、build-prerender.js が
-       他ルートのスナップショットからは外す (data-only-home)。 -->
-  <link rel="preload" as="image" type="image/webp" imagesrcset="assets/banners/02_top_hero_sp_4x5-780.webp 780w, assets/banners/02_top_hero_sp_4x5.webp 1080w" imagesizes="100vw" media="(max-width: 767px)" data-only-home>
-  <link rel="preload" as="image" type="image/webp" imagesrcset="assets/banners/01_top_hero_pc_4x1-1400.webp 1400w, assets/banners/01_top_hero_pc_4x1.webp 2400w" imagesizes="(max-width: 1400px) 100vw, 1400px" media="(min-width: 768px)" data-only-home>
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Nortiq Labs">
   <!-- 記事ルートでは app.jsx が og:type を article に変え、下の2つに日付を入れる。

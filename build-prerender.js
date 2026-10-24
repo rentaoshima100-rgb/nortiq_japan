@@ -347,14 +347,6 @@ function toAbsolutePaths(html) {
     .replace(/(\s(?:srcset|imagesrcset)=")([^"]*)"/g, (m, head, list) => head + list.replace(/(^|,\s*)assets\//g, '$1/assets/') + '"')
     .replace(/(\s(?:src|href)=")(app\.bundle\.js|articles\.js|styles\.css)/g, '$1/$2');
 }
-
-// トップ専用の <link rel="preload" ... data-only-home> (ファーストビュー画像の先読み) を、他ルートのスナップショットから外す。
-// シェル (app.html) 由来で全ルートの <head> に入るが、トップ以外では 85KB の無駄な取得になる。
-function stripHomeOnly(html, route) {
-  if (route === '/') return html;
-  return html.replace(/\s*<link[^>]*\sdata-only-home(?:="")?[^>]*>/g, '');
-}
-
 // Web フォントの <link> は build.js が media="print" onload="this.media='all'" で入れている (描画をブロックしない
 // 読み方)。描画後の DOM を保存すると onload 済みで media="all" になっており、そのまま配信すると
 // スナップショットでは描画をブロックする通常の読み込みに戻ってしまう。print に戻す。
@@ -471,7 +463,7 @@ async function main() {
       });
       await page.waitForTimeout(400);
       const html = '<!DOCTYPE html>\n' + await page.evaluate(() => document.documentElement.outerHTML);
-      const out = stripHomeOnly(restoreAsyncFontLink(toAbsolutePaths(html)), route);
+      const out = restoreAsyncFontLink(toAbsolutePaths(html));
       const file = routeToFile(route);
       fs.mkdirSync(path.dirname(file), { recursive: true });
       fs.writeFileSync(file, out, 'utf8');

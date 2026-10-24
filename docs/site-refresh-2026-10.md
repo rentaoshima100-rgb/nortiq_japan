@@ -9,7 +9,7 @@
 
 | # | ファイル (assets/banners/) | 置いた場所 | 実装 |
 |---|---|---|---|
-| 01 / 02 | `01_top_hero_pc_4x1` / `02_top_hero_sp_4x5` | トップのファーストビュー（PC 4:1 / 767px 以下は 4:5） | `top-page.jsx` `.hero-banner`。クリックは資料請求モーダル、JS 無しでは `/#request` |
+| 01 / 02 | `01_top_hero_pc_4x1` / `02_top_hero_sp_4x5` | トップ「導入実績」の直下（PC 4:1 / 767px 以下は 4:5）。公開直後はファーストビューに置いていたが、オーナーの指示でヒーローは元の「実績の壁」に戻し、バナーはここへ移した（2026-10-25） | `top-page.jsx` `.top-banner-section`。クリックは資料請求モーダル、JS 無しでは `#request` |
 | 03 / 10 | `03_cta_band_4x1` / `10_cta_band_sp_4x5` | 全ページ共通のフッター直前 CTA 帯（PC 4:1 / 767px 以下は PR #18 で作られた縦長版） | `components.jsx` `RedCTAStrip`。`title` 付きのページ（採用・お知らせ等）は従来の赤帯のまま |
 | 04 | `04_pricing_1x1` | `/pricing` ヒーロー右 | `PageHero` の `visual` prop |
 | 05 | `05_web_1x1` | `/web` ヒーロー右 | 同上 |
@@ -23,8 +23,9 @@
 - `build.js` の `optimizeImages` は `assets/banners/` を触らない（1600px に縮めると PC の 2 倍密度で文字がぼやける）。
 - 文字入り画像なので alt に画像内の文言を入れてある。04 の alt の金額は `NORTIQ_PRICING` から組み立てる。
   **画像の中の金額（30/60/120万円〜）は作成時点の値。料金を変えたら 04 の画像も作り直すこと。**
-- トップのヒーロー背景だった「作品の壁」（実績スクショ 4 列 × 16 枚の無限スクロール）は廃止した。
-  64 枚の `<img>` がファーストビューに並び、LCP がその中の lazy 画像（モバイル Lighthouse 12 秒超）になっていた。
+- トップのヒーロー背景「作品の壁」（実績スクショ 4 列 × 16 枚の無限スクロール）は残す（オーナー指示。一度バナーに置き換えたが戻した）。
+  以前は 1600px 幅の WebP（1 枚 60〜140KB）64 枚が全部 lazy で、LCP がその中の 1 枚（モバイル Lighthouse 12 秒超）になっていた。
+  いまは `optimizeImages` が作る 480px 幅の WebP を `VScrollCol` が srcset で優先し、最初に見える 2 枚ずつ（1〜2 列目）だけ eager にしている。
 - **表示・クリック計測**（PR #18 の `ConvBanner` と同じ仕様）: `TrackedBanner` が 50% 以上見えたときに `banner_view`、クリックで `banner_click` を
   `banner_id` / `page_path` 付きで GA4 に送る（`nqTrack` 経由、プリレンダ中は送らない）。banner_id は `top-hero` `cta-band` `web-hero`
   `chatbot-hero` `dx-hero` `pricing-hero` `guidebook-hero` `diagnostic-hero` `guide-lead`。
@@ -40,7 +41,7 @@ Lighthouse（本番、2026-10-24、v12.8.2、モバイル）: トップ 28 点�
 | 問題 | 対処 |
 |---|---|
 | Google Fonts を `styles.css` の `@import` で読んでいた（styles.css の取得・解析後にやっと 200KB の CSS を取りに行き、描画が 3 秒前後止まる）。Noto Serif JP は未使用 | `build.js` の `FONTS_HEAD`: `preconnect` ×2 ＋ `media="print" onload` の非同期読み込み。Serif を外し、600 は 700 で代用。`build-prerender.js` が保存時に `media="print"` を戻す（`restoreAsyncFontLink`） |
-| ヒーローの作品の壁（上記） | バナーに置き換え。LCP 候補には `fetchpriority="high"`、lazy は付けない |
+| ヒーローの作品の壁（上記） | 壁は残す。画像を 480px 幅の WebP（srcset）にして先頭 2 枚ずつを eager に。ファーストビューの画像バイトは約 1MB → 約 150KB |
 | gtag.js（190KB）が `<head>` の async で、モバイルでは React の起動と主スレッドを取り合っていた | `DOMContentLoaded` 後に `<script>` を追加して読む。`dataLayer` は先に作るので page_view は失われない（1〜2 秒遅れて計測される） |
 | styles.css が未圧縮（160KB） | csso で空白・コメントを落とす（112KB）。`restructure: false` で宣言の並び替えはしない |
 | 画像の `width/height` なし | バナーは `<img>` と `<source>` に付けた（4:1 ↔ 4:5 の切り替えで高さが飛ばない） |
@@ -88,6 +89,8 @@ Lighthouse 12.8.2 を同条件で実行（モバイルは Moto G Power 相当の
 | | 転送量 / リクエスト数 | 2,675KiB / 72 | 1,680KiB / 54 |
 | トップ（PC） | Performance | 43 | 73 |
 | | FCP / LCP | 2.4s / 4.6s | 0.5s / 0.8s |
+| トップ（モバイル、ヒーローを「実績の壁」に戻した後。2026-10-25、2回） | Performance / LCP | 26 / 21.5s | 45〜47 / 4.4s |
+| トップ（PC、同上） | Performance / LCP | 43 / 4.6s | 66 / 1.3s |
 | /web（モバイル） | Performance / LCP | 30 / 9.0s | 61 / 3.0s |
 | /pricing（モバイル） | Performance / LCP | 34 / 7.2s | 66 / 2.6s |
 | /diagnostic（モバイル） | Performance / LCP | — | 66 / 2.4s |
@@ -108,6 +111,15 @@ Lighthouse 12.8.2 を同条件で実行（モバイルは Moto G Power 相当の
 3. `Picture` に srcset（800px 幅の WebP）を付ける（`uses-responsive-images` 207KB）。
 4. Web フォントのウェイトをさらに減らす（500 を外して 3 ウェイトにすると初回のフォント取得が約 25% 減る。見た目の確認が要る）。
 5. コラム一覧（193 本を 1 ページに全部描画、SP で 15 万 px）のページング。
+
+## 5b. 幅 320px の検証（2026-10-25）
+
+iPhone SE 初代相当（320 × 568、2 倍密度）で 28 ページを Playwright で開き、横スクロールの発生要素とスクリーンショットを確認。
+新しく入れたバナー（トップのバナー、CTA 帯、各ヒーローのビジュアル、無料診断、資料導線、PICK UP / PROMO のサムネ）は全て 320px に収まる。直したもの:
+
+- PICK UP「サイト無料診断」: サムネ 88px のままだと題名が「診|断」で折れる → 374px 以下はサムネ 64px・題名 19px。
+- 業種ソリューション（/solution-*）: 長い文言のボタンが `white-space: nowrap` で画面からはみ出していた → 374px 以下は折り返す。
+- 業種別システム提案カード（`.sys-grid`）: `minmax(320px, 1fr)` が 320px の画面で横にはみ出していた → `minmax(min(320px, 100%), 1fr)`。
 
 ## 6. 公開手順と注意
 

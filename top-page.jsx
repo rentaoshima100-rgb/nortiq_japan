@@ -35,28 +35,25 @@ function TopPage({ onNavigate, onContact }) {
   return (
     <main className="page-fade">
 
-      {/* =========== HERO: 納品バナー (PC 4:1 / SP 4:5) + H1 + 3 medals ===========
-          2026-10: 以前の背景 (実績スクリーンショット 4列×16枚の無限スクロール) は廃止。64枚の <img> が
-          ファーストビューに並び、LCP がその中の lazy 画像になっていた (モバイルの Lighthouse で 12秒超)。
-          バナーは納品ガイド (nortiq_banners_web.zip の README) の配置 #1/#2。全体が資料請求への導線で、
-          クリックは他の CTA と同じくモーダルを開く。JS が無い環境では #request (ページ下部のフォーム) へ飛ぶ。
-          fadein は付けない (LCP 要素が JS まで透明のままになる)。 */}
+      {/* =========== HERO: 4-col vertical scroll bg (実績の壁) + H1 + 3 medals ===========
+          背景の「作品の壁」は 2026-10 に一度バナーへ置き換えたが、オーナーの指示で元に戻した。
+          納品バナー 01/02 は「導入実績」の直下 (.top-banner-section)。
+          壁の画像は VScrollCol が 480px 幅の WebP を srcset で優先し、最初に見える数枚だけ eager にする
+          (以前は 1600px 幅 × 64 枚が全部 lazy で、LCP がその中の 1 枚になり 12 秒を超えていた)。 */}
       <section className="main-wrap">
         <span className="geo-blob b1"></span>
         <span className="geo-blob b2"></span>
         <span className="geo-blob b3"></span>
         <div className="main-wordmark-bg" aria-hidden="true">NORTIQ LABS</div>
 
-        <div className="main-inner">
-          <TrackedBanner id="top-hero" tag="a" className="hero-banner" href="#request" onClick={(e) => { if (onContact) { e.preventDefault(); onContact('web'); } }}>
-            <BannerImg
-              base="assets/banners/01_top_hero_pc_4x1" widths={[1400, 2400]} sizes="(max-width: 1400px) 100vw, 1400px"
-              width={2400} height={595} eager
-              mobile={{ base: 'assets/banners/02_top_hero_sp_4x5', width: 1080, height: 1341, widths: [780, 1080] }}
-              alt="ホームページ制作、まずは無料モックアップから。契約前に、御社サイトの完成イメージをお見せします。無料で相談する。初回相談無料・営業日24時間以内に返信・制作・支援実績30社+"
-            />
-          </TrackedBanner>
+        <div className="main-bg" aria-hidden="true">
+          <VScrollCol direction="down" eagerCount={4} images={["assets/hero-01.png", "assets/work-asia-exchange.png", "assets/hero-02.png", "assets/work-pleast.png", "assets/hero-03.png", "assets/work-renewal.png", "assets/hero-04.png", "assets/work-rakuyu.png"]}/>
+          <VScrollCol direction="up"   eagerCount={4} images={["assets/work-cocopa.png", "assets/hero-05.png", "assets/work-pleast.png", "assets/hero-06.png", "assets/work-asia-exchange.png", "assets/hero-07.png", "assets/work-renewal.png", "assets/hero-08.png"]}/>
+          <VScrollCol direction="down" images={["assets/hero-02.png", "assets/work-rakuyu.png", "assets/hero-04.png", "assets/work-cocopa.png", "assets/hero-06.png", "assets/work-taketora.png", "assets/hero-08.png", "assets/work-pleast.png"]}/>
+          <VScrollCol direction="up"   images={["assets/work-panza.png", "assets/hero-01.png", "assets/work-asia-exchange.png", "assets/hero-03.png", "assets/work-cocopa.png", "assets/hero-05.png", "assets/work-renewal.png", "assets/hero-07.png"]}/>
+        </div>
 
+        <div className="main-inner">
           <div className="main-eyebrow fadein">NORTIQ LABS · KYOTO</div>
 
           {/* H1 は「このページが何のページか」を検索エンジンとAIクローラに伝える枠。
@@ -158,6 +155,22 @@ function TopPage({ onNavigate, onContact }) {
           <div style={{ textAlign: 'center', marginTop: 48 }}>
             <Button variant="ghost" to={'works'} nav={onNavigate}>他の実績を見る<Icon name="arrow-right" size={14}/></Button>
           </div>
+        </div>
+      </section>
+
+      {/* =========== 納品バナー 01/02 (無料モックアップ → 資料請求): 導入実績の直下 ===========
+          PC 4:1 / 767px 以下は 4:5。クリックは他の CTA と同じくモーダル、JS が無い環境では #request
+          (ページ下部のフォーム) へ。表示・クリックは banner_id=top-hero で GA4 に送る。 */}
+      <section className="top-banner-section">
+        <div className="container">
+          <TrackedBanner id="top-hero" tag="a" className="top-banner fadein" href="#request" onClick={(e) => { if (onContact) { e.preventDefault(); onContact('web'); } }}>
+            <BannerImg
+              base="assets/banners/01_top_hero_pc_4x1" widths={[1400, 2400]} sizes="(max-width: 1232px) calc(100vw - 32px), 1200px"
+              width={2400} height={595}
+              mobile={{ base: 'assets/banners/02_top_hero_sp_4x5', width: 1080, height: 1341, widths: [780, 1080], sizes: 'calc(100vw - 32px)' }}
+              alt="ホームページ制作、まずは無料モックアップから。契約前に、御社サイトの完成イメージをお見せします。無料で相談する。初回相談無料・営業日24時間以内に返信・制作・支援実績30社+"
+            />
+          </TrackedBanner>
         </div>
       </section>
 
@@ -581,6 +594,31 @@ function TopPage({ onNavigate, onContact }) {
 // ============================================================
 // Sub-components
 // ============================================================
+
+// ヒーロー背景の「作品の壁」(1列)。装飾なので alt は空 (親の .main-bg が aria-hidden)。
+// 2026-10: 表示幅は 1 列あたり 300px 前後なので、build.js の optimizeImages が作る 480px 幅の WebP を
+// srcset で優先する (元の 1600px 幅だと 1 枚 60〜140KB、計 1MB 超をファーストビューで読んでいた)。
+// eagerCount: 最初から見えている枚数 (4 枚) だけ eager で先に読み、残りは lazy。1〜2 列目にだけ渡す
+// (3〜4 列目は 1024px 以下で非表示なので、eager にすると見えない画像まで読む)。
+function VScrollCol({ direction, images, eagerCount = 0 }) {
+  const items = [...images, ...images];
+  const webp = (src) => src.replace(/\.(png|jpe?g)$/i, '.webp');
+  const small = (src) => src.replace(/\.(png|jpe?g)$/i, '-480.webp');
+  return (
+    <div className={`main-col ${direction === 'up' ? 'main-col-rev' : ''}`}>
+      <div className="main-col-track">
+        {items.map((src, i) => (
+          <div key={i} className="main-col-img">
+            <picture>
+              <source type="image/webp" srcSet={`${small(src)} 480w, ${webp(src)} 1600w`} sizes="(max-width: 1024px) 60vw, 30vw"/>
+              <img src={src} alt="" loading={i < eagerCount ? 'eager' : 'lazy'} decoding="async"/>
+            </picture>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
 
 // to (ルートID) + nav が渡ればカード全体を実リンクにする。カード型UIの遷移を
 // onClick だけで実装すると、クローラからは行き先の無いブロックにしか見えない。

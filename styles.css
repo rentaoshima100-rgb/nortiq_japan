@@ -927,16 +927,80 @@ picture { display: contents; }
 /* ================= Hero =================== */
 .main-wrap {
   position: relative;
+  min-height: 640px;
+  height: clamp(640px, 76vh, 820px);
   overflow: hidden;
   background:
     radial-gradient(120% 90% at 85% 8%, var(--accent-soft-2) 0%, transparent 55%),
     var(--bg);
   border-bottom: 4px solid var(--accent);
 }
-/* 2026-10: 実績スクリーンショットの「作品の壁」(4列×16枚の無限スクロール) は廃止した。
-   64枚の <img> がファーストビューに並び、LCP がその中の lazy 画像 (モバイルの Lighthouse で 12秒超)
-   になっていた。代わりに納品バナー (assets/banners/01, 02) をファーストビューに置く (.hero-banner、
-   ファイル末尾の「2026-10 サイト改修」ブロック)。 */
+/* 実績スクリーンショットの「作品の壁」。perspective で奥へ倒し込み、
+   下端は veil (.main-wrap::after) で紙面へ溶かす。
+   (2026-10 に一度バナーへ置き換えたが、オーナーの指示で元に戻した。画像は 480px 幅の WebP を優先 — top-page.jsx VScrollCol) */
+.main-bg {
+  position: absolute;
+  inset: -16% -10%;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  padding: 0;
+  opacity: 0.3;
+  transform: perspective(1100px) rotateX(22deg) rotateZ(-8deg);
+  transform-origin: 50% 32%;
+  pointer-events: none;
+}
+/* コピーの背後に白のプールを敷き、下端は紙面へ溶かす */
+.main-wrap::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(640px 430px at 50% 44%, rgba(255,255,255,0.85) 0%, rgba(255,255,255,0.55) 45%, transparent 74%),
+              linear-gradient(90deg, var(--bg) 0%, transparent 16%, transparent 84%, var(--bg) 100%),
+              linear-gradient(180deg, rgba(255,255,255,0.3) 0%, transparent 28%, transparent 52%, var(--bg) 94%);
+  pointer-events: none;
+  z-index: 1;
+}
+.main-col {
+  position: relative;
+  overflow: hidden;
+}
+.main-col-track {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  animation: vscroll-down 60s linear infinite;
+}
+.main-col-img {
+  aspect-ratio: 4 / 3;
+  border-radius: 8px;
+  flex-shrink: 0;
+  overflow: hidden;
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  box-shadow: 0 18px 40px rgba(17,17,17,0.14);
+}
+.main-col-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  display: block;
+}
+.main-col-rev .main-col-track { animation: vscroll-up 60s linear infinite; }
+@keyframes vscroll-down {
+  from { transform: translateY(0); }
+  to   { transform: translateY(-50%); }
+}
+@keyframes vscroll-up {
+  from { transform: translateY(-50%); }
+  to   { transform: translateY(0); }
+}
+.main-col-track .ph {
+  aspect-ratio: 4 / 3;
+  border-radius: 8px;
+  flex-shrink: 0;
+}
 
 .main-inner {
   position: relative;
@@ -2716,6 +2780,8 @@ picture { display: contents; }
   .voice-content::before { display: none; }
   .company-row { grid-template-columns: 1fr; gap: 6px; }
   .content-row { grid-template-columns: 1fr; gap: 8px; }
+  .main-bg { grid-template-columns: repeat(2, 1fr); }
+  .main-bg .main-col:nth-child(n+3) { display: none; }
   .sp-bottom-nav { display: block; }
   body { padding-bottom: 72px; }
   .side-tab { display: none; }
@@ -2889,7 +2955,7 @@ picture { display: contents; }
   .nav-cta-wrap .btn svg { display: none; }
 
   /* Hero scale */
-  .main-wrap { padding-bottom: 32px; }
+  .main-wrap { min-height: 520px; height: auto; padding-bottom: 32px; }
   .main-inner { padding: 56px 18px 40px; }
   .main-title { font-size: clamp(28px, 9vw, 40px); line-height: 1.25; }
   .main-wordmark-bg { font-size: 90px; bottom: -10px; }
@@ -2902,6 +2968,10 @@ picture { display: contents; }
   .main-cta-row { margin-top: 28px; gap: 10px; flex-direction: column; align-items: stretch; }
   .main-cta-row .btn { width: 100%; padding: 14px 18px; font-size: 13px; }
 
+  /* Hero background slider visible only as faint backdrop */
+  .main-bg { opacity: 0.18; gap: 8px; padding: 8px; }
+  .main-bg .main-col:nth-child(n+3) { display: none; }
+  .main-bg { grid-template-columns: 1fr 1fr; }
   .geo-blob { display: none; }
 
   /* Section padding */
@@ -5060,25 +5130,21 @@ video, iframe { max-width: 100%; }
    2026-10 サイト改修: 納品バナー (assets/banners/) の配置・ヒーロー刷新・ナビの a11y
    (配置の指示は docs/banners-placement-guide-2026-10-24.md)
 ============================================================ */
-/* --- トップ ファーストビュー (バナー 01: PC 4:1 / 02: SP 4:5) --- */
-.main-inner { padding-top: clamp(24px, 3vw, 40px); }
-.hero-banner {
+/* --- トップ: 納品バナー 01 (PC 4:1) / 02 (767px 以下 4:5) は「導入実績」の直下 --- */
+.top-banner-section { padding: clamp(28px, 4vw, 48px) 0 0; }
+.top-banner {
   display: block;
-  width: 100%;
-  max-width: 1400px;
-  margin: 0 auto clamp(28px, 4vw, 48px);
   border-radius: 16px;
   overflow: hidden;
   background: var(--bg-2);
   box-shadow: 0 18px 44px rgba(17,17,17,0.12);
   transition: transform 200ms ease, box-shadow 200ms ease;
 }
-.hero-banner:hover { transform: translateY(-2px); box-shadow: 0 24px 52px rgba(230,0,18,0.16); }
-.hero-banner img { width: 100%; height: auto; display: block; aspect-ratio: 2400 / 595; }
+.top-banner:hover { transform: translateY(-2px); box-shadow: 0 24px 52px rgba(230,0,18,0.16); }
+.top-banner img { width: 100%; height: auto; display: block; aspect-ratio: 2400 / 595; }
 @media (max-width: 767px) {
-  .main-inner { padding-top: 16px; }
-  .hero-banner { border-radius: 12px; margin-bottom: 24px; }
-  .hero-banner img { aspect-ratio: 1080 / 1341; }
+  .top-banner { border-radius: 12px; }
+  .top-banner img { aspect-ratio: 1080 / 1341; }
 }
 
 /* --- 共通CTA帯 (バナー 03): 768px 以上は画像、SP は従来の赤帯 (.t_inq_wrap) --- */
@@ -5186,6 +5252,18 @@ html:not(.spa-nav) .page-fade { animation: none; }
 .main-box li { color: var(--accent-text); }
 .diag-badge { color: var(--accent-text); }
 .diag-step-time { color: var(--accent-text); }
+
+/* --- 幅 320px (iPhone SE 初代など) の検証で見つかった崩れ --- */
+@media (max-width: 374px) {
+  /* PICK UP「サイト無料診断」: サムネ 88px だと題名が「診|断」で折れる */
+  .pickup-body { gap: 12px; padding: 20px; }
+  .pickup-thumb { flex-basis: 64px; width: 64px; }
+  .pickup-title { font-size: 19px; }
+  /* 長い文言のボタン (業種ソリューションの「…の事例を見る」等) が nowrap で画面からはみ出していた */
+  .btn { white-space: normal; max-width: 100%; text-align: center; }
+}
+/* 業種別システム提案テンプレートのカード: minmax(320px, 1fr) だと 320px の画面で横にはみ出す */
+.sys-grid { grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr)); }
 
 /* --- ナビ: メガメニューの開閉を <button> にした (href の無い <a> はキーボードで到達できず、クローラにはリンクに見えない) --- */
 button.nav-link { background: none; border: 0; margin: 0; font-family: inherit; line-height: inherit; }
