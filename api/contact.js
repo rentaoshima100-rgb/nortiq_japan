@@ -19,7 +19,16 @@ module.exports = async (req, res) => {
 
   let body = req.body;
   if (typeof body === 'string') { try { body = JSON.parse(body); } catch { body = {}; } }
-  if (!body) body = {};
+  if (!body || typeof body !== 'object') body = {};
+
+  // 入力の長さに上限を置く (2026-10)。以前は無制限で、巨大な本文をそのままメールにして送れた。
+  // 本文は 10,000 文字、それ以外の項目は 500 文字、配列は 20 件 × 100 文字まで (フォームの入力はどれもこの範囲)。
+  for (const k of Object.keys(body)) {
+    const v = body[k];
+    if (typeof v === 'string') body[k] = v.slice(0, k === 'message' ? 10000 : 500);
+    else if (Array.isArray(v)) body[k] = v.slice(0, 20).map((x) => String(x == null ? '' : x).slice(0, 100));
+    else if (v != null && typeof v === 'object') body[k] = '';
+  }
 
   // Honeypot (LP の非表示フィールド)。埋まっていたらボット扱いで送らずに成功を返す。
   if (String(body.hp || '').trim()) { res.status(200).json({ ok: true, id: null }); return; }

@@ -13,30 +13,97 @@ const UA = 'Mozilla/5.0 (compatible; NortiqLabDiagnostic/1.0; +https://nortiqlab
 
 function clamp(n, lo = 0, hi = 100) { return Math.max(lo, Math.min(hi, Math.round(n))); }
 
+const dns = require('dns').promises;
+const net = require('net');
+
+// 内部アドレス (この関数が動くネットワークの中) への到達を防ぐ。IP リテラルと、名前が引ける先の IP の両方を見る。
+// 2026-10: 以前はホスト名の文字列だけを見ていた。リダイレクト先と、内部 IP に向く DNS 名は素通りだった (SSRF)。
+function isPrivateIp(ip) {
+  let v = String(ip || '').toLowerCase();
+  if (v.startsWith('::ffff:')) v = v.slice(7); // IPv4-mapped IPv6
+  if (net.isIPv4(v)) {
+    const [a, b] = v.split('.').map(Number);
+    return a === 0 || a === 10 || a === 127 || (a === 169 && b === 254) || (a === 172 && b >= 16 && b <= 31)
+      || (a === 192 && b === 168) || (a === 100 && b >= 64 && b <= 127) || a >= 224;
+  }
+  if (net.isIPv6(v)) {
+    return v === '::' || v === '::1' || /^(fc|fd)/.test(v) || /^fe[89ab]/.test(v) || v.startsWith('64:ff9b:');
+  }
+  return true; // 判定できないものは通さない
+}
+
 function isPrivateHost(host) {
   host = (host || '').toLowerCase().replace(/^\[|\]$/g, '');
   if (!host) return true;
-  if (host === 'localhost' || host.endsWith('.local') || host.endsWith('.internal')) return true;
-  if (host === '0.0.0.0' || host === '::1') return true;
-  if (/^127\./.test(host)) return true;
-  if (/^10\./.test(host)) return true;
-  if (/^192\.168\./.test(host)) return true;
-  if (/^169\.254\./.test(host)) return true;
-  if (/^172\.(1[6-9]|2\d|3[01])\./.test(host)) return true;
-  if (/^(fc|fd)/.test(host)) return true; // IPv6 ULA
+  if (host === 'localhost' || host.endsWith('.localhost') || host.endsWith('.local') || host.endsWith('.internal') || host.endsWith('.arpa')) return true;
+  if (net.isIP(host)) return isPrivateIp(host);
+  // 0x7f000001 / 2130706433 / 0177.0.0.1 のような IP の別表記は new URL() が正規化するが、念のため数字と点だけの名前は通さない
+  if (/^[0-9.]+$/.test(host) || /^0x/.test(host)) return true;
   return false;
 }
 
+// 名前解決の結果も確かめる (内部 IP を指す DNS 名を防ぐ)。引けなければ到達できないので false を返して fetch に任せる。
+async function resolvesToPrivate(host) {
+  if (net.isIP(host)) return isPrivateIp(host);
+  try {
+    const addrs = await dns.lookup(host, { all: true, verbatim: true });
+    return addrs.some((a) => isPrivateIp(a.address));
+  } catch {
+    return false;
+  }
+}
+
+const MAX_BODY = 600000;   // 読む HTML の上限 (これ以上は捨てる。巨大な応答でメモリと時間を使い切らない)
+const MAX_REDIRECTS = 5;
+
+async function readBounded(res, limit) {
+  if (!res.body) return '';
+  const chunks = [];
+  let total = 0;
+  const reader = res.body.getReader();
+  try {
+    for (;;) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      chunks.push(Buffer.from(value.buffer, value.byteOffset, value.byteLength));
+      total += value.byteLength;
+      if (total >= limit) { try { await reader.cancel(); } catch { /* ignore */ } break; }
+    }
+  } finally {
+    try { reader.releaseLock(); } catch { /* ignore */ }
+  }
+  return Buffer.concat(chunks).toString('utf8').slice(0, limit);
+}
+
+// リダイレクトは自分で追う (redirect: 'follow' だと、公開サイトから内部アドレスへ 302 されても止められない)。
+// 1ホップごとにプロトコル・ホスト名・名前解決の結果を確かめる。
 async function fetchDoc(url, { method = 'GET', timeout = 7000 } = {}) {
   try {
-    const res = await fetch(url, {
-      method,
-      headers: { 'User-Agent': UA, Accept: 'text/html,application/xhtml+xml,*/*' },
-      redirect: 'follow',
-      signal: AbortSignal.timeout(timeout),
-    });
-    const text = method === 'GET' ? await res.text() : '';
-    return { ok: res.ok, status: res.status, text, finalUrl: res.url };
+    let current = url;
+    let res;
+    for (let hop = 0; ; hop++) {
+      const u = new URL(current);
+      if (!/^https?:$/.test(u.protocol) || isPrivateHost(u.hostname) || await resolvesToPrivate(u.hostname)) {
+        return { ok: false, status: 0, text: '', error: 'blocked_host' };
+      }
+      res = await fetch(current, {
+        method,
+        headers: { 'User-Agent': UA, Accept: 'text/html,application/xhtml+xml,*/*' },
+        redirect: 'manual',
+        signal: AbortSignal.timeout(timeout),
+      });
+      const loc = res.status >= 300 && res.status < 400 ? res.headers.get('location') : null;
+      if (loc) {
+        try { if (res.body) await res.body.cancel(); } catch { /* ignore */ }
+        if (hop >= MAX_REDIRECTS) return { ok: false, status: res.status, text: '', error: 'too_many_redirects' };
+        current = new URL(loc, current).href;
+        continue;
+      }
+      break;
+    }
+    const text = method === 'GET' ? await readBounded(res, MAX_BODY) : '';
+    if (method !== 'GET') { try { if (res.body) await res.body.cancel(); } catch { /* ignore */ } }
+    return { ok: res.ok, status: res.status, text, finalUrl: current };
   } catch (e) {
     return { ok: false, status: 0, text: '', error: String(e && e.message || e) };
   }
