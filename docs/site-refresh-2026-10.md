@@ -133,5 +133,8 @@ iPhone SE 初代相当（320 × 568、2 倍密度）で 28 ページを Playwrig
 2. main に push（= Vercel 本番デプロイ）。`prerender.yml` が約 5 分で 237 ページの静的 HTML を作り直してコミットする。
    その間、古いスナップショットは古い `<head>`（フォントの `@import` 無し・新 CSS）で配信されるが、JS が描画し直すので表示は崩れない。
 3. デプロイ後の確認: `https://nortiqlab.com/` のファーストビュー（PC/SP）、`/web` `/pricing` `/diagnostic` `/guidebook` のヒーロー、フッター直前の帯、Search Console のカバレッジ、GA4 の page_view 数（gtag の読み込みが遅くなった分、極端に短い滞在が落ちる可能性）。
-4. Vercel Firewall でレート制限（`/api/diagnose` `/api/contact`）。
+4. ~~Vercel Firewall でレート制限~~ → 2026-10-27 設定済み。Hobby プランは **レート制限ルールを 1 本しか持てない**（画面の「1 / 3」表示は当てにならず、2本目は API が "Rate limiting is not available for this plan" で拒否、画面側も React エラーで保存できない）。
+   そのため 1 本のルールで `/api/diagnose` と `/api/contact` の両方（path is any of）を対象にし、**1 IP あたり 60 秒に 10 回（両方の合計）**、超過は 429。本番で 11 回目から 429 になることを確認済み。
+   Pro に上げれば endpoint 別に分けられる。ルールの変更は Firewall 画面（Rules）か API（`PATCH /v1/security/firewall/config` の `rules.update`）。
 5. ローカル Node を 24.22.1 以上へ。
+6. ~~GA4 のカスタム定義に `banner_id` を登録~~ → 2026-10-27 登録済み（イベントスコープ、パラメータ `banner_id`）。
