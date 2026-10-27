@@ -23,6 +23,51 @@ const FONTS_HEAD = `
   <link rel="preload" as="style" href="${FONTS_URL}">
   <link rel="stylesheet" href="${FONTS_URL}" media="print" onload="this.media='all'">
   <noscript><link rel="stylesheet" href="${FONTS_URL}"></noscript>`;
+
+// Content-Security-Policy (2026-10-27)。静的配信なので nonce は使えず、インラインスクリプト (gtag の stub・
+// Clarity のローダ・404 のイベント送信) は SHA-256 ハッシュで許可する。ハッシュは HTML を書き出す直前に
+// その HTML 自身の <script> から計算するので、文言を変えてもここを触る必要はない。
+// ヘッダではなく <meta http-equiv> で出す理由: Vercel の vercel.json は静的な値しか書けず、ハッシュと
+// ずれると全スクリプトが止まるため。frame-ancestors は meta では効かないので X-Frame-Options (vercel.json) で代用。
+// 外部先は GA4 (googletagmanager / google-analytics / analytics.google)、Clarity (clarity.ms / c.bing.com)、
+// Google Fonts。Google 広告のコンバージョン (GADS_ID) を使うときは googleadservices.com などを足す。
+// style-src の 'unsafe-inline' は React の style 属性 (全ページ) のため。script には使わない。
+const CSP_ONLOAD_HANDLER = "this.media='all'"; // FONTS_HEAD の onload 属性。'unsafe-hashes' で許可する
+function sha256b64(s) { return "'sha256-" + crypto.createHash('sha256').update(s, 'utf8').digest('base64') + "'"; }
+function cspFor(html) {
+  const hashes = new Set();
+  const re = /<script\b([^>]*)>([\s\S]*?)<\/script>/gi;
+  let m;
+  while ((m = re.exec(html))) {
+    const attrs = m[1] || '';
+    if (/\ssrc=/i.test(attrs)) continue;                          // 外部スクリプトは 'self' / ホストで許可
+    if (/type=["'](application\/(ld\+)?json)["']/i.test(attrs)) continue; // JSON-LD は実行されないので対象外
+    if (m[2].trim()) hashes.add(sha256b64(m[2]));
+  }
+  const scriptSrc = ["'self'", ...hashes, "'unsafe-hashes'", sha256b64(CSP_ONLOAD_HANDLER),
+    'https://www.googletagmanager.com', 'https://www.clarity.ms', 'https://scripts.clarity.ms'];
+  return [
+    "default-src 'self'",
+    "base-uri 'self'",
+    "object-src 'none'",
+    "form-action 'self'",
+    "frame-src 'self'",
+    'script-src ' + scriptSrc.join(' '),
+    "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+    "font-src 'self' data: https://fonts.gstatic.com",
+    "img-src 'self' data: blob: https:",
+    "media-src 'self' blob:",
+    "connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com https://*.google.com https://*.google.co.jp https://*.doubleclick.net https://*.clarity.ms https://c.bing.com",
+    'upgrade-insecure-requests',
+  ].join('; ');
+}
+// <meta charset> の直後 (= インラインスクリプトより前) に入れる。meta の CSP はそれ以降の要素にしか効かない。
+function withCsp(html) {
+  if (/http-equiv="Content-Security-Policy"/i.test(html)) return html;
+  const tag = `<meta http-equiv="Content-Security-Policy" content="${cspFor(html)}">`;
+  if (/<meta charset=["'][^"']+["']\s*\/?>/i.test(html)) return html.replace(/(<meta charset=["'][^"']+["']\s*\/?>)/i, `$1\n${tag}`);
+  return html.replace(/<head([^>]*)>/i, `<head$1>\n${tag}`);
+}
 const DIST = path.join(ROOT, 'dist');
 
 // 実績・体制の数字は content-data.jsx の NORTIQ_STATS を唯一の出典にする。
@@ -1401,13 +1446,13 @@ async function build() {
 </body>
 </html>
 `;
-  fs.writeFileSync(path.join(DIST, 'index.html'), html, 'utf8');
+  fs.writeFileSync(path.join(DIST, 'index.html'), withCsp(html), 'utf8');
   // Clean SPA shell kept as the rewrite fallback target, so routes that are NOT
   // pre-rendered don't inherit the (pre-rendered) home's body content. The
   // prerendered overlay below overwrites index.html but never app.html.
   // Strip the home canonical so non-prerendered routes don't appear to
   // canonicalize to "/" in raw HTML — the client adds the correct one per route.
-  const SPA_SHELL = html.replace(/\s*<link rel="canonical"[^>]*>/, '');
+  const SPA_SHELL = withCsp(html).replace(/\s*<link rel="canonical"[^>]*>/, '');
   fs.writeFileSync(path.join(DIST, 'app.html'), SPA_SHELL, 'utf8');
 
   // lp/ — 静的なサービスLP (Reactアプリの外で完結する自己完結HTML)。
@@ -1444,7 +1489,7 @@ async function build() {
         const html = fs.readFileSync(p, 'utf8')
           .replace(/{{ANALYTICS}}/g, analyticsHead.trim())
           .replace(/{{V}}/g, lpVer);
-        fs.writeFileSync(dest, html, 'utf8');
+        fs.writeFileSync(dest, withCsp(html), 'utf8');
         if (e.name === 'index.html' && !/name=["']robots["'][^>]*noindex/i.test(html)) {
           LP_ROUTES.push(path.posix.dirname(rel));
         }
@@ -1517,7 +1562,7 @@ async function build() {
   }
 
   console.log('• emitting 404.html');
-  fs.writeFileSync(path.join(DIST, '404.html'), `<!DOCTYPE html>
+  fs.writeFileSync(path.join(DIST, '404.html'), withCsp(`<!DOCTYPE html>
 <html lang="ja">
 <head>
 <meta charset="utf-8">
@@ -1567,7 +1612,7 @@ async function build() {
 </script>
 </body>
 </html>
-`, 'utf8');
+`), 'utf8');
 
   // Overlay committed pre-rendered route snapshots onto dist/ (if present).
   // Chromium can't run in the Vercel build container, so snapshots are generated

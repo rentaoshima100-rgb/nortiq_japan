@@ -74,7 +74,13 @@ Lighthouse（本番、2026-10-24、v12.8.2、モバイル）: トップ 28 点�
 - `/api/contact`: 入力長に上限（本文 10,000 字、他 500 字、配列 20 件）。
 - レート制限は Vercel Firewall のルールで掛ける方針（`api/_lib/guard.js` の注記どおり）。`/api/diagnose` と `/api/contact` には Origin 検査を入れていない（別オリジンの LP（nortiq-lp-static）がフォームと URL 診断をこの API に送るため）。Firewall の設定は管理画面で行う。
 - 秘密情報: リポジトリに鍵は無い（`.env.local` は gitignore）。以前チャットに貼られた Jev / Supabase service_role の鍵の再発行は未実施（docs/nq の既知事項）。
-- 未対応（提案）: Content-Security-Policy は未設定。インライン script（gtag・属性 Cookie・JSON-LD）と GA のため nonce 設計が要る。
+- **Content-Security-Policy（2026-10-27 追加）**: `build.js` の `withCsp()` が HTML を書き出す直前に、その HTML のインライン `<script>`（gtag の stub・Clarity のローダ・404 のイベント送信）の SHA-256 を計算し、`<meta http-equiv="Content-Security-Policy">` を `<meta charset>` の直後に入れる（index.html / app.html / 静的LP / 404。プリレンダのスナップショットはシェル由来で同じ meta を持つ）。
+  許可先は自サイト、GA4（googletagmanager / google-analytics / analytics.google / doubleclick）、Clarity（clarity.ms / c.bing.com）、Google Fonts。`object-src 'none'`、`base-uri 'self'`、`form-action 'self'`、`frame-src 'self'`。
+  `style-src` だけ `'unsafe-inline'`（React の style 属性のため）。フォントの `onload` 属性は `'unsafe-hashes'` ＋ハッシュで許可。
+  meta では `frame-ancestors` が効かないので、クリックジャッキング対策は従来どおり `X-Frame-Options: SAMEORIGIN`（vercel.json）。
+  **Google 広告のコンバージョン（GADS_ID）を有効にするときは `googleadservices.com` / `googleads.g.doubleclick.net` を `cspFor()` に足す。** 新しい外部サービスを入れたら同様に追加しないと、そのスクリプト・通信は黙って止まる（ブラウザのコンソールに "Refused to ..." が出る）。
+- `Content-Disposition: inline; filename="chatbot"` のようなヘッダは Vercel が静的ファイル全部に付けるもの（`inline` なのでダウンロードにはならず、名前を付けて保存するときの既定名になるだけ）。脆弱性ではないが、スキャナが指摘するので vercel.json で `inline` に上書きしている（Vercel が上書きを許すかは公開後に確認）。
+- フォーム: クライアントで必須・メール形式を検証、サーバ（`/api/contact`）で必須・メール形式・ハニーポット・入力長上限・HTML エスケープ（通知メール内）。`/api/diagnose` は URL 検証＋内部アドレス遮断。`/api/suggest` `/api/nq-event` は Origin 検査・bot 除外・session_id 検証・本文 8KB 上限。ログインやセッション Cookie は無いので CSRF で奪われる認証情報はない（問い合わせフォームの外部からの大量送信はハニーポットと Firewall のレート制限で防ぐ）。
 
 ## 5. 検証
 
