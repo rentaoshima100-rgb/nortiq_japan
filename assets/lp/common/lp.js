@@ -184,6 +184,16 @@
       fieldError(el, bad ? 'required' : '');
       if (bad) { ok = false; if (!first) first = el; }
     });
+    // 複数選択 (checkbox 群) と単一選択 (radio 群) の必須は、入力ごとの required では表せない
+    // (checkbox に required を付けると「全部にチェック」の意味になる)。囲みの .field に
+    // data-required-group を置き、その中のどれか1つがチェックされていれば OK とする (lp/partner/energy)。
+    form.querySelectorAll('[data-required-group]').forEach(function (group) {
+      var inputs = group.querySelectorAll('input[type="checkbox"],input[type="radio"]');
+      var any = false;
+      inputs.forEach(function (i) { if (i.checked) any = true; });
+      group.classList.toggle('is-invalid', !any);
+      if (!any) { ok = false; if (!first && inputs[0]) first = inputs[0]; }
+    });
     if (first) first.focus();
     return ok;
   }
@@ -224,6 +234,11 @@
       message: String(fd.get('note') || '').trim(),
       industry: label(form.querySelector('[name="industry"]')),
       jobs: String(fd.get('jobs') || '').trim(),
+      // 紹介パートナー募集LP (lp/partner/energy) の項目。他のLPでは空のまま送られ、api/contact.js が空欄を落とす
+      companyType: label(form.querySelector('[name="type"]')),
+      areas: fd.getAll('area').map(function (v) { return String(v); }),
+      retrofit: String(fd.get('retrofit') || ''),
+      preferredTime: String(fd.get('preferredTime') || '').trim(),
       hp: String(fd.get('website') || '') // honeypot: 人は空のまま
     };
 

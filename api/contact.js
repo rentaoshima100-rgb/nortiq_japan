@@ -50,6 +50,11 @@ module.exports = async (req, res) => {
     ['ご担当者名', name],
     ['メールアドレス', email],
     ['電話番号', body.phone],
+    // 紹介パートナー募集LP (/partner/energy) の項目。他のフォームは送らないので空欄で落ちる
+    ['会社の種類', body.companyType],
+    ['施工できるエリア', arr(body.areas)],
+    ['蓄電池の後付け', body.retrofit],
+    ['ご希望の日時', body.preferredTime],
     ['所在地', body.address],
     ['カテゴリ', arr(body.categories)],
     ['お問い合わせ', arr(body.inqTypes)],

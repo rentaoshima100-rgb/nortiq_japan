@@ -531,6 +531,18 @@
       "default_next": null
     },
     {
+      "url": "/partner/energy",
+      "type": "other",
+      "title": "蓄電池・太陽光 紹介パートナー募集",
+      "industry": ["建設・工務店"],
+      "need": [],
+      "audience": "京都・関西で蓄電池や太陽光の販売・施工をしている事業者で、家庭からの相談を成果報酬で紹介してもらいたい人向け",
+      "summary": "見積もり診断で集めた家庭の相談を施工店に1件1社で紹介。初期費用・月額0円、紹介料は成約・入金後だけ。",
+      "suggestable": false,
+      "block_id": null,
+      "default_next": null
+    },
+    {
       "url": "/sitemap",
       "type": "other",
       "title": "サイトマップ",
