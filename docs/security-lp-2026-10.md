@@ -15,8 +15,10 @@
 | 次ページ提案の台帳 | `data/catalog-pages.json` に1件（type service、need 保守・運用、`suggestable:false`） |
 | 導線 | ヘッダーのメガメニュー「業種ソリューション → 特設ページ (NEW)」、トップの LP カード（`components.jsx` の `INDUSTRY_LPS`）、フッター「特設ページ」 |
 
-- **`lp/service/` ではなく `lp/security/` に置いた理由**: 料金が「月19,800円〜」の円単位で、サイトの表記ルール（`docs/pricing/README.md`: 円単位は使わず「◯万円〜」、`pricing-check.js` の lint `yen`）と合わない。
-  `lp/service/*` に置くと pricing:check が失敗する。納品の金額表記は変えず、ルールとの整合は本人の判断待ち（`docs/pricing/open-items.md` D1）。決まったら `lp/service/security/` へ移して `NORTIQ_PRICING.lps` に足す。
+- **料金は 2026-10-29 の本人の決定で「月額5.5万円（税別）」の1プラン**（納品の4プラン 19,800〜79,800円・単発 98,000円は使わない）。LP の料金カード・JSON-LD の Offer・頻度別の表（「スタンダード以上」の但し書き）を直した。
+  単発の「初回診断」は価格を出さず「外形チェックのあとにご案内」とし、1プランの内容は旧4プランの機能をまとめた（四半期の侵入検証と提出資料は EC・会員サイトの場合、と書いた）。**内容の範囲は本人に確認**。
+- **`lp/service/` ではなく `lp/security/` に置いている理由**: `NORTIQ_PRICING.lps` の型（初期費用の plans ＋ 運用 ops）に「月額固定だけのLP」が無く、`pricing-check.js` も `lp/service/*` を `lps` と突き合わせるため、
+  入れるには型と検査の拡張が要る（`docs/pricing/open-items.md` D1）。表記は「万円」に直したので、拡張すれば `lp/service/security/` へ移して検査と /pricing の一覧に乗せられる。
 - `build.js` の `optimizeImages` はパスに `banners` を含む画像を触らない。
 
 ## 2. 納品からの変更点
@@ -45,7 +47,8 @@
 
 ## 5. 公開前に本人がやること
 
-- [ ] **料金表記の方針**（円単位のまま許すか、「万円」に直すか）→ `docs/pricing/open-items.md` D1。決まるまで /pricing の一覧には出ない
+- [ ] 月額5.5万円に含める範囲の確認（コード修正の上限時間、四半期の侵入検証を EC 以外にも含めるか）と、初回診断（単発）の価格
+- [ ] `NORTIQ_PRICING.lps` に月額固定のLPの型を足して検査と /pricing の一覧に乗せる（`docs/pricing/open-items.md` D1）
 - [ ] 同意事項（#consent）の文言の確認
 - [ ] 公式LINE ができたら「メールで相談」を LINE に戻す（`sec-transform` の MAIL を使っている5か所）
 - [ ] S03 / S04 / S06 の統計（警察庁・IPA・VulnCheck・Patchstack・Qualys・Verizon・Cobalt）の出典URLは本文に無い。公開前に一次資料のリンクを添えるか確認
