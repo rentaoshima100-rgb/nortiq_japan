@@ -45,6 +45,41 @@ a{color:#111111}a:hover{color:#B8000E}
 .btn-ghost:hover{background:#FCE0E2}
 .sp-only{display:none}
 @media (max-width:767px){.sp-only{display:block}.pc-only{display:none!important}body{padding-bottom:84px}}
+/* お金の流れの図 (HOW IT WORKS)。納品の図は 960px 固定で、収まらない幅では横スクロールになっていた (SP で右側が切れて見える)。
+   768px〜: 幅に合わせて zoom で縮める (段階は 本文の余白 clamp(18px,4vw,48px)・カードの余白 16px・縦スクロールバー 17px を引いた残りから)。
+   〜767px: 図を隠して縦の手順 (.flow-sp) を出す。zoom 非対応の古いブラウザは従来どおり横スクロール */
+.flow-pc{overflow-x:auto;padding:8px 0}
+@media (min-width:768px) and (max-width:819px){.flow-fig{zoom:0.68}}
+@media (min-width:820px) and (max-width:899px){.flow-fig{zoom:0.73}}
+@media (min-width:900px) and (max-width:999px){.flow-fig{zoom:0.8}}
+@media (min-width:1000px) and (max-width:1023px){.flow-fig{zoom:0.9}}
+@media (min-width:1024px) and (max-width:1103px){.flow-fig{zoom:0.92}}
+.flow-sp{display:none}
+/* 役割の表 (3列) は PC だけ最小幅、条件の表 (2列) は最小幅なしで折り返す (見出し列は折り返さない) */
+.tbl-roles{min-width:640px}
+.tbl-fee th{white-space:nowrap}
+@media (max-width:767px){
+.flow-pc{display:none}
+.flow-sp{display:block}
+.flow-sp ul,.flow-sp ol{list-style:none;margin:0;padding:0}
+.flow-sp__actors{display:grid;gap:8px;margin:0 0 12px}
+.flow-sp__actor{display:flex;flex-wrap:wrap;align-items:baseline;gap:2px 10px;padding:10px 14px;border:1px solid #CCCCCC;border-radius:10px;background:#FFFFFF;color:#111111;font-size:13px;line-height:1.5}
+.flow-sp__actor b{font-size:16px}
+.flow-sp__actor--nortiq{background:#E60012;border-color:#E60012;color:#FFFFFF}
+.flow-sp__actor--partner{border:2px solid #E60012}
+.flow-sp__steps{display:grid;gap:8px}
+.flow-sp__step{display:grid;grid-template-columns:26px minmax(0,1fr);gap:6px;align-items:start;padding:10px 12px;border:1px solid #DDDDDD;border-radius:10px;background:#F5F5F5;font-size:14px;line-height:1.6;color:#333333}
+.flow-sp__num{font-size:18px;line-height:1.25;font-weight:700;color:#B8000E}
+.flow-sp__route{display:block;font-weight:700;color:#111111}
+.flow-sp__route .arw{color:#B8000E;padding:0 5px}
+.flow-sp__step--money{border:2px dashed #E60012;background:#FFF5F6}
+.flow-sp__step--money .flow-sp__route{color:#B8000E}
+.tbl-roles{min-width:0}
+.tbl-roles th,.tbl-roles td{padding:12px 10px!important;font-size:13px;line-height:1.6}
+.tbl-roles thead th:first-child{width:26%!important}
+.tbl-fee th,.tbl-fee td{padding:12px!important;font-size:14px}
+.tbl-fee th{width:40%!important}
+}
 input::placeholder,textarea::placeholder{color:#8A8A8A}
 input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-visible,a:focus-visible{outline:2px solid #E60012;outline-offset:2px}
 .hp{position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden}
@@ -161,8 +196,8 @@ input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-vis
 <div style="font-family:'Space Grotesk','Century Gothic',sans-serif;font-size:12px;letter-spacing:0.22em;color:#B8000E;font-weight:600">HOW IT WORKS</div>
 </div>
 <div style="background:#FFFFFF;border:1px solid #DDDDDD;border-radius:10px;box-shadow:0 1px 2px rgba(17,17,17,0.05),0 4px 14px rgba(17,17,17,0.06);padding:16px;box-sizing:border-box;display:flex;flex-direction:column;gap:8px">
-<div style="overflow-x:auto;padding:8px 0">
-<div style="position:relative;width:960px;height:488px;margin:0 auto;font-size:15px;line-height:1.5">
+<div class="flow-pc">
+<div class="flow-fig" style="position:relative;width:960px;height:488px;margin:0 auto;font-size:15px;line-height:1.5">
 <svg width="8" height="180" viewBox="0 0 8 180" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:180px;top:184px;width:8px;height:180px;overflow:visible;fill:none;stroke:#333333;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><path d="M 4 0 L 4 180"></path></svg>
 <svg width="143" height="8" viewBox="0 0 143 8" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:184px;top:360px;width:143px;height:8px;overflow:visible;fill:none;stroke:#333333;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><defs><marker id="dc-arrow-head-filled-1" orient="auto" markerWidth="5" markerHeight="5" refX="2" refY="2" overflow="visible"><path d="M0 0 L4 2 L0 4 Z" fill="#333333" stroke="none" style="stroke:none;fill:#333333;fill:context-stroke"></path></marker></defs><path d="M 0 4 L 139 4" marker-end="url(#dc-arrow-head-filled-1)"></path></svg>
 <svg width="104" height="8" viewBox="0 0 104 8" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:632px;top:340px;width:104px;height:8px;overflow:visible;fill:none;stroke:#333333;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><path d="M 0 4 L 104 4"></path></svg>
@@ -181,10 +216,24 @@ input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-vis
 <div style="position:absolute;left:640px;top:396px;width:168px;font-size:13px;line-height:16px;color:#B8000E;font-weight:700;text-align:center;white-space:nowrap">⑤ 紹介料（入金確認後）</div>
 </div>
 </div>
+<div class="flow-sp">
+<ul class="flow-sp__actors" role="list" aria-label="登場する3者">
+<li class="flow-sp__actor"><b>家庭</b><span>蓄電池・太陽光を検討中</span></li>
+<li class="flow-sp__actor flow-sp__actor--nortiq"><b>ノーティック</b><span>見積もり診断サイトの運営・集客・紹介</span></li>
+<li class="flow-sp__actor flow-sp__actor--partner"><b>御社（パートナー）</b><span>調査・見積・契約・施工</span></li>
+</ul>
+<ol class="flow-sp__steps" role="list" aria-label="相談とお金の流れ">
+<li class="flow-sp__step"><span class="flow-sp__num" aria-hidden="true">①</span><div><b class="flow-sp__route">家庭<span class="arw">→</span>ノーティック</b>診断を受け、相談を申込む</div></li>
+<li class="flow-sp__step"><span class="flow-sp__num" aria-hidden="true">②</span><div><b class="flow-sp__route">ノーティック<span class="arw">→</span>御社</b>相談を紹介（1件1社）</div></li>
+<li class="flow-sp__step"><span class="flow-sp__num" aria-hidden="true">③</span><div><b class="flow-sp__route">御社<span class="arw">→</span>家庭</b>連絡・現地調査・見積もり</div></li>
+<li class="flow-sp__step"><span class="flow-sp__num" aria-hidden="true">④</span><div><b class="flow-sp__route">家庭<span class="arw">→</span>御社</b>契約・施工・工事代金</div></li>
+<li class="flow-sp__step flow-sp__step--money"><span class="flow-sp__num" aria-hidden="true">⑤</span><div><b class="flow-sp__route">御社<span class="arw">→</span>ノーティック</b>紹介料（入金確認後）</div></li>
+</ol>
+</div>
 <p style="margin:0;padding:8px 12px 4px;font-size:14px;color:#333333;line-height:1.8;text-align:center">相談は①から⑤の順に進みます。ノーティックが御社から受け取るのは、⑤の紹介料だけです（赤い点線＝お金の流れ）。</p>
 </div>
 <div style="overflow-x:auto">
-<table style="width:100%;min-width:640px;border-collapse:collapse;background:#FFFFFF;border:1px solid #DDDDDD;border-radius:10px;overflow:hidden;font-size:15px;line-height:1.7">
+<table class="tbl-roles" style="width:100%;border-collapse:collapse;background:#FFFFFF;border:1px solid #DDDDDD;border-radius:10px;overflow:hidden;font-size:15px;line-height:1.7">
 <thead><tr><th style="width:22%;padding:16px 20px;text-align:left;background:#F5F5F5;border-bottom:1px solid #DDDDDD;font-weight:700;color:#6B6B6B;font-size:13px"></th><th style="padding:16px 20px;text-align:left;background:#FFE5E7;border-bottom:1px solid #DDDDDD;font-weight:700;color:#B8000E">ノーティック</th><th style="padding:16px 20px;text-align:left;background:#F5F5F5;border-bottom:1px solid #DDDDDD;font-weight:700;color:#111111">御社（パートナー）</th></tr></thead>
 <tbody>
 <tr><th style="padding:16px 20px;text-align:left;background:#F5F5F5;border-bottom:1px solid #DDDDDD;font-weight:700;color:#111111;vertical-align:top">担当</th><td style="padding:16px 20px;border-bottom:1px solid #DDDDDD;color:#333333;vertical-align:top">見積もり診断サイトの運営、集客、家庭の同意取得、紹介</td><td style="padding:16px 20px;border-bottom:1px solid #DDDDDD;color:#333333;vertical-align:top">現地調査、見積、契約、施工、補助金の申請、保証</td></tr>
@@ -229,7 +278,7 @@ input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-vis
 <span style="font-size:14px;line-height:1.8">お支払いいただくのは、成約して入金があった後の紹介料だけ。紹介が出なければ、費用は一切かかりません。</span>
 </div>
 <div style="grid-column:span 1;overflow-x:auto">
-<table style="width:100%;min-width:420px;border-collapse:collapse;background:#FFFFFF;border:1px solid #DDDDDD;border-radius:10px;overflow:hidden;font-size:15px;line-height:1.7">
+<table class="tbl-fee" style="width:100%;border-collapse:collapse;background:#FFFFFF;border:1px solid #DDDDDD;border-radius:10px;overflow:hidden;font-size:15px;line-height:1.7">
 <tbody>
 <tr><th style="width:36%;padding:16px 20px;text-align:left;background:#F5F5F5;border-bottom:1px solid #DDDDDD;font-weight:700;color:#111111;vertical-align:top">初期費用・月額</th><td style="padding:16px 20px;border-bottom:1px solid #DDDDDD;color:#333333;font-weight:700">0円</td></tr>
 <tr><th style="padding:16px 20px;text-align:left;background:#F5F5F5;border-bottom:1px solid #DDDDDD;font-weight:700;color:#111111;vertical-align:top">紹介料</th><td style="padding:16px 20px;border-bottom:1px solid #DDDDDD;color:#333333">契約金額（税抜）の数%（面談で決定）</td></tr>

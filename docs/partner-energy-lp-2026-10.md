@@ -39,6 +39,10 @@
    送達で `generate_lead`（Google Ads の `contact` コンバージョンも lp.js が送る）。
 9. 追加 CSS（`<style>`）：`[hidden]` の強制非表示（インラインの display:flex に勝つため）、必須エラーの赤枠、SP の固定ボタンぶんの `padding-bottom`、`scroll-padding-top`。
 10. 図の矢印 SVG に `aria-hidden`、必須群に `role="group" aria-label`。
+8. **お金の流れの図と2つの表の SP 対応（2026-10-29）**：納品の図（HOW IT WORKS）は 960px 固定で、収まらない幅では横スクロールになり、SP では右側が切れて見えた（本人のスクショで発覚）。
+   - 〜767px：図（`.flow-pc`）を隠し、縦の手順 `.flow-sp`（3者のカード＋①〜⑤の行。⑤は赤い点線で「お金の流れ」）を出す。文言は図のラベルと同じ。**図の中身を変えたら `.flow-sp` もそろえる**。
+   - 768〜1103px：図を `zoom` で幅に合わせて縮める（段階は `<style>` の media query。本文の余白 clamp(18px,4vw,48px)・カードの余白 16px・縦スクロールバー 17px を引いた残りから決めた）。zoom 非対応の古いブラウザは従来どおり横スクロール。
+   - 役割の表（3列、`.tbl-roles`）：inline の `min-width:640px` をクラスに移し、SP は最小幅なし・余白 12/10px・13px で幅に収める。条件の表（2列、`.tbl-fee`）：`min-width:420px` を外し、見出し列は折り返さない。
 
 ## 3. フォームの項目とメールの対応
 
@@ -64,6 +68,7 @@ checkbox 群・radio 群は入力ごとの `required` では表せない（check
 - hero は 320〜1280 で `-800.webp`、2倍密度の 1440px で `lp_hero_4x3.webp`。CTAバンドは SP で 4:5、PC で 4:1 の WebP を読む。
 - フォーム：空送信で 7 項目が赤枠＋「未入力の項目があります」、埋めて送信（/api/contact は差し替え）で payload が上の表のとおり、完了ブロックが出てフォームが隠れる（375 / 1280）。
 - `pricing:check`・`npm test` は通過。
+- 2026-10-29（図と表の SP 対応後）：320 / 375 / 767 / 768 / 819 / 820 / 899 / 900 / 999 / 1000 / 1023 / 1024 / 1103 / 1104 / 1280px で、図のラッパーと2つの表に内側の横スクロールが無い（scrollWidth ≤ clientWidth）こと、console エラー 0 を確認。767px 以下は `.flow-sp` が表示され図は非表示。
 
 ## 5. 公開前に本人がやること（納品 README の「公開前にやること」の残り）
 
