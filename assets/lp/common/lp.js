@@ -241,6 +241,32 @@
       preferredTime: String(fd.get('preferredTime') || '').trim(),
       hp: String(fd.get('website') || '') // honeypot: 人は空のまま
     };
+    // data-label を持つ項目は「ラベル: 値」の文字列で extra[] に入れる (api/contact.js が表の行にする)。
+    // LP ごとに api のキーを増やさずに済む (lp/shindan/battery の診断の回答など)。
+    // radio / checkbox は同じ name の群で1行 (選んだラベルの文字列)、select は表示文字列、hidden / text は値。
+    var extra = [];
+    var seen = {};
+    form.querySelectorAll('[data-label]').forEach(function (el) {
+      var name = el.name || el.id;
+      if (!name || seen[name]) return;
+      seen[name] = true;
+      var val = '';
+      if (el.type === 'radio' || el.type === 'checkbox') {
+        var vals = [];
+        form.querySelectorAll('[name="' + name + '"]').forEach(function (i) {
+          if (!i.checked) return;
+          var lab = i.closest('label');
+          vals.push(lab ? lab.textContent.trim() : i.value);
+        });
+        val = vals.join(' / ');
+      } else if (el.options) {
+        val = label(el);
+      } else {
+        val = String(el.value || '').trim();
+      }
+      if (val) extra.push(String(el.dataset.label).slice(0, 30) + ': ' + val.slice(0, 68));
+    });
+    if (extra.length) payload.extra = extra.slice(0, 20);
 
     setStatus('', '');
     if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = '送信中…'; }

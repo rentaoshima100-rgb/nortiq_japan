@@ -543,6 +543,30 @@
       "default_next": null
     },
     {
+      "url": "/shindan/battery",
+      "type": "other",
+      "title": "蓄電池の見積もり診断",
+      "industry": [],
+      "need": [],
+      "audience": "太陽光のある京都・関西のご家庭で、蓄電池の見積もりが相場より高いかを無料で確かめたい人向け",
+      "summary": "3つの質問で蓄電池の相場の目安・見積もりとの差・補助金の目安を表示。無料・連絡先なし。紹介は希望者に1社だけ。",
+      "suggestable": false,
+      "block_id": null,
+      "default_next": null
+    },
+    {
+      "url": "/security",
+      "type": "service",
+      "title": "脆弱性診断・セキュリティ保守",
+      "industry": [],
+      "need": ["保守・運用"],
+      "audience": "自社のWebサイトやECを運営している中小企業で、毎日の脆弱性診断と見つけた弱点の修正を月額で任せたい人向け",
+      "summary": "毎日の自動点検と人の確認、見つけた弱点の修正、再診断、月次レポートを月額で。無料の外形チェックから。",
+      "suggestable": false,
+      "block_id": null,
+      "default_next": null
+    },
+    {
       "url": "/sitemap",
       "type": "other",
       "title": "サイトマップ",

@@ -1102,10 +1102,11 @@ async function optimizeImages(assetsDir) {
   for (const file of files) {
     const base = path.basename(file);
     if (ICON_SKIP.has(base)) continue;
-    // assets/banners/ (2026-10 納品のバナー) は触らない。WebP は納品のまま、srcset 用の縮小版と JPEG の
-    // フォールバックはリポジトリに入れてある (再生成が要るなら docs/site-refresh-2026-10.md)。
-    // ここで 1600px に縮めると、PC の 1400px 幅 (2倍密度) で文字入りのバナーがぼやける。
-    if (file.split(path.sep).includes('banners')) continue;
+    // assets/banners/ (2026-10 納品のバナー) と、静的LPの納品画像 (assets/lp/<lp>/banners, figures) は触らない。
+    // WebP は納品のまま、srcset 用の縮小版と JPEG のフォールバックはリポジトリに入れてある
+    // (再生成が要るなら docs/site-refresh-2026-10.md)。ここで 1600px に縮めたり WebP を作り直すと、
+    // PC の 1400px 幅 (2倍密度) で文字入りのバナー・説明図がぼやける。
+    if (file.split(path.sep).some((seg) => seg === 'banners' || seg === 'figures')) continue;
     const ext = path.extname(file).toLowerCase();
     try {
       // Read into a Buffer first — sharp can't reliably read & overwrite the

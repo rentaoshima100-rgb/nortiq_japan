@@ -55,6 +55,12 @@ module.exports = async (req, res) => {
     ['施工できるエリア', arr(body.areas)],
     ['蓄電池の後付け', body.retrofit],
     ['ご希望の日時', body.preferredTime],
+    // LP のフォームが data-label で付けた項目 (lp.js が「ラベル: 値」の文字列にして extra[] で送る。
+    // 上の長さ制限で 20 件 × 100 文字まで)。見積もり診断 (/shindan/battery) の回答と結果など
+    ...(Array.isArray(body.extra) ? body.extra.map((s) => {
+      const i = String(s).indexOf(': ');
+      return i > 0 ? [String(s).slice(0, i), String(s).slice(i + 2)] : ['項目', String(s)];
+    }) : []),
     ['所在地', body.address],
     ['カテゴリ', arr(body.categories)],
     ['お問い合わせ', arr(body.inqTypes)],

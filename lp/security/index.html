@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>脆弱性診断・セキュリティ保守｜毎日見つけて直す 中小企業向け｜Nortiq Labs</title>
+<meta name="description" content="毎日の脆弱性診断と、見つけた弱点の修正までを月額で。WordPress・EC・独自開発のサイトに対応。無料のセキュリティ外形チェックから始められます。初回相談無料">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+<link rel="canonical" href="https://nortiqlab.com/security">
+<meta name="theme-color" content="#E60012">
+<meta name="format-detection" content="telephone=no">
+<link rel="icon" href="/assets/nortiq-fav.png">
+<link rel="apple-touch-icon" href="/assets/nortiq-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Nortiq Labs">
+<meta property="og:title" content="脆弱性診断・セキュリティ保守｜毎日見つけて直す 中小企業向け">
+<meta property="og:description" content="毎日の脆弱性診断と、見つけた弱点の修正までを月額で。WordPress・EC・独自開発のサイトに対応。無料のセキュリティ外形チェックから始められます。初回相談無料">
+<meta property="og:url" content="https://nortiqlab.com/security">
+<meta property="og:image" content="https://nortiqlab.com/assets/og/security.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="脆弱性診断・セキュリティ保守 — 攻撃者より先に、毎日見つけて、直す。中小企業のWebサイト・ECのセキュリティ保守">
+<meta property="og:locale" content="ja_JP">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="脆弱性診断・セキュリティ保守｜毎日見つけて直す 中小企業向け">
+<meta name="twitter:description" content="毎日の脆弱性診断と、見つけた弱点の修正までを月額で。WordPress・EC・独自開発のサイトに対応。無料のセキュリティ外形チェックから始められます。初回相談無料">
+<meta name="twitter:image" content="https://nortiqlab.com/assets/og/security.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Noto+Sans+JP:wght@400;500;700;900&family=Space+Grotesk:wght@500;700&display=swap">
+<link rel="preload" as="image" type="image/webp" imagesrcset="/assets/lp/security/banners/fv-hero_21x9-780.webp 780w, /assets/lp/security/banners/fv-hero_21x9-1400.webp 1400w, /assets/lp/security/banners/fv-hero_21x9.webp 2400w" imagesizes="(min-width: 1200px) 1104px, 100vw" fetchpriority="high">
+{{ANALYTICS}}
+<script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://nortiqlab.com/#org","name":"Nortiq Labs","legalName":"NORTIQLAB株式会社","url":"https://nortiqlab.com/","logo":"https://nortiqlab.com/assets/nortiq-mark.png","email":"info@nortiqlab.com","address":{"@type":"PostalAddress","postalCode":"604-0012","addressRegion":"京都府","addressLocality":"京都市中京区","streetAddress":"竪大恩寺町751","addressCountry":"JP"}},{"@type":"WebPage","@id":"https://nortiqlab.com/security","url":"https://nortiqlab.com/security","name":"脆弱性診断・セキュリティ保守｜毎日見つけて直す 中小企業向け","description":"毎日の脆弱性診断と、見つけた弱点の修正までを月額で。WordPress・EC・独自開発のサイトに対応。無料のセキュリティ外形チェックから始められます。初回相談無料","inLanguage":"ja","isPartOf":{"@id":"https://nortiqlab.com/#website"},"publisher":{"@id":"https://nortiqlab.com/#org"},"primaryImageOfPage":{"@type":"ImageObject","url":"https://nortiqlab.com/assets/og/security.png","width":1200,"height":630},"breadcrumb":{"@id":"https://nortiqlab.com/security#breadcrumb"}},{"@type":"Service","@id":"https://nortiqlab.com/security#service","name":"Webサイトのセキュリティ保守・脆弱性診断","serviceType":"脆弱性診断・セキュリティ保守","provider":{"@id":"https://nortiqlab.com/#org"},"url":"https://nortiqlab.com/security","description":"毎日の自動点検と人の確認、見つけた弱点の修正、再診断、月次レポートを月額で提供。WordPress・EC・独自開発のサイトに対応。","areaServed":{"@type":"Country","name":"Japan"},"audience":{"@type":"BusinessAudience","name":"Webサイト・ECを運営する中小企業"},"offers":[{"@type":"Offer","name":"ベーシック","url":"https://nortiqlab.com/security#price","priceCurrency":"JPY","price":"19800","description":"会社案内・採用サイト向け。毎日の自動点検と人の確認、重大な脆弱性の修正、月次レポート。月19,800円〜（税別）","priceSpecification":{"@type":"UnitPriceSpecification","price":"19800","priceCurrency":"JPY","minPrice":"19800","valueAddedTaxIncluded":false,"unitText":"月","referenceQuantity":{"@type":"QuantitativeValue","value":"1","unitCode":"MON"}}},{"@type":"Offer","name":"スタンダード","url":"https://nortiqlab.com/security#price","priceCurrency":"JPY","price":"39800","description":"問い合わせ・予約・会員機能のあるサイト向け。月1回の深い診断、コード修正 月4時間まで、改ざん検知とバックアップ。月39,800円〜（税別）","priceSpecification":{"@type":"UnitPriceSpecification","price":"39800","priceCurrency":"JPY","minPrice":"39800","valueAddedTaxIncluded":false,"unitText":"月","referenceQuantity":{"@type":"QuantitativeValue","value":"1","unitCode":"MON"}}},{"@type":"Offer","name":"EC・会員サイト","url":"https://nortiqlab.com/security#price","priceCurrency":"JPY","price":"79800","description":"自社EC・会員サイト向け。四半期ごとの手動の侵入検証、提出資料の作成支援、コード修正 月10時間まで。月79,800円〜（税別）","priceSpecification":{"@type":"UnitPriceSpecification","price":"79800","priceCurrency":"JPY","minPrice":"79800","valueAddedTaxIncluded":false,"unitText":"月","referenceQuantity":{"@type":"QuantitativeValue","value":"1","unitCode":"MON"}}},{"@type":"Offer","name":"初回診断（単発）","url":"https://nortiqlab.com/security#price","priceCurrency":"JPY","price":"98000","description":"深い診断1回と修正のお見積り。月額プランへ移行する場合は初月料金に充当。98,000円〜（税別）","priceSpecification":{"@type":"PriceSpecification","price":"98000","priceCurrency":"JPY","minPrice":"98000","valueAddedTaxIncluded":false}}]},{"@type":"BreadcrumbList","@id":"https://nortiqlab.com/security#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://nortiqlab.com/"},{"@type":"ListItem","position":2,"name":"運用サポート","item":"https://nortiqlab.com/support"},{"@type":"ListItem","position":3,"name":"脆弱性診断・セキュリティ保守","item":"https://nortiqlab.com/security"}]},{"@type":"FAQPage","@id":"https://nortiqlab.com/security#faq","mainEntity":[{"@type":"Question","name":"勝手に診断されることはありませんか？","acceptedAnswer":{"@type":"Answer","text":"ありません。お客様に書面で同意いただいた範囲だけを点検します。ドメインの所有確認も行います。"}},{"@type":"Question","name":"他社が作ったサイトでも大丈夫ですか？","acceptedAnswer":{"@type":"Answer","text":"対象です。初回にアクセス権と、既存の保守会社との役割分担を確認します。"}},{"@type":"Question","name":"BASEやShopifyでもお願いできますか？","acceptedAnswer":{"@type":"Answer","text":"プラットフォーム本体は対象外ですが、管理画面の設定、追加したアプリやスクリプト、ドメインの設定を確認します。"}},{"@type":"Question","name":"AIだけで安全になるのですか？","acceptedAnswer":{"@type":"Answer","text":"いいえ。定番のツールとオープンモデルで幅広く拾い、重要な判断は人が行います。セキュリティに「絶対」はありませんが、見つけたら直すことでリスクを大きく下げます。"}},{"@type":"Question","name":"補助金は使えますか？","acceptedAnswer":{"@type":"Answer","text":"現時点では対象外です。対象になるには、IPAのサービスリストへの登録などが必要になります。"}},{"@type":"Question","name":"万が一、情報が漏えいしたら？","acceptedAnswer":{"@type":"Answer","text":"一般的なご説明として、不正アクセスによる漏えい（おそれを含む）は、件数に関わらず個人情報保護委員会への報告と本人への通知が法律上必要になります。初動の進め方もご案内します。"}},{"@type":"Question","name":"解約はできますか？","acceptedAnswer":{"@type":"Answer","text":"最低契約期間（6ヶ月）を過ぎたあとは、いつでも解約できます。"}}]}]}
+</script>
+<style>
+/* 納品の <style> (nortiq-security-lp) をそのまま */
+body{margin:0;background:#FFFFFF;color:#111111;font-family:"Noto Sans JP","Hiragino Kaku Gothic ProN","Yu Gothic Medium",Meiryo,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:#B8000E}a:hover{color:#8A000A}
+*{box-sizing:border-box}
+details>summary{list-style:none;cursor:pointer}
+details>summary::-webkit-details-marker{display:none}
+details[open] .faq-plus{transform:rotate(45deg)}
+.sp-bar{display:none}
+@keyframes nq-pulse{0%{box-shadow:0 0 0 0 rgba(255,107,120,.55)}70%{box-shadow:0 0 0 10px rgba(255,107,120,0)}100%{box-shadow:0 0 0 0 rgba(255,107,120,0)}}
+@keyframes nq-scan{0%{top:0}100%{top:100%}}
+.nq-pulse{animation:nq-pulse 2s infinite}
+.nq-scan{animation:nq-scan 3.6s linear infinite}
+@media (prefers-reduced-motion:reduce){.nq-pulse,.nq-scan{animation:none}}
+header a{white-space:nowrap}
+@media (max-width:900px){.nav-links{display:none !important}.hide-sp{display:none !important}.sp-bar{display:flex !important}}
+@media (max-width:480px){header a{font-size:13px !important}header a[href="#check"]{padding:0 16px !important}header a[href="#top"]{font-size:18px !important}}
+html{scroll-behavior:smooth;scroll-padding-top:92px;-webkit-text-size-adjust:100%}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+/* ここから組み込みで足した分: フォーム送信 (assets/lp/common/lp.js) の表示と、hidden の強制 */
+[hidden]{display:none!important}
+input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-visible,a:focus-visible,summary:focus-visible{outline:2px solid #E60012;outline-offset:2px}
+.hp{position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden}
+.field.is-invalid input{border-color:#E60012;box-shadow:0 0 0 2px rgba(230,0,18,0.18)}
+.consent.is-invalid{color:#B8000E}
+.form__status{margin:0;width:100%;font-size:14px;line-height:1.7;padding:12px 16px;border-radius:8px;border:1px solid #DDDDDD;background:#F5F5F5;color:#111111}
+.form__status--error{color:#8A1C1C;border-color:#E60012;background:#FFE5E7}
+.noscript-note{margin:0;font-size:13px;color:#6B6B6B;line-height:1.7}
+@media (max-width:900px){.hide-sp-pad{padding-bottom:calc(32px + 76px)!important}}
+/* 320px 級の端末: ヘッダー (ロゴ＋ボタン、nowrap) が 347px を要求して横に広がるのを防ぐ */
+@media (max-width:360px){header>div{gap:12px!important}header a[href="#check"]{padding:0 12px!important;font-size:12px!important}header a[href="#check"] svg{display:none}}
+/* FV の URL 入力のボタン (flex:0 0 auto・1行) は 320px 級で収まらないので、狭い画面では全幅に */
+@media (max-width:480px){#check-mini button[type="submit"]{flex:1 1 100%!important;white-space:normal}}
+/* 会社概要の表 (dl): 320px 級では左の列を狭め、メールアドレスなど区切りの無い語を折り返す */
+@media (max-width:480px){dl{grid-template-columns:minmax(84px,110px) minmax(0,1fr)!important}dd{overflow-wrap:anywhere}}
+</style>
+</head>
+<body data-lp="security">
+<div style="min-height: 100vh; background: #FFFFFF; padding-bottom: 0">
+
+<!-- S01 Header -->
+<header style="position: sticky; top: 0; z-index: 30; background: rgba(255,255,255,0.96); border-bottom: 1px solid #EEEEEE">
+<div style="max-width: 1200px; margin: 0 auto; padding: 0 clamp(18px, 4vw, 48px); height: 76px; display: flex; align-items: center; justify-content: space-between; gap: 24px">
+<a href="#top" style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 21px; letter-spacing: 0.04em; color: #111111; text-decoration: none">NORTIQ LABS</a>
+<nav class="nav-links" aria-label="ページ内メニュー" style="display: flex; gap: 28px; font-size: 14px; font-weight: 500">
+<a href="#service" style="color: #333333; text-decoration: none">サービス内容</a>
+<a href="#mechanism" style="color: #333333; text-decoration: none">仕組み</a>
+<a href="#price" style="color: #333333; text-decoration: none">料金</a>
+<a href="#flow" style="color: #333333; text-decoration: none">導入の流れ</a>
+<a href="#faq" style="color: #333333; text-decoration: none">よくある質問</a>
+</nav>
+<div style="display: flex; gap: 10px; align-items: center">
+<a href="#consult" class="hide-sp" data-ga="security_cta" data-ga-location="header-consult" style="display: inline-flex; align-items: center; height: 44px; padding: 0 20px; border: 1.5px solid #E60012; border-radius: 30px; color: #B8000E; font-size: 14px; font-weight: 700; text-decoration: none; background: #FFFFFF">相談する</a>
+<a href="#check" data-ga="security_cta" data-ga-location="header" style="display: inline-flex; align-items: center; gap: 8px; height: 44px; padding: 0 22px; border-radius: 30px; background: #E60012; color: #FFFFFF; font-size: 14px; font-weight: 700; text-decoration: none">
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7 3v5c0 4.5-3 8.5-7 10-4-1.5-7-5.5-7-10V6l7-3z"></path><path d="M9 12l2 2 4-4"></path></svg>
+無料でチェックする</a>
+</div>
+</div>
+</header>
+
+<!-- breadcrumb -->
+<div style="max-width: 1200px; margin: 0 auto; padding: 20px clamp(18px, 4vw, 48px) 0; font-size: 12px; color: #6B6B6B">
+<nav aria-label="パンくず" style="display:inline"><a href="/" style="color: #6B6B6B; text-decoration: none">ホーム</a> › <a href="/support" style="color: #6B6B6B; text-decoration: none">運用サポート</a> › セキュリティ保守・脆弱性診断</nav>
+</div>
+
+<!-- S02 FV -->
+<section id="top" style="position: relative; overflow: hidden; padding: 20px 0 clamp(56px, 7vw, 96px)">
+<div aria-hidden="true" style="position: absolute; inset: 0; background-image: linear-gradient(rgba(11,37,69,0.045) 1px, transparent 1px), linear-gradient(90deg, rgba(11,37,69,0.045) 1px, transparent 1px); background-size: 32px 32px; pointer-events: none"></div>
+<div style="position: relative; max-width: 1200px; margin: 0 auto; padding: 0 clamp(18px, 4vw, 48px); display: flex; flex-wrap: wrap; gap: clamp(32px, 4vw, 56px); align-items: center">
+<div style="flex: 1 1 100%; min-width: 0">
+<h1 style="position: absolute; width: 1px; height: 1px; margin: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap">攻撃者より先に、毎日見つけて、直す。中小企業のWebサイト・ECのセキュリティ保守・脆弱性診断</h1>
+<a href="#check" style="display: block; border-radius: 12px; overflow: hidden; border: 1px solid #EEEEEE"><picture>
+<source type="image/webp" srcset="/assets/lp/security/banners/fv-hero_21x9-780.webp 780w, /assets/lp/security/banners/fv-hero_21x9-1400.webp 1400w, /assets/lp/security/banners/fv-hero_21x9.webp 2400w" sizes="(min-width: 1200px) 1104px, 100vw">
+<img src="/assets/lp/security/banners/fv-hero_21x9.jpg" width="2400" height="1018" alt="SECURITY MAINTENANCE 攻撃者より先に、毎日見つけて、直す。毎日の点検から修正まで、月額で。無料でサイトをチェック。初回相談無料・修正まで月額に込み・営業日24時間以内に返信" fetchpriority="high" decoding="async" style="display: block; width: 100%; height: auto; aspect-ratio: 21 / 9; object-fit: cover">
+</picture></a>
+</div>
+<div style="flex: 999 1 520px; min-width: 0">
+<p style="margin: 0 0 18px; font-family: 'Space Grotesk', sans-serif; font-size: 13px; font-weight: 700; letter-spacing: 0.14em; color: #B8000E; display: flex; align-items: center; gap: 8px"><span style="display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #E60012"></span>FREE CHECK / 無料セキュリティ外形チェック</p>
+<p style="margin: 0; font-size: clamp(24px, 2.6vw, 32px); line-height: 1.45; font-weight: 900; color: #111111">まずは無料で、<br><span style="color: #E60012">サイトの状態</span>をチェック。</p>
+<p style="margin: 18px 0 0; font-size: clamp(15px, 1.4vw, 17px); line-height: 1.95; color: #333333; max-width: 600px">ホワイトハッカーの視点で毎日点検し、見つけた弱点は修正まで。中小企業のWebサイト・ECのためのセキュリティ保守です。</p>
+
+<form id="check-mini" action="#check" method="get" novalidate style="margin-top: 30px; max-width: 620px; background: #FFFFFF; border: 1px solid #DDDDDD; border-radius: 10px; padding: 18px">
+<label for="fv-url" style="display: block; font-size: 13px; font-weight: 700; color: #111111; margin-bottom: 10px">チェックしたいサイトのURL（所有・運営しているサイトに限ります）</label>
+<div style="display: flex; flex-wrap: wrap; gap: 10px">
+<input id="fv-url" name="url" type="url" inputmode="url" autocomplete="url" placeholder="https://example.co.jp" aria-label="チェックしたいサイトのURL" style="flex: 1 1 260px; min-width: 0; height: 52px; padding: 0 16px; border: 1px solid #CCCCCC; border-radius: 8px; font-size: 16px; font-family: 'JetBrains Mono', monospace; color: #111111; background: #FAFAFA">
+<button type="submit" style="flex: 0 0 auto; display: inline-flex; align-items: center; justify-content: center; gap: 8px; height: 52px; padding: 0 26px; border: none; border-radius: 30px; background: #E60012; color: #FFFFFF; font-size: 15px; font-weight: 700; font-family: inherit; cursor: pointer">無料でサイトをチェックする →</button>
+</div>
+<p style="margin: 10px 0 0; font-size: 12px; color: #6B6B6B; line-height: 1.7">お申し込み後、ドメインの所有確認と同意を経てから点検します。</p>
+</form>
+
+<div style="margin-top: 18px; display: flex; flex-wrap: wrap; gap: 14px 22px; align-items: center">
+<a href="#price" style="font-size: 14px; font-weight: 700; color: #B8000E">料金を見る ↓</a>
+<span style="font-size: 13px; color: #6B6B6B">初回相談無料／営業日24時間以内に一次返信</span>
+</div>
+<div style="margin-top: 22px; display: flex; flex-wrap: wrap; gap: 8px">
+<span style="padding: 7px 12px; border: 1px solid #E60012; border-radius: 4px; background: #FCE0E2; color: #B8000E; font-size: 13px; font-weight: 700">毎日の自動点検</span>
+<span style="padding: 7px 12px; border: 1px solid #E60012; border-radius: 4px; background: #FCE0E2; color: #B8000E; font-size: 13px; font-weight: 700">人の確認</span>
+<span style="padding: 7px 12px; border: 1px solid #E60012; border-radius: 4px; background: #FCE0E2; color: #B8000E; font-size: 13px; font-weight: 700">修正込み</span>
+<span style="padding: 7px 12px; border: 1px solid #E60012; border-radius: 4px; background: #FCE0E2; color: #B8000E; font-size: 13px; font-weight: 700">再診断</span>
+<span style="padding: 7px 12px; border: 1px solid #E60012; border-radius: 4px; background: #FCE0E2; color: #B8000E; font-size: 13px; font-weight: 700">外部AIに送らない</span>
+</div>
+</div>
+
+<!-- FV console -->
+<div style="flex: 1 1 400px; min-width: 0; max-width: 520px; margin: 0 auto">
+<div style="position: relative; overflow: hidden; background: #0B2545; border-radius: 12px; color: #FFFFFF; border: 1px solid #13315C">
+<div style="display: flex; align-items: center; justify-content: space-between; padding: 14px 18px; border-bottom: 1px solid rgba(255,255,255,0.12)">
+<div style="display: flex; align-items: center; gap: 10px">
+<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7 3v5c0 4.5-3 8.5-7 10-4-1.5-7-5.5-7-10V6l7-3z"></path><path d="M9 12l2 2 4-4"></path></svg>
+<span style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 14px; letter-spacing: 0.06em">DAILY SECURITY CHECK</span>
+</div>
+<span style="display: inline-flex; align-items: center; gap: 8px; font-size: 12px; color: #C9D3E3"><span class="nq-pulse" style="width: 8px; height: 8px; border-radius: 50%; background: #FF6B78; display: inline-block"></span>点検中</span>
+</div>
+<div style="position: relative; padding: 18px 18px 6px">
+<div aria-hidden="true" class="nq-scan" style="position: absolute; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, transparent, rgba(255,107,120,0.7), transparent)"></div>
+<p style="margin: 0 0 12px; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #9FB0C8">2026-10-28 06:00 JST · example.co.jp</p>
+<div style="display: flex; flex-direction: column; gap: 8px">
+<div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 11px 12px; background: rgba(255,255,255,0.06); border-radius: 6px">
+<span style="font-size: 13px">SSL/TLS 証明書</span>
+<span style="font-size: 12px; font-weight: 700; color: #FFFFFF; display: inline-flex; align-items: center; gap: 6px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"></path></svg>正常</span>
+</div>
+<div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 11px 12px; background: rgba(255,255,255,0.06); border-radius: 6px">
+<span style="font-size: 13px">公開してはいけないファイルの露出</span>
+<span style="font-size: 12px; font-weight: 700; color: #FFFFFF; display: inline-flex; align-items: center; gap: 6px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"></path></svg>検出なし</span>
+</div>
+<div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 11px 12px; background: rgba(255,255,255,0.06); border-radius: 6px">
+<span style="font-size: 13px">改ざんの兆候</span>
+<span style="font-size: 12px; font-weight: 700; color: #FFFFFF; display: inline-flex; align-items: center; gap: 6px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"></path></svg>検出なし</span>
+</div>
+<div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 11px 12px; background: rgba(255,255,255,0.06); border-radius: 6px">
+<span style="font-size: 13px">セキュリティヘッダー</span>
+<span style="font-size: 12px; font-weight: 700; color: #FFD27A; display: inline-flex; align-items: center; gap: 6px"><svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><circle cx="6" cy="6" r="5" fill="#FFD27A"></circle></svg>中・1件</span>
+</div>
+<div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 11px 12px; background: rgba(230,0,18,0.16); border: 1px solid rgba(255,107,120,0.5); border-radius: 6px">
+<span style="font-size: 13px">脆弱性情報との照合（プラグイン）</span>
+<span style="font-size: 12px; font-weight: 700; color: #FF8A94; display: inline-flex; align-items: center; gap: 6px"><svg width="13" height="12" viewBox="0 0 13 12" aria-hidden="true"><path d="M6.5 0.5L12.5 11.5H0.5Z" fill="#FF8A94"></path></svg>高・1件</span>
+</div>
+</div>
+<div style="margin: 14px 0 12px; padding: 12px; border-radius: 6px; background: #071A33; font-family: 'JetBrains Mono', monospace; font-size: 11.5px; line-height: 1.85; color: #C9D3E3">
+<div>06:00 外部チェック 完了</div>
+<div>06:02 照合 JVN / NVD / KEV …… 新規公表 1件と一致</div>
+<div style="color: #FF8A94">06:03 AIが重要度・修正案を作成 → 担当者が確認中</div>
+<div>09:30 検証環境で修正 → 本番反映 → 再診断 予定</div>
+</div>
+</div>
+</div>
+<p style="margin: 10px 0 0; font-size: 12px; color: #6B6B6B; text-align: right">※画面はイメージです</p>
+</div>
+</div>
+</section>
+
+<div aria-hidden="true" style="max-width: 1200px; margin: 0 auto; padding: 0 clamp(18px, 4vw, 48px)"><div style="height: 4px; background: repeating-linear-gradient(90deg, #E60012 0 22px, transparent 22px 38px)"></div></div>
+
+<!-- お悩み -->
+<section style="padding: clamp(56px, 8vw, 112px) 0; background: #F5F5F5">
+<div style="max-width: 1200px; margin: 0 auto; padding: 0 clamp(18px, 4vw, 48px)">
+<h2 style="margin: 0; font-size: clamp(26px, 3vw, 36px); line-height: 1.45; font-weight: 700">経営者・ご担当者の皆さまから、<br>こんなお声をいただきます</h2>
+<div aria-hidden="true" style="width: 48px; height: 4px; background: #E60012; border-radius: 2px; margin: 18px 0 32px"></div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 460px), 1fr)); gap: 14px">
+<div style="display: flex; gap: 14px; align-items: flex-start; padding: 20px 22px; background: #FFFFFF; border: 1px solid #DDDDDD; border-radius: 10px"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#E60012" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none; margin-top: 2px"><circle cx="12" cy="12" r="9"></circle><path d="M8 12l3 3 5-6"></path></svg><span style="font-size: 15px; line-height: 1.8">決済代行会社から、セキュリティ対策の申告を求められた</span></div>
+<div style="display: flex; gap: 14px; align-items: flex-start; padding: 20px 22px; background: #FFFFFF; border: 1px solid #DDDDDD; border-radius: 10px"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#E60012" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none; margin-top: 2px"><circle cx="12" cy="12" r="9"></circle><path d="M8 12l3 3 5-6"></path></svg><span style="font-size: 15px; line-height: 1.8">大手の取引先から、セキュリティの調査票が届いた</span></div>
+<div style="display: flex; gap: 14px; align-items: flex-start; padding: 20px 22px; background: #FFFFFF; border: 1px solid #DDDDDD; border-radius: 10px"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#E60012" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none; margin-top: 2px"><circle cx="12" cy="12" r="9"></circle><path d="M8 12l3 3 5-6"></path></svg><span style="font-size: 15px; line-height: 1.8">診断を受けても、問題を直せる人が社内にいない</span></div>
+<div style="display: flex; gap: 14px; align-items: flex-start; padding: 20px 22px; background: #FFFFFF; border: 1px solid #DDDDDD; border-radius: 10px"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#E60012" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none; margin-top: 2px"><circle cx="12" cy="12" r="9"></circle><path d="M8 12l3 3 5-6"></path></svg><span style="font-size: 15px; line-height: 1.8">サイトを作った制作会社と連絡が取れず、何年も更新していない</span></div>
+<div style="display: flex; gap: 14px; align-items: flex-start; padding: 20px 22px; background: #FFFFFF; border: 1px solid #DDDDDD; border-radius: 10px"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#E60012" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none; margin-top: 2px"><circle cx="12" cy="12" r="9"></circle><path d="M8 12l3 3 5-6"></path></svg><span style="font-size: 15px; line-height: 1.8">情報漏えいのニュースを見るたび、うちは大丈夫かと不安になる</span></div>
+<div style="display: flex; gap: 14px; align-items: flex-start; padding: 20px 22px; background: #FFFFFF; border: 1px solid #DDDDDD; border-radius: 10px"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#E60012" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none; margin-top: 2px"><circle cx="12" cy="12" r="9"></circle><path d="M8 12l3 3 5-6"></path></svg><span style="font-size: 15px; line-height: 1.8">専門用語が多くて、社長に何をどう説明すればいいか分からない</span></div>
+</div>
+</div>
+</section>
+
+<!-- S03 なぜ今 -->
+<section id="why" style="padding: clamp(56px, 8vw, 112px) 0">
+<div style="max-width: 1200px; margin: 0 auto; padding: 0 clamp(18px, 4vw, 48px)">
+<p style="margin: 0 0 12px; font-family: 'Space Grotesk', sans-serif; font-size: 13px; font-weight: 700; letter-spacing: 0.14em; color: #B8000E">WHY NOW</p>
+<h2 style="margin: 0; font-size: clamp(26px, 3vw, 36px); line-height: 1.45; font-weight: 700">中小企業のWebサイトこそ、<br>狙われています</h2>
+<div aria-hidden="true" style="width: 48px; height: 4px; background: #E60012; border-radius: 2px; margin: 18px 0 24px"></div>
+<div style="margin: 0 0 28px; border-radius: 10px; overflow: hidden; border: 1px solid #EEEEEE"><picture>
+<source type="image/webp" srcset="/assets/lp/security/banners/banner-02-why-now_4x1-780.webp 780w, /assets/lp/security/banners/banner-02-why-now_4x1-1400.webp 1400w, /assets/lp/security/banners/banner-02-why-now_4x1.webp 2400w" sizes="(min-width: 1200px) 1104px, 100vw">
+<img src="/assets/lp/security/banners/banner-02-why-now_4x1.jpg" width="2400" height="595" alt="「うちは狙われない」は、もう通用しません。被害の多くは、中小企業で起きています。" loading="lazy" decoding="async" style="display: block; width: 100%; height: auto; aspect-ratio: 4 / 1; object-fit: cover">
+</picture></div>
+<p style="margin: 0 0 36px; font-size: 15px; line-height: 1.95; color: #333333; max-width: 760px">ランサムウェアや不正アクセスの被害の多くは中小企業で起き、取引先にまで影響が広がっています。</p>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr)); gap: 16px">
+<div style="padding: 26px 24px; background: #FFFFFF; border: 1px solid #DDDDDD; border-left: 4px solid #E60012; border-radius: 10px">
+<p style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-weight: 700; color: #E60012; line-height: 1"><span style="font-size: 46px">約6</span><span style="font-size: 20px; font-family: 'Noto Sans JP', sans-serif">割</span></p>
+<p style="margin: 14px 0 0; font-size: 14px; line-height: 1.75; color: #333333">ランサムウェア被害の報告のうち、中小企業が占める割合（2025年・143件）</p>
+<p style="margin: 10px 0 0; font-size: 11px; color: #6B6B6B">出典：警察庁</p>
+</div>
+<div style="padding: 26px 24px; background: #FFFFFF; border: 1px solid #DDDDDD; border-left: 4px solid #E60012; border-radius: 10px">
+<p style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-weight: 700; color: #E60012; line-height: 1"><span style="font-size: 46px">48.0</span><span style="font-size: 20px">%</span></p>
+<p style="margin: 14px 0 0; font-size: 14px; line-height: 1.75; color: #333333">不正アクセス被害の手口の1位は「脆弱性（パッチ未適用など）を突かれた」</p>
+<p style="margin: 10px 0 0; font-size: 11px; color: #6B6B6B">出典：IPA 2024年度調査（被害企業419社）</p>
+</div>
+<div style="padding: 26px 24px; background: #FFFFFF; border: 1px solid #DDDDDD; border-left: 4px solid #E60012; border-radius: 10px">
+<p style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-weight: 700; color: #E60012; line-height: 1"><span style="font-size: 46px">73</span><span style="font-size: 20px; font-family: 'Noto Sans JP', sans-serif">万円</span></p>
+<p style="margin: 14px 0 0; font-size: 14px; line-height: 1.75; color: #333333">被害額の平均。復旧までは平均5.8日かかっています</p>
+<p style="margin: 10px 0 0; font-size: 11px; color: #6B6B6B">出典：IPA 2024年度調査（速報版）</p>
+</div>
+<div style="padding: 26px 24px; background: #FFFFFF; border: 1px solid #DDDDDD; border-left: 4px solid #E60012; border-radius: 10px">
+<p style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-weight: 700; color: #E60012; line-height: 1"><span style="font-size: 46px">約7</span><span style="font-size: 20px; font-family: 'Noto Sans JP', sans-serif">割</span></p>
+<p style="margin: 14px 0 0; font-size: 14px; line-height: 1.75; color: #333333">被害が取引先にも影響したと回答した企業の割合</p>
+<p style="margin: 10px 0 0; font-size: 11px; color: #6B6B6B">出典：IPA 2024年度調査（速報版）</p>
+</div>
+</div>
+
+<div style="margin-top: 28px; padding: 26px 28px; border: 1px solid #DDDDDD; border-radius: 10px; background: #FAFAFA">
+<p style="margin: 0 0 16px; font-size: 15px; font-weight: 700">セキュリティの専門部署を持つ中小企業は、わずか9.3%</p>
+<div style="display: flex; flex-direction: column; gap: 10px">
+<div style="display: flex; align-items: center; gap: 14px">
+<span style="flex: 0 0 120px; font-size: 13px; color: #333333">専門部署あり</span>
+<div style="flex: 1 1 auto; height: 22px; background: #EEEEEE; border-radius: 4px; overflow: hidden"><div style="width: 9.3%; height: 100%; background: #E60012"></div></div>
+<span style="flex: 0 0 56px; font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 15px; text-align: right">9.3%</span>
+</div>
+<div style="display: flex; align-items: center; gap: 14px">
+<span style="flex: 0 0 120px; font-size: 13px; color: #333333">体制なし（約）</span>
+<div style="flex: 1 1 auto; height: 22px; background: #EEEEEE; border-radius: 4px; overflow: hidden"><div style="width: 70%; height: 100%; background: repeating-linear-gradient(45deg, #0B2545 0 6px, #2E4A72 6px 12px)"></div></div>
+<span style="flex: 0 0 56px; font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 15px; text-align: right">約7割</span>
+</div>
+</div>
+<p style="margin: 14px 0 0; font-size: 11px; color: #6B6B6B">出典：IPA「2024年度 中小企業における情報セキュリティ対策の実態調査」。「体制なし」は組織的な体制を整えていない企業の割合</p>
+</div>
+</div>
+</section>
+
+<!-- S04 攻撃の速さ -->
+<section style="position: relative; overflow: hidden; padding: clamp(56px, 8vw, 112px) 0; background: #0B2545; color: #FFFFFF">
+<div aria-hidden="true" style="position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px); background-size: 40px 40px"></div>
+<div style="position: relative; max-width: 1200px; margin: 0 auto; padding: 0 clamp(18px, 4vw, 48px)">
+<p style="margin: 0 0 12px; font-family: 'Space Grotesk', sans-serif; font-size: 13px; font-weight: 700; letter-spacing: 0.14em; color: #FF8A94">WHY DAILY</p>
+<h2 style="margin: 0; font-size: clamp(26px, 3vw, 36px); line-height: 1.45; font-weight: 700">公表から悪用まで、<br>もう「月単位」ではありません</h2>
+<div aria-hidden="true" style="width: 48px; height: 4px; background: #E60012; border-radius: 2px; margin: 18px 0 24px"></div>
+<p style="margin: 0 0 40px; font-size: 15px; line-height: 1.95; color: #C9D3E3; max-width: 780px">新しい脆弱性が公表されると、攻撃はすぐに始まります。年1回や月1回の診断では、この「窓」に間に合いません。</p>
+
+<div role="img" aria-label="脆弱性の公表日を起点にした時間軸。公表日以前に悪用が始まったものが約3割、WordPressでは公表から中央値5時間で大量悪用、重大な脆弱性の63%は7日たっても未修正。" style="padding: 32px 28px 28px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.14); border-radius: 12px">
+<div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0">
+<div style="padding-right: 12px"><p style="margin: 0; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #9FB0C8">公表より前</p></div>
+<div style="padding-right: 12px"><p style="margin: 0; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #FFFFFF; font-weight: 700">DAY 0　公表日</p></div>
+<div style="padding-right: 12px"><p style="margin: 0; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #9FB0C8">＋5時間</p></div>
+<div><p style="margin: 0; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #9FB0C8">＋7日</p></div>
+</div>
+<div aria-hidden="true" style="position: relative; height: 28px; margin: 10px 0 18px">
+<div style="position: absolute; left: 0; right: 0; top: 13px; height: 2px; background: rgba(255,255,255,0.35)"></div>
+<div style="position: absolute; left: 0; width: 25%; top: 11px; height: 6px; background: repeating-linear-gradient(90deg, #E60012 0 8px, transparent 8px 12px)"></div>
+<div style="position: absolute; left: 25%; top: 5px; width: 18px; height: 18px; margin-left: -1px; border-radius: 50%; background: #FFFFFF; border: 4px solid #0B2545; box-shadow: 0 0 0 2px #FFFFFF"></div>
+<div style="position: absolute; left: 50%; top: 7px; width: 14px; height: 14px; background: #E60012; transform: rotate(45deg)"></div>
+<div style="position: absolute; left: 75%; top: 7px; width: 14px; height: 14px; border-radius: 3px; background: #FF8A94"></div>
+</div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); gap: 14px">
+<div style="padding: 18px; border-radius: 8px; background: rgba(230,0,18,0.14); border: 1px solid rgba(255,107,120,0.45)">
+<p style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 34px; line-height: 1">28.96<span style="font-size: 16px">%</span></p>
+<p style="margin: 10px 0 0; font-size: 13px; line-height: 1.7; color: #E3E9F2">2025年に悪用が確認された脆弱性のうち、公表日以前に悪用が始まっていた割合</p>
+<p style="margin: 8px 0 0; font-size: 11px; color: #9FB0C8">VulnCheck 2026</p>
+</div>
+<div style="padding: 18px; border-radius: 8px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.18)">
+<p style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 34px; line-height: 1">5<span style="font-size: 16px; font-family: 'Noto Sans JP', sans-serif">時間</span></p>
+<p style="margin: 10px 0 0; font-size: 13px; line-height: 1.7; color: #E3E9F2">WordPressで重度に悪用された脆弱性が、公表から大量悪用されるまでの時間（加重中央値）</p>
+<p style="margin: 8px 0 0; font-size: 11px; color: #9FB0C8">Patchstack 2026</p>
+</div>
+<div style="padding: 18px; border-radius: 8px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.18)">
+<p style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 34px; line-height: 1">63<span style="font-size: 16px">%</span></p>
+<p style="margin: 10px 0 0; font-size: 13px; line-height: 1.7; color: #E3E9F2">重大な脆弱性のうち、公表から7日たっても修正されていない割合</p>
+<p style="margin: 8px 0 0; font-size: 11px; color: #9FB0C8">Qualys 2026</p>
+</div>
+<div style="padding: 18px; border-radius: 8px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.18)">
+<p style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 34px; line-height: 1">31<span style="font-size: 16px">%</span></p>
+<p style="margin: 10px 0 0; font-size: 13px; line-height: 1.7; color: #E3E9F2">侵入経路の1位が初めて「脆弱性の悪用」に（海外の漏えい事案のデータ）</p>
+<p style="margin: 8px 0 0; font-size: 11px; color: #9FB0C8">Verizon DBIR 2026</p>
+</div>
+</div>
+</div>
+
+<div style="margin-top: 28px; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 460px), 1fr)); gap: 14px">
+<div style="padding: 22px 24px; border-radius: 10px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.14)">
+<p style="margin: 0 0 14px; font-size: 14px; font-weight: 700; color: #C9D3E3">年1回の診断</p>
+<div aria-hidden="true" style="position: relative; height: 26px; border-radius: 4px; background: rgba(255,255,255,0.08)"><div style="position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: #FFFFFF"></div></div>
+<p style="margin: 12px 0 0; font-size: 13px; line-height: 1.7; color: #9FB0C8">次の診断までの間に公表された脆弱性は、気づかれないまま残ります。</p>
+</div>
+<div style="padding: 22px 24px; border-radius: 10px; background: rgba(230,0,18,0.12); border: 1px solid rgba(255,107,120,0.45)">
+<p style="margin: 0 0 14px; font-size: 14px; font-weight: 700; color: #FFFFFF">Nortiqの毎日の点検</p>
+<div aria-hidden="true" style="height: 26px; border-radius: 4px; background: repeating-linear-gradient(90deg, #FF6B78 0 3px, rgba(255,255,255,0.08) 3px 9px)"></div>
+<p style="margin: 12px 0 0; font-size: 13px; line-height: 1.7; color: #E3E9F2">毎日、新たに公表された脆弱性情報と照合し、見つけたらその日のうちに確認を始めます。</p>
+</div>
+</div>
+
+<div style="margin-top: 36px; text-align: center">
+<a href="#check" data-ga="security_cta" data-ga-location="why-daily" style="display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 56px; padding: 0 36px; border-radius: 30px; background: #E60012; color: #FFFFFF; font-size: 16px; font-weight: 700; text-decoration: none">自社サイトの状態を確かめる →</a>
+</div>
+</div>
+</section>
+
+<!-- Banner A -->
+<section style="padding: clamp(40px, 5.5vw, 72px) 0 0">
+<div style="max-width: 1200px; margin: 0 auto; padding: 0 clamp(18px, 4vw, 48px)">
+<a href="#check" style="display: block; border-radius: 10px; overflow: hidden; border: 1px solid #EEEEEE"><picture>
+<source type="image/webp" srcset="/assets/lp/security/banners/banner-01-hero_4x1-780.webp 780w, /assets/lp/security/banners/banner-01-hero_4x1-1400.webp 1400w, /assets/lp/security/banners/banner-01-hero_4x1.webp 2400w" sizes="(min-width: 1200px) 1104px, 100vw">
+<img src="/assets/lp/security/banners/banner-01-hero_4x1.jpg" width="2400" height="595" alt="攻撃者より先に、毎日見つけて、直す。毎日の点検から修正まで、月額で。無料でサイトをチェック。初回相談無料・修正まで月額に込み" loading="lazy" decoding="async" style="display: block; width: 100%; height: auto; aspect-ratio: 4 / 1; object-fit: cover">
+</picture></a>
+</div>
+</section>
+
+<!-- S05 できること -->
+<section id="service" style="padding: clamp(56px, 8vw, 112px) 0">
+<div style="max-width: 1200px; margin: 0 auto; padding: 0 clamp(18px, 4vw, 48px)">
+<p style="margin: 0 0 12px; font-family: 'Space Grotesk', sans-serif; font-size: 13px; font-weight: 700; letter-spacing: 0.14em; color: #B8000E">SERVICE</p>
+<h2 style="margin: 0; font-size: clamp(26px, 3vw, 36px); line-height: 1.45; font-weight: 700">見つける・直す・守り続ける。<br>ひとつの月額で。</h2>
+<div aria-hidden="true" style="width: 48px; height: 4px; background: #E60012; border-radius: 2px; margin: 18px 0 24px"></div>
+<p style="margin: 0 0 36px; font-size: 15px; line-height: 1.95; color: #333333; max-width: 780px">診断して、報告書が届いて終わり、にしません。制作会社だからこそ、見つけた弱点の修正と、直ったかの確認まで引き受けます。</p>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); gap: 16px">
+<div style="padding: 30px 28px; background: #FFFFFF; border: 1px solid #DDDDDD; border-radius: 10px">
+<div style="display: flex; align-items: center; justify-content: space-between"><span style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 13px; color: #B8000E; letter-spacing: 0.1em">01 · DETECT</span>
+<span style="width: 52px; height: 52px; border-radius: 50%; background: #0B2545; display: inline-flex; align-items: center; justify-content: center"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"></circle><path d="M20 20l-4.2-4.2"></path></svg></span></div>
+<h3 style="margin: 18px 0 10px; font-size: 21px; font-weight: 700">毎日、攻撃者の目で点検する</h3>
+<p style="margin: 0; font-size: 14px; line-height: 1.9; color: #333333">定番の診断ツールとオープンモデルで毎日チェックし、新しく公表された脆弱性情報と照合します。</p>
+</div>
+<div style="padding: 30px 28px; background: #FFFFFF; border: 1px solid #DDDDDD; border-radius: 10px">
+<div style="display: flex; align-items: center; justify-content: space-between"><span style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 13px; color: #B8000E; letter-spacing: 0.1em">02 · FIX</span>
+<span style="width: 52px; height: 52px; border-radius: 50%; background: #E60012; display: inline-flex; align-items: center; justify-content: center"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.2L4 16.8V20h3.2l5.3-5.3a4 4 0 0 0 5.2-5.4l-2.4 2.4-2.6-.6-.6-2.6z"></path></svg></span></div>
+<h3 style="margin: 18px 0 10px; font-size: 21px; font-weight: 700">見つけた弱点は、私たちが直す</h3>
+<p style="margin: 0; font-size: 14px; line-height: 1.9; color: #333333">担当者が確認し、検証環境で確かめてから本番に反映します。アップデートの適用から、コードの修正まで。</p>
+</div>
+<div style="padding: 30px 28px; background: #FFFFFF; border: 1px solid #DDDDDD; border-radius: 10px">
+<div style="display: flex; align-items: center; justify-content: space-between"><span style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 13px; color: #B8000E; letter-spacing: 0.1em">03 · PROTECT</span>
+<span style="width: 52px; height: 52px; border-radius: 50%; background: #0B2545; display: inline-flex; align-items: center; justify-content: center"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7 3v5c0 4.5-3 8.5-7 10-4-1.5-7-5.5-7-10V6l7-3z"></path><path d="M9 12l2 2 4-4"></path></svg></span></div>
+<h3 style="margin: 18px 0 10px; font-size: 21px; font-weight: 700">直ったか確かめ、記録を残す</h3>
+<p style="margin: 0; font-size: 14px; line-height: 1.9; color: #333333">修正のあとに再診断し、毎月のレポートに対応の履歴を残します。取引先への説明にも使えます。</p>
+</div>
+</div>
+<div style="margin-top: 22px; padding: 18px 22px; border: 1px dashed #CCCCCC; border-radius: 10px; display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; font-size: 14px; font-weight: 700; color: #333333">
+<span>ツールとオープンモデルで見つける</span><span aria-hidden="true" style="color: #E60012">→</span><span>人が確かめる</span><span aria-hidden="true" style="color: #E60012">→</span><span>検証環境で直す</span><span aria-hidden="true" style="color: #E60012">→</span><span>本番に反映</span><span aria-hidden="true" style="color: #E60012">→</span><span>再診断</span>
+</div>
+</div>
+</section>
+
+<!-- S06 仕組み（3層） -->
+<section id="mechanism" style="padding: clamp(56px, 8vw, 112px) 0; background: #F5F5F5">
+<div style="max-width: 1200px; margin: 0 auto; padding: 0 clamp(18px, 4vw, 48px)">
+<p style="margin: 0 0 12px; font-family: 'Space Grotesk', sans-serif; font-size: 13px; font-weight: 700; letter-spacing: 0.14em; color: #B8000E">HOW IT WORKS</p>
+<h2 style="margin: 0; font-size: clamp(26px, 3vw, 36px); line-height: 1.45; font-weight: 700">AIだけに任せない、<br>3層の仕組み</h2>
+<div aria-hidden="true" style="width: 48px; height: 4px; background: #E60012; border-radius: 2px; margin: 18px 0 36px"></div>
+<div style="margin: 0 0 28px; border-radius: 10px; overflow: hidden; border: 1px solid #DDDDDD"><picture>
+<source type="image/webp" srcset="/assets/lp/security/banners/banner-03-3layers_4x1-780.webp 780w, /assets/lp/security/banners/banner-03-3layers_4x1-1400.webp 1400w, /assets/lp/security/banners/banner-03-3layers_4x1.webp 2400w" sizes="(min-width: 1200px) 1104px, 100vw">
+<img src="/assets/lp/security/banners/banner-03-3layers_4x1.jpg" width="2400" height="595" alt="ツール×AI×人。3層で、見逃さない。AIだけに任せず、最後は人が確かめます。" loading="lazy" decoding="async" style="display: block; width: 100%; height: auto; aspect-ratio: 4 / 1; object-fit: cover">
+</picture></div>
+<div style="display: flex; flex-wrap: wrap; align-items: stretch; gap: 12px">
+<div style="flex: 1 1 260px; min-width: 0; padding: 26px 24px; background: #FFFFFF; border: 1px solid #DDDDDD; border-top: 4px solid #0B2545; border-radius: 10px">
+<p style="margin: 0; font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 700; color: #0B2545">LAYER 1</p>
+<h3 style="margin: 10px 0 10px; font-size: 19px; font-weight: 700">定番の診断ツール</h3>
+<p style="margin: 0; font-size: 14px; line-height: 1.85; color: #333333">既知の脆弱性や設定の不備を、漏れなく拾います。</p>
+<p style="margin: 14px 0 0; font-family: 'JetBrains Mono', monospace; font-size: 11.5px; color: #6B6B6B">OWASP ZAP / Nuclei / WPScan / Trivy など</p>
+</div>
+<div aria-hidden="true" class="hide-sp" style="flex: 0 0 28px; display: flex; align-items: center; justify-content: center"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#E60012" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></div>
+<div style="flex: 1 1 260px; min-width: 0; padding: 26px 24px; background: #FFFFFF; border: 1px solid #DDDDDD; border-top: 4px solid #0B2545; border-radius: 10px">
+<p style="margin: 0; font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 700; color: #0B2545">LAYER 2</p>
+<h3 style="margin: 10px 0 10px; font-size: 19px; font-weight: 700">オープンモデルの判定</h3>
+<p style="margin: 0; font-size: 14px; line-height: 1.85; color: #333333">ツールの結果と公開情報を読み、誤検知の可能性・悪用されやすさ・影響範囲を判定して、修正案を書きます。</p>
+<p style="margin: 14px 0 0; font-size: 12px; color: #6B6B6B">自社で管理する、中身が公開されたAIモデル</p>
+</div>
+<div aria-hidden="true" class="hide-sp" style="flex: 0 0 28px; display: flex; align-items: center; justify-content: center"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#E60012" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></div>
+<div style="flex: 1 1 260px; min-width: 0; padding: 26px 24px; background: #FFFFFF; border: 1px solid #E60012; border-top: 4px solid #E60012; border-radius: 10px">
+<p style="margin: 0; font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 700; color: #B8000E">LAYER 3</p>
+<h3 style="margin: 10px 0 10px; font-size: 19px; font-weight: 700">人の確認</h3>
+<p style="margin: 0; font-size: 14px; line-height: 1.85; color: #333333">重大度の確定、修正してよいかの判断、お客様への説明は、担当者が行います。</p>
+<p style="margin: 14px 0 0; font-size: 12px; color: #6B6B6B">誤検知を除外してからご報告</p>
+</div>
+</div>
+<div style="margin-top: 24px; display: flex; flex-wrap: wrap; align-items: center; gap: 18px 32px; padding: 24px 28px; background: #FFFFFF; border: 1px solid #DDDDDD; border-radius: 10px">
+<div style="display: flex; align-items: baseline; gap: 14px; font-family: 'Space Grotesk', sans-serif; font-weight: 700">
+<span style="font-size: 36px; color: #6B6B6B">29<span style="font-size: 16px">%</span></span>
+<span aria-hidden="true" style="font-size: 22px; color: #E60012">→</span>
+<span style="font-size: 46px; color: #E60012">9<span style="font-size: 18px">%</span></span>
+</div>
+<p style="flex: 1 1 360px; margin: 0; font-size: 14px; line-height: 1.85; color: #333333">脆弱性テストをAIだけに任せる組織は、2025年の29%から2026年は9%に減りました。人がAIの結果を確かめる形が支持されています。<span style="display: block; margin-top: 4px; font-size: 11px; color: #6B6B6B">出典：Cobalt調査（@IT、2026年6月）</span></p>
+</div>
+</div>
+</section>
+
+<!-- S07 外に出さない設計 -->
+<section style="position: relative; overflow: hidden; padding: clamp(56px, 8vw, 112px) 0; background: #0B2545; color: #FFFFFF">
+<div aria-hidden="true" style="position: absolute; inset: 0; background-image: radial-gradient(rgba(255,255,255,0.08) 1px, transparent 1px); background-size: 22px 22px"></div>
+<div style="position: relative; max-width: 1200px; margin: 0 auto; padding: 0 clamp(18px, 4vw, 48px); display: flex; flex-wrap: wrap; gap: 40px; align-items: center">
+<div style="flex: 1 1 440px; min-width: 0">
+<p style="margin: 0 0 12px; font-family: 'Space Grotesk', sans-serif; font-size: 13px; font-weight: 700; letter-spacing: 0.14em; color: #FF8A94">DATA STAYS INSIDE</p>
+<h2 style="margin: 0; font-size: clamp(26px, 3vw, 36px); line-height: 1.45; font-weight: 700">診断データは、<br>外部のAIサービスに送りません</h2>
+<div aria-hidden="true" style="width: 48px; height: 4px; background: #E60012; border-radius: 2px; margin: 18px 0 28px"></div>
+<ul style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 16px">
+<li style="display: flex; gap: 14px; align-items: flex-start"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FF8A94" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none; margin-top: 2px"><path d="M12 3l7 3v5c0 4.5-3 8.5-7 10-4-1.5-7-5.5-7-10V6l7-3z"></path><path d="M9 12l2 2 4-4"></path></svg><span style="font-size: 15px; line-height: 1.85; color: #E3E9F2">AIは、Nortiqが管理する環境で動かします</span></li>
+<li style="display: flex; gap: 14px; align-items: flex-start"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FF8A94" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none; margin-top: 2px"><path d="M12 3l7 3v5c0 4.5-3 8.5-7 10-4-1.5-7-5.5-7-10V6l7-3z"></path><path d="M9 12l2 2 4-4"></path></svg><span style="font-size: 15px; line-height: 1.85; color: #E3E9F2">診断結果やソースコードを、外部のAIサービスへ送りません</span></li>
+<li style="display: flex; gap: 14px; align-items: flex-start"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FF8A94" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none; margin-top: 2px"><path d="M12 3l7 3v5c0 4.5-3 8.5-7 10-4-1.5-7-5.5-7-10V6l7-3z"></path><path d="M9 12l2 2 4-4"></path></svg><span style="font-size: 15px; line-height: 1.85; color: #E3E9F2">お預かりするアクセス権や認証情報は、必要な範囲だけに絞ります</span></li>
+<li style="display: flex; gap: 14px; align-items: flex-start"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FF8A94" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none; margin-top: 2px"><path d="M12 3l7 3v5c0 4.5-3 8.5-7 10-4-1.5-7-5.5-7-10V6l7-3z"></path><path d="M9 12l2 2 4-4"></path></svg><span style="font-size: 15px; line-height: 1.85; color: #E3E9F2">いつ・誰が・何をしたか、作業の履歴を記録して開示します</span></li>
+</ul>
+</div>
+<div role="img" aria-label="Nortiqが管理する環境の中に、診断ツール・オープンモデル・担当者があり、外部のAIサービスへはデータを送らない構成図" style="flex: 1 1 420px; min-width: 0">
+<div style="padding: 22px; border: 2px dashed rgba(255,138,148,0.7); border-radius: 14px; background: rgba(255,255,255,0.03)">
+<p style="margin: 0 0 16px; display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; color: #FF8A94"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7 3v5c0 4.5-3 8.5-7 10-4-1.5-7-5.5-7-10V6l7-3z"></path></svg>Nortiqが管理する環境</p>
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px">
+<div style="padding: 16px 10px; border-radius: 8px; background: rgba(255,255,255,0.08); text-align: center; font-size: 13px; font-weight: 700">診断ツール</div>
+<div style="padding: 16px 10px; border-radius: 8px; background: rgba(255,255,255,0.08); text-align: center; font-size: 13px; font-weight: 700">オープン<br>モデル</div>
+<div style="padding: 16px 10px; border-radius: 8px; background: rgba(230,0,18,0.25); text-align: center; font-size: 13px; font-weight: 700">担当者</div>
+</div>
+<div style="margin-top: 10px; padding: 12px; border-radius: 8px; background: #071A33; font-family: 'JetBrains Mono', monospace; font-size: 11.5px; color: #C9D3E3; text-align: center">診断データ・ソースコード・認証情報</div>
+</div>
+<div style="display: flex; align-items: center; justify-content: center; gap: 12px; margin: 14px 0">
+<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#FF8A94" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v16M6 14l6 6 6-6"></path><path d="M5 5l14 14"></path></svg>
+<span style="font-size: 13px; font-weight: 700; color: #FF8A94">送信しない</span>
+</div>
+<div style="padding: 16px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.2); text-align: center; font-size: 13px; color: #9FB0C8">外部のAIサービス</div>
+</div>
+<div style="flex: 1 1 100%; min-width: 0; border-radius: 10px; overflow: hidden; border: 1px solid rgba(255,255,255,0.18)"><picture>
+<source type="image/webp" srcset="/assets/lp/security/banners/banner-04-data-inside_4x1-780.webp 780w, /assets/lp/security/banners/banner-04-data-inside_4x1-1400.webp 1400w, /assets/lp/security/banners/banner-04-data-inside_4x1.webp 2400w" sizes="(min-width: 1200px) 1104px, 100vw">
+<img src="/assets/lp/security/banners/banner-04-data-inside_4x1.jpg" width="2400" height="595" alt="診断データは、外に出さない。AIは、Nortiqが管理する環境で動かします。" loading="lazy" decoding="async" style="display: block; width: 100%; height: auto; aspect-ratio: 4 / 1; object-fit: cover">
+</picture></div>
+</div>
+</section>
+
+<!-- S08 頻度別 -->
+<section style="padding: clamp(56px, 8vw, 112px) 0">
+<div style="max-width: 1200px; margin: 0 auto; padding: 0 clamp(18px, 4vw, 48px)">
+<p style="margin: 0 0 12px; font-family: 'Space Grotesk', sans-serif; font-size: 13px; font-weight: 700; letter-spacing: 0.14em; color: #B8000E">WHAT WE DO</p>
+<h2 style="margin: 0; font-size: clamp(26px, 3vw, 36px); line-height: 1.45; font-weight: 700">毎日・随時・毎月・四半期。<br>やることと、届くもの</h2>
+<div aria-hidden="true" style="width: 48px; height: 4px; background: #E60012; border-radius: 2px; margin: 18px 0 32px"></div>
+<div style="overflow-x: auto; border: 1px solid #DDDDDD; border-radius: 10px">
+<table style="width: 100%; min-width: 720px; border-collapse: collapse; font-size: 14px; line-height: 1.8">
+<thead>
+<tr style="background: #0B2545; color: #FFFFFF">
+<th scope="col" style="text-align: left; padding: 16px 20px; width: 150px; font-weight: 700">頻度</th>
+<th scope="col" style="text-align: left; padding: 16px 20px; font-weight: 700">やること</th>
+<th scope="col" style="text-align: left; padding: 16px 20px; width: 34%; font-weight: 700">お客様が受け取るもの</th>
+</tr>
+</thead>
+<tbody>
+<tr style="border-top: 1px solid #DDDDDD">
+<th scope="row" style="text-align: left; padding: 20px; vertical-align: top; font-weight: 700"><span style="display: block; font-family: 'Space Grotesk', sans-serif; color: #B8000E; font-size: 12px; letter-spacing: 0.08em">DAILY</span>毎日（自動）</th>
+<td style="padding: 20px; vertical-align: top; color: #333333">外部からの軽量チェック（SSL/TLS、セキュリティヘッダー、公開してはいけないファイル、改ざんの兆候）。使っているCMS・プラグイン・ライブラリを、新たに公表された脆弱性情報と照合</td>
+<td style="padding: 20px; vertical-align: top; color: #333333">重大な問題は即時にご連絡。問題がない週は「異常なし」の週次サマリー</td>
+</tr>
+<tr style="border-top: 1px solid #DDDDDD; background: #FAFAFA">
+<th scope="row" style="text-align: left; padding: 20px; vertical-align: top; font-weight: 700"><span style="display: block; font-family: 'Space Grotesk', sans-serif; color: #B8000E; font-size: 12px; letter-spacing: 0.08em">ON DETECT</span>発見時（随時）</th>
+<td style="padding: 20px; vertical-align: top; color: #333333">AIが重要度・悪用されやすさ・修正案を作成 → 担当者が確認して誤検知を除外 → 検証環境で修正 → 本番反映 → 再診断</td>
+<td style="padding: 20px; vertical-align: top; color: #333333">指摘ごとに「何が・どれくらい危険で・何をしたか」の報告</td>
+</tr>
+<tr style="border-top: 1px solid #DDDDDD">
+<th scope="row" style="text-align: left; padding: 20px; vertical-align: top; font-weight: 700"><span style="display: block; font-family: 'Space Grotesk', sans-serif; color: #B8000E; font-size: 12px; letter-spacing: 0.08em">MONTHLY</span>毎月</th>
+<td style="padding: 20px; vertical-align: top; color: #333333">ログイン後の画面やフォームを含む深い診断を、検証環境で実施（スタンダード以上）</td>
+<td style="padding: 20px; vertical-align: top; color: #333333">月次レポート（経営者向け1枚の要約＋担当者向けの詳細）</td>
+</tr>
+<tr style="border-top: 1px solid #DDDDDD; background: #FAFAFA">
+<th scope="row" style="text-align: left; padding: 20px; vertical-align: top; font-weight: 700"><span style="display: block; font-family: 'Space Grotesk', sans-serif; color: #B8000E; font-size: 12px; letter-spacing: 0.08em">QUARTERLY</span>四半期</th>
+<td style="padding: 20px; vertical-align: top; color: #333333">人による手動の侵入検証（権限まわり・業務ロジック）。EC・会員サイト向け</td>
+<td style="padding: 20px; vertical-align: top; color: #333333">取引先やカード会社に提出できる診断報告書</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p style="margin: 14px 0 0; font-size: 12px; line-height: 1.8; color: #6B6B6B">※深い診断や手動の侵入検証は、本番サイトに負荷をかけないよう毎日は行いません。毎日行うのは軽量な点検と脆弱性情報の照合です。</p>
+</div>
+</section>
+
+<!-- S09 レポートサンプル -->
+<section style="padding: clamp(56px, 8vw, 112px) 0; background: #F5F5F5">
+<div style="max-width: 1200px; margin: 0 auto; padding: 0 clamp(18px, 4vw, 48px)">
+<p style="margin: 0 0 12px; font-family: 'Space Grotesk', sans-serif; font-size: 13px; font-weight: 700; letter-spacing: 0.14em; color: #B8000E">REPORT</p>
+<h2 style="margin: 0; font-size: clamp(26px, 3vw, 36px); line-height: 1.45; font-weight: 700">毎月のレポートは、<br>経営者向け1枚＋担当者向けの詳細</h2>
+<div aria-hidden="true" style="width: 48px; height: 4px; background: #E60012; border-radius: 2px; margin: 18px 0 32px"></div>
+<div style="display: flex; flex-wrap: wrap; gap: 16px; align-items: stretch">
+<div style="flex: 1 1 360px; min-width: 0; background: #FFFFFF; border: 1px solid #DDDDDD; border-radius: 10px; overflow: hidden">
+<div style="padding: 14px 22px; background: #0B2545; color: #FFFFFF; display: flex; justify-content: space-between; align-items: center; gap: 12px">
+<span style="font-size: 14px; font-weight: 700">経営者向け サマリー</span>
+<span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #C9D3E3">2026年10月</span>
+</div>
+<div style="padding: 22px">
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; text-align: center">
+<div style="padding: 14px 6px; border: 1px solid #EEEEEE; border-radius: 8px"><p style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 28px">31</p><p style="margin: 4px 0 0; font-size: 12px; color: #6B6B6B">点検回数</p></div>
+<div style="padding: 14px 6px; border: 1px solid #EEEEEE; border-radius: 8px"><p style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 28px">3</p><p style="margin: 4px 0 0; font-size: 12px; color: #6B6B6B">見つかった弱点</p></div>
+<div style="padding: 14px 6px; border: 1px solid #E60012; border-radius: 8px; background: #FFF5F6"><p style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 28px; color: #E60012">3</p><p style="margin: 4px 0 0; font-size: 12px; color: #6B6B6B">対応済み</p></div>
+</div>
+<div style="margin-top: 16px; display: flex; flex-wrap: wrap; gap: 8px">
+<span style="display: inline-flex; align-items: center; gap: 6px; padding: 6px 10px; border: 1px solid #B8000E; border-radius: 4px; font-size: 12px; font-weight: 700; color: #B8000E"><svg width="12" height="11" viewBox="0 0 13 12" aria-hidden="true"><path d="M6.5 0.5L12.5 11.5H0.5Z" fill="#B8000E"></path></svg>高 1件</span>
+<span style="display: inline-flex; align-items: center; gap: 6px; padding: 6px 10px; border: 1px solid #8A5A00; border-radius: 4px; font-size: 12px; font-weight: 700; color: #8A5A00"><svg width="11" height="11" viewBox="0 0 12 12" aria-hidden="true"><circle cx="6" cy="6" r="5.5" fill="#8A5A00"></circle></svg>中 1件</span>
+<span style="display: inline-flex; align-items: center; gap: 6px; padding: 6px 10px; border: 1px solid #0B2545; border-radius: 4px; font-size: 12px; font-weight: 700; color: #0B2545"><svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><rect width="10" height="10" fill="#0B2545"></rect></svg>低 1件</span>
+</div>
+<p style="margin: 16px 0 0; font-size: 13px; line-height: 1.85; color: #333333"><strong>総評：</strong>今月公表されたプラグインの脆弱性に、公表当日のうちに対応しました。現在、対応が必要な問題はありません。</p>
+</div>
+</div>
+<div style="flex: 2 1 520px; min-width: 0; background: #FFFFFF; border: 1px solid #DDDDDD; border-radius: 10px; overflow: hidden">
+<div style="padding: 14px 22px; background: #FAFAFA; border-bottom: 1px solid #DDDDDD; display: flex; justify-content: space-between; align-items: center; gap: 12px">
+<span style="font-size: 14px; font-weight: 700">担当者向け 詳細</span>
+<span style="font-size: 12px; color: #6B6B6B">サンプル（架空のデータ）</span>
+</div>
+<div style="overflow-x: auto">
+<table style="width: 100%; min-width: 520px; border-collapse: collapse; font-size: 13px; line-height: 1.7">
+<thead><tr style="color: #6B6B6B; font-size: 12px"><th scope="col" style="text-align: left; padding: 12px 18px; font-weight: 500">重大度</th><th scope="col" style="text-align: left; padding: 12px 18px; font-weight: 500">内容</th><th scope="col" style="text-align: left; padding: 12px 18px; font-weight: 500">経過</th><th scope="col" style="text-align: left; padding: 12px 18px; font-weight: 500">状態</th></tr></thead>
+<tbody>
+<tr style="border-top: 1px solid #EEEEEE">
+<td style="padding: 14px 18px"><span style="display: inline-flex; align-items: center; gap: 6px; font-weight: 700; color: #B8000E"><svg width="12" height="11" viewBox="0 0 13 12" aria-hidden="true"><path d="M6.5 0.5L12.5 11.5H0.5Z" fill="#B8000E"></path></svg>高</span></td>
+<td style="padding: 14px 18px">フォーム用プラグインの既知の脆弱性</td>
+<td style="padding: 14px 18px; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #333333">10/03 発見 → 10/03 修正 → 10/04 再診断</td>
+<td style="padding: 14px 18px; font-weight: 700">対応済み</td>
+</tr>
+<tr style="border-top: 1px solid #EEEEEE">
+<td style="padding: 14px 18px"><span style="display: inline-flex; align-items: center; gap: 6px; font-weight: 700; color: #8A5A00"><svg width="11" height="11" viewBox="0 0 12 12" aria-hidden="true"><circle cx="6" cy="6" r="5.5" fill="#8A5A00"></circle></svg>中</span></td>
+<td style="padding: 14px 18px">セキュリティヘッダーの不足</td>
+<td style="padding: 14px 18px; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #333333">10/11 発見 → 10/14 設定 → 10/15 再診断</td>
+<td style="padding: 14px 18px; font-weight: 700">対応済み</td>
+</tr>
+<tr style="border-top: 1px solid #EEEEEE">
+<td style="padding: 14px 18px"><span style="display: inline-flex; align-items: center; gap: 6px; font-weight: 700; color: #0B2545"><svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><rect width="10" height="10" fill="#0B2545"></rect></svg>低</span></td>
+<td style="padding: 14px 18px">公開フォルダの一覧表示</td>
+<td style="padding: 14px 18px; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #333333">10/20 発見 → 10/21 設定 → 10/22 再診断</td>
+<td style="padding: 14px 18px; font-weight: 700">対応済み</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<p style="margin: 14px 0 0; font-size: 12px; color: #6B6B6B">重大度は色だけでなく、形（▲高・●中・■低）と文字で表示します。</p>
+<div style="margin-top: 28px; display: flex; flex-wrap: wrap; gap: 12px; justify-content: center">
+<a href="#check" data-ga="security_cta" data-ga-location="report" style="display: inline-flex; align-items: center; justify-content: center; min-height: 52px; padding: 0 30px; border-radius: 30px; background: #E60012; color: #FFFFFF; font-size: 15px; font-weight: 700; text-decoration: none">無料でチェックする →</a>
+</div>
+</div>
+</section>
+
+<!-- Banner B -->
+<section style="padding: clamp(40px, 5.5vw, 72px) 0 0">
+<div style="max-width: 1200px; margin: 0 auto; padding: 0 clamp(18px, 4vw, 48px)">
+<a href="#price" style="display: block; border-radius: 10px; overflow: hidden; border: 1px solid #EEEEEE"><picture>
+<source type="image/webp" srcset="/assets/lp/security/banners/banner-05-price_4x1-780.webp 780w, /assets/lp/security/banners/banner-05-price_4x1-1400.webp 1400w, /assets/lp/security/banners/banner-05-price_4x1.webp 2400w" sizes="(min-width: 1200px) 1104px, 100vw">
+<img src="/assets/lp/security/banners/banner-05-price_4x1.jpg" width="2400" height="595" alt="診断して終わり、にしない。毎日の点検・人の確認・修正・再診断まで、月額でまとめて引き受けます。料金プランを見る" loading="lazy" decoding="async" style="display: block; width: 100%; height: auto; aspect-ratio: 4 / 1; object-fit: cover">
+</picture></a>
+</div>
+</section>
+
+<!-- S10 料金 -->
+<section id="price" style="padding: clamp(56px, 8vw, 112px) 0">
+<div style="max-width: 1200px; margin: 0 auto; padding: 0 clamp(18px, 4vw, 48px)">
+<p style="margin: 0 0 12px; font-family: 'Space Grotesk', sans-serif; font-size: 13px; font-weight: 700; letter-spacing: 0.14em; color: #B8000E">PRICE</p>
+<h2 style="margin: 0; font-size: clamp(26px, 3vw, 36px); line-height: 1.45; font-weight: 700">プランと料金（税別）</h2>
+<div aria-hidden="true" style="width: 48px; height: 4px; background: #E60012; border-radius: 2px; margin: 18px 0 32px"></div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 255px), 1fr)); gap: 14px">
+<div style="display: flex; flex-direction: column; padding: 26px 22px; background: #FFFFFF; border: 1px solid #DDDDDD; border-radius: 10px">
+<p style="margin: 0; font-size: 12px; color: #6B6B6B">会社案内・採用サイト</p>
+<h3 style="margin: 6px 0 14px; font-size: 20px; font-weight: 700">ベーシック</h3>
+<p style="margin: 0; font-weight: 700; line-height: 1"><span style="font-size: 13px">月</span><span style="font-family: 'Space Grotesk', sans-serif; font-size: 36px; color: #111111">19,800</span><span style="font-size: 14px">円〜</span></p>
+<ul style="margin: 20px 0 0; padding: 18px 0 0; border-top: 1px solid #EEEEEE; list-style: none; display: flex; flex-direction: column; gap: 10px; font-size: 13.5px; line-height: 1.7; color: #333333">
+<li>✓ 毎日の自動点検と人の確認</li>
+<li>✓ 重大な脆弱性の修正（アップデート適用・設定修正）</li>
+<li>✓ 月次レポート</li>
+</ul>
+</div>
+<div style="display: flex; flex-direction: column; padding: 26px 22px; background: #FFFFFF; border: 1px solid #DDDDDD; border-radius: 10px">
+<p style="margin: 0; font-size: 12px; color: #6B6B6B">問い合わせ・予約・会員機能のあるサイト</p>
+<h3 style="margin: 6px 0 14px; font-size: 20px; font-weight: 700">スタンダード</h3>
+<p style="margin: 0; font-weight: 700; line-height: 1"><span style="font-size: 13px">月</span><span style="font-family: 'Space Grotesk', sans-serif; font-size: 36px; color: #111111">39,800</span><span style="font-size: 14px">円〜</span></p>
+<ul style="margin: 20px 0 0; padding: 18px 0 0; border-top: 1px solid #EEEEEE; list-style: none; display: flex; flex-direction: column; gap: 10px; font-size: 13.5px; line-height: 1.7; color: #333333">
+<li>✓ ベーシックの内容すべて</li>
+<li>✓ 月1回の深い診断（検証環境）</li>
+<li>✓ コード修正 月4時間まで</li>
+<li>✓ 改ざん検知とバックアップ</li>
+</ul>
+</div>
+<div style="display: flex; flex-direction: column; padding: 26px 22px; background: #FFFFFF; border: 2px solid #0B2545; border-radius: 10px; position: relative">
+<span style="position: absolute; top: -12px; left: 20px; padding: 3px 10px; background: #0B2545; color: #FFFFFF; font-size: 11px; font-weight: 700; border-radius: 4px">カード決済・個人情報を扱うサイトに</span>
+<p style="margin: 0; font-size: 12px; color: #6B6B6B">自社EC・会員サイト</p>
+<h3 style="margin: 6px 0 14px; font-size: 20px; font-weight: 700">EC・会員サイト</h3>
+<p style="margin: 0; font-weight: 700; line-height: 1"><span style="font-size: 13px">月</span><span style="font-family: 'Space Grotesk', sans-serif; font-size: 36px; color: #111111">79,800</span><span style="font-size: 14px">円〜</span></p>
+<ul style="margin: 20px 0 0; padding: 18px 0 0; border-top: 1px solid #EEEEEE; list-style: none; display: flex; flex-direction: column; gap: 10px; font-size: 13.5px; line-height: 1.7; color: #333333">
+<li>✓ スタンダードの内容すべて</li>
+<li>✓ 四半期ごとの手動の侵入検証</li>
+<li>✓ カード会社などへの提出資料の作成支援</li>
+<li>✓ コード修正 月10時間まで</li>
+</ul>
+</div>
+<div style="display: flex; flex-direction: column; padding: 26px 22px; background: #FAFAFA; border: 1px dashed #CCCCCC; border-radius: 10px">
+<p style="margin: 0; font-size: 12px; color: #6B6B6B">契約前の現状把握・他社制作サイト</p>
+<h3 style="margin: 6px 0 14px; font-size: 20px; font-weight: 700">初回診断（単発）</h3>
+<p style="margin: 0; font-weight: 700; line-height: 1"><span style="font-family: 'Space Grotesk', sans-serif; font-size: 36px; color: #111111">98,000</span><span style="font-size: 14px">円〜</span></p>
+<ul style="margin: 20px 0 0; padding: 18px 0 0; border-top: 1px solid #EEEEEE; list-style: none; display: flex; flex-direction: column; gap: 10px; font-size: 13.5px; line-height: 1.7; color: #333333">
+<li>✓ 深い診断1回と修正のお見積り</li>
+<li>✓ 月額プランへ移行する場合は初月料金に充当</li>
+</ul>
+</div>
+</div>
+<div style="margin-top: 18px; display: flex; flex-wrap: wrap; gap: 8px 22px; font-size: 13px; color: #333333">
+<span>・最低契約期間は6ヶ月</span><span>・初回相談無料</span><span>・料金はすべて税別</span>
+</div>
+<div style="margin-top: 24px; display: flex; flex-wrap: wrap; align-items: center; gap: 14px 26px; padding: 22px 26px; border-radius: 10px; background: #FCE0E2">
+<p style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 34px; color: #B8000E; line-height: 1">約5<span style="font-size: 16px; font-family: 'Noto Sans JP', sans-serif">割</span></p>
+<p style="flex: 1 1 360px; margin: 0; font-size: 14px; line-height: 1.8; color: #333333">セキュリティ対策に投資した中小企業の約5割が、「取引につながった」と回答しています。<span style="display: block; font-size: 11px; color: #6B6B6B">出典：IPA 2024年度調査（速報版）</span></p>
+</div>
+<div id="consult" style="margin-top: 32px; display: flex; flex-wrap: wrap; gap: 12px; justify-content: center">
+<a href="#check" data-ga="security_cta" data-ga-location="price" style="display: inline-flex; align-items: center; justify-content: center; min-height: 56px; padding: 0 34px; border-radius: 30px; background: #E60012; color: #FFFFFF; font-size: 16px; font-weight: 700; text-decoration: none">無料相談を予約する →</a>
+<a href="mailto:info@nortiqlab.com" data-ga="security_mail" data-ga-location="price" style="display: inline-flex; align-items: center; justify-content: center; min-height: 56px; padding: 0 34px; border-radius: 30px; border: 1.5px solid #E60012; background: #FFFFFF; color: #B8000E; font-size: 16px; font-weight: 700; text-decoration: none">メールで相談する</a>
+</div>
+</div>
+</section>
+
+<!-- S11 安心・信頼 -->
+<section style="padding: clamp(56px, 8vw, 112px) 0; background: #F5F5F5">
+<div style="max-width: 1200px; margin: 0 auto; padding: 0 clamp(18px, 4vw, 48px)">
+<p style="margin: 0 0 12px; font-family: 'Space Grotesk', sans-serif; font-size: 13px; font-weight: 700; letter-spacing: 0.14em; color: #B8000E">TRUST</p>
+<h2 style="margin: 0; font-size: clamp(26px, 3vw, 36px); line-height: 1.45; font-weight: 700">同意のない診断は、<br>一切行いません</h2>
+<div aria-hidden="true" style="width: 48px; height: 4px; background: #E60012; border-radius: 2px; margin: 18px 0 24px"></div>
+<p style="margin: 0 0 32px; font-size: 15px; line-height: 1.95; color: #333333; max-width: 780px">「ホワイトハッキング」とは、お客様に書面で同意いただいた範囲だけを、攻撃者と同じ視点と手法で点検することです。</p>
+<div style="margin: 0 0 28px; border-radius: 10px; overflow: hidden"><picture>
+<source type="image/webp" srcset="/assets/lp/security/banners/banner-06-consent_4x1-780.webp 780w, /assets/lp/security/banners/banner-06-consent_4x1-1400.webp 1400w, /assets/lp/security/banners/banner-06-consent_4x1.webp 2400w" sizes="(min-width: 1200px) 1104px, 100vw">
+<img src="/assets/lp/security/banners/banner-06-consent_4x1.jpg" width="2400" height="595" alt="同意いただいた範囲だけを、点検します。書面の同意と、サイトの所有確認から始めます。" loading="lazy" decoding="async" style="display: block; width: 100%; height: auto; aspect-ratio: 4 / 1; object-fit: cover">
+</picture></div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr)); gap: 14px">
+<div style="padding: 26px 22px; background: #FFFFFF; border: 1px solid #DDDDDD; border-radius: 10px">
+<svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#0B2545" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3h7l5 5v13H7z"></path><path d="M14 3v5h5"></path><path d="M10 14l2 2 4-4"></path></svg>
+<h3 style="margin: 14px 0 8px; font-size: 17px; font-weight: 700">書面の同意と所有確認</h3>
+<p style="margin: 0; font-size: 13.5px; line-height: 1.85; color: #333333">対象の範囲・期間・手法を書面で取り決め、サイトの所有を確かめてから点検します。</p>
+</div>
+<div style="padding: 26px 22px; background: #FFFFFF; border: 1px solid #DDDDDD; border-radius: 10px">
+<svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#0B2545" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7 3v5c0 4.5-3 8.5-7 10-4-1.5-7-5.5-7-10V6l7-3z"></path><path d="M9.5 12h5"></path></svg>
+<h3 style="margin: 14px 0 8px; font-size: 17px; font-weight: 700">データを外部AIに送らない</h3>
+<p style="margin: 0; font-size: 13.5px; line-height: 1.85; color: #333333">診断で得た情報は機密として扱い、外部のAIサービスへは送りません。</p>
+</div>
+<div style="padding: 26px 22px; background: #FFFFFF; border: 1px solid #DDDDDD; border-radius: 10px">
+<svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#0B2545" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v18"></path><path d="M5 7h14"></path><path d="M5 7l-3 7a3 3 0 0 0 6 0z"></path><path d="M19 7l-3 7a3 3 0 0 0 6 0z"></path></svg>
+<h3 style="margin: 14px 0 8px; font-size: 17px; font-weight: 700">法令にもとづく運用</h3>
+<p style="margin: 0; font-size: 13.5px; line-height: 1.85; color: #333333">不正アクセス禁止法を踏まえ、承諾を得た範囲・強度の中でだけ点検します。本番での深い診断は時間帯も合意します。</p>
+</div>
+<div style="padding: 26px 22px; background: #FFFFFF; border: 1px solid #DDDDDD; border-radius: 10px">
+<svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#0B2545" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg>
+<h3 style="margin: 14px 0 8px; font-size: 17px; font-weight: 700">作業履歴の記録</h3>
+<p style="margin: 0; font-size: 13.5px; line-height: 1.85; color: #333333">いつ・誰が・何をしたかを記録し、月次レポートで開示します。</p>
+</div>
+</div>
+<p style="margin: 20px 0 0; font-size: 12px; line-height: 1.8; color: #6B6B6B">※所有を確認できないサイト（競合他社のサイトなど）の点検はお引き受けできません。</p>
+</div>
+</section>
+
+<!-- S12 導入の流れ -->
+<section id="flow" style="padding: clamp(56px, 8vw, 112px) 0">
+<div style="max-width: 1200px; margin: 0 auto; padding: 0 clamp(18px, 4vw, 48px)">
+<p style="margin: 0 0 12px; font-family: 'Space Grotesk', sans-serif; font-size: 13px; font-weight: 700; letter-spacing: 0.14em; color: #B8000E">FLOW</p>
+<h2 style="margin: 0; font-size: clamp(26px, 3vw, 36px); line-height: 1.45; font-weight: 700">導入の流れ</h2>
+<div aria-hidden="true" style="width: 48px; height: 4px; background: #E60012; border-radius: 2px; margin: 18px 0 28px"></div>
+<ol style="margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 480px), 1fr)); column-gap: 40px">
+<li style="padding: 20px 0; border-top: 1px solid #DDDDDD"><p style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 13px; color: #B8000E">01</p><h3 style="margin: 6px 0 6px; font-size: 18px; font-weight: 700">無料外形チェックのお申し込み</h3><p style="margin: 0; font-size: 13.5px; line-height: 1.8; color: #333333">URLとご連絡先を入力してください。</p></li>
+<li style="padding: 20px 0; border-top: 1px solid #DDDDDD"><p style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 13px; color: #B8000E">02</p><h3 style="margin: 6px 0 6px; font-size: 18px; font-weight: 700">所有確認と同意</h3><p style="margin: 0; font-size: 13.5px; line-height: 1.8; color: #333333">指定の確認用コードをサイトに設置いただき、確認できてから点検を始めます。</p></li>
+<li style="padding: 20px 0; border-top: 1px solid #DDDDDD"><p style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 13px; color: #B8000E">03</p><h3 style="margin: 6px 0 6px; font-size: 18px; font-weight: 700">結果レポートのお届け</h3><p style="margin: 0; font-size: 13.5px; line-height: 1.8; color: #333333">担当者が誤検知を除き、受付から3営業日以内を目安にメールでお送りします。</p></li>
+<li style="padding: 20px 0; border-top: 1px solid #DDDDDD"><p style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 13px; color: #B8000E">04</p><h3 style="margin: 6px 0 6px; font-size: 18px; font-weight: 700">ご相談（オンライン30分）</h3><p style="margin: 0; font-size: 13.5px; line-height: 1.8; color: #333333">結果をご説明し、初回診断ヶ月額プランかをご提案します。</p></li>
+<li style="padding: 20px 0; border-top: 1px solid #DDDDDD"><p style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 13px; color: #B8000E">05</p><h3 style="margin: 6px 0 6px; font-size: 18px; font-weight: 700">ご契約・診断同意書の締結</h3><p style="margin: 0; font-size: 13.5px; line-height: 1.8; color: #333333">対象の範囲、期間、手法、緊急時の連絡先を書面で取り決めます。</p></li>
+<li style="padding: 20px 0; border-top: 1px solid #DDDDDD"><p style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 13px; color: #B8000E">06</p><h3 style="margin: 6px 0 6px; font-size: 18px; font-weight: 700">導入</h3><p style="margin: 0; font-size: 13.5px; line-height: 1.8; color: #333333">検証環境を用意し、初回の深い診断を行います。</p></li>
+<li style="padding: 20px 0; border-top: 1px solid #DDDDDD; border-bottom: 1px solid #DDDDDD"><p style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 13px; color: #B8000E">07</p><h3 style="margin: 6px 0 6px; font-size: 18px; font-weight: 700">運用</h3><p style="margin: 0; font-size: 13.5px; line-height: 1.8; color: #333333">毎日の点検、修正、月次レポート。半年ごとにプランを見直します。</p></li>
+</ol>
+</div>
+</section>
+
+<!-- Banner C -->
+<section style="padding: 0 0 clamp(56px, 8vw, 112px)">
+<div style="max-width: 1200px; margin: 0 auto; padding: 0 clamp(18px, 4vw, 48px)">
+<a href="#check" style="display: block; border-radius: 10px; overflow: hidden"><picture>
+<source type="image/webp" srcset="/assets/lp/security/banners/banner-07-cta_4x1-780.webp 780w, /assets/lp/security/banners/banner-07-cta_4x1-1400.webp 1400w, /assets/lp/security/banners/banner-07-cta_4x1.webp 2400w" sizes="(min-width: 1200px) 1104px, 100vw">
+<img src="/assets/lp/security/banners/banner-07-cta_4x1.jpg" width="2400" height="595" alt="まず、自社サイトの状態を知ることから。無料のセキュリティ外形チェック。結果はレポートでお返しします。無料でチェックする" loading="lazy" decoding="async" style="display: block; width: 100%; height: auto; aspect-ratio: 4 / 1; object-fit: cover">
+</picture></a>
+</div>
+</section>
+
+<!-- S13 対象・対象外 -->
+<section style="padding: clamp(56px, 8vw, 112px) 0; background: #F5F5F5">
+<div style="max-width: 1200px; margin: 0 auto; padding: 0 clamp(18px, 4vw, 48px)">
+<p style="margin: 0 0 12px; font-family: 'Space Grotesk', sans-serif; font-size: 13px; font-weight: 700; letter-spacing: 0.14em; color: #B8000E">SCOPE</p>
+<h2 style="margin: 0; font-size: clamp(26px, 3vw, 36px); line-height: 1.45; font-weight: 700">対応できるサイト</h2>
+<div aria-hidden="true" style="width: 48px; height: 4px; background: #E60012; border-radius: 2px; margin: 18px 0 32px"></div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); gap: 14px">
+<div style="padding: 26px 24px; background: #FFFFFF; border: 1px solid #DDDDDD; border-top: 4px solid #E60012; border-radius: 10px">
+<h3 style="margin: 0 0 14px; font-size: 18px; font-weight: 700; display: flex; align-items: center; gap: 8px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#E60012" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M8 12l3 3 5-6"></path></svg>対象</h3>
+<ul style="margin: 0; padding-left: 1.2em; font-size: 14px; line-height: 1.95; color: #333333">
+<li>WordPressなどのCMSサイト</li>
+<li>EC-CUBE・WooCommerce・独自開発のECサイト</li>
+<li>予約・会員システム</li>
+<li>Next.jsなどのWebアプリ</li>
+<li>他社が制作したサイト</li>
+</ul>
+</div>
+<div style="padding: 26px 24px; background: #FFFFFF; border: 1px solid #DDDDDD; border-top: 4px solid #0B2545; border-radius: 10px">
+<h3 style="margin: 0 0 14px; font-size: 18px; font-weight: 700; display: flex; align-items: center; gap: 8px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0B2545" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 3v18"></path></svg>一部対象</h3>
+<ul style="margin: 0; padding-left: 1.2em; font-size: 14px; line-height: 1.95; color: #333333">
+<li>BASE・Shopify・Wixなど：管理画面の権限と2段階認証、追加したアプリやスクリプト、独自ドメイン・DNS・メール送信認証（SPF・DKIM・DMARC）を確認</li>
+<li>VPN機器など外部に公開された機器：外から見える範囲の確認と報告まで</li>
+</ul>
+</div>
+<div style="padding: 26px 24px; background: #FFFFFF; border: 1px solid #DDDDDD; border-top: 4px solid #6B6B6B; border-radius: 10px">
+<h3 style="margin: 0 0 14px; font-size: 18px; font-weight: 700; display: flex; align-items: center; gap: 8px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6B6B6B" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M8 8l8 8M16 8l-8 8"></path></svg>対象外</h3>
+<ul style="margin: 0; padding-left: 1.2em; font-size: 14px; line-height: 1.95; color: #333333">
+<li>社内ネットワーク・従業員のPC</li>
+<li>BASE・Shopifyなどのプラットフォーム本体</li>
+<li>改修の権限を得られないシステム</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+
+<!-- S14 乗り換え -->
+<section style="padding: clamp(56px, 8vw, 112px) 0">
+<div style="max-width: 1200px; margin: 0 auto; padding: 0 clamp(18px, 4vw, 48px)">
+<p style="margin: 0 0 12px; font-family: 'Space Grotesk', sans-serif; font-size: 13px; font-weight: 700; letter-spacing: 0.14em; color: #B8000E">SWITCH</p>
+<h2 style="margin: 0; font-size: clamp(26px, 3vw, 36px); line-height: 1.45; font-weight: 700">他社が作ったサイトでも、<br>見つけて直すところまで</h2>
+<div aria-hidden="true" style="width: 48px; height: 4px; background: #E60012; border-radius: 2px; margin: 18px 0 32px"></div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 460px), 1fr)); gap: 16px">
+<div style="padding: 30px 28px; border: 1px solid #DDDDDD; border-radius: 10px">
+<h3 style="margin: 0 0 12px; font-size: 19px; font-weight: 700">制作会社と連絡が取れないサイトも</h3>
+<p style="margin: 0; font-size: 14px; line-height: 1.9; color: #333333">初回にアクセス権と、既存の保守会社がいる場合は役割分担を確認します。古いPHPの更新やサーバーの移行が必要な場合も、制作会社として引き受けます。</p>
+</div>
+<div style="padding: 30px 28px; border: 1px solid #DDDDDD; border-radius: 10px; background: #FAFAFA">
+<p style="margin: 0 0 6px; font-size: 12px; font-weight: 700; color: #B8000E">Web制作会社・フリーランスの方へ</p>
+<h3 style="margin: 0 0 12px; font-size: 19px; font-weight: 700">保守の裏方として</h3>
+<p style="margin: 0; font-size: 14px; line-height: 1.9; color: #333333">納品後の保守で、セキュリティまで手が回らない制作会社さまの裏方としても提供します。</p>
+<a href="mailto:info@nortiqlab.com?subject=%E5%88%B6%E4%BD%9C%E4%BC%9A%E7%A4%BE%E5%90%91%E3%81%91%E3%80%80%E3%82%BB%E3%82%AD%E3%83%A5%E3%83%AA%E3%83%86%E3%82%A3%E4%BF%9D%E5%AE%88%E3%81%AE%E3%81%94%E7%9B%B8%E8%AB%87" data-ga="security_mail" data-ga-location="partner" style="display: inline-block; margin-top: 14px; font-size: 14px; font-weight: 700">制作会社さま向けのお問い合わせ（メール） →</a>
+</div>
+</div>
+</div>
+</section>
+
+<!-- S15 FAQ -->
+<section id="faq" style="padding: clamp(56px, 8vw, 112px) 0; background: #F5F5F5">
+<div style="max-width: 1200px; margin: 0 auto; padding: 0 clamp(18px, 4vw, 48px)">
+<p style="margin: 0 0 12px; font-family: 'Space Grotesk', sans-serif; font-size: 13px; font-weight: 700; letter-spacing: 0.14em; color: #B8000E">FAQ</p>
+<h2 style="margin: 0; font-size: clamp(26px, 3vw, 36px); line-height: 1.45; font-weight: 700">よくあるご質問</h2>
+<div aria-hidden="true" style="width: 48px; height: 4px; background: #E60012; border-radius: 2px; margin: 18px 0 32px"></div>
+<div style="display: flex; flex-direction: column; gap: 10px; max-width: 920px">
+<details open style="background: #FFFFFF; border: 1px solid #DDDDDD; border-radius: 10px">
+<summary style="display: flex; align-items: center; gap: 14px; padding: 20px 22px; font-size: 15px; font-weight: 700"><span style="font-family: 'Space Grotesk', sans-serif; color: #E60012; font-size: 18px">Q</span><span style="flex: 1">勝手に診断されることはありませんか？</span><span class="faq-plus" aria-hidden="true" style="font-size: 22px; color: #E60012; transition: transform .2s">+</span></summary>
+<p style="margin: 0; padding: 0 22px 22px 54px; font-size: 14px; line-height: 1.9; color: #333333">ありません。お客様に書面で同意いただいた範囲だけを点検します。ドメインの所有確認も行います。</p>
+</details>
+<details style="background: #FFFFFF; border: 1px solid #DDDDDD; border-radius: 10px">
+<summary style="display: flex; align-items: center; gap: 14px; padding: 20px 22px; font-size: 15px; font-weight: 700"><span style="font-family: 'Space Grotesk', sans-serif; color: #E60012; font-size: 18px">Q</span><span style="flex: 1">他社が作ったサイトでも大丈夫ですか？</span><span class="faq-plus" aria-hidden="true" style="font-size: 22px; color: #E60012; transition: transform .2s">+</span></summary>
+<p style="margin: 0; padding: 0 22px 22px 54px; font-size: 14px; line-height: 1.9; color: #333333">対象です。初回にアクセス権と、既存の保守会社との役割分担を確認します。</p>
+</details>
+<details style="background: #FFFFFF; border: 1px solid #DDDDDD; border-radius: 10px">
+<summary style="display: flex; align-items: center; gap: 14px; padding: 20px 22px; font-size: 15px; font-weight: 700"><span style="font-family: 'Space Grotesk', sans-serif; color: #E60012; font-size: 18px">Q</span><span style="flex: 1">BASEやShopifyでもお願いできますか？</span><span class="faq-plus" aria-hidden="true" style="font-size: 22px; color: #E60012; transition: transform .2s">+</span></summary>
+<p style="margin: 0; padding: 0 22px 22px 54px; font-size: 14px; line-height: 1.9; color: #333333">プラットフォーム本体は対象外ですが、管理画面の設定、追加したアプリやスクリプト、ドメインの設定を確認します。</p>
+</details>
+<details style="background: #FFFFFF; border: 1px solid #DDDDDD; border-radius: 10px">
+<summary style="display: flex; align-items: center; gap: 14px; padding: 20px 22px; font-size: 15px; font-weight: 700"><span style="font-family: 'Space Grotesk', sans-serif; color: #E60012; font-size: 18px">Q</span><span style="flex: 1">AIだけで安全になるのですか？</span><span class="faq-plus" aria-hidden="true" style="font-size: 22px; color: #E60012; transition: transform .2s">+</span></summary>
+<p style="margin: 0; padding: 0 22px 22px 54px; font-size: 14px; line-height: 1.9; color: #333333">いいえ。定番のツールとオープンモデルで幅広く拾い、重要な判断は人が行います。セキュリティに「絶対」はありませんが、見つけたら直すことでリスクを大きく下げます。</p>
+</details>
+<details style="background: #FFFFFF; border: 1px solid #DDDDDD; border-radius: 10px">
+<summary style="display: flex; align-items: center; gap: 14px; padding: 20px 22px; font-size: 15px; font-weight: 700"><span style="font-family: 'Space Grotesk', sans-serif; color: #E60012; font-size: 18px">Q</span><span style="flex: 1">補助金は使えますか？</span><span class="faq-plus" aria-hidden="true" style="font-size: 22px; color: #E60012; transition: transform .2s">+</span></summary>
+<p style="margin: 0; padding: 0 22px 22px 54px; font-size: 14px; line-height: 1.9; color: #333333">現時点では対象外です。対象になるには、IPAのサービスリストへの登録などが必要になります。</p>
+</details>
+<details style="background: #FFFFFF; border: 1px solid #DDDDDD; border-radius: 10px">
+<summary style="display: flex; align-items: center; gap: 14px; padding: 20px 22px; font-size: 15px; font-weight: 700"><span style="font-family: 'Space Grotesk', sans-serif; color: #E60012; font-size: 18px">Q</span><span style="flex: 1">万が一、情報が漏えいしたら？</span><span class="faq-plus" aria-hidden="true" style="font-size: 22px; color: #E60012; transition: transform .2s">+</span></summary>
+<p style="margin: 0; padding: 0 22px 22px 54px; font-size: 14px; line-height: 1.9; color: #333333">一般的なご説明として、不正アクセスによる漏えい（おそれを含む）は、件数に関わらず個人情報保護委員会への報告と本人への通知が法律上必要になります。初動の進め方もご案内します。</p>
+</details>
+<details style="background: #FFFFFF; border: 1px solid #DDDDDD; border-radius: 10px">
+<summary style="display: flex; align-items: center; gap: 14px; padding: 20px 22px; font-size: 15px; font-weight: 700"><span style="font-family: 'Space Grotesk', sans-serif; color: #E60012; font-size: 18px">Q</span><span style="flex: 1">解約はできますか？</span><span class="faq-plus" aria-hidden="true" style="font-size: 22px; color: #E60012; transition: transform .2s">+</span></summary>
+<p style="margin: 0; padding: 0 22px 22px 54px; font-size: 14px; line-height: 1.9; color: #333333">最低契約期間（6ヶ月）を過ぎたあとは、いつでも解約できます。</p>
+</details>
+</div>
+<div style="margin-top: 24px; max-width: 920px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 20px; padding: 20px 24px; border: 1.5px solid #0B2545; border-radius: 10px; background: #FFFFFF">
+<p style="margin: 0; font-size: 14px; line-height: 1.7"><strong>いま、被害が疑われる場合</strong><span style="display: block; font-size: 13px; color: #6B6B6B">初動のご助言と、復旧・修正の支援をいたします。</span></p>
+<a href="mailto:info@nortiqlab.com?subject=%E3%80%90%E7%B7%8A%E6%80%A5%E3%80%91%E3%82%BB%E3%82%AD%E3%83%A5%E3%83%AA%E3%83%86%E3%82%A3%E8%A2%AB%E5%AE%B3%E3%81%AE%E7%9B%B8%E8%AB%87" data-ga="security_mail" data-ga-location="emergency" style="display: inline-flex; align-items: center; min-height: 46px; padding: 0 22px; border-radius: 30px; background: #0B2545; color: #FFFFFF; font-size: 14px; font-weight: 700; text-decoration: none">緊急のご相談はこちら（メール） →</a>
+</div>
+</div>
+</section>
+
+<!-- S16 最終CTA -->
+<section style="position: relative; overflow: hidden; padding: clamp(56px, 7vw, 96px) 0; background: #E60012; color: #FFFFFF; text-align: center">
+<div aria-hidden="true" style="position: absolute; right: -60px; top: 50%; transform: translateY(-50%); opacity: 0.12"><svg width="420" height="420" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 4.5-3 8.5-7 10-4-1.5-7-5.5-7-10V6l7-3z"></path><path d="M9 12l2 2 4-4"></path></svg></div>
+<div style="position: relative; max-width: 860px; margin: 0 auto; padding: 0 clamp(18px, 4vw, 48px)">
+<h2 style="margin: 0; font-size: clamp(28px, 3.4vw, 40px); line-height: 1.45; font-weight: 900">まず、自社の状態を<br>知ることから。</h2>
+<p style="margin: 18px 0 0; font-size: 15px; line-height: 1.9">無料のセキュリティ外形チェックで、いまのサイトの状態をレポートでお返しします。</p>
+<div style="margin-top: 30px; display: flex; flex-wrap: wrap; gap: 12px; justify-content: center">
+<a href="#check" data-ga="security_cta" data-ga-location="final" style="display: inline-flex; align-items: center; justify-content: center; min-height: 56px; padding: 0 34px; border-radius: 30px; background: #FFFFFF; color: #B8000E; font-size: 16px; font-weight: 700; text-decoration: none">無料でチェックする →</a>
+<a href="#consult" style="display: inline-flex; align-items: center; justify-content: center; min-height: 56px; padding: 0 30px; border-radius: 30px; border: 1.5px solid #FFFFFF; color: #FFFFFF; font-size: 15px; font-weight: 700; text-decoration: none">無料相談</a>
+<a href="mailto:info@nortiqlab.com" data-ga="security_mail" data-ga-location="final" style="display: inline-flex; align-items: center; justify-content: center; min-height: 56px; padding: 0 30px; border-radius: 30px; border: 1.5px solid #FFFFFF; color: #FFFFFF; font-size: 15px; font-weight: 700; text-decoration: none">メールで相談</a>
+</div>
+<p style="margin: 16px 0 0; font-size: 13px">初回相談無料・営業日24時間以内に一次返信</p>
+</div>
+</section>
+
+<!-- Form -->
+<section id="check" style="padding: clamp(56px, 8vw, 112px) 0">
+<div style="max-width: 1200px; margin: 0 auto; padding: 0 clamp(18px, 4vw, 48px)">
+<p style="margin: 0 0 12px; font-family: 'Space Grotesk', sans-serif; font-size: 13px; font-weight: 700; letter-spacing: 0.14em; color: #B8000E">FREE CHECK</p>
+<h2 style="margin: 0; font-size: clamp(26px, 3vw, 36px); line-height: 1.45; font-weight: 700">無料セキュリティ外形チェックの<br>お申し込み</h2>
+<div aria-hidden="true" style="width: 48px; height: 4px; background: #E60012; border-radius: 2px; margin: 18px 0 24px"></div>
+<p style="margin: 0 0 28px; font-size: 15px; line-height: 1.95; color: #333333; max-width: 780px">外から見える範囲で、サイトの状態を点検してレポートでお返しします。点検は、所有・運営しているサイトに限ります。</p>
+<details id="consent" style="margin: 0 0 24px; max-width: 880px; background: #FFFFFF; border: 1px solid #DDDDDD; border-radius: 10px">
+<summary style="display: flex; align-items: center; gap: 12px; padding: 16px 20px; font-size: 15px; font-weight: 700"><span style="font-family: 'Space Grotesk', sans-serif; color: #E60012">!</span><span style="flex: 1">無料セキュリティ外形チェックの同意事項</span><span class="faq-plus" aria-hidden="true" style="font-size: 22px; color: #E60012; transition: transform .2s">+</span></summary>
+<ol style="margin: 0; padding: 0 22px 20px 44px; font-size: 13.5px; line-height: 1.9; color: #333333; display: flex; flex-direction: column; gap: 6px">
+<li>対象は、お申し込みいただいたURLのサイトのうち外部から見える範囲（SSL/TLS、セキュリティヘッダー、公開してはいけないファイルの露出、改ざんの兆候、使用しているCMS・プラグインと公開されている脆弱性情報との照合）に限ります。ログイン後の画面、負荷をかける検査、脆弱性を実際に突く検査は行いません。</li>
+<li>点検は、指定の確認用コード（metaタグ）の設置によってサイトの所有・管理を確認できた後に行います。確認できない場合は点検を行いません。</li>
+<li>点検は通常の閲覧と同程度の軽い通信で行い、サイトの動作に影響を与えないよう配慮します。</li>
+<li>点検で得た情報は、結果レポートの作成とご相談のためにだけ使います。外部のAIサービスに送らず、第三者に提供しません。</li>
+<li>結果は点検時点の目安であり、安全を保証するものではありません。結果にもとづく対応はお客様の判断で行ってください。</li>
+<li>同意はメール（info@nortiqlab.com）でいつでも撤回できます。撤回後は点検を止め、お預かりした情報を削除します。</li>
+</ol>
+</details>
+<div style="display: flex; flex-wrap: wrap; gap: 28px; align-items: flex-start">
+<form id="contact-form" action="/api/contact" method="post" novalidate style="flex: 999 1 560px; min-width: 0; display: flex; flex-direction: column; gap: 18px; padding: clamp(22px, 3vw, 36px); border: 1px solid #DDDDDD; border-radius: 10px">
+<input type="hidden" name="topic" value="無料セキュリティ外形チェック">
+<div class="field">
+<label for="f-url" style="display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 700; margin-bottom: 8px">診断したいURL<span style="padding: 2px 6px; border-radius: 3px; background: #E60012; color: #FFFFFF; font-size: 11px">必須</span></label>
+<input id="f-url" name="siteUrl" type="url" inputmode="url" autocomplete="url" required placeholder="https://example.co.jp" style="width: 100%; height: 50px; padding: 0 14px; border: 1px solid #CCCCCC; border-radius: 8px; font-size: 16px; font-family: 'JetBrains Mono', monospace; background: #FAFAFA">
+</div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); gap: 18px">
+<div class="field">
+<label for="f-co" style="display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 700; margin-bottom: 8px">会社名<span style="padding: 2px 6px; border-radius: 3px; background: #E60012; color: #FFFFFF; font-size: 11px">必須</span></label>
+<input id="f-co" name="company" type="text" autocomplete="organization" required style="width: 100%; height: 50px; padding: 0 14px; border: 1px solid #CCCCCC; border-radius: 8px; font-size: 16px; background: #FAFAFA">
+</div>
+<div class="field">
+<label for="f-name" style="display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 700; margin-bottom: 8px">お名前<span style="padding: 2px 6px; border-radius: 3px; background: #E60012; color: #FFFFFF; font-size: 11px">必須</span></label>
+<input id="f-name" name="name" type="text" autocomplete="name" required style="width: 100%; height: 50px; padding: 0 14px; border: 1px solid #CCCCCC; border-radius: 8px; font-size: 16px; background: #FAFAFA">
+</div>
+<div class="field">
+<label for="f-mail" style="display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 700; margin-bottom: 8px">メールアドレス<span style="padding: 2px 6px; border-radius: 3px; background: #E60012; color: #FFFFFF; font-size: 11px">必須</span></label>
+<input id="f-mail" name="email" type="email" autocomplete="email" inputmode="email" required style="width: 100%; height: 50px; padding: 0 14px; border: 1px solid #CCCCCC; border-radius: 8px; font-size: 16px; background: #FAFAFA">
+</div>
+<div class="field">
+<label for="f-tel" style="display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 700; margin-bottom: 8px">電話番号<span style="padding: 2px 6px; border-radius: 3px; background: #EEEEEE; color: #333333; font-size: 11px">任意</span></label>
+<input id="f-tel" name="tel" type="tel" autocomplete="tel" inputmode="tel" style="width: 100%; height: 50px; padding: 0 14px; border: 1px solid #CCCCCC; border-radius: 8px; font-size: 16px; background: #FAFAFA">
+</div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 12px; padding: 18px; border-radius: 8px; background: #F5F5F5">
+<label class="consent" style="display: flex; gap: 10px; align-items: flex-start; font-size: 14px; line-height: 1.7"><input type="checkbox" name="owner" value="1" data-label="所有・運営の確認" required style="width: 20px; height: 20px; margin-top: 2px; accent-color: #E60012; flex: none"><span>このURLのサイトを<strong>所有・運営</strong>しています<span style="color: #B8000E; font-size: 12px">（必須）</span></span></label>
+<label class="consent" style="display: flex; gap: 10px; align-items: flex-start; font-size: 14px; line-height: 1.7"><input type="checkbox" name="terms" value="1" data-label="外形チェックの同意" required style="width: 20px; height: 20px; margin-top: 2px; accent-color: #E60012; flex: none"><span><a href="#consent">外形チェックの同意事項</a>を読み、点検に同意します<span style="color: #B8000E; font-size: 12px">（必須）</span></span></label>
+<label class="consent" style="display: flex; gap: 10px; align-items: flex-start; font-size: 14px; line-height: 1.7"><input type="checkbox" name="consent" required style="width: 20px; height: 20px; margin-top: 2px; accent-color: #E60012; flex: none"><span><a href="/privacy-handling" target="_blank" rel="noopener">個人情報の取扱い</a>に同意します<span style="color: #B8000E; font-size: 12px">（必須）</span></span></label>
+</div>
+<div class="hp" aria-hidden="true"><label for="f-website">Website</label><input id="f-website" name="website" type="text" tabindex="-1" autocomplete="off"></div>
+<p class="form__status" id="form-status" role="alert" aria-live="assertive" hidden></p>
+<button type="submit" style="align-self: center; min-height: 58px; padding: 0 48px; border: none; border-radius: 30px; background: #E60012; color: #FFFFFF; font-size: 16px; font-weight: 700; font-family: inherit; cursor: pointer">同意して申し込む →</button>
+<noscript><p class="noscript-note" style="text-align: center">JavaScriptが無効な環境ではフォームを送信できません。お手数ですが <a href="mailto:info@nortiqlab.com">info@nortiqlab.com</a> までメールでご連絡ください。</p></noscript>
+<p style="margin: 0; text-align: center; font-size: 13px; color: #6B6B6B">送信後、営業日24時間以内に担当から確認用コードの設置方法をメールでお送りします。相談だけをご希望の方は <a href="#consult">無料相談</a> へ</p>
+</form>
+<div id="form-done" role="status" aria-live="polite" hidden style="flex: 999 1 560px; min-width: 0; display: flex; flex-direction: column; gap: 12px; padding: clamp(22px, 3vw, 36px); border: 2px solid #E60012; border-radius: 10px; background: #FFFFFF">
+<p style="margin: 0; font-size: 22px; font-weight: 700; line-height: 1.4">お申し込みありがとうございました。</p>
+<p style="margin: 0; font-size: 15px; line-height: 1.9; color: #333333">営業日24時間以内に、info@nortiqlab.com から担当が確認用コード（metaタグ）の設置方法をメールでお送りします。設置を確認できてから点検を始め、結果は受付から3営業日以内を目安にお送りします。</p>
+<p style="margin: 0; font-size: 13px; line-height: 1.8; color: #6B6B6B">届かない場合は迷惑メールフォルダをご確認のうえ、<a href="mailto:info@nortiqlab.com">info@nortiqlab.com</a> までご連絡ください。</p>
+</div>
+<aside style="flex: 1 1 300px; min-width: 0; padding: 26px 24px; border-radius: 10px; background: #0B2545; color: #FFFFFF">
+<svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#FF8A94" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7 3v5c0 4.5-3 8.5-7 10-4-1.5-7-5.5-7-10V6l7-3z"></path><path d="M9 12l2 2 4-4"></path></svg>
+<h3 style="margin: 14px 0 10px; font-size: 17px; font-weight: 700">なぜ所有確認が必要なのですか</h3>
+<p style="margin: 0; font-size: 13.5px; line-height: 1.9; color: #C9D3E3">管理者の承諾なく他人のサイトを調べることは、法的なリスクを伴います。そのため、お申し込み後に確認用のコードをサイトに設置いただき、こちらで確認できてから点検を始めます。確認できない場合は点検を行わず、ご相談をご案内します。</p>
+<div style="margin-top: 18px; padding: 12px 14px; border-radius: 6px; background: #071A33; font-family: 'JetBrains Mono', monospace; font-size: 11.5px; color: #C9D3E3; word-break: break-all">&lt;meta name="nortiq-verify" content="••••••"&gt;</div>
+<p style="margin: 18px 0 0; font-size: 13px; color: #FFFFFF">結果は受付から3営業日以内を目安にお送りします。</p>
+</aside>
+</div>
+</div>
+</section>
+
+<!-- 会社概要 -->
+<section style="padding: clamp(40px, 5.5vw, 80px) 0; background: #F5F5F5">
+<div style="max-width: 1200px; margin: 0 auto; padding: 0 clamp(18px, 4vw, 48px)">
+<h2 style="margin: 0; font-size: clamp(22px, 2.4vw, 28px); line-height: 1.45; font-weight: 700">会社概要</h2>
+<div aria-hidden="true" style="width: 48px; height: 4px; background: #E60012; border-radius: 2px; margin: 16px 0 24px"></div>
+<dl style="margin: 0; display: grid; grid-template-columns: minmax(110px, 180px) minmax(0, 1fr); border-top: 1px solid #DDDDDD; font-size: 14px; line-height: 1.8; background: #FFFFFF">
+<dt style="padding: 14px 18px; border-bottom: 1px solid #DDDDDD; font-weight: 700; background: #FAFAFA">会社名</dt><dd style="margin: 0; padding: 14px 18px; border-bottom: 1px solid #DDDDDD">NORTIQLAB株式会社（Nortiq Labs）</dd>
+<dt style="padding: 14px 18px; border-bottom: 1px solid #DDDDDD; font-weight: 700; background: #FAFAFA">所在地</dt><dd style="margin: 0; padding: 14px 18px; border-bottom: 1px solid #DDDDDD">〒604-0012 京都府京都市中京区竪大恩寺町751 シュデン二条201</dd>
+<dt style="padding: 14px 18px; border-bottom: 1px solid #DDDDDD; font-weight: 700; background: #FAFAFA">事業内容</dt><dd style="margin: 0; padding: 14px 18px; border-bottom: 1px solid #DDDDDD">Web制作、システム開発、AI導入・DX支援、Webサイトのセキュリティ保守</dd>
+<dt style="padding: 14px 18px; border-bottom: 1px solid #DDDDDD; font-weight: 700; background: #FAFAFA">お問い合わせ</dt><dd style="margin: 0; padding: 14px 18px; border-bottom: 1px solid #DDDDDD">info@nortiqlab.com</dd>
+</dl>
+</div>
+</section>
+
+<!-- S17 Footer -->
+<footer class="hide-sp-pad" style="padding: 48px 0 32px; background: #FFFFFF; border-top: 1px solid #DDDDDD">
+<div style="max-width: 1200px; margin: 0 auto; padding: 0 clamp(18px, 4vw, 48px); display: flex; flex-wrap: wrap; justify-content: space-between; gap: 28px">
+<div>
+<p style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 20px; letter-spacing: 0.04em">NORTIQ LABS</p>
+<p style="margin: 8px 0 0; font-size: 13px; color: #6B6B6B">日本のDX、世界水準で巻き返す。</p>
+</div>
+<nav aria-label="フッター" style="display: flex; flex-wrap: wrap; gap: 10px 24px; font-size: 13px">
+<a href="/" style="color: #333333; text-decoration: none">トップ</a>
+<a href="/web" style="color: #333333; text-decoration: none">Web制作</a>
+<a href="/support" style="color: #333333; text-decoration: none">運用サポート</a>
+<a href="/works" style="color: #333333; text-decoration: none">制作実績</a>
+<a href="/column" style="color: #333333; text-decoration: none">コラム</a>
+<a href="/company" style="color: #333333; text-decoration: none">会社概要</a>
+</nav>
+</div>
+<div style="max-width: 1200px; margin: 28px auto 0; padding: 20px clamp(18px, 4vw, 48px) 0; border-top: 1px solid #EEEEEE; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; font-size: 12px; color: #6B6B6B">
+<span>© 2026 NORTIQLAB株式会社</span>
+<span style="display: flex; flex-wrap: wrap; gap: 12px 18px"><a href="/privacy" style="color: #6B6B6B">プライバシーポリシー</a><a href="/privacy-handling" style="color: #6B6B6B">個人情報の取扱い</a><a href="/terms" style="color: #6B6B6B">利用規約</a></span>
+</div>
+</footer>
+
+<!-- SP固定フッター -->
+<div class="sp-bar" aria-label="相談する" style="position: fixed; left: 0; right: 0; bottom: 0; z-index: 40; gap: 10px; padding: 10px 12px; background: rgba(255,255,255,0.97); border-top: 1px solid #DDDDDD">
+<a href="mailto:info@nortiqlab.com" data-ga="security_mail" data-ga-location="spbar" style="flex: 1; display: inline-flex; align-items: center; justify-content: center; min-height: 48px; border-radius: 30px; border: 1.5px solid #E60012; color: #B8000E; font-size: 14px; font-weight: 700; text-decoration: none; background: #FFFFFF">メールで相談</a>
+<a href="#check" data-ga="security_cta" data-ga-location="spbar" style="flex: 1.3; display: inline-flex; align-items: center; justify-content: center; min-height: 48px; border-radius: 30px; background: #E60012; color: #FFFFFF; font-size: 14px; font-weight: 700; text-decoration: none">無料チェック</a>
+</div>
+
+</div>
+<script src="/assets/lp/common/lp.js?v={{V}}" defer></script>
+<script src="/assets/lp/security/security.js?v={{V}}" defer></script>
+</body>
+</html>
