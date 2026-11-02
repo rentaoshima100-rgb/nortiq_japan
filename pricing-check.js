@@ -46,7 +46,6 @@ const ALLOW = [
   { file: 'info-pages.jsx', has: '"〜50万円", "50〜150万円"', why: '無料診断フォームの予算の選択肢 (訪問者の予算で、当社の料金ではない)' },
   { file: 'info-pages.jsx', has: '"資本金", "100 万円"', why: '会社概要の資本金' },
   { file: 'top-page.jsx', has: '30万円でちゃんと集客できる', why: '記事の見出し (記事タイトルは変えない決まり)' },
-  { file: 'extra-pages.jsx', has: '年30万円まで補助', why: '採用ページの福利厚生 (学習支援の補助額)' },
   { file: 'extra-pages.jsx', has: 'v: "10 週間"', why: 'WorkDetailPage は未ルーティングで画面に出ない。実績詳細を公開するときに見直す (C28)' },
   { file: 'app.jsx', has: '会社案内型10万円〜、集客型50万円〜', why: '記事 web-production-cost-guide の meta。市場相場の価格帯' },
   { file: 'lp/service/recruit-site/index.html', has: '給与：日給 12,000円〜', why: '求人票のモックに載せた見本の給与 (当社の料金ではない)' },
