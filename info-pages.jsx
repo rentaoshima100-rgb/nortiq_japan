@@ -250,7 +250,7 @@ function SupportPage({ onNavigate, onContact }) {
       <PageHero
         eyebrow="SUPPORT / コンサル・運用サポート"
         title={<>作るだけじゃない、<br/>育てる伴走。</>}
-        lede="専属担当者からの「月次アクセス報告」「定期訪問」「活用勉強会」など、1社1社のWEB運用を3年・5年と並走支援します。"
+        lede="担当者からの「月次アクセス報告」「オンライン定例」「活用勉強会」など、1社1社のWEB運用を3年・5年と並走支援します。"
         badges={["月次レポート", "保守プラン内で修正対応", "長期運用に伴走"]}
         onContact={onContact}
       />
@@ -264,7 +264,7 @@ function SupportPage({ onNavigate, onContact }) {
           />
           <div className="grid-4">
             <div className="card"><div className="step-num" style={{ marginBottom: 16 }}>01</div><h3 style={{ fontSize: 19, fontWeight: 500, margin: 0, marginBottom: 12 }}>月次アクセス報告</h3><p className="body" style={{ fontSize: 14 }}>GA4 / GSC / 独自解析を統合したカスタムダッシュボードで、毎月の変化を可視化。</p></div>
-            <div className="card"><div className="step-num" style={{ marginBottom: 16 }}>02</div><h3 style={{ fontSize: 19, fontWeight: 500, margin: 0, marginBottom: 12 }}>定期訪問・MTG</h3><p className="body" style={{ fontSize: 14 }}>月1回のオンライン or オフライン MTG で、改善施策をその場で決定します。</p></div>
+            <div className="card"><div className="step-num" style={{ marginBottom: 16 }}>02</div><h3 style={{ fontSize: 19, fontWeight: 500, margin: 0, marginBottom: 12 }}>オンライン定例</h3><p className="body" style={{ fontSize: 14 }}>月1回のオンライン MTG で、改善施策をその場で決定します。</p></div>
             <div className="card"><div className="step-num" style={{ marginBottom: 16 }}>03</div><h3 style={{ fontSize: 19, fontWeight: 500, margin: 0, marginBottom: 12 }}>操作マニュアル整備</h3><p className="body" style={{ fontSize: 14 }}>WordPress / AI ツールの管理画面ごとに、画像付きの操作手順書をご提供します。</p></div>
             <div className="card"><div className="step-num" style={{ marginBottom: 16 }}>04</div><h3 style={{ fontSize: 19, fontWeight: 500, margin: 0, marginBottom: 12 }}>ヒートマップ解析</h3><p className="body" style={{ fontSize: 14 }}>どこで離脱するか、どこをクリックするか。データに基づくUI改善を提案。</p></div>
           </div>
@@ -770,10 +770,10 @@ function CompanyPage({ onNavigate, onContact }) {
       <PageHero
         eyebrow="COMPANY / 会社概要"
         title={<>Nortiq Labs、<br/>と申します。</>}
-        lede="AI・Web の実装を担うエンジニアと、日本の経営課題に向き合うコンサルタントによる、技術と現場の両輪を持つチームです。"
-        badges={["設立 2026年8月", "本社 京都市中京区", "従業員 5 名"]}
+        lede="京都を拠点に、中小企業のホームページ制作、業務システム開発、AI 導入を行っています。"
+        badges={["設立 2026年7月", "本社 京都市中京区", "全国オンライン対応"]}
         onContact={onContact}
-        ctaLabel="採用情報"
+        ctaLabel="お問い合わせ"
         subCta="チーム紹介"
         subCtaTo="staff"
         nav={onNavigate}
@@ -818,7 +818,7 @@ function CompanyPage({ onNavigate, onContact }) {
               </div>
             </li>
             <li className="timeline-item fadein" data-delay="320">
-              <div className="timeline-date">2026.08</div>
+              <div className="timeline-date">2026.07</div>
               <div className="timeline-content">
                 <h3>NORTIQLAB株式会社 設立</h3>
                 <p>法人化し、NORTIQLAB株式会社として京都市中京区に設立。</p>
@@ -836,14 +836,14 @@ function CompanyPage({ onNavigate, onContact }) {
           </div>
           <dl className="company-table">
             {[
-              ["商号", "Nortiq Labs Inc. (株式会社ノーティック ラボ)"],
-              ["設立", "2026年8月（2025年より事業を開始）"],
-              ["所在地", "〒604-0012 京都府京都市中京区竪大恩寺町 751"],
+              ["商号", "NORTIQLAB株式会社（ブランド表記: Nortiq Labs／読み: ノーティックラボ）"],
+              ["法人番号", "6130001082671"],
+              ["設立", "2026年7月7日（2025年より個人事業として活動）"],
+              ["所在地", "〒604-0012 京都府京都市中京区竪大恩寺町751 シュデン二条201"],
               ["資本金", "100 万円"],
-              ["従業員数", "5 名"],
-              ["事業内容", "Web 制作 / AI チャットボット開発 / DX・ML 実装 / 自社プロダクト開発"],
-              ["主要取引銀行", "三菱UFJ銀行"],
-              ["お問い合わせ", "サイトの問い合わせフォームより承ります"],
+              ["事業内容", "ホームページ制作 / 業務システム開発 / AI チャットボット開発 / 自社プロダクト開発"],
+              ["インボイス", "適格請求書発行事業者の登録はありません"],
+              ["お問い合わせ", "サイトの問い合わせフォーム、または info@nortiqlab.com"],
             ].map(([k, v]) => (
               <div key={k} className="company-row">
                 <dt>{k}</dt>
@@ -860,21 +860,15 @@ function CompanyPage({ onNavigate, onContact }) {
             <h2 className="section-title fadein">アクセス</h2>
             <p className="section-sub fadein">ACCESS</p>
           </div>
-          <div className="split-row">
-            <div className="split-visual">
-              <Placeholder label="MAP" caption="map / kyoto" aspect="4/5"/>
-            </div>
-            <div>
-              <p className="body" style={{ marginBottom: 16 }}>
-                〒604-0012 京都府京都市中京区竪大恩寺町 751
-              </p>
-              <p className="small" style={{ color: 'var(--text-3)' }}>
-                ご来社の際は事前にご連絡ください。<br/>
-                受付時間: 平日 9:30〜17:00
-              </p>
-              <div style={{ marginTop: 24 }}>
-                <Button variant="ghost" onClick={onContact}>来社予約する<Icon name="arrow-right" size={14}/></Button>
-              </div>
+          <div style={{ textAlign: 'center' }}>
+            <p className="body" style={{ marginBottom: 16 }}>
+              〒604-0012 京都府京都市中京区竪大恩寺町751 シュデン二条201
+            </p>
+            <p className="small" style={{ color: 'var(--text-3)' }}>
+              ご相談はオンラインで承ります。ご来社の際は事前にご連絡ください。
+            </p>
+            <div style={{ marginTop: 24 }}>
+              <Button variant="ghost" onClick={onContact}>お問い合わせ<Icon name="arrow-right" size={14}/></Button>
             </div>
           </div>
         </div>
@@ -901,7 +895,7 @@ function StaffPage({ onNavigate, onContact }) {
         eyebrow="STAFF / チーム"
         title={<>専門家が、<br/>専門家として並走する。</>}
         lede="Founder / CTO・Computer Scientist / Data Scientist — 各領域のプロが、お客様1社にチーム編成で並走します。"
-        badges={["代表 3 名体制", "全員フルリモートOK"]}
+        badges={["オンライン中心", "全国対応"]}
         onContact={onContact}
       />
       <section className="section-pad">
@@ -945,10 +939,10 @@ function SitemapPage({ onNavigate, onContact }) {
         <div className="container">
           <div className="sitemap-grid">
             <SitemapCol heading="トップ" onNavigate={onNavigate} links={[{ id: 'top', label: 'トップ' }]}/>
-            <SitemapCol heading="機能 (サービス別)" onNavigate={onNavigate} links={[
-              { id: 'web', label: 'Web制作 機能一覧' },
-              { id: 'chatbot', label: 'AIチャットボット 機能一覧' },
-              { id: 'dx', label: 'DX・ML 機能一覧' },
+            <SitemapCol heading="サービス" onNavigate={onNavigate} links={[
+              { id: 'web', label: 'ホームページ制作' },
+              { id: 'chatbot', label: 'AIチャットボット' },
+              { id: 'dx', label: '業務システム・AI開発' },
               { id: 'feature-lpo', label: 'LP制作 / LPO' },
               { id: 'feature-recruit', label: '採用専門サイト' },
               { id: 'feature-analytics', label: 'アクセス解析カスタム実装' },
@@ -964,6 +958,13 @@ function SitemapPage({ onNavigate, onContact }) {
               { id: 'solution-build',  label: '建築・工務店' },
               { id: 'solution-hr',     label: '人材' },
               { id: 'solution-retail', label: '小売 / EC' },
+            ]}/>
+            <SitemapCol heading="特設ページ" onNavigate={onNavigate} links={[
+              { id: 'lp-kanri-dantai', label: '監理団体・登録支援機関向け', href: '/service/kanri-dantai' },
+              { id: 'lp-recruit-site', label: '建設・運送・介護の採用サイト', href: '/service/recruit-site' },
+              { id: 'lp-security', label: '脆弱性診断・セキュリティ保守', href: '/security' },
+              { id: 'lp-shindan-battery', label: '蓄電池の見積もり診断（ご家庭向け）', href: '/shindan/battery' },
+              { id: 'lp-partner-energy', label: '蓄電池・太陽光 紹介パートナー募集', href: '/partner/energy' },
             ]}/>
             <SitemapCol heading="制作実績 (業種別)" onNavigate={onNavigate} links={[
               { id: 'works', label: '全実績一覧' },
@@ -1020,7 +1021,7 @@ function SitemapCol({ heading, links, onNavigate }) {
       <ul className="sitemap-list">
         {links.map(l => (
           <li key={l.id}>
-            <a {...navProps(l.id, onNavigate)}>
+            <a {...(l.href ? { href: l.href } : navProps(l.id, onNavigate))}>
               {l.label}<Icon name="arrow-right" size={11}/>
             </a>
           </li>

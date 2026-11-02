@@ -299,9 +299,9 @@
 
 ## 関連リンク
 
-- [施工管理システム導入後もExcelが残る原因と要件の直し方](/article-013411a0-5e1b-4b80-869f-9675f1839a8b)
-- [建設業の作業日報をデジタル化する外注前の要件](/article-7ef3d413-6f8c-4e2d-883c-20bb7a8ea962)
-- [システム開発の非機能要件と性能の決め方](/article-c476444a-5669-46bf-9b24-1c03f0eb042e)
-- [システム外注前に決める要件定義の進め方](/article-c3db075c-ade6-45d6-8b46-763746d4b284)
+- [施工管理システム導入後もExcelが残る原因と要件の直し方](/article-construction-management-excel-duplication)
+- [建設業の作業日報をデジタル化する外注前の要件](/article-construction-daily-report-outsourcing-requirements)
+- [システム開発の非機能要件と性能の決め方](/article-non-functional-requirements-performance-guide)
+- [システム外注前に決める要件定義の進め方](/article-internal-system-outsourcing-requirements-checklist)
 - [現場資料の共有の要件整理を無料診断で相談する](/diagnostic)
 - [DXガイドブックで現場のデジタル化の進め方を確認する](/guidebook)

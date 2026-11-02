@@ -276,9 +276,9 @@ Search Consoleのプロパティに対する役割は、所有者とユーザの
 
 ## 関連リンク
 
-- [システム開発の外注でソースコード著作権を決める方法](/article-70503710-17ea-43e0-9109-8af917b428b4)
-- [制作会社を変えるリニューアルで引き継ぐもの一覧](/article-602127d8-12af-4c35-a639-80facd635723)
-- [サイトリニューアルで追加費用が発生する原因と対策](/article-365c6492-1ebc-42cf-a0eb-b0311ae0ee57)
-- [IT導入補助金でホームページ制作は対象になるか](/article-2da12928-90a2-4ec5-a87e-9e2dc7f2f483)
+- [システム開発の外注でソースコード著作権を決める方法](/article-system-development-source-code-copyright)
+- [制作会社を変えるリニューアルで引き継ぐもの一覧](/article-website-renewal-agency-handover)
+- [サイトリニューアルで追加費用が発生する原因と対策](/article-website-renewal-unexpected-additional-cost)
+- [IT導入補助金でホームページ制作は対象になるか](/article-it-subsidy-homepage-eligibility-guide)
 - [既存サイトの権利関係の整理を無料診断で相談する](/diagnostic)
 - [DXガイドブックで発注前の確認事項をまとめて見る](/guidebook)

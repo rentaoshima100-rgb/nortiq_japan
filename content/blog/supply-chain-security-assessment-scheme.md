@@ -222,6 +222,6 @@ SECURITY ACTIONの二つ星を宣言する場合は、情報セキュリティ�
 - [情報セキュリティ基本方針の公開ページを自社サイトに追加できるか診断する](/diagnostic)
 - [中小企業のWebサイト運用をまとめたガイドブック](/guidebook)
 - [中小企業のセキュリティとWeb運用のコラム一覧](/column)
-- [IPA情報セキュリティ対策ガイドライン第4.0版の改訂内容](https://nortiqlab.com/article-ipa-security-guideline-4)
-- [ホームページのセキュリティ対策と新規取引の関係](https://nortiqlab.com/article-security-new-business)
+- [IPA情報セキュリティ対策ガイドライン第4.0版の改訂内容](https://nortiqlab.com/article-ipa-security-guideline-smb)
+- [ホームページのセキュリティ対策と新規取引の関係](https://nortiqlab.com/article-website-security-measures-new-business-impact)
 - [中小企業のサイバー攻撃被害割合を示す警察庁・IPA統計](https://nortiqlab.com/article-sme-cyber-attack-statistics)

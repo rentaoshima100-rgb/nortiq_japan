@@ -40,6 +40,171 @@
       "source": "/article-seo-aio-dual-strategy",
       "destination": "/article-llmo-basics-for-smb",
       "permanent": true
+    },
+    {
+      "source": "/contact",
+      "destination": "/#request",
+      "permanent": false
+    },
+    {
+      "source": "/article-homepage-cost-smb",
+      "destination": "/article-homepage-production-cost-sme",
+      "permanent": true
+    },
+    {
+      "source": "/article-review-structured-data-fake-reviews",
+      "destination": "/article-review-structured-data-fake-review-policy",
+      "permanent": true
+    },
+    {
+      "source": "/article-website-renewal-page-inventory",
+      "destination": "/article-website-renewal-content-audit",
+      "permanent": true
+    },
+    {
+      "source": "/article-301-redirect-url-migration",
+      "destination": "/article-homepage-renewal-301-redirect-guide",
+      "permanent": true
+    },
+    {
+      "source": "/article-renewal-operation-maintenance",
+      "destination": "/article-website-renewal-maintenance-structure-guide",
+      "permanent": true
+    },
+    {
+      "source": "/article-website-renewal-additional-cost",
+      "destination": "/article-website-renewal-unexpected-additional-cost",
+      "permanent": true
+    },
+    {
+      "source": "/article-ipa-security-guideline-4",
+      "destination": "/article-ipa-security-guideline-smb",
+      "permanent": true
+    },
+    {
+      "source": "/article-security-new-business",
+      "destination": "/article-website-security-measures-new-business-impact",
+      "permanent": true
+    },
+    {
+      "source": "/article-site-renewal-operation",
+      "destination": "/article-website-renewal-maintenance-structure-guide",
+      "permanent": true
+    },
+    {
+      "source": "/blog/system-outsourcing-cost",
+      "destination": "/article-system-development-outsourcing-cost-guide",
+      "permanent": true
+    },
+    {
+      "source": "/blog/homepage-cost",
+      "destination": "/article-homepage-production-cost-sme",
+      "permanent": true
+    },
+    {
+      "source": "/blog/llm-guardrail-bypass",
+      "destination": "/article-llm-guardrail-bypass-cases",
+      "permanent": true
+    },
+    {
+      "source": "/blog/llm-guardrail-overfitting",
+      "destination": "/article-llm-overfitting-detection-prevention",
+      "permanent": true
+    },
+    {
+      "source": "/blog/renewal-cost",
+      "destination": "/article-homepage-renewal-cost-by-industry",
+      "permanent": true
+    },
+    {
+      "source": "/blog/renewal-case-studies",
+      "destination": "/article-homepage-renewal-case-study-by-industry",
+      "permanent": true
+    },
+    {
+      "source": "/blog/homepage-renewal-industry-cases",
+      "destination": "/article-homepage-renewal-case-study-by-industry",
+      "permanent": true
+    },
+    {
+      "source": "/article-946f788a-2be8-4bf5-955c-30494a0a7aa4",
+      "destination": "/article-llmo-basics-for-smb",
+      "permanent": true
+    },
+    {
+      "source": "/article-a44cb4f8-87fc-4f8f-929c-1f5b4eda57cf",
+      "destination": "/article-llmo-tool-japanese-support",
+      "permanent": true
+    },
+    {
+      "source": "/article-4b1bdfd2-0d51-4e80-98e8-7326a5ff6280",
+      "destination": "/article-website-renewal-kpi-metrics",
+      "permanent": true
+    },
+    {
+      "source": "/article-a9fc91b3-aa63-48d1-b8b3-38a2e277338b",
+      "destination": "/article-ai-content-google-spam-update",
+      "permanent": true
+    },
+    {
+      "source": "/article-d457b144-8bb6-45dc-80a3-fee305d2bca0",
+      "destination": "/article-system-development-outsourcing-contract-types",
+      "permanent": true
+    },
+    {
+      "source": "/article-70503710-17ea-43e0-9109-8af917b428b4",
+      "destination": "/article-system-development-source-code-copyright",
+      "permanent": true
+    },
+    {
+      "source": "/article-f3e6ef22-2cda-4b0c-9e0e-f6eee380e46e",
+      "destination": "/article-outsource-vs-inhouse-vs-package-comparison",
+      "permanent": true
+    },
+    {
+      "source": "/article-bb8da085-f327-45c5-ad4f-af4a7fb7c4ce",
+      "destination": "/article-system-development-acceptance-criteria-contract",
+      "permanent": true
+    },
+    {
+      "source": "/article-013411a0-5e1b-4b80-869f-9675f1839a8b",
+      "destination": "/article-construction-management-excel-duplication",
+      "permanent": true
+    },
+    {
+      "source": "/article-7ef3d413-6f8c-4e2d-883c-20bb7a8ea962",
+      "destination": "/article-construction-daily-report-outsourcing-requirements",
+      "permanent": true
+    },
+    {
+      "source": "/article-c476444a-5669-46bf-9b24-1c03f0eb042e",
+      "destination": "/article-non-functional-requirements-performance-guide",
+      "permanent": true
+    },
+    {
+      "source": "/article-c3db075c-ade6-45d6-8b46-763746d4b284",
+      "destination": "/article-internal-system-outsourcing-requirements-checklist",
+      "permanent": true
+    },
+    {
+      "source": "/article-f68f2e5b-809c-45b1-8f29-dea4e712dde6",
+      "destination": "/article-fax-order-entry-digitization",
+      "permanent": true
+    },
+    {
+      "source": "/article-602127d8-12af-4c35-a639-80facd635723",
+      "destination": "/article-website-renewal-agency-handover",
+      "permanent": true
+    },
+    {
+      "source": "/article-365c6492-1ebc-42cf-a0eb-b0311ae0ee57",
+      "destination": "/article-website-renewal-unexpected-additional-cost",
+      "permanent": true
+    },
+    {
+      "source": "/article-2da12928-90a2-4ec5-a87e-9e2dc7f2f483",
+      "destination": "/article-it-subsidy-homepage-eligibility-guide",
+      "permanent": true
     }
   ],
   "rewrites": [

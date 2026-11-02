@@ -257,5 +257,5 @@ Google検索セントラルの公式ドキュメントでは、レビューの�
 - [お客様の声のページを自社サイトに追加できるか診断する](/diagnostic)
 - [中小企業のホームページ制作をまとめたガイドブック](/guidebook)
 - [ホームページ制作と運用のコラム一覧](/column)
-- [レビュー構造化データの偽レビューへの対応方法](https://nortiqlab.com/article-review-structured-data-fake-reviews)
-- [サイトリニューアルのページ棚卸しと残す基準](https://nortiqlab.com/article-website-renewal-page-inventory)
+- [レビュー構造化データの偽レビューへの対応方法](https://nortiqlab.com/article-review-structured-data-fake-review-policy)
+- [サイトリニューアルのページ棚卸しと残す基準](https://nortiqlab.com/article-website-renewal-content-audit)

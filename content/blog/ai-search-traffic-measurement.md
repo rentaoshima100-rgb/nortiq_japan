@@ -277,9 +277,9 @@ Geminiはgemini.google.com / referralです。Perplexityはperplexity.ai / refer
 
 ## 関連リンク
 
-- [中小企業が始めるLLMO対策の基本](/article-946f788a-2be8-4bf5-955c-30494a0a7aa4)
-- [LLMOツールの日本語対応と中小企業の選び方](/article-a44cb4f8-87fc-4f8f-929c-1f5b4eda57cf)
-- [ホームページの効果測定で見るKPI指標](/article-4b1bdfd2-0d51-4e80-98e8-7326a5ff6280)
-- [AI生成記事のGoogleスパムアップデート対策](/article-a9fc91b3-aa63-48d1-b8b3-38a2e277338b)
+- [中小企業が始めるLLMO対策の基本](/article-llmo-basics-for-smb)
+- [LLMOツールの日本語対応と中小企業の選び方](/article-llmo-tool-japanese-support)
+- [ホームページの効果測定で見るKPI指標](/article-website-renewal-kpi-metrics)
+- [AI生成記事のGoogleスパムアップデート対策](/article-ai-content-google-spam-update)
 - [AI検索の計測設定を無料診断で確認する](/diagnostic)
 - [DXガイドブックでAI活用の進め方を確認する](/guidebook)

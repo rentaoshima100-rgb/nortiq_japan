@@ -15,7 +15,7 @@ const ROUTES = {
   subsidy:         { c: () => window.SubsidyPage,         title: '補助金を使ったホームページ制作・AI導入の相談｜Nortiq Labs' },
   guidebook:       { c: () => window.GuidebookPage,       title: 'サービス紹介資料ダウンロード（無料）｜Nortiq Labs' },
   column:          { c: () => window.ColumnPage,          title: 'コラム・技術ブログ｜AI・SEO・DXの実務知見 — Nortiq Labs' },
-  company:         { c: () => window.CompanyPage,         title: '会社概要｜株式会社ノーティックラボ（京都市）' },
+  company:         { c: () => window.CompanyPage,         title: '会社概要｜NORTIQLAB株式会社（ノーティックラボ・京都市）' },
   staff:           { c: () => window.StaffPage,           title: 'チーム・スタッフ紹介｜Nortiq Labs' },
   sitemap:         { c: () => window.SitemapPage,         title: 'サイトマップ — Nortiq Labs' },
 };
@@ -73,7 +73,7 @@ ROUTES['privacy-handling'].title = '個人情報の取扱いについて — Nor
 
 // News & Recruit
 ROUTES['news']    = { c: () => window.NewsPage,    title: 'お知らせ｜Nortiq Labs' };
-ROUTES['recruit'] = { c: () => window.RecruitPage, title: '採用情報｜Nortiq Labsで働く — 京都のWeb×AIカンパニー' };
+ROUTES['recruit'] = { c: () => window.RecruitPage, title: '採用情報｜Nortiq Labs' };
 
 // NORTIQLAB Site Diagnostic — landing page
 ROUTES['diagnostic'] = { c: () => window.DiagnosticLPPage, title: 'ホームページ無料診断｜URL入力で改善点をチェック — Nortiq Labs' };
@@ -219,9 +219,9 @@ const SEO_DESC = {
   subsidy: 'ホームページ制作・AIツール導入で補助金を検討する方のご相談窓口。当社はIT導入支援事業者に未登録で、単純なホームページ制作は旧IT導入補助金の原則対象外です。持続化補助金など使える可能性のある制度を、初回無料でご案内します。',
   guidebook: 'Web制作・AI導入・DX支援のサービス内容・料金・事例をまとめた資料を無料ダウンロード。社内検討・比較検討用にそのままお使いいただけます。',
   column: '調査データに基づくAI・SEO・DX・業種別マーケティングの技術ブログ。一次情報と数値で裏づけた、現場で使える知見を発信しています。',
-  company: '株式会社ノーティックラボの会社概要。京都市を拠点に、Web制作・AI実装・DXコンサルティングを提供する技術チームです。所在地・代表・事業内容をご覧いただけます。',
+  company: 'NORTIQLAB株式会社（ブランド表記 Nortiq Labs）の会社概要です。京都市中京区でホームページ制作、業務システム開発、AI導入支援を行っています。法人番号、所在地、連絡先を掲載しています。',
   staff: 'Nortiq Labsのメンバー紹介。エンジニアリング・デザイン・データサイエンスの専門領域と経歴を公開しています。',
-  recruit: 'Nortiq Labsの採用情報。Web制作・AI実装の現場で、企画から実装まで裁量を持って働けるポジションを募集しています。',
+  recruit: 'Nortiq Labsの採用情報です。現在、採用の募集は行っていません。',
   'product-vetonet': 'AIエージェントの危険なアクションを実行前に検証・拒否するセキュリティミドルウェアVetoNet。Nortiq LabsのR&Dプロダクトとして開発中。技術解説・開発の裏側も公開しています。',
   'product-wpchat': '「書ける気がしない」をなくすブログボット。普段の言葉で伝えるだけでAIが要約・SEOチェック・競合分析まで対話形式でサポート。8ステップで迷わず公開、WordPress連携対応。',
   'product-tennis': 'スマホで撮った動画をAIが解析し、テニスのフォーム改善点を可視化する無料アプリ（Public beta）。33関節をトラッキングしプロとの差分をスコア化。改善ポイントは具体的な言葉でフィードバックします。',
@@ -275,9 +275,9 @@ const SEO_DESC = {
   'solution-build': solutionMeta('build', '施工品質が伝わるブランドサイトと、見積・案件管理のDXをセットで。大規模修繕・住宅・リフォーム各分野の制作実績に基づく、建築業特化のWebパッケージです。'),
   'solution-hr': solutionMeta('hr', '求人検索・スカウト・応募管理を備えたマッチングサイト構築と、SEO・広告での集客支援をワンストップで。人材紹介・派遣業のWeb基盤を短期間で立ち上げます。'),
   'solution-retail': solutionMeta('retail', 'Shopifyを軸に店舗とECの在庫・顧客・販促を統合するOMOパッケージ。POS連携、店舗受け取り、会員統合まで。小売・ECの「バラバラ運用」を一つにします。'),
-  'privacy': 'Nortiq Labs Inc. の個人情報保護方針。収集・利用目的、第三者提供、SOC 2 Type II準拠のセキュリティ、開示・訂正・削除請求、Cookieの取り扱いを定めています。',
-  'terms': 'Nortiq Labs Inc. のサービス利用規約。適用範囲・契約の成立・利用者の義務・禁止事項・知的財産権・免責事項・準拠法および管轄について定めています。',
-  'privacy-handling': 'Nortiq Labs Inc. における個人情報の利用目的、第三者提供、業務委託、開示請求の窓口など、個人情報の具体的な取扱いについて説明しています。',
+  'privacy': 'NORTIQLAB株式会社の個人情報保護方針。収集・利用目的、第三者提供、安全管理措置、開示・訂正・削除請求、Cookieの取り扱いを定めています。',
+  'terms': 'NORTIQLAB株式会社のサービス利用規約。適用範囲・契約の成立・利用者の義務・禁止事項・知的財産権・免責事項・準拠法および管轄について定めています。',
+  'privacy-handling': 'NORTIQLAB株式会社における個人情報の利用目的、第三者提供、業務委託、開示請求の窓口など、個人情報の具体的な取扱いについて説明しています。',
 };
 // 検索結果に出すべきでないページ。プリレンダ時にもこの meta が焼き込まれる。
 //  - sitemap: HTMLサイトマップ (ナビゲーション用)

@@ -266,7 +266,7 @@ Light / Standard / Premium 別の月額は決まっておらず、ページも�
 | block / variant | 文言で使った表現 | 出典 | 原文 |
 |---|---|---|---|
 | sg-support / default | 毎月4つのことを実施します。 | info-pages.jsx:262 | 毎月、4つのことを … 実施します。 |
-| sg-support / default | 月次アクセス報告、定期訪問・MTG、操作マニュアル整備、ヒートマップ解析。 | info-pages.jsx:266-269 | 月次アクセス報告 … 定期訪問・MTG … 操作マニュアル整備 … ヒートマップ解析 |
+| sg-support / default | 月次アクセス報告、オンライン定例、操作マニュアル整備、ヒートマップ解析。 | info-pages.jsx:266-269 | 月次アクセス報告 … 定期訪問・MTG … 操作マニュアル整備 … ヒートマップ解析 |
 | sg-support / default | 保守プラン内で修正にも対応します。 | info-pages.jsx:254 | "保守プラン内で修正対応" |
 | sg-support / cost | 保守プランは月額2万円〜（税別）。 | info-pages.jsx:279（値は content-data.jsx:103 の monthlyMin: 2） | 表示結果「保守プランは月額2万円〜（税別）。Light / Standard / Premium の金額は、対応範囲と頻度をうかがってお見積もりします。」 ← `保守プランは … {priceMonthly(M.monthlyMin)}{priceTax()}` |
 | sg-support / cost | テキスト・画像の差し替えは保守プラン内で対応 | info-pages.jsx:235 | label: 'テキスト・画像の差し替え' |
@@ -299,10 +299,9 @@ Light / Standard / Premium 別の月額は決まっておらず、ページも�
 
 | block / variant | 文言で使った表現 | 出典 | 原文 |
 |---|---|---|---|
-| sg-recruit / default | 各領域でメンバーを募集しています。 | extra-pages.jsx:169 | 各領域でメンバーを募集しています。 |
-| sg-recruit / default | 京都＋フルリモート可。 | extra-pages.jsx:170 | "京都 + フルリモート可" |
-| sg-recruit / default | エンジニア、デザイナー、コンサルタント | extra-pages.jsx:169 | エンジニア / Data Scientist / Designer / Consultant |
-| sg-recruit / default | 学生向けのインターンも募集しています。 | extra-pages.jsx:161 | title: "AI Research インターン", type: "インターン", emp: "京都 / フルリモート可", level: "学生" |
+| sg-recruit / default | 現在の募集状況をご案内します。 | extra-pages.jsx:164 | 現在、採用の募集は行っていません。 |
+| sg-recruit / default | 現在、採用の募集は行っていません。 | extra-pages.jsx:164 | 現在、採用の募集は行っていません。 |
+| sg-recruit / default | 協業のご相談はお問い合わせから承ります。 | extra-pages.jsx:173 | 協業のご相談は、お問い合わせフォームから承ります。 |
 
 ### sg-guidebook → `/guidebook`（`selectable: false`。slot-end のデフォルト）
 

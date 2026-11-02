@@ -16,7 +16,6 @@
 // build.js もこの定義を正規表現で読み出す (build-prerender.js が BLOG を読むのと同じ方式)。
 const NORTIQ_STATS = {
   clients: 30,     // 制作・DX 支援の累計社数
-  team: 5,         // メンバー数 (Organization.numberOfEmployees と一致させる)
   industries: 7,   // 対応業種数
 };
 
@@ -77,7 +76,7 @@ const NORTIQ_PRICING = {
         features: ['月 20 記事まで生成', 'WordPress 連携 3サイト', 'FAQ チャットボット組み込み', 'SEO 最適化機能', 'Slack サポート', '月次改善レビュー'] },
       { key: 'premium', name: 'Premium', card: 'PREMIUM', ja: 'プレミアム', kind: 'initial', min: 50,
         tagline: '業務全体に AI を組み込む',
-        features: ['生成数 無制限', 'WordPress + 任意 CMS 連携', 'カスタム ML モデル組み込み', 'オンサイト導入研修', '専属サポート'] },
+        features: ['生成数 無制限', 'WordPress + 任意 CMS 連携', 'カスタム ML モデル組み込み', 'オンライン導入研修', '専属サポート'] },
     ],
   },
 
@@ -723,21 +722,6 @@ const PRICING_EXTRA = [
     { q: "納品物の権利はどうなりますか?", a: "納品後のサイト一式は原則お客様に帰属します。使用素材のライセンスも納品時に整理してお渡しします。" },
   ]},
 ];
-const RECRUIT_EXTRA = [
-  { type: 'steps', title: "選考フロー", sub: "SELECTION PROCESS", items: [
-    { n: "01", t: "応募 / カジュアル面談", d: "まず話を聞きたい、でも歓迎です。" },
-    { n: "02", t: "書類選考", d: "経歴とあわせて、作ったもの (GitHub・ポートフォリオ) を重視します。" },
-    { n: "03", t: "面接 1〜2回", d: "職種により小さな課題をお願いする場合があります。" },
-    { n: "04", t: "内定", d: "条件面を明示してオファーします。" },
-  ]},
-  { type: 'faq', title: "働き方 FAQ", items: [
-    { q: "リモート・副業は可能ですか?", a: "京都オフィス+フルリモート可の体制です。副業は業務に支障のない範囲で相談可能です。" },
-    { q: "未経験でも応募できますか?", a: "職種によります。インターンは学生・未経験の応募を受け付けています。" },
-    { q: "使用技術は?", a: "Next.js / React / TypeScript / Supabase / Vercel を中心に、iPad業務アプリ (Swift)・LINE連携・ML実装 (PyTorch) まで扱います。" },
-    { q: "選考期間はどれくらい?", a: "応募から2〜3週間を目安にしています。" },
-  ]},
-];
-
 // ============================================================
 // 共通レンダラー
 // ============================================================
@@ -1128,6 +1112,6 @@ Object.assign(window, {
   NORTIQ_PRICING, priceNum, priceFrom, priceRange, priceMonthly, priceMonthlyRange, priceInitPlusMonthly,
   priceTax, priceConsult, pricePeriod, pricePlanFeatures, pricePlanRows,
   INDUSTRY_CONTENT, LP_KNOWHOW, VIDEO_KNOWHOW, SUBSIDY_CONTENT, GUIDEBOOK_CONTENT, SALES_DECKS,
-  DIAGNOSIS_CONTENT, FEATURE_CONTENT, SOLUTION_CONTENT, SYSTEM_TEMPLATES, SystemTemplates, SUPPORT_CONTENT, PRICING_EXTRA, RECRUIT_EXTRA,
+  DIAGNOSIS_CONTENT, FEATURE_CONTENT, SOLUTION_CONTENT, SYSTEM_TEMPLATES, SystemTemplates, SUPPORT_CONTENT, PRICING_EXTRA,
   CDCards, CDSteps, CDFaq, CDLaws, RelatedColumns, IndustrySections, ExtraContent, SolutionExtra, SubsidySections,
 });

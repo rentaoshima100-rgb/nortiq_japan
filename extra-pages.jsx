@@ -13,28 +13,28 @@ const LEGAL_DATA = {
     subtitle: "Privacy Policy",
     // LegalPage はこの値を「制定日 / 改定日: 」(ヒーロー) と「制定: 」(末尾) の両方に前置きする。
     // 「制定: 2026年4月1日 制定 / …」と読まれないよう、制定日を先頭に置き改定日は括弧で添える。
-    updated: "2026年4月1日（2026年10月24日 改定）",
+    updated: "2026年4月1日（2026年11月2日 改定）",
     sections: [
-      { h: "1. 基本方針", b: "Nortiq Labs Inc. (以下「当社」) は、お客様の個人情報の重要性を認識し、関係法令およびガイドラインを遵守して、適切な取得・利用・管理を行います。" },
+      { h: "1. 基本方針", b: "NORTIQLAB株式会社 (以下「当社」) は、お客様の個人情報の重要性を認識し、関係法令およびガイドラインを遵守して、適切な取得・利用・管理を行います。" },
       { h: "2. 個人情報の定義", b: "本ポリシーにおける「個人情報」とは、個人情報の保護に関する法律 (個人情報保護法) に定める個人情報をいいます。生存する個人に関する情報であって、特定の個人を識別できるものを指します。" },
       { h: "3. 個人情報の取得", b: "当社は、適法かつ公正な手段によって、必要な範囲内で個人情報を取得します。お問い合わせフォーム・資料請求フォーム等を通じて取得します。" },
       { h: "4. 利用目的", b: "取得した個人情報は、お問い合わせへの回答 / 資料・メルマガの送付 / 当社サービスのご案内 / 統計分析 / 採用選考 を目的として利用します。" },
       { h: "5. 第三者提供", b: "法令に基づく場合、人の生命・身体・財産の保護のため必要な場合、お客様の同意がある場合を除き、個人情報を第三者に提供しません。" },
-      { h: "6. 安全管理措置", b: "個人情報への不正アクセス、紛失、改ざん、漏えい等を防止するため、適切な安全管理措置 (技術的・組織的・物理的・人的) を講じます。SOC 2 Type II 準拠の運用フローを採用しています。" },
+      { h: "6. 安全管理措置", b: "個人情報への不正アクセス、紛失、改ざん、漏えい等を防止するため、適切な安全管理措置 (技術的・組織的・物理的・人的) を講じます。" },
       { h: "7. 開示・訂正・削除", b: "ご本人から個人情報の開示・訂正・削除のご請求があった場合、合理的な範囲で速やかに対応します。ご請求は本ポリシー末尾の連絡先までお願いします。" },
       // 8〜10 は次ページ提案 (nq) の導入に伴う 2026-09-22 改定。文案と実装との照合は docs/nq/privacy-policy-draft.md
       { h: "8. Cookie およびアクセス解析ツールの利用", b: "当社サイトでは、サービス向上のため Cookie を使用します。また、サイトの利用状況を把握するために、Google LLC が提供するアクセス解析ツール「Google アナリティクス 4」を利用しています。Google アナリティクス 4 は Cookie を使用して、閲覧したページ、滞在時間、流入元、端末やブラウザの種類などの情報を収集します。これらの情報に、氏名やメールアドレスなど個人を特定する情報は含まれません。収集された情報は Google 社のプライバシーポリシーに基づいて管理されます。ブラウザの設定で Cookie の受け入れを拒否すること、および Google 社が提供する「Google アナリティクス オプトアウト アドオン」により収集を無効にすることが可能です。あわせて、サイトの使いやすさを改善するため、Microsoft Corporation が提供する「Microsoft Clarity」を利用しています。Clarity は Cookie 等を用いて、ページ内のクリック・スクロール・画面の遷移などの操作をヒートマップおよびセッション再生の形で記録します。入力欄に入力された内容はマスクされ、氏名やメールアドレスなど個人を特定する情報は記録されません。収集された情報は Microsoft 社のプライバシーステートメントに基づいて管理されます。" },
       { h: "9. ブラウザの保存領域 (Web Storage) の利用", b: "当社サイトでは、ご案内するページを選ぶために、お使いのブラウザの保存領域 (Web Storage) に次の情報を保存します。(1) 1回のご訪問の間だけ保持する情報 (sessionStorage): ご訪問ごとに無作為に生成する識別子、そのご訪問で閲覧した当社サイト内のページとおおよその閲覧の深さ、表示したご案内とその操作の記録。これらはブラウザのタブを閉じると消去されます。(2) 再訪であることを示す目印 (localStorage): 以前に当社サイトを訪れたことがあるかどうかを示す値のみで、識別子は保存しません。いずれの情報からも、当社が特定の個人を識別することはできません。ブラウザの設定でサイトデータの保存を無効にした場合、この機能は動作せず、標準の内容が表示されます。" },
       { h: "10. 閲覧行動の要約を用いたページ表示の最適化", b: "当社サイトでは、閲覧行動の要約をもとに、記事やサービスページの中でご案内するページやボタンの文言を選んで表示することがあります。要約に含まれるのは、閲覧したページの題名と種類、どの程度読み進めたか、流入元の種類 (検索・SNS など)、初回のご訪問か再訪か、端末の種類 (スマートフォン・PC) です。表示される文章はすべて当社があらかじめ用意し確認したもので、AI がその場で文章を作成することはありません。この要約の分類には、米国の事業者が提供する AI の API を利用しており、要約は同事業者のサーバーに送信されます。送信するのは上記の要約のみで、氏名、メールアドレス、IP アドレス、お問い合わせフォームの入力内容など、個人を特定できる情報は送信しません。分類の結果と、ご案内の表示・クリックの記録は、個人を特定しない形で保存し、サイトの改善と統計分析に利用します。記録は 13ヶ月を過ぎた時点で削除し、以後は月ごとの集計値のみを保持します。本機能は、採用選考その他の個人に対する審査や評価には利用しません。" },
-      { h: "11. お問い合わせ", b: "個人情報の取り扱いに関するお問い合わせは、当サイトのお問い合わせフォーム、または郵送（〒604-0012 京都府京都市中京区竪大恩寺町751 Nortiq Labs Inc. 個人情報保護管理者宛）にてお願いいたします。" },
+      { h: "11. お問い合わせ", b: "個人情報の取り扱いに関するお問い合わせは、当サイトのお問い合わせフォーム、または郵送（〒604-0012 京都府京都市中京区竪大恩寺町751 シュデン二条201 NORTIQLAB株式会社 個人情報保護管理者宛）にてお願いいたします。" },
     ],
   },
   terms: {
     title: "利用規約",
     subtitle: "Terms of Service",
-    updated: "2026年4月1日",
+    updated: "2026年4月1日（2026年11月2日 改定）",
     sections: [
-      { h: "第1条 (適用)", b: "本利用規約 (以下「本規約」) は、Nortiq Labs Inc. (以下「当社」) が提供するすべてのサービス (以下「本サービス」) の利用条件を定めるものです。利用者は本サービスを利用することにより、本規約に同意したものとみなされます。" },
+      { h: "第1条 (適用)", b: "本利用規約 (以下「本規約」) は、NORTIQLAB株式会社 (以下「当社」) が提供するすべてのサービス (以下「本サービス」) の利用条件を定めるものです。利用者は本サービスを利用することにより、本規約に同意したものとみなされます。" },
       { h: "第2条 (定義)", b: "「利用者」とは本サービスを利用する個人または法人を指します。「コンテンツ」とは、当社が本サービスを通じて提供する文章・画像・動画・音声・データ・プログラム等の総称を指します。" },
       { h: "第3条 (利用契約の成立)", b: "本サービスの利用契約は、利用者が当社所定の方法で申込を行い、当社がこれを承諾した時点で成立します。" },
       { h: "第4条 (利用者の義務)", b: "利用者は、本サービスの利用にあたり、関係法令および本規約を遵守するものとし、第三者の権利を侵害してはなりません。" },
@@ -48,14 +48,14 @@ const LEGAL_DATA = {
   'privacy-handling': {
     title: "個人情報の取扱い",
     subtitle: "Handling of Personal Information",
-    updated: "2026年10月28日",
+    updated: "2026年10月28日（2026年11月2日 改定）",
     sections: [
       { h: "1. 個人情報の利用目的", b: "お問い合わせフォーム等を通じて取得する個人情報は、以下の目的でのみ利用いたします。お問い合わせへの回答 / 資料の送付 / 当社サービスのご案内 / 採用選考 / 蓄電池の見積もり診断でご希望いただいた場合の施工店のご紹介と診断結果の送付。" },
       { h: "2. 第三者への提供", b: "ご本人の同意がある場合、または法令に基づく場合を除き、個人情報を第三者に提供することはありません。蓄電池の見積もり診断で施工店からの連絡をご希望いただいた場合は、同意のうえで、お名前・連絡先・診断の回答を紹介先の施工店1社に提供します。紹介先には、紹介の目的以外に利用しないことを求めています。" },
       { h: "3. 個人情報の委託", b: "業務遂行に必要な範囲で、個人情報の取り扱いを業務委託先に委託することがあります。その際は、適切な監督を行います。" },
       { h: "4. 安全管理措置", b: "個人情報の漏えい・滅失・毀損の防止その他の安全管理のため、適切な措置を講じます。" },
       { h: "5. 開示等の請求", b: "ご本人から個人情報の開示・訂正・削除等のご請求があった場合、合理的な範囲ですみやかに対応いたします。" },
-      { h: "6. お問い合わせ窓口", b: "個人情報の取扱いに関するお問い合わせは、当サイトのお問い合わせフォーム、または郵送（〒604-0012 京都府京都市中京区竪大恩寺町751 Nortiq Labs Inc. 個人情報保護管理者宛）にてお願いいたします。" },
+      { h: "6. お問い合わせ窓口", b: "個人情報の取扱いに関するお問い合わせは、当サイトのお問い合わせフォーム、または郵送（〒604-0012 京都府京都市中京区竪大恩寺町751 シュデン二条201 NORTIQLAB株式会社 個人情報保護管理者宛）にてお願いいたします。" },
     ],
   },
 };
@@ -87,7 +87,7 @@ function LegalPage({ pageId, onNavigate, onContact }) {
           </ol>
           <div className="legal-meta">
             <p>制定: {data.updated}</p>
-            <p>Nortiq Labs Inc. (株式会社ノーティック ラボ)</p>
+            <p>NORTIQLAB株式会社（ブランド表記: Nortiq Labs）</p>
           </div>
         </div>
       </section>
@@ -155,103 +155,25 @@ function NewsPage({ onNavigate, onContact }) {
 // RECRUIT (採用情報)
 // ============================================================
 function RecruitPage({ onNavigate, onContact }) {
-  const positions = [
-    { dept: "Engineering", title: "Senior Full-stack Engineer", type: "正社員", emp: "京都 / フルリモート可", level: "L4-L6" },
-    { dept: "Engineering", title: "ML Engineer / Data Scientist", type: "正社員", emp: "京都 / フルリモート可", level: "L4-L6" },
-    { dept: "Engineering", title: "Frontend Engineer (Next.js)", type: "正社員", emp: "京都 / フルリモート可", level: "L3-L5" },
-    { dept: "Design", title: "UI/UX Designer (Lead)", type: "正社員", emp: "京都 / フルリモート可", level: "L4-L5" },
-    { dept: "Consulting", title: "DX Consultant", type: "正社員", emp: "京都 / 出張多", level: "L4-L6" },
-    { dept: "Customer Success", title: "Customer Success Manager", type: "正社員", emp: "京都 / フルリモート可", level: "L3-L5" },
-    { dept: "Sales", title: "Inside Sales", type: "正社員 / 業務委託可", emp: "京都 / フルリモート可", level: "L2-L4" },
-    { dept: "Internship", title: "AI Research インターン", type: "インターン", emp: "京都 / フルリモート可", level: "学生" },
-  ];
   return (
     <main className="page-fade">
       <Breadcrumb items={[{ label: "トップ", id: "top" }, { label: "採用情報" }]} onNavigate={onNavigate}/>
       <PageHero
         eyebrow="RECRUIT / 採用情報"
-        title={<>日本のDXを、<br/>世界水準で変える仲間を。</>}
-        lede="AI の実装力を、日本の中小企業の現場に届けるチーム。エンジニア / Data Scientist / Designer / Consultant、各領域でメンバーを募集しています。"
-        badges={["5 名 → 拡大採用中", "京都 + フルリモート可", "ストックオプション制度"]}
+        title="採用情報"
+        lede="現在、採用の募集は行っていません。"
         onContact={onContact}
-        ctaLabel="求人にエントリー"
-        subCta="カルチャー資料DL"
+        ctaLabel="お問い合わせ"
+        subCta="会社概要"
+        subCtaTo="company"
+        nav={onNavigate}
       />
-
       <section className="section-pad">
-        <div className="container">
-          <div className="section-head">
-            <h2 className="section-title fadein">私たちが大切にしていること</h2>
-            <p className="section-sub fadein">VALUES</p>
-          </div>
-          <div className="grid-3">
-            {[
-              { n: "01", t: "Technical Honesty", d: "「AIできます」止まりではなく、実装の中身まで誠実に説明する。技術的にできること / できないことを正確に伝える。" },
-              { n: "02", t: "Owner-side Thinking", d: "受託でもクライアントの経営課題を自分ごととして考える。「公開して終わり」のチームには、絶対にしない。" },
-              { n: "03", t: "World-class Standards", d: "東京で米国基準のアウトプットを作る。20年遅れの常識ではなく、世界水準で。" },
-              { n: "04", t: "Long-term Relationships", d: "案件単発で終わる関係ではなく、3年・5年と並走するパートナーシップを築く。" },
-              { n: "05", t: "Continuous Research", d: "業務の20%は研究開発に振る。VetoNet / Tennis SaaS 等、自社プロダクトは技術研鑽の場でもある。" },
-              { n: "06", t: "Compassion in Code", d: "「AIで楽になった」を、業務の現場まで届ける。技術は手段、目的は人の働き方を変えること。" },
-            ].map((v, i) => (
-              <div key={i} className="card fadein" data-delay={i * 80} style={{ padding: 32 }}>
-                <div className="bignum" style={{ fontSize: 32, marginBottom: 16 }}>{v.n}</div>
-                <h3 style={{ fontSize: 18, fontWeight: 700, marginBottom: 12 }}>{v.t}</h3>
-                <p className="body" style={{ fontSize: 13, margin: 0 }}>{v.d}</p>
-              </div>
-            ))}
-          </div>
+        <div className="container" style={{ maxWidth: 880, textAlign: 'center' }}>
+          <p className="body">募集を始めるときは、このページでお知らせします。協業のご相談は、お問い合わせフォームから承ります。</p>
         </div>
       </section>
-
-      <section className="section-pad" style={{ background: 'var(--bg-2)' }}>
-        <div className="container">
-          <div className="section-head">
-            <h2 className="section-title fadein">募集ポジション</h2>
-            <p className="section-sub fadein">OPEN POSITIONS</p>
-          </div>
-          <div className="content-list">
-            {positions.map((p, i) => (
-              <a key={i} className="content-row" style={{ gridTemplateColumns: '140px 1fr 120px 160px 80px auto' }}>
-                <span className="content-tag-pill">{p.dept}</span>
-                <span className="content-title">{p.title}</span>
-                <span className="small">{p.type}</span>
-                <span className="small">{p.emp}</span>
-                <span className="small num">{p.level}</span>
-                <Icon name="arrow-right" size={14}/>
-              </a>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="section-pad">
-        <div className="container">
-          <div className="section-head">
-            <h2 className="section-title fadein">福利厚生・働き方</h2>
-            <p className="section-sub fadein">BENEFITS</p>
-          </div>
-          <div className="grid-4" style={{ gap: 16 }}>
-            {[
-              { t: "フルリモート可", d: "Engineering / Designer は完全リモート可。コアタイムなし。" },
-              { t: "ストックオプション", d: "全社員に SO 配布。長期インセンティブを共有。" },
-              { t: "学習支援", d: "書籍・カンファレンス参加費 年30万円まで補助。" },
-              { t: "副業OK", d: "競合制限のない副業は事前申請のみで可。" },
-              { t: "週4日勤務制", d: "シニア職以上は週4日勤務の選択肢あり。" },
-              { t: "産休・育休", d: "男女問わず取得実績多数。復帰サポートも。" },
-              { t: "20% Research Time", d: "業務時間の20%を研究開発に充てられる制度。" },
-            ].map((b, i) => (
-              <div key={i} className="card fadein" data-delay={i * 60} style={{ padding: 24 }}>
-                <h3 style={{ fontSize: 15, fontWeight: 700, marginBottom: 8 }}>{b.t}</h3>
-                <p className="body" style={{ fontSize: 12.5, margin: 0 }}>{b.d}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <ExtraContent blocks={RECRUIT_EXTRA} onNavigate={onNavigate}/>
-
-      <RedCTAStrip onContact={onContact} onNavigate={onNavigate} title={<>気になるポジションがあれば、<br/>カジュアル面談から。</>}/>
+      <RedCTAStrip onContact={onContact} onNavigate={onNavigate}/>
     </main>
   );
 }
@@ -768,7 +690,7 @@ function ArticleDetailPage({ onNavigate, onContact, slug }) {
           )}
           {article.supervised && (
             <div style={{ marginTop: 32, padding: '16px 20px', background: 'var(--bg-2)', borderRadius: 10, fontSize: 13, color: 'var(--text-3)', lineHeight: 1.8 }}>
-              <div>監修: 株式会社ノーティックラボ 代表（AIエンジニア）</div>
+              <div>監修: NORTIQLAB株式会社 代表（AIエンジニア）</div>
               <div>本記事はAIを活用して制作しています</div>
             </div>
           )}
