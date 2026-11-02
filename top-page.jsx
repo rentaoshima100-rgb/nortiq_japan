@@ -270,8 +270,8 @@ function TopPage({ onNavigate, onContact }) {
             </a>
             <a className="bento-cell bento-3 fadein" data-delay="160" {...navProps('staff', onNavigate)}>
               <p className="bento-eyebrow">TEAM</p>
-              <h3 style={{ fontSize: 22 }}>開発担当者と直接</h3>
-              <p>開発担当者と直接やり取りできます。納品時にはソースコードと成果物の権利をお渡しします。</p>
+              <h3 style={{ fontSize: 22 }}>開発者と直接話せます</h3>
+              <p>窓口を挟まず、開発担当者とやり取りできます。納品時にはソースコードと成果物の権利をお渡しします。</p>
             </a>
             <a className="bento-cell bento-4 fadein" data-delay="240" {...navProps('product-wpchat', onNavigate)}>
               <p className="bento-eyebrow">PRODUCT · 主力</p>
