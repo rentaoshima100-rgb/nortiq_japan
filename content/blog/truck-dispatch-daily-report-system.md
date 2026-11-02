@@ -334,9 +334,9 @@ IPAの非機能要求グレードの6大項目を下敷きにすると、発注�
 
 ## 関連リンク
 
-- [受発注の電話・FAX脱却で外注前に決める手順](/article-f68f2e5b-809c-45b1-8f29-dea4e712dde6)
-- [システム開発の非機能要件と性能の決め方](/article-c476444a-5669-46bf-9b24-1c03f0eb042e)
-- [準委任と請負の違いと選び方](/article-d457b144-8bb6-45dc-80a3-fee305d2bca0)
-- [システム外注前に決める要件定義の進め方](/article-c3db075c-ade6-45d6-8b46-763746d4b284)
+- [受発注の電話・FAX脱却で外注前に決める手順](/article-fax-order-entry-digitization)
+- [システム開発の非機能要件と性能の決め方](/article-non-functional-requirements-performance-guide)
+- [準委任と請負の違いと選び方](/article-system-development-outsourcing-contract-types)
+- [システム外注前に決める要件定義の進め方](/article-internal-system-outsourcing-requirements-checklist)
 - [配車・運行日報システムの要件整理を無料診断で相談する](/diagnostic)
 - [DXガイドブックで発注準備の進め方を確認する](/guidebook)

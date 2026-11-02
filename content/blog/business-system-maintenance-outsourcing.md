@@ -316,9 +316,9 @@
 
 ## 関連リンク
 
-- [システム開発外注の準委任と請負の違いと選び方](/article-d457b144-8bb6-45dc-80a3-fee305d2bca0)
-- [システム開発の外注でソースコード著作権を決める方法](/article-70503710-17ea-43e0-9109-8af917b428b4)
-- [業務システムの外注・内製・パッケージの比較](/article-f3e6ef22-2cda-4b0c-9e0e-f6eee380e46e)
-- [システム開発の検収条件の決め方](/article-bb8da085-f327-45c5-ad4f-af4a7fb7c4ce)
+- [システム開発外注の準委任と請負の違いと選び方](/article-system-development-outsourcing-contract-types)
+- [システム開発の外注でソースコード著作権を決める方法](/article-system-development-source-code-copyright)
+- [業務システムの外注・内製・パッケージの比較](/article-outsource-vs-inhouse-vs-package-comparison)
+- [システム開発の検収条件の決め方](/article-system-development-acceptance-criteria-contract)
 - [業務システムの運用保守の分担を無料診断で相談する](/diagnostic)
 - [DXガイドブックで発注前の準備を確認する](/guidebook)

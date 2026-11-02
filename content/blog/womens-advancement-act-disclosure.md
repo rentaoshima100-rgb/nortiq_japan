@@ -251,4 +251,4 @@
 - [ホームページの更新運用をまとめたガイドブック](/guidebook)
 - [ホームページ制作と運用のコラム一覧](/column)
 - [情報公表ページの追加とあわせて検討するホームページリニューアルの進め方](https://nortiqlab.com/article-website-renewal-guide)
-- [リニューアル後の運用体制と保守契約の決め方](https://nortiqlab.com/article-site-renewal-operation)
+- [リニューアル後の運用体制と保守契約の決め方](https://nortiqlab.com/article-website-renewal-maintenance-structure-guide)
