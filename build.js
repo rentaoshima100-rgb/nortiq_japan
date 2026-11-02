@@ -121,6 +121,7 @@ const ORG_SAME_AS = [
 // desc → meta description / og:description / BlogPosting.description に使う。
 //        未指定の記事は app.jsx の SEO_DESC か自動生成の定型文にフォールバックする
 const BLOG = [
+  { slug: 'outsourcing-generative-ai-contract', category: 'AI活用', date: '2026.11.02', read: '10 min', title: '外注先の生成AI利用、契約で決める4項目', img: 'assets/blog-default.png', desc: '制作や開発を外注するとき、委託先の生成AI利用をどう取り決めるかを解説します。開示、入力してよい情報、成果物の権利、責任の分担の4項目と、禁止する場合の書き方を公的資料に沿って整理します。', supervised: true },
   { slug: 'website-copyright-ownership', category: 'Web制作', date: '2026.11.02', read: '7 min', title: 'ホームページの著作権は誰のもの｜帰属の確認手順', img: 'assets/blog-default.png', desc: '制作費を払ってもホームページの著作権が自社に移らない理由を、著作権法の条文で整理します。第15条の職務著作がどこまで及ぶか、下請けのフリーランスが作った部分は誰のものか、契約書で確認する3点を解説します。', supervised: true },
   { slug: 'customer-testimonial-consent-scope', category: 'Web制作', date: '2026.11.02', read: '10 min', title: 'お客様の声の掲載｜同意の範囲と実名・写真の線引き', img: 'assets/blog-default.png', desc: 'お客様の声を自社サイトに載せるときの同意の取り方を解説します。社名・実名・顔写真のどこまでを同意の対象にするか、同意書に書く4項目、回答の抜き出し方で景品表示法上の扱いが変わる点を、公的資料にもとづいて整理します。', supervised: true },
   { slug: 'ecommerce-payment-privacy-requirements', category: 'Web制作', date: '2026.10.19', read: '11 min', title: 'ECサイト外注で決める決済と顧客情報の要件', img: 'assets/blog-default.png', desc: 'ECサイトの構築を外注する前に、決済と顧客情報について決めておく要件を整理します。カード情報を自社で持たない構成の考え方、決済代行との分担、漏えい時の報告期限から逆算した連絡体制の決め方を、公的資料をもとに説明します。', supervised: true },

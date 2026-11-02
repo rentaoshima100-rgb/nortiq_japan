@@ -33,6 +33,7 @@ const ARTICLE_ROUTES = (() => {
 })();
 
 const ROUTES_ALLOWLIST = [
+  '/article-outsourcing-generative-ai-contract',
   '/article-website-copyright-ownership',
   '/article-customer-testimonial-consent-scope',
   '/article-ecommerce-payment-privacy-requirements',
