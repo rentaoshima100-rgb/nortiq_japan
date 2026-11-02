@@ -33,6 +33,7 @@ const ARTICLE_ROUTES = (() => {
 })();
 
 const ROUTES_ALLOWLIST = [
+  '/article-customer-testimonial-consent-scope',
   '/article-ecommerce-payment-privacy-requirements',
   '/article-ai-ocr-order-form-accuracy-requirements',
   '/article-renewal-deleted-pages-404-410',
