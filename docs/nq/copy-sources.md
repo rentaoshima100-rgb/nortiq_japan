@@ -266,7 +266,7 @@ Light / Standard / Premium 別の月額は決まっておらず、ページも�
 | block / variant | 文言で使った表現 | 出典 | 原文 |
 |---|---|---|---|
 | sg-support / default | 毎月4つのことを実施します。 | info-pages.jsx:262 | 毎月、4つのことを … 実施します。 |
-| sg-support / default | 月次アクセス報告、定期訪問・MTG、操作マニュアル整備、ヒートマップ解析。 | info-pages.jsx:266-269 | 月次アクセス報告 … 定期訪問・MTG … 操作マニュアル整備 … ヒートマップ解析 |
+| sg-support / default | 月次アクセス報告、オンライン定例、操作マニュアル整備、ヒートマップ解析。 | info-pages.jsx:266-269 | 月次アクセス報告 … 定期訪問・MTG … 操作マニュアル整備 … ヒートマップ解析 |
 | sg-support / default | 保守プラン内で修正にも対応します。 | info-pages.jsx:254 | "保守プラン内で修正対応" |
 | sg-support / cost | 保守プランは月額2万円〜（税別）。 | info-pages.jsx:279（値は content-data.jsx:103 の monthlyMin: 2） | 表示結果「保守プランは月額2万円〜（税別）。Light / Standard / Premium の金額は、対応範囲と頻度をうかがってお見積もりします。」 ← `保守プランは … {priceMonthly(M.monthlyMin)}{priceTax()}` |
 | sg-support / cost | テキスト・画像の差し替えは保守プラン内で対応 | info-pages.jsx:235 | label: 'テキスト・画像の差し替え' |

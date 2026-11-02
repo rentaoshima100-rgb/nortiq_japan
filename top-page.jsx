@@ -76,8 +76,8 @@ function TopPage({ onNavigate, onContact }) {
               <div className="lbl">制作・支援実績</div>
             </li>
             <li className="medaru">
-              <div className="num"><Counter to={NORTIQ_STATS.team} suffix="" className=""/><sup>名</sup></div>
-              <div className="lbl">少数精鋭チーム</div>
+              <div className="num"><Counter to={24} suffix="" className=""/><sup>h</sup></div>
+              <div className="lbl">営業日の一次返信</div>
             </li>
             <li className="medaru">
               <div className="num"><Counter to={NORTIQ_STATS.industries} suffix="" className=""/><sup>業種</sup></div>
@@ -97,7 +97,6 @@ function TopPage({ onNavigate, onContact }) {
       {/* =========== Mix marquee (stats + values) =========== */}
       <MixMarquee items={[
         { num: `${NORTIQ_STATS.clients}+`, text: "Companies Supported" },
-        { num: String(NORTIQ_STATS.team), text: "Team Members" },
         { num: "2025", text: "Since" },
         { num: "24h", text: "Response SLA" },
         { num: priceFrom(NORTIQ_PRICING.web.plans[0].min), text: `Web 制作 開始価格${priceTax()}` },
@@ -182,7 +181,7 @@ function TopPage({ onNavigate, onContact }) {
         <div className="container">
           <div className="promo-grid">
             <a className="promo-card fadein" {...navProps('subsidy', onNavigate)}>
-              <div className="promo-tag">申請受付中</div>
+              <div className="promo-tag">補助金の相談</div>
               <div className="promo-num">01</div>
               <div className="promo-body">
                 <p className="promo-eyebrow">SUBSIDY</p>
@@ -232,7 +231,7 @@ function TopPage({ onNavigate, onContact }) {
           </div>
           <div className="reasons-grid">
             <ReasonCard num="01" emphasis="WEBサイトで他社と差別化" title="オリジナルデザイン" desc="テンプレ流用ではなく、業種・ブランドに合わせて毎回ゼロから設計。Core Web Vitals Good を標準担保。" link="制作実績一覧へ" delay={0} to={'works'} nav={onNavigate} src="assets/hero-01.png"/>
-            <ReasonCard num="02" emphasis="専属チームで" title="コンサル・運用サポート" desc="月次アクセスレポート + 定期訪問 + 改善 MTG。「公開して終わり」を絶対にしない運用体制。" link="サポートについて詳しく見る" delay={150} to={'support'} nav={onNavigate} src="assets/hero-03.png"/>
+            <ReasonCard num="02" emphasis="担当者が直接" title="コンサル・運用サポート" desc="月次アクセスレポート + オンライン定例 + 改善 MTG。「公開して終わり」を絶対にしない運用体制。" link="サポートについて詳しく見る" delay={150} to={'support'} nav={onNavigate} src="assets/hero-03.png"/>
             <ReasonCard num="03" emphasis="ホームページで" title="契約率を高める顧客管理" desc="ヒーロー / CTA配置 / フォーム設計まで、コンバージョン視点で構造化します。" link="機能サービス一覧へ" delay={300} to={'web'} nav={onNavigate} src="assets/hero-08.png"/>
             <ReasonCard num="04" emphasis="業種別の専門コンテンツ" title="無料で利用可能" desc="医療・不動産・建築など、業種ごとに最適化された記事構成テンプレを無料提供。" link="制作実績一覧へ" delay={450} to={'works'} nav={onNavigate} src="assets/work-asia-exchange.png"/>
             <ReasonCard num="05" emphasis="保守プラン内なら" title="公開後の修正にも対応" desc="軽微修正・テキスト変更は契約中の保守プランで対応可。プラン内回数を超える大規模変更は別途お見積もりさせていただきます。" link="HPサポートについて" delay={600} to={'support'} nav={onNavigate} src="assets/work-aozora-family.png"/>
@@ -271,8 +270,8 @@ function TopPage({ onNavigate, onContact }) {
             </a>
             <a className="bento-cell bento-3 fadein" data-delay="160" {...navProps('staff', onNavigate)}>
               <p className="bento-eyebrow">TEAM</p>
-              <div className="bento-num" style={{ fontSize: 42 }}>{NORTIQ_STATS.team}<sub style={{ fontSize: 14, color: 'var(--text-3)' }}>名</sub></div>
-              <p>Founder・エンジニア・データサイエンティストが連携する、少数精鋭チーム。</p>
+              <h3 style={{ fontSize: 22 }}>開発担当者と直接</h3>
+              <p>開発担当者と直接やり取りできます。納品時にはソースコードと成果物の権利をお渡しします。</p>
             </a>
             <a className="bento-cell bento-4 fadein" data-delay="240" {...navProps('product-wpchat', onNavigate)}>
               <p className="bento-eyebrow">PRODUCT · 主力</p>
@@ -289,7 +288,7 @@ function TopPage({ onNavigate, onContact }) {
             <a className="bento-cell bento-6 fadein" data-delay="400" {...navProps('support', onNavigate)}>
               <p className="bento-eyebrow">SUPPORT</p>
               <div className="bento-num" style={{ fontSize: 42, color: '#fff' }}>24<sub style={{ fontSize: 14, color: 'rgba(255,255,255,0.65)' }}>h以内</sub></div>
-              <p style={{ color: 'rgba(255,255,255,0.85)' }}>営業日 24 時間以内の一次返信を SLA として全社員で約束しています。</p>
+              <p style={{ color: 'rgba(255,255,255,0.85)' }}>営業日 24 時間以内に一次返信します。</p>
             </a>
           </div>
         </div>
@@ -437,14 +436,14 @@ function TopPage({ onNavigate, onContact }) {
             <h2 className="section-title fadein">作るだけじゃない。</h2>
             <p className="section-sub fadein">WE DON'T JUST MAKE IT</p>
             <p className="lede fadein" style={{ margin: '24px auto 0' }}>
-              専属担当者からの<span className="highlight">「月次アクセス報告」「定期訪問」「活用勉強会の実施」</span>など、1社1社のWEB運用をサポートします。<br/>
+              担当者からの<span className="highlight">「月次アクセス報告」「オンライン定例」「活用勉強会の実施」</span>など、1社1社のWEB運用をサポートします。<br/>
               アクセス解析・ヒートマップなどのデータを蓄積し、Web 戦略をたて、運用のアドバイスをします。
             </p>
           </div>
           <div className="support-grid">
             {[
               { n: "01", t: "月次アクセス報告", d: "GA4 / GSC / 独自解析を統合したカスタムダッシュボードで、毎月の変化を可視化。" },
-              { n: "02", t: "定期訪問・MTG",   d: "月1回のオンライン or オフライン MTG で、改善施策をその場で決定。" },
+              { n: "02", t: "オンライン定例",   d: "月1回のオンライン MTG で、改善施策をその場で決定。" },
               { n: "03", t: "操作マニュアル整備", d: "WordPress / AI ツールの管理画面ごとに、画像付きの操作手順書をお渡しします。" },
               { n: "04", t: "ヒートマップ解析",   d: "どこで離脱するか、どこをクリックするか。データに基づくUI改善を提案。" },
             ].map((it, i) => (
@@ -494,7 +493,6 @@ function TopPage({ onNavigate, onContact }) {
           </div>
           <div className="row" style={{ justifyContent: 'center', marginTop: 48, gap: 16 }}>
             <Button variant="ghost" to={'voice'} nav={onNavigate}>クライアント様からの声<Icon name="arrow-right" size={14}/></Button>
-            <Button variant="ghost"><Icon name="search" size={14}/>Google 口コミ</Button>
           </div>
         </div>
       </section>

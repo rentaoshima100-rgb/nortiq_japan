@@ -472,10 +472,6 @@ function ChatbotPage({ onNavigate, onContact }) {
                     <span className="text-accent" style={{ marginTop: 4 }}><Icon name="check" size={13} stroke={2}/></span>
                     全データを国内データセンター (AWS Tokyo) で処理
                   </li>
-                  <li className="body" style={{ fontSize: 14, display: 'flex', gap: 12 }}>
-                    <span className="text-accent" style={{ marginTop: 4 }}><Icon name="check" size={13} stroke={2}/></span>
-                    SOC 2 Type II 準拠の運用フロー
-                  </li>
                 </ul>
               </div>
             </div>

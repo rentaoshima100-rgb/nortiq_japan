@@ -641,7 +641,7 @@ function Footer({ onNavigate, onContact }) {
             </div>
             <p className="body" style={{ fontSize: 13, maxWidth: 320, marginBottom: 24 }}>
               日本のDX、世界水準で巻き返す。<br/>
-              Web制作からAI・DX実装までの技術チーム。
+              Web制作からAI・DX実装まで。
             </p>
             <Button variant="primary" size="sm" onClick={onContact}>
               <Icon name="mail" size={13}/>資料請求はこちら
@@ -723,7 +723,7 @@ function Footer({ onNavigate, onContact }) {
         </div>
 
         <div className="footer-bottom">
-          <span>© 2026 Nortiq Labs Inc. All rights reserved.</span>
+          <span>© 2026 NORTIQLAB株式会社 All rights reserved.</span>
           <div className="row" style={{ gap: 24 }}>
             <a {...navProps('privacy', onNavigate)} style={{ color: 'var(--text-3)' }}>プライバシーポリシー</a>
             <a {...navProps('terms', onNavigate)} style={{ color: 'var(--text-3)' }}>利用規約</a>

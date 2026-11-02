@@ -16,7 +16,6 @@
 // build.js もこの定義を正規表現で読み出す (build-prerender.js が BLOG を読むのと同じ方式)。
 const NORTIQ_STATS = {
   clients: 30,     // 制作・DX 支援の累計社数
-  team: 5,         // メンバー数 (Organization.numberOfEmployees と一致させる)
   industries: 7,   // 対応業種数
 };
 
@@ -77,7 +76,7 @@ const NORTIQ_PRICING = {
         features: ['月 20 記事まで生成', 'WordPress 連携 3サイト', 'FAQ チャットボット組み込み', 'SEO 最適化機能', 'Slack サポート', '月次改善レビュー'] },
       { key: 'premium', name: 'Premium', card: 'PREMIUM', ja: 'プレミアム', kind: 'initial', min: 50,
         tagline: '業務全体に AI を組み込む',
-        features: ['生成数 無制限', 'WordPress + 任意 CMS 連携', 'カスタム ML モデル組み込み', 'オンサイト導入研修', '専属サポート'] },
+        features: ['生成数 無制限', 'WordPress + 任意 CMS 連携', 'カスタム ML モデル組み込み', 'オンライン導入研修', '専属サポート'] },
     ],
   },
 

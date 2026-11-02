@@ -82,7 +82,7 @@ const NORTIQ_STATS = (() => {
     if (!Number.isFinite(v)) throw new Error('content-data.jsx の NORTIQ_STATS.' + k + ' を読み取れません');
     return v;
   };
-  return { clients: pick('clients'), team: pick('team'), industries: pick('industries') };
+  return { clients: pick('clients'), industries: pick('industries') };
 })();
 
 // JSX files in load order (matches the script tags in Nortiq Labs.html)
@@ -1375,7 +1375,7 @@ async function build() {
   <!-- Analytics off: set GA4_ID / GADS_ID (+ conversion labels) in build.js to emit gtag.js. -->`) + clarityHead;
 
   const FAQ_QA = [
-    { q: 'Nortiq Labs はどんな会社ですか？', a: `日本の経営課題に向き合う、AI・Web の実装者で構成された技術チームです。Web制作・AIチャットボット・DX/ML 実装まで、中小企業のDXを段階的に支援します。これまで${NORTIQ_STATS.clients}社の制作・支援実績があります（2025年に京都で事業を開始、2026年8月に法人設立）。` },
+    { q: 'Nortiq Labs はどんな会社ですか？', a: `京都を拠点に、中小企業向けのホームページ制作、業務システム開発、AI導入を行う会社です。登記上の商号は NORTIQLAB株式会社です。これまで${NORTIQ_STATS.clients}社の制作・支援実績があります（2025年に京都で事業を開始、2026年7月に法人設立）。` },
     { q: 'Web制作の費用はどれくらいですか？', a: 'オリジナルデザインのWeb制作は30万円から承っています。ページ数・機能・要件に応じてお見積もりし、公開後の運用・改善まで伴走します。' },
     { q: 'AIチャットボットは導入できますか？', a: 'はい。WordPress連携のAI投稿アシスタントをはじめ、問い合わせ対応やブログ更新を自動化するAIチャットボットの導入を、実装の中身まで説明しながら支援します。' },
     { q: '補助金は活用できますか？', a: 'IT導入補助金などの活用を視野に入れた DX 投資のご相談を承っています。なお、補助金申請の手続きサポート（登録 IT 導入支援事業者としての対応）は現在準備中です。' },
@@ -1387,12 +1387,13 @@ async function build() {
     '@context': 'https://schema.org',
     '@graph': [
       {
-        '@type': 'Organization', '@id': SITE + '/#org', name: 'Nortiq Labs', url: SITE + '/',
+        '@type': 'Organization', '@id': SITE + '/#org', name: 'Nortiq Labs', legalName: 'NORTIQLAB株式会社', url: SITE + '/',
         logo: SITE + '/assets/nortiq-mark.png', image: OG_IMAGE, description: DESC,
-        slogan: '日本のDX、世界水準で巻き返す。', foundingDate: '2026-08', numberOfEmployees: NORTIQ_STATS.team,
-        address: { '@type': 'PostalAddress', addressCountry: 'JP', postalCode: '604-0012', addressRegion: '京都府', addressLocality: '京都市中京区', streetAddress: '竪大恩寺町751' },
+        foundingDate: '2026-07-07', email: 'info@nortiqlab.com',
+        identifier: { '@type': 'PropertyValue', propertyID: '法人番号', value: '6130001082671' },
+        address: { '@type': 'PostalAddress', addressCountry: 'JP', postalCode: '604-0012', addressRegion: '京都府', addressLocality: '京都市中京区', streetAddress: '竪大恩寺町751 シュデン二条201' },
         areaServed: { '@type': 'Country', name: 'Japan' },
-        alternateName: ['株式会社ノーティックラボ', 'ノーティックラボ'],
+        alternateName: ['ノーティックラボ', '株式会社ノーティックラボ', 'NORTIQLAB'],
         ...(ORG_SAME_AS.length ? { sameAs: ORG_SAME_AS } : {}),
         knowsAbout: ['Web制作', 'AIチャットボット', 'DX', '機械学習', 'SEO', 'LP制作 / LPO', '業務自動化', 'データ分析'],
       },
