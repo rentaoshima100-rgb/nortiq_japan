@@ -121,6 +121,7 @@ const ORG_SAME_AS = [
 // desc → meta description / og:description / BlogPosting.description に使う。
 //        未指定の記事は app.jsx の SEO_DESC か自動生成の定型文にフォールバックする
 const BLOG = [
+  { slug: 'website-renewal-phased-launch', category: 'Web制作', date: '2026.11.02', read: '10 min', title: 'リニューアルの分割公開と一括公開の判断基準', img: 'assets/blog-default.png', desc: 'ホームページリニューアルを一度に公開するか分割して公開するかの判断基準をまとめます。規模による推奨の違い、最初に出す区分の選び方、区分の間に空ける期間を公式資料に基づいて説明します。', supervised: true },
   { slug: 'system-development-deliverables-scope', category: '技術', date: '2026.11.02', read: '9 min', title: 'システム開発の納品物、契約で求める書類の決め方', img: 'assets/blog-default.png', desc: 'システム開発を外注するとき、納品物に含める書類の決め方をまとめます。設計書や運用手順書をどこまで求めるか、発注書への書き方、検収や著作権との関係を条文と公的資料に沿って説明します。', supervised: true },
   { slug: 'system-development-delivery-delay', category: '技術', date: '2026.11.02', read: '9 min', title: 'システム開発の納期遅延、求められる4つの手段', img: 'assets/blog-default.png', desc: '外注したシステムの納期が遅れたときに、発注側が何を根拠に何を求められるのかを整理します。やり直しと減額と損害賠償と解除の使い分け、通知の期限、遅延損害金を契約に書く4項目を条文つきで説明します。', supervised: true },
   { slug: 'website-maintenance-cost-subsidy', category: 'Web制作', date: '2026.11.02', read: '9 min', title: 'ホームページの保守費は補助金の対象か', img: 'assets/blog-default.png', desc: 'ホームページの公開後に毎年かかる保守費やサーバ費が補助金の対象になるのかを、公募要領の費目から整理します。クラウド利用費の年数の上限、対象外になりやすい費用、見積書での分け方を基準日つきで説明します。', supervised: true },

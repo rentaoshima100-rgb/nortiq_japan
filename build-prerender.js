@@ -33,6 +33,7 @@ const ARTICLE_ROUTES = (() => {
 })();
 
 const ROUTES_ALLOWLIST = [
+  '/article-website-renewal-phased-launch',
   '/article-system-development-deliverables-scope',
   '/article-system-development-delivery-delay',
   '/article-website-maintenance-cost-subsidy',
