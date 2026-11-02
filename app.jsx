@@ -73,7 +73,7 @@ ROUTES['privacy-handling'].title = '個人情報の取扱いについて — Nor
 
 // News & Recruit
 ROUTES['news']    = { c: () => window.NewsPage,    title: 'お知らせ｜Nortiq Labs' };
-ROUTES['recruit'] = { c: () => window.RecruitPage, title: '採用情報｜Nortiq Labsで働く — 京都のWeb×AIカンパニー' };
+ROUTES['recruit'] = { c: () => window.RecruitPage, title: '採用情報｜Nortiq Labs' };
 
 // NORTIQLAB Site Diagnostic — landing page
 ROUTES['diagnostic'] = { c: () => window.DiagnosticLPPage, title: 'ホームページ無料診断｜URL入力で改善点をチェック — Nortiq Labs' };
@@ -221,7 +221,7 @@ const SEO_DESC = {
   column: '調査データに基づくAI・SEO・DX・業種別マーケティングの技術ブログ。一次情報と数値で裏づけた、現場で使える知見を発信しています。',
   company: 'NORTIQLAB株式会社（ブランド表記 Nortiq Labs）の会社概要です。京都市中京区でホームページ制作、業務システム開発、AI導入支援を行っています。法人番号、所在地、連絡先を掲載しています。',
   staff: 'Nortiq Labsのメンバー紹介。エンジニアリング・デザイン・データサイエンスの専門領域と経歴を公開しています。',
-  recruit: 'Nortiq Labsの採用情報。Web制作・AI実装の現場で、企画から実装まで裁量を持って働けるポジションを募集しています。',
+  recruit: 'Nortiq Labsの採用情報です。現在、採用の募集は行っていません。',
   'product-vetonet': 'AIエージェントの危険なアクションを実行前に検証・拒否するセキュリティミドルウェアVetoNet。Nortiq LabsのR&Dプロダクトとして開発中。技術解説・開発の裏側も公開しています。',
   'product-wpchat': '「書ける気がしない」をなくすブログボット。普段の言葉で伝えるだけでAIが要約・SEOチェック・競合分析まで対話形式でサポート。8ステップで迷わず公開、WordPress連携対応。',
   'product-tennis': 'スマホで撮った動画をAIが解析し、テニスのフォーム改善点を可視化する無料アプリ（Public beta）。33関節をトラッキングしプロとの差分をスコア化。改善ポイントは具体的な言葉でフィードバックします。',

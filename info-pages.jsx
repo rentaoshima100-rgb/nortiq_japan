@@ -773,7 +773,7 @@ function CompanyPage({ onNavigate, onContact }) {
         lede="京都を拠点に、中小企業のホームページ制作、業務システム開発、AI 導入を行っています。"
         badges={["設立 2026年7月", "本社 京都市中京区", "全国オンライン対応"]}
         onContact={onContact}
-        ctaLabel="採用情報"
+        ctaLabel="お問い合わせ"
         subCta="チーム紹介"
         subCtaTo="staff"
         nav={onNavigate}

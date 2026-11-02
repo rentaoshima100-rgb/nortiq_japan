@@ -299,10 +299,9 @@ Light / Standard / Premium 別の月額は決まっておらず、ページも�
 
 | block / variant | 文言で使った表現 | 出典 | 原文 |
 |---|---|---|---|
-| sg-recruit / default | 各領域でメンバーを募集しています。 | extra-pages.jsx:169 | 各領域でメンバーを募集しています。 |
-| sg-recruit / default | 京都＋フルリモート可。 | extra-pages.jsx:170 | "京都 + フルリモート可" |
-| sg-recruit / default | エンジニア、デザイナー、コンサルタント | extra-pages.jsx:169 | エンジニア / Data Scientist / Designer / Consultant |
-| sg-recruit / default | 学生向けのインターンも募集しています。 | extra-pages.jsx:161 | title: "AI Research インターン", type: "インターン", emp: "京都 / フルリモート可", level: "学生" |
+| sg-recruit / default | 現在の募集状況をご案内します。 | extra-pages.jsx:164 | 現在、採用の募集は行っていません。 |
+| sg-recruit / default | 現在、採用の募集は行っていません。 | extra-pages.jsx:164 | 現在、採用の募集は行っていません。 |
+| sg-recruit / default | 協業のご相談はお問い合わせから承ります。 | extra-pages.jsx:173 | 協業のご相談は、お問い合わせフォームから承ります。 |
 
 ### sg-guidebook → `/guidebook`（`selectable: false`。slot-end のデフォルト）
 

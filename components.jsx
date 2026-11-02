@@ -715,7 +715,6 @@ function Footer({ onNavigate, onContact }) {
             <ul>
               <li><a {...navProps('company', onNavigate)}>会社概要</a></li>
               <li><a {...navProps('staff', onNavigate)}>チーム / スタッフ</a></li>
-              <li><a {...navProps('recruit', onNavigate)}>採用情報</a></li>
               <li><a {...navProps('pricing', onNavigate)}>料金プラン</a></li>
               <li><a {...navProps('sitemap', onNavigate)}>サイトマップ</a></li>
             </ul>

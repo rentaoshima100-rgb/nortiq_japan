@@ -155,103 +155,25 @@ function NewsPage({ onNavigate, onContact }) {
 // RECRUIT (採用情報)
 // ============================================================
 function RecruitPage({ onNavigate, onContact }) {
-  const positions = [
-    { dept: "Engineering", title: "Senior Full-stack Engineer", type: "正社員", emp: "京都 / フルリモート可", level: "L4-L6" },
-    { dept: "Engineering", title: "ML Engineer / Data Scientist", type: "正社員", emp: "京都 / フルリモート可", level: "L4-L6" },
-    { dept: "Engineering", title: "Frontend Engineer (Next.js)", type: "正社員", emp: "京都 / フルリモート可", level: "L3-L5" },
-    { dept: "Design", title: "UI/UX Designer (Lead)", type: "正社員", emp: "京都 / フルリモート可", level: "L4-L5" },
-    { dept: "Consulting", title: "DX Consultant", type: "正社員", emp: "京都 / 出張多", level: "L4-L6" },
-    { dept: "Customer Success", title: "Customer Success Manager", type: "正社員", emp: "京都 / フルリモート可", level: "L3-L5" },
-    { dept: "Sales", title: "Inside Sales", type: "正社員 / 業務委託可", emp: "京都 / フルリモート可", level: "L2-L4" },
-    { dept: "Internship", title: "AI Research インターン", type: "インターン", emp: "京都 / フルリモート可", level: "学生" },
-  ];
   return (
     <main className="page-fade">
       <Breadcrumb items={[{ label: "トップ", id: "top" }, { label: "採用情報" }]} onNavigate={onNavigate}/>
       <PageHero
         eyebrow="RECRUIT / 採用情報"
-        title={<>日本のDXを、<br/>世界水準で変える仲間を。</>}
-        lede="AI の実装力を、日本の中小企業の現場に届けるチーム。エンジニア / Data Scientist / Designer / Consultant、各領域でメンバーを募集しています。"
-        badges={["5 名 → 拡大採用中", "京都 + フルリモート可", "ストックオプション制度"]}
+        title="採用情報"
+        lede="現在、採用の募集は行っていません。"
         onContact={onContact}
-        ctaLabel="求人にエントリー"
-        subCta="カルチャー資料DL"
+        ctaLabel="お問い合わせ"
+        subCta="会社概要"
+        subCtaTo="company"
+        nav={onNavigate}
       />
-
       <section className="section-pad">
-        <div className="container">
-          <div className="section-head">
-            <h2 className="section-title fadein">私たちが大切にしていること</h2>
-            <p className="section-sub fadein">VALUES</p>
-          </div>
-          <div className="grid-3">
-            {[
-              { n: "01", t: "Technical Honesty", d: "「AIできます」止まりではなく、実装の中身まで誠実に説明する。技術的にできること / できないことを正確に伝える。" },
-              { n: "02", t: "Owner-side Thinking", d: "受託でもクライアントの経営課題を自分ごととして考える。「公開して終わり」のチームには、絶対にしない。" },
-              { n: "03", t: "World-class Standards", d: "東京で米国基準のアウトプットを作る。20年遅れの常識ではなく、世界水準で。" },
-              { n: "04", t: "Long-term Relationships", d: "案件単発で終わる関係ではなく、3年・5年と並走するパートナーシップを築く。" },
-              { n: "05", t: "Continuous Research", d: "業務の20%は研究開発に振る。VetoNet / Tennis SaaS 等、自社プロダクトは技術研鑽の場でもある。" },
-              { n: "06", t: "Compassion in Code", d: "「AIで楽になった」を、業務の現場まで届ける。技術は手段、目的は人の働き方を変えること。" },
-            ].map((v, i) => (
-              <div key={i} className="card fadein" data-delay={i * 80} style={{ padding: 32 }}>
-                <div className="bignum" style={{ fontSize: 32, marginBottom: 16 }}>{v.n}</div>
-                <h3 style={{ fontSize: 18, fontWeight: 700, marginBottom: 12 }}>{v.t}</h3>
-                <p className="body" style={{ fontSize: 13, margin: 0 }}>{v.d}</p>
-              </div>
-            ))}
-          </div>
+        <div className="container" style={{ maxWidth: 880, textAlign: 'center' }}>
+          <p className="body">募集を始めるときは、このページでお知らせします。協業のご相談は、お問い合わせフォームから承ります。</p>
         </div>
       </section>
-
-      <section className="section-pad" style={{ background: 'var(--bg-2)' }}>
-        <div className="container">
-          <div className="section-head">
-            <h2 className="section-title fadein">募集ポジション</h2>
-            <p className="section-sub fadein">OPEN POSITIONS</p>
-          </div>
-          <div className="content-list">
-            {positions.map((p, i) => (
-              <a key={i} className="content-row" style={{ gridTemplateColumns: '140px 1fr 120px 160px 80px auto' }}>
-                <span className="content-tag-pill">{p.dept}</span>
-                <span className="content-title">{p.title}</span>
-                <span className="small">{p.type}</span>
-                <span className="small">{p.emp}</span>
-                <span className="small num">{p.level}</span>
-                <Icon name="arrow-right" size={14}/>
-              </a>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="section-pad">
-        <div className="container">
-          <div className="section-head">
-            <h2 className="section-title fadein">福利厚生・働き方</h2>
-            <p className="section-sub fadein">BENEFITS</p>
-          </div>
-          <div className="grid-4" style={{ gap: 16 }}>
-            {[
-              { t: "フルリモート可", d: "Engineering / Designer は完全リモート可。コアタイムなし。" },
-              { t: "ストックオプション", d: "全社員に SO 配布。長期インセンティブを共有。" },
-              { t: "学習支援", d: "書籍・カンファレンス参加費 年30万円まで補助。" },
-              { t: "副業OK", d: "競合制限のない副業は事前申請のみで可。" },
-              { t: "週4日勤務制", d: "シニア職以上は週4日勤務の選択肢あり。" },
-              { t: "産休・育休", d: "男女問わず取得実績多数。復帰サポートも。" },
-              { t: "20% Research Time", d: "業務時間の20%を研究開発に充てられる制度。" },
-            ].map((b, i) => (
-              <div key={i} className="card fadein" data-delay={i * 60} style={{ padding: 24 }}>
-                <h3 style={{ fontSize: 15, fontWeight: 700, marginBottom: 8 }}>{b.t}</h3>
-                <p className="body" style={{ fontSize: 12.5, margin: 0 }}>{b.d}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <ExtraContent blocks={RECRUIT_EXTRA} onNavigate={onNavigate}/>
-
-      <RedCTAStrip onContact={onContact} onNavigate={onNavigate} title={<>気になるポジションがあれば、<br/>カジュアル面談から。</>}/>
+      <RedCTAStrip onContact={onContact} onNavigate={onNavigate}/>
     </main>
   );
 }
