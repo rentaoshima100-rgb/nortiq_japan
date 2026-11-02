@@ -67,7 +67,7 @@ function TopPage({ onNavigate, onContact }) {
           <p className="main-lead fadein" data-delay="150">日本のDX、世界水準で巻き返す。</p>
 
           <ul className="main-box fadein" data-delay="200">
-            <li>Web制作</li><li>AIチャットボット</li><li>DX・ML</li><li>業務自動化</li><li>データ分析</li>
+            <li>Web制作</li><li>AIチャットボット</li><li>業務システム開発</li><li>業務自動化</li><li>データ分析</li>
           </ul>
 
           <ul className="main-medaru fadein" data-delay="300">

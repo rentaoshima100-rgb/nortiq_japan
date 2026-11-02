@@ -939,10 +939,10 @@ function SitemapPage({ onNavigate, onContact }) {
         <div className="container">
           <div className="sitemap-grid">
             <SitemapCol heading="トップ" onNavigate={onNavigate} links={[{ id: 'top', label: 'トップ' }]}/>
-            <SitemapCol heading="機能 (サービス別)" onNavigate={onNavigate} links={[
-              { id: 'web', label: 'Web制作 機能一覧' },
-              { id: 'chatbot', label: 'AIチャットボット 機能一覧' },
-              { id: 'dx', label: 'DX・ML 機能一覧' },
+            <SitemapCol heading="サービス" onNavigate={onNavigate} links={[
+              { id: 'web', label: 'ホームページ制作' },
+              { id: 'chatbot', label: 'AIチャットボット' },
+              { id: 'dx', label: '業務システム・AI開発' },
               { id: 'feature-lpo', label: 'LP制作 / LPO' },
               { id: 'feature-recruit', label: '採用専門サイト' },
               { id: 'feature-analytics', label: 'アクセス解析カスタム実装' },
@@ -958,6 +958,13 @@ function SitemapPage({ onNavigate, onContact }) {
               { id: 'solution-build',  label: '建築・工務店' },
               { id: 'solution-hr',     label: '人材' },
               { id: 'solution-retail', label: '小売 / EC' },
+            ]}/>
+            <SitemapCol heading="特設ページ" onNavigate={onNavigate} links={[
+              { id: 'lp-kanri-dantai', label: '監理団体・登録支援機関向け', href: '/service/kanri-dantai' },
+              { id: 'lp-recruit-site', label: '建設・運送・介護の採用サイト', href: '/service/recruit-site' },
+              { id: 'lp-security', label: '脆弱性診断・セキュリティ保守', href: '/security' },
+              { id: 'lp-shindan-battery', label: '蓄電池の見積もり診断（ご家庭向け）', href: '/shindan/battery' },
+              { id: 'lp-partner-energy', label: '蓄電池・太陽光 紹介パートナー募集', href: '/partner/energy' },
             ]}/>
             <SitemapCol heading="制作実績 (業種別)" onNavigate={onNavigate} links={[
               { id: 'works', label: '全実績一覧' },
@@ -1014,7 +1021,7 @@ function SitemapCol({ heading, links, onNavigate }) {
       <ul className="sitemap-list">
         {links.map(l => (
           <li key={l.id}>
-            <a {...navProps(l.id, onNavigate)}>
+            <a {...(l.href ? { href: l.href } : navProps(l.id, onNavigate))}>
               {l.label}<Icon name="arrow-right" size={11}/>
             </a>
           </li>

@@ -10,12 +10,12 @@ const NAV_MEGA = [
   { id: 'top', label: 'トップ', simple: true },
   {
     id: 'features',
-    label: '機能',
+    label: 'サービス',
     columns: [
-      { heading: 'サービス別 機能一覧', links: [
-        { id: 'web',     label: 'Web制作 機能一覧' },
-        { id: 'chatbot', label: 'AIチャットボット 機能一覧' },
-        { id: 'dx',      label: 'DX・ML 機能一覧' },
+      { heading: 'サービス一覧', links: [
+        { id: 'web',     label: 'ホームページ制作' },
+        { id: 'chatbot', label: 'AIチャットボット' },
+        { id: 'dx',      label: '業務システム・AI開発' },
       ]},
       { heading: '技術領域', links: [
         { id: 'feature-lpo',       label: 'LP制作 / LPO' },
@@ -26,7 +26,6 @@ const NAV_MEGA = [
       { heading: '自社プロダクト', links: [
         { id: 'product-vetonet',  label: 'VetoNet (AI Security)' },
         { id: 'product-wpchat',   label: 'ブログボット（AI投稿アシスタント）' },
-        { id: 'product-tennis',   label: 'Tennis フォームチェック' },
       ]},
     ],
   },
@@ -69,8 +68,6 @@ const NAV_MEGA = [
         { id: 'lp-kanri-dantai', label: '監理団体・登録支援機関向け', href: '/service/kanri-dantai' },
         { id: 'lp-recruit-site', label: '建設・運送・介護の採用サイト', href: '/service/recruit-site' },
         { id: 'lp-security', label: '脆弱性診断・セキュリティ保守', href: '/security' },
-        { id: 'lp-shindan-battery', label: '蓄電池の見積もり診断（ご家庭向け）', href: '/shindan/battery' },
-        { id: 'lp-partner-energy', label: '蓄電池・太陽光 紹介パートナー募集', href: '/partner/energy' },
       ]},
     ],
   },
@@ -459,21 +456,12 @@ const INDUSTRY_LPS = [
     title: <>現場の写真1枚から、<span className="text-accent">応募が来る</span>採用サイトを。<br/>建設・運送・介護に絞った採用サイト制作</>,
     desc: (lp) => `職種別ページ、先輩の声、Googleしごと検索（JobPosting）対応、毎週増える求人記事。${priceFrom(lp.plans[0].min)}${priceTax()}・最短${pricePeriod(lp.plans[0])}で公開。35項目の設計チェックリストつき。`,
   },
-  // 2026-10-28 に足した3本 (lp/security・lp/shindan/battery・lp/partner/energy)。料金表は NORTIQ_PRICING に無いので desc は固定文
+  // lp/security は料金表が NORTIQ_PRICING に無いので desc は固定文。
+  // 蓄電池の2本 (lp/shindan/battery・lp/partner/energy) は事業者向けの導線に混ぜない。/sitemap と sitemap.xml には残す。
   {
     key: 'security', href: '/security', tag: 'NEW / 毎日の脆弱性診断', eyebrow: 'SERVICE LP / 脆弱性診断・セキュリティ保守',
     title: <>攻撃者より先に、<span className="text-accent">毎日見つけて、直す。</span><br/>中小企業のWebサイト・ECのセキュリティ保守</>,
     desc: () => '定番の診断ツール×オープンモデル×人の確認で毎日点検し、見つけた弱点は修正・再診断まで月額で。無料のセキュリティ外形チェックから始められます。',
-  },
-  {
-    key: 'shindan', href: '/shindan/battery', tag: 'NEW / 無料・約1分・連絡先なし', eyebrow: 'FOR HOMES / 蓄電池の見積もり診断（京都・関西）',
-    title: <>その蓄電池の見積もり、<span className="text-accent">高くない？</span><br/>3つの質問で相場の目安が分かる無料診断</>,
-    desc: () => '相場の目安・見積もりとの差・補助金の目安をその場で表示。紹介は希望した方にだけ、お住まいのエリアの施工店1社だけ。',
-  },
-  {
-    key: 'partner', href: '/partner/energy', tag: 'NEW / 初期費用・月額0円の成果報酬', eyebrow: 'PARTNER PROGRAM / 蓄電池・太陽光の施工店向け',
-    title: <>蓄電池を検討中の家庭の相談を、<span className="text-accent">成果報酬</span>でお届けします。</>,
-    desc: () => '見積もり診断で集めた京都・関西の家庭の相談を、1件につき1社にご紹介。紹介料は成約・入金後だけ。30分のオンライン相談を受付中。',
   },
 ];
 function IndustryLpBanner({ only }) {
@@ -667,11 +655,11 @@ function Footer({ onNavigate, onContact }) {
           </div>
 
           <div className="footer-col">
-            <h3>機能・サービス</h3>
+            <h3>サービス</h3>
             <ul>
-              <li><a {...navProps('web', onNavigate)}>Web制作 機能一覧</a></li>
-              <li><a {...navProps('chatbot', onNavigate)}>AIチャットボット 機能一覧</a></li>
-              <li><a {...navProps('dx', onNavigate)}>DX・ML 機能一覧</a></li>
+              <li><a {...navProps('web', onNavigate)}>ホームページ制作</a></li>
+              <li><a {...navProps('chatbot', onNavigate)}>AIチャットボット</a></li>
+              <li><a {...navProps('dx', onNavigate)}>業務システム・AI開発</a></li>
               <li><a {...navProps('feature-lpo', onNavigate)}>LP制作 / LPO</a></li>
               <li><a {...navProps('feature-recruit', onNavigate)}>採用専門サイト</a></li>
               <li><a {...navProps('feature-analytics', onNavigate)}>アクセス解析</a></li>
@@ -680,7 +668,6 @@ function Footer({ onNavigate, onContact }) {
             <ul>
               <li><a {...navProps('product-vetonet', onNavigate)}>VetoNet</a></li>
               <li><a {...navProps('product-wpchat', onNavigate)}>ブログボット（AI投稿アシスタント）</a></li>
-              <li><a {...navProps('product-tennis', onNavigate)}>Tennis フォームチェック</a></li>
             </ul>
           </div>
 
@@ -708,8 +695,6 @@ function Footer({ onNavigate, onContact }) {
             <h3 style={{ marginTop: 24 }}>特設ページ</h3>
             <ul>
               <li><a href="/security">脆弱性診断・セキュリティ保守</a></li>
-              <li><a href="/shindan/battery">蓄電池の見積もり診断（ご家庭向け）</a></li>
-              <li><a href="/partner/energy">蓄電池・太陽光 紹介パートナー募集</a></li>
             </ul>
             <h3 style={{ marginTop: 24 }}>会社</h3>
             <ul>
