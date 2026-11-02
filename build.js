@@ -121,6 +121,7 @@ const ORG_SAME_AS = [
 // desc → meta description / og:description / BlogPosting.description に使う。
 //        未指定の記事は app.jsx の SEO_DESC か自動生成の定型文にフォールバックする
 const BLOG = [
+  { slug: 'website-maintenance-cost-subsidy', category: 'Web制作', date: '2026.11.02', read: '9 min', title: 'ホームページの保守費は補助金の対象か', img: 'assets/blog-default.png', desc: 'ホームページの公開後に毎年かかる保守費やサーバ費が補助金の対象になるのかを、公募要領の費目から整理します。クラウド利用費の年数の上限、対象外になりやすい費用、見積書での分け方を基準日つきで説明します。', supervised: true },
   { slug: 'acceptance-test-data-privacy', category: '技術', date: '2026.11.02', read: '9 min', title: '受入テストのテストデータ、本番データの扱い', img: 'assets/blog-default.png', desc: '外注したシステムの受入テストで、テストデータを誰が用意するのかと、本番の顧客データを渡してよいのかを整理します。委託に伴う提供の扱い、委託先の監督の3つの措置、使わない場合の加工の基準と順番を説明します。', supervised: true },
   { slug: 'outsourcing-generative-ai-contract', category: 'AI活用', date: '2026.11.02', read: '10 min', title: '外注先の生成AI利用、契約で決める4項目', img: 'assets/blog-default.png', desc: '制作や開発を外注するとき、委託先の生成AI利用をどう取り決めるかを解説します。開示、入力してよい情報、成果物の権利、責任の分担の4項目と、禁止する場合の書き方を公的資料に沿って整理します。', supervised: true },
   { slug: 'website-copyright-ownership', category: 'Web制作', date: '2026.11.02', read: '7 min', title: 'ホームページの著作権は誰のもの｜帰属の確認手順', img: 'assets/blog-default.png', desc: '制作費を払ってもホームページの著作権が自社に移らない理由を、著作権法の条文で整理します。第15条の職務著作がどこまで及ぶか、下請けのフリーランスが作った部分は誰のものか、契約書で確認する3点を解説します。', supervised: true },
