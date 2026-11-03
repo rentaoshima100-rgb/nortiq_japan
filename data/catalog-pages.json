@@ -579,6 +579,78 @@
       "default_next": null
     },
     {
+      "url": "/tools",
+      "type": "service",
+      "title": "無料ツール（概算見積・診断・計算機）",
+      "industry": [],
+      "need": ["業務システム・DX", "AI導入・チャットボット", "新規サイト制作"],
+      "audience": "問い合わせる前に、費用や効果を自分で確かめたい人向け",
+      "summary": "連絡先なしで結果が出る5つの無料ツール。概算見積、AI診断、手作業コスト計算、AIリスク診断、帳票読み取り。",
+      "suggestable": false,
+      "block_id": null,
+      "default_next": null
+    },
+    {
+      "url": "/tools/estimate",
+      "type": "service",
+      "title": "概算見積（連絡先なし・1分）",
+      "industry": [],
+      "need": ["業務システム・DX", "AI導入・チャットボット", "新規サイト制作", "サイトリニューアル"],
+      "audience": "ホームページやAI導入の相場を、営業されずに知りたい人向け",
+      "summary": "6問選ぶだけで金額の幅・内訳・期間の目安が出る。",
+      "suggestable": false,
+      "block_id": null,
+      "default_next": null
+    },
+    {
+      "url": "/tools/ai-fit",
+      "type": "service",
+      "title": "AIで何ができる？業種別30秒診断",
+      "industry": [],
+      "need": ["AI導入・チャットボット", "業務システム・DX"],
+      "audience": "AIをどの業務に使えばいいか分からない人向け",
+      "summary": "業種と困っている業務から、AIが効く業務の上位5つと費用レンジ。",
+      "suggestable": false,
+      "block_id": null,
+      "default_next": null
+    },
+    {
+      "url": "/tools/manual-cost",
+      "type": "service",
+      "title": "手作業コスト計算機",
+      "industry": [],
+      "need": ["業務システム・DX"],
+      "audience": "FAX転記や請求書作成に年いくら払っているか知りたい人向け",
+      "summary": "件数と分数から年間コストと自動化後の削減額、回収月数。",
+      "suggestable": false,
+      "block_id": null,
+      "default_next": null
+    },
+    {
+      "url": "/tools/ai-risk",
+      "type": "service",
+      "title": "社内AI利用リスク診断＋ルール雛形",
+      "industry": [],
+      "need": ["AI導入・チャットボット", "保守・運用"],
+      "audience": "社員のChatGPT利用が心配な経営者・総務向け",
+      "summary": "12問でリスクレベルと対策、生成AI利用ルールの雛形。",
+      "suggestable": false,
+      "block_id": null,
+      "default_next": null
+    },
+    {
+      "url": "/tools/document-demo",
+      "type": "service",
+      "title": "FAX注文書・手書き伝票の読み取りデモ",
+      "industry": [],
+      "need": ["業務システム・DX", "AI導入・チャットボット"],
+      "audience": "FAXや手書き伝票を人が転記している会社向け",
+      "summary": "帳票画像をAIが表にしてCSVで出す、登録不要のデモ。",
+      "suggestable": false,
+      "block_id": null,
+      "default_next": null
+    },
+    {
       "url": "/sitemap",
       "type": "other",
       "title": "サイトマップ",

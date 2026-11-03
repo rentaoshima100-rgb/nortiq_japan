@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>FAX注文書・手書き伝票をAIが表にする｜登録不要の読み取りデモ｜Nortiq Labs</title>
+<meta name="description" content="FAX注文書、手書き伝票、レシートの画像をAIが読み取って、品名・数量・単価・合計の表にしてCSVで出します。サンプルで試せて、登録も保存もありません。人が転記している作業を、そのまま置き換えられるかを確かめられます。">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+<link rel="canonical" href="https://nortiqlab.com/tools/document-demo">
+<meta name="theme-color" content="#E60012">
+<meta name="format-detection" content="telephone=no">
+<link rel="icon" href="/assets/nortiq-fav.png">
+<link rel="apple-touch-icon" href="/assets/nortiq-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Nortiq Labs">
+<meta property="og:title" content="FAX注文書・手書き伝票をAIが表にする｜登録不要の読み取りデモ">
+<meta property="og:description" content="FAX注文書、手書き伝票、レシートの画像をAIが読み取って、品名・数量・単価・合計の表にしてCSVで出します。サンプルで試せて、登録も保存もありません。人が転記している作業を、そのまま置き換えられるかを確かめられます。">
+<meta property="og:url" content="https://nortiqlab.com/tools/document-demo">
+<meta property="og:image" content="https://nortiqlab.com/assets/og/tools.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="ja_JP">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="FAX注文書・手書き伝票をAIが表にする｜登録不要の読み取りデモ">
+<meta name="twitter:description" content="FAX注文書、手書き伝票、レシートの画像をAIが読み取って、品名・数量・単価・合計の表にしてCSVで出します。サンプルで試せて、登録も保存もありません。人が転記している作業を、そのまま置き換えられるかを確かめられます。">
+<meta name="twitter:image" content="https://nortiqlab.com/assets/og/tools.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Space+Grotesk:wght@500;700&display=swap">
+<link rel="stylesheet" href="/assets/lp/common/lp.css?v={{V}}">
+<link rel="stylesheet" href="/assets/lp/tools/tools.css?v={{V}}">
+{{ANALYTICS}}
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@graph": [{"@type": "Organization", "@id": "https://nortiqlab.com/#org", "name": "Nortiq Labs", "legalName": "NORTIQLAB株式会社", "url": "https://nortiqlab.com/", "logo": "https://nortiqlab.com/assets/nortiq-mark.png", "email": "info@nortiqlab.com"}, {"@type": "WebSite", "@id": "https://nortiqlab.com/#website", "name": "Nortiq Labs", "url": "https://nortiqlab.com/", "publisher": {"@id": "https://nortiqlab.com/#org"}, "inLanguage": "ja"}, {"@type": "WebPage", "@id": "https://nortiqlab.com/tools/document-demo", "url": "https://nortiqlab.com/tools/document-demo", "name": "FAX注文書・手書き伝票をAIが表にする 読み取りデモ", "description": "帳票画像をAIが読み取って表とCSVにする登録不要のデモ。", "isPartOf": {"@id": "https://nortiqlab.com/#website"}, "inLanguage": "ja"}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "ホーム", "item": "https://nortiqlab.com/"}, {"@type": "ListItem", "position": 2, "name": "無料ツール", "item": "https://nortiqlab.com/tools"}, {"@type": "ListItem", "position": 3, "name": "書類読み取りデモ", "item": "https://nortiqlab.com/tools/document-demo"}]}, {"@type": "SoftwareApplication", "name": "FAX注文書・手書き伝票をAIが表にする 読み取りデモ", "applicationCategory": "BusinessApplication", "operatingSystem": "Web", "url": "https://nortiqlab.com/tools/document-demo", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "JPY"}, "provider": {"@id": "https://nortiqlab.com/#org"}}, {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "アップロードした画像は保存されますか？", "acceptedAnswer": {"@type": "Answer", "text": "されません。読み取りのために一度だけAIに送り、結果を返したら破棄します。サーバーにもブラウザにも残しません。個人情報を含む帳票は、サンプルで試すか、個人情報を隠してからお試しください。"}}, {"@type": "Question", "name": "手書きでも読めますか？", "acceptedAnswer": {"@type": "Answer", "text": "読めます。ただし崩し字や薄い鉛筆は精度が落ちます。自信がない項目は「要確認」と表示します。自社の帳票で精度を確かめたい場合は、相談フォームからお送りください。"}}, {"@type": "Question", "name": "読み取った後はどうなりますか？", "acceptedAnswer": {"@type": "Answer", "text": "CSVでダウンロードできます。実際の導入では、読み取った内容を販売管理システム・Excel・会計ソフトに自動で入れるところまで作ります（1業務10万円〜、または月額）。"}}]}]}
+</script>
+</head>
+<body data-lp="tools-document-demo">
+
+<header class="header">
+  <div class="container header__inner">
+    <a class="brand" href="/" aria-label="Nortiq Labs トップページ"><span class="brand__name">NORTIQ</span><span class="brand__sub">LABS</span></a>
+    <a class="btn btn--primary btn--sm header__cta" href="/#request" data-ga="consult_request" data-ga-location="header">無料で相談する</a>
+  </div>
+</header>
+
+<main class="tool-main">
+<section class="section tool-hero" aria-labelledby="fv-title">
+  <div class="container">
+    <nav aria-label="パンくず"><ol class="crumbs"><li><a href="/">ホーム</a></li><li><a href="/tools">無料ツール</a></li><li aria-current="page">書類読み取りデモ</li></ol></nav>
+    <div class="tool-wrap">
+      <p class="eyebrow">Document Demo / 登録不要・保存しません</p>
+      <h1 class="h1" id="fv-title">FAX注文書を、<span class="accent">撮るだけ</span>で表にする。</h1>
+      <p class="tool-hero__sub">届いたFAXや手書き伝票を人が打ち直す。その部分だけをAIに置き換えたらどうなるかを、登録なしで試せます。FAXはそのまま、取引先に何も頼む必要はありません。</p>
+      <div class="tool-chips"><span>登録不要</span><span>画像は保存しません</span><span>CSVでダウンロード</span><span>自信のない項目は「要確認」</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="container">
+  <div class="tool-wrap">
+
+<section class="tool-card">
+  <div class="qnum">Step 1</div><h2 class="q">サンプルを選ぶか、自社の帳票を上げてください</h2><p class="qhelp">サンプルはAIを呼ばずにすぐ結果が出ます。自社の帳票は1日3回まで（それ以上は相談フォームから）。</p>
+  <div class="samples" id="samples"></div>
+  <label class="drop" id="drop"><input type="file" id="file" accept="image/*,.pdf"><span><b>自社の帳票の写真を選ぶ</b>（JPG・PNG、5MBまで）<br><span style="font-size:12.5px">スマホで撮った写真で構いません。個人情報は隠してください。</span></span></label>
+  <div class="msg" id="status" hidden></div>
+</section>
+<section id="result" hidden></section>
+<div class="section__head" style="margin-top:48px"><h2 class="h2" style="font-size:24px">よくある質問</h2></div><div class="faq">
+<div class="faq__item is-open"><button type="button" class="faq__q" aria-expanded="true">アップロードした画像は保存されますか？<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button><div class="faq__a"><div><p style="padding:0 0 20px;font-size:14.5px">されません。読み取りのために一度だけAIに送り、結果を返したら破棄します。サーバーにもブラウザにも残しません。個人情報を含む帳票は、サンプルで試すか、個人情報を隠してからお試しください。</p></div></div></div>
+<div class="faq__item"><button type="button" class="faq__q" aria-expanded="false">手書きでも読めますか？<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button><div class="faq__a"><div><p style="padding:0 0 20px;font-size:14.5px">読めます。ただし崩し字や薄い鉛筆は精度が落ちます。自信がない項目は「要確認」と表示します。自社の帳票で精度を確かめたい場合は、相談フォームからお送りください。</p></div></div></div>
+<div class="faq__item"><button type="button" class="faq__q" aria-expanded="false">読み取った後はどうなりますか？<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button><div class="faq__a"><div><p style="padding:0 0 20px;font-size:14.5px">CSVでダウンロードできます。実際の導入では、読み取った内容を販売管理システム・Excel・会計ソフトに自動で入れるところまで作ります（1業務10万円〜、または月額）。</p></div></div></div>
+</div>
+    <div class="tool-foot">デモの読み取り精度は参考値です。実導入では帳票の種類ごとに項目を定義し、精度を確認してから稼働します。</div>
+  </div>
+</section>
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer__inner">
+      <a class="brand" href="/" aria-label="Nortiq Labs トップページ"><span class="brand__name">NORTIQ</span><span class="brand__sub">LABS</span></a>
+      <ul class="footer__links">
+        <li><a href="/tools">無料ツール</a></li>
+        <li><a href="/dx">業務システム・AI開発</a></li>
+        <li><a href="/web">ホームページ制作</a></li>
+        <li><a href="/automation">ひと業務AI</a></li>
+        <li><a href="/works">制作実績</a></li>
+        <li><a href="/company">会社概要</a></li>
+        <li><a href="/privacy">プライバシーポリシー</a></li>
+        <li><a href="/privacy-handling">個人情報の取扱い</a></li>
+      </ul>
+    </div>
+    <p class="footer__copy">© 2026 NORTIQLAB株式会社</p>
+  </div>
+</footer>
+
+<script src="/assets/lp/common/lp.js?v={{V}}" defer></script>
+<script src="/assets/lp/tools/tools-common.js?v={{V}}" defer></script>
+<script src="/assets/lp/tools/document-demo.js?v={{V}}" defer></script>
+</body>
+</html>

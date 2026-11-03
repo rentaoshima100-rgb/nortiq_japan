@@ -256,6 +256,9 @@
     "api/nq-train.js": {
       "maxDuration": 60,
       "includeFiles": "api/_data/**"
+    },
+    "api/ocr-demo.js": {
+      "maxDuration": 30
     }
   },
   "crons": [
