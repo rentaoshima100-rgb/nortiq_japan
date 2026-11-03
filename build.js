@@ -121,6 +121,7 @@ const ORG_SAME_AS = [
 // desc → meta description / og:description / BlogPosting.description に使う。
 //        未指定の記事は app.jsx の SEO_DESC か自動生成の定型文にフォールバックする
 const BLOG = [
+  { slug: 'website-production-payment-terms', category: 'Web制作', date: '2026.11.03', read: '9 min', title: 'ホームページ制作費の支払条件｜着手金と支払期日の決め方', img: 'assets/blog-default.png', desc: 'ホームページ制作費の支払条件を、着手金の割合ではなく支払期日から決める手順をまとめました。取適法で定まる60日の上限と起点の数え方、手形や振込手数料の制限、補助金を使う場合の支払方法と交付決定の時期まで解説します。', supervised: true },
   { slug: 'customer-testimonial-consent-guide', category: 'Web制作', date: '2026.11.03', read: '8 min', title: 'お客様の声の掲載、同意の取り方と出す範囲', img: 'assets/blog-default.png', desc: 'お客様の声を自社サイトに掲載するとき、誰からどう同意を取り、どう記録に残すかを手順で整理します。社名や顔写真をどこまで出すかの4段階、謝礼を渡した場合の表示、星評価の扱いまで公的資料をもとに説明します。', supervised: true },
   { slug: 'website-handover-self-update', category: 'Web制作', date: '2026.11.02', read: '8 min', title: 'ホームページ外注、自社更新の引き渡し範囲', img: 'assets/blog-default.png', desc: 'ホームページを外注して公開後に自社で更新するために、何を引き渡してもらうかをまとめます。管理画面のアカウント、操作マニュアル、使い方の説明、更新範囲の取り決めと、見積もりへの入れ方を解説します。', supervised: true },
   { slug: 'website-renewal-phased-launch', category: 'Web制作', date: '2026.11.02', read: '10 min', title: 'リニューアルの分割公開と一括公開の判断基準', img: 'assets/blog-default.png', desc: 'ホームページリニューアルを一度に公開するか分割して公開するかの判断基準をまとめます。規模による推奨の違い、最初に出す区分の選び方、区分の間に空ける期間を公式資料に基づいて説明します。', supervised: true },

@@ -33,6 +33,7 @@ const ARTICLE_ROUTES = (() => {
 })();
 
 const ROUTES_ALLOWLIST = [
+  '/article-website-production-payment-terms',
   '/article-customer-testimonial-consent-guide',
   '/article-website-handover-self-update',
   '/article-website-renewal-phased-launch',
