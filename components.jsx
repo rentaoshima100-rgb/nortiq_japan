@@ -68,6 +68,7 @@ const NAV_MEGA = [
         { id: 'lp-kanri-dantai', label: '監理団体・登録支援機関向け', href: '/service/kanri-dantai' },
         { id: 'lp-recruit-site', label: '建設・運送・介護の採用サイト', href: '/service/recruit-site' },
         { id: 'lp-security', label: '脆弱性診断・セキュリティ保守', href: '/security' },
+        { id: 'lp-automation', label: 'ひと業務AI（1業務自動化サブスク）', href: '/automation' },
       ]},
     ],
   },
@@ -463,6 +464,12 @@ const INDUSTRY_LPS = [
     title: <>攻撃者より先に、<span className="text-accent">毎日見つけて、直す。</span><br/>中小企業のWebサイト・ECのセキュリティ保守</>,
     desc: () => '定番の診断ツール×オープンモデル×人の確認で毎日点検し、見つけた弱点は修正・再診断まで月額で。無料のセキュリティ外形チェックから始められます。',
   },
+  // lp/automation は月額のみ。金額は NORTIQ_PRICING.automation から組む (描画時に参照)。
+  {
+    key: 'automation', href: '/automation', tag: 'NEW / 初期費用0円・動いてから課金', eyebrow: 'SERVICE LP / ひと業務AI（1業務自動化サブスク）',
+    title: <>1つの業務だけ、<span className="text-accent">AIに任せる。</span><br/>問い合わせ返信・見積書・サイト更新・Googleマップ運用から1つ</>,
+    desc: () => { const A = NORTIQ_PRICING.automation; return `AIが下書きし、人が承認する運用を${priceMonthlyRange(A.monthlyMin, A.monthlyMax)}${priceTax()}で。構築中は0円、稼働を確認してから翌月1日に課金。最低${A.minMonths}ヶ月、以降は月単位。30秒の業務診断つき。`; },
+  },
 ];
 function IndustryLpBanner({ only }) {
   const items = only ? INDUSTRY_LPS.filter((x) => x.key === only) : INDUSTRY_LPS;
@@ -470,7 +477,7 @@ function IndustryLpBanner({ only }) {
   return (
     <section className="section-pad-sm">
       <div className="container">
-        <div className={'industry-lp-grid' + (items.length === 1 ? ' industry-lp-grid-1' : '')}>
+        <div className={'industry-lp-grid' + (items.length === 1 ? ' industry-lp-grid-1' : items.length === 4 ? ' industry-lp-grid-4' : '')}>
           {items.map((x) => (
             <a key={x.key} className="promo-card fadein industry-lp-banner" href={x.href} style={{ minHeight: 0, textDecoration: 'none' }}>
               <div className="promo-tag">{x.tag}</div>
@@ -695,6 +702,7 @@ function Footer({ onNavigate, onContact }) {
             <h3 style={{ marginTop: 24 }}>特設ページ</h3>
             <ul>
               <li><a href="/security">脆弱性診断・セキュリティ保守</a></li>
+              <li><a href="/automation">ひと業務AI（1業務自動化サブスク）</a></li>
             </ul>
             <h3 style={{ marginTop: 24 }}>会社</h3>
             <ul>

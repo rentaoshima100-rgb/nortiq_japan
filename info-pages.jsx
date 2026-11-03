@@ -301,6 +301,9 @@ function SupportPage({ onNavigate, onContact }) {
 
       <ExtraContent blocks={SUPPORT_CONTENT} onNavigate={onNavigate}/>
 
+      {/* 保守パッケージの下に置く最安ライン: ひと業務AI (/automation) への導線 */}
+      <IndustryLpBanner only="automation"/>
+
       <CTAStrip onContact={onContact} onNavigate={onNavigate}/>
     </main>
   );
@@ -372,6 +375,26 @@ function PricingLpRows() {
   );
 }
 
+// ひと業務AI (lp/automation の静的LP) の料金の行。月額のみ・初期費用0円。金額は NORTIQ_PRICING.automation から出す。
+function PricingAutomationRow() {
+  const A = NORTIQ_PRICING.automation;
+  return (
+    <div style={{ background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: 'var(--radius-lg)', overflow: 'hidden' }}>
+      <a href={A.href} style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: '12px 24px', padding: '24px 28px', textDecoration: 'none', color: 'inherit' }}>
+        <div style={{ flex: '1 1 320px', minWidth: 0 }}>
+          <div style={{ fontSize: 16, fontWeight: 500, color: 'var(--text)' }}>{A.label}</div>
+          <div className="small" style={{ marginTop: 6 }}>{A.menus.map((m, j) => <React.Fragment key={m.key}>{j > 0 && ' / '}<span className="nw">{m.name + ' 月' + m.monthly + '万円'}</span></React.Fragment>)}</div>
+          <div className="small" style={{ marginTop: 6 }}>初期費用0円。構築中は0円で、稼働を確認してから翌月1日に課金。最低{A.minMonths}ヶ月、以降は月単位。</div>
+        </div>
+        <div className="num" style={{ fontSize: 22, fontWeight: 700, color: 'var(--text)', letterSpacing: '-0.01em' }}>
+          {priceMonthlyRange(A.monthlyMin, A.monthlyMax)}<span style={{ fontSize: 12, fontWeight: 500, color: 'var(--text-3)', fontFamily: 'var(--font-jp)', marginLeft: 2 }}>{priceTax()}</span>
+        </div>
+        <span className="btn btn-text">専用ページを見る<Icon name="arrow-right" size={13}/></span>
+      </a>
+    </div>
+  );
+}
+
 function PricingPage({ onNavigate, onContact }) {
   // 金額・期間・プランの中身は content-data.jsx の NORTIQ_PRICING が唯一の出典。
   // 以前はここに各サービスページの短縮版を手書きしていて、項目が欠けていた (Light にお問い合わせフォームが
@@ -383,6 +406,7 @@ function PricingPage({ onNavigate, onContact }) {
     { key: 'chatbot', title: P.chatbot.label, to: P.chatbot.route, link: '機能詳細を見る', body: <PricingTable rows={pricePlanRows('chatbot')} note={<ChatbotMonthlyNote/>}/> },
     { key: 'dx', title: P.dx.label, to: P.dx.route, link: '機能詳細を見る', body: <PricingTable rows={pricePlanRows('dx')}/> },
     { key: 'maintenance', title: P.maintenance.label, to: P.maintenance.route, link: 'サポート内容を見る', body: <MaintenancePricing/> },
+    { key: 'automation', title: P.automation.label, body: <PricingAutomationRow/> },
     { key: 'lps', title: '業種特化のサイト制作', body: <PricingLpRows/> },
   ];
   return (
@@ -963,6 +987,7 @@ function SitemapPage({ onNavigate, onContact }) {
               { id: 'lp-kanri-dantai', label: '監理団体・登録支援機関向け', href: '/service/kanri-dantai' },
               { id: 'lp-recruit-site', label: '建設・運送・介護の採用サイト', href: '/service/recruit-site' },
               { id: 'lp-security', label: '脆弱性診断・セキュリティ保守', href: '/security' },
+              { id: 'lp-automation', label: 'ひと業務AI（1業務自動化サブスク）', href: '/automation' },
               { id: 'lp-shindan-battery', label: '蓄電池の見積もり診断（ご家庭向け）', href: '/shindan/battery' },
               { id: 'lp-partner-energy', label: '蓄電池・太陽光 紹介パートナー募集', href: '/partner/energy' },
             ]}/>

@@ -567,6 +567,18 @@
       "default_next": null
     },
     {
+      "url": "/automation",
+      "type": "service",
+      "title": "ひと業務AI（1業務自動化サブスク）",
+      "industry": [],
+      "need": ["業務システム・DX", "AI導入・チャットボット"],
+      "audience": "従業員1〜30名でWeb・IT担当がいない会社で、問い合わせ返信・見積書・サイト更新・Googleマップ運用のどれか1つをAIに月額で任せたい人向け",
+      "summary": "1つの業務だけAIに任せる月額1.2〜3万円（税別）のサブスク。初期費用0円、構築中は0円、稼働確認後に課金。",
+      "suggestable": false,
+      "block_id": null,
+      "default_next": null
+    },
+    {
       "url": "/sitemap",
       "type": "other",
       "title": "サイトマップ",

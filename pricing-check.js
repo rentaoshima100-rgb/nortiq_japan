@@ -271,6 +271,14 @@ function buildSets(P, H) {
   routes.set('/' + P.maintenance.route, new TokenSet().merge(maint).merge(consult));
   const pricing = new TokenSet().merge(web).merge(chatbot).merge(dx).merge(maint).merge(consult);
   for (const k of Object.keys(P.lps)) for (const p of P.lps[k].plans) pricing.add(H.priceFrom(p.min));
+  // ひと業務AI (/automation): 月額のレンジ、メニューごとの固定月額 (「月2万円」)、最低契約期間。/pricing にも行がある
+  if (P.automation) {
+    const A = P.automation;
+    const a = new TokenSet().add(H.priceMonthlyRange(A.monthlyMin, A.monthlyMax)).add(A.minMonths + 'ヶ月').merge(consult);
+    for (const m of A.menus) { a.add('月' + m.monthly + '万円'); a.add('月額' + m.monthly + '万円'); if (m.weeks) a.add(H.pricePeriod(m)); }
+    routes.set(A.href, a);
+    pricing.merge(a);
+  }
   routes.set('/pricing', pricing);
   for (const k of Object.keys(P.solutions)) {
     const sol = P.solutions[k];

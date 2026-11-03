@@ -116,6 +116,18 @@ const NORTIQ_PRICING = {
     retail: { route: 'solution-retail', init: [200, 800], monthly: [10, 40], months: [2, 3], orMore: true },
   },
 
+  // ひと業務AI (1業務自動化サブスク、静的LP lp/automation → /automation)。初期費用0円・月額のみ・最低3ヶ月。
+  // 一括の plans が無く lps とは形が違うので別キー。menus の monthly は「〜」の付かない固定額 (LPの表記は「月2万円」)。
+  automation: {
+    label: 'ひと業務AI（1業務自動化サブスク）', href: '/automation', monthlyMin: 1.2, monthlyMax: 3, minMonths: 3,
+    menus: [
+      { key: 'inquiry', name: '問い合わせ一次対応', monthly: 2, weeks: [2, 3] },
+      { key: 'quote', name: '見積書・請求書の自動作成', monthly: 3, weeks: [3, 4] },
+      { key: 'site', name: 'LINEでサイト更新', monthly: 2, weeks: [2, 3] },
+      { key: 'gbp', name: 'Googleビジネスプロフィール運用 ライト', monthly: 1.2, weeks: [1, 2] },
+    ],
+  },
+
   // 静的LP2本の料金表の写し。ops の月額は「〜」の付かない固定額 (LPの表記は「月2万円」)。
   lps: {
     kanri: {
