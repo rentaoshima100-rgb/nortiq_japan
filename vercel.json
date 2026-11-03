@@ -259,6 +259,9 @@
     },
     "api/ocr-demo.js": {
       "maxDuration": 30
+    },
+    "api/tool-rating.js": {
+      "maxDuration": 10
     }
   },
   "crons": [

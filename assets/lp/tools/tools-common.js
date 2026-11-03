@@ -116,6 +116,11 @@
       '<a class="btn btn--outline btn--sm" href="/#request">フォームで質問する</a><span style="font-size:13px;color:var(--text-3)">メールなら info@nortiqlab.com</span></div>' +
       '<p class="fine">売り込みはしません。</p></div>';
 
+    // 評価（結果画面ごとに1つ。CTA の上）
+    var ratingEl = document.createElement('div');
+    container.insertBefore(ratingEl, container.firstChild);
+    renderRating(ratingEl, { stage: 'result' });
+
     var memo = opts.memo || '';
     var copyBtn = container.querySelector('[data-act="copy"]');
     var copyBox = container.querySelector('[data-f="copybox"]');
@@ -156,5 +161,65 @@
     });
   }
 
-  window.NTOOLS = { track: track, send: send, validEmail: validEmail, copyText: copyText, download: download, fmt: fmt, today: today, $: $, el: el, esc: esc, renderCtas: renderCtas, LINE_URL: '' };
+  // ---------- 評価ウィジェット（結果画面ごとに1つ。/api/tool-rating へ sendBeacon） ----------
+  var TOOL_SLUG = (location.pathname.match(/^\/tools\/([a-z0-9-]+)/) || [])[1] || '';
+  function sessionId() {
+    try {
+      var k = 'nq_tools_sid'; var v = sessionStorage.getItem(k);
+      if (!v) { v = 't_' + Math.random().toString(36).slice(2, 12) + Date.now().toString(36); sessionStorage.setItem(k, v); }
+      return v;
+    } catch (_) { return null; }
+  }
+  function postRating(payload) {
+    var body = JSON.stringify(Object.assign({ tool: TOOL_SLUG, page_url: location.pathname, session_id: sessionId(), stage: 'result' }, payload));
+    try {
+      if (navigator.sendBeacon && navigator.sendBeacon('/api/tool-rating', new Blob([body], { type: 'text/plain' }))) return Promise.resolve();
+    } catch (_) {}
+    return fetch('/api/tool-rating', { method: 'POST', headers: { 'Content-Type': 'text/plain' }, body: body, keepalive: true }).catch(function () {});
+  }
+  // container に評価UIを描く。opts.stage は 'result' | 'after_submit'
+  function renderRating(container, opts) {
+    opts = opts || {};
+    var sent = false, score = 0, useful = null;
+    container.className = (container.className || '') + ' rating';
+    container.innerHTML =
+      '<div class="rating__h"><b>この結果は役に立ちましたか？</b><span>無記名・1クリック。ツールの改善にだけ使います。</span></div>' +
+      '<div class="rating__row"><div class="rating__useful" role="group" aria-label="役に立ったか">' +
+      '<button type="button" class="opt" data-u="1" aria-pressed="false"><span class="t">役に立った</span></button>' +
+      '<button type="button" class="opt" data-u="0" aria-pressed="false"><span class="t">物足りない</span></button></div>' +
+      '<div class="rating__stars" role="radiogroup" aria-label="5段階の評価">' +
+      [1, 2, 3, 4, 5].map(function (i) { return '<button type="button" class="star" role="radio" aria-checked="false" data-s="' + i + '" aria-label="' + i + '点">★</button>'; }).join('') + '</div></div>' +
+      '<div class="rating__more" hidden><textarea rows="2" maxlength="200" placeholder="足りなかったこと・欲しい機能があれば（任意・200字まで）。連絡先は書かないでください"></textarea><button type="button" class="btn btn--sm" style="border-color:var(--text)">送る</button></div>' +
+      '<div class="msg rating__done" hidden>ありがとうございます。次の改修に反映します。</div>';
+    var stars = container.querySelectorAll('.star'), more = container.querySelector('.rating__more'), done = container.querySelector('.rating__done');
+    function paint() { stars.forEach(function (s) { var i = Number(s.dataset.s); s.classList.toggle('on', i <= score); s.setAttribute('aria-checked', i === score ? 'true' : 'false'); }); }
+    function submit(extra) {
+      if (!score && useful === null) return;
+      var payload = { score: score || (useful ? 4 : 2), useful: useful, stage: opts.stage || 'result' };
+      if (extra && extra.comment) payload.comment = extra.comment;
+      postRating(payload);
+      track('tool_rating', { kind: TOOL_SLUG, score: payload.score, useful: useful });
+      sent = true;
+    }
+    container.querySelectorAll('.rating__useful .opt').forEach(function (b) {
+      b.addEventListener('click', function () {
+        useful = b.dataset.u === '1';
+        container.querySelectorAll('.rating__useful .opt').forEach(function (x) { x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); });
+        submit(); more.hidden = false; done.hidden = false;
+      });
+    });
+    stars.forEach(function (s) {
+      s.addEventListener('mouseenter', function () { var h = Number(s.dataset.s); stars.forEach(function (x) { x.classList.toggle('hover', Number(x.dataset.s) <= h); }); });
+      s.addEventListener('mouseleave', function () { stars.forEach(function (x) { x.classList.remove('hover'); }); });
+      s.addEventListener('click', function () { score = Number(s.dataset.s); paint(); submit(); more.hidden = false; done.hidden = false; });
+    });
+    more.querySelector('button').addEventListener('click', function () {
+      var c = more.querySelector('textarea').value.trim();
+      if (!c) return;
+      submit({ comment: c }); more.hidden = true; done.textContent = 'ありがとうございます。コメントも受け取りました。';
+    });
+    return { sent: function () { return sent; } };
+  }
+
+  window.NTOOLS = { track: track, send: send, validEmail: validEmail, copyText: copyText, download: download, fmt: fmt, today: today, $: $, el: el, esc: esc, renderCtas: renderCtas, renderRating: renderRating, LINE_URL: '' };
 })();

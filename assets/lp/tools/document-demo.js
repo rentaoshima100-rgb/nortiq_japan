@@ -92,8 +92,8 @@
     el.innerHTML =
       '<div class="res-title"><h2>読み取り結果</h2><p class="sub">' + (isSample ? 'サンプル' : '自社の帳票') + '・' + d + '</p></div>' +
       '<div class="res-stats"><div class="res-stat"><div class="big txt">' + T.esc(res.kind) + '</div><div class="lab">書類の種類</div></div>' +
-      '<div class="res-stat"><div class="big">' + res.rows.length + '<small>行</small></div><div class="lab">抽出した明細</div></div>' +
-      '<div class="res-stat"><div class="big">' + res.needsCheck + '<small>件</small></div><div class="lab">要確認（自信のない項目）</div></div></div>' +
+      '<div class="res-stat"><div class="big">' + fmt(res.rows.length) + '<small>行</small></div><div class="lab">抽出した明細</div></div>' +
+      '<div class="res-stat"><div class="big">' + fmt(Number(res.needsCheck) || 0) + '<small>件</small></div><div class="lab">要確認（自信のない項目）</div></div></div>' +
       '<div class="sheet"><div class="sheet-head"><span class="k">Extracted</span><span class="d">' + d + '</span></div>' +
       '<div class="conds">相手先：<b>' + T.esc(res.party || '—') + '</b>　日付：<b>' + T.esc(res.date || '—') + '</b>　合計：<b>' + (res.total !== '' && res.total != null ? '¥' + fmt(res.total) : '—') + '</b></div>' +
       '<div class="preview" style="padding:14px clamp(18px,4vw,26px) 0"><div><img src="' + img + '" alt="読み取り元の画像" loading="lazy"></div><div class="tbl"><table><tr><th>品名</th><th>数量</th><th>単価</th><th>金額</th><th>確認</th></tr>' +
