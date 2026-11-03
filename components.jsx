@@ -68,6 +68,7 @@ const NAV_MEGA = [
         { id: 'lp-kanri-dantai', label: '監理団体・登録支援機関向け', href: '/service/kanri-dantai' },
         { id: 'lp-recruit-site', label: '建設・運送・介護の採用サイト', href: '/service/recruit-site' },
         { id: 'lp-security', label: '脆弱性診断・セキュリティ保守', href: '/security' },
+        { id: 'lp-automation', label: 'ひと業務AI（1業務自動化サブスク）', href: '/automation' },
       ]},
     ],
   },
@@ -695,6 +696,7 @@ function Footer({ onNavigate, onContact }) {
             <h3 style={{ marginTop: 24 }}>特設ページ</h3>
             <ul>
               <li><a href="/security">脆弱性診断・セキュリティ保守</a></li>
+              <li><a href="/automation">ひと業務AI（1業務自動化サブスク）</a></li>
             </ul>
             <h3 style={{ marginTop: 24 }}>会社</h3>
             <ul>

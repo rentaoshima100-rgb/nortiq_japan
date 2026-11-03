@@ -963,6 +963,7 @@ function SitemapPage({ onNavigate, onContact }) {
               { id: 'lp-kanri-dantai', label: '監理団体・登録支援機関向け', href: '/service/kanri-dantai' },
               { id: 'lp-recruit-site', label: '建設・運送・介護の採用サイト', href: '/service/recruit-site' },
               { id: 'lp-security', label: '脆弱性診断・セキュリティ保守', href: '/security' },
+              { id: 'lp-automation', label: 'ひと業務AI（1業務自動化サブスク）', href: '/automation' },
               { id: 'lp-shindan-battery', label: '蓄電池の見積もり診断（ご家庭向け）', href: '/shindan/battery' },
               { id: 'lp-partner-energy', label: '蓄電池・太陽光 紹介パートナー募集', href: '/partner/energy' },
             ]}/>
