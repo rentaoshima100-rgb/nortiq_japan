@@ -2762,9 +2762,17 @@ picture { display: contents; }
 }
 
 /* ================= Responsive ================== */
-@media (max-width: 1180px) {
+@media (max-width: 1366px) {
   .nav-phone { display: none !important; }
-  .nav-link { padding: 10px 8px; font-size: 12px; }
+  .nav-link { padding: 10px 7px; font-size: 12px; }
+  .nav-links { gap: 0; }
+}
+/* 1025〜1180px: 「トップ」はロゴで代替し、CTA を詰めて見出しが切れないようにする */
+@media (max-width: 1180px) {
+  .nav-links .nav-link-wrap:first-child { display: none; }
+  .nav-link { padding: 10px 6px; }
+  .nav-cta-wrap .btn { padding: 8px 12px; font-size: 12px; }
+  .nav-cta-wrap .btn svg { display: none; }
 }
 @media (max-width: 1024px) {
   .nav-links { display: none !important; }

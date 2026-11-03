@@ -4,8 +4,8 @@
 //   node scripts/tools-e2e.js
 //
 // dist/ をローカル HTTP で配信し、/api/contact・/api/ocr-demo・/api/tool-rating はダミー応答にして、
-// 1280px と 390px で各ツールの結果画面まで操作する。確かめること:
-//   - コンソールエラー 0、ページエラー 0、横スクロール無し
+// 1280 / 1100 / 768 / 390px で各ツールの結果画面まで操作する。確かめること:
+//   - コンソールエラー 0、ページエラー 0、横スクロール無し、画面幅をはみ出す要素が無い（本体トップのヘッダーも）
 //   - 結果画面に評価ウィジェット（.rating）があり、★を押すと /api/tool-rating に届く
 //   - 相談フォームを送ると「受け付け」の表示が出る
 // 新しいツールを足したら FLOWS に「結果画面までの操作」を1つ足す（無いツールは不備にする）。
@@ -45,22 +45,35 @@ const srv = http.createServer((req, res) => {
 (async () => {
   const slugs = fs.readdirSync(path.join(ROOT, 'lp', 'tools'), { withFileTypes: true }).filter((e) => e.isDirectory()).map((e) => e.name);
   const browser = await chromium.launch(); const problems = []; const lines = [];
-  for (const vp of [{ w: 1280, h: 900 }, { w: 390, h: 844 }]) {
+  for (const vp of [{ w: 1280, h: 900 }, { w: 1100, h: 800 }, { w: 768, h: 1024 }, { w: 390, h: 844 }]) {
     const ctx = await browser.newContext({ viewport: { width: vp.w, height: vp.h } });
     const page = await ctx.newPage(); const base = `http://localhost:${PORT}`;
     let errs = [];
     page.on('console', (m) => { if (m.type() === 'error') errs.push(m.text().slice(0, 160)); });
     page.on('pageerror', (e) => errs.push('PAGEERR ' + e.message.slice(0, 160)));
     const ratingHits = []; page.on('request', (r) => { if (r.url().endsWith('/api/tool-rating')) ratingHits.push(r.url()); });
-    const over = async () => page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth);
-    await page.goto(base + '/tools'); if (await over()) problems.push(`[${vp.w}] /tools 横スクロール`);
+    // 横スクロール（ページ全体）と、画面幅をはみ出す要素（overflow:auto の中は除く）
+    const over = async () => page.evaluate(() => {
+      const cw = document.documentElement.clientWidth; const out = [];
+      if (document.documentElement.scrollWidth > cw) out.push('ページ横スクロール');
+      document.querySelectorAll('body *').forEach((el) => {
+        const r = el.getBoundingClientRect(); if (r.width <= 0 || r.right <= cw + 1) return;
+        const cs = getComputedStyle(el); if (cs.visibility === 'hidden' || cs.position === 'fixed') return;
+        for (let a = el.parentElement; a && a !== document.body; a = a.parentElement) { const o = getComputedStyle(a).overflowX; if (o === 'auto' || o === 'scroll' || o === 'hidden') return; }
+        out.push(el.tagName.toLowerCase() + (el.id ? '#' + el.id : '') + (typeof el.className === 'string' && el.className ? '.' + el.className.trim().split(/\s+/)[0] : '') + ' right=' + Math.round(r.right));
+      });
+      return out.slice(0, 5).join(' / ');
+    });
+    const ov0 = await (async () => { await page.goto(base + '/tools'); return over(); })(); if (ov0) problems.push(`[${vp.w}] /tools はみ出し: ${ov0}`);
+    // 本体トップのヘッダー（ナビ項目が増えて CTA が切れていないか）
+    if (vp.w >= 1025) { await page.goto(base + '/'); await page.waitForTimeout(400); const ov = await over(); if (ov) problems.push(`[${vp.w}] / (トップ) はみ出し: ${ov}`); }
     for (const slug of slugs) {
       errs = [];
       if (!FLOWS[slug]) { problems.push(`scripts/tools-e2e.js: FLOWS に '${slug}' が無い（結果画面までの操作を足す）`); continue; }
       await page.goto(base + '/tools/' + slug); await FLOWS[slug](page);
       try { await page.waitForSelector('#result:not([hidden]) .res-stat', { timeout: 8000 }); } catch { problems.push(`[${vp.w}] /tools/${slug}: 結果画面が出ない`); continue; }
       const big = ((await page.textContent('#result .res-stat .big')) || '').trim().replace(/\s+/g, ' ');
-      if (await over()) problems.push(`[${vp.w}] /tools/${slug}: 横スクロール`);
+      { const ov = await over(); if (ov) problems.push(`[${vp.w}] /tools/${slug}: はみ出し: ${ov}`); }
       // 評価
       const before = ratingHits.length;
       const star = await page.$('#result .rating .star[data-s="5"]');
@@ -82,6 +95,6 @@ const srv = http.createServer((req, res) => {
   await browser.close(); srv.close();
   for (const l of lines) console.log('  ' + l);
   for (const p of problems) console.log('  ✗ ' + p);
-  console.log(`tools-e2e: ${slugs.length} tools × 2 widths → 不備 ${problems.length} 件`);
+  console.log(`tools-e2e: ${slugs.length} tools × 4 widths → 不備 ${problems.length} 件`);
   process.exit(problems.length ? 1 : 0);
 })().catch((e) => { console.error('tools-e2e FAIL', e); srv.close(); process.exit(1); });

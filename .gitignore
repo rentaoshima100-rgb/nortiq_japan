@@ -27,3 +27,4 @@ Thumbs.db
 
 # Review tooling output (screenshots)
 outputs/review-shots/
+.tools-shots/

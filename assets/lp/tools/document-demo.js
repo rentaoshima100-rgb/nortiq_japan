@@ -89,15 +89,25 @@
   function render(img, res, isSample) {
     var el = $('#result'); el.hidden = false;
     var d = T.today();
+    // 単価・金額が全行空なら、その列は出さない（スマホで表が切れないように）
+    var hasPrice = res.rows.some(function (r) { return r.price !== '' && r.price != null; });
+    var hasAmount = res.rows.some(function (r) { return r.amount !== '' && r.amount != null; });
+    var cols = [{ h: '品名', td: function (r) { return '<td>' + T.esc(r.name) + '</td>'; } },
+      { h: '数量', td: function (r) { return '<td>' + (r.qty === '' ? '—' : fmt(r.qty)) + (r.unit ? ' ' + T.esc(r.unit) : '') + '</td>'; } }];
+    if (hasPrice) cols.push({ h: '単価', td: function (r) { return '<td>' + (r.price === '' ? '—' : fmt(r.price)) + '</td>'; } });
+    if (hasAmount) cols.push({ h: '金額', td: function (r) { return '<td>' + (r.amount === '' ? '—' : fmt(r.amount)) + '</td>'; } });
+    cols.push({ h: '確認', td: function (r) { return '<td class="' + (r.confidence === 'low' ? 'warn' : '') + '">' + (r.confidence === 'low' ? '要確認' : r.confidence === 'mid' ? '△' : '○') + '</td>'; } });
+    var rowHtml = function (r) { return '<tr>' + cols.map(function (c) { return c.td(r); }).join('') + '</tr>'; }; // 各 td は T.esc(...) / fmt(...) 済み
+    var tableRows = res.rows.map(rowHtml).join('');
     el.innerHTML =
       '<div class="res-title"><h2>読み取り結果</h2><p class="sub">' + (isSample ? 'サンプル' : '自社の帳票') + '・' + d + '</p></div>' +
       '<div class="res-stats"><div class="res-stat"><div class="big txt">' + T.esc(res.kind) + '</div><div class="lab">書類の種類</div></div>' +
       '<div class="res-stat"><div class="big">' + fmt(res.rows.length) + '<small>行</small></div><div class="lab">抽出した明細</div></div>' +
       '<div class="res-stat"><div class="big">' + fmt(Number(res.needsCheck) || 0) + '<small>件</small></div><div class="lab">要確認（自信のない項目）</div></div></div>' +
       '<div class="sheet"><div class="sheet-head"><span class="k">Extracted</span><span class="d">' + d + '</span></div>' +
-      '<div class="conds">相手先：<b>' + T.esc(res.party || '—') + '</b>　日付：<b>' + T.esc(res.date || '—') + '</b>　合計：<b>' + (res.total !== '' && res.total != null ? '¥' + fmt(res.total) : '—') + '</b></div>' +
-      '<div class="preview" style="padding:14px clamp(18px,4vw,26px) 0"><div><img src="' + img + '" alt="読み取り元の画像" loading="lazy"></div><div class="tbl"><table><tr><th>品名</th><th>数量</th><th>単価</th><th>金額</th><th>確認</th></tr>' +
-      res.rows.map(function (r) { return '<tr><td>' + T.esc(r.name) + '</td><td>' + (r.qty === '' ? '—' : fmt(r.qty)) + (r.unit ? ' ' + T.esc(r.unit) : '') + '</td><td>' + (r.price === '' ? '—' : fmt(r.price)) + '</td><td>' + (r.amount === '' ? '—' : fmt(r.amount)) + '</td><td class="' + (r.confidence === 'low' ? 'warn' : '') + '">' + (r.confidence === 'low' ? '要確認' : r.confidence === 'mid' ? '△' : '○') + '</td></tr>'; }).join('') + '</table></div></div>' +
+      '<div class="conds"><span class="ci">相手先：<b>' + T.esc(res.party || '—') + '</b></span><span class="ci">日付：<b>' + T.esc(res.date || '—') + '</b></span><span class="ci">合計：<b>' + (res.total !== '' && res.total != null ? '¥' + fmt(res.total) : '—') + '</b></span></div>' +
+      '<div class="preview" style="padding:14px clamp(18px,4vw,26px) 0"><div><img src="' + img + '" alt="読み取り元の画像" loading="lazy"></div><div class="tbl' + (cols.length > 3 ? ' tbl--wide' : '') + '"><table><tr>' + cols.map(function (c) { return '<th>' + c.h + '</th>'; }).join('') + '</tr>' +
+      tableRows + '</table>' + (cols.length > 3 ? '<div class="tbl-hint">横にスクロールできます →</div>' : '') + '</div></div>' +
       '<div class="min" style="margin-top:14px"><b>AIのメモ</b>' + T.esc(res.memo || '') + '</div>' +
       '<div style="padding:14px clamp(18px,4vw,26px) 18px;display:flex;gap:8px;flex-wrap:wrap"><button type="button" class="btn btn--outline btn--sm" id="dlCsv">CSVでダウンロード</button><button type="button" class="btn btn--sm" style="border-color:var(--text)" id="copyCsv">CSVをコピー</button></div></div>' +
       '<div class="note-red" style="border:1px solid var(--accent);border-radius:var(--radius-card);margin-top:12px"><b>実導入では、ここから先を自動にします</b>読み取った内容を販売管理システム・Excel・会計ソフトに入れ、人は「要確認」だけを見る。FAXはそのまま、取引先に何も頼みません。1業務10万円〜、または初期費用0円の月額。</div>' +

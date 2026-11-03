@@ -6,18 +6,18 @@
   var T = window.NTOOLS, $ = T.$;
 
   var QS = [
-    { id: 'personal', q: '社員が個人のアカウント（無料版ChatGPTなど）で業務の文章を扱っていますか？', yes: true, w: 3, fix: '会社のアカウントまたは法人プランに切り替え、個人アカウントでの業務利用を止める。' },
-    { id: 'pii', q: '顧客・取引先の個人情報（氏名・住所・電話・カルテ等）をAIに入力したことがありますか？', yes: true, w: 4, fix: '個人情報は入力禁止にするか、入力前に匿名化する。入力を自動で止める仕組み（入力チェック）を入れる。' },
-    { id: 'secret', q: '見積・原価・契約書など社外秘の資料をAIに読ませていますか？', yes: true, w: 3, fix: '社外秘は「学習に使われない設定」のサービスだけに限定し、対象を文書で決める。' },
-    { id: 'rule', q: 'AI利用のルール（何を入れてよいか・いけないか）が文書で決まっていますか？', yes: false, w: 3, fix: '下の雛形を元に、A4・2枚のルールを作って全員に配る。' },
-    { id: 'who', q: '誰がどのAIサービスを使っているか、会社として把握していますか？', yes: false, w: 2, fix: '利用しているサービスと担当者の一覧を作る（5分で済みます）。' },
-    { id: 'check', q: 'AIの出力（文章・数字・コード）を、人が確認してから使う決まりがありますか？', yes: false, w: 2, fix: '「AIが下書き、人が承認」を原則にする。対外文書は必ず人が確認。' },
-    { id: 'train', q: '使っているAIサービスが「入力内容を学習に使わない設定」になっているか確認しましたか？', yes: false, w: 2, fix: '各サービスの設定・規約を確認し、オプトアウトできるものは切る。' },
-    { id: 'share', q: 'AIの会話ログやアカウントを複数人で共有していますか？', yes: true, w: 2, fix: 'アカウントは1人1つ。共有はやめ、退職時に停止する手順を決める。' },
-    { id: 'edu', q: '社員向けにAIの使い方・注意点の説明を1回でも行いましたか？', yes: false, w: 1, fix: '30分の説明会を1回。ルールと「迷ったら聞く先」を伝える。' },
-    { id: 'incident', q: 'AIに入れてはいけない情報を入れてしまった時の報告先・手順が決まっていますか？', yes: false, w: 2, fix: '報告先（担当者）と初動（該当会話の削除・影響範囲の確認）を1枚にまとめる。' },
-    { id: 'external', q: 'AIが作った文章を、確認せずにそのまま顧客に送ったことがありますか？', yes: true, w: 2, fix: '対外文書は送信前に人が読む。定型の一次返信は、テンプレートを決めてから自動化する。' },
-    { id: 'vendor', q: '取引先・顧客との契約に「情報を第三者（AI含む）に渡さない」条項が含まれていますか？', yes: true, w: 2, fix: '契約上の制約がある情報は入力対象から外す。必要なら取引先に利用方針を説明する。' }];
+    { id: 'personal', t: '個人アカウントで業務の文章を扱っている', q: '社員が個人のアカウント（無料版ChatGPTなど）で業務の文章を扱っていますか？', yes: true, w: 3, fix: '会社のアカウントまたは法人プランに切り替え、個人アカウントでの業務利用を止める。' },
+    { id: 'pii', t: '顧客・取引先の個人情報をAIに入力している', q: '顧客・取引先の個人情報（氏名・住所・電話・カルテ等）をAIに入力したことがありますか？', yes: true, w: 4, fix: '個人情報は入力禁止にするか、入力前に匿名化する。入力を自動で止める仕組み（入力チェック）を入れる。' },
+    { id: 'secret', t: '社外秘の資料をAIに読ませている', q: '見積・原価・契約書など社外秘の資料をAIに読ませていますか？', yes: true, w: 3, fix: '社外秘は「学習に使われない設定」のサービスだけに限定し、対象を文書で決める。' },
+    { id: 'rule', t: 'AI利用のルールが文書で決まっていない', q: 'AI利用のルール（何を入れてよいか・いけないか）が文書で決まっていますか？', yes: false, w: 3, fix: '下の雛形を元に、A4・2枚のルールを作って全員に配る。' },
+    { id: 'who', t: '誰が何のAIを使っているか把握できていない', q: '誰がどのAIサービスを使っているか、会社として把握していますか？', yes: false, w: 2, fix: '利用しているサービスと担当者の一覧を作る（5分で済みます）。' },
+    { id: 'check', t: 'AIの出力を人が確認する決まりがない', q: 'AIの出力（文章・数字・コード）を、人が確認してから使う決まりがありますか？', yes: false, w: 2, fix: '「AIが下書き、人が承認」を原則にする。対外文書は必ず人が確認。' },
+    { id: 'train', t: '「学習に使わない設定」を確認していない', q: '使っているAIサービスが「入力内容を学習に使わない設定」になっているか確認しましたか？', yes: false, w: 2, fix: '各サービスの設定・規約を確認し、オプトアウトできるものは切る。' },
+    { id: 'share', t: '会話ログやアカウントを複数人で共有している', q: 'AIの会話ログやアカウントを複数人で共有していますか？', yes: true, w: 2, fix: 'アカウントは1人1つ。共有はやめ、退職時に停止する手順を決める。' },
+    { id: 'edu', t: '社員向けの説明を行っていない', q: '社員向けにAIの使い方・注意点の説明を1回でも行いましたか？', yes: false, w: 1, fix: '30分の説明会を1回。ルールと「迷ったら聞く先」を伝える。' },
+    { id: 'incident', t: '誤入力時の報告先・手順が決まっていない', q: 'AIに入れてはいけない情報を入れてしまった時の報告先・手順が決まっていますか？', yes: false, w: 2, fix: '報告先（担当者）と初動（該当会話の削除・影響範囲の確認）を1枚にまとめる。' },
+    { id: 'external', t: 'AIの文章を確認せずに顧客へ送ったことがある', q: 'AIが作った文章を、確認せずにそのまま顧客に送ったことがありますか？', yes: true, w: 2, fix: '対外文書は送信前に人が読む。定型の一次返信は、テンプレートを決めてから自動化する。' },
+    { id: 'vendor', t: '契約に「第三者（AI）に渡さない」条項がある', q: '取引先・顧客との契約に「情報を第三者（AI含む）に渡さない」条項が含まれていますか？', yes: true, w: 2, fix: '契約上の制約がある情報は入力対象から外す。必要なら取引先に利用方針を説明する。' }];
   var IND_W = { med: 1.3, fin: 1.3, other: 1, mfg: 1, retail: 1, it: 1 };
 
   var qs = $('#qs'); var ans = {};
@@ -59,7 +59,7 @@
       '<div class="res-stat"><div class="big">' + hits.length + '<small>項目</small></div><div class="lab">対策が必要な項目</div></div>' +
       '<div class="res-stat"><div class="big">' + hits.filter(function (h) { return h.dk; }).length + '<small>項目</small></div><div class="lab">「分からない」＝把握できていない</div></div></div>' +
       '<div class="sheet"><div class="sheet-head"><span class="k">AI Risk Result</span><span class="d">' + d + '</span></div><div class="conds">' + level[2] + (ind === 'med' ? '<br><b>医療・福祉</b>は、生成AIの利用率が8割超なのにルール整備が5%未満という調査があり、要配慮個人情報を扱うため加重しています。' : ind === 'fin' ? '<br><b>金融・士業</b>は個人情報と守秘義務の両方が絡むため加重しています。' : '') + '</div>' +
-      '<div class="section-h">優先順の対策</div><div class="rows">' + (hits.length ? hits.map(function (h, i) { return '<div class="rec"><span class="m">0' + (i + 1) + '</span><div><b style="color:var(--text)">' + T.esc(h.q.q.replace(/ますか？|ましたか？|ありますか？|いますか？/g, '')) + '</b>' + (h.dk ? '<span style="font-size:11px;color:var(--accent);margin-left:6px">把握できていない</span>' : '') + '<br><span style="font-size:14px">' + T.esc(h.q.fix) + '</span></div></div>'; }).join('') : '<div class="rec"><span class="m">—</span><div>対策が必要な項目はありません。</div></div>') + '</div>' +
+      '<div class="section-h">優先順の対策</div><div class="rows">' + (hits.length ? hits.map(function (h, i) { return '<div class="rec"><span class="m">0' + (i + 1) + '</span><div><b style="color:var(--text)">' + T.esc(h.q.t) + '</b>' + (h.dk ? '<span style="font-size:11px;color:var(--accent);margin-left:6px">把握できていない</span>' : '') + '<br><span style="font-size:14px">' + T.esc(h.q.fix) + '</span></div></div>'; }).join('') : '<div class="rec"><span class="m">—</span><div>対策が必要な項目はありません。</div></div>') + '</div>' +
       '<div class="min"><b>生成AI利用ルール 雛形（A4・2枚）</b>下のテキストを社内の書式に貼って使ってください。業種固有の法令と、使っているサービスの規約に合わせて調整が必要です。</div>' +
       '<div style="padding:0 clamp(18px,4vw,26px) 18px"><div class="copybox" id="tmpl" style="max-height:320px">' + T.esc(tmpl) + '</div><div class="ctl" style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px"><button type="button" class="btn btn--outline btn--sm" id="copyTmpl">雛形をコピー</button><button type="button" class="btn btn--sm" style="border-color:var(--text)" id="dlTmpl">テキストでダウンロード</button></div></div></div>' +
       '<div class="res-title"><h2>次にできること</h2><p class="sub">どれを選んでも営業電話はしません</p></div>' +

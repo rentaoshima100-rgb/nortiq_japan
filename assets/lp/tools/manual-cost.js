@@ -22,7 +22,7 @@
     row.innerHTML = '<div><label>業務</label><input type="text" data-k="n" value="' + T.esc(p ? p.n : '') + '" placeholder="例：日報の入力" maxlength="40"></div>' +
       '<div><label>月の件数</label><input type="number" data-k="c" min="0" step="1" value="' + (p ? p.c : 50) + '" inputmode="numeric"></div>' +
       '<div><label>1件あたり（分）</label><input type="number" data-k="m" min="0" step="0.5" value="' + (p ? p.m : 5) + '" inputmode="decimal"></div>' +
-      '<button type="button" class="del" aria-label="この行を削除">✕</button>';
+      '<button type="button" class="del" aria-label="この行を削除">✕ <span class="del-t">削除</span></button>';
     row.querySelector('.del').addEventListener('click', function () { row.remove(); calc(); });
     row.querySelectorAll('input').forEach(function (i) { i.addEventListener('input', calc); });
     rowsEl.appendChild(row);
