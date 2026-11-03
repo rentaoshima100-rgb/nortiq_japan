@@ -33,6 +33,7 @@ const ARTICLE_ROUTES = (() => {
 })();
 
 const ROUTES_ALLOWLIST = [
+  '/article-non-functional-requirements-grade-levels',
   '/article-quasi-mandate-onsite-instruction-line',
   '/article-llms-txt-necessity-for-smb',
   '/article-system-development-payment-method-restrictions',

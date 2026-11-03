@@ -121,6 +121,7 @@ const ORG_SAME_AS = [
 // desc → meta description / og:description / BlogPosting.description に使う。
 //        未指定の記事は app.jsx の SEO_DESC か自動生成の定型文にフォールバックする
 const BLOG = [
+  { slug: 'non-functional-requirements-grade-levels', category: '技術', date: '2026.11.03', read: '9 min', title: '非機能要求グレードの6大項目とレベルの決め方', img: 'assets/blog-default.png', desc: 'IPAの非機能要求グレードの6大項目とレベルを、発注側がどう決めるかを整理します。業務が止まったときの影響から水準を選ぶ方法、項目の優先順位の付け方、性能を実績の件数で決める考え方、担当者の体制から運用の水準を決める方法を解説します。', supervised: true },
   { slug: 'quasi-mandate-onsite-instruction-line', category: '技術', date: '2026.11.03', read: '10 min', title: '準委任の常駐｜発注側が出せる指示の線引き', img: 'assets/blog-default.png', desc: '準委任で常駐している開発者に、発注側はどこまで指示を出せるのかを整理します。37号告示の条文と厚生労働省の疑義応答集の記述から、出せる助言と出せない指示の違い、依頼の窓口の作り方までを解説します。', supervised: true },
   { slug: 'llms-txt-necessity-for-smb', category: 'AI活用', date: '2026.11.03', read: '10 min', title: 'llms.txt対応は必要か｜公式記述と費用判断', img: 'assets/blog-default.png', desc: 'llms.txt対応は必要かを、Google検索セントラルの記述とllms.txt仕様の状況から判断します。見積もりで分けて確認する項目と、設置した場合の更新の担当まで、中小企業の実務に沿って整理します。', supervised: true },
   { slug: 'system-development-payment-method-restrictions', category: '技術', date: '2026.11.03', read: '8 min', title: 'システム開発外注の支払｜手形禁止と取適法の制限', img: 'assets/blog-default.png', desc: 'システム開発の委託代金に手形は使えません。2026年1月1日施行の取適法で禁止されました。電子記録債権やファクタリングを使う条件、契約の支払条項を見直す4つのステップを公的資料をもとに解説します。', supervised: true },
