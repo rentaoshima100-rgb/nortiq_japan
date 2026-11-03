@@ -696,6 +696,9 @@ function DXPage({ onNavigate, onContact }) {
         </div>
       </section>
 
+      {/* 一括請負の手前の入口: ひと業務AI (月額の1業務自動化、/automation) への導線 */}
+      <IndustryLpBanner only="automation"/>
+
       <CTAStrip onContact={() => onContact('dx')} onNavigate={onNavigate} title="まずは初回ヒアリング (無料) から。"/>
     </main>
   );
