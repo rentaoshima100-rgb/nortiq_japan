@@ -90,6 +90,7 @@ function TopPage({ onNavigate, onContact }) {
               <Button variant="primary" size="lg" onClick={onContact} arrow>資料請求はこちら</Button>
             </span>
             <Button variant="ghost" size="lg" to={'diagnostic'} nav={onNavigate}><Icon name="search" size={14}/>ホームページ無料診断</Button>
+            <a className="btn btn-ghost btn-lg" href="/tools"><Icon name="arrow-right" size={14}/>無料ツール（概算見積・AI診断）</a>
           </div>
         </div>
       </section>

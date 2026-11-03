@@ -89,6 +89,8 @@ const NAV_MEGA = [
     ],
   },
   { id: 'diagnostic', label: '無料診断' },
+  // 静的ツール群 (lp/tools 配下)。SPA ルートではないので href で通常遷移
+  { id: 'lp-tools', label: '無料ツール', href: '/tools' },
 ];
 
 const PREFECTURES = [
@@ -329,7 +331,7 @@ function Nav({ current, onNavigate, onContact, onSideForm }) {
                   <a
                     className="nav-link"
                     aria-current={current === item.id ? 'page' : undefined}
-                    {...navProps(item.id, onNavigate)}
+                    {...(item.href ? { href: item.href } : navProps(item.id, onNavigate))}
                   >
                     {item.label}
                   </a>
@@ -399,7 +401,7 @@ function Nav({ current, onNavigate, onContact, onSideForm }) {
               const exp = expandedSection === item.id;
               if (!hasSubs) {
                 return (
-                  <a key={item.id} className="drawer-item" {...navProps(item.id, navTo)}>
+                  <a key={item.id} className="drawer-item" {...(item.href ? { href: item.href } : navProps(item.id, navTo))}>
                     <span>{item.label}</span>
                     <Icon name="arrow-right" size={14}/>
                   </a>
@@ -465,6 +467,12 @@ const INDUSTRY_LPS = [
     title: <>攻撃者より先に、<span className="text-accent">毎日見つけて、直す。</span><br/>中小企業のWebサイト・ECのセキュリティ保守</>,
     desc: () => '定番の診断ツール×オープンモデル×人の確認で毎日点検し、見つけた弱点は修正・再診断まで月額で。無料のセキュリティ外形チェックから始められます。',
   },
+  // lp/tools は無料ツール群 (概算見積・AI診断・手作業コスト・AIリスク診断・帳票読み取り)。金額は出さない。
+  {
+    key: 'tools', href: '/tools', tag: 'FREE / 連絡先なし・営業電話なし', eyebrow: 'FREE TOOLS / 概算見積・診断・計算機',
+    title: <>うちの場合はいくら？<span className="text-accent">1分で概算。</span><br/>AIで何ができる？手作業に年いくら？を自分で確かめる5つのツール</>,
+    desc: () => '6問で金額の幅と内訳が出る概算見積、業種別のAI診断、FAX転記・請求書・消し込みの年間コスト計算、社内AI利用リスク診断とルール雛形、FAX注文書の読み取りデモ。結果まで連絡先は不要。',
+  },
   // lp/automation は月額のみ。金額は NORTIQ_PRICING.automation から組む (描画時に参照)。
   {
     key: 'automation', href: '/automation', tag: 'NEW / 初期費用0円・動いてから課金', eyebrow: 'SERVICE LP / ひと業務AI（1業務自動化サブスク）',
@@ -478,7 +486,7 @@ function IndustryLpBanner({ only }) {
   return (
     <section className="section-pad-sm">
       <div className="container">
-        <div className={'industry-lp-grid' + (items.length === 1 ? ' industry-lp-grid-1' : items.length === 4 ? ' industry-lp-grid-4' : '')}>
+        <div className={'industry-lp-grid' + (items.length === 1 ? ' industry-lp-grid-1' : items.length === 4 || items.length === 5 ? ' industry-lp-grid-4' : '')}>
           {items.map((x) => (
             <a key={x.key} className="promo-card fadein industry-lp-banner" href={x.href} style={{ minHeight: 0, textDecoration: 'none' }}>
               <div className="promo-tag">{x.tag}</div>
