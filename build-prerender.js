@@ -33,6 +33,7 @@ const ARTICLE_ROUTES = (() => {
 })();
 
 const ROUTES_ALLOWLIST = [
+  '/article-ai-chatbot-disclosure-requirements',
   '/article-recruitment-site-quotation-breakdown',
   '/article-pre-launch-website-inspection-client-side',
   '/article-non-functional-requirements-grade-levels',
