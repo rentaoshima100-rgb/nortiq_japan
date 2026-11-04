@@ -615,6 +615,66 @@
       "default_next": null
     },
     {
+      "url": "/tools/invoice",
+      "type": "service",
+      "title": "請求書・見積書・納品書メーカー",
+      "industry": [],
+      "need": ["業務システム・DX"],
+      "audience": "請求書や見積書を毎月Excelで作っている事務担当者向け",
+      "summary": "品名・数量・単価からインボイス対応のA4書類。印刷・CSV・コピー。",
+      "suggestable": false,
+      "block_id": null,
+      "default_next": null
+    },
+    {
+      "url": "/tools/payment-match",
+      "type": "service",
+      "title": "入金消し込み照合",
+      "industry": [],
+      "need": ["業務システム・DX"],
+      "audience": "請求と入金の突き合わせを手でしている経理担当者向け",
+      "summary": "請求一覧と入金一覧を貼ると未入金・不明入金が表になる。",
+      "suggestable": false,
+      "block_id": null,
+      "default_next": null
+    },
+    {
+      "url": "/tools/timecard",
+      "type": "service",
+      "title": "タイムカード集計・残業時間計算表",
+      "industry": [],
+      "need": ["業務システム・DX"],
+      "audience": "タイムカードを手で集計している総務・給与担当者向け",
+      "summary": "出退勤から法定外・深夜・休日を労基法の区分で集計しCSVに。",
+      "suggestable": false,
+      "block_id": null,
+      "default_next": null
+    },
+    {
+      "url": "/tools/stocktake",
+      "type": "service",
+      "title": "棚卸差異チェック",
+      "industry": [],
+      "need": ["業務システム・DX"],
+      "audience": "棚卸で帳簿と現物が合わない倉庫・店舗の担当者向け",
+      "summary": "帳簿と実地の一覧を貼ると品番ごとの差異表と棚卸表が出る。",
+      "suggestable": false,
+      "block_id": null,
+      "default_next": null
+    },
+    {
+      "url": "/tools/cover-letter",
+      "type": "service",
+      "title": "送付状メーカー",
+      "industry": [],
+      "need": ["業務システム・DX"],
+      "audience": "請求書や見積書を郵送・メールで送る事務担当者向け",
+      "summary": "送る書類と相手先からA4送付状とメール本文、定型文を作る。",
+      "suggestable": false,
+      "block_id": null,
+      "default_next": null
+    },
+    {
       "url": "/tools/manual-cost",
       "type": "service",
       "title": "手作業コスト計算機",

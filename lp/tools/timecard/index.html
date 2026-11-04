@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>タイムカード集計・残業時間計算表｜1か月の出退勤から法定外・深夜・休日を自動集計｜Nortiq Labs</title>
+<meta name="description" content="1か月分の出勤・退勤時刻を入れると、所定内・法定外（25%）・深夜（25%）・法定休日（35%）・月60時間超（50%）の時間を労働基準法どおりに集計し、時給を入れれば割増賃金の概算も出ます。印刷用の集計表とCSV、給与計算担当に渡せる形で手元に残ります。">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+<link rel="canonical" href="https://nortiqlab.com/tools/timecard">
+<meta name="theme-color" content="#E60012">
+<meta name="format-detection" content="telephone=no">
+<link rel="icon" href="/assets/nortiq-fav.png">
+<link rel="apple-touch-icon" href="/assets/nortiq-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Nortiq Labs">
+<meta property="og:title" content="タイムカード集計・残業時間計算表｜1か月の出退勤から法定外・深夜・休日を自動集計">
+<meta property="og:description" content="1か月分の出勤・退勤時刻を入れると、所定内・法定外（25%）・深夜（25%）・法定休日（35%）・月60時間超（50%）の時間を労働基準法どおりに集計し、時給を入れれば割増賃金の概算も出ます。印刷用の集計表とCSV、給与計算担当に渡せる形で手元に残ります。">
+<meta property="og:url" content="https://nortiqlab.com/tools/timecard">
+<meta property="og:image" content="https://nortiqlab.com/assets/og/tools.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="ja_JP">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="タイムカード集計・残業時間計算表｜1か月の出退勤から法定外・深夜・休日を自動集計">
+<meta name="twitter:description" content="1か月分の出勤・退勤時刻を入れると、所定内・法定外（25%）・深夜（25%）・法定休日（35%）・月60時間超（50%）の時間を労働基準法どおりに集計し、時給を入れれば割増賃金の概算も出ます。印刷用の集計表とCSV、給与計算担当に渡せる形で手元に残ります。">
+<meta name="twitter:image" content="https://nortiqlab.com/assets/og/tools.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Space+Grotesk:wght@500;700&display=swap">
+<link rel="stylesheet" href="/assets/lp/common/lp.css?v={{V}}">
+<link rel="stylesheet" href="/assets/lp/tools/tools.css?v={{V}}">
+{{ANALYTICS}}
+<script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://nortiqlab.com/#org","name":"Nortiq Labs","legalName":"NORTIQLAB株式会社","url":"https://nortiqlab.com/","logo":"https://nortiqlab.com/assets/nortiq-mark.png","email":"info@nortiqlab.com"},{"@type":"WebSite","@id":"https://nortiqlab.com/#website","name":"Nortiq Labs","url":"https://nortiqlab.com/","publisher":{"@id":"https://nortiqlab.com/#org"},"inLanguage":"ja"},{"@type":"WebPage","@id":"https://nortiqlab.com/tools/timecard","url":"https://nortiqlab.com/tools/timecard","name":"タイムカード集計・残業時間計算表｜1か月の出退勤から法定外・深夜・休日を自動集計","description":"1か月の出退勤から法定外・深夜・休日・60時間超の残業時間を労働基準法どおりに集計し、集計表とCSVで手元に残せる無料ツール。","isPartOf":{"@id":"https://nortiqlab.com/#website"},"inLanguage":"ja","datePublished":"2026-11-04","dateModified":"2026-11-04"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://nortiqlab.com/"},{"@type":"ListItem","position":2,"name":"無料ツール","item":"https://nortiqlab.com/tools"},{"@type":"ListItem","position":3,"name":"タイムカード集計","item":"https://nortiqlab.com/tools/timecard"}]},{"@type":"SoftwareApplication","name":"タイムカード集計・残業時間計算表｜1か月の出退勤から法定外・深夜・休日を自動集計","applicationCategory":"BusinessApplication","operatingSystem":"Web","url":"https://nortiqlab.com/tools/timecard","offers":{"@type":"Offer","price":"0","priceCurrency":"JPY"},"provider":{"@id":"https://nortiqlab.com/#org"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"変形労働時間制やフレックスには対応していますか？","acceptedAnswer":{"@type":"Answer","text":"対応していません。このツールは原則の「1日8時間・週40時間」で集計します。1か月単位の変形労働時間制などを採用している場合は、法定外の判定が変わるので給与計算担当にご確認ください。"}},{"@type":"Question","name":"所定労働時間が7時間の会社ではどうなりますか？","acceptedAnswer":{"@type":"Answer","text":"7時間を超えて8時間までの1時間は「法定内残業」として別に表示します。この部分の割増は法律上の義務がなく、就業規則や契約で定めた率になります。8時間を超えた分から法定外（25%）です。"}},{"@type":"Question","name":"月60時間を超えた分の50%は中小企業にも適用されますか？","acceptedAnswer":{"@type":"Answer","text":"はい。2023年4月1日から中小企業にも適用されています（労働基準法37条1項ただし書）。このツールは月の法定外労働の合計が60時間を超えた分を50%で集計します。"}},{"@type":"Question","name":"端数の処理はどうしていますか？","acceptedAnswer":{"@type":"Answer","text":"分単位でそのまま合計し、丸めていません。1か月の合計で30分未満を切り捨て・30分以上を1時間に切り上げる処理は行政通達（昭和63年基発150号）で認められていますが、1日ごとの切り捨ては賃金不払いになるため行っていません。"}}]}]}
+</script>
+</head>
+<body data-lp="tools-timecard">
+
+<header class="header">
+  <div class="container header__inner">
+    <a class="brand" href="/" aria-label="Nortiq Labs トップページ"><span class="brand__name">NORTIQ</span><span class="brand__sub">LABS</span></a>
+    <a class="btn btn--primary btn--sm header__cta" href="/#request" data-ga="consult_request" data-ga-location="header">無料で相談する</a>
+  </div>
+</header>
+
+<main class="tool-main">
+<section class="section tool-hero" aria-labelledby="fv-title">
+  <div class="container">
+    <nav aria-label="パンくず"><ol class="crumbs"><li><a href="/">ホーム</a></li><li><a href="/tools">無料ツール</a></li><li aria-current="page">タイムカード集計</li></ol></nav>
+    <div class="tool-wrap">
+      <p class="eyebrow">Timecard / 登録不要</p>
+      <h1 class="h1" id="fv-title">タイムカードの<span class="accent">手集計</span>を、この表で終わらせる。</h1>
+      <p class="tool-hero__sub">1か月分の出勤・退勤・休憩を入れるだけで、所定内／法定外／深夜／法定休日／月60時間超の時間を労働基準法の区分で集計します。時給を入れると割増込みの概算も。印刷用の集計表とCSVを給与計算に渡せます。</p>
+      <div class="tool-chips"><span>労基法37条の割増率で集計</span><span>週40時間超も判定</span><span>深夜22時〜5時を自動で切り出し</span><span>入力した内容はサーバーに送りません</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="container">
+  <div class="tool-wrap">
+
+<section class="tool-card">
+  <div class="qnum">Step 1</div><h2 class="q">対象月と条件</h2><p class="qhelp">法定休日は週1日（初期値：日曜）。土曜は所定休日として扱い、働いた分は週40時間を超えた分から法定外（25%）になります。</p>
+  <div class="form-grid">
+  <div><label for="ym">対象月</label><input id="ym" type="month" value="2026-10"></div>
+  <div><label for="name">氏名（印字用・任意）</label><input id="name" type="text" maxlength="30" autocomplete="off" value=""></div>
+  <div><label for="std">所定労働時間／日</label><input id="std" type="number" min="1" max="8" step="0.5" inputmode="decimal" value="8"></div>
+  <div><label for="brk">休憩（分／日・初期値）</label><input id="brk" type="number" min="0" step="5" inputmode="numeric" value="60"></div>
+  <div><label for="holiday">法定休日</label><select id="holiday"><option value="0" selected>日曜日</option><option value="6">土曜日</option><option value="1">月曜日</option><option value="2">火曜日</option><option value="3">水曜日</option><option value="4">木曜日</option><option value="5">金曜日</option></select></div>
+  <div><label for="wage">時給（円・概算用、空欄なら時間だけ）</label><input id="wage" type="number" min="0" step="10" inputmode="numeric" value="1300"></div>
+  </div>
+</section>
+<section class="tool-card">
+  <div class="qnum">Step 2</div><h2 class="q">出勤・退勤を入れる</h2><p class="qhelp">初期値は平日9:00〜18:00（休憩60分＝8時間）のサンプルで、残業・深夜・所定休日出勤の日を混ぜています。働いていない日は空欄のままで構いません。日をまたぐ退勤（例：翌1:00）は「25:00」のように24を超える時刻で入れられます。</p>
+  <div class="tc-head" aria-hidden="true"><span>日</span><span>出勤</span><span>退勤</span><span>休憩(分)</span></div>
+  <div class="tc-rows" id="rows"></div>
+  <div class="tool-nav"><button type="button" class="btn btn--outline btn--sm" id="fill">平日を9:00〜18:00で埋める</button><button type="button" class="btn btn--outline btn--sm" id="clear">全部空にする</button></div>
+  <div class="tool-nav"><button type="button" class="btn btn--primary" id="run">集計する</button><span class="tool-sample">初期値はサンプルです。自社の内容に書き換えてください。</span></div>
+</section>
+
+<section id="result" hidden></section>
+
+<div class="section__head" style="margin-top:48px"><h2 class="h2" style="font-size:24px">このツールについて</h2></div>
+<div class="tool-card">
+<p style="font-size:14.5px">求人票136件のうち23件に「勤怠の集計」「タイムカードの集計」があり、Xでは「紙のタイムカードとExcelで運用」「手集計で月末に3日止まる」「手計算ミスが未払い残業につながる」という投稿が並びます。5人以下の会社からは「残業代の正しい計算方法が分からない」という相談も出ていました。このツールは、出退勤を入れるだけで労働基準法の区分で時間を集計します。</p>
+<h3 style="font-size:16px;margin-top:16px">集計のルール（2026年11月時点）</h3>
+<p style="font-size:14px;color:var(--text-2)">法定労働時間は1日8時間・週40時間（労働基準法32条）。8時間を超えた分と、週40時間を超えた分（所定休日の労働を含む）は<b>法定外労働＝25%以上の割増</b>、月60時間を超えた分は<b>50%以上</b>（労基法37条1項。2023年4月から中小企業にも適用）。22時〜5時の労働は<b>深夜＝25%以上を加算</b>（37条4項）。法定休日の労働は<b>35%以上</b>（37条1項・割増賃金令）で、法定休日の深夜は60%。所定労働時間が8時間未満の場合、8時間までの時間は「法定内残業」として割増なし（契約で定めた率）で別に表示します。時間は分単位で集計し、丸めていません（1か月の合計で30分未満切り捨て・30分以上切り上げは行政通達で認められていますが、日ごとの切り捨ては認められません）。</p>
+<h3 style="font-size:16px;margin-top:16px">使い方</h3>
+<p style="font-size:14px;color:var(--text-2)">1. 対象月・所定労働時間・法定休日を確認　2. タイムカードを見ながら出勤・退勤を入れる（休憩は初期値60分、日ごとに変えられる）　3. 「集計する」→ 集計表を確認し、印刷（PDF保存）かCSVで給与計算担当へ。氏名は任意で、入れた内容はサーバーに送りません。</p>
+<p style="font-size:14px;color:var(--text-2);margin-top:12px">関連：<a href="/tools/manual-cost">手作業コスト計算機</a>で集計作業そのものの年間コストを出す、<a href="/tools/invoice">請求書メーカー</a>で派遣・請負の時間を請求に起こす。打刻から給与ソフトへの連携を自動化したいときは <a href="/automation">ひと業務AI</a>。</p>
+</div>
+
+<div class="section__head" style="margin-top:48px"><h2 class="h2" style="font-size:24px">よくある質問</h2></div><div class="faq">
+<div class="faq__item is-open"><button type="button" class="faq__q" aria-expanded="true">変形労働時間制やフレックスには対応していますか？<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button><div class="faq__a"><div><p style="padding:0 0 20px;font-size:14.5px">対応していません。このツールは原則の「1日8時間・週40時間」で集計します。1か月単位の変形労働時間制などを採用している場合は、法定外の判定が変わるので給与計算担当にご確認ください。</p></div></div></div>
+<div class="faq__item"><button type="button" class="faq__q" aria-expanded="false">所定労働時間が7時間の会社ではどうなりますか？<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button><div class="faq__a"><div><p style="padding:0 0 20px;font-size:14.5px">7時間を超えて8時間までの1時間は「法定内残業」として別に表示します。この部分の割増は法律上の義務がなく、就業規則や契約で定めた率になります。8時間を超えた分から法定外（25%）です。</p></div></div></div>
+<div class="faq__item"><button type="button" class="faq__q" aria-expanded="false">月60時間を超えた分の50%は中小企業にも適用されますか？<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button><div class="faq__a"><div><p style="padding:0 0 20px;font-size:14.5px">はい。2023年4月1日から中小企業にも適用されています（労働基準法37条1項ただし書）。このツールは月の法定外労働の合計が60時間を超えた分を50%で集計します。</p></div></div></div>
+<div class="faq__item"><button type="button" class="faq__q" aria-expanded="false">端数の処理はどうしていますか？<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button><div class="faq__a"><div><p style="padding:0 0 20px;font-size:14.5px">分単位でそのまま合計し、丸めていません。1か月の合計で30分未満を切り捨て・30分以上を1時間に切り上げる処理は行政通達（昭和63年基発150号）で認められていますが、1日ごとの切り捨ては賃金不払いになるため行っていません。</p></div></div></div>
+</div>
+    <div class="tool-foot">割増率・法定労働時間は2026年11月時点の労働基準法によります。就業規則・変形労働時間制・固定残業代などで扱いが変わるため、給与計算の確定は社会保険労務士にご確認ください。入力内容はブラウザの中だけで処理し、サーバーには送りません。</div>
+  </div>
+</section>
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer__inner">
+      <a class="brand" href="/" aria-label="Nortiq Labs トップページ"><span class="brand__name">NORTIQ</span><span class="brand__sub">LABS</span></a>
+      <ul class="footer__links">
+        <li><a href="/tools">無料ツール</a></li>
+        <li><a href="/dx">業務システム・AI開発</a></li>
+        <li><a href="/web">ホームページ制作</a></li>
+        <li><a href="/automation">ひと業務AI</a></li>
+        <li><a href="/works">制作実績</a></li>
+        <li><a href="/company">会社概要</a></li>
+        <li><a href="/privacy">プライバシーポリシー</a></li>
+        <li><a href="/privacy-handling">個人情報の取扱い</a></li>
+      </ul>
+    </div>
+    <p class="footer__copy">© 2026 NORTIQLAB株式会社</p>
+  </div>
+</footer>
+
+<script src="/assets/lp/common/lp.js?v={{V}}" defer></script>
+<script src="/assets/lp/tools/tools-common.js?v={{V}}" defer></script>
+<script src="/assets/lp/tools/timecard.js?v={{V}}" defer></script>
+</body>
+</html>

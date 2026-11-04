@@ -29,6 +29,11 @@ const FLOWS = {
   'manual-cost': async () => {},
   'ai-risk': async (page) => { for (const g of await page.$$('.yn')) { await (await g.$('.opt')).click(); } await page.click('#run'); },
   'document-demo': async () => {},
+  'invoice': async (page) => { await page.click('#run'); },
+  'payment-match': async (page) => { await page.click('#run'); },
+  'timecard': async (page) => { await page.click('#run'); },
+  'stocktake': async (page) => { await page.click('#run'); },
+  'cover-letter': async (page) => { await page.click('#run'); },
 };
 
 const srv = http.createServer((req, res) => {

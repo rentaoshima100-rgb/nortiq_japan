@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>入金消し込み照合ツール｜請求一覧と入金一覧を貼るだけで未入金が出る｜Nortiq Labs</title>
+<meta name="description" content="請求一覧と通帳・ネットバンキングの入金一覧を貼り付けると、消し込み済み・振込手数料の差引・未入金・金額不一致・不明入金に分けて表にします。未入金の一覧はそのまま督促に使え、結果はCSVで保存。登録不要、データはサーバーに送りません。">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+<link rel="canonical" href="https://nortiqlab.com/tools/payment-match">
+<meta name="theme-color" content="#E60012">
+<meta name="format-detection" content="telephone=no">
+<link rel="icon" href="/assets/nortiq-fav.png">
+<link rel="apple-touch-icon" href="/assets/nortiq-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Nortiq Labs">
+<meta property="og:title" content="入金消し込み照合ツール｜請求一覧と入金一覧を貼るだけで未入金が出る">
+<meta property="og:description" content="請求一覧と通帳・ネットバンキングの入金一覧を貼り付けると、消し込み済み・振込手数料の差引・未入金・金額不一致・不明入金に分けて表にします。未入金の一覧はそのまま督促に使え、結果はCSVで保存。登録不要、データはサーバーに送りません。">
+<meta property="og:url" content="https://nortiqlab.com/tools/payment-match">
+<meta property="og:image" content="https://nortiqlab.com/assets/og/tools.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="ja_JP">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="入金消し込み照合ツール｜請求一覧と入金一覧を貼るだけで未入金が出る">
+<meta name="twitter:description" content="請求一覧と通帳・ネットバンキングの入金一覧を貼り付けると、消し込み済み・振込手数料の差引・未入金・金額不一致・不明入金に分けて表にします。未入金の一覧はそのまま督促に使え、結果はCSVで保存。登録不要、データはサーバーに送りません。">
+<meta name="twitter:image" content="https://nortiqlab.com/assets/og/tools.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Space+Grotesk:wght@500;700&display=swap">
+<link rel="stylesheet" href="/assets/lp/common/lp.css?v={{V}}">
+<link rel="stylesheet" href="/assets/lp/tools/tools.css?v={{V}}">
+{{ANALYTICS}}
+<script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://nortiqlab.com/#org","name":"Nortiq Labs","legalName":"NORTIQLAB株式会社","url":"https://nortiqlab.com/","logo":"https://nortiqlab.com/assets/nortiq-mark.png","email":"info@nortiqlab.com"},{"@type":"WebSite","@id":"https://nortiqlab.com/#website","name":"Nortiq Labs","url":"https://nortiqlab.com/","publisher":{"@id":"https://nortiqlab.com/#org"},"inLanguage":"ja"},{"@type":"WebPage","@id":"https://nortiqlab.com/tools/payment-match","url":"https://nortiqlab.com/tools/payment-match","name":"入金消し込み照合ツール｜請求一覧と入金一覧を貼るだけで未入金が出る","description":"請求一覧と入金一覧を貼り付けると、消し込み済み・手数料差引・未入金・金額不一致・不明入金に分けた照合表とCSVが出る無料ツール。","isPartOf":{"@id":"https://nortiqlab.com/#website"},"inLanguage":"ja","datePublished":"2026-11-04","dateModified":"2026-11-04"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://nortiqlab.com/"},{"@type":"ListItem","position":2,"name":"無料ツール","item":"https://nortiqlab.com/tools"},{"@type":"ListItem","position":3,"name":"入金消し込み照合","item":"https://nortiqlab.com/tools/payment-match"}]},{"@type":"SoftwareApplication","name":"入金消し込み照合ツール｜請求一覧と入金一覧を貼るだけで未入金が出る","applicationCategory":"BusinessApplication","operatingSystem":"Web","url":"https://nortiqlab.com/tools/payment-match","offers":{"@type":"Offer","price":"0","priceCurrency":"JPY"},"provider":{"@id":"https://nortiqlab.com/#org"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"通帳のカナ名義でも照合できますか？","acceptedAnswer":{"@type":"Answer","text":"できます。「カ）サンプルシヨウジ」のような名義は、法人格の記号・空白・小文字（ョ→ヨ）の違いを無視して、請求一覧の取引先名（または任意の「カナ名義」列）と比べます。漢字の取引先名とカナ名義は文字では一致しないので、金額が一致し、その金額の請求と入金が1件ずつのときに「消し込み済み（名義要確認）」として候補に出します。"}},{"@type":"Question","name":"同じ取引先から複数の請求がある場合は？","acceptedAnswer":{"@type":"Answer","text":"金額が一致するものから順に消し込みます。2件分をまとめて振り込まれた場合は「金額不一致」に出るので、請求番号を見て手で消し込んでください。合算の自動判定は、誤った消し込みを避けるために行っていません。"}},{"@type":"Question","name":"データはどこに送られますか？","acceptedAnswer":{"@type":"Answer","text":"どこにも送りません。貼り付けた内容はブラウザの中だけで処理し、ページを閉じると消えます。CSVはお使いの端末に保存されます。"}},{"@type":"Question","name":"会計ソフトの消し込み機能と何が違いますか？","acceptedAnswer":{"@type":"Answer","text":"会計ソフトの自動消し込みは銀行連携と設定が必要です。このツールは設定なしで、今手元にある2つの一覧をその場で突き合わせるためのものです。結果のCSVを会計ソフトの消し込み入力に使えます。"}}]}]}
+</script>
+</head>
+<body data-lp="tools-payment-match">
+
+<header class="header">
+  <div class="container header__inner">
+    <a class="brand" href="/" aria-label="Nortiq Labs トップページ"><span class="brand__name">NORTIQ</span><span class="brand__sub">LABS</span></a>
+    <a class="btn btn--primary btn--sm header__cta" href="/#request" data-ga="consult_request" data-ga-location="header">無料で相談する</a>
+  </div>
+</header>
+
+<main class="tool-main">
+<section class="section tool-hero" aria-labelledby="fv-title">
+  <div class="container">
+    <nav aria-label="パンくず"><ol class="crumbs"><li><a href="/">ホーム</a></li><li><a href="/tools">無料ツール</a></li><li aria-current="page">入金消し込み照合</li></ol></nav>
+    <div class="tool-wrap">
+      <p class="eyebrow">Payment Matching / 登録不要</p>
+      <h1 class="h1" id="fv-title">入金の<span class="accent">消し込み</span>、貼るだけで未入金が出ます。</h1>
+      <p class="tool-hero__sub">請求した一覧と、通帳・ネットバンキングからコピーした入金一覧を貼り付けてください。取引先名と金額で突き合わせて、「消し込み済み」「振込手数料を引かれた分」「未入金」「金額が合わない」「どこからか分からない入金」に分けます。月初の40ページのExcelとにらめっこを、1回の貼り付けにします。</p>
+      <div class="tool-chips"><span>Excel・CSV・タブ区切りどれでも</span><span>振込手数料の差は自動で判定</span><span>未入金一覧をそのまま督促に</span><span>入力した内容はサーバーに送りません</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="container">
+  <div class="tool-wrap">
+
+<section class="tool-card">
+  <div class="qnum">Step 1</div><h2 class="q">請求一覧を貼る</h2><p class="qhelp">1行に「取引先名　金額」（任意で「請求番号」「請求日」「カナ名義」）。Excelからコピーしたタブ区切りでも、カンマ区切りでも構いません。列の順番は取引先名→金額→番号→日付→カナ名義で、無い列は飛ばせます。</p>
+  <textarea id="bills" class="paste" rows="7" spellcheck="false">株式会社サンプル商事	165,000	INV-1001	2026-10-31	サンプルシヨウジ
+有限会社テスト建材	88,000	INV-1002	2026-10-31	テストケンザイ
+サンプル工務店	330,000	INV-1003	2026-10-31
+テスト運輸株式会社	55,000	INV-1004	2026-10-31
+サンプル食品	121,000	INV-1005	2026-10-31
+テスト設備	49,500	INV-1006	2026-10-31</textarea>
+</section>
+<section class="tool-card">
+  <div class="qnum">Step 2</div><h2 class="q">入金一覧を貼る</h2><p class="qhelp">1行に「日付　振込名義　金額」。通帳の摘要（カ）サンプルシヨウジ のようなカナ名義でも、取引先名の読みが近ければ候補に出します。</p>
+  <textarea id="pays" class="paste" rows="7" spellcheck="false">2026-11-02	カ）サンプルシヨウジ	165,000
+2026-11-02	ユ）テストケンザイ	87,340
+2026-11-04	サンプルコウムテン	300,000
+2026-11-04	サンプルシヨクヒン	121,000
+2026-11-04	カ）フメイシヨウカイ	33,000</textarea>
+  <div class="form-grid" style="margin-top:16px">
+  <div><label for="fee">振込手数料とみなす差額の上限（円）</label><input id="fee" type="number" min="0" step="10" inputmode="numeric" value="880"></div>
+  <div><label for="month">照合する月（表題に印字）</label><input id="month" type="month" value=""></div>
+  </div>
+  <div class="tool-nav"><button type="button" class="btn btn--primary" id="run">照合する</button><span class="tool-sample">初期値はサンプルです。自社の内容に書き換えてください。</span></div>
+</section>
+
+<section id="result" hidden></section>
+
+<div class="section__head" style="margin-top:48px"><h2 class="h2" style="font-size:24px">このツールについて</h2></div>
+<div class="tool-card">
+<p style="font-size:14.5px">求人票136件のうち30件に「入金確認」「消し込み」「売掛金管理」があり、Xでは「入金があるたびに40ページのExcelで名前の横にXを付けていた」「消し込みが合わないで発覚」という投稿が並びます。このツールは、請求と入金の2つの一覧を<b>取引先名（カナ名義も含む）と金額</b>で突き合わせ、結果を5つに分けます。</p>
+<h3 style="font-size:16px;margin-top:16px">判定のルール</h3>
+<p style="font-size:14px;color:var(--text-2)">①名義と金額が一致 → 消し込み済み　②名義が一致し、差額が「振込手数料の上限」以内 → 手数料差引（差額を表示）　③名義が一致し、差額が上限を超える → 金額不一致（一部入金・過入金）　④請求にあって入金にない → 未入金　⑤入金にあって請求にない → 不明入金。名義の照合は、株式会社・有限会社・カ）・ユ）などの法人格と、全角半角・濁点の違いを無視し、漢字の取引先名とカナ名義は、請求一覧に任意で「カナ名義」の列を足せば名義で、無ければ金額の一致（その金額の請求と入金が1件ずつのとき）で候補を出します。確定ではないので、「名義要確認」「手数料差引」「金額不一致」は必ず目で確認してください。</p>
+<h3 style="font-size:16px;margin-top:16px">使い方</h3>
+<p style="font-size:14px;color:var(--text-2)">1. 販売管理ソフトやExcelの請求一覧をコピーして貼る　2. ネットバンキングの入出金明細（入金だけ）をコピーして貼る　3. 「照合する」→ 表を確認し、CSVで保存。未入金の一覧は「督促用にコピー」で、取引先名・請求番号・金額の文面になります。入力内容はサーバーに送りません。</p>
+<p style="font-size:14px;color:var(--text-2);margin-top:12px">関連：請求書そのものは <a href="/tools/invoice">請求書・見積書メーカー</a>、未入金の案内文は <a href="/tools/cover-letter">送付状メーカー</a>の「支払いのお願い」。販売管理ソフトと銀行明細を毎日自動で突き合わせたいときは <a href="/automation">ひと業務AI</a> で対応します。</p>
+</div>
+
+<div class="section__head" style="margin-top:48px"><h2 class="h2" style="font-size:24px">よくある質問</h2></div><div class="faq">
+<div class="faq__item is-open"><button type="button" class="faq__q" aria-expanded="true">通帳のカナ名義でも照合できますか？<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button><div class="faq__a"><div><p style="padding:0 0 20px;font-size:14.5px">できます。「カ）サンプルシヨウジ」のような名義は、法人格の記号・空白・小文字（ョ→ヨ）の違いを無視して、請求一覧の取引先名（または任意の「カナ名義」列）と比べます。漢字の取引先名とカナ名義は文字では一致しないので、金額が一致し、その金額の請求と入金が1件ずつのときに「消し込み済み（名義要確認）」として候補に出します。</p></div></div></div>
+<div class="faq__item"><button type="button" class="faq__q" aria-expanded="false">同じ取引先から複数の請求がある場合は？<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button><div class="faq__a"><div><p style="padding:0 0 20px;font-size:14.5px">金額が一致するものから順に消し込みます。2件分をまとめて振り込まれた場合は「金額不一致」に出るので、請求番号を見て手で消し込んでください。合算の自動判定は、誤った消し込みを避けるために行っていません。</p></div></div></div>
+<div class="faq__item"><button type="button" class="faq__q" aria-expanded="false">データはどこに送られますか？<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button><div class="faq__a"><div><p style="padding:0 0 20px;font-size:14.5px">どこにも送りません。貼り付けた内容はブラウザの中だけで処理し、ページを閉じると消えます。CSVはお使いの端末に保存されます。</p></div></div></div>
+<div class="faq__item"><button type="button" class="faq__q" aria-expanded="false">会計ソフトの消し込み機能と何が違いますか？<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button><div class="faq__a"><div><p style="padding:0 0 20px;font-size:14.5px">会計ソフトの自動消し込みは銀行連携と設定が必要です。このツールは設定なしで、今手元にある2つの一覧をその場で突き合わせるためのものです。結果のCSVを会計ソフトの消し込み入力に使えます。</p></div></div></div>
+</div>
+    <div class="tool-foot">照合結果は目安です。「手数料差引」「金額不一致」は必ず明細を確認してください。入力内容はブラウザの中だけで処理し、サーバーには送りません。</div>
+  </div>
+</section>
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer__inner">
+      <a class="brand" href="/" aria-label="Nortiq Labs トップページ"><span class="brand__name">NORTIQ</span><span class="brand__sub">LABS</span></a>
+      <ul class="footer__links">
+        <li><a href="/tools">無料ツール</a></li>
+        <li><a href="/dx">業務システム・AI開発</a></li>
+        <li><a href="/web">ホームページ制作</a></li>
+        <li><a href="/automation">ひと業務AI</a></li>
+        <li><a href="/works">制作実績</a></li>
+        <li><a href="/company">会社概要</a></li>
+        <li><a href="/privacy">プライバシーポリシー</a></li>
+        <li><a href="/privacy-handling">個人情報の取扱い</a></li>
+      </ul>
+    </div>
+    <p class="footer__copy">© 2026 NORTIQLAB株式会社</p>
+  </div>
+</footer>
+
+<script src="/assets/lp/common/lp.js?v={{V}}" defer></script>
+<script src="/assets/lp/tools/tools-common.js?v={{V}}" defer></script>
+<script src="/assets/lp/tools/payment-match.js?v={{V}}" defer></script>
+</body>
+</html>

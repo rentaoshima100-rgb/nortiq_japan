@@ -989,6 +989,11 @@ function SitemapPage({ onNavigate, onContact }) {
               { id: 'lp-security', label: '脆弱性診断・セキュリティ保守', href: '/security' },
               { id: 'lp-automation', label: 'ひと業務AI（1業務自動化サブスク）', href: '/automation' },
               { id: 'lp-tools', label: '無料ツール（概算見積・AI診断・手作業コスト・AIリスク診断・帳票読み取り）', href: '/tools' },
+              { id: 'lp-tools-invoice', label: '請求書・見積書・納品書メーカー', href: '/tools/invoice' },
+              { id: 'lp-tools-payment-match', label: '入金消し込み照合', href: '/tools/payment-match' },
+              { id: 'lp-tools-timecard', label: 'タイムカード集計・残業時間計算表', href: '/tools/timecard' },
+              { id: 'lp-tools-stocktake', label: '棚卸差異チェック', href: '/tools/stocktake' },
+              { id: 'lp-tools-cover-letter', label: '送付状メーカー', href: '/tools/cover-letter' },
               { id: 'lp-shindan-battery', label: '蓄電池の見積もり診断（ご家庭向け）', href: '/shindan/battery' },
               { id: 'lp-partner-energy', label: '蓄電池・太陽光 紹介パートナー募集', href: '/partner/energy' },
             ]}/>

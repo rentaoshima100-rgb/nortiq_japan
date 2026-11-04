@@ -112,7 +112,7 @@
       '<div style="padding:14px clamp(18px,4vw,26px) 18px;display:flex;gap:8px;flex-wrap:wrap"><button type="button" class="btn btn--outline btn--sm" id="dlCsv">CSVでダウンロード</button><button type="button" class="btn btn--sm" style="border-color:var(--text)" id="copyCsv">CSVをコピー</button></div></div>' +
       '<div class="note-red" style="border:1px solid var(--accent);border-radius:var(--radius-card);margin-top:12px"><b>実導入では、ここから先を自動にします</b>読み取った内容を販売管理システム・Excel・会計ソフトに入れ、人は「要確認」だけを見る。FAXはそのまま、取引先に何も頼みません。1業務10万円〜、または初期費用0円の月額。</div>' +
       '<div class="res-title"><h2>次にできること</h2><p class="sub">どれを選んでも営業電話はしません</p></div>' +
-      '<div class="tool-card" style="margin-bottom:12px"><div style="display:flex;gap:10px;flex-wrap:wrap"><a class="btn btn--primary btn--sm" href="/tools/estimate?c=auto&s=s&m=paper&i=sales">この業務の概算見積を出す →</a><a class="btn btn--outline btn--sm" href="/tools/manual-cost">転記の年間コストを計算する</a></div></div>' +
+      '<div class="tool-card" style="margin-bottom:12px"><div style="display:flex;gap:10px;flex-wrap:wrap"><a class="btn btn--primary btn--sm" href="/tools/estimate?c=auto&s=s&m=paper&i=sales">この業務の概算見積を出す →</a><a class="btn btn--outline btn--sm" href="/tools/manual-cost">転記の年間コストを計算する</a></div><p style="font-size:13px;color:var(--text-3);margin-top:10px">読み取った表の次に：<a href="/tools/stocktake">棚卸差異チェック</a>　<a href="/tools/invoice">請求書・見積書メーカー</a></p></div>' +
       '<div class="ctas" id="ctas"></div>';
     var csv = csvOf(res);
     $('#dlCsv').addEventListener('click', function () { if (!T.download('yomitori_' + d.replace(/\./g, '') + '.csv', '﻿' + csv, 'text/csv;charset=utf-8')) T.copyText(csv, $('#dlCsv')); });

@@ -70,6 +70,8 @@ const NAV_MEGA = [
         { id: 'lp-security', label: '脆弱性診断・セキュリティ保守', href: '/security' },
         { id: 'lp-automation', label: 'ひと業務AI（1業務自動化サブスク）', href: '/automation' },
         { id: 'lp-tools', label: '無料ツール（概算見積・診断・計算機）', href: '/tools' },
+        { id: 'lp-tools-invoice', label: '請求書・見積書メーカー（インボイス対応）', href: '/tools/invoice' },
+        { id: 'lp-tools-payment', label: '入金消し込み照合・タイムカード集計', href: '/tools/payment-match' },
       ]},
     ],
   },
@@ -713,6 +715,9 @@ function Footer({ onNavigate, onContact }) {
               <li><a href="/security">脆弱性診断・セキュリティ保守</a></li>
               <li><a href="/automation">ひと業務AI（1業務自動化サブスク）</a></li>
               <li><a href="/tools">無料ツール（概算見積・診断・計算機）</a></li>
+              <li><a href="/tools/invoice">請求書・見積書メーカー</a></li>
+              <li><a href="/tools/payment-match">入金消し込み照合</a></li>
+              <li><a href="/tools/timecard">タイムカード集計</a></li>
             </ul>
             <h3 style={{ marginTop: 24 }}>会社</h3>
             <ul>

@@ -10,7 +10,7 @@
 //
 // ツールを足したら TOOLS に slug を足す（scripts/tools-check.js が lp/tools/ と突き合わせる）。
 
-const TOOLS = ['estimate', 'ai-fit', 'manual-cost', 'ai-risk', 'document-demo'];
+const TOOLS = ['estimate', 'ai-fit', 'manual-cost', 'ai-risk', 'document-demo', 'invoice', 'payment-match', 'timecard', 'stocktake', 'cover-letter'];
 const STAGES = ['result', 'after_submit'];
 const MAX_BODY = 2 * 1024;
 
