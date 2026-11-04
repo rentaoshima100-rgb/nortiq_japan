@@ -33,6 +33,7 @@ const ARTICLE_ROUTES = (() => {
 })();
 
 const ROUTES_ALLOWLIST = [
+  '/article-supplier-inventory-lookup-scope',
   '/article-rice-traceability-record-system-requirements',
   '/article-system-development-schedule-validity',
   '/article-ai-chatbot-disclosure-requirements',
