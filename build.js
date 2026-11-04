@@ -121,6 +121,7 @@ const ORG_SAME_AS = [
 // desc → meta description / og:description / BlogPosting.description に使う。
 //        未指定の記事は app.jsx の SEO_DESC か自動生成の定型文にフォールバックする
 const BLOG = [
+  { slug: 'rice-traceability-record-system-requirements', category: '技術', date: '2026.11.04', read: '9 min', title: '米トレーサビリティ法｜取引記録の外注要件', img: 'assets/blog-default.png', desc: '米トレーサビリティ法で求められる取引記録の作成と保存を、システムの発注要件に落とし込む手順をまとめます。対象事業者と対象品目、記録する6項目、原則3年などの保存期間の区分、横断検索と追跡の要件、見積もり前に決める3点を解説します。', supervised: true },
   { slug: 'system-development-schedule-validity', category: '技術', date: '2026.11.04', read: '9 min', title: 'システム開発の工期｜妥当性を確かめる3つの数字', img: 'assets/blog-default.png', desc: '提示された開発期間が妥当かを、発注側が検算する手順をまとめます。規模の数量、前提とした体制、工程ごとの期間配分の3つを受け取る方法と、IPAの公的データを物差しに使う考え方、テストと受入が削られていないかの確認点を解説します。', supervised: true },
   { slug: 'ai-chatbot-disclosure-requirements', category: 'AI活用', date: '2026.11.04', read: '9 min', title: 'AIチャットボットのAI利用の明示｜発注時の要件', img: 'assets/blog-default.png', desc: 'AIであることを示す場所は、入口のボタン、会話の開始時、回答の末尾の3か所です。書く内容の4要素、誤回答に備えた契約との役割分担、公開前の確認の手順を発注側の視点で解説します。', supervised: true },
   { slug: 'recruitment-site-quotation-breakdown', category: 'Web制作', date: '2026.11.03', read: '8 min', title: '採用サイトの見積もり内訳｜撮影と取材の費用', img: 'assets/blog-default.png', desc: '採用サイトを外注するときの見積もりを、初期費用、月額、オプション、従量の4区分に分けて整理します。撮影と社員インタビューで金額が動く条件、募集要項の制度上の掲載項目、見積書で確認する7点を解説します。', supervised: true },
