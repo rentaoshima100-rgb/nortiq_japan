@@ -121,6 +121,7 @@ const ORG_SAME_AS = [
 // desc → meta description / og:description / BlogPosting.description に使う。
 //        未指定の記事は app.jsx の SEO_DESC か自動生成の定型文にフォールバックする
 const BLOG = [
+  { slug: 'acceptance-test-failure-rework-payment', category: '技術', date: '2026.11.04', read: '9 min', title: 'システム開発の検収で不合格｜やり直しと支払', img: 'assets/blog-default.png', desc: '検収で不合格にしたとき、やり直しはどこまで求められ、支払を止めてよいのかを公的資料から整理します。受領拒否と返品が禁止行為である理由、やり直し費用の負担区分、通知の期限までを順に解説します。', supervised: true },
   { slug: 'domain-transfer-lock-release', category: 'Web制作', date: '2026.11.04', read: '9 min', title: 'ドメイン移管ができない原因とロックの解除', img: 'assets/blog-default.png', desc: 'リニューアルで制作会社を変えるとき、ドメインの移管が止まる原因は指定事業者変更ロックと認証コードの未取得です。解除の依頼先、認証コードの35日の有効期限、WHOISでの状態の確認方法をまとめました。', supervised: true },
   { slug: 'site-reputation-policy-region-scope', category: 'Web制作', date: '2026.11.04', read: '7 min', title: 'サイト評判ポリシーの適用地域の違いと確認', img: 'assets/blog-default.png', desc: '海外向けのページを持つサイトで、サイト評判の不正使用ポリシーがどう適用されるかを整理します。分岐の基準は検索の地域であり、第三者のコンテンツを自社ドメインに置いているかが論点です。確認の手順も載せています。', supervised: true },
   { slug: 'supplier-inventory-lookup-scope', category: '技術', date: '2026.11.04', read: '7 min', title: '取引先への在庫照会、公開範囲の決め方', img: 'assets/blog-default.png', desc: '取引先に在庫を見せる仕組みの公開範囲を整理します。数量の粒度の選び方、商品と入荷予定と価格の扱い、取引先ごとの出し分け、権限の持たせ方、注文の記録の保存要件まで、外注前に決める項目をまとめました。', supervised: true },

@@ -33,6 +33,7 @@ const ARTICLE_ROUTES = (() => {
 })();
 
 const ROUTES_ALLOWLIST = [
+  '/article-acceptance-test-failure-rework-payment',
   '/article-domain-transfer-lock-release',
   '/article-site-reputation-policy-region-scope',
   '/article-supplier-inventory-lookup-scope',
