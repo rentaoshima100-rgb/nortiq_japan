@@ -121,6 +121,7 @@ const ORG_SAME_AS = [
 // desc → meta description / og:description / BlogPosting.description に使う。
 //        未指定の記事は app.jsx の SEO_DESC か自動生成の定型文にフォールバックする
 const BLOG = [
+  { slug: 'site-reputation-policy-region-scope', category: 'Web制作', date: '2026.11.04', read: '7 min', title: 'サイト評判ポリシーの適用地域の違いと確認', img: 'assets/blog-default.png', desc: '海外向けのページを持つサイトで、サイト評判の不正使用ポリシーがどう適用されるかを整理します。分岐の基準は検索の地域であり、第三者のコンテンツを自社ドメインに置いているかが論点です。確認の手順も載せています。', supervised: true },
   { slug: 'supplier-inventory-lookup-scope', category: '技術', date: '2026.11.04', read: '7 min', title: '取引先への在庫照会、公開範囲の決め方', img: 'assets/blog-default.png', desc: '取引先に在庫を見せる仕組みの公開範囲を整理します。数量の粒度の選び方、商品と入荷予定と価格の扱い、取引先ごとの出し分け、権限の持たせ方、注文の記録の保存要件まで、外注前に決める項目をまとめました。', supervised: true },
   { slug: 'rice-traceability-record-system-requirements', category: '技術', date: '2026.11.04', read: '9 min', title: '米トレーサビリティ法｜取引記録の外注要件', img: 'assets/blog-default.png', desc: '米トレーサビリティ法で求められる取引記録の作成と保存を、システムの発注要件に落とし込む手順をまとめます。対象事業者と対象品目、記録する6項目、原則3年などの保存期間の区分、横断検索と追跡の要件、見積もり前に決める3点を解説します。', supervised: true },
   { slug: 'system-development-schedule-validity', category: '技術', date: '2026.11.04', read: '9 min', title: 'システム開発の工期｜妥当性を確かめる3つの数字', img: 'assets/blog-default.png', desc: '提示された開発期間が妥当かを、発注側が検算する手順をまとめます。規模の数量、前提とした体制、工程ごとの期間配分の3つを受け取る方法と、IPAの公的データを物差しに使う考え方、テストと受入が削られていないかの確認点を解説します。', supervised: true },
