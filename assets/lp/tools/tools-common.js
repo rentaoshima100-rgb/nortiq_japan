@@ -111,7 +111,7 @@
       '<p class="fine">やり取りはメールまたはLINEで行います。</p></div>' +
 
       '<div class="cta-box"><div class="h"><span class="num">3</span><h3>1問だけ聞く</h3></div>' +
-      '<p>「うちの帳票でもいける？」「この金額に何が含まれる？」など、1問だけでも構いません。</p>' +
+      '<p>' + esc(opts.askExamples || '「うちの帳票でもいける？」「この金額に何が含まれる？」') + 'など、1問だけでも構いません。</p>' +
       '<div class="ctl">' + (lineUrl ? '<a class="btn btn--outline btn--sm" href="' + esc(lineUrl) + '" target="_blank" rel="noopener">LINEで質問する</a>' : '') +
       '<a class="btn btn--outline btn--sm" href="/#request">フォームで質問する</a><span style="font-size:13px;color:var(--text-3)">メールなら info@nortiqlab.com</span></div>' +
       '<p class="fine">売り込みはしません。</p></div>';

@@ -68,7 +68,7 @@
     $('#copyTmpl').addEventListener('click', function () { T.copyText(tmpl, $('#copyTmpl'), $('#tmpl')); });
     $('#dlTmpl').addEventListener('click', function () { if (!T.download('生成AI利用ルール_' + co + '.txt', tmpl)) T.copyText(tmpl, $('#dlTmpl'), $('#tmpl')); });
     var memo = ['【社内AI利用リスク診断】Nortiq Labs　' + d, '会社：' + co + '　リスクレベル：' + level[1] + '（' + pct + '点/100）', level[2], '', '■ 優先順の対策'].concat(hits.map(function (h, i) { return (i + 1) + '. ' + h.q.fix; })).concat(['', '■ 雛形は別途（画面からコピー・ダウンロード）']).join('\n');
-    T.renderCtas($('#ctas'), { memo: memo, kind: 'tools-ai-risk', memoLabel: '診断結果をコピー', shareTitle: '結果と雛形を社内で共有する', shareDesc: 'メールを入れると、診断結果と雛形（Word形式）をお送りします（任意）。',
+    T.renderCtas($('#ctas'), { memo: memo, kind: 'tools-ai-risk', askExamples: '「うちの規模でもルールは要る？」「雛形のここはどう直す？」', memoLabel: '診断結果をコピー', shareTitle: '結果と雛形を社内で共有する', shareDesc: 'メールを入れると、診断結果と雛形（Word形式）をお送りします（任意）。',
       quoteTitle: '自社の業務に合わせたルールを作ってもらう', quoteDesc: '雛形を業種・業務・使っているサービスに合わせて仕上げます（10万円〜・約2週間）。入力チェックの仕組みまで含める場合も相談できます。', quoteBtn: '相談を依頼する →', lineUrl: T.LINE_URL,
       extraFields: [['リスクレベル', level[1] + '（' + pct + '点）'], ['業種', ind], ['要対策', hits.length + '項目']] });
     T.track('tool_result', { kind: 'ai-risk', level: level[1], pct: pct });

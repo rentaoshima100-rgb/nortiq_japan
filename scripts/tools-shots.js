@@ -3,7 +3,7 @@
 //
 //   node scripts/tools-shots.js [出力先フォルダ]   （既定: .tools-shots/ ※ git 管理外）
 //
-// 390 / 768 / 1280px で、各ツールの「入力前」と「結果画面」、/tools、本体トップ（ヘッダー開閉含む）を
+// 390 / 768 / 1024 / 1280px で、各ツールの「入力前」と「結果画面」、/tools、本体トップ（ヘッダー開閉含む）を
 // 縦長 1 枚ずつ撮り、見やすいように 1,400px ごとに分割した画像も出す。
 // 数値の検査（tools-e2e.js）では拾えない「詰まり・重なり・切れ・読みにくさ」を、画像を開いて目で確かめるためのもの。
 // 公開前は、出力された画像を全部開いて確認する（確認したことを docs の変更履歴に書く）。
@@ -43,7 +43,7 @@ const srv = http.createServer((req, res) => {
   const slugs = fs.readdirSync(path.join(ROOT, 'lp', 'tools'), { withFileTypes: true }).filter((e) => e.isDirectory()).map((e) => e.name);
   const browser = await chromium.launch(); const base = `http://localhost:${PORT}`; const files = [];
   const shot = async (page, name) => { const f = path.join(OUT, name + '.png'); await page.screenshot({ path: f, fullPage: true }); files.push(f); };
-  for (const vp of [{ n: 'm390', w: 390, h: 844, mobile: true }, { n: 't768', w: 768, h: 1024, mobile: true }, { n: 'd1280', w: 1280, h: 900, mobile: false }]) {
+  for (const vp of [{ n: 'm390', w: 390, h: 844, mobile: true }, { n: 't768', w: 768, h: 1024, mobile: true }, { n: 'l1024', w: 1024, h: 768, mobile: false }, { n: 'd1280', w: 1280, h: 900, mobile: false }]) {
     const ctx = await browser.newContext({ viewport: { width: vp.w, height: vp.h }, deviceScaleFactor: 1, isMobile: vp.mobile, hasTouch: vp.mobile });
     const page = await ctx.newPage();
     // 本体トップ（ヘッダーの状態も）

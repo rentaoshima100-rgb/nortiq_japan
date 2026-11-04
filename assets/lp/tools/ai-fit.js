@@ -147,7 +147,7 @@
       '困っている業務：' + state.tasks.map(function (t) { return TASKS.filter(function (x) { return x.id === t; })[0].t; }).join('・'), '',
       '■ AIが効く業務 トップ5'].concat(scored.map(function (x, i) { return (i + 1) + '. ' + x.u.name + '（月' + x.hours + '時間削減の目安／' + x.u.cost[0] + '〜' + x.u.cost[1] + '万円）'; }))
       .concat(['', '■ 最初の一歩：' + firstStep.replace(/<[^>]+>/g, ''), '', '※ 削減時間・費用は目安です。実際の件数と帳票で無料で試算し直します。']).join('\n');
-    T.renderCtas($('#ctas'), { memo: memo, kind: 'tools-ai-fit', memoLabel: '診断結果をコピー', shareTitle: '結果を社内で共有する', shareDesc: '社長や上司への説明用テキストです。メールを入れると、費用目安つきの詳細レポートをお送りします（任意）。',
+    T.renderCtas($('#ctas'), { memo: memo, kind: 'tools-ai-fit', askExamples: '「うちの業種でも効く？」「この業務は何から始める？」', memoLabel: '診断結果をコピー', shareTitle: '結果を社内で共有する', shareDesc: '社長や上司への説明用テキストです。メールを入れると、費用目安つきの詳細レポートをお送りします（任意）。',
       quoteTitle: 'この業務について相談する', quoteDesc: '上の結果を引き継ぎます。実際の帳票と件数を見せていただければ、無料で試算し直します。', quoteBtn: '相談を依頼する →', lineUrl: T.LINE_URL,
       extraFields: [['業種', ind.t], ['業務', state.tasks.join(',')], ['1位', first.u.name], ['従業員', size.t]] });
     $('#editBtn').addEventListener('click', function () { state.step = 0; show(); window.scrollTo({ top: 0, behavior: 'smooth' }); });

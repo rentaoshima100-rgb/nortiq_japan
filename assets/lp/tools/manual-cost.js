@@ -71,7 +71,7 @@
       .concat(['', '合計：年' + fmt(Math.round(hoursY)) + '時間・' + fmt(Math.round(costY / 10000)) + '万円（約' + fte + '人分）', '自動化で減らせる額：年' + fmt(Math.round(saveLo / 10000)) + '〜' + fmt(Math.round(saveHi / 10000)) + '万円',
         mode === 'once' ? '一括導入（' + fmt(setup * items.length) + '万円）の回収目安：' + (payLo || '—') + '〜' + (payHi || '—') + 'か月' : '月額導入（月' + fmt(monthlyFee) + '円の目安）：年' + fmt(monthlyFee * 12 / 10000) + '万円',
         '', '※ 自動化率は標準値。例外処理と確認の時間は残ります。']).join('\n');
-    T.renderCtas($('#ctas'), { memo: memo, kind: 'tools-manual-cost', memoLabel: '計算結果をコピー', shareTitle: '結果を社長・上司に共有する', shareDesc: '「年間いくら払っているか」の数字は、稟議の一行目に使えます。',
+    T.renderCtas($('#ctas'), { memo: memo, kind: 'tools-manual-cost', askExamples: '「この件数だと本当に元が取れる？」「時給はいくらで計算すべき？」', memoLabel: '計算結果をコピー', shareTitle: '結果を社長・上司に共有する', shareDesc: '「年間いくら払っているか」の数字は、稟議の一行目に使えます。',
       quoteTitle: 'この業務を無料で試算し直してもらう', quoteDesc: '実際の帳票と件数を見せていただければ、自動化率と費用を業務ごとに出し直します。', quoteBtn: '試算を依頼する →', lineUrl: T.LINE_URL,
       extraFields: [['年間コスト', fmt(Math.round(costY / 10000)) + '万円'], ['削減額', fmt(Math.round(saveLo / 10000)) + '〜' + fmt(Math.round(saveHi / 10000)) + '万円'], ['業務', items.map(function (x) { return x.n; }).join('・')]] });
   }
