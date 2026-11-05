@@ -121,6 +121,7 @@ const ORG_SAME_AS = [
 // desc → meta description / og:description / BlogPosting.description に使う。
 //        未指定の記事は app.jsx の SEO_DESC か自動生成の定型文にフォールバックする
 const BLOG = [
+  { slug: 'website-maintenance-cost-breakdown', category: 'Web制作', date: '2026.11.05', read: '9 min', title: 'ホームページ公開後の維持費｜年間の内訳と相場', img: 'assets/blog-default.png', desc: 'ホームページ公開後の維持費を、固定費・更新費・保守費・変動費の4区分で解説します。年間の内訳、月額保守の相場、削ってよい費目と削らない費目、公開後の不具合修正が有償になる境目までを2026年10月時点の情報でまとめました。', supervised: true },
   { slug: 'system-development-spec-change-cost', category: '技術', date: '2026.11.05', read: '10 min', title: 'システム開発の仕様変更｜追加費用を書面で決める7項目', img: 'assets/blog-default.png', desc: 'システム開発の途中で仕様変更を依頼するとき、追加費用と納期を書面で決める7項目を整理します。2026年1月1日施行の取適法で変わった書面の扱い、禁止行為、支払期日の60日という上限、記録の残し方まで、発注側の手順として解説します。', supervised: true },
   { slug: 'recruitment-site-job-posting-requirements', category: 'Web制作', date: '2026.11.05', read: '8 min', title: '採用サイトの募集要項に書く項目｜明示事項と青少年雇用情報', img: 'assets/blog-default.png', desc: '採用サイトの制作を外注する前に、募集要項のどの項目を自社で決めるかを整理します。明示事項と青少年雇用情報の項目表の作り方、数値の更新の分担、実装でつまずきやすい点までまとめました。', supervised: true },
   { slug: 'acceptance-test-failure-rework-payment', category: '技術', date: '2026.11.04', read: '9 min', title: 'システム開発の検収で不合格｜やり直しと支払', img: 'assets/blog-default.png', desc: '検収で不合格にしたとき、やり直しはどこまで求められ、支払を止めてよいのかを公的資料から整理します。受領拒否と返品が禁止行為である理由、やり直し費用の負担区分、通知の期限までを順に解説します。', supervised: true },
