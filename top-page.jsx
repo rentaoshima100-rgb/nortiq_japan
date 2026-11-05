@@ -582,6 +582,17 @@ function TopPage({ onNavigate, onContact }) {
               Nortiq Labs だからこそのノウハウと、Web/AI/DX 各機能に関する資料をお送りします。
             </p>
           </div>
+          {/* LINE 友だち追加バナー (2026-11): フォームの前に「LINE でも相談できる」入口を置く。
+              公式アカウント NORTIQ LAB (@498ynxrl)。友だち追加すると、トークで届く質問にボタンで答えるだけで相談できる。
+              PC 21:9 (11) / 767px 以下は 1:1 (12)。表示・クリックは banner_id=line-request で GA4 に送る。 */}
+          <TrackedBanner id="line-request" tag="a" className="line-banner fadein" href="https://line.me/R/ti/p/@498ynxrl" target="_blank" rel="noopener">
+            <BannerImg
+              base="assets/banners/11_line_pc_21x9" widths={[1400, 2400]} sizes="(max-width: 952px) calc(100vw - 32px), 920px"
+              width={2400} height={1029}
+              mobile={{ base: 'assets/banners/12_line_sp_1x1', width: 1080, height: 1080, widths: [780, 1080], sizes: 'calc(100vw - 32px)' }}
+              alt="LINEで、かんたん無料相談。トークで届く質問に、ボタンで答えるだけ。友だち追加する"
+            />
+          </TrackedBanner>
           <BigInlineForm/>
         </div>
       </section>

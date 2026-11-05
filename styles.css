@@ -5156,6 +5156,23 @@ video, iframe { max-width: 100%; }
   .top-banner img { aspect-ratio: 1080 / 1341; }
 }
 
+/* --- トップ: お問い合わせ (#request) の LINE 友だち追加バナー 11 (PC 21:9) / 12 (767px 以下 1:1) --- */
+.line-banner {
+  display: block;
+  margin: 32px auto 40px;
+  border-radius: 16px;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 14px 36px rgba(17,17,17,0.10);
+  transition: transform 200ms ease, box-shadow 200ms ease;
+}
+.line-banner:hover { transform: translateY(-2px); box-shadow: 0 20px 44px rgba(6,199,85,0.18); }
+.line-banner img { width: 100%; height: auto; display: block; aspect-ratio: 2400 / 1029; }
+@media (max-width: 767px) {
+  .line-banner { max-width: 420px; margin: 24px auto 32px; border-radius: 12px; }
+  .line-banner img { aspect-ratio: 1 / 1; }
+}
+
 /* --- 共通CTA帯 (バナー 03): 768px 以上は画像、SP は従来の赤帯 (.t_inq_wrap) --- */
 .cta-band-wrap { padding: var(--section-y-sm) 0; }
 .cta-band {
