@@ -253,3 +253,70 @@
 .doc .doc-items .c-q{width:14%}.doc .doc-items .c-u{width:10%}.doc .doc-items .c-p{width:17%}.doc .doc-items .c-a{width:17%}
 .doc .doc-items td:nth-child(3){white-space:nowrap}
 @media (max-width:480px){.doc .doc-items .c-q{width:15%}.doc .doc-items .c-u{width:13%}.doc .doc-items .c-p{width:18%}.doc .doc-items .c-a{width:21%}}
+
+/* ---------- 2026-11-05: 注文集計・宛先整形・名簿重複・予約表・日報（共通部品） ---------- */
+.opt-line{display:flex;flex-wrap:wrap;gap:8px 18px;align-items:center;margin-top:12px;font-size:13.5px;color:var(--text-2)}
+.opt-line label{display:inline-flex;align-items:center;gap:6px;cursor:pointer;min-height:32px}
+.opt-line input[type=checkbox],.opt-line input[type=radio]{width:18px;height:18px;accent-color:var(--accent);flex:none}
+.grp{padding:12px clamp(18px,4vw,26px);border-bottom:1px solid var(--border)}
+.grp:last-child{border-bottom:0}
+.grp__h{display:flex;flex-wrap:wrap;gap:4px 12px;align-items:baseline;justify-content:space-between;font-weight:700;color:var(--text);font-size:15px}
+.grp__h small{font-weight:500;color:var(--text-3);font-size:12.5px}
+.grp ul{margin:6px 0 0;padding:0;list-style:none;display:grid;gap:4px}
+.grp li{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;align-items:start;font-size:14px;color:var(--text-2)}
+.grp li>span:first-child{overflow-wrap:anywhere}
+.grp li .qty{font-family:var(--font-latin);font-weight:700;color:var(--text);white-space:nowrap;font-variant-numeric:tabular-nums}
+.tag{display:inline-block;font-size:11.5px;font-weight:700;line-height:1.5;border:1px solid var(--border-hi);border-radius:3px;padding:0 6px;color:var(--text-2);white-space:nowrap;background:var(--surface)}
+.tag--warn{border-color:var(--accent);color:var(--accent);background:var(--accent-soft)}
+.tbl td.r,.tbl th.r{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+.tbl--wrap td{overflow-wrap:anywhere}
+.doc .doc-h3{font-size:14px;font-weight:700;margin:14px 0 6px;border-left:4px solid #111;padding-left:8px;color:#111}
+.doc .box{display:inline-block;width:12px;height:12px;border:1px solid #333;vertical-align:-1px;margin-right:6px}
+.doc td.c{text-align:center}
+/* booking-sheet: 時間割（行＝コマ、列＝担当） */
+.tgrid table{table-layout:fixed}
+.tgrid th.t,.tgrid td.t{width:4.6em;white-space:nowrap;font-variant-numeric:tabular-nums;font-weight:700;color:var(--text)}
+.tgrid td.t small{font-weight:500;color:var(--text-3);font-size:11px}
+.tgrid td{overflow-wrap:anywhere;border-right:1px solid var(--border)}
+.tgrid td:last-child{border-right:0}
+.tgrid td.on{background:var(--accent-soft);color:var(--text);font-weight:500}
+.tgrid td.cont{background:var(--accent-soft);color:var(--text-3);text-align:center}
+.tgrid tr.off td.t{color:var(--text-3)}
+.doc .doc-grid .c-t{width:11%}
+.doc .doc-grid td{font-size:11px;line-height:1.4;padding:3px 5px}
+.doc .doc-grid td.t{white-space:nowrap;text-align:center;font-variant-numeric:tabular-nums}
+.doc .doc-grid td.t small{font-size:9px}
+.doc .doc-grid td.cont{text-align:center;color:#666}
+.doc .doc-list .c-t{width:19%}.doc .doc-list .c-s{width:16%}.doc .doc-list .c-k{width:9%}
+.grp li .fr{font-weight:700;color:var(--text);white-space:nowrap;font-variant-numeric:tabular-nums}
+/* daily-report（作業日報メーカー） */
+.calc-row--rep{grid-template-columns:.9fr .9fr 2.2fr 1.4fr auto}
+@media (max-width:640px){.calc-row--rep{grid-template-columns:1fr 1fr;padding-bottom:12px;border-bottom:1px dashed var(--border)}.calc-row--rep:last-child{border-bottom:0;padding-bottom:0}.calc-row--rep>:first-child{grid-column:auto}.calc-row--rep>.wide{grid-column:1/-1}}
+.rep-text{white-space:pre-wrap;overflow-wrap:anywhere;font-size:14px;line-height:1.75;color:var(--text);padding:14px clamp(18px,4vw,26px)}
+.doc .rep-kv th{width:auto}
+.doc .rep-kv .k{width:13%}.doc .rep-kv .v1{width:43%}
+.doc .rep-items .c-t{width:25%}.doc .rep-items .c-q{width:21%}.doc .rep-items .c-d{width:12%}
+.doc .rep-items td.c{white-space:nowrap}
+.doc .rep-seal{width:auto;margin:16px 0 0 auto;table-layout:auto}
+.doc .rep-seal th,.doc .rep-seal td{width:4.6em;padding:2px 6px}
+.doc .rep-seal td{height:4.2em}
+@media (max-width:480px){.doc .rep-kv .k{width:15%}.doc .rep-kv .v1{width:44%}.doc .rep-items .c-t{width:29%}.doc .rep-items .c-q{width:22%}.doc .rep-items .c-d{width:14%}}
+@media print{.doc .doc-h3{break-after:avoid;page-break-after:avoid}.doc .doc-note,.doc .rep-seal,.doc .doc-sum{break-inside:avoid;page-break-inside:avoid}}
+/* list-dedupe: グループの行の右の「残す／重複／要確認」ラベルが、行の高さいっぱいに伸びないようにする */
+.grp li>.tag{align-self:start;margin-top:3px}
+/* order-summary: 得意先ごとの表のかたまり */
+.doc .ord-blk{margin:0 0 12px}
+@media print{.doc .ord-blk{break-inside:avoid;page-break-inside:avoid}}
+/* 2026-11-05: 表を sheet の中に余白つきで置く／さらに広い表／語の途中で折り返さない／「ほかのツール」の間隔 */
+.sheet-pad{padding:12px clamp(12px,3vw,20px) 14px}
+.sheet-pad .tbl{margin-top:0}
+.tbl--xxl table{min-width:1040px}
+.tbl--xxl .tbl-hint{display:block}
+.nb{white-space:nowrap}
+.again{column-gap:18px}
+.tbl col.bk-t{width:8.5em}.tbl col.bk-s{width:22%}
+@media (max-width:640px){.tbl col.bk-t{width:6.8em}.tbl col.bk-s{width:19%}}
+.bk-what{margin-left:.6em}
+@media (max-width:640px){.bk-what{display:block;margin-left:0}}
+/* 2026-11-05: 印刷のとき、固定ヘッダー分の上余白（body の padding-top）を無くし、保存メッセージ（.msg）を書類に出さない */
+@media print{body{padding-top:0 !important}#result>.msg{display:none !important}}

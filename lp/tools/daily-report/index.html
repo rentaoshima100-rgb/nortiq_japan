@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>作業日報メーカー｜スマホで入力してA4日報とLINEに貼る文面を同時に作る｜Nortiq Labs</title>
+<meta name="description" content="開始・終了の時刻と作業内容を入れると実働時間を自動で計算し、印刷できるA4の作業日報、LINEやメールにそのまま貼れる文面、月報に足せるCSVが同時にできます。現場からスマホで入力でき、登録不要。入力した内容はサーバーに送りません。">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+<link rel="canonical" href="https://nortiqlab.com/tools/daily-report">
+<meta name="theme-color" content="#E60012">
+<meta name="format-detection" content="telephone=no">
+<link rel="icon" href="/assets/nortiq-fav.png">
+<link rel="apple-touch-icon" href="/assets/nortiq-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Nortiq Labs">
+<meta property="og:title" content="作業日報メーカー｜スマホで入力してA4日報とLINEに貼る文面を同時に作る">
+<meta property="og:description" content="開始・終了の時刻と作業内容を入れると実働時間を自動で計算し、印刷できるA4の作業日報、LINEやメールにそのまま貼れる文面、月報に足せるCSVが同時にできます。現場からスマホで入力でき、登録不要。入力した内容はサーバーに送りません。">
+<meta property="og:url" content="https://nortiqlab.com/tools/daily-report">
+<meta property="og:image" content="https://nortiqlab.com/assets/og/tools.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="ja_JP">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="作業日報メーカー｜スマホで入力してA4日報とLINEに貼る文面を同時に作る">
+<meta name="twitter:description" content="開始・終了の時刻と作業内容を入れると実働時間を自動で計算し、印刷できるA4の作業日報、LINEやメールにそのまま貼れる文面、月報に足せるCSVが同時にできます。現場からスマホで入力でき、登録不要。入力した内容はサーバーに送りません。">
+<meta name="twitter:image" content="https://nortiqlab.com/assets/og/tools.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Space+Grotesk:wght@500;700&display=swap">
+<link rel="stylesheet" href="/assets/lp/common/lp.css?v={{V}}">
+<link rel="stylesheet" href="/assets/lp/tools/tools.css?v={{V}}">
+{{ANALYTICS}}
+<script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://nortiqlab.com/#org","name":"Nortiq Labs","legalName":"NORTIQLAB株式会社","url":"https://nortiqlab.com/","logo":"https://nortiqlab.com/assets/nortiq-mark.png","email":"info@nortiqlab.com"},{"@type":"WebSite","@id":"https://nortiqlab.com/#website","name":"Nortiq Labs","url":"https://nortiqlab.com/","publisher":{"@id":"https://nortiqlab.com/#org"},"inLanguage":"ja"},{"@type":"WebPage","@id":"https://nortiqlab.com/tools/daily-report","url":"https://nortiqlab.com/tools/daily-report","name":"作業日報メーカー｜スマホで入力してA4日報とLINEに貼る文面を同時に作る","description":"開始・終了の時刻と作業内容から実働時間を計算し、A4の作業日報・LINEやメールに貼る文面・CSVを同時に作る無料ツール。","isPartOf":{"@id":"https://nortiqlab.com/#website"},"inLanguage":"ja","datePublished":"2026-11-05","dateModified":"2026-11-05"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://nortiqlab.com/"},{"@type":"ListItem","position":2,"name":"無料ツール","item":"https://nortiqlab.com/tools"},{"@type":"ListItem","position":3,"name":"作業日報メーカー","item":"https://nortiqlab.com/tools/daily-report"}]},{"@type":"SoftwareApplication","name":"作業日報メーカー｜スマホで入力してA4日報とLINEに貼る文面を同時に作る","applicationCategory":"BusinessApplication","operatingSystem":"Web","url":"https://nortiqlab.com/tools/daily-report","offers":{"@type":"Offer","price":"0","priceCurrency":"JPY"},"provider":{"@id":"https://nortiqlab.com/#org"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"入力した内容は保存されますか？","acceptedAnswer":{"@type":"Answer","text":"保存しません。氏名・現場名・作業内容はお使いのブラウザの中だけで処理し、サーバーには送りません。ページを閉じると消えるので、文面のコピー・印刷（PDF保存）・CSVのどれかで手元に残してください。"}},{"@type":"Question","name":"スマホだけで使えますか？","acceptedAnswer":{"@type":"Answer","text":"使えます。時刻は時計の選択で入り、作業の行は縦に並びます。「文面をコピー」を押してLINEやメールに貼り付ければ提出まで終わります。紙で出す場合は、スマホの印刷画面からPDFに保存して送るか、事務所のパソコンで印刷してください。"}},{"@type":"Question","name":"実働時間はどう計算していますか？","acceptedAnswer":{"@type":"Answer","text":"最初の作業の開始から最後の作業の終了までの時間から、休憩（分）を引いた時間です。昼休みを作業の行に書かなくても二重には引きません。終了が開始より前の時刻のときは翌日として計算します。8時間を超えた分は時間数だけを表示し、残業代の計算はしません。"}},{"@type":"Question","name":"複数の現場を回った日はどう書けばいいですか？","acceptedAnswer":{"@type":"Answer","text":"現場ごとに提出するなら現場の数だけ作り、1枚にまとめるなら「現場・案件名」に主な現場を入れて、作業内容の頭に現場名を書いてください（例：「A邸：給湯器交換」）。明細のCSVは作業の行ごとに出るので、あとで現場別に集計できます。"}}]}]}
+</script>
+</head>
+<body data-lp="tools-daily-report">
+
+<header class="header">
+  <div class="container header__inner">
+    <a class="brand" href="/" aria-label="Nortiq Labs トップページ"><span class="brand__name">NORTIQ</span><span class="brand__sub">LABS</span></a>
+    <a class="btn btn--primary btn--sm header__cta" href="/#request" data-ga="consult_request" data-ga-location="header">無料で相談する</a>
+  </div>
+</header>
+
+<main class="tool-main" data-clarity-mask="true">
+<section class="section tool-hero" aria-labelledby="fv-title">
+  <div class="container">
+    <nav aria-label="パンくず"><ol class="crumbs"><li><a href="/">ホーム</a></li><li><a href="/tools">無料ツール</a></li><li aria-current="page">作業日報メーカー</li></ol></nav>
+    <div class="tool-wrap">
+      <p class="eyebrow">Daily Report / 登録不要</p>
+      <h1 class="h1" id="fv-title">帰ってから書いていた<span class="accent">日報</span>を、<span style="display:inline-block">現場でスマホから。</span></h1>
+      <p class="tool-hero__sub">開始・終了の時刻と作業内容を入れるだけ。実働時間を自動で計算し、印刷できるA4の作業日報と、LINE・メールにそのまま貼れる文面が同時にできます。月末に足していけるCSVも出せます。</p>
+      <div class="tool-chips"><span>スマホで入力できる</span><span>実働時間を自動で計算</span><span>A4・文面・CSVの3つが残る</span><span>入力した内容はサーバーに送りません</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="container">
+  <div class="tool-wrap">
+
+<section class="tool-card">
+  <div class="qnum">Step 1</div><h2 class="q">いつ・だれが・どこで</h2><p class="qhelp">氏名や現場名は日報に印字するためだけに使い、どこにも保存しません。空欄のままでも作れます。</p>
+  <div class="form-grid">
+  <div><label for="date">日付</label><input id="date" type="date" value=""></div>
+  <div><label for="weather">天気（任意）</label><select id="weather"><option value="">—</option><option value="晴れ" selected>晴れ</option><option value="くもり">くもり</option><option value="雨">雨</option><option value="雪">雪</option></select></div>
+  <div><label for="name">氏名（任意）</label><input id="name" type="text" maxlength="30" autocomplete="name" value="山田 太郎"></div>
+  <div><label for="team">所属・班（任意）</label><input id="team" type="text" maxlength="30" value="設備1班"></div>
+  <div class="span2"><label for="site">現場・案件名</label><input id="site" type="text" maxlength="60" value="サンプルビル改修工事"></div>
+  <div class="span2"><label for="to">宛先（任意。文面の最初に入ります）</label><input id="to" type="text" maxlength="30" placeholder="例：〇〇課長" value=""></div>
+  </div>
+</section>
+<section class="tool-card">
+  <div class="qnum">Step 2</div><h2 class="q">今日やった作業</h2><p class="qhelp">作業ごとに開始・終了の時刻と内容を入れます。最大20行。時刻が分からない作業は、内容だけでも載せられます。</p>
+  <div class="calc-rows" id="rows"></div>
+  <div class="tool-nav"><button type="button" class="btn btn--outline btn--sm" id="addRow">＋ 作業を追加</button></div>
+  <div class="form-grid" style="margin-top:16px">
+  <div><label for="rest">休憩（分）</label><input id="rest" type="number" min="0" max="600" step="5" inputmode="numeric" value="60"></div>
+  </div>
+  <p class="tool-sample">実働時間＝（最初の開始〜最後の終了）−休憩。昼休みを作業の行に書かなくても、二重には引きません。</p>
+</section>
+<section class="tool-card">
+  <div class="qnum">Step 3</div><h2 class="q">連絡・明日の予定</h2><p class="qhelp">引き継ぐこと、気づいたこと、明日の段取り。箇条書きのままで構いません。</p>
+  <div class="form-grid">
+  <div class="span2"><label for="note">連絡・引き継ぎ事項</label><textarea id="note" rows="5" maxlength="600">3階の継手が2個不足。明日の朝、資材置き場から補充します。
+気密試験は2階まで合格。3階は明日の午前に実施します。</textarea></div>
+  <div class="span2"><label for="plan">明日の予定</label><textarea id="plan" rows="3" maxlength="400">3階 配管取付の残りと気密試験、保温工事の準備</textarea></div>
+  <div class="span2"><label for="cost">使った材料・経費（任意）</label><textarea id="cost" rows="3" maxlength="400">塩ビ管 VP20 4m×6本、継手 12個／駐車場代 800円</textarea></div>
+  </div>
+  <div class="tool-nav"><button type="button" class="btn btn--primary" id="run">日報を作る</button><span class="tool-sample">初期値はサンプルです。今日の内容に書き換えてください。</span></div>
+</section>
+
+<section id="result" hidden></section>
+
+<div class="section__head" style="margin-top:48px"><h2 class="h2" style="font-size:24px">このツールについて</h2></div>
+<div class="tool-card">
+<p style="font-size:14.5px">2026年11月4日・5日に求人票と公開されている投稿を調べたところ、「帰る前に日報」「日報を出してから帰る」「日報と出勤登録の修正をやってから」といった当事者の投稿が7件、求人票では2日間の255件のうち8件に「日報」の入力がありました。現場が終わってから事務所に戻って書く、家に帰ってから思い出して書く。その時間を、作業の合間にスマホで入れておくだけにするためのツールです。</p>
+<h3 style="font-size:16px;margin-top:16px">出てくるもの</h3>
+<p style="font-size:14px;color:var(--text-2)"><b>A4の作業日報</b>：日付（曜日）・氏名・所属・現場・天気、作業ごとの時刻と時間数、休憩と実働時間、連絡・引き継ぎ事項、明日の予定、使った材料・経費、確認印の欄。そのまま印刷するか、印刷画面でPDFに保存できます。<b>LINE・メールに貼る文面</b>：同じ内容を、チャットで読みやすい箇条書きにしたもの。ボタン1つでコピーできます。<b>CSV</b>：「1日1行」と「作業の明細」の2種類。1日1行のCSVを月末につなげれば、そのまま月報の表になります。</p>
+<h3 style="font-size:16px;margin-top:16px">使い方</h3>
+<p style="font-size:14px;color:var(--text-2)">1. 日付・氏名・現場を入れる　2. 作業ごとに開始・終了の時刻と内容を入れる（「＋ 作業を追加」で行を足す）　3. 休憩の分数、連絡事項、明日の予定を入れて「日報を作る」　4. 「文面をコピー」でLINEやメールに貼る。紙で出す会社は「日報を印刷・PDF保存」。入力した内容はこのページの中だけで処理し、サーバーには送りません。</p>
+<h3 style="font-size:16px;margin-top:16px">時間の計算と休憩の目安（2026年11月時点）</h3>
+<p style="font-size:14px;color:var(--text-2)">実働時間は「最初の作業の開始から最後の作業の終了まで」から休憩を引いて出します。8時間を超えた分は時間数だけを表示します（残業代の計算や、週40時間・深夜・法定休日の区分は <a href="/tools/timecard">タイムカード集計・残業時間計算表</a> で行えます）。休憩については、労働基準法34条1項は、労働時間が6時間を超える場合は少なくとも45分、8時間を超える場合は少なくとも1時間の休憩を、労働時間の途中に与えなければならないと定めています。入力した休憩がこの目安より短いときは、結果に確認の一文を出します。実際の労働時間の取り扱いは、会社の就業規則と勤怠の記録に従ってください。</p>
+<p style="font-size:14px;color:var(--text-2);margin-top:12px">関連：<a href="/tools/timecard">タイムカード集計</a>、<a href="/tools/booking-sheet">予約表メーカー</a>、<a href="/tools/order-summary">注文集計・出荷指示書メーカー</a>、<a href="/tools/invoice">請求書・見積書メーカー</a>。日報を自動でためて現場別・人別に集計するところまで仕組みにしたいときは <a href="/dx">業務システム開発</a> や <a href="/automation">ひと業務AI</a> をご覧ください。</p>
+</div>
+
+<div class="section__head" style="margin-top:48px"><h2 class="h2" style="font-size:24px">よくある質問</h2></div><div class="faq">
+<div class="faq__item is-open"><button type="button" class="faq__q" aria-expanded="true">入力した内容は保存されますか？<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button><div class="faq__a"><div><p style="padding:0 0 20px;font-size:14.5px">保存しません。氏名・現場名・作業内容はお使いのブラウザの中だけで処理し、サーバーには送りません。ページを閉じると消えるので、文面のコピー・印刷（PDF保存）・CSVのどれかで手元に残してください。</p></div></div></div>
+<div class="faq__item"><button type="button" class="faq__q" aria-expanded="false">スマホだけで使えますか？<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button><div class="faq__a"><div><p style="padding:0 0 20px;font-size:14.5px">使えます。時刻は時計の選択で入り、作業の行は縦に並びます。「文面をコピー」を押してLINEやメールに貼り付ければ提出まで終わります。紙で出す場合は、スマホの印刷画面からPDFに保存して送るか、事務所のパソコンで印刷してください。</p></div></div></div>
+<div class="faq__item"><button type="button" class="faq__q" aria-expanded="false">実働時間はどう計算していますか？<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button><div class="faq__a"><div><p style="padding:0 0 20px;font-size:14.5px">最初の作業の開始から最後の作業の終了までの時間から、休憩（分）を引いた時間です。昼休みを作業の行に書かなくても二重には引きません。終了が開始より前の時刻のときは翌日として計算します。8時間を超えた分は時間数だけを表示し、残業代の計算はしません。</p></div></div></div>
+<div class="faq__item"><button type="button" class="faq__q" aria-expanded="false">複数の現場を回った日はどう書けばいいですか？<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button><div class="faq__a"><div><p style="padding:0 0 20px;font-size:14.5px">現場ごとに提出するなら現場の数だけ作り、1枚にまとめるなら「現場・案件名」に主な現場を入れて、作業内容の頭に現場名を書いてください（例：「A邸：給湯器交換」）。明細のCSVは作業の行ごとに出るので、あとで現場別に集計できます。</p></div></div></div>
+</div>
+    <div class="tool-foot">法令の記載は2026年11月時点のものです。労働時間・休憩の取り扱いは就業規則と勤怠の記録に従い、判断に迷う場合は社会保険労務士にご確認ください。入力内容はブラウザの中だけで処理し、サーバーには送りません。</div>
+  </div>
+</section>
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer__inner">
+      <a class="brand" href="/" aria-label="Nortiq Labs トップページ"><span class="brand__name">NORTIQ</span><span class="brand__sub">LABS</span></a>
+      <ul class="footer__links">
+        <li><a href="/tools">無料ツール</a></li>
+        <li><a href="/dx">業務システム・AI開発</a></li>
+        <li><a href="/web">ホームページ制作</a></li>
+        <li><a href="/automation">ひと業務AI</a></li>
+        <li><a href="/works">制作実績</a></li>
+        <li><a href="/company">会社概要</a></li>
+        <li><a href="/privacy">プライバシーポリシー</a></li>
+        <li><a href="/privacy-handling">個人情報の取扱い</a></li>
+      </ul>
+    </div>
+    <p class="footer__copy">© 2026 NORTIQLAB株式会社</p>
+  </div>
+</footer>
+
+<script src="/assets/lp/common/lp.js?v={{V}}" defer></script>
+<script src="/assets/lp/tools/tools-common.js?v={{V}}" defer></script>
+<script src="/assets/lp/tools/daily-report.js?v={{V}}" defer></script>
+</body>
+</html>

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>宛先リスト整形｜送り状の宛先を貼るだけで送り状ソフト取込用CSVに整える｜Nortiq Labs</title>
+<meta name="description" content="手書きやExcelでばらばらに持っている送り状の宛先を貼り付けると、郵便番号・住所・建物名・電話番号を中身から見分けて半角にそろえ、送り状発行ソフトに取り込めるCSV（UTF-8／Shift_JIS）にします。郵便番号の桁不足や重複も確認。登録不要、宛先はサーバーに送りません。">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+<link rel="canonical" href="https://nortiqlab.com/tools/address-list">
+<meta name="theme-color" content="#E60012">
+<meta name="format-detection" content="telephone=no">
+<link rel="icon" href="/assets/nortiq-fav.png">
+<link rel="apple-touch-icon" href="/assets/nortiq-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Nortiq Labs">
+<meta property="og:title" content="宛先リスト整形｜送り状の宛先を貼るだけで送り状ソフト取込用CSVに整える">
+<meta property="og:description" content="手書きやExcelでばらばらに持っている送り状の宛先を貼り付けると、郵便番号・住所・建物名・電話番号を中身から見分けて半角にそろえ、送り状発行ソフトに取り込めるCSV（UTF-8／Shift_JIS）にします。郵便番号の桁不足や重複も確認。登録不要、宛先はサーバーに送りません。">
+<meta property="og:url" content="https://nortiqlab.com/tools/address-list">
+<meta property="og:image" content="https://nortiqlab.com/assets/og/tools.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="ja_JP">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="宛先リスト整形｜送り状の宛先を貼るだけで送り状ソフト取込用CSVに整える">
+<meta name="twitter:description" content="手書きやExcelでばらばらに持っている送り状の宛先を貼り付けると、郵便番号・住所・建物名・電話番号を中身から見分けて半角にそろえ、送り状発行ソフトに取り込めるCSV（UTF-8／Shift_JIS）にします。郵便番号の桁不足や重複も確認。登録不要、宛先はサーバーに送りません。">
+<meta name="twitter:image" content="https://nortiqlab.com/assets/og/tools.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Space+Grotesk:wght@500;700&display=swap">
+<link rel="stylesheet" href="/assets/lp/common/lp.css?v={{V}}">
+<link rel="stylesheet" href="/assets/lp/tools/tools.css?v={{V}}">
+{{ANALYTICS}}
+<script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://nortiqlab.com/#org","name":"Nortiq Labs","legalName":"NORTIQLAB株式会社","url":"https://nortiqlab.com/","logo":"https://nortiqlab.com/assets/nortiq-mark.png","email":"info@nortiqlab.com"},{"@type":"WebSite","@id":"https://nortiqlab.com/#website","name":"Nortiq Labs","url":"https://nortiqlab.com/","publisher":{"@id":"https://nortiqlab.com/#org"},"inLanguage":"ja"},{"@type":"WebPage","@id":"https://nortiqlab.com/tools/address-list","url":"https://nortiqlab.com/tools/address-list","name":"宛先リスト整形｜送り状の宛先を貼るだけで送り状ソフト取込用CSVに整える","description":"送り状の宛先を貼り付けると、郵便番号・住所・建物名・電話番号を見分けて半角にそろえ、送り状発行ソフトに取り込めるCSVと宛先一覧にする無料ツール。","isPartOf":{"@id":"https://nortiqlab.com/#website"},"inLanguage":"ja","datePublished":"2026-11-05","dateModified":"2026-11-05"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://nortiqlab.com/"},{"@type":"ListItem","position":2,"name":"無料ツール","item":"https://nortiqlab.com/tools"},{"@type":"ListItem","position":3,"name":"宛先リスト整形","item":"https://nortiqlab.com/tools/address-list"}]},{"@type":"SoftwareApplication","name":"宛先リスト整形｜送り状の宛先を貼るだけで送り状ソフト取込用CSVに整える","applicationCategory":"BusinessApplication","operatingSystem":"Web","url":"https://nortiqlab.com/tools/address-list","offers":{"@type":"Offer","price":"0","priceCurrency":"JPY"},"provider":{"@id":"https://nortiqlab.com/#org"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"どんな並び順の一覧でも読めますか？","acceptedAnswer":{"@type":"Answer","text":"1行に1件で、名前・郵便番号・住所・電話番号・備考がタブ、カンマ、または空白2つ以上で区切られていれば、順番が違っても中身から見分けます。郵便番号は7桁、電話番号は0から始まる10〜11桁、住所は都道府県名か「市・区・町・村・郡」と数字を手がかりにします。見分けられなかった行は「要確認」に理由を出すので、貼り付け欄を直してもう一度押してください。"}},{"@type":"Question","name":"取り込んだら文字化けしました。どうすればいいですか？","acceptedAnswer":{"@type":"Answer","text":"文字コードを「Shift_JIS」に変えて保存し直してください。宅配会社の送り状発行ソフト・サービスには、Shift_JISのCSVを求めるものが多くあります。Shift_JISに無い文字（絵文字や一部の旧字体など）は「?」に置き換え、置き換えた文字を画面に表示します。"}},{"@type":"Question","name":"郵便番号や電話番号の先頭の0が消えてしまいます。","acceptedAnswer":{"@type":"Answer","text":"保存したCSVをExcelで開いて上書き保存すると、ハイフンなしの番号が数値として扱われ、先頭の0が消えることがあります。CSVはExcelで開かずにそのまま送り状ソフトに取り込むか、郵便番号・電話番号を「ハイフンあり」で保存してください。"}},{"@type":"Question","name":"入力した宛先はどこかに送られますか？","acceptedAnswer":{"@type":"Answer","text":"どこにも送りません。貼り付けた宛先はブラウザの中だけで処理し、保存もしません。ページを閉じると消えるので、CSVか印刷で残してください。相談フォームを使う場合も、引き継ぐのは件数と要確認の理由（行番号）だけで、宛名や住所は含みません。"}}]}]}
+</script>
+</head>
+<body data-lp="tools-address-list">
+
+<header class="header">
+  <div class="container header__inner">
+    <a class="brand" href="/" aria-label="Nortiq Labs トップページ"><span class="brand__name">NORTIQ</span><span class="brand__sub">LABS</span></a>
+    <a class="btn btn--primary btn--sm header__cta" href="/#request" data-ga="consult_request" data-ga-location="header">無料で相談する</a>
+  </div>
+</header>
+
+<main class="tool-main" data-clarity-mask="true">
+<section class="section tool-hero" aria-labelledby="fv-title">
+  <div class="container">
+    <nav aria-label="パンくず"><ol class="crumbs"><li><a href="/">ホーム</a></li><li><a href="/tools">無料ツール</a></li><li aria-current="page">宛先リスト整形</li></ol></nav>
+    <div class="tool-wrap">
+      <p class="eyebrow">Address list / 登録不要</p>
+      <h1 class="h1" id="fv-title">手書きしていた送り状の宛先を、<span class="nb"><span class="accent">取り込めるCSV</span>に</span><span class="nb">整える。</span></h1>
+      <p class="tool-hero__sub">メール・Excel・注文書から集めた宛先を1行1件で貼り付けるだけ。郵便番号・住所・建物名・電話番号を中身から見分け、全角数字やハイフンのばらつきを半角にそろえて、送り状発行ソフトに取り込めるCSVにします。郵便番号の桁不足・都道府県の抜け・同じ宛先の重複は、保存する前に一覧で分かります。</p>
+      <div class="tool-chips"><span>名前・〒・住所・電話は順不同でOK</span><span>UTF-8／Shift_JIS を選べる</span><span>要確認・重複を一覧に</span><span>宛先はサーバーに送りません</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="container">
+  <div class="tool-wrap">
+
+<section class="tool-card">
+  <div class="qnum">Step 1</div><h2 class="q">宛先の一覧を貼る</h2><p class="qhelp">1行に1件。「お届け先名　郵便番号　住所　電話番号　品名・備考」を、タブ・カンマ・空白2つ以上で区切ってください。順番は違っていても構いません。建物名は番地のあとに空白を入れると別の列に分かれます。</p>
+  <textarea id="list" class="paste" rows="9" spellcheck="false" aria-label="宛先の一覧">サンプル商事株式会社	604-0000	京都府京都市中京区見本町1-2-3 サンプルビル5F	075-000-0000	お歳暮A
+山田 太郎	〒５３０００００	大阪府大阪市北区見本町１−２−３	０６００００００００	みかん5kg
+090-0000-0000	佐藤 花子	東京都千代田区見本1丁目2番3号見本マンション201	100-0000
+見本工業（株）	4600000	名古屋市中区サンプル町4-5-6	052-000-0000	部品
+鈴木 一郎	812-0000	福岡県福岡市博多区見本2ー3ー4
+株式会社サンプルフーズ 営業部 購買課 御担当者様	980-0000	宮城県仙台市青葉区見本町1-1-1	022-000-0000
+ﾀﾅｶ ｼｮｳﾃﾝ	060-000	北海道札幌市中央区見本北1条西2丁目3-4	011-000-0000
+サンプル商事株式会社	604-0000	京都府京都市中京区見本町1-2-3 サンプルビル5F	075-000-0000	お歳暮B</textarea>
+  <p class="tool-sample">初期値は架空のサンプルです（全角数字・ハイフンなし・都道府県なし・電話なし・重複を混ぜてあります）。自社の宛先に書き換えてください。</p>
+</section>
+
+<section class="tool-card">
+  <div class="qnum">Step 2</div><h2 class="q">CSVの形を選ぶ</h2><p class="qhelp">お使いの送り状発行ソフトの取り込み画面に合わせて選びます。迷ったら初期値のままで構いません。</p>
+  <div class="form-grid">
+    <div><label for="addrcols">住所の列</label><select id="addrcols"><option value="2" selected>住所と建物名の2列</option><option value="1">1列にまとめる</option><option value="3">都道府県・市区町村番地・建物名の3列</option></select></div>
+    <div><label for="enc">文字コード</label><select id="enc"><option value="utf8" selected>UTF-8（BOM付き）</option><option value="sjis">Shift_JIS</option></select></div>
+    <div><label for="zipfmt">郵便番号</label><select id="zipfmt"><option value="hyphen" selected>ハイフンあり（123-4567）</option><option value="none">ハイフンなし（1234567）</option></select></div>
+    <div><label for="telfmt">電話番号</label><select id="telfmt"><option value="auto" selected>入力のまま（分かるものはハイフン補完）</option><option value="none">ハイフンなし（数字だけ）</option></select></div>
+    <div><label for="maxname">名前の上限（全角の字数）</label><input id="maxname" type="number" inputmode="numeric" min="1" max="100" value="16"></div>
+    <div><label for="maxaddr">住所1列あたりの上限（全角の字数）</label><input id="maxaddr" type="number" inputmode="numeric" min="1" max="200" value="32"></div>
+  </div>
+  <p class="tool-sample" style="margin-top:8px">上限を超えた宛先は「要確認」に出します。字数はお使いの送り状ソフトの取込仕様に合わせて変えてください（半角は0.5字で数えます）。</p>
+  <div class="opt-line">
+    <label for="header"><input id="header" type="checkbox" checked>1行目に見出しを付ける</label>
+    <label for="sama"><input id="sama" type="checkbox">名前に敬称「様」を付ける</label>
+    <label for="nodup"><input id="nodup" type="checkbox">重複を除いて保存する</label>
+  </div>
+  <div class="tool-nav"><button type="button" class="btn btn--primary" id="run">宛先を整える</button><span class="tool-sample">入力した宛先はブラウザの中だけで処理します。</span></div>
+</section>
+
+<section id="result" hidden></section>
+
+<div class="section__head" style="margin-top:48px"><h2 class="h2" style="font-size:24px">このツールについて</h2></div>
+<div class="tool-card">
+<p style="font-size:14.5px">2026年11月5日に調べた求人票119件のうち14件に「送り状・伝票の発行」「出荷・発送」の仕事があり、Xには「送り状は入力して印刷する間に手書きで何枚も書ける」「デジタル送り状を今日初めて知った」という投稿がありました。送り状をソフトで出すのが面倒なのは、宛先が注文書・メール・Excelにばらばらの書き方で入っていて、取り込む前に打ち直す必要があるからです。このツールは、その「取り込める形に整える」部分だけを片付けます。</p>
+<h3 style="font-size:16px;margin-top:16px">出てくるもの</h3>
+<p style="font-size:14px;color:var(--text-2)"><b>取込用CSV</b>：お届け先名・郵便番号・住所・建物名・電話番号・品名や備考の列にそろえたCSV。住所は1列・2列・3列（都道府県を分ける）から選べ、文字コードはUTF-8（BOM付き）とShift_JISを選べます。<b>要確認の一覧</b>：郵便番号がない・7桁に足りない、都道府県が抜けている、電話番号がない、名前や住所が上限の字数を超えている宛先と、同じ名前・同じ宛先の重複。<b>宛先一覧（A4）</b>：出荷前の読み合わせや控えに使える、確認欄つきの一覧。</p>
+<h3 style="font-size:16px;margin-top:16px">そろえる内容</h3>
+<p style="font-size:14px;color:var(--text-2)">全角の英数字・記号は半角に、半角カナは全角に直します。番地の「１−２−３」「1ー2ー3」は「1-2-3」に統一し、カタカナの長音（ー）は数字に挟まれたときだけハイフンにします。郵便番号は「123-4567」の形に、建物名は番地のあとの空白（空白がなければ「◯号」「◯-◯」の直後）で別の列に分けます。電話番号は、携帯・フリーダイヤル・03・06で始まる番号だけハイフンを補い、それ以外は入力のまま残します。</p>
+<h3 style="font-size:16px;margin-top:16px">使い方</h3>
+<p style="font-size:14px;color:var(--text-2)">1. 宛先を1行1件で貼る　2.「宛先を整える」を押し、要確認の行を貼り付け欄で直す　3. CSVを保存して、送り状発行ソフトの「CSV取り込み」「外部データ取り込み」で読み込む。宅配会社の送り状発行ソフト・サービスは、取り込みのときに「CSVのどの列を、どの項目に入れるか」を画面で対応付けられるものが多いので、見出しを見ながら1度だけ対応付ければ、次からは同じ形のCSVをそのまま取り込めます。取り込んで文字化けする場合は、文字コードをShift_JISにして保存し直してください。</p>
+<p style="font-size:14px;color:var(--text-2);margin-top:12px">入力した宛先はブラウザの中だけで処理し、サーバーには送りません。保存もしないので、ページを閉じると消えます。</p>
+<p style="font-size:14px;color:var(--text-2);margin-top:12px">関連：注文を品目別・得意先別にまとめる <a href="/tools/order-summary">注文集計・出荷指示書メーカー</a>、顧客リストの表記ゆれと重複を見つける <a href="/tools/list-dedupe">名簿の重複チェック</a>、同封する <a href="/tools/invoice">納品書・請求書メーカー</a> と <a href="/tools/cover-letter">送付状メーカー</a>。受注データから送り状・納品書の発行までを打ち直さずにつなぐなら <a href="/dx">業務システム開発</a>、毎日の決まった入力だけを任せるなら <a href="/automation">ひと業務AI</a> で対応します。</p>
+</div>
+
+<div class="section__head" style="margin-top:48px"><h2 class="h2" style="font-size:24px">よくある質問</h2></div><div class="faq">
+<div class="faq__item is-open"><button type="button" class="faq__q" aria-expanded="true">どんな並び順の一覧でも読めますか？<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button><div class="faq__a"><div><p style="padding:0 0 20px;font-size:14.5px">1行に1件で、名前・郵便番号・住所・電話番号・備考がタブ、カンマ、または空白2つ以上で区切られていれば、順番が違っても中身から見分けます。郵便番号は7桁、電話番号は0から始まる10〜11桁、住所は都道府県名か「市・区・町・村・郡」と数字を手がかりにします。見分けられなかった行は「要確認」に理由を出すので、貼り付け欄を直してもう一度押してください。</p></div></div></div>
+<div class="faq__item"><button type="button" class="faq__q" aria-expanded="false">取り込んだら文字化けしました。どうすればいいですか？<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button><div class="faq__a"><div><p style="padding:0 0 20px;font-size:14.5px">文字コードを「Shift_JIS」に変えて保存し直してください。宅配会社の送り状発行ソフト・サービスには、Shift_JISのCSVを求めるものが多くあります。Shift_JISに無い文字（絵文字や一部の旧字体など）は「?」に置き換え、置き換えた文字を画面に表示します。</p></div></div></div>
+<div class="faq__item"><button type="button" class="faq__q" aria-expanded="false">郵便番号や電話番号の先頭の0が消えてしまいます。<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button><div class="faq__a"><div><p style="padding:0 0 20px;font-size:14.5px">保存したCSVをExcelで開いて上書き保存すると、ハイフンなしの番号が数値として扱われ、先頭の0が消えることがあります。CSVはExcelで開かずにそのまま送り状ソフトに取り込むか、郵便番号・電話番号を「ハイフンあり」で保存してください。</p></div></div></div>
+<div class="faq__item"><button type="button" class="faq__q" aria-expanded="false">入力した宛先はどこかに送られますか？<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button><div class="faq__a"><div><p style="padding:0 0 20px;font-size:14.5px">どこにも送りません。貼り付けた宛先はブラウザの中だけで処理し、保存もしません。ページを閉じると消えるので、CSVか印刷で残してください。相談フォームを使う場合も、引き継ぐのは件数と要確認の理由（行番号）だけで、宛名や住所は含みません。</p></div></div></div>
+</div>
+    <div class="tool-foot">住所・建物名の分け方や電話番号のハイフンは規則による自動判定です。保存する前に一覧で確かめ、取り込み後は送り状発行ソフトの画面でも宛先を確認してください。入力内容はブラウザの中だけで処理し、サーバーには送りません。</div>
+  </div>
+</section>
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer__inner">
+      <a class="brand" href="/" aria-label="Nortiq Labs トップページ"><span class="brand__name">NORTIQ</span><span class="brand__sub">LABS</span></a>
+      <ul class="footer__links">
+        <li><a href="/tools">無料ツール</a></li>
+        <li><a href="/dx">業務システム・AI開発</a></li>
+        <li><a href="/web">ホームページ制作</a></li>
+        <li><a href="/automation">ひと業務AI</a></li>
+        <li><a href="/works">制作実績</a></li>
+        <li><a href="/company">会社概要</a></li>
+        <li><a href="/privacy">プライバシーポリシー</a></li>
+        <li><a href="/privacy-handling">個人情報の取扱い</a></li>
+      </ul>
+    </div>
+    <p class="footer__copy">© 2026 NORTIQLAB株式会社</p>
+  </div>
+</footer>
+
+<script src="/assets/lp/common/lp.js?v={{V}}" defer></script>
+<script src="/assets/lp/tools/tools-common.js?v={{V}}" defer></script>
+<script src="/assets/lp/tools/address-list.js?v={{V}}" defer></script>
+</body>
+</html>

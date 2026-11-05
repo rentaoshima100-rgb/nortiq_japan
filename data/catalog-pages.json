@@ -675,6 +675,66 @@
       "default_next": null
     },
     {
+      "url": "/tools/order-summary",
+      "type": "service",
+      "title": "注文集計表・出荷指示書メーカー",
+      "industry": [],
+      "need": ["業務システム・DX"],
+      "audience": "FAX・電話の注文を入力している受注・出荷担当者向け",
+      "summary": "注文を貼ると品目別の合計と得意先別の出荷リストにまとめる。",
+      "suggestable": false,
+      "block_id": null,
+      "default_next": null
+    },
+    {
+      "url": "/tools/address-list",
+      "type": "service",
+      "title": "宛先リスト整形（送り状用CSV）",
+      "industry": [],
+      "need": ["業務システム・DX"],
+      "audience": "送り状を手書き・手入力している出荷担当者向け",
+      "summary": "宛先を貼ると郵便番号・住所・電話をそろえ送り状用CSVにする。",
+      "suggestable": false,
+      "block_id": null,
+      "default_next": null
+    },
+    {
+      "url": "/tools/list-dedupe",
+      "type": "service",
+      "title": "名簿の重複チェック・表記ゆれ整形",
+      "industry": [],
+      "need": ["業務システム・DX"],
+      "audience": "名簿・顧客リストを入力・管理している事務担当者向け",
+      "summary": "名簿を貼ると表記ゆれごと重複を見つけ整理後のCSVを出す。",
+      "suggestable": false,
+      "block_id": null,
+      "default_next": null
+    },
+    {
+      "url": "/tools/booking-sheet",
+      "type": "service",
+      "title": "予約表メーカー",
+      "industry": [],
+      "need": ["業務システム・DX"],
+      "audience": "予約の電話を受ける受付・店舗の担当者向け",
+      "summary": "予約を貼ると担当別の時間割と空き時間、重なりの確認が出る。",
+      "suggestable": false,
+      "block_id": null,
+      "default_next": null
+    },
+    {
+      "url": "/tools/daily-report",
+      "type": "service",
+      "title": "作業日報メーカー",
+      "industry": [],
+      "need": ["業務システム・DX"],
+      "audience": "日報を帰ってから書いている現場・店舗の方向け",
+      "summary": "作業と時間を入れるとA4の日報とLINE用の文面、CSVが出る。",
+      "suggestable": false,
+      "block_id": null,
+      "default_next": null
+    },
+    {
       "url": "/tools/manual-cost",
       "type": "service",
       "title": "手作業コスト計算機",

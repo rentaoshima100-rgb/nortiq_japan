@@ -74,7 +74,7 @@
       '<div class="doc-actions"><button type="button" class="btn btn--primary btn--sm" id="print">印刷・PDF保存</button><button type="button" class="btn btn--outline btn--sm" id="copy">送付状の文面をコピー</button><button type="button" class="btn btn--outline btn--sm" id="copymail">メール文をコピー</button></div>' +
       '<div class="doc-wrap">' + doc + '</div>' +
       '<div class="sheet"><div class="sheet-head"><span class="k">Mail</span><span class="d">同じ内容のメール本文</span></div><div class="copybox" style="margin:12px clamp(18px,4vw,26px) 16px;width:auto;max-height:none">' + esc(mail) + '</div></div>' +
-      '<div class="again">ほかのツール：<a href="/tools/invoice">請求書・見積書メーカー</a>　<a href="/tools/payment-match">入金消し込み照合</a>　<a href="/tools/ai-fit">AIで何ができる？業種別診断</a></div>' +
+      '<div class="again">ほかのツール：<a href="/tools/invoice">請求書・見積書メーカー</a><a href="/tools/payment-match">入金消し込み照合</a><a href="/tools/address-list">宛先リスト整形（送り状用）</a></div>' +
       '<div class="ctas" id="ctas"></div>';
     $('#print').addEventListener('click', function () { T.track('tool_print', { kind: 'tools-cover-letter' }); window.print(); });
     $('#copy').addEventListener('click', function () { T.copyText(letter, $('#copy')); });

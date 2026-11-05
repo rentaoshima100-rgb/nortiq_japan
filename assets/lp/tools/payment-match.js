@@ -118,7 +118,7 @@
       '<div class="note-red"><b>確認してから使ってください</b>「名義要確認」は金額だけで結びつけた候補、「手数料差引」は差額が' + fmt(fee) + '円以内のものです。明細を見て確定してください。</div></div>' +
       '<div class="doc-wrap" hidden><div class="doc print-target" id="doc"><h2 class="doc-title">' + esc(title) + '</h2><p class="doc-meta">作成日：' + d + '　請求 ' + bills.length + '件 ¥' + fmt(billed) + '／入金 ' + pays.length + '件 ¥' + fmt(paid) + '</p>' +
       '<table><thead><tr><th>判定</th><th>取引先</th><th>請求額</th><th>入金</th><th>入金額</th><th>備考</th></tr></thead><tbody>' + rows.replace(/ class="st( warn)?"/g, '') + '</tbody></table></div></div>' +
-      '<div class="again">ほかのツール：<a href="/tools/invoice">請求書・見積書メーカー</a>　<a href="/tools/cover-letter">送付状メーカー（支払いのお願い）</a>　<a href="/tools/stocktake">棚卸差異チェック</a></div>' +
+      '<div class="again">ほかのツール：<a href="/tools/invoice">請求書・見積書メーカー</a><a href="/tools/cover-letter">送付状メーカー（支払いのお願い）</a><a href="/tools/list-dedupe">名簿の重複チェック</a></div>' +
       '<div class="ctas" id="ctas"></div>';
     var csv = [['判定', '取引先', '請求番号', '請求日', '請求額', '入金日', '入金名義', '入金額', '差額', '備考']].concat(res.map(function (r) { return [r.st, r.b ? r.b.name : '', r.b ? r.b.no : '', r.b ? r.b.date : '', r.b ? r.b.amt : '', r.p ? r.p.date : '', r.p ? r.p.name : '', r.p ? r.p.amt : '', r.b && r.p ? r.p.amt - r.b.amt : '', r.note]; }))
       .map(function (r) { return r.map(function (c) { return '"' + String(c == null ? '' : c).replace(/"/g, '""') + '"'; }).join(','); }).join('\r\n');

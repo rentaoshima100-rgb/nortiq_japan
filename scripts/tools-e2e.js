@@ -34,6 +34,11 @@ const FLOWS = {
   'timecard': async (page) => { await page.click('#run'); },
   'stocktake': async (page) => { await page.click('#run'); },
   'cover-letter': async (page) => { await page.click('#run'); },
+  'order-summary': async (page) => { await page.click('#run'); },
+  'address-list': async (page) => { await page.click('#run'); },
+  'list-dedupe': async (page) => { await page.click('#run'); },
+  'booking-sheet': async (page) => { await page.click('#run'); },
+  'daily-report': async (page) => { await page.click('#run'); },
 };
 
 const srv = http.createServer((req, res) => {

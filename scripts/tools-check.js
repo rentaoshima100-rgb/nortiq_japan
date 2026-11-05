@@ -63,6 +63,9 @@ for (const f of htmlFiles) {
   if (!DIST && !/{{ANALYTICS}}/.test(h)) W(f, '{{ANALYTICS}} が無い（計測されない）');
   if (/<input[^>]*type=["']password["']/i.test(h)) E(f, 'パスワード欄は置かない');
   if (/(sk-ant-|re_[A-Za-z0-9]{20,}|eyJhbGci)/.test(h)) E(f, 'キーやトークンらしき文字列が埋まっている');
+  // 「サーバーに送りません」と書いたページは、結果画面に描いた業務データがセッション録画（Clarity）に入らないよう、本文を伏せる属性を必須にする。
+  // （Clarity は入力欄の中身は既定で伏せるが、結果として画面に描いた文字は伏せない。2026-11-05 に送信内容を復号して確認）
+  if (/サーバーに(は)?送(りません|らない)/.test(h) && !/<main\b[^>]*\sdata-clarity-mask=["']true["']/i.test(h)) E(f, '「サーバーに送りません」と書いているのに <main> に data-clarity-mask="true" が無い（結果画面の内容がセッション録画に送られる）');
   // CSP は build.js が付ける。dist を見るときだけ確かめる
 }
 

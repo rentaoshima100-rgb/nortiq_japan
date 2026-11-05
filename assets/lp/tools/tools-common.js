@@ -221,5 +221,68 @@
     return { sent: function () { return sent; } };
   }
 
-  window.NTOOLS = { track: track, send: send, validEmail: validEmail, copyText: copyText, download: download, fmt: fmt, today: today, $: $, el: el, esc: esc, renderCtas: renderCtas, renderRating: renderRating, LINE_URL: '' };
+  // ---------- 2026-11-05: 貼り付け入力・CSV の共通関数（order-summary / address-list / list-dedupe / booking-sheet / daily-report） ----------
+  // 1行をセルに切る。タブ区切り（Excel からのコピー）はタブだけで切る。
+  // カンマ区切りは "…" の中と「1,200」の桁区切りを守ってから切る。空白2つ以上・読点でも切る。
+  function splitLine(line) {
+    if (line.indexOf('\t') >= 0) return line.split('\t').map(function (c) { return c.replace(/^"|"$/g, '').trim(); });
+    var kept = line.replace(/"([^"]*)"/g, function (m, q) { return q.replace(/,/g, '\u0001'); })
+      .replace(/(^|[^\d\/\-.:：])(\d{1,3}(?:,\d{3})+)(?!\d)/g, function (m, pre, n) { return pre + n.replace(/,/g, '\u0001'); });
+    return kept.split(/,|、|[ 　]{2,}/).map(function (c) { return c.replace(/\u0001/g, ',').trim(); });
+  }
+  // 「1,200」「１２００」「1200個」→ 1200。数でなければ NaN
+  function num(s) {
+    var m = String(s == null ? '' : s).normalize('NFKC').replace(/[,，\s]/g, '').match(/^-?\d+(\.\d+)?/);
+    return m ? Number(m[0]) : NaN;
+  }
+  function isoToday() { var d = new Date(); return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); }
+  // '2026-11-05' → '2026年11月5日（木）'
+  function jpDate(iso, withDow) {
+    var p = String(iso || '').split('-'); if (p.length !== 3) return String(iso || '');
+    var d = new Date(Number(p[0]), Number(p[1]) - 1, Number(p[2]));
+    return Number(p[0]) + '年' + Number(p[1]) + '月' + Number(p[2]) + '日' + (withDow ? '（' + '日月火水木金土'.charAt(d.getDay()) + '）' : '');
+  }
+  // 2次元配列 → CSV（全セルを "" で囲む・CRLF）
+  function toCsv(rows) {
+    return rows.map(function (r) { return r.map(function (c) { return '"' + String(c == null ? '' : c).replace(/"/g, '""') + '"'; }).join(','); }).join('\r\n');
+  }
+  // Shift_JIS（Windows-31J）への変換表。ブラウザの TextDecoder で全コードを復号して逆引き表を作る（外部ライブラリ・通信なし）。
+  var sjisTable = null;
+  function sjisMap() {
+    if (sjisTable) return sjisTable;
+    var m = {}, dec;
+    try { dec = new TextDecoder('shift_jis', { fatal: true }); } catch (_) { return null; }
+    var put = function (bytes) { try { var ch = dec.decode(new Uint8Array(bytes)); if (ch.length === 1 && !m[ch]) m[ch] = bytes; } catch (_) {} };
+    for (var b = 0xA1; b <= 0xDF; b++) put([b]);
+    for (var hi = 0x81; hi <= 0xFC; hi++) {
+      if (hi >= 0xA0 && hi <= 0xDF) continue;
+      for (var lo = 0x40; lo <= 0xFC; lo++) { if (lo !== 0x7F) put([hi, lo]); }
+    }
+    sjisTable = m; return m;
+  }
+  // 文字列 → { bytes: Uint8Array, miss: ['髙', …] }。変換できない文字は「?」にして miss に入れる。非対応ブラウザは null。
+  function sjis(text) {
+    var m = sjisMap(); if (!m) return null;
+    var out = [], miss = [], seen = {};
+    Array.from(String(text)).forEach(function (ch) {
+      var c = ch.charCodeAt(0);
+      if (ch.length === 1 && c < 0x80) { out.push(c); return; }
+      var b = m[ch] || m[ch.normalize('NFKC')];
+      if (b) { out.push.apply(out, b); return; }
+      out.push(0x3F); if (!seen[ch]) { seen[ch] = 1; miss.push(ch); }
+    });
+    return { bytes: new Uint8Array(out), miss: miss };
+  }
+  // CSV を保存する。enc: 'utf8'（BOM付き UTF-8・既定）| 'sjis'（Shift_JIS）。戻り値 { ok, enc, miss }
+  function saveCsv(filename, rows, enc) {
+    var csv = toCsv(rows);
+    if (enc === 'sjis') {
+      var r = sjis(csv + '\r\n');
+      if (r) return { ok: download(filename, r.bytes, 'text/csv;charset=shift_jis'), enc: 'sjis', miss: r.miss };
+    }
+    return { ok: download(filename, '﻿' + csv + '\r\n', 'text/csv;charset=utf-8'), enc: 'utf8', miss: [] };
+  }
+
+  window.NTOOLS = { track: track, send: send, validEmail: validEmail, copyText: copyText, download: download, fmt: fmt, today: today, $: $, el: el, esc: esc, renderCtas: renderCtas, renderRating: renderRating, LINE_URL: '',
+    splitLine: splitLine, num: num, isoToday: isoToday, jpDate: jpDate, toCsv: toCsv, sjis: sjis, saveCsv: saveCsv };
 })();

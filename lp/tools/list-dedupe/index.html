@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>名簿の重複チェック｜表記ゆれごと重複を見つけて整理後の名簿をCSVで保存｜Nortiq Labs</title>
+<meta name="description" content="顧客リスト・会員名簿・取引先一覧を貼り付けると、「株式会社」と「(株)」、全角と半角、電話番号のハイフンの有無といった表記ゆれを無視して重複を見つけ、1件にまとめた名簿と重複の一覧をCSVで残せます。登録不要、名簿はサーバーに送りません。">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+<link rel="canonical" href="https://nortiqlab.com/tools/list-dedupe">
+<meta name="theme-color" content="#E60012">
+<meta name="format-detection" content="telephone=no">
+<link rel="icon" href="/assets/nortiq-fav.png">
+<link rel="apple-touch-icon" href="/assets/nortiq-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Nortiq Labs">
+<meta property="og:title" content="名簿の重複チェック｜表記ゆれごと重複を見つけて整理後の名簿をCSVで保存">
+<meta property="og:description" content="顧客リスト・会員名簿・取引先一覧を貼り付けると、「株式会社」と「(株)」、全角と半角、電話番号のハイフンの有無といった表記ゆれを無視して重複を見つけ、1件にまとめた名簿と重複の一覧をCSVで残せます。登録不要、名簿はサーバーに送りません。">
+<meta property="og:url" content="https://nortiqlab.com/tools/list-dedupe">
+<meta property="og:image" content="https://nortiqlab.com/assets/og/tools.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="ja_JP">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="名簿の重複チェック｜表記ゆれごと重複を見つけて整理後の名簿をCSVで保存">
+<meta name="twitter:description" content="顧客リスト・会員名簿・取引先一覧を貼り付けると、「株式会社」と「(株)」、全角と半角、電話番号のハイフンの有無といった表記ゆれを無視して重複を見つけ、1件にまとめた名簿と重複の一覧をCSVで残せます。登録不要、名簿はサーバーに送りません。">
+<meta name="twitter:image" content="https://nortiqlab.com/assets/og/tools.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Space+Grotesk:wght@500;700&display=swap">
+<link rel="stylesheet" href="/assets/lp/common/lp.css?v={{V}}">
+<link rel="stylesheet" href="/assets/lp/tools/tools.css?v={{V}}">
+{{ANALYTICS}}
+<script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://nortiqlab.com/#org","name":"Nortiq Labs","legalName":"NORTIQLAB株式会社","url":"https://nortiqlab.com/","logo":"https://nortiqlab.com/assets/nortiq-mark.png","email":"info@nortiqlab.com"},{"@type":"WebSite","@id":"https://nortiqlab.com/#website","name":"Nortiq Labs","url":"https://nortiqlab.com/","publisher":{"@id":"https://nortiqlab.com/#org"},"inLanguage":"ja"},{"@type":"WebPage","@id":"https://nortiqlab.com/tools/list-dedupe","url":"https://nortiqlab.com/tools/list-dedupe","name":"名簿の重複チェック｜表記ゆれごと重複を見つけて整理後の名簿をCSVで保存","description":"名簿・顧客リストを貼り付けると、表記ゆれを無視して重複を見つけ、1件にまとめた名簿と重複の一覧をCSVで残せる無料ツール。","isPartOf":{"@id":"https://nortiqlab.com/#website"},"inLanguage":"ja","datePublished":"2026-11-05","dateModified":"2026-11-05"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://nortiqlab.com/"},{"@type":"ListItem","position":2,"name":"無料ツール","item":"https://nortiqlab.com/tools"},{"@type":"ListItem","position":3,"name":"名簿の重複チェック","item":"https://nortiqlab.com/tools/list-dedupe"}]},{"@type":"SoftwareApplication","name":"名簿の重複チェック｜表記ゆれごと重複を見つけて整理後の名簿をCSVで保存","applicationCategory":"BusinessApplication","operatingSystem":"Web","url":"https://nortiqlab.com/tools/list-dedupe","offers":{"@type":"Offer","price":"0","priceCurrency":"JPY"},"provider":{"@id":"https://nortiqlab.com/#org"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"どこまでを「同じ」とみなしますか？","acceptedAnswer":{"@type":"Answer","text":"名前は、全角と半角、空白、大文字と小文字、カタカナとひらがな、「株式会社」「(株)」「㈱」などの法人格の有無と位置、末尾の「様」「御中」、「髙」と「高」・「﨑」と「崎」などの字体の違いを無視して比べます。電話番号はハイフンや全角を除いた数字で、メールアドレスは大文字と小文字を区別せずに比べます。変換の間違い（「サンプル商事」と「サンプル商時」）や、略称と正式名称は同じとみなしません。"}},{"@type":"Question","name":"同姓同名の別人はどうなりますか？","acceptedAnswer":{"@type":"Answer","text":"自動ではまとめません。名前だけが同じで、電話もメールも違う（または入っていない）行は「要確認」にして、整理後の名簿にも残します。反対に、名前が違って電話やメールだけが同じ行（代表番号が同じ別部署、家族で同じ電話など）も「要確認」です。「要確認も1件にまとめる」にチェックを入れたときだけ、先頭の行にまとめます。"}},{"@type":"Question","name":"何件まで扱えますか？","acceptedAnswer":{"@type":"Answer","text":"件数の上限は設けていません。処理はお使いのブラウザの中で行います。5,000行・4列の名簿で確かめたところ、結果が出るまで1秒かからず、20,000行で2〜3秒でした（2026年11月、当社の検証環境。パソコンやスマートフォンの性能で変わります）。画面には先頭の100グループを表示し、全件はCSVに出します。"}},{"@type":"Question","name":"Shift_JIS はどんなときに選びますか？","acceptedAnswer":{"@type":"Answer","text":"取り込み先のソフトが UTF-8 のCSVを読めず、文字化けするときに選びます。Shift_JIS にない文字（一部の旧字体や絵文字など）は「?」に置き換わり、どの文字を置き換えたかを画面に表示します。表計算ソフトで開いて確かめるだけなら、多くの場合は UTF-8（BOM付き）のままで開けます。"}},{"@type":"Question","name":"データはどこに送られますか？","acceptedAnswer":{"@type":"Answer","text":"どこにも送りません。貼り付けた名簿はブラウザの中だけで処理し、ページを閉じると消えます。保存もしません。結果の下の相談フォームから送られるのは件数（元の件数・重複・要確認・整理後）だけで、名簿の中身は含みません。"}}]}]}
+</script>
+</head>
+<body data-lp="tools-list-dedupe">
+
+<header class="header">
+  <div class="container header__inner">
+    <a class="brand" href="/" aria-label="Nortiq Labs トップページ"><span class="brand__name">NORTIQ</span><span class="brand__sub">LABS</span></a>
+    <a class="btn btn--primary btn--sm header__cta" href="/#request" data-ga="consult_request" data-ga-location="header">無料で相談する</a>
+  </div>
+</header>
+
+<main class="tool-main" data-clarity-mask="true">
+<section class="section tool-hero" aria-labelledby="fv-title">
+  <div class="container">
+    <nav aria-label="パンくず"><ol class="crumbs"><li><a href="/">ホーム</a></li><li><a href="/tools">無料ツール</a></li><li aria-current="page">名簿の重複チェック</li></ol></nav>
+    <div class="tool-wrap">
+      <p class="eyebrow">List Dedupe / 登録不要</p>
+      <h1 class="h1" id="fv-title">名簿の<span class="accent">重複</span>を、<span class="nb">表記ゆれごと</span><span class="nb">見つけて</span><span class="nb">1つにまとめる。</span></h1>
+      <p class="tool-hero__sub">顧客リスト・会員名簿・取引先一覧を貼り付けるだけ。「株式会社サンプル商事」と「(株)サンプル商事」、全角と半角、電話番号のハイフンの有無の違いを無視して、同じ人・同じ会社が2回入っていないかを調べます。まとめた後の名簿と、重複の一覧をCSVで残せます。</p>
+      <div class="tool-chips"><span>Excel・CSV・タブ区切りどれでも</span><span>法人格・全角半角・ハイフンの違いを無視</span><span>名前だけの一致は「要確認」に</span><span>名簿はサーバーに送りません</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="container">
+  <div class="tool-wrap">
+
+<section class="tool-card">
+  <div class="qnum">Step 1</div><h2 class="q">名簿を貼る</h2><p class="qhelp">1行が1件、1列目が名前（会社名・氏名）です。電話番号とメールアドレスは、どの列にあっても中身で見分けます。住所やメモの列はそのまま残します。</p>
+  <textarea id="list" class="paste" rows="11" spellcheck="false" aria-label="名簿の貼り付け欄">会社名・氏名	電話番号	メール	住所
+株式会社サンプル商事	03-0000-0001	info@sample-shoji.example.com	東京都千代田区見本町1-1
+(株)サンプル商事	0300000001	INFO@sample-shoji.example.com	
+サンプル商事　株式会社	０３－００００－０００１		東京都千代田区見本町1-1 見本ビル3F
+ＡＢＣ工業	06-0000-0002	abc@example.com	大阪府大阪市北区見本2-2
+ABC工業	06-0000-0002		
+見本工業 有限会社	075-000-0003	mihon@example.com	京都府京都市中京区見本通3
+ミホン運輸	075-000-0003	unyu@example.com	京都府京都市中京区見本通3
+山田 太郎	090-0000-0004	yamada@example.com	
+山田太郎	080-0000-0005	t.yamada@example.com	滋賀県大津市見本4-4
+さんぷるカフェ	077-000-0006	cafe@example.com	
+サンプルカフェ	077-000-0006	CAFE@example.com	滋賀県草津市見本5-5
+見本デザイン合同会社	052-000-0007	design@example.com	愛知県名古屋市中区見本6
+佐藤 花子	090-0000-0008	sato@example.com	</textarea>
+  <div class="opt-line"><label><input type="checkbox" id="hdr" checked>1行目は見出し（項目名）</label></div>
+</section>
+<section class="tool-card">
+  <div class="qnum">Step 2</div><h2 class="q">まとめ方を選ぶ</h2><p class="qhelp">そのままで構いません。「重複」（名前も連絡先も同じ）だけを1件にまとめ、名前だけ・連絡先だけが同じ行は「要確認」として残します。</p>
+  <div class="opt-line">
+    <label><input type="checkbox" id="fill" checked>空欄は、同じグループの別の行から補う</label>
+    <label><input type="checkbox" id="norm" checked>英数字・記号を半角に、半角カナを全角にそろえる</label>
+    <label><input type="checkbox" id="mergeAll">「要確認」も1件にまとめる</label>
+  </div>
+  <div class="opt-line"><span>CSVの文字コード：</span>
+    <label><input type="radio" name="enc" value="utf8" checked>UTF-8（BOM付き）</label>
+    <label><input type="radio" name="enc" value="sjis">Shift_JIS</label>
+  </div>
+  <div class="tool-nav"><button type="button" class="btn btn--primary" id="run">重複を調べる</button><span class="tool-sample">初期値は架空のサンプルです。自社の名簿に貼り替えてください。</span></div>
+</section>
+
+<section id="result" hidden></section>
+
+<div class="section__head" style="margin-top:48px"><h2 class="h2" style="font-size:24px">このツールについて</h2></div>
+<div class="tool-card">
+<p style="font-size:14.5px">2026年11月5日に求人票119件を調べたところ、48件の仕事内容に「データ入力」がありました。同じ日に見た外注の公開案件（データ入力）18件のうち5件は名簿・リストづくりで、「帳票の名簿をCSVで納品してほしい」「手書きの名簿4項目×約11,000件を入力してほしい」といった依頼でした。入力し終えた名簿で最後に残るのが、「同じ人・同じ会社が2回入っていないか」の確認です。表計算ソフトの重複の削除は、表記が違うと別のデータとして扱うので、「株式会社」と「(株)」、全角と半角、電話番号のハイフンの有無は、結局目で探すことになります。</p>
+<h3 style="font-size:16px;margin-top:16px">出てくるもの</h3>
+<p style="font-size:14px;color:var(--text-2)"><b>重複のグループ</b>：名前・電話・メールのどれかが同じ行をひとまとまりにして、「重複」（名前も連絡先も同じ）と「要確認」（名前だけ、または連絡先だけが同じ）に分けます。<b>整理後の名簿（CSV）</b>：元の列の並びのまま、「重複」を先頭の行に1件にまとめたもの。空欄は同じグループの別の行から補い、要確認の行には末尾の「判定」列に理由を書きます。<b>重複の一覧（CSV・印刷）</b>：グループ番号・判定・理由・元の行番号つき。入力した人への確認や、上長への報告にそのまま使えます。</p>
+<h3 style="font-size:16px;margin-top:16px">使い方</h3>
+<p style="font-size:14px;color:var(--text-2)">1. 表計算ソフトや顧客管理ソフトの一覧を、見出しの行ごとコピーして貼る　2. 「重複を調べる」を押す　3. グループを見て、要確認の行を目で確かめる　4. 「整理後の名簿をCSVで保存」。取り込み先のソフトが古い場合は、文字コードを Shift_JIS にして保存します。入力内容はサーバーに送りません。</p>
+<p style="font-size:14px;color:var(--text-2);margin-top:12px">関連：<a href="/tools/address-list">宛先リスト整形</a>（送り状ソフトに取り込むCSVに整える）、<a href="/tools/order-summary">注文集計</a>、<a href="/tools/payment-match">入金消し込み照合</a>、<a href="/tools/stocktake">棚卸差異チェック</a>。紙の名簿や申込書の読み取りから名寄せまでを決まった手順にするなら <a href="/automation">ひと業務AI</a>、顧客管理の仕組みごと作るなら <a href="/dx">業務システム開発</a> で対応します。</p>
+</div>
+
+<div class="section__head" style="margin-top:48px"><h2 class="h2" style="font-size:24px">よくある質問</h2></div><div class="faq">
+<div class="faq__item is-open"><button type="button" class="faq__q" aria-expanded="true">どこまでを「同じ」とみなしますか？<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button><div class="faq__a"><div><p style="padding:0 0 20px;font-size:14.5px">名前は、全角と半角、空白、大文字と小文字、カタカナとひらがな、「株式会社」「(株)」「㈱」などの法人格の有無と位置、末尾の「様」「御中」、「髙」と「高」・「﨑」と「崎」などの字体の違いを無視して比べます。電話番号はハイフンや全角を除いた数字で、メールアドレスは大文字と小文字を区別せずに比べます。変換の間違い（「サンプル商事」と「サンプル商時」）や、略称と正式名称は同じとみなしません。</p></div></div></div>
+<div class="faq__item"><button type="button" class="faq__q" aria-expanded="false">同姓同名の別人はどうなりますか？<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button><div class="faq__a"><div><p style="padding:0 0 20px;font-size:14.5px">自動ではまとめません。名前だけが同じで、電話もメールも違う（または入っていない）行は「要確認」にして、整理後の名簿にも残します。反対に、名前が違って電話やメールだけが同じ行（代表番号が同じ別部署、家族で同じ電話など）も「要確認」です。「要確認も1件にまとめる」にチェックを入れたときだけ、先頭の行にまとめます。</p></div></div></div>
+<div class="faq__item"><button type="button" class="faq__q" aria-expanded="false">何件まで扱えますか？<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button><div class="faq__a"><div><p style="padding:0 0 20px;font-size:14.5px">件数の上限は設けていません。処理はお使いのブラウザの中で行います。5,000行・4列の名簿で確かめたところ、結果が出るまで1秒かからず、20,000行で2〜3秒でした（2026年11月、当社の検証環境。パソコンやスマートフォンの性能で変わります）。画面には先頭の100グループを表示し、全件はCSVに出します。</p></div></div></div>
+<div class="faq__item"><button type="button" class="faq__q" aria-expanded="false">Shift_JIS はどんなときに選びますか？<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button><div class="faq__a"><div><p style="padding:0 0 20px;font-size:14.5px">取り込み先のソフトが UTF-8 のCSVを読めず、文字化けするときに選びます。Shift_JIS にない文字（一部の旧字体や絵文字など）は「?」に置き換わり、どの文字を置き換えたかを画面に表示します。表計算ソフトで開いて確かめるだけなら、多くの場合は UTF-8（BOM付き）のままで開けます。</p></div></div></div>
+<div class="faq__item"><button type="button" class="faq__q" aria-expanded="false">データはどこに送られますか？<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button><div class="faq__a"><div><p style="padding:0 0 20px;font-size:14.5px">どこにも送りません。貼り付けた名簿はブラウザの中だけで処理し、ページを閉じると消えます。保存もしません。結果の下の相談フォームから送られるのは件数（元の件数・重複・要確認・整理後）だけで、名簿の中身は含みません。</p></div></div></div>
+</div>
+    <div class="tool-foot">重複の判定は、名前・電話・メールの文字の一致によるものです。まとめる前に「要確認」の行は目で確かめてください。入力内容はブラウザの中だけで処理し、サーバーには送りません。</div>
+  </div>
+</section>
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer__inner">
+      <a class="brand" href="/" aria-label="Nortiq Labs トップページ"><span class="brand__name">NORTIQ</span><span class="brand__sub">LABS</span></a>
+      <ul class="footer__links">
+        <li><a href="/tools">無料ツール</a></li>
+        <li><a href="/dx">業務システム・AI開発</a></li>
+        <li><a href="/web">ホームページ制作</a></li>
+        <li><a href="/automation">ひと業務AI</a></li>
+        <li><a href="/works">制作実績</a></li>
+        <li><a href="/company">会社概要</a></li>
+        <li><a href="/privacy">プライバシーポリシー</a></li>
+        <li><a href="/privacy-handling">個人情報の取扱い</a></li>
+      </ul>
+    </div>
+    <p class="footer__copy">© 2026 NORTIQLAB株式会社</p>
+  </div>
+</footer>
+
+<script src="/assets/lp/common/lp.js?v={{V}}" defer></script>
+<script src="/assets/lp/tools/tools-common.js?v={{V}}" defer></script>
+<script src="/assets/lp/tools/list-dedupe.js?v={{V}}" defer></script>
+</body>
+</html>

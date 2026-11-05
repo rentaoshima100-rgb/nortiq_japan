@@ -994,6 +994,11 @@ function SitemapPage({ onNavigate, onContact }) {
               { id: 'lp-tools-timecard', label: 'タイムカード集計・残業時間計算表', href: '/tools/timecard' },
               { id: 'lp-tools-stocktake', label: '棚卸差異チェック', href: '/tools/stocktake' },
               { id: 'lp-tools-cover-letter', label: '送付状メーカー', href: '/tools/cover-letter' },
+              { id: 'lp-tools-order-summary', label: '注文集計表・出荷指示書メーカー', href: '/tools/order-summary' },
+              { id: 'lp-tools-address-list', label: '宛先リスト整形（送り状用CSV）', href: '/tools/address-list' },
+              { id: 'lp-tools-list-dedupe', label: '名簿の重複チェック・表記ゆれ整形', href: '/tools/list-dedupe' },
+              { id: 'lp-tools-booking-sheet', label: '予約表メーカー', href: '/tools/booking-sheet' },
+              { id: 'lp-tools-daily-report', label: '作業日報メーカー', href: '/tools/daily-report' },
               { id: 'lp-shindan-battery', label: '蓄電池の見積もり診断（ご家庭向け）', href: '/shindan/battery' },
               { id: 'lp-partner-energy', label: '蓄電池・太陽光 紹介パートナー募集', href: '/partner/energy' },
             ]}/>

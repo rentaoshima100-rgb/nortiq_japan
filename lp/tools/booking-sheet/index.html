@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>予約表メーカー｜電話予約を貼ると担当別の時間割と重なりチェックが出る｜Nortiq Labs</title>
+<meta name="description" content="電話で受けた予約を1行ずつ貼ると、担当（部屋）別の時間割、時間順の一覧、担当ごとの空き時間を作り、同じ担当のダブルブッキングと営業時間外に印を付けます。A4の予約表を印刷でき、CSVとスタッフに送る文面も残せます。登録不要、データはサーバーに送りません。">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+<link rel="canonical" href="https://nortiqlab.com/tools/booking-sheet">
+<meta name="theme-color" content="#E60012">
+<meta name="format-detection" content="telephone=no">
+<link rel="icon" href="/assets/nortiq-fav.png">
+<link rel="apple-touch-icon" href="/assets/nortiq-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Nortiq Labs">
+<meta property="og:title" content="予約表メーカー｜電話予約を貼ると担当別の時間割と重なりチェックが出る">
+<meta property="og:description" content="電話で受けた予約を1行ずつ貼ると、担当（部屋）別の時間割、時間順の一覧、担当ごとの空き時間を作り、同じ担当のダブルブッキングと営業時間外に印を付けます。A4の予約表を印刷でき、CSVとスタッフに送る文面も残せます。登録不要、データはサーバーに送りません。">
+<meta property="og:url" content="https://nortiqlab.com/tools/booking-sheet">
+<meta property="og:image" content="https://nortiqlab.com/assets/og/tools.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="ja_JP">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="予約表メーカー｜電話予約を貼ると担当別の時間割と重なりチェックが出る">
+<meta name="twitter:description" content="電話で受けた予約を1行ずつ貼ると、担当（部屋）別の時間割、時間順の一覧、担当ごとの空き時間を作り、同じ担当のダブルブッキングと営業時間外に印を付けます。A4の予約表を印刷でき、CSVとスタッフに送る文面も残せます。登録不要、データはサーバーに送りません。">
+<meta name="twitter:image" content="https://nortiqlab.com/assets/og/tools.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Space+Grotesk:wght@500;700&display=swap">
+<link rel="stylesheet" href="/assets/lp/common/lp.css?v={{V}}">
+<link rel="stylesheet" href="/assets/lp/tools/tools.css?v={{V}}">
+{{ANALYTICS}}
+<script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://nortiqlab.com/#org","name":"Nortiq Labs","legalName":"NORTIQLAB株式会社","url":"https://nortiqlab.com/","logo":"https://nortiqlab.com/assets/nortiq-mark.png","email":"info@nortiqlab.com"},{"@type":"WebSite","@id":"https://nortiqlab.com/#website","name":"Nortiq Labs","url":"https://nortiqlab.com/","publisher":{"@id":"https://nortiqlab.com/#org"},"inLanguage":"ja"},{"@type":"WebPage","@id":"https://nortiqlab.com/tools/booking-sheet","url":"https://nortiqlab.com/tools/booking-sheet","name":"予約表メーカー｜電話予約を貼ると担当別の時間割と重なりチェックが出る","description":"電話で受けた予約の一覧を貼ると、担当別の時間割・時間順の一覧・空き時間を作り、ダブルブッキングと営業時間外に印を付ける無料ツール。","isPartOf":{"@id":"https://nortiqlab.com/#website"},"inLanguage":"ja","datePublished":"2026-11-05","dateModified":"2026-11-05"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://nortiqlab.com/"},{"@type":"ListItem","position":2,"name":"無料ツール","item":"https://nortiqlab.com/tools"},{"@type":"ListItem","position":3,"name":"予約表メーカー","item":"https://nortiqlab.com/tools/booking-sheet"}]},{"@type":"SoftwareApplication","name":"予約表メーカー｜電話予約を貼ると担当別の時間割と重なりチェックが出る","applicationCategory":"BusinessApplication","operatingSystem":"Web","url":"https://nortiqlab.com/tools/booking-sheet","offers":{"@type":"Offer","price":"0","priceCurrency":"JPY"},"provider":{"@id":"https://nortiqlab.com/#org"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"予約の変更・キャンセルが入ったらどうしますか？","acceptedAnswer":{"@type":"Answer","text":"貼った一覧の該当の行を直すか消して、もう一度「予約表を作る」を押してください。時間割・空き時間・重なりの判定はその場で作り直します。このページは予約を保存しないので、閉じると消えます。続きは「予約一覧をCSVで保存」したファイルか、元のメモから貼り直してください。"}},{"@type":"Question","name":"部屋・台・車両の予約にも使えますか？","acceptedAnswer":{"@type":"Answer","text":"使えます。「担当」の欄に会議室名・ベッドや台の番号・教習車の番号などを書けば、その単位で列を作り、重なりと空き時間を出します。「担当の並び」に部屋名を並べておくと、その日に予約が無い部屋も列として出ます。"}},{"@type":"Question","name":"重なり（ダブルブッキング）はどう判定していますか？","acceptedAnswer":{"@type":"Answer","text":"同じ担当の予約どうしで、一方の開始がもう一方の終了より前にあるものを「重なり」とします。10:00〜11:00 と 11:00〜12:00 のように、終了と開始がちょうど同じ時刻なら重なりにしません。担当を書いていない予約は「担当なし」という1つの枠として判定します。"}},{"@type":"Question","name":"時刻や所要時間はどんな書き方で読めますか？","acceptedAnswer":{"@type":"Answer","text":"開始は「10:00」「10時」「10時半」「10時15分」「午後3時」「1000」、全角の「１０：３０」も読みます。所要時間は「60」「60分」「1時間半」、終了時刻で書くなら「10:00-11:30」「10:00〜11:30」です。所要時間を書かなかった行は、設定の「既定の所要時間」で仮置きして印を付けます。"}},{"@type":"Question","name":"入力した予約やお客様の名前はどこに送られますか？","acceptedAnswer":{"@type":"Answer","text":"どこにも送りません。貼り付けた内容はブラウザの中だけで処理し、サーバーにも端末にも保存しません。予約表は印刷（PDF保存）かCSVで手元に残してください。"}}]}]}
+</script>
+</head>
+<body data-lp="tools-booking-sheet">
+
+<header class="header">
+  <div class="container header__inner">
+    <a class="brand" href="/" aria-label="Nortiq Labs トップページ"><span class="brand__name">NORTIQ</span><span class="brand__sub">LABS</span></a>
+    <a class="btn btn--primary btn--sm header__cta" href="/#request" data-ga="consult_request" data-ga-location="header">無料で相談する</a>
+  </div>
+</header>
+
+<main class="tool-main" data-clarity-mask="true">
+<section class="section tool-hero" aria-labelledby="fv-title">
+  <div class="container">
+    <nav aria-label="パンくず"><ol class="crumbs"><li><a href="/">ホーム</a></li><li><a href="/tools">無料ツール</a></li><li aria-current="page">予約表メーカー</li></ol></nav>
+    <div class="tool-wrap">
+      <p class="eyebrow">Booking Sheet / 登録不要</p>
+      <h1 class="h1" id="fv-title">電話で受けた予約を、<span class="accent nb">担当別の時間割</span>と<span class="nb">重なりチェックつきの</span><span class="nb">予約表に。</span></h1>
+      <p class="tool-hero__sub">受けた予約を1行ずつ貼るだけ。担当（部屋）ごとの時間割、時間順の一覧、空いている時間帯を作り、同じ担当のダブルブッキングと営業時間外に印を付けます。A4で印刷して受付に置けます。</p>
+      <div class="tool-chips"><span>担当別・部屋別の時間割</span><span>ダブルブッキングに印</span><span>空き時間を一覧に</span><span>入力した内容はサーバーに送りません</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="container">
+  <div class="tool-wrap">
+
+<section class="tool-card">
+  <div class="qnum">Step 1</div><h2 class="q">受けた予約を1行ずつ貼る</h2><p class="qhelp">1行に「開始時刻　所要時間（分）　お客様名　内容　担当」。Excelからのコピー（タブ区切り）、カンマ区切り、空白区切りのどれでも読みます。「14:00-15:30」のように終了時刻で書いても、所要時間を省いても構いません。</p>
+  <textarea id="list" class="paste" rows="11" spellcheck="false" aria-label="予約の一覧">9:30	60	山田様	カット	佐藤
+10:00	90	田中様	カット・カラー	鈴木
+11:00	60	伊藤様	カット	佐藤
+11:00	渡辺様	体験レッスン	高橋
+13:00	60	中村様	カット	佐藤
+13:30	30	小林様	前髪カット	佐藤
+14:00-15:30	加藤様	パーマ	鈴木
+15:00	60	吉田様	カット	高橋
+16:30	60	山本様	カット・トリートメント	佐藤
+18:30	60	松本様	カット	鈴木</textarea>
+</section>
+<section class="tool-card">
+  <div class="qnum">Step 2</div><h2 class="q">営業時間とコマを決める</h2><p class="qhelp">時間割の行は、開店から閉店までを1コマの長さで刻みます。部屋や台の予約なら「担当」を部屋名に読み替えてください。</p>
+  <div class="form-grid">
+  <div><label for="date">日付（表題に印字）</label><input id="date" type="date" value=""></div>
+  <div><label for="shop">店名・施設名（任意）</label><input id="shop" type="text" maxlength="40" value="" placeholder="例：〇〇サロン 本店"></div>
+  <div><label for="open">開店</label><input id="open" type="time" value="09:00" step="900"></div>
+  <div><label for="close">閉店</label><input id="close" type="time" value="19:00" step="900"></div>
+  <div><label for="slot">1コマの長さ</label><select id="slot"><option value="15">15分</option><option value="30" selected>30分</option><option value="60">60分</option></select></div>
+  <div><label for="dur">既定の所要時間（省略した行に使う）</label><select id="dur"><option value="30">30分</option><option value="60" selected>60分</option><option value="90">90分</option></select></div>
+  <div class="span2"><label for="staff">担当の並び（任意・カンマ区切り。予約が無い担当も列にします）</label><input id="staff" type="text" maxlength="120" value="" placeholder="例：佐藤, 鈴木, 高橋"></div>
+  </div>
+  <div class="tool-nav"><button type="button" class="btn btn--primary" id="run">予約表を作る</button><span class="tool-sample">初期値はサンプルです。自店の予約に書き換えてください。</span></div>
+</section>
+
+<section id="result" hidden></section>
+
+<div class="section__head" style="margin-top:48px"><h2 class="h2" style="font-size:24px">このツールについて</h2></div>
+<div class="tool-card">
+<p style="font-size:14.5px">2026年11月5日に求人票119件を調べたところ、仕事内容に「受付」が38件、「電話」が30件、「予約」が14件ありました。カルチャーセンター、自動車教習所、クリニック、整骨院、文化施設の受付事務です。貸会議室6室の年間の利用データ（延べ約1,500日分）を入力したい、という公開の相談もありました。電話を受けながら「その時間は空いているか」「誰の枠か」を、紙の予約台帳やExcelで確かめる作業が毎日あります。</p>
+<h3 style="font-size:16px;margin-top:16px">出てくるもの</h3>
+<p style="font-size:14px;color:var(--text-2)"><b>時間順の一覧</b>：時間・お客様と内容・担当の3列。<b>担当ごとの空き時間</b>：営業時間から予約を引いた時間帯を担当別に並べます。電話口で「次に空いているのは何時か」をすぐ答えるための表です。<b>時間割</b>：行が30分などのコマ、列が担当。予約の始まるコマにお客様名と内容、続きのコマに「〃」が入ります。<b>判定</b>：同じ担当で時間が重なる予約（ダブルブッキング）と、開店前・閉店後にかかる予約に印を付けます。<b>手元に残るもの</b>：A4の予約表（印刷・PDF保存）、予約一覧のCSV、スタッフに送る文面。</p>
+<h3 style="font-size:16px;margin-top:16px">使い方</h3>
+<p style="font-size:14px;color:var(--text-2)">1. 電話やLINEで受けた予約を、メモやExcelから1行ずつ貼る　2. 開店・閉店と1コマの長さを選んで「予約表を作る」　3. 重なりの印が付いた予約を先に調整し、予約表を印刷して受付に置く。追加の予約が入ったら行を足して作り直します。入力した内容はブラウザの中だけで処理し、サーバーには送りません。</p>
+<p style="font-size:14px;color:var(--text-2);margin-top:12px">関連：<a href="/tools/timecard">タイムカード集計・残業時間計算表</a>、<a href="/tools/daily-report">作業日報メーカー</a>、<a href="/tools/order-summary">注文集計</a>、<a href="/tools/cover-letter">送付状メーカー</a>。予約の電話そのものを減らしたいときは、営業時間外も答える <a href="/chatbot">問い合わせAI</a> や、予約受付の <a href="/automation">ひと業務AI</a> で対応します。</p>
+</div>
+
+<div class="section__head" style="margin-top:48px"><h2 class="h2" style="font-size:24px">よくある質問</h2></div><div class="faq">
+<div class="faq__item is-open"><button type="button" class="faq__q" aria-expanded="true">予約の変更・キャンセルが入ったらどうしますか？<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button><div class="faq__a"><div><p style="padding:0 0 20px;font-size:14.5px">貼った一覧の該当の行を直すか消して、もう一度「予約表を作る」を押してください。時間割・空き時間・重なりの判定はその場で作り直します。このページは予約を保存しないので、閉じると消えます。続きは「予約一覧をCSVで保存」したファイルか、元のメモから貼り直してください。</p></div></div></div>
+<div class="faq__item"><button type="button" class="faq__q" aria-expanded="false">部屋・台・車両の予約にも使えますか？<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button><div class="faq__a"><div><p style="padding:0 0 20px;font-size:14.5px">使えます。「担当」の欄に会議室名・ベッドや台の番号・教習車の番号などを書けば、その単位で列を作り、重なりと空き時間を出します。「担当の並び」に部屋名を並べておくと、その日に予約が無い部屋も列として出ます。</p></div></div></div>
+<div class="faq__item"><button type="button" class="faq__q" aria-expanded="false">重なり（ダブルブッキング）はどう判定していますか？<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button><div class="faq__a"><div><p style="padding:0 0 20px;font-size:14.5px">同じ担当の予約どうしで、一方の開始がもう一方の終了より前にあるものを「重なり」とします。10:00〜11:00 と 11:00〜12:00 のように、終了と開始がちょうど同じ時刻なら重なりにしません。担当を書いていない予約は「担当なし」という1つの枠として判定します。</p></div></div></div>
+<div class="faq__item"><button type="button" class="faq__q" aria-expanded="false">時刻や所要時間はどんな書き方で読めますか？<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button><div class="faq__a"><div><p style="padding:0 0 20px;font-size:14.5px">開始は「10:00」「10時」「10時半」「10時15分」「午後3時」「1000」、全角の「１０：３０」も読みます。所要時間は「60」「60分」「1時間半」、終了時刻で書くなら「10:00-11:30」「10:00〜11:30」です。所要時間を書かなかった行は、設定の「既定の所要時間」で仮置きして印を付けます。</p></div></div></div>
+<div class="faq__item"><button type="button" class="faq__q" aria-expanded="false">入力した予約やお客様の名前はどこに送られますか？<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button><div class="faq__a"><div><p style="padding:0 0 20px;font-size:14.5px">どこにも送りません。貼り付けた内容はブラウザの中だけで処理し、サーバーにも端末にも保存しません。予約表は印刷（PDF保存）かCSVで手元に残してください。</p></div></div></div>
+</div>
+    <div class="tool-foot">時間割と重なりの判定は、貼り付けた内容をそのまま並べた結果です。お客様への確定の連絡は、元の予約台帳と照らしてから行ってください。入力内容はブラウザの中だけで処理し、サーバーには送りません。</div>
+  </div>
+</section>
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer__inner">
+      <a class="brand" href="/" aria-label="Nortiq Labs トップページ"><span class="brand__name">NORTIQ</span><span class="brand__sub">LABS</span></a>
+      <ul class="footer__links">
+        <li><a href="/tools">無料ツール</a></li>
+        <li><a href="/dx">業務システム・AI開発</a></li>
+        <li><a href="/web">ホームページ制作</a></li>
+        <li><a href="/automation">ひと業務AI</a></li>
+        <li><a href="/works">制作実績</a></li>
+        <li><a href="/company">会社概要</a></li>
+        <li><a href="/privacy">プライバシーポリシー</a></li>
+        <li><a href="/privacy-handling">個人情報の取扱い</a></li>
+      </ul>
+    </div>
+    <p class="footer__copy">© 2026 NORTIQLAB株式会社</p>
+  </div>
+</footer>
+
+<script src="/assets/lp/common/lp.js?v={{V}}" defer></script>
+<script src="/assets/lp/tools/tools-common.js?v={{V}}" defer></script>
+<script src="/assets/lp/tools/booking-sheet.js?v={{V}}" defer></script>
+</body>
+</html>
