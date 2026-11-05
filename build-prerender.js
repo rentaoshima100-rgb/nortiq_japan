@@ -33,6 +33,7 @@ const ARTICLE_ROUTES = (() => {
 })();
 
 const ROUTES_ALLOWLIST = [
+  '/article-website-defacement-recovery-cost',
   '/article-website-maintenance-cost-breakdown',
   '/article-system-development-spec-change-cost',
   '/article-recruitment-site-job-posting-requirements',
