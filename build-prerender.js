@@ -33,6 +33,7 @@ const ARTICLE_ROUTES = (() => {
 })();
 
 const ROUTES_ALLOWLIST = [
+  '/article-trucking-working-hours-system-requirements',
   '/article-website-defacement-recovery-cost',
   '/article-website-maintenance-cost-breakdown',
   '/article-system-development-spec-change-cost',
