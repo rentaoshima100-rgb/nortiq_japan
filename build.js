@@ -121,6 +121,7 @@ const ORG_SAME_AS = [
 // desc → meta description / og:description / BlogPosting.description に使う。
 //        未指定の記事は app.jsx の SEO_DESC か自動生成の定型文にフォールバックする
 const BLOG = [
+  { slug: 'system-development-spec-change-cost', category: '技術', date: '2026.11.05', read: '10 min', title: 'システム開発の仕様変更｜追加費用を書面で決める7項目', img: 'assets/blog-default.png', desc: 'システム開発の途中で仕様変更を依頼するとき、追加費用と納期を書面で決める7項目を整理します。2026年1月1日施行の取適法で変わった書面の扱い、禁止行為、支払期日の60日という上限、記録の残し方まで、発注側の手順として解説します。', supervised: true },
   { slug: 'recruitment-site-job-posting-requirements', category: 'Web制作', date: '2026.11.05', read: '8 min', title: '採用サイトの募集要項に書く項目｜明示事項と青少年雇用情報', img: 'assets/blog-default.png', desc: '採用サイトの制作を外注する前に、募集要項のどの項目を自社で決めるかを整理します。明示事項と青少年雇用情報の項目表の作り方、数値の更新の分担、実装でつまずきやすい点までまとめました。', supervised: true },
   { slug: 'acceptance-test-failure-rework-payment', category: '技術', date: '2026.11.04', read: '9 min', title: 'システム開発の検収で不合格｜やり直しと支払', img: 'assets/blog-default.png', desc: '検収で不合格にしたとき、やり直しはどこまで求められ、支払を止めてよいのかを公的資料から整理します。受領拒否と返品が禁止行為である理由、やり直し費用の負担区分、通知の期限までを順に解説します。', supervised: true },
   { slug: 'domain-transfer-lock-release', category: 'Web制作', date: '2026.11.04', read: '9 min', title: 'ドメイン移管ができない原因とロックの解除', img: 'assets/blog-default.png', desc: 'リニューアルで制作会社を変えるとき、ドメインの移管が止まる原因は指定事業者変更ロックと認証コードの未取得です。解除の依頼先、認証コードの35日の有効期限、WHOISでの状態の確認方法をまとめました。', supervised: true },
