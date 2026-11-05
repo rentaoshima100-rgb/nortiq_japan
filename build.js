@@ -121,6 +121,7 @@ const ORG_SAME_AS = [
 // desc → meta description / og:description / BlogPosting.description に使う。
 //        未指定の記事は app.jsx の SEO_DESC か自動生成の定型文にフォールバックする
 const BLOG = [
+  { slug: 'chatbot-human-handoff-requirements', category: 'AI活用', date: '2026.11.05', read: '10 min', title: 'AIチャットボットの有人引き継ぎ｜発注要件', img: 'assets/blog-default.png', desc: 'AIチャットボットが答えられない質問を人に引き継ぐ仕組みを、外注時にどこまで要件にするかを解説します。引き継ぐ条件の決め方、担当者へ渡す情報、対応時間外の扱い、要件書に書く6項目、検収で確認する動きまでをまとめました。', supervised: true },
   { slug: 'trucking-working-hours-system-requirements', category: '技術', date: '2026.11.05', read: '9 min', title: '運送業の拘束時間集計｜外注前に決める要件', img: 'assets/blog-default.png', desc: '改善基準告示の拘束時間を集計する仕組みを外注するときの要件を解説します。年・月・始業起点24時間・2日平均・2週平均という判定の単位と上限値、現場から取る記録の項目、超過を事前に知らせる閾値、要件書に書く6項目までをまとめました。', supervised: true },
   { slug: 'website-defacement-recovery-cost', category: 'Web制作', date: '2026.11.05', read: '9 min', title: 'ホームページ改ざんの復旧期間と費用の目安', img: 'assets/blog-default.png', desc: 'ホームページが改ざんされたときの復旧期間と費用を、警察庁の公表資料をもとに整理しました。発覚直後の5手順、調査と復旧と再発防止の費用区分、保守契約に含まれる作業と別請求になる作業の線引きまでを2026年10月時点の情報で解説します。', supervised: true },
   { slug: 'website-maintenance-cost-breakdown', category: 'Web制作', date: '2026.11.05', read: '9 min', title: 'ホームページ公開後の維持費｜年間の内訳と相場', img: 'assets/blog-default.png', desc: 'ホームページ公開後の維持費を、固定費・更新費・保守費・変動費の4区分で解説します。年間の内訳、月額保守の相場、削ってよい費目と削らない費目、公開後の不具合修正が有償になる境目までを2026年10月時点の情報でまとめました。', supervised: true },
