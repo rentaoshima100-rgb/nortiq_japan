@@ -424,6 +424,15 @@ function normalizeArticleComponents(entry, md) {
   }).join('');
 }
 
+// marked (CommonMark) は「**約70%**に」のように、閉じる ** の前が記号で後ろが日本語だと太字と見なさず、
+// ** をそのまま文字で出す。日本語の本文では頻繁に起きるので、変換後に残った ** だけを太字に直す。
+// コードの中は触らない。
+function fixUnparsedStrong(html) {
+  // 中にリンクやコードがあってもよい。段落・表のセル・見出しをまたぐものは対象にしない
+  return html.replace(/<(pre|code)\b[\s\S]*?<\/\1>|\*\*((?:(?!<\/?(?:p|li|td|th|h[1-6]|blockquote)\b)[^\n*])+?)\*\*/g,
+    (m, tag, inner) => (tag ? m : '<strong>' + inner + '</strong>'));
+}
+
 // 記事本文のレイアウト事故を公開前に知らせる (2026-09 レイアウト監査)。
 // CSS 側 (.article-body a の overflow-wrap / th,td の min-width) で表示は破綻しなく
 // なったが、元のフォーマットを直したほうが読みやすいので警告だけ出す。
@@ -1055,7 +1064,7 @@ function buildArticles(nq) {
     // and the H1 would leak into the body (duplicate heading).
     md = md.replace(/^\s*#\s+.+(?:\r?\n)+/, '');
     md = normalizeArticleComponents(a, md);
-    const parsed = marked.parse(md);
+    const parsed = fixUnparsedStrong(marked.parse(md));
     // 次ページ提案 (nq) 用。est_read_sec は「じっくり読んだか」の判定に使う推定読了秒数 (本文文字数÷10)。
     // 表示用の read ('5 min') とは合わない値なので、混ぜて使わないこと。
     // nq_block は slot-mid のデフォルトの提案ブロック ('ID' または 'ID@業種')。

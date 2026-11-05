@@ -492,6 +492,17 @@ async function main() {
       await page.waitForTimeout(400);
       const html = '<!DOCTYPE html>\n' + await page.evaluate(() => {
         document.querySelectorAll('script[src*="googletagmanager.com/gtag/js"], script[src*="clarity.ms/"]').forEach((s) => s.remove());
+        // 隣り合うテキストノードの間に <!-- --> を入れる (renderToString と同じ印)。React は {a}{b} を別々のテキストノードに
+        // するが、outerHTML で保存すると1つにつながり、hydrate のときに中身が食い違って全ページ描き直しになる。
+        const root = document.getElementById('app');
+        if (root) {
+          const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+          const adjacent = [];
+          for (let n = walker.nextNode(); n; n = walker.nextNode()) {
+            if (n.nextSibling && n.nextSibling.nodeType === Node.TEXT_NODE) adjacent.push(n);
+          }
+          adjacent.forEach((n) => n.parentNode.insertBefore(document.createComment(' '), n.nextSibling));
+        }
         return document.documentElement.outerHTML;
       });
       const out = restoreAsyncFontLink(toAbsolutePaths(html));

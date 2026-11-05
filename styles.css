@@ -927,8 +927,10 @@ picture { display: contents; }
 /* ================= Hero =================== */
 .main-wrap {
   position: relative;
-  min-height: 640px;
-  height: clamp(640px, 76vh, 820px);
+  /* 高さを固定しない。以前は height: clamp(640px, 76vh, 820px) + overflow: hidden で、1440x900 など多くの
+     ノートPCでファーストビューのボタンが下の黒帯に隠れて押せなかった (Clarity: 約80表示で0クリック) */
+  min-height: clamp(640px, 76vh, 820px);
+  height: auto;
   overflow: hidden;
   background:
     radial-gradient(120% 90% at 85% 8%, var(--accent-soft-2) 0%, transparent 55%),
@@ -1007,7 +1009,7 @@ picture { display: contents; }
   z-index: 2;
   max-width: var(--maxw);
   margin: 0 auto;
-  padding: clamp(60px, 9vw, 110px) var(--gutter) 60px;
+  padding: clamp(48px, 4.5vw, 64px) var(--gutter) 48px;
   text-align: center;
   display: flex;
   flex-direction: column;
@@ -5327,3 +5329,7 @@ button.kw-pill, .tagcloud button { background: none; border: 0; margin: 0; font-
   .top-gallery-grid > :nth-child(n+4) { display: none; }
   .industry-lp-banner .promo-desc { display: none; }
 }
+
+/* 追従バーの閉じるボタンが .sticky-cta button の赤に負けて、赤い楕円になっていた */
+.sticky-cta .sticky-cta-close { background: rgba(255,255,255,0.16); color: #fff; }
+.sticky-cta .sticky-cta-close:hover { background: rgba(255,255,255,0.32); color: #fff; }

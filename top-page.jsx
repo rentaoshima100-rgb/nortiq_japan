@@ -70,7 +70,16 @@ function TopPage({ onNavigate, onContact }) {
             <li>Web制作</li><li>AIチャットボット</li><li>業務システム開発</li><li>業務自動化</li><li>データ分析</li>
           </ul>
 
-          <ul className="main-medaru fadein" data-delay="300">
+          <div className="main-cta-row fadein" data-delay="300">
+            <span className="btn-pulse btn-magnet" style={{ display: 'inline-block' }}>
+              <Button variant="primary" size="lg" onClick={onContact} arrow>無料で資料請求する</Button>
+            </span>
+            {/* Clarity (2026-10〜11): PC約80表示でファーストビューのボタンは0クリック、押されていたのは導入実績の画像と
+                「他の実績を見る」。まず実績を見たい人の入口をここに置く。無料診断はナビと赤帯に残っている。 */}
+            <Button variant="ghost" size="lg" to={'works'} nav={onNavigate}><Icon name="grid" size={14}/>制作実績を見る</Button>
+            <a className="btn btn-ghost btn-lg" href="/tools"><Icon name="arrow-right" size={14}/>無料ツール（概算見積・AI診断）</a>
+          </div>
+          <ul className="main-medaru fadein" data-delay="400">
             <li className="medaru">
               <div className="num"><Counter to={NORTIQ_STATS.clients} suffix="" className="" animate={false}/><sup>社+</sup></div>
               <div className="lbl">制作・支援実績</div>
@@ -85,15 +94,6 @@ function TopPage({ onNavigate, onContact }) {
             </li>
           </ul>
 
-          <div className="main-cta-row fadein" data-delay="400">
-            <span className="btn-pulse btn-magnet" style={{ display: 'inline-block' }}>
-              <Button variant="primary" size="lg" onClick={onContact} arrow>無料で資料請求する</Button>
-            </span>
-            {/* Clarity (2026-10〜11): PC約80表示でファーストビューのボタンは0クリック、押されていたのは導入実績の画像と
-                「他の実績を見る」。まず実績を見たい人の入口をここに置く。無料診断はナビと赤帯に残っている。 */}
-            <Button variant="ghost" size="lg" to={'works'} nav={onNavigate}><Icon name="grid" size={14}/>制作実績を見る</Button>
-            <a className="btn btn-ghost btn-lg" href="/tools"><Icon name="arrow-right" size={14}/>無料ツール（概算見積・AI診断）</a>
-          </div>
         </div>
       </section>
 
