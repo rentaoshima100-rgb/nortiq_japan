@@ -136,12 +136,12 @@ function NewsPage({ onNavigate, onContact }) {
           </div>
           <div className="content-list">
             {filtered.map((n, i) => (
-              <a key={i} className="content-row">
+              // 詳細ページが無いのでリンクにしない。以前は href の無い <a> に矢印と hover が付いていて、押せそうで押せなかった
+              <div key={i} className="content-row content-row-static">
                 <span className="content-date">{n.date}</span>
                 <span className="content-tag-pill">{n.cat}</span>
                 <span className="content-title">{n.title}</span>
-                <Icon name="arrow-right" size={14}/>
-              </a>
+              </div>
             ))}
           </div>
         </div>
@@ -609,6 +609,20 @@ function ArticleDetailPage({ onNavigate, onContact, slug }) {
   // (コラム一覧からの SPA 遷移) ので、html が入った時点で呼び直す。
   React.useEffect(() => {
     if (html && article && bodyRef.current && window.NQ) window.NQ.articleReady(article.slug, bodyRef.current);
+  }, [html, slug]);
+
+  // 本文に build.js が入れた案内 (.article-topic-cta) の表示・クリックを、他のバナーと同じイベントで送る。
+  React.useEffect(() => {
+    const el = html && bodyRef.current ? bodyRef.current.querySelector('[data-banner]') : null;
+    if (!el || typeof IntersectionObserver === 'undefined') return undefined;
+    const id = el.getAttribute('data-banner');
+    const onClick = (e) => { if (e.target.closest('a')) trackBannerClick(id); };
+    const io = new IntersectionObserver((entries) => {
+      if (entries.some((x) => x.isIntersecting)) { nqTrack('banner_view', { banner_id: id, page_path: location.pathname }); io.disconnect(); }
+    }, { threshold: 0.5 });
+    io.observe(el);
+    el.addEventListener('click', onClick);
+    return () => { io.disconnect(); el.removeEventListener('click', onClick); };
   }, [html, slug]);
 
   // BlogPosting JSON-LD is emitted centrally by the route SEO layer (app.jsx →

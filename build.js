@@ -260,7 +260,7 @@ const BLOG = [
   { slug: 'ai-content-google-spam-update', category: 'AI活用', date: '2026.09.11', read: '6 min', title: 'AI生成記事のGoogleスパムアップデート対策', img: 'assets/blog-default.png', desc: 'AI生成記事はGoogleの2026年8月スパムアップデートやサイト評判の不正使用ポリシーの対象になるか、線引きと確認手順、監修表記の示し方まで実装者の視点で解説します。', supervised: true },
   { slug: 'image-data-structuring-model-selection', category: 'AI活用', date: '2026.09.11', read: '5 min', title: 'AI画像データの構造化抽出、モデル選定方法', img: 'assets/blog-default.png', desc: '画像データをAIで構造化抽出する際のモデル選定方法を解説します。CLIP・生成VLM・物体検出の特徴と、当社が人道支援プロジェクトで実際に比較した実例、失敗しやすいポイントを紹介します。', supervised: true },
   { slug: 'data-migration-record-count-scale', category: '技術', date: '2026.09.09', read: '5 min', title: 'システム開発の大量データ移行、140万件の実務例', img: 'assets/blog-default.png', desc: 'システム開発の大量データ移行で処理できるレコード件数の実務規模を、当社が140万件超を処理した実例とIPA・経済産業省の統計から解説します。外注時の確認ポイントも紹介します。', supervised: true },
-  { slug: 'sme-cyber-attack-statistics', category: 'Web制作', date: '2026.09.04', read: '8 min', title: '中小企業のサイバー攻撃被害割合｜警察庁・IPA統計', img: 'assets/blog-default.png', desc: '警察庁・IPA・経済産業省の公的統計から、中小企業がサイバー攻撃・ランサムウエアの被害を受ける割合や業種別の実態を数値で解説します。セキュリティ投資の根拠探しに。', supervised: true },
+  { slug: 'sme-cyber-attack-statistics', category: 'Web制作', date: '2026.09.04', updated: '2026.11.05', read: '8 min', title: '中小企業のサイバー攻撃被害割合｜警察庁・IPA統計', img: 'assets/blog-default.png', desc: '警察庁・IPA・経済産業省の公的統計から、中小企業がサイバー攻撃・ランサムウエアの被害を受ける割合や業種別の実態を数値で解説します。セキュリティ投資の根拠探しに。', supervised: true },
   { slug: 'homepage-renewal-security-cost', category: 'Web制作', date: '2026.09.04', read: '9 min', title: 'ホームページリニューアル時のセキュリティ対策費用はいくら?', img: 'assets/blog-default.png', desc: 'ホームページリニューアル時にセキュリティ対策を追加する場合の費用相場や、後回しにした際の具体的なリスク、費用対効果を解説。中小企業の予算計画に必要な情報をまとめました。', supervised: true },
   { slug: 'pos-system-outsourcing-specification-checklist', category: '技術', date: '2026.09.03', read: '12 min', title: '社内システム外注失敗を防ぐ。POSレジ連携の仕様確認5つのステップ', img: 'assets/blog-default.png', desc: 'POSレジ既存システムとの連携を前提に外注発注する際、仕様確認でどの情報をいつ誰から取得すべきか。追加費用・納期遅延を防ぐためのドキュメント整理と確認先の役割分担を解説します。', supervised: true },
   { slug: 'homepage-security-measures-sme', category: 'Web制作', date: '2026.09.02', read: '11 min', title: 'ホームページ制作時のセキュリティ対策|中小企業が知るべき必要性と実態', img: 'assets/blog-default.png', desc: '中小企業がサイバー攻撃の標的となる実態をデータで解説。ホームページ制作時に必要なセキュリティ対策の理由と具体的な実装方法をまとめました。社内稟議の資料としても活用できます。', supervised: true },
@@ -365,8 +365,22 @@ const DRAFT_SCAFFOLDING = [
   '記事に組み込める',
   '執筆時の参照用',
 ];
+// 語句の一致だけでは拾えない下書きの痕跡 (2026-11: sme-cyber-attack-statistics に実際に出ていた)。
+// 生成パイプラインの指示文 (<primary_info> や執筆担当者への注記) と、埋められなかった {verified_xxx}。
+// コードブロックの中は対象外 (llm-guardrails-3-layer-architecture はプロンプトの例として {verified_kb_chunks} を書いている)。
+const DRAFT_SCAFFOLDING_PATTERNS = [
+  [/執筆担当者/, '執筆担当者'],
+  [/<\/?primary_info\b/, '<primary_info>'],
+  [/[{]verified_[a-z_]+[}]/, '{verified_...}'],
+  [/一次情報の確認が完了次第/, '一次情報の確認が完了次第'],
+];
+function stripFencedCode(md) {
+  return md.replace(/^(```|~~~)[^\n]*\n[\s\S]*?^\1[ \t]*$/gm, '');
+}
 function assertNoDraftScaffolding(entry, md) {
-  const hits = DRAFT_SCAFFOLDING.filter((phrase) => md.includes(phrase));
+  const prose = stripFencedCode(md);
+  const hits = DRAFT_SCAFFOLDING.filter((phrase) => md.includes(phrase))
+    .concat(DRAFT_SCAFFOLDING_PATTERNS.filter(([re]) => re.test(prose)).map(([, label]) => label));
   if (!hits.length) return;
   const where = 'content/blog/' + entry.slug + '.md';
   if (entry.noindex) {
@@ -377,6 +391,37 @@ function assertNoDraftScaffolding(entry, md) {
     where + ' に執筆者向けの下書きが残っています: ' + hits.join(', ')
     + " — 読者向けの本文に書き直すか、BLOG エントリに noindex: true を付けて公開を止めてください。"
   );
+}
+
+// 記事の md に生の JSX コンポーネントが混ざることがある (生成パイプラインの出力)。marked は素通しするので、
+// <Cta .../> がコードのまま画面に出たり (2026-11 llm-guardrail-inhouse-vs-cloud-api)、<Card> でタグの開閉が
+// 崩れて slot-mid が入らなくなる。コードブロックの外だけ、読者向けの引用ブロックに直す。
+// 知らない大文字タグは直しようがないので警告だけ出す。
+function articleQuote(lines) {
+  return lines.map((l) => (l.trim() ? '> ' + l : '>')).join('\n') + '\n';
+}
+function normalizeArticleComponents(entry, md) {
+  const parts = md.split(/(^(?:```|~~~)[^\n]*\n[\s\S]*?^(?:```|~~~)[ \t]*$)/m);
+  const prop = (attrs, name) => { const m = attrs.match(new RegExp(name + '="([^"]*)"')); return m ? m[1] : ''; };
+  const link = (attrs, name) => {
+    const m = attrs.match(new RegExp(name + '=\\{\\{\\s*href:\\s*"([^"]+)",\\s*label:\\s*"([^"]+)"\\s*\\}\\}'));
+    return m ? '[' + m[2] + '](' + m[1] + ')' : '';
+  };
+  return parts.map((part, i) => {
+    if (i % 2) return part; // コードブロック
+    let out = part
+      .replace(/^<Cta\b([\s\S]*?)\/>[ \t]*$/gm, (_, attrs) => {
+        const lines = [];
+        if (prop(attrs, 'heading')) lines.push('**' + prop(attrs, 'heading') + '**', '');
+        if (prop(attrs, 'body')) lines.push(prop(attrs, 'body'), '');
+        lines.push([link(attrs, 'primaryLink'), link(attrs, 'secondaryLink')].filter(Boolean).join(' / '));
+        return articleQuote(lines);
+      })
+      .replace(/^<(Callout|Card)\b[^>]*>[ \t]*\r?\n([\s\S]*?)^<\/\1>[ \t]*$/gm, (_, __, inner) => articleQuote(inner.trim().split(/\r?\n/)));
+    const unknown = out.match(/^<[A-Z][A-Za-z]*\b/gm);
+    if (unknown) console.warn('  ! content/blog/' + entry.slug + '.md: 変換できないコンポーネント ' + unknown.join(', ') + ' — 画面に文字のまま出ます');
+    return out;
+  }).join('');
 }
 
 // 記事本文のレイアウト事故を公開前に知らせる (2026-09 レイアウト監査)。
@@ -1009,6 +1054,7 @@ function buildArticles(nq) {
     // markdown is \r\n, and `.` doesn't match \r, so a plain \n+ would never match
     // and the H1 would leak into the body (duplicate heading).
     md = md.replace(/^\s*#\s+.+(?:\r?\n)+/, '');
+    md = normalizeArticleComponents(a, md);
     const parsed = marked.parse(md);
     // 次ページ提案 (nq) 用。est_read_sec は「じっくり読んだか」の判定に使う推定読了秒数 (本文文字数÷10)。
     // 表示用の read ('5 min') とは合わない値なので、混ぜて使わないこと。
@@ -1032,6 +1078,7 @@ function buildArticles(nq) {
     }
     // updated は改修 (refit) で本文を書き換えたときにパイプラインが入れる更新日。
     // date は初出の公開日で改修しても変えないため、鮮度は updated 側で伝える。
+    html = insertTopicCta(html, a.slug);
     out[a.slug] = { slug: a.slug, title: a.title, category: a.category, date: a.date, updated: a.updated || '', read: a.read, img: a.img, supervised: !!a.supervised, desc: a.desc || '', noindex: !!a.noindex, est_read_sec: Math.round(chars / 10), nq_block: nqBlock, html };
   }
   const placedCount = mid.override + mid.h2 + mid.h3;
@@ -1056,6 +1103,36 @@ function buildArticles(nq) {
   console.log('  → related: ' + n + '本の記事に関連記事の候補を最大 ' + NQ_RELATED_MAX + '本ずつ (平均 '
     + (n ? (relatedTotal / n).toFixed(1) : '0') + '本)');
   return out;
+}
+
+// セキュリティの記事は読者の関心と /security の内容が直接つながるのに、案内が本文の後半にしか無かった。
+// Clarity (2026-10〜11): 「中小企業のサイバー攻撃被害割合」はPCの半数近くが本文の25%までに離脱し、
+// 本文77%の位置の案内に届くのは約15%、案内のクリックは26表示で0。
+// md ではなくここで入れるのは、パイプラインの改稿 (refit) で本文が書き換わっても案内が残るようにするため。
+// 全記事には入れない (slot-mid を本文の40%より前に置かないのは設計上の決定で、これはテーマが合う記事だけの例外)。
+const SECURITY_ARTICLE_SLUGS = new Set([
+  'sme-cyber-attack-statistics',
+  'website-vulnerability-contract-maintenance-scope',
+  'website-vulnerability-report-statistics',
+  'homepage-security-measures-sme',
+  'homepage-renewal-security-cost',
+  'website-security-measures-new-business-impact',
+  'website-security-requirements-rfq',
+  'supply-chain-security-assessment-scheme',
+  'ipa-security-guideline-smb',
+]);
+const SECURITY_ARTICLE_CTA = '<aside class="article-topic-cta" data-banner="article-security-cta">'
+  + '<p class="article-topic-cta__title">自社サイトの弱点、外から確認できます</p>'
+  + '<p class="article-topic-cta__body">無料のセキュリティ外形チェックから始められます。毎日の脆弱性診断と、見つけた弱点の修正・再診断までを月額でお任せいただけます。</p>'
+  + '<a class="article-topic-cta__link" href="/security">脆弱性診断・セキュリティ保守を見る →</a>'
+  + '</aside>';
+// 2つ目の見出しの直前 (本文の冒頭を読んだ位置) に入れる。見出しが足りない記事には入れない。
+function insertTopicCta(html, slug) {
+  if (!SECURITY_ARTICLE_SLUGS.has(slug)) return html;
+  const heads = nqTopLevelHeadings(html);
+  if (!heads || heads.length < 2) return html;
+  const at = heads[1].at;
+  return html.slice(0, at) + SECURITY_ARTICLE_CTA + html.slice(at);
 }
 
 function rmrf(p) {
@@ -1242,12 +1319,16 @@ async function build() {
   // 全ページで読み込んでいた。記事1本を読むために他72本の本文が付いてくる状態。
   // articles.js にはメタデータだけを残す (ルート登録・記事一覧・関連記事・
   // meta description / JSON-LD は全てメタデータだけで足りる)。
+  // related (関連記事の候補、1記事あたり最大12本) も本文ファイルへ移す。使うのは記事ページだけなのに、
+  // 全ページで読む articles.js の4割を占めていた (219本で約97KB)。
   const meta = {};
   const bodies = {};
+  const relatedBySlug = {};
   for (const [slug, a] of Object.entries(articles)) {
-    const { html, ...rest } = a;
+    const { html, related, ...rest } = a;
     meta[slug] = rest;
     bodies[slug] = html;
+    relatedBySlug[slug] = related || [];
   }
   const articlesJs = 'window.NORTIQ_ARTICLES = ' + JSON.stringify(meta) + ';';
   fs.writeFileSync(path.join(DIST, 'articles.js'), articlesJs, 'utf8');
@@ -1258,7 +1339,9 @@ async function build() {
   let bodyBytes = 0;
   for (const [slug, html] of Object.entries(bodies)) {
     const js = '(window.NORTIQ_ARTICLE_HTML=window.NORTIQ_ARTICLE_HTML||{})['
-      + JSON.stringify(slug) + ']=' + JSON.stringify(html) + ';';
+      + JSON.stringify(slug) + ']=' + JSON.stringify(html) + ';'
+      + '(window.NORTIQ_ARTICLE_RELATED=window.NORTIQ_ARTICLE_RELATED||{})['
+      + JSON.stringify(slug) + ']=' + JSON.stringify(relatedBySlug[slug]) + ';';
     fs.writeFileSync(path.join(BODIES_DIR, slug + '.js'), js, 'utf8');
     bodyBytes += Buffer.byteLength(js, 'utf8');
   }
@@ -1380,21 +1463,32 @@ async function build() {
   // プリレンダ時は build-prerender.js が clarity.ms への通信を止める (訪問者ではないため)。
   const CLARITY_ID = 'z2wvw7aod2';
   const CLARITY_ON = looksReal(CLARITY_ID, /^[a-z0-9]{8,}$/);
+  // 自分のアクセスの除外。Clarity の IP 除外は回線が変わると効かない (スマホ・日米の移動)。
+  // 自分の端末で一度 https://nortiqlab.com/?nq_internal=1 を開くと、そのブラウザでは以後 GA4 と Clarity を読まない。
+  // 解除は ?nq_internal=0。外部の訪問者には何も保存しない (パラメータ付きで開いたときだけ書く)。
+  const internalHead = `
+  <script>
+    (function(){try{var q=location.search;
+      if(/[?&]nq_internal=1(&|$)/.test(q))localStorage.setItem('nq_internal','1');
+      if(/[?&]nq_internal=0(&|$)/.test(q))localStorage.removeItem('nq_internal');
+      window.__NQ_INTERNAL__=localStorage.getItem('nq_internal')==='1';}catch(e){}})();
+  </script>`;
   const clarityHead = CLARITY_ON ? `
   <!-- Microsoft Clarity — heatmaps & session recordings (本体は DOMContentLoaded 後に読む) -->
   <script>
     (function(c,l,a,r,i){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+    if(c.__NQ_INTERNAL__)return;
     function go(){var t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;l.head.appendChild(t);}
     if(l.readyState==='loading'){l.addEventListener('DOMContentLoaded',go);}else{go();}})(window, document, "clarity", "script", "${CLARITY_ID}");
   </script>` : '';
-  const analyticsHead = (loaderId ? `
+  const analyticsHead = internalHead + (loaderId ? `
   <!-- Google tag (gtag.js) — GA4 + Google Ads conversion tracking (本体は DOMContentLoaded 後に読む) -->
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());${GA4_ON ? `\n    gtag('config', '${GA4_ID}');` : ''}${GADS_ON ? `\n    gtag('config', '${GADS_ID}');` : ''}
     window.NORTIQ_CONV = { contact: ${sendTo(GADS_LABEL_CONTACT)}, diagnostic: ${sendTo(GADS_LABEL_DIAGNOSTIC)} };
-    (function(){var s=document.createElement('script');s.async=true;s.fetchPriority='low';s.src='https://www.googletagmanager.com/gtag/js?id=${loaderId}';
+    (function(){if(window.__NQ_INTERNAL__)return;var s=document.createElement('script');s.async=true;s.fetchPriority='low';s.src='https://www.googletagmanager.com/gtag/js?id=${loaderId}';
       function go(){document.head.appendChild(s);}
       if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',go);}else{go();}})();
   </script>` : `

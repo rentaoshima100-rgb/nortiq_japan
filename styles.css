@@ -5296,3 +5296,34 @@ button.nav-link { background: none; border: 0; margin: 0; font-family: inherit; 
 .megamenu[hidden] { display: none !important; }
 /* HashTag / TagCloud を <a href> または <button> にした分のリセット (見た目は従来どおり) */
 button.kw-pill, .tagcloud button { background: none; border: 0; margin: 0; font-family: inherit; line-height: inherit; cursor: pointer; }
+
+/* =================================================================
+   Clarity の分析にもとづく調整 (2026-11)
+   ================================================================= */
+/* お知らせの行: 詳細ページが無いので押せる見た目にしない */
+.content-row-static { grid-template-columns: 110px 110px 1fr; cursor: default; }
+.content-row-static:hover { background: none; }
+.content-row-static:hover .content-title { color: var(--text); }
+
+/* セキュリティ記事の冒頭に入れる案内 (build.js の SECURITY_ARTICLE_CTA) */
+.article-body .article-topic-cta {
+  margin: 0 0 28px; padding: 18px 22px;
+  border: 1px solid var(--border); border-left: 4px solid var(--accent); border-radius: 0 6px 6px 0;
+  background: var(--bg-2);
+}
+.article-body .article-topic-cta__title { margin: 0 0 6px; font-size: 16px; font-weight: 700; color: var(--text); }
+.article-body .article-topic-cta__body { margin: 0 0 14px; font-size: 14px; line-height: 1.8; color: var(--text-2); }
+.article-body .article-topic-cta__link {
+  display: inline-block; padding: 10px 18px; border-radius: 4px;
+  background: var(--accent); color: #fff; font-size: 14px; font-weight: 700; text-decoration: none;
+}
+.article-body .article-topic-cta__link:hover { color: #fff; opacity: .9; }
+
+/* スマホのトップを短くする。約34画面分あり、最後まで届くのは30表示中1。
+   フォームは下部ナビの「資料請求」からいつでも開けるので、同じ内容の繰り返しを畳む。 */
+@media (max-width: 767px) {
+  .top-sp-hide { display: none; }
+  .reason-card .ph { display: none; }
+  .top-gallery-grid > :nth-child(n+4) { display: none; }
+  .industry-lp-banner .promo-desc { display: none; }
+}
