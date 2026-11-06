@@ -1,4 +1,8 @@
 /* 東京クリニックグループ */
+@media (max-width: 1100px) {
+  /* 「グループについて」の3枚は、横の列に入っていて幅が足りないので縦に積む */
+  [data-dc-tpl="75"] { grid-template-columns: minmax(0, 1fr) !important; gap: 12px !important; }
+}
 @media (max-width: 760px) {
   [data-dc-tpl="10"] { flex-wrap: wrap !important; gap: 6px 10px !important; }
   [data-dc-tpl="12"] { flex: 1 1 100% !important; order: 3; }
