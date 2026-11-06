@@ -1,4 +1,5 @@
 /* VOLTIO */
 @media (max-width: 360px) {
-  [data-dc-tpl="64"] { white-space: nowrap; }
+  [data-dc-tpl="63"] { flex-wrap: wrap !important; }
+  [data-dc-tpl="64"] { flex: 1 1 100% !important; white-space: nowrap; }
 }

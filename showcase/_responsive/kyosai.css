@@ -1,10 +1,10 @@
 /* 京西精機: 写真の上に重ねた文字と数値帯を、スマホでは順に積む */
-@media (max-width: 900px) {
+@media (max-width: 960px) {
   [data-dc-tpl="23"] { height: auto !important; }
   [data-dc-tpl="27"] { position: relative !important; inset: auto !important; padding: 64px 0 40px; }
   [data-dc-tpl="35"] { position: relative !important; left: auto !important; right: auto !important; bottom: auto !important; }
 }
-@media (max-width: 600px) {
+@media (max-width: 760px) {
   [data-dc-tpl="27"] { padding: 44px 0 28px; }
   [data-dc-tpl="37"] { padding-bottom: 20px; }
   [data-dc-tpl="38"], [data-dc-tpl="41"], [data-dc-tpl="44"] { padding: 14px 18px !important; }

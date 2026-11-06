@@ -16,7 +16,7 @@
 @media (max-width:1100px){
 [data-dc-tpl="15"]{display:none!important}
 }
-@media (max-width:900px){
+@media (max-width:960px){
 [data-dc-tpl="9"]{gap:16px!important;flex-wrap:nowrap!important;grid-template-columns:auto auto!important;justify-content:space-between!important}
 [data-dc-tpl="27"]{column-gap:43px!important;grid-template-columns:minmax(0,1fr)!important}
 [data-dc-tpl="31"]{font-size:51px!important}
@@ -40,7 +40,7 @@
 [data-dc-tpl="473"]{column-gap:38px!important;grid-template-columns:minmax(0,1fr)!important}
 [data-dc-tpl="488"]{grid-template-columns:repeat(2,minmax(0,1fr))!important}
 }
-@media (max-width:600px){
+@media (max-width:760px){
 [data-dc-tpl="9"]{padding-left:16px!important;padding-right:16px!important;row-gap:22px!important;column-gap:20px!important;gap:10px!important;height:auto!important;min-height:56px!important}
 [data-dc-tpl="10"]{min-width:0!important;flex-shrink:1!important}
 [data-dc-tpl="14"]{font-size:clamp(16px,5.13vw,20px)!important}

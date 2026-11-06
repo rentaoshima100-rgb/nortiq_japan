@@ -1,5 +1,5 @@
 /* 東京クリニックグループ */
-@media (max-width: 600px) {
+@media (max-width: 760px) {
   [data-dc-tpl="10"] { flex-wrap: wrap !important; gap: 6px 10px !important; }
   [data-dc-tpl="12"] { flex: 1 1 100% !important; order: 3; }
 }

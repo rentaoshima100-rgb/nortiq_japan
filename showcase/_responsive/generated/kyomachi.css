@@ -3,7 +3,7 @@
 [data-dc-tpl="6"]{min-width:0!important}
 [data-dc-tpl="26"]{font-size:min(58px,4.53vw)!important}
 }
-@media (max-width:900px){
+@media (max-width:960px){
 [data-dc-tpl="8"]{gap:16px!important;flex-wrap:nowrap!important;grid-template-columns:auto auto!important;justify-content:space-between!important}
 [data-dc-tpl="15"]{display:none!important}
 [data-dc-tpl="16"]{display:none!important}
@@ -24,7 +24,7 @@
 [data-dc-tpl="248"]{column-gap:36px!important}
 [data-dc-tpl="257"]{column-gap:34px!important}
 }
-@media (max-width:600px){
+@media (max-width:760px){
 [data-dc-tpl="8"]{padding-left:16px!important;padding-right:16px!important;row-gap:22px!important;column-gap:20px!important;gap:10px!important;height:auto!important;min-height:56px!important}
 [data-dc-tpl="9"]{flex-shrink:1!important;min-width:0!important}
 [data-dc-tpl="13"]{font-size:11px!important;letter-spacing:0.08em!important;white-space:normal!important}

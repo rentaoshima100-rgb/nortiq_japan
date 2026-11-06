@@ -1,9 +1,9 @@
 /* グリーンゲート京都 */
-@media (max-width: 900px) {
+@media (max-width: 960px) {
   [data-dc-tpl="35"] { height: auto !important; }
   [data-dc-tpl="39"] { height: auto !important; padding-top: 56px !important; padding-bottom: 56px !important; }
 }
-@media (max-width: 600px) {
+@media (max-width: 760px) {
   [data-dc-tpl="39"] { padding-top: 40px !important; padding-bottom: 40px !important; }
   [data-dc-tpl="44"] { flex-direction: column !important; }
   [data-dc-tpl="45"], [data-dc-tpl="52"] { padding: 16px 20px !important; }

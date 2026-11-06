@@ -1,5 +1,5 @@
 /* 生成物: scripts/showcase-responsive-gen.js が出力。手で編集しない。 */
-@media (max-width:900px){
+@media (max-width:960px){
 [data-dc-tpl="7"]{gap:16px!important;flex-wrap:nowrap!important;grid-template-columns:auto auto!important;justify-content:space-between!important}
 [data-dc-tpl="20"]{flex-direction:column!important;align-items:stretch!important}
 [data-dc-tpl="21"]{flex:1 1 100%!important;width:100%!important;max-width:100%!important;min-width:0!important}
@@ -8,7 +8,7 @@
 [data-dc-tpl="134"]{flex:0 1 auto!important;width:100%!important;max-width:100%!important;min-width:0!important}
 [data-dc-tpl="139"]{flex:0 1 auto!important;width:100%!important;max-width:100%!important;min-width:0!important}
 }
-@media (max-width:600px){
+@media (max-width:760px){
 [data-dc-tpl="7"]{padding-left:16px!important;padding-right:16px!important;gap:10px!important;height:auto!important;min-height:56px!important}
 [data-dc-tpl="8"]{min-width:0!important;flex-shrink:1!important}
 [data-dc-tpl="15"]{font-size:11px!important}

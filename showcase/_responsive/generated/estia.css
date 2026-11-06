@@ -4,7 +4,7 @@
 [data-dc-tpl="23"]{font-size:min(47px,3.67vw)!important}
 [data-dc-tpl="154"]{font-size:min(56px,4.38vw)!important}
 }
-@media (max-width:900px){
+@media (max-width:960px){
 [data-dc-tpl="7"]{gap:16px!important;flex-wrap:nowrap!important;grid-template-columns:auto auto!important;justify-content:space-between!important}
 [data-dc-tpl="11"]{display:none!important}
 [data-dc-tpl="12"]{display:none!important}
@@ -21,7 +21,7 @@
 [data-dc-tpl="154"]{font-size:44px!important}
 [data-dc-tpl="187"]{padding-left:32px!important;padding-right:32px!important}
 }
-@media (max-width:600px){
+@media (max-width:760px){
 [data-dc-tpl="7"]{padding-left:16px!important;padding-right:16px!important;gap:10px!important;height:auto!important;min-height:56px!important}
 [data-dc-tpl="8"]{letter-spacing:0.08em!important;min-width:0!important;flex-shrink:1!important}
 [data-dc-tpl="10"]{row-gap:22px!important;column-gap:20px!important;flex-shrink:0!important;margin-left:auto!important}

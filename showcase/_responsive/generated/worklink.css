@@ -2,7 +2,7 @@
 @media (max-width:1279.98px){
 [data-dc-tpl="47"]{font-size:min(46px,3.59vw)!important}
 }
-@media (max-width:900px){
+@media (max-width:960px){
 [data-dc-tpl="6"]{padding-bottom:75px!important}
 [data-dc-tpl="256"]{padding-left:32px!important}
 [data-dc-tpl="260"]{padding-left:32px!important}
@@ -11,7 +11,7 @@
 [data-dc-tpl="272"]{padding-left:32px!important}
 [data-dc-tpl="276"]{padding-left:32px!important}
 }
-@media (max-width:600px){
+@media (max-width:760px){
 [data-dc-tpl="6"]{padding-bottom:56px!important}
 [data-dc-tpl="36"]{padding-left:20px!important;padding-right:20px!important}
 [data-dc-tpl="43"]{padding-top:28px!important;padding-bottom:28px!important;padding-left:20px!important;padding-right:20px!important}

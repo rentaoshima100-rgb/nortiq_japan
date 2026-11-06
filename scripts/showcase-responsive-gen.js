@@ -315,7 +315,7 @@ function analyze() {
   return out;
 }
 
-const MEDIA = { t1279: 1279.98, t1100: 1100, t900: 900, p600: 600 };
+const MEDIA = { t1279: 1279.98, t1100: 1100, t900: 960, p600: 760 };
 function toCss(res) {
   const lines = [];
   for (const tier of Object.keys(MEDIA)) {

@@ -1,5 +1,5 @@
 /* メディキャリア */
-@media (max-width: 900px) {
+@media (max-width: 960px) {
   [data-dc-tpl="167"] { flex-wrap: wrap; }
   [data-dc-tpl="168"] { white-space: nowrap; }
 }
