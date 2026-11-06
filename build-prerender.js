@@ -33,6 +33,7 @@ const ARTICLE_ROUTES = (() => {
 })();
 
 const ROUTES_ALLOWLIST = [
+  '/article-system-development-contract-termination',
   '/article-chatbot-human-handoff-requirements',
   '/article-trucking-working-hours-system-requirements',
   '/article-website-defacement-recovery-cost',
