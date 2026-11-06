@@ -1477,7 +1477,7 @@ function ScrollProgress() {
 }
 
 // -------------------- Animated counter (counts up when in view) --------------------
-function Counter({ to, duration = 1400, suffix = '', prefix = '', decimals = 0, className = "counter" }) {
+function Counter({ to, duration = 1400, suffix = '', prefix = '', decimals = 0, className = "counter", animate = true }) {
   const ref = React.useRef(null);
   // 初期値は最終値にする。以前は 0 から始めていたため、JSを実行しないクローラと
   // プリレンダのスナップショットには「0」が焼き込まれ、実績数が「0+ 社」と読まれていた。
@@ -1487,6 +1487,9 @@ function Counter({ to, duration = 1400, suffix = '', prefix = '', decimals = 0, 
     // プリレンダ (build-prerender.js) では演出しない。
     // カウントアップ途中の数字がそのまま静的HTMLに保存されるのを防ぐ。
     if (typeof window !== 'undefined' && window.__NORTIQ_PRERENDER__) return;
+    // ファーストビューの数字は演出しない (animate={false})。起動直後の1.4秒、毎フレーム React の描き直しと
+    // レイアウトが走り、操作の受付が遅れる。最初から見えている数字が0から数え直される違和感も無くなる。
+    if (!animate) return;
     let raf;
     const obs = new IntersectionObserver((entries) => {
       entries.forEach(e => {

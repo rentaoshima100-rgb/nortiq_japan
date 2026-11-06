@@ -15,7 +15,7 @@ FeliCa 読み取りの流れは次のとおりです。
 3. **ポーリングと検出**: セッション開始後、端末が NFC フィールドを有効化し、登録済みシステムコードを持つタグを検出する。
 4. **データ取得**: タグ検出後、`currentSystemCode` や `currentIDm` を取得してアプリのロジックへ渡す。
 
-ここで重要な制約があります。Apple Developer Forums スレッド #122504 および GitHub metrodroid/metrodroid Issue #613（https://github.com/metrodroid/metrodroid/issues/613）で報告されているとおり、**1回の `NFCTagReaderSession` でポーリング対象にできるシステムコードは1件のみ**です。複数のシステムコードを持つ FeliCa カードを正しく読み取れないケースはこの制約に起因しており、バージョンをまたいで再現が確認されています。
+ここで重要な制約があります。Apple Developer Forums スレッド #122504 および GitHub metrodroid/metrodroid Issue #613（https://github.com/metrodroid/metrodroid/issues/613）で報告されているとおり、1回の `NFCTagReaderSession` でポーリング対象にできるシステムコードは1件のみです。複数のシステムコードを持つ FeliCa カードを正しく読み取れないケースはこの制約に起因しており、バージョンをまたいで再現が確認されています。
 
 対応デバイスは iPhone 7 以降の全モデルです。ただし FeliCa 読み取りを実機で試験する際は、日本国内で入手したデバイスを使用することを推奨します。
 

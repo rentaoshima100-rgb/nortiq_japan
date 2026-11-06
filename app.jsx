@@ -774,5 +774,15 @@ function App() {
   );
 }
 
-const root = ReactDOM.createRoot(document.getElementById('app'));
-root.render(<App/>);
+// プリレンダ済みのページは、描画済みの DOM をそのまま使う (hydrate)。createRoot で描き直すと、見えている
+// DOM を全部捨てて作り直すので、全ページのレイアウトが1回増え、ファーストビューの画像が描き直されて
+// LCP が React の起動後まで遅れていた。中身が食い違ったときは React がその場で描き直すので、
+// 最悪でも以前と同じ動きになる。シェルだけのルートは #app が空なので従来どおり createRoot。
+const appRoot = document.getElementById('app');
+if (appRoot.firstElementChild) {
+  ReactDOM.hydrateRoot(appRoot, <App/>, {
+    onRecoverableError: (err) => { if (window.__NQ_HYDRATE_LOG__) window.__NQ_HYDRATE_LOG__.push(String(err && err.message || err)); },
+  });
+} else {
+  ReactDOM.createRoot(appRoot).render(<App/>);
+}

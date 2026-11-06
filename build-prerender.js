@@ -457,7 +457,9 @@ async function main() {
   // 止めないと約150ルートぶんの page_view が毎回 GA4 に入り、次ページ提案 (nq) の効果を比べる
   // ベースラインを汚す。gtag.js 自体を落とすので、アプリ側が積む dataLayer もどこにも送られない。
   // gtag.js は build.js のインラインスクリプトが DOMContentLoaded 後に <script> を追加して読む (2026-10)。
-  // 追加された要素は document.head に残るが、通信だけ失敗するので保存する HTML は変わらない。
+  // 追加された <script> は document.head に残るので、保存する前に下で取り除く。残すと訪問者のページで
+  // インラインのローダーがもう一度追加し、gtag.js と Clarity が2回読まれる (2026-11 に実測で確認)。
+  // 焼き込まれたほうは <head> の async なので DOMContentLoaded まで待たず、読み込みを遅らせた意味も無くなる。
   // Clarity (clarity.ms) も同じ理由で止める。止めないとプリレンダのたびに約150セッション分の
   // 録画・ヒートマップが Clarity に入り、本物の訪問者の行動が埋もれる (PR #18 より)。
   await page.route(/^https?:[/][/]([^/]+[.])?(googletagmanager[.]com|google-analytics[.]com|clarity[.]ms)[/]/, (route) => route.abort());
@@ -493,7 +495,21 @@ async function main() {
         document.querySelectorAll('.fadein, .fadein-l, .fadein-r').forEach((el) => el.classList.add('is-in'));
       });
       await page.waitForTimeout(400);
-      const html = '<!DOCTYPE html>\n' + await page.evaluate(() => document.documentElement.outerHTML);
+      const html = '<!DOCTYPE html>\n' + await page.evaluate(() => {
+        document.querySelectorAll('script[src*="googletagmanager.com/gtag/js"], script[src*="clarity.ms/"]').forEach((s) => s.remove());
+        // 隣り合うテキストノードの間に <!-- --> を入れる (renderToString と同じ印)。React は {a}{b} を別々のテキストノードに
+        // するが、outerHTML で保存すると1つにつながり、hydrate のときに中身が食い違って全ページ描き直しになる。
+        const root = document.getElementById('app');
+        if (root) {
+          const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+          const adjacent = [];
+          for (let n = walker.nextNode(); n; n = walker.nextNode()) {
+            if (n.nextSibling && n.nextSibling.nodeType === Node.TEXT_NODE) adjacent.push(n);
+          }
+          adjacent.forEach((n) => n.parentNode.insertBefore(document.createComment(' '), n.nextSibling));
+        }
+        return document.documentElement.outerHTML;
+      });
       const out = restoreAsyncFontLink(toAbsolutePaths(html));
       const file = routeToFile(route);
       fs.mkdirSync(path.dirname(file), { recursive: true });

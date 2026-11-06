@@ -697,7 +697,7 @@ function nqBlockLinkProps(r, onNavigate, onContact, onClick) {
 // rl-related の3本 (設計書13章 / docs/nq/decisions-2026-09-21.md 5章1)。
 // 候補の出どころは3段階。前の段から順に採り、3本に届かなければ次の段で埋める。
 //   1. 決定の related: サーバが記事の候補 (≤12本) から関連度の高い順に選んだ slug (行4、rl-related を出す場面)
-//   2. NORTIQ_ARTICLES[slug].related: build.js が記事ごとに結び付けた候補 (≤12本)。先頭から
+//   2. NORTIQ_ARTICLE_RELATED[slug]: build.js が記事ごとに結び付けた候補 (≤12本)。先頭から
 //   3. 従来の並び: 同カテゴリの新着 → 全カテゴリの新着 (related を持たない古い articles.js のため)
 // このセッションですでに読んだ記事は除く (設計書7章「すでに読んだページを除く」。既読は NQ.viewed())。
 // ただし未読で3本に届かないときだけ、同じ順で既読を足して3本にする (RelatedList は3本・固定の高さが前提。
@@ -720,7 +720,9 @@ function nqRelatedArticles(related) {
   const newest = Object.keys(store).map((s) => store[s]).filter(listed)
     .sort((a, b) => String(b.date || '').localeCompare(String(a.date || '')));
   const sameCat = (a) => !!cur && a.category === cur.category;
-  const sources = [bySlug(related), bySlug(cur && cur.related), newest.filter(sameCat), newest];
+  // 候補は本文と同じファイル (/articles/<slug>.js) で届く。全ページで読む articles.js から外した (build.js)。
+  const ownRelated = curSlug ? ((window.NORTIQ_ARTICLE_RELATED || {})[curSlug] || null) : null;
+  const sources = [bySlug(related), bySlug(ownRelated), newest.filter(sameCat), newest];
   const seen = new Set(NQ.viewed());
   const unread = (a) => !seen.has('/article-' + a.slug);
   const picked = [];

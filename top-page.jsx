@@ -70,28 +70,30 @@ function TopPage({ onNavigate, onContact }) {
             <li>Web制作</li><li>AIチャットボット</li><li>業務システム開発</li><li>業務自動化</li><li>データ分析</li>
           </ul>
 
-          <ul className="main-medaru fadein" data-delay="300">
+          <div className="main-cta-row fadein" data-delay="300">
+            <span className="btn-pulse btn-magnet" style={{ display: 'inline-block' }}>
+              <Button variant="primary" size="lg" onClick={onContact} arrow>無料で資料請求する</Button>
+            </span>
+            {/* Clarity (2026-10〜11): PC約80表示でファーストビューのボタンは0クリック、押されていたのは導入実績の画像と
+                「他の実績を見る」。まず実績を見たい人の入口をここに置く。無料診断はナビと赤帯に残っている。 */}
+            <Button variant="ghost" size="lg" to={'works'} nav={onNavigate}><Icon name="grid" size={14}/>制作実績を見る</Button>
+            <a className="btn btn-ghost btn-lg" href="/tools"><Icon name="arrow-right" size={14}/>無料ツール（概算見積・AI診断）</a>
+          </div>
+          <ul className="main-medaru fadein" data-delay="400">
             <li className="medaru">
-              <div className="num"><Counter to={NORTIQ_STATS.clients} suffix="" className=""/><sup>社+</sup></div>
+              <div className="num"><Counter to={NORTIQ_STATS.clients} suffix="" className="" animate={false}/><sup>社+</sup></div>
               <div className="lbl">制作・支援実績</div>
             </li>
             <li className="medaru">
-              <div className="num"><Counter to={24} suffix="" className=""/><sup>h</sup></div>
+              <div className="num"><Counter to={24} suffix="" className="" animate={false}/><sup>h</sup></div>
               <div className="lbl">営業日の一次返信</div>
             </li>
             <li className="medaru">
-              <div className="num"><Counter to={NORTIQ_STATS.industries} suffix="" className=""/><sup>業種</sup></div>
+              <div className="num"><Counter to={NORTIQ_STATS.industries} suffix="" className="" animate={false}/><sup>業種</sup></div>
               <div className="lbl">対応業種</div>
             </li>
           </ul>
 
-          <div className="main-cta-row fadein" data-delay="400">
-            <span className="btn-pulse btn-magnet" style={{ display: 'inline-block' }}>
-              <Button variant="primary" size="lg" onClick={onContact} arrow>資料請求はこちら</Button>
-            </span>
-            <Button variant="ghost" size="lg" to={'diagnostic'} nav={onNavigate}><Icon name="search" size={14}/>ホームページ無料診断</Button>
-            <a className="btn btn-ghost btn-lg" href="/tools"><Icon name="arrow-right" size={14}/>無料ツール（概算見積・AI診断）</a>
-          </div>
         </div>
       </section>
 
@@ -352,7 +354,7 @@ function TopPage({ onNavigate, onContact }) {
       <GalleryTabs onNavigate={onNavigate}/>
 
       {/* =========== キーワード絞り込みタグ (5-color, scroll) =========== */}
-      <section style={{ paddingBottom: 'clamp(48px, 7vw, 90px)' }}>
+      <section className="top-sp-hide" style={{ paddingBottom: 'clamp(48px, 7vw, 90px)' }}>
         <div className="container">
           <div className="row" style={{ justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 24 }}>
             <h3 className="display-s">キーワードから探す</h3>
@@ -390,7 +392,7 @@ function TopPage({ onNavigate, onContact }) {
       </section>
 
       {/* =========== Tag Cloud (weighted) =========== */}
-      <section style={{ paddingBottom: 'clamp(64px, 9vw, 110px)' }}>
+      <section className="top-sp-hide" style={{ paddingBottom: 'clamp(64px, 9vw, 110px)' }}>
         <div className="container">
           <div className="section-head" style={{ marginBottom: 32 }}>
             <h3 className="display-s fadein">扱う技術と業務領域</h3>
@@ -534,7 +536,7 @@ function TopPage({ onNavigate, onContact }) {
       })()}
 
       {/* =========== ピックアップ 3 バナー =========== */}
-      <section className="section-pad-sm">
+      <section className="section-pad-sm top-sp-hide">
         <div className="container">
           <div className="row" style={{ marginBottom: 32, justifyContent: 'space-between', alignItems: 'flex-end' }}>
             <div>
@@ -768,7 +770,7 @@ function GalleryTabs({ onNavigate }) {
             <button key={t} className={`gallery-tab${tab === i ? ' active' : ''}`} onClick={() => setTab(i)}>{t}</button>
           ))}
         </div>
-        <div className="grid-3" style={{ marginTop: 32 }}>
+        <div className="grid-3 top-gallery-grid" style={{ marginTop: 32 }}>
           {data[tab].slice(0, 6).map((w, i) => (
             <a key={i} className="card card-link fadein" data-delay={i * 80} style={{ padding: 0, overflow: 'hidden', cursor: 'pointer' }}
                {...(w.demo ? { href: w.demo, onClick: (e) => { e.preventDefault(); openShowcase(w.demo, w.t); } } : navProps(w.route, onNavigate))}>
@@ -827,7 +829,7 @@ function ContentTabs({ onNavigate }) {
   ];
   const t = data[tab];
   return (
-    <section className="section-pad" style={{ background: 'var(--bg-2)' }}>
+    <section className="section-pad top-sp-hide" style={{ background: 'var(--bg-2)' }}>
       <div className="container">
         <div className="section-head">
           <h2 className="section-title fadein">Nortiq コンテンツ</h2>
