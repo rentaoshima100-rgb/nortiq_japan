@@ -1036,18 +1036,13 @@ function SubsidySections({ onNavigate, onContact }) {
 function openShowcase(url, title) {
   window.dispatchEvent(new CustomEvent('nq:showcase', { detail: { url, title } }));
 }
-// 実績サイトはデスクトップ幅 (1280〜1440px) で設計されている。モーダルの実寸を
-// そのまま iframe に与えると、狭いノートPCでは横あふれして「つぶれた」見た目になる。
-// 常に DESIGN_W で描画し、CSS transform で縮小して収める (端末プレビュー方式)。
-const SHOWCASE_DESIGN_W = 1440;
-// PC/タブレットでは縮小しすぎると読めないので下限を設ける (下回る分は横スクロール)。
-// スマホでは逆に「全体が入る」ほうが価値があるため下限を外して完全に収める。
-const SHOWCASE_MIN_SCALE = 0.45;
-const SHOWCASE_NARROW = 760;
+// 実績サイトはモーダルの実寸そのままで表示する (縮小しない)。
+// 以前は 1440px で描画して zoom で縮めていたが、スマホでは本文が 3〜4px になって
+// 読めず、開くアニメーション中の 98.5% サイズで倍率を計算するため右と下に白い帯も
+// 出ていた。実績サイト側を全幅対応にしたので (showcase/_responsive/ を build.js が
+// 差し込む)、ここは iframe を器いっぱいに広げるだけでよい。
 function ShowcaseViewer() {
   const [view, setView] = React.useState(null); // { url, title }
-  const stageRef = React.useRef(null);
-  const [fit, setFit] = React.useState({ scale: 1, h: 900 });
 
   React.useEffect(() => {
     const onOpen = (e) => setView(e.detail);
@@ -1062,23 +1057,6 @@ function ShowcaseViewer() {
     return () => { document.body.style.overflow = ''; };
   }, [view]);
 
-  React.useEffect(() => {
-    if (!view) return;
-    const el = stageRef.current;
-    if (!el) return;
-    const measure = () => {
-      const r = el.getBoundingClientRect();
-      if (!r.width || !r.height) return;
-      const raw = Math.min(1, r.width / SHOWCASE_DESIGN_W);
-      const scale = r.width < SHOWCASE_NARROW ? raw : Math.max(SHOWCASE_MIN_SCALE, raw);
-      setFit({ scale, h: r.height / scale });
-    };
-    measure();
-    const ro = new ResizeObserver(measure);
-    ro.observe(el);
-    return () => ro.disconnect();
-  }, [view]);
-
   if (!view) return null;
   return (
     <div className="showcase-overlay" onClick={() => setView(null)} role="dialog" aria-modal="true" aria-label={`制作実績プレビュー: ${view.title || ''}`}>
@@ -1089,29 +1067,11 @@ function ShowcaseViewer() {
           <a className="showcase-open" href={view.url} target="_blank" rel="noopener noreferrer">別タブで開く</a>
           <button className="showcase-close" onClick={() => setView(null)} aria-label="閉じる">×</button>
         </div>
-        <div className="showcase-stage" ref={stageRef}>
-          {/*
-            縮小には transform ではなく zoom を使う。
-
-            transform は見た目だけを縮めるのでレイアウト箱が 1440px のまま残り、
-            (1) 横スクロールが出る (2) 変形した iframe の内側スクロールがタッチで
-            一切動かない、という二つの問題が出る。後者を回避するために外側で
-            スクロールさせて中へ位置を渡す方式を採っていたが、スクロールのたびに
-            iframe 全体を描き直すため実測で 11FPS まで落ちていた。
-
-            zoom はレイアウトごと縮むので、内側のビューポートは 1440px のまま
-            (デスクトップ版のデザインが出る) で、スクロールはブラウザ本来の
-            ものがそのまま効く。実測でフレーム間隔の中央値 27ms → 19.5ms。
-          */}
+        <div className="showcase-stage">
           <iframe
             className="showcase-iframe"
             src={view.url}
             title={view.title || '制作実績プレビュー'}
-            style={{
-              width: SHOWCASE_DESIGN_W + 'px',
-              height: Math.round(fit.h) + 'px',
-              zoom: fit.scale,
-            }}
           />
         </div>
       </div>

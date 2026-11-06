@@ -1,0 +1,32 @@
+/* オーナーズデスク (管理画面): 横のメニューを上に移し、カードを縦に積む */
+@media (max-width: 1100px) {
+  [data-dc-tpl="5"] { display: block !important; min-width: 0 !important; min-height: 0 !important; }
+  [data-dc-tpl="6"] { width: 100% !important; position: static !important; height: auto !important; }
+  [data-dc-tpl="15"] { flex-direction: row !important; overflow-x: auto; padding-bottom: 10px !important; }
+  [data-dc-tpl="17"] { width: auto !important; flex: none !important; white-space: nowrap; }
+  [data-dc-tpl="20"] { flex: none !important; }
+  [data-dc-tpl="23"], [data-dc-tpl="34"] { display: none !important; }
+}
+@media (max-width: 900px) {
+  [data-dc-tpl="61"] { grid-template-columns: minmax(0, 1fr) !important; }
+  [data-dc-tpl="63"], [data-dc-tpl="100"], [data-dc-tpl="158"] { grid-column: auto !important; }
+  [data-dc-tpl="63"] { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+  /* 物件の表は幅を保って、枠の中で横スクロール */
+  [data-dc-tpl="158"] { overflow-x: auto !important; }
+  [data-dc-tpl="166"] { display: table !important; min-width: 640px; overflow: visible !important; }
+  [data-dc-tpl="166"] th:first-child, [data-dc-tpl="166"] td:first-child { min-width: 170px; }
+}
+@media (max-width: 600px) {
+  [data-dc-tpl="42"] { position: static !important; height: auto !important; flex-wrap: wrap !important; gap: 10px !important; padding: 12px 16px !important; }
+  [data-dc-tpl="43"] { flex: 1 1 100% !important; }
+  [data-dc-tpl="46"], [data-dc-tpl="51"] { display: none !important; }
+  [data-dc-tpl="61"] { padding: 14px 14px 28px !important; gap: 12px !important; }
+  [data-dc-tpl="63"] { gap: 10px !important; }
+  [data-dc-tpl="64"], [data-dc-tpl="73"], [data-dc-tpl="81"], [data-dc-tpl="91"] { padding: 14px !important; }
+  [data-dc-tpl="66"], [data-dc-tpl="75"], [data-dc-tpl="83"], [data-dc-tpl="93"] { flex-wrap: wrap; }
+  [data-dc-tpl="68"], [data-dc-tpl="86"], [data-dc-tpl="96"] { flex-wrap: wrap; gap: 2px 6px !important; }
+  [data-dc-tpl="101"], [data-dc-tpl="159"] { flex-wrap: wrap !important; }
+  [data-dc-tpl="102"], [data-dc-tpl="160"] { flex: 1 1 100% !important; }
+  [data-dc-tpl="113"] { padding: 16px 12px !important; gap: 6px !important; }
+  [data-dc-tpl="114"] { width: 28px !important; }
+}

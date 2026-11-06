@@ -1,0 +1,4 @@
+/* VOLTIO */
+@media (max-width: 360px) {
+  [data-dc-tpl="64"] { white-space: nowrap; }
+}

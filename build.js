@@ -1183,6 +1183,46 @@ const ICON_SKIP = new Set(['nortiq-fav.png', 'nortiq-icon.png', 'nortiq-mark.png
 const RASTER_EXT = new Set(['.png', '.jpg', '.jpeg']);
 
 // Recursively collect raster image paths under dir, skipping the vendor/ JS folder.
+// 実績ショーケースの全幅対応 CSS を各ページの <head> に差し込む。
+// 実績サイトは Claude Design の書き出し (インライン style のみ) で、書き出し直すと
+// HTML を手で直した分が消えるので、原本は触らずビルド時に足す。
+//   base.css             全ページ共通
+//   generated/<slug>.css scripts/showcase-responsive-gen.js が生成 (手で編集しない)
+//   <slug>.css           ページごとの手直し
+// メディアクエリ内だけに書くので、幅1280px以上の見た目は原本と変わらない。
+function injectShowcaseResponsive(srcRoot, destRoot) {
+  const dir = path.join(srcRoot, '_responsive');
+  if (!fs.existsSync(dir)) return;
+  const read = (p) => (fs.existsSync(p) ? fs.readFileSync(p, 'utf8') : '');
+  const base = read(path.join(dir, 'base.css'));
+  for (const entry of fs.readdirSync(destRoot, { withFileTypes: true })) {
+    if (!entry.isDirectory() || entry.name.startsWith('_')) continue;
+    const file = path.join(destRoot, entry.name, 'index.html');
+    if (!fs.existsSync(file)) continue;
+    const css = [base, read(path.join(dir, 'generated', `${entry.name}.css`)), read(path.join(dir, `${entry.name}.css`))].join('\n');
+    const tag = `<style id="nq-responsive">${csso.minify(css, { restructure: false }).css}</style>`;
+    let html = fs.readFileSync(file, 'utf8');
+    // 書き出し形式は2種類: テンプレートを JSON 文字列で持つものと、素の HTML のもの
+    const open = '<script type="__bundler/template">';
+    const start = html.indexOf(open);
+    if (start >= 0) {
+      const from = start + open.length;
+      const to = html.indexOf('</script>', from);
+      const tpl = JSON.parse(html.slice(from, to));
+      const at = tpl.indexOf('</head>');
+      if (at < 0) throw new Error(`showcase/${entry.name}: テンプレートに </head> がない`);
+      const next = tpl.slice(0, at) + tag + tpl.slice(at);
+      html = html.slice(0, from) + JSON.stringify(next).replace(/<\//g, '<\\u002F') + html.slice(to);
+    } else {
+      const at = html.indexOf('</head>');
+      if (at < 0) throw new Error(`showcase/${entry.name}: </head> がない`);
+      html = html.slice(0, at) + tag + html.slice(at);
+    }
+    fs.writeFileSync(file, html);
+  }
+  fs.rmSync(path.join(destRoot, '_responsive'), { recursive: true, force: true });
+}
+
 function collectRasterImages(dir, acc = []) {
   for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
     const full = path.join(dir, entry.name);
@@ -1410,7 +1450,8 @@ async function build() {
       }
     };
     injectNoindex(dest);
-    console.log('• copied showcase/ (noindex injected)');
+    injectShowcaseResponsive(SHOWCASE, dest);
+    console.log('• copied showcase/ (noindex + responsive CSS injected)');
   }
 
   console.log('• optimizing dist/assets images');

@@ -4468,7 +4468,7 @@ picture { display: contents; }
 }
 @keyframes showcase-in { from { opacity: 0; } to { opacity: 1; } }
 .showcase-frame {
-  width: min(1280px, 100%);
+  width: min(1440px, 100%);
   height: 100%;
   max-height: 92vh;
   background: #fff;
@@ -4531,17 +4531,17 @@ picture { display: contents; }
   line-height: 1;
   cursor: pointer;
 }
-/* ステージ: デスクトップ設計のサイトを縮小表示する器 */
+/* ステージ: 実績サイトを実寸で表示する器。スクロールするのは iframe 自身 */
 .showcase-stage {
   flex: 1;
   min-height: 0;
-  /* スクロールするのは iframe 自身 (zoom で縮めているのでタッチでも普通に動く)。
-     ここは器なので隠すだけ */
   overflow: hidden;
   background: #fff;
   position: relative;
 }
 .showcase-iframe {
+  width: 100%;
+  height: 100%;
   border: 0;
   background: #fff;
   display: block;
@@ -4549,7 +4549,9 @@ picture { display: contents; }
 @media (max-width: 640px) {
   .showcase-overlay { padding: 0; }
   .showcase-frame { max-height: 100vh; border-radius: 0; }
-  .showcase-open { display: none; }
+  .showcase-bar { gap: 8px; padding: 8px 10px; }
+  .showcase-dots { display: none; }
+  .showcase-close { width: 36px; height: 36px; }
 }
 @media (prefers-reduced-motion: reduce) {
   .showcase-overlay, .showcase-frame { animation: none; }

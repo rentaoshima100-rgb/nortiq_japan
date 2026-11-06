@@ -1,0 +1,4 @@
+/* RENOVE STORY */
+@media (max-width: 400px) {
+  [data-dc-tpl="11"] { display: none !important; }
+}

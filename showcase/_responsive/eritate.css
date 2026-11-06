@@ -1,0 +1,9 @@
+/* 衿立パートナーズ: 縦書きの見出しを先に出し、本文とボタンを墨の円に重ねない */
+@media (max-width: 760px) {
+  [data-dc-tpl="16"] { display: block !important; min-height: 0 !important; padding-top: 104px !important; padding-bottom: 48px !important; }
+  [data-dc-tpl="19"] { display: flex !important; flex-direction: column !important; gap: 36px !important; }
+  [data-dc-tpl="28"] { order: -1; justify-content: center !important; min-height: 330px; }
+  [data-dc-tpl="20"] { max-width: none !important; }
+  [data-dc-tpl="17"] { top: 104px !important; right: 50% !important; transform: translateX(50%) !important; width: min(330px, 86vw) !important; }
+  [data-dc-tpl="40"] { display: none !important; }
+}

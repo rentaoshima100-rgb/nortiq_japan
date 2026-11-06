@@ -1,0 +1,27 @@
+/* ESTIA PARTNERS */
+@media (max-width: 1100px) {
+  /* 物件リスト: 8列の行をカードに組み替える */
+  [data-dc-tpl="110"] { grid-template-columns: 128px minmax(0, 1fr) !important; min-width: 0 !important; gap: 6px 18px !important; padding: 18px 0 !important; }
+  [data-dc-tpl="111"], [data-dc-tpl="127"] { display: none !important; }
+  [data-dc-tpl="112"] { grid-row: span 5; height: 96px !important; }
+}
+@media (max-width: 900px) {
+  /* ファーストビュー: 文字 → 写真 の縦積み */
+  [data-dc-tpl="16"] { flex-direction: column !important; height: auto !important; }
+  [data-dc-tpl="17"] { box-sizing: border-box; width: 100% !important; min-width: 0 !important; padding: 40px 32px 0 !important; }
+  [data-dc-tpl="38"] { flex: none !important; height: 52vw !important; min-height: 240px; }
+  [data-dc-tpl="41"] { flex-direction: column !important; }
+  [data-dc-tpl="42"] { flex: none !important; }
+  [data-dc-tpl="75"] { width: 100% !important; padding: 18px !important; }
+}
+@media (max-width: 600px) {
+  [data-dc-tpl="17"] { padding: 28px 20px 0 !important; }
+  [data-dc-tpl="20"] { display: none !important; }
+  [data-dc-tpl="18"] { justify-content: space-between !important; }
+  [data-dc-tpl="26"] { column-gap: 24px !important; padding-bottom: 28px !important; }
+  [data-dc-tpl="42"] { grid-template-columns: minmax(0, 1fr) !important; }
+  [data-dc-tpl="43"], [data-dc-tpl="53"], [data-dc-tpl="64"] { padding: 16px 20px !important; }
+  [data-dc-tpl="110"] { grid-template-columns: 96px minmax(0, 1fr) !important; }
+  [data-dc-tpl="112"] { height: 76px !important; }
+  [data-dc-tpl="194"] { justify-content: flex-start !important; flex-wrap: wrap; gap: 10px 18px !important; }
+}

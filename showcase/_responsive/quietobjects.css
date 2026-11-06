@@ -1,0 +1,5 @@
+/* Quiet Objects */
+@media (max-width: 900px) {
+  [data-dc-tpl="33"] { height: clamp(380px, 104vw, 680px) !important; justify-content: stretch !important; }
+  [data-dc-tpl="34"] { display: none !important; }
+}

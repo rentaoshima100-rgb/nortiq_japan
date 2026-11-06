@@ -1,0 +1,4 @@
+/* TOKYO HOMES: 斜めに切った2枚のパネルは、縦積みになる幅では切らない (文字が欠けるため) */
+@media (max-width: 860px) {
+  [data-dc-tpl="53"], [data-dc-tpl="61"] { clip-path: none !important; flex-basis: 100% !important; padding: 36px 28px 32px !important; min-height: 0 !important; margin: 0 !important; }
+}

@@ -1,0 +1,11 @@
+/* THERMOX: 断面図 + 引き出し線 + 凡例 の図版。幅が足りる間は原本の4列のまま */
+@media (max-width: 900px) {
+  [data-dc-tpl="35"] { grid-template-columns: 44px 1fr 120px 232px !important; }
+}
+@media (max-width: 700px) {
+  /* 引き出し線は凡例と揃わなくなるので隠し、図の下に凡例を順に並べる */
+  [data-dc-tpl="35"] { grid-template-columns: minmax(0, 1fr) !important; row-gap: 16px !important; }
+  [data-dc-tpl="36"], [data-dc-tpl="52"] { display: none !important; }
+  [data-dc-tpl="67"] { height: auto !important; display: flex; flex-direction: column; gap: 10px; }
+  [data-dc-tpl="68"], [data-dc-tpl="72"], [data-dc-tpl="76"], [data-dc-tpl="80"], [data-dc-tpl="85"], [data-dc-tpl="89"] { position: static !important; }
+}
