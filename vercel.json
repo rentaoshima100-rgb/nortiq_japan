@@ -245,6 +245,9 @@
     "api/contact.js": {
       "maxDuration": 15
     },
+    "api/outbound-visit.js": {
+      "maxDuration": 5
+    },
     "api/suggest.js": {
       "maxDuration": 10,
       "includeFiles": "api/_data/**"

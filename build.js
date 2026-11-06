@@ -1480,12 +1480,21 @@ async function build() {
   // 自分のアクセスの除外。Clarity の IP 除外は回線が変わると効かない (スマホ・日米の移動)。
   // 自分の端末で一度 https://nortiqlab.com/?nq_internal=1 を開くと、そのブラウザでは以後 GA4 と Clarity を読まない。
   // 解除は ?nq_internal=0。外部の訪問者には何も保存しない (パラメータ付きで開いたときだけ書く)。
+  // 2つ目のスクリプトは、営業メールのリンク (utm_source=outbound) から来た人の訪問の記録 (api/outbound-visit.js)。
+  // 開いただけのリンクスキャナを数えないよう、操作があったときか20秒表示されたときに1回だけ送る。自分のアクセスは送らない。
   const internalHead = `
   <script>
     (function(){try{var q=location.search;
       if(/[?&]nq_internal=1(&|$)/.test(q))localStorage.setItem('nq_internal','1');
       if(/[?&]nq_internal=0(&|$)/.test(q))localStorage.removeItem('nq_internal');
       window.__NQ_INTERNAL__=localStorage.getItem('nq_internal')==='1';}catch(e){}})();
+    (function(){try{if(window.__NQ_INTERNAL__)return;var p=new URLSearchParams(location.search),id=p.get('utm_content');
+      if(p.get('utm_source')!=='outbound'||!/^[0-9a-f]{8}$/.test(id||''))return;
+      var sent=false,ev=['scroll','pointerdown','keydown'];
+      function send(){if(sent)return;sent=true;ev.forEach(function(e){removeEventListener(e,send,true)});
+        navigator.sendBeacon('/api/outbound-visit',JSON.stringify({id:id,path:location.pathname}));}
+      ev.forEach(function(e){addEventListener(e,send,{capture:true,passive:true})});
+      setTimeout(function(){if(document.visibilityState==='visible')send();},20000);}catch(e){}})();
   </script>`;
   const clarityHead = CLARITY_ON ? `
   <!-- Microsoft Clarity — heatmaps & session recordings (本体は DOMContentLoaded 後に読む) -->
