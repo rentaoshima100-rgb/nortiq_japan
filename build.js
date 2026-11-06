@@ -121,6 +121,7 @@ const ORG_SAME_AS = [
 // desc → meta description / og:description / BlogPosting.description に使う。
 //        未指定の記事は app.jsx の SEO_DESC か自動生成の定型文にフォールバックする
 const BLOG = [
+  { slug: 'ai-article-writing-workload-measured', category: 'AI活用', date: '2026.11.06', read: '9 min', title: 'AI記事作成ツールの工数を実測｜外注と比較', img: 'assets/blog-default.png', desc: 'AIで記事を作る運用に残る人の作業時間を、当社ツールの実運用で計測した結果 (1記事あたり平均5分、13記事) で示します。残る工程の内訳と、記事制作を外注する場合との比べ方も解説します。', supervised: true },
   { slug: 'system-development-contract-termination', category: '技術', date: '2026.11.06', read: '9 min', title: 'システム開発を途中で中止｜精算と成果物の扱い', img: 'assets/blog-default.png', desc: 'システム開発を途中で中止したときの精算は、請負なら注文者が受ける利益の割合、準委任なら履行の割合が基準です。民法と著作権法の条文をもとに、支払いの範囲と成果物の引き渡しを解説します。', supervised: true },
   { slug: 'chatbot-human-handoff-requirements', category: 'AI活用', date: '2026.11.05', read: '10 min', title: 'AIチャットボットの有人引き継ぎ｜発注要件', img: 'assets/blog-default.png', desc: 'AIチャットボットが答えられない質問を人に引き継ぐ仕組みを、外注時にどこまで要件にするかを解説します。引き継ぐ条件の決め方、担当者へ渡す情報、対応時間外の扱い、要件書に書く6項目、検収で確認する動きまでをまとめました。', supervised: true },
   { slug: 'trucking-working-hours-system-requirements', category: '技術', date: '2026.11.05', read: '9 min', title: '運送業の拘束時間集計｜外注前に決める要件', img: 'assets/blog-default.png', desc: '改善基準告示の拘束時間を集計する仕組みを外注するときの要件を解説します。年・月・始業起点24時間・2日平均・2週平均という判定の単位と上限値、現場から取る記録の項目、超過を事前に知らせる閾値、要件書に書く6項目までをまとめました。', supervised: true },
