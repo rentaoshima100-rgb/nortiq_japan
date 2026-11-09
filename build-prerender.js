@@ -33,6 +33,7 @@ const ARTICLE_ROUTES = (() => {
 })();
 
 const ROUTES_ALLOWLIST = [
+  '/article-ai-development-model-data-rights',
   '/article-ai-search-incorrect-company-info',
   '/article-chatbot-personal-data-requirements',
   '/article-ai-article-writing-workload-measured',

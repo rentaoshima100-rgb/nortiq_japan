@@ -121,6 +121,7 @@ const ORG_SAME_AS = [
 // desc → meta description / og:description / BlogPosting.description に使う。
 //        未指定の記事は app.jsx の SEO_DESC か自動生成の定型文にフォールバックする
 const BLOG = [
+  { slug: 'ai-development-model-data-rights', category: 'AI活用', date: '2026.11.09', read: '7 min', title: 'AI開発の外注｜学習データとモデルの権利', img: 'assets/blog-default.png', desc: '学習済みモデルの帰属を一律に定めた公的資料はありません。契約で決める事項です。対象を学習用データセット、学習済みモデル、追加学習後のモデル、推論の結果に分け、発注前に確認する項目と条項の書き方を解説します。', supervised: true },
   { slug: 'ai-search-incorrect-company-info', category: 'AI活用', date: '2026.11.06', read: '9 min', title: 'AI検索に自社の誤情報｜確認と直し方の手順', img: 'assets/blog-default.png', desc: 'AI検索の回答に自社の古い情報や誤った説明が出るときの確認と対処をまとめました。表示の記録、出どころの切り分け、自社サイトとナレッジパネルで直せる範囲、表示を制限する手段、再クロールの期間と確認方法まで解説します。', supervised: true },
   { slug: 'chatbot-personal-data-requirements', category: 'AI活用', date: '2026.11.06', read: '10 min', title: 'AIチャットボットの個人情報｜発注で決める5項目', img: 'assets/blog-default.png', desc: 'AIチャットボットに利用者が氏名や連絡先を入力したときの扱いを、発注前に決める手順をまとめました。入力の渡り先の確認、学習に使われないことの確認と記録、漏えい時の報告義務から逆算した保存期間と閲覧権限の決め方を解説します。', supervised: true },
   { slug: 'ai-article-writing-workload-measured', category: 'AI活用', date: '2026.11.06', read: '9 min', title: 'AI記事作成ツールの工数を実測｜外注と比較', img: 'assets/blog-default.png', desc: 'AIで記事を作る運用に残る人の作業時間を、当社ツールの実運用で計測した結果 (1記事あたり平均5分、13記事) で示します。残る工程の内訳と、記事制作を外注する場合との比べ方も解説します。', supervised: true },
