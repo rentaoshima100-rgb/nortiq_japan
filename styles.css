@@ -5456,3 +5456,94 @@ a.fc-cell:hover { background: var(--accent); color: #fff; }
   .price-jump a, .price-jump-label { flex: 0 0 auto; white-space: nowrap; }
   .lead-done-actions .btn { flex: 1 1 100%; justify-content: center; }
 }
+
+/* ============================================================
+   2026-11 無料診断の強化 (6領域・セキュリティの外形チェック) と、診断の入口
+   ============================================================ */
+/* --- 診断の入口 (DiagQuickEntry): トップのヒーローなど --- */
+.main-diag { width: 100%; max-width: 640px; margin: 30px auto 0; }
+.diag-entry {
+  background: rgba(255,255,255,0.94); backdrop-filter: blur(6px);
+  border: 1px solid var(--accent); border-radius: 12px;
+  padding: 16px 18px 12px; text-align: left;
+  box-shadow: 0 10px 28px rgba(230,0,18,0.14);
+}
+.diag-entry-label { display: block; font-size: 16px; font-weight: 800; color: var(--text); line-height: 1.5; margin-bottom: 10px; }
+.diag-entry-free {
+  display: inline-block; margin-right: 8px; padding: 1px 8px; border-radius: 3px;
+  background: var(--accent); color: #fff; font-size: 12px; font-weight: 800; letter-spacing: 0.06em; vertical-align: 2px;
+}
+.diag-entry-sub { display: block; font-size: 12.5px; font-weight: 500; color: var(--text-2); margin-top: 2px; }
+.diag-entry-row { display: flex; gap: 8px; }
+.diag-entry-row input {
+  flex: 1 1 auto; min-width: 0; height: 52px; padding: 0 14px;
+  border: 1.5px solid var(--border-hi, var(--border)); border-radius: 8px;
+  font-size: 16px; color: var(--text); background: #fff;
+}
+.diag-entry-row input::placeholder { color: #8a8f98; }
+.diag-entry-row input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 4px rgba(230,0,18,0.10); }
+.diag-entry-row .btn { flex: 0 0 auto; height: 52px; padding: 0 22px; font-size: 15px; white-space: nowrap; }
+.diag-entry-note { margin: 8px 0 0; font-size: 12px; color: var(--text-3); }
+.main-cta-row.main-cta-sub { margin-top: 16px; gap: 10px; }
+.main-cta-row.main-cta-sub .btn { padding: 12px 20px; font-size: 13.5px; background: rgba(255,255,255,0.9); }
+.main-cta-row.main-cta-sub .btn:hover { background: var(--accent-soft); }
+
+/* --- 料金ページ: 概算見積の文字リンク --- */
+.price-estimate-link { color: var(--accent); font-weight: 700; border-bottom: 1px solid currentColor; }
+.price-hero-sep { margin: 0 8px; color: var(--border-hi, var(--border)); }
+
+/* --- 診断結果 --- */
+.diag-result-count { font-size: 13px; color: var(--d-body); margin: 8px 0 0; }
+.diag-cat-top { gap: 12px; }
+.diag-cat-right { display: inline-flex; align-items: baseline; gap: 10px; flex: 0 0 auto; }
+/* 区分は記号と言葉で示す (色だけに頼らない)。枠線の種類も区分ごとに変える。 */
+.diag-level {
+  font-size: 12px; font-weight: 700; padding: 2px 9px; border-radius: 999px; white-space: nowrap;
+  border: 1.5px solid currentColor; background: #fff; line-height: 1.5;
+}
+.diag-level-good { color: #12643d; }
+.diag-level-ok { color: #12643d; border-style: dashed; }
+.diag-level-warn { color: #7a5200; border-style: dashed; background: #fff8e6; }
+.diag-level-bad { color: #fff; background: #b3000e; border-color: #b3000e; }
+.diag-cat-issue { font-size: 13px; line-height: 1.7; }
+.diag-cat-fine { color: #12643d; }
+.diag-cat-more {
+  display: inline-block; margin-left: 8px; padding: 0 8px; border-radius: 999px;
+  background: var(--bg-2); border: 1px solid var(--d-border); font-size: 12px; font-weight: 700; color: var(--d-heading); white-space: nowrap;
+}
+.diag-cat-issues { list-style: none; margin: 8px 0 0; padding: 0; }
+.diag-cat-issues li { position: relative; padding: 5px 0 5px 20px; font-size: 13px; line-height: 1.7; color: var(--d-heading); border-bottom: 1px dashed var(--d-border); }
+.diag-cat-issues li:last-child { border-bottom: 0; }
+.diag-cat-issues li::before { content: "⚠"; position: absolute; left: 0; top: 5px; font-size: 12px; color: #7a5200; }
+.diag-limits { font-size: 12px; line-height: 1.75; color: var(--d-body); margin: -8px 0 24px; padding: 10px 12px; background: var(--bg-2); border-radius: 8px; }
+.diag-locked-list { margin-bottom: 18px; }
+.diag-lead-form { max-width: 440px; margin: 0 auto; text-align: left; }
+.diag-lead-form .field { margin-bottom: 14px; }
+.diag-lead-form .diag-btn { width: 100%; justify-content: center; margin-top: 4px; }
+.diag-lead-form .diag-btn[disabled] { opacity: 0.6; cursor: default; transform: none; box-shadow: none; }
+.diag-lead-form .diag-error { margin: 0 0 12px; }
+.diag-locked-alt { font-size: 13px; color: var(--d-body); margin: 14px 0 0; }
+.diag-link-btn { background: none; border: 0; padding: 0; font: inherit; font-weight: 700; color: var(--accent); text-decoration: underline; cursor: pointer; }
+.diag-unlocked { border-style: solid; border-color: #12643d; background: #f1f8f4; }
+.diag-unlocked .diag-locked-title { color: #12643d; }
+.diag-unlocked-text { font-size: 14px; line-height: 1.8; color: var(--d-heading); margin: 0 0 16px; }
+.diag-unlocked-actions { display: flex; gap: 16px; justify-content: center; align-items: center; flex-wrap: wrap; }
+.diag-feat-note { text-align: center; font-size: 13px; color: var(--d-body); margin: 24px 0 0; }
+/* 末尾の赤い帯の中でも、結果カードの中の文字色は白地用に戻す */
+.diag-final .diag-result .diag-microcopy, .diag-final .diag-result .diag-locked-alt { color: var(--d-body); }
+.diag-final .diag-result .diag-btn { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+@media (max-width: 767px) {
+  .main-diag { margin-top: 22px; }
+  .diag-entry { padding: 14px 14px 10px; }
+  .diag-entry-label { font-size: 15px; }
+  .diag-entry-row { flex-direction: column; }
+  .diag-entry-row .btn { width: 100%; justify-content: center; }
+  .main-cta-row.main-cta-sub { margin-top: 12px; gap: 8px; }
+  .main-cta-row.main-cta-sub .btn { padding: 11px 14px; font-size: 13px; }
+  .diag-cat-top { flex-wrap: wrap; }
+  .diag-level { font-size: 11.5px; }
+  .price-hero-sep { display: none; }
+  .price-estimate-link { display: inline-block; margin-bottom: 6px; }
+  .price-hero-line { display: flex; flex-direction: column; align-items: flex-start; }
+}

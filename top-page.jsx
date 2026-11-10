@@ -70,12 +70,17 @@ function TopPage({ onNavigate, onContact }) {
             <li>Web制作</li><li>AIチャットボット</li><li>業務システム開発</li><li>業務自動化</li><li>データ分析</li>
           </ul>
 
-          <div className="main-cta-row fadein" data-delay="300">
-            <span className="btn-pulse btn-magnet" style={{ display: 'inline-block' }}>
-              <Button variant="primary" size="lg" onClick={onContact} arrow>無料で資料請求する</Button>
-            </span>
+          {/* 2026-11: ヒーローの主役を無料診断にする。
+              GA4 (90日): 資料請求フォームは入力を始めた人が月に 10 人ほどで、ヒーローの資料請求ボタンはほとんど押されていない。
+              無料診断は連絡先なしで結果が出るので、最初の一歩として軽い。URL を入れて押すと /diagnostic がその URL の診断を始める。
+              資料請求はその下の並びに残す (ヘッダーと追従バーにもある)。 */}
+          <div className="main-diag fadein" data-delay="300">
+            <DiagQuickEntry place="top-hero" onNavigate={onNavigate}/>
+          </div>
+          <div className="main-cta-row main-cta-sub fadein" data-delay="350">
+            <Button variant="ghost" size="lg" onClick={onContact} arrow>無料で資料請求する</Button>
             {/* Clarity (2026-10〜11): PC約80表示でファーストビューのボタンは0クリック、押されていたのは導入実績の画像と
-                「他の実績を見る」。まず実績を見たい人の入口をここに置く。無料診断はナビと赤帯に残っている。 */}
+                「他の実績を見る」。まず実績を見たい人の入口をここに置く。 */}
             <Button variant="ghost" size="lg" to={'works'} nav={onNavigate}><Icon name="grid" size={14}/>制作実績を見る</Button>
             <a className="btn btn-ghost btn-lg" href="/tools"><Icon name="arrow-right" size={14}/>無料ツール（概算見積・AI診断）</a>
           </div>

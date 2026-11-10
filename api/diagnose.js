@@ -1,17 +1,21 @@
-// Vercel serverless function — real, lightweight site diagnosis.
+// Vercel serverless function — 無料診断。
 //
 // POST /api/diagnose  { url }
-//   -> { url, overall:{score,rank,summary}, categories:{...}, fetchedAt }
+//   -> { url, fetchedAt, overall:{score,rank,summary}, categories:{6領域}, checks, limits }
 //
-// Runs server-side (no CORS limits) and analyses the target page's HTML +
-// robots.txt / llms.txt / sitemap.xml + a sampled broken-link check.
-// Deliberately dependency-free (Node 20 global fetch + regex) so it deploys
-// on Vercel without a build step. Heavier Lighthouse/Core-Web-Vitals scoring
-// can be layered on later via the PageSpeed Insights API.
+// サーバー側で対象のページを1回開き (HTML と応答ヘッダー)、robots.txt / llms.txt / sitemap.xml と、
+// ページ内のリンクの一部 (最大12件) の到達を確かめる。判定は api/_lib/diagnose-core.js。
+// 依存パッケージなし (Node の fetch と正規表現)。Lighthouse (Core Web Vitals) の実測はしていない。
+//
+// セキュリティは「外形チェック」だけ: ふつうのブラウザがページを開いたときに受け取る情報 (HTTPS、応答ヘッダー、
+// Cookie の属性、HTML に書かれた部品の版) を読む。管理画面や設定ファイルの場所を探りに行く要求、ポートの検査、
+// 攻撃の試行は送らない。入力された URL は第三者のサイトでもあり得るので、所有者の同意が要る検査はここではしない
+// (それは /security で、所有・運営の確認を取ってから行う)。
 
-const UA = 'Mozilla/5.0 (compatible; NortiqLabDiagnostic/1.0; +https://nortiqlab.com)';
+const core = require('./_lib/diagnose-core.js');
+const guard = require('./_lib/guard');
 
-function clamp(n, lo = 0, hi = 100) { return Math.max(lo, Math.min(hi, Math.round(n))); }
+const UA = 'Mozilla/5.0 (compatible; NortiqLabDiagnostic/1.1; +https://nortiqlab.com/diagnostic)';
 
 const dns = require('dns').promises;
 const net = require('net');
@@ -57,7 +61,7 @@ const MAX_BODY = 600000;   // 読む HTML の上限 (これ以上は捨てる。
 const MAX_REDIRECTS = 5;
 
 async function readBounded(res, limit) {
-  if (!res.body) return '';
+  if (!res.body) return { text: '', bytes: 0 };
   const chunks = [];
   let total = 0;
   const reader = res.body.getReader();
@@ -72,20 +76,30 @@ async function readBounded(res, limit) {
   } finally {
     try { reader.releaseLock(); } catch { /* ignore */ }
   }
-  return Buffer.concat(chunks).toString('utf8').slice(0, limit);
+  return { text: Buffer.concat(chunks).toString('utf8').slice(0, limit), bytes: Math.min(total, limit) };
+}
+
+function headerMap(res) {
+  const h = {};
+  res.headers.forEach((v, k) => { h[k.toLowerCase()] = v; });
+  return h;
 }
 
 // リダイレクトは自分で追う (redirect: 'follow' だと、公開サイトから内部アドレスへ 302 されても止められない)。
 // 1ホップごとにプロトコル・ホスト名・名前解決の結果を確かめる。
+// 戻り値: { ok, status, text, finalUrl, headers, setCookies, ms (最後の応答を受け取り終わるまで), bytes, redirects }
 async function fetchDoc(url, { method = 'GET', timeout = 7000 } = {}) {
   try {
     let current = url;
     let res;
-    for (let hop = 0; ; hop++) {
+    let started = Date.now();
+    let hop = 0;
+    for (;; hop++) {
       const u = new URL(current);
       if (!/^https?:$/.test(u.protocol) || isPrivateHost(u.hostname) || await resolvesToPrivate(u.hostname)) {
         return { ok: false, status: 0, text: '', error: 'blocked_host' };
       }
+      started = Date.now();
       res = await fetch(current, {
         method,
         headers: { 'User-Agent': UA, Accept: 'text/html,application/xhtml+xml,*/*' },
@@ -101,147 +115,61 @@ async function fetchDoc(url, { method = 'GET', timeout = 7000 } = {}) {
       }
       break;
     }
-    const text = method === 'GET' ? await readBounded(res, MAX_BODY) : '';
+    const body = method === 'GET' ? await readBounded(res, MAX_BODY) : { text: '', bytes: 0 };
     if (method !== 'GET') { try { if (res.body) await res.body.cancel(); } catch { /* ignore */ } }
-    return { ok: res.ok, status: res.status, text, finalUrl: current };
+    return {
+      ok: res.ok, status: res.status, text: body.text, finalUrl: current,
+      headers: headerMap(res),
+      setCookies: typeof res.headers.getSetCookie === 'function' ? res.headers.getSetCookie() : [],
+      ms: Date.now() - started, bytes: body.bytes, redirects: hop,
+    };
   } catch (e) {
-    return { ok: false, status: 0, text: '', error: String(e && e.message || e) };
+    return { ok: false, status: 0, text: '', error: String(e && (e.cause && e.cause.code || e.message) || e) };
   }
-}
-
-// ---- HTML helpers (regex-based, no DOM) ----
-const between = (html, re) => { const m = html.match(re); return m ? m[1].trim() : ''; };
-const countMatches = (html, re) => (html.match(re) || []).length;
-
-function analyzeOnPage(html, baseUrl) {
-  const issues = [];
-  let score = 100;
-
-  const title = between(html, /<title[^>]*>([\s\S]*?)<\/title>/i);
-  if (!title) { score -= 22; issues.push('title タグがありません'); }
-  else if (title.length < 10 || title.length > 60) { score -= 8; issues.push(`title が ${title.length} 文字 (推奨 10–60)`); }
-
-  const descMatch = html.match(/<meta[^>]+name=["']description["'][^>]*>/i);
-  const desc = descMatch ? between(descMatch[0], /content=["']([\s\S]*?)["']/i) : '';
-  if (!desc) { score -= 14; issues.push('meta description がありません'); }
-  else if (desc.length < 60 || desc.length > 170) { score -= 5; issues.push(`meta description が ${desc.length} 文字 (推奨 60–160)`); }
-
-  const h1 = countMatches(html, /<h1[\s>]/gi);
-  if (h1 === 0) { score -= 12; issues.push('h1 がありません'); }
-  else if (h1 > 1) { score -= 8; issues.push(`h1 が ${h1} 個 (推奨 1 個)`); }
-
-  const imgs = countMatches(html, /<img[\s>]/gi);
-  const imgsNoAlt = countMatches(html, /<img(?![^>]*\balt=)[^>]*>/gi);
-  if (imgs > 0 && imgsNoAlt > 0) {
-    const ratio = imgsNoAlt / imgs;
-    score -= clamp(ratio * 18, 0, 18);
-    issues.push(`alt 属性なしの画像が ${imgsNoAlt}/${imgs} 件`);
-  }
-
-  const hasOg = /<meta[^>]+property=["']og:(title|image|description)["']/i.test(html);
-  if (!hasOg) { score -= 8; issues.push('OGP (og:title/og:image) が未設定'); }
-
-  const hasLang = /<html[^>]+\blang=/i.test(html);
-  if (!hasLang) { score -= 5; issues.push('<html lang> が未設定'); }
-
-  const hasCanonical = /<link[^>]+rel=["']canonical["']/i.test(html);
-  if (!hasCanonical) { score -= 4; issues.push('canonical が未設定'); }
-
-  return { score: clamp(score), topIssue: issues[0] || '大きな問題は見つかりませんでした', issues };
-}
-
-function analyzeTechnical(html, finalUrl, robotsTxt, sitemapOk) {
-  const issues = [];
-  let score = 100;
-
-  if (!/^https:/i.test(finalUrl)) { score -= 25; issues.push('HTTPS化されていません'); }
-  if (!/<meta[^>]+name=["']viewport["']/i.test(html)) { score -= 18; issues.push('viewport メタがなくモバイル非対応の可能性'); }
-  if (!/<meta[^>]+charset/i.test(html)) { score -= 6; issues.push('charset 宣言が見当たりません'); }
-  if (!robotsTxt) { score -= 12; issues.push('robots.txt がありません'); }
-  if (!sitemapOk) { score -= 10; issues.push('sitemap.xml が見当たりません'); }
-  if (!/application\/ld\+json/i.test(html)) { score -= 12; issues.push('構造化データ (JSON-LD) が未設置'); }
-
-  // crude render-blocking signal
-  const headSyncScripts = countMatches((html.split(/<\/head>/i)[0] || ''), /<script(?![^>]*\b(async|defer|type=["']module)["']?)[^>]*\bsrc=/gi);
-  if (headSyncScripts > 2) { score -= 8; issues.push(`head 内の同期スクリプトが ${headSyncScripts} 件 (描画ブロックの可能性)`); }
-
-  return { score: clamp(score), topIssue: issues[0] || '基本的なテクニカル要件は満たしています', issues };
-}
-
-function analyzeAI(html, llmsTxt, robotsTxt) {
-  const issues = [];
-  let score = 100;
-
-  if (!/application\/ld\+json/i.test(html)) { score -= 28; issues.push('構造化データ (JSON-LD) が無く AI が文脈を理解しにくい'); }
-  if (!llmsTxt) { score -= 22; issues.push('llms.txt が未設置 (AI 検索向けの案内ファイル)'); }
-
-  const blockedBots = [];
-  if (robotsTxt) {
-    const txt = robotsTxt.toLowerCase();
-    // very rough: look for "user-agent: gptbot" ... "disallow: /"
-    for (const bot of ['gptbot', 'claude-web', 'claudebot', 'perplexitybot', 'google-extended']) {
-      const idx = txt.indexOf(bot);
-      if (idx !== -1) {
-        const seg = txt.slice(idx, idx + 200);
-        if (/disallow:\s*\//.test(seg)) blockedBots.push(bot);
-      }
-    }
-  }
-  if (blockedBots.length) { score -= 18; issues.push(`AIクローラーをブロック: ${blockedBots.join(', ')}`); }
-
-  const hasAuthor = /(rel=["']author["']|itemprop=["']author["']|class=["'][^"']*author)/i.test(html) || /著者|執筆|監修/.test(html);
-  if (!hasAuthor) { score -= 12; issues.push('著者・監修情報 (E-E-A-T) が見当たりません'); }
-
-  const hasDate = /(datetime=|itemprop=["']dateModified["']|published|更新日|公開日)/i.test(html);
-  if (!hasDate) { score -= 8; issues.push('更新日/公開日が見当たりません'); }
-
-  const lists = countMatches(html, /<(ul|ol|table)[\s>]/gi);
-  if (lists < 1) { score -= 8; issues.push('箇条書き/表が少なく AI に引用されにくい構成'); }
-
-  return { score: clamp(score), topIssue: issues[0] || 'AI 可視性の基礎要件は概ね満たしています', issues };
 }
 
 function extractLinks(html, baseUrl) {
-  const hrefs = [];
-  const re = /<a[^>]+href=["']([^"'#]+)["']/gi;
-  let m;
+  const internal = [];
+  const external = [];
   const seen = new Set();
-  while ((m = re.exec(html)) && hrefs.length < 40) {
-    let href = m[1].trim();
-    if (!href || href.startsWith('mailto:') || href.startsWith('tel:') || href.startsWith('javascript:')) continue;
+  let host = '';
+  try { host = new URL(baseUrl).hostname; } catch { /* ignore */ }
+  // <base href> があるページは、相対リンクをそこから解決する (無視すると、開けるリンクを「切れている」と数えてしまう)
+  const resolveFrom = core.baseHref(html, baseUrl);
+  for (const t of core.tags(html, 'a')) {
+    const href = (core.attr(t, 'href') || '').trim();
+    if (!href || href.startsWith('#') || /^(mailto:|tel:|javascript:|data:)/i.test(href)) continue;
     try {
-      const abs = new URL(href, baseUrl).href;
-      if (!/^https?:/i.test(abs)) continue;
-      if (seen.has(abs)) continue;
-      seen.add(abs);
-      hrefs.push(abs);
+      const u = new URL(href, resolveFrom);
+      if (!/^https?:$/.test(u.protocol)) continue;
+      u.hash = '';
+      if (seen.has(u.href) || u.href === baseUrl) continue;
+      seen.add(u.href);
+      (u.hostname === host ? internal : external).push(u.href);
     } catch { /* skip */ }
+    if (internal.length >= 40 && external.length >= 20) break;
   }
-  return hrefs;
+  // 自サイト内を優先して 8 件、外部を 4 件まで (足りない側の枠はもう一方で埋める)
+  const picked = internal.slice(0, 8).concat(external.slice(0, 4));
+  for (const rest of [internal.slice(8), external.slice(4)]) {
+    for (const x of rest) { if (picked.length >= 12) break; picked.push(x); }
+  }
+  return picked;
+}
+
+// HEAD を受け付けないサーバー (405・501・403 など) と応答なしは、GET でもう一度確かめる。
+async function checkLink(href) {
+  const head = await fetchDoc(href, { method: 'HEAD', timeout: 4000 });
+  if (head.status && head.status < 400) return head;
+  if (head.error === 'blocked_host') return { status: 200 }; // 内部アドレスへのリンクは確かめない (切れているとも数えない)
+  const get = await fetchDoc(href, { method: 'GET', timeout: 4000 });
+  return get.status ? get : (head.status ? head : get);
 }
 
 async function analyzeBrokenLinks(html, baseUrl) {
-  const links = extractLinks(html, baseUrl).slice(0, 12);
-  if (links.length === 0) return { score: 100, topIssue: 'チェック対象のリンクが見つかりませんでした', issues: [], checked: 0, broken: 0 };
-  const results = await Promise.allSettled(
-    links.map((href) => fetchDoc(href, { method: 'HEAD', timeout: 4000 }))
-  );
-  let broken = 0;
-  results.forEach((r) => {
-    const v = r.status === 'fulfilled' ? r.value : null;
-    if (!v || (v.status >= 400) || v.status === 0) broken++;
-  });
-  const rate = broken / links.length;
-  const score = clamp(100 - rate * 100 * 4); // 5% broken ~= 80, 25% ~= 0
-  const issues = broken ? [`${links.length} 件中 ${broken} 件のリンクが到達不可`] : [];
-  return { score, topIssue: broken ? issues[0] : 'リンク切れは検出されませんでした', issues, checked: links.length, broken };
-}
-
-function rankOf(score) {
-  if (score >= 90) return 'A';
-  if (score >= 75) return 'B';
-  if (score >= 60) return 'C';
-  return '要改善';
+  const links = extractLinks(html, baseUrl);
+  const results = await Promise.all(links.map((href) => checkLink(href).catch(() => ({ status: 0 }))));
+  return core.summarizeLinks(results);
 }
 
 module.exports = async (req, res) => {
@@ -250,6 +178,11 @@ module.exports = async (req, res) => {
     res.status(405).json({ error: 'method_not_allowed' });
     return;
   }
+
+  // この診断は、指定された URL に代わってサーバーから何件かの要求を出す。よそのサイトやスクリプトから
+  // 「代理で他人のサイトを調べる道具」として使われないよう、自サイトの画面からの要求だけを受ける
+  // (Origin を見る。認証ではないが、ブラウザ経由の第三者利用は止まる。回数の制限は Vercel Firewall のルール)。
+  if (!guard.checkOrigin(req)) { res.status(403).json({ error: 'forbidden' }); return; }
 
   // Body may already be parsed by Vercel; fall back to manual parse.
   let body = req.body;
@@ -267,49 +200,56 @@ module.exports = async (req, res) => {
 
   const main = await fetchDoc(target.href, { timeout: 7000 });
   if (!main.ok || !main.text) {
-    res.status(502).json({ error: 'fetch_failed', detail: main.error || ('HTTP ' + main.status) });
+    // 401・403・429 は「サイト側が自動アクセスを拒否した」。URL の間違いや停止 (それ以外) と分けて返す
+    const refused = [401, 403, 429].includes(main.status);
+    res.status(502).json({ error: refused ? 'site_refused' : 'fetch_failed', detail: main.error || ('HTTP ' + main.status) });
     return;
   }
-  const html = main.text.slice(0, 600000); // cap
+  const html = main.text;
+  // PDF・画像・JSON など、ページではないものは診断しない
+  if (!core.looksLikeHtml(html, main.headers && main.headers['content-type'])) {
+    res.status(422).json({ error: 'not_html' });
+    return;
+  }
   const finalUrl = main.finalUrl || target.href;
+  const u = new URL(finalUrl);
+  const origin = u.origin;
+  const https = u.protocol === 'https:';
 
-  const origin = new URL(finalUrl).origin;
-  const [robots, llms, sitemap, brokenLinks] = await Promise.all([
+  const [robots, llms, sitemap, httpTry, brokenLinks] = await Promise.all([
     fetchDoc(origin + '/robots.txt', { timeout: 4000 }),
     fetchDoc(origin + '/llms.txt', { timeout: 4000 }),
-    fetchDoc(origin + '/sitemap.xml', { method: 'HEAD', timeout: 4000 }),
+    fetchDoc(origin + '/sitemap.xml', { timeout: 4000 }),
+    // https のサイトだけ: http:// で開いたときに https:// へ転送されるか (トップを1回開くだけ)
+    https && !u.port ? fetchDoc('http://' + u.hostname + '/', { timeout: 4000 }) : Promise.resolve(null),
     analyzeBrokenLinks(html, finalUrl),
   ]);
 
-  const robotsTxt = robots.ok ? robots.text : '';
-  const onPage = analyzeOnPage(html, finalUrl);
-  const technical = analyzeTechnical(html, finalUrl, robotsTxt, sitemap.ok);
-  const ai = analyzeAI(html, llms.ok && llms.text, robotsTxt);
+  // 存在しないパスにもトップの HTML を返すサイトがあるので、HTML が返ってきたものは「無い」と扱う
+  const textFile = (r) => (r && r.ok && r.text && !core.looksLikeHtml(r.text, r.headers && r.headers['content-type']) ? r.text : '');
+  const robotsTxt = textFile(robots);
+  const llmsTxt = textFile(llms);
+  const sitemapOk = !!(sitemap && sitemap.ok && /<(urlset|sitemapindex)[\s>]/i.test(sitemap.text || ''));
+  // http で開けなかった (80番が閉じている) 場合は問題にしない。開けて https に移らなかったときだけ false
+  const httpUpgrades = !httpTry || !httpTry.status ? null : /^https:/i.test(httpTry.finalUrl || '');
 
-  const categories = {
-    technicalSEO: { label: 'Technical SEO', icon: '🔧', ...technical },
-    onPageSEO:    { label: 'On-Page SEO',  icon: '📝', ...onPage },
-    brokenLinks:  { label: 'Broken Links', icon: '🔗', ...brokenLinks },
-    aiVisibility: { label: 'AI Visibility', icon: '🤖', ...ai },
-  };
-
-  const overallScore = clamp(
-    technical.score * 0.32 +
-    onPage.score * 0.30 +
-    brokenLinks.score * 0.16 +
-    ai.score * 0.22
-  );
-
-  const weakest = Object.values(categories).sort((a, b) => a.score - b.score)[0];
-  const summary = overallScore >= 75
-    ? `全体的に良好です。さらに伸ばすなら「${weakest.label}」に改善余地があります。`
-    : `「${weakest.label}」を中心に改善余地があります。詳細レポートで優先順位をご提案します。`;
+  const report = core.buildReport({
+    technicalSEO: core.analyzeTechnical(html, { finalUrl, headers: main.headers, robotsTxt, sitemapOk, redirects: main.redirects }),
+    onPageSEO: core.analyzeOnPage(html),
+    security: core.analyzeSecurity(html, { finalUrl, headers: main.headers, setCookies: main.setCookies, httpUpgrades }),
+    speed: core.analyzeSpeed(html, { headers: main.headers, ms: main.ms, bytes: main.bytes }),
+    aiVisibility: core.analyzeAI(html, llmsTxt, robotsTxt),
+    brokenLinks,
+  });
 
   res.status(200).json({
     url: finalUrl,
     fetchedAt: new Date().toISOString(),
-    overall: { score: overallScore, rank: rankOf(overallScore), summary },
-    categories,
-    note: 'Core Web Vitals を含む詳細スコアは、NORTIQLAB の詳細レポートでお届けします。',
+    overall: report.overall,
+    categories: report.categories,
+    checks: report.checks,
+    linksChecked: brokenLinks.linksChecked || 0,
+    limits: '公開されているページを1回開いて分かる範囲の診断です。セキュリティは設定の外形チェックで、侵入テストやログイン後の画面の検査ではありません。表示速度は応答時間と読み込み方の簡易チェックです。',
+    note: 'Core Web Vitals の実測を含む詳細な診断と改善提案は、NORTIQLAB の詳細レポートでお届けします。',
   });
 };

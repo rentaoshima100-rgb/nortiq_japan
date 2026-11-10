@@ -818,7 +818,8 @@ const LEAD_EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 // kind: フォームの置き場所 (GA4 の form_kind とメールの件名に出る)。topic: 開いた入口が渡す相談の種別
 // (例「Web制作 / Standard プラン」)。メールでは「ご相談内容（種別）」の行になる。
-function useLeadForm(kind, topic) {
+// extra: 送信時に足す項目を返す関数 (任意)。無料診断の結果フォームが、診断した URL と結果の要約を添えるのに使う。
+function useLeadForm(kind, topic, extra) {
   const [form, setForm] = React.useState(LEAD_FORM_INITIAL);
   const [errors, setErrors] = React.useState({});
   const [stage, setStage] = React.useState('form'); // form | sending | done | error
@@ -865,7 +866,8 @@ function useLeadForm(kind, topic) {
     setStage('sending');
     try {
       // topic は文字列だけ送る。送信元のページも添える (どのページで資料請求されたかがメールで分かる)。
-      await sendInquiry({ ...form, topic: typeof topic === 'string' ? topic : '', page: location.pathname }, kind);
+      const more = typeof extra === 'function' ? (extra(form) || {}) : {};
+      await sendInquiry({ ...form, ...more, topic: typeof topic === 'string' ? topic : '', page: location.pathname }, kind);
       setStage('done');
     } catch (err) {
       setStage('error');
@@ -927,6 +929,40 @@ function LeadFormMore({ lf, idp }) {
         </div>
       </div>
     </details>
+  );
+}
+
+// 無料診断の入口 (URL を入れて /diagnostic へ)。2026-11。
+// GA4 (90日): 無料診断のページは開いた人のうち診断を実行する割合が高いのに、そこへ行く導線がナビと帯だけだった。
+// トップのヒーローなどに置き、URL を入れて押すと診断ページがその URL の診断をすぐ始める (DiagUrlForm の autoStart)。
+// URL はタブの sessionStorage で渡す (クエリに載せると、訪問者のサイト名がアクセス解析と履歴に残る)。
+const DIAG_HANDOFF_KEY = 'nq_diag_url';
+function DiagQuickEntry({ place, onNavigate, title = 'いまのホームページを診断', sub = 'SEO・セキュリティ・表示速度・AI対応をまとめて採点', label = '無料で診断する' }) {
+  const [url, setUrl] = React.useState('');
+  const go = (e) => {
+    e.preventDefault();
+    const v = url.trim();
+    try {
+      if (v) sessionStorage.setItem(DIAG_HANDOFF_KEY, v.slice(0, 500));
+      else sessionStorage.removeItem(DIAG_HANDOFF_KEY);
+    } catch (_) { /* 保存できない環境では、診断ページで入力してもらう */ }
+    nqFunnel('diag_entry_submit', { location: place, with_url: v ? 'yes' : 'no' });
+    onNavigate('diagnostic');
+  };
+  const id = 'diag-entry-' + place;
+  return (
+    <form className="diag-entry" onSubmit={go} noValidate data-diag-entry={place}>
+      <label className="diag-entry-label" htmlFor={id}>
+        <span className="diag-entry-free">無料</span>{title}
+        <span className="diag-entry-sub">{sub}</span>
+      </label>
+      <div className="diag-entry-row">
+        <input id={id} type="text" inputMode="url" autoComplete="url" autoCapitalize="none" spellCheck={false}
+               value={url} onChange={(e) => setUrl(e.target.value)} placeholder="https://your-site.com"/>
+        <button className="btn btn-primary btn-lg" type="submit">{label}<Icon name="arrow-right" size={14}/></button>
+      </div>
+      <p className="diag-entry-note">URLを入れるだけ・登録不要・その場で結果を表示</p>
+    </form>
   );
 }
 
@@ -1799,5 +1835,5 @@ Object.assign(window, {
   WorkShot,
   NAV_MEGA, PREFECTURES,
   CATEGORY_OPTIONS, INQ_TYPE_OPTIONS, REASON_OPTIONS, SOURCE_OPTIONS,
-  LINE_URL, LineLink, nqFunnel, LeadFormDone,
+  LINE_URL, LineLink, nqFunnel, LeadFormDone, useLeadForm, DiagQuickEntry, DIAG_HANDOFF_KEY,
 });

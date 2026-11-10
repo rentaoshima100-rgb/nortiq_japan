@@ -743,8 +743,8 @@ function ArticleDetailPage({ onNavigate, onContact, slug }) {
 // ============================================================
 // DIAGNOSTIC LANDING PAGE — NORTIQLAB サイト診断ツール
 // (LP spec v1.0 / navy-blue theme, scoped .diag-page)
-// URL 入力 → その場でスコア表示。詳細レポート希望は問い合わせフォームへ誘導。
-// 実際の自動診断エンジンはバックエンド (別Next.jsプロジェクト) で実装。
+// URL 入力 → その場でスコア表示 (判定は api/diagnose.js と api/_lib/diagnose-core.js)。
+// 全ての指摘と詳細レポートは、結果のすぐ下の 2 項目のフォームで受け付ける。
 // ============================================================
 function diagBarColor(score) {
   if (score >= 75) return '#1c7a4d';
@@ -752,59 +752,159 @@ function diagBarColor(score) {
   return 'var(--accent)';
 }
 
-function DiagResult({ data, onLead }) {
+// 点数の区分。色だけで伝えない (緑と赤の見分けがつきにくい人にも分かるよう、記号と言葉を必ず添える)。
+function diagLevel(score) {
+  if (score >= 90) return { key: 'good', mark: '◎', label: '良好' };
+  if (score >= 75) return { key: 'ok', mark: '○', label: 'おおむね良好' };
+  if (score >= 60) return { key: 'warn', mark: '△', label: '要注意' };
+  return { key: 'bad', mark: '×', label: '要改善' };
+}
+
+const DIAG_ORDER = ['technicalSEO', 'onPageSEO', 'security', 'speed', 'aiVisibility', 'brokenLinks'];
+// 診断で見る項目の最大数。api/_lib/diagnose-core.js の MAX_CHECKS と同じ (テストが実数と突き合わせている)。
+const DIAG_MAX_CHECKS = 58;
+
+// 届くメールに添える診断結果の要約 (担当者が、訪問者の見た結果を見ながら詳細レポートを書ける)。
+function diagSummaryText(data) {
+  const ov = data.overall || {};
   const cats = data.categories || {};
-  const order = ['technicalSEO', 'onPageSEO', 'brokenLinks', 'aiVisibility'];
+  const lines = ['【無料診断の結果】', 'URL: ' + data.url, '総合: ' + ov.score + ' / 100 (ランク ' + ov.rank + ')', ''];
+  DIAG_ORDER.filter((k) => cats[k]).forEach((k) => {
+    const c = cats[k];
+    lines.push('■ ' + (c.jp || c.label) + ': ' + c.score + ' 点');
+    (c.issues || []).forEach((x) => lines.push('  - ' + x));
+  });
+  return lines.join('\n').slice(0, 6000);
+}
+
+// 診断結果。2026-11:
+//  - 6 領域 (セキュリティの外形チェックと、表示速度の簡易チェックを追加)。
+//  - 以前は「詳細レポートを受け取る」を押すと資料請求のモーダルが開き、診断した URL も結果も引き継がれなかった
+//    (GA4 では 90 日で診断の実行 5 回に対し、そこからの問い合わせは 0 件)。結果のすぐ下に 2 項目のフォームを置き、
+//    送信するとその場で全ての指摘が開く。届くメールには診断した URL と結果の要約が載る。
+function DiagResult({ data, onReset }) {
+  const cats = data.categories || {};
+  const keys = DIAG_ORDER.filter((k) => cats[k]);
   const ov = data.overall || { score: 0, rank: '-', summary: '' };
+  const lf = useLeadForm('diagnostic-report', '無料診断の詳細レポート', () => ({ siteUrl: data.url, message: diagSummaryText(data) }));
+  const { form, errors, stage, formRef, onChange, submit } = lf;
+  const unlocked = stage === 'done';
+  const hidden = keys.reduce((n, k) => n + Math.max(((cats[k].issues || []).length) - 1, 0), 0);
+  const total = keys.reduce((n, k) => n + (cats[k].issues || []).length, 0);
+
+  React.useEffect(() => {
+    if (unlocked) nqFunnel('diagnosis_unlock', { score: ov.score });
+  }, [unlocked]);
+
   return (
-    <div className="diag-result">
+    <div className="diag-result" data-diag-result={unlocked ? 'full' : 'summary'}>
       <div className="diag-result-head">
-        <div className="diag-gauge" style={{ '--g': `${ov.score}` }}>
+        <div className="diag-gauge" style={{ '--g': `${ov.score}` }} role="img" aria-label={`総合スコア ${ov.score} 点 (100 点満点)`}>
           <span className="diag-gauge-val">{ov.score}<small>/100</small></span>
         </div>
         <div className="diag-result-meta">
           <div className="diag-result-rank">ランク <strong>{ov.rank}</strong></div>
           <p className="diag-result-url">{data.url}</p>
           <p className="diag-result-summary">{ov.summary}</p>
+          <p className="diag-result-count">{data.checks || DIAG_MAX_CHECKS} 項目を確認し、{total} 件の指摘が見つかりました。</p>
         </div>
       </div>
       <div className="diag-cats">
-        {order.filter((k) => cats[k]).map((k) => {
+        {keys.map((k) => {
           const c = cats[k];
+          const lv = diagLevel(c.score);
+          const issues = c.issues || [];
+          const rest = issues.length - 1;
           return (
-            <div key={k} className="diag-cat">
+            <div key={k} className={`diag-cat diag-cat-${lv.key}`} data-cat={k}>
               <div className="diag-cat-top">
-                <span className="diag-cat-name">{c.icon} {c.label}</span>
-                <span className="diag-cat-score" style={{ color: diagBarColor(c.score) }}>{c.score}</span>
+                <span className="diag-cat-name">{c.icon} {c.jp || c.label}</span>
+                <span className="diag-cat-right">
+                  <span className={`diag-level diag-level-${lv.key}`}>{lv.mark} {lv.label}</span>
+                  <span className="diag-cat-score" style={{ color: diagBarColor(c.score) }}>{c.score}</span>
+                </span>
               </div>
               <div className="diag-cat-bar"><span style={{ width: `${c.score}%`, background: diagBarColor(c.score) }}/></div>
-              {c.topIssue && <p className="diag-cat-issue">⚠ {c.topIssue}</p>}
+              {issues.length === 0 ? (
+                <p className="diag-cat-issue diag-cat-fine">✓ {c.topIssue}</p>
+              ) : unlocked ? (
+                <ul className="diag-cat-issues">{issues.map((x, i) => <li key={i}>{x}</li>)}</ul>
+              ) : (
+                <p className="diag-cat-issue">
+                  ⚠ {issues[0]}
+                  {rest > 0 && <span className="diag-cat-more">ほか {rest} 件</span>}
+                </p>
+              )}
             </div>
           );
         })}
       </div>
-      <div className="diag-locked">
-        <p className="diag-locked-title">🔒 さらに詳しい改善提案を受け取る</p>
-        <ul className="diag-locked-list">
-          <li>各項目の詳細な課題リスト</li>
-          <li>優先度付きの改善アクションプラン</li>
-          <li>競合との詳細比較レポート</li>
-          <li>NORTIQLAB 専門家による解説</li>
-        </ul>
-        <button className="diag-btn" type="button" onClick={onLead}>無料で詳細レポートを受け取る <Icon name="arrow-right" size={16}/></button>
-        <p className="diag-microcopy">※ 詳細レポートはメールでお届けします (無料)。</p>
-      </div>
+      {data.limits && <p className="diag-limits">{data.limits}</p>}
+
+      {unlocked ? (
+        <div className="diag-locked diag-unlocked" role="status">
+          <p className="diag-locked-title">✓ 送信が完了しました。すべての指摘を上に表示しています。</p>
+          <p className="diag-unlocked-text">
+            優先順位と直し方をまとめた詳細レポートは、担当者が内容を確認してメールでお届けします (無料)。
+            営業日 24 時間以内にご連絡します。
+          </p>
+          <div className="diag-unlocked-actions">
+            <LineLink place="diagnostic-done" variant="ghost">LINEで結果について聞く</LineLink>
+            {onReset && <button type="button" className="diag-link-btn" onClick={onReset}>別のサイトを診断する</button>}
+          </div>
+        </div>
+      ) : (
+        <div className="diag-locked">
+          <p className="diag-locked-title">
+            {hidden > 0 ? <>🔒 残り {hidden} 件の指摘と、直し方を受け取る</> : <>🔒 直し方をまとめた詳細レポートを受け取る</>}
+          </p>
+          <ul className="diag-locked-list">
+            {hidden > 0 && <li>送信するとすぐ、この画面にすべての指摘を表示</li>}
+            <li>優先順位つきの改善プランをメールでお届け (無料)</li>
+            <li>NORTIQLAB の担当者が、あなたのサイトに合わせて解説</li>
+          </ul>
+          <form className="diag-lead-form" onSubmit={submit} noValidate ref={formRef}>
+            <div className="field">
+              <label htmlFor="diag-company">貴社名<span className="req">必須</span></label>
+              <input id="diag-company" data-field="company" type="text" value={form.company} onChange={onChange('company')} placeholder="株式会社○○ (屋号でも可)" autoComplete="organization" aria-invalid={errors.company ? 'true' : undefined}/>
+              {errors.company && <div className="err">{errors.company}</div>}
+            </div>
+            <div className="field">
+              <label htmlFor="diag-email">メールアドレス<span className="req">必須</span></label>
+              <input id="diag-email" data-field="email" type="email" value={form.email} onChange={onChange('email')} placeholder="you@example.com" autoComplete="email" aria-invalid={errors.email ? 'true' : undefined}/>
+              {errors.email && <div className="err">{errors.email}</div>}
+            </div>
+            <div className="field field-check">
+              <input type="checkbox" id="diag-agree" data-field="agree" checked={form.agree} onChange={onChange('agree')} style={{ marginTop: 2 }}/>
+              <label htmlFor="diag-agree" style={{ cursor: 'pointer' }}>
+                <a href="/privacy-handling" target="_blank" rel="noopener noreferrer">個人情報の取り扱い</a>に同意します<span className="req">必須</span>
+                {errors.agree && <div className="err">{errors.agree}</div>}
+              </label>
+            </div>
+            {stage === 'error' && <p className="diag-error" role="alert">送信に失敗しました。時間をおいてもう一度お試しいただくか、LINE でご連絡ください。</p>}
+            <button className="diag-btn" type="submit" disabled={stage === 'sending'}>
+              {stage === 'sending' ? '送信しています…' : (hidden > 0 ? 'すべての指摘を見る' : '詳細レポートを受け取る')} <Icon name="arrow-right" size={16}/>
+            </button>
+          </form>
+          <p className="diag-microcopy">入力は2項目です。診断した URL と結果は自動で添えられます。</p>
+          <p className="diag-locked-alt">
+            入力が手間な方は <LineLink place="diagnostic-result" variant="text">LINEで相談する</LineLink>
+            {onReset && <> ・ <button type="button" className="diag-link-btn" onClick={onReset}>別のサイトを診断する</button></>}
+          </p>
+        </div>
+      )}
     </div>
   );
 }
 
 const DIAG_STEPS = [
   'サイトへ接続しています',
-  'テクニカルSEO（HTTPS・表示速度・構造化データ）を解析',
+  'テクニカルSEO（HTTPS・robots.txt・構造化データ）を解析',
   'オンページSEO（タイトル・見出し・メタ情報）を解析',
-  'リンク切れ・内部リンクをチェック',
+  'セキュリティ設定（通信の暗号化・ヘッダー・古い部品）を確認',
+  '表示速度とリンク切れをチェック',
   'AI可視性（生成AIからの参照しやすさ）を評価',
-  '総合スコアとレポートを生成',
+  '総合スコアを計算',
 ];
 
 function DiagProgress() {
@@ -812,7 +912,7 @@ function DiagProgress() {
   React.useEffect(() => {
     const id = setInterval(() => {
       setActive((a) => (a < DIAG_STEPS.length - 1 ? a + 1 : a));
-    }, 1400);
+    }, 1000);
     return () => clearInterval(id);
   }, []);
   const pct = Math.round(((active + 1) / DIAG_STEPS.length) * 100);
@@ -842,7 +942,21 @@ function DiagProgress() {
   );
 }
 
-function DiagUrlForm({ buttonLabel = "無料で診断する", dark = false, onContact }) {
+// 診断 API のエラーコード → 訪問者に見せる文 (以前はコードをそのまま出していた)
+const DIAG_ERRORS = {
+  url_required: 'URL を入力してください。',
+  invalid_url: 'URL の形式が正しくないようです。例: https://example.com',
+  unsupported_protocol: 'http:// または https:// で始まる URL を入力してください。',
+  blocked_host: 'この URL は診断できません。公開されているサイトの URL を入力してください。',
+  site_refused: 'このサイトは自動のアクセスを受け付けていないため、診断できませんでした。',
+  not_html: 'この URL はページではないようです (PDF や画像など)。サイトのトップページの URL でお試しください。',
+  fetch_failed: 'サイトに接続できませんでした。URL をご確認のうえ、もう一度お試しください。',
+  forbidden: 'この画面からの診断だけを受け付けています。ページを読み込み直してお試しください。',
+};
+
+// autoStart: トップのヒーローなど (DiagQuickEntry) から URL を受け取っていたら、開いてすぐ診断を始める。
+// ページに 2 つ置くので (冒頭と末尾)、受け取るのは冒頭の 1 つだけにする。
+function DiagUrlForm({ buttonLabel = "無料で診断する", dark = false, onContact, autoStart = false }) {
   const [url, setUrl] = React.useState('');
   const [status, setStatus] = React.useState('idle'); // idle | loading | done | error
   const [result, setResult] = React.useState(null);
@@ -851,13 +965,11 @@ function DiagUrlForm({ buttonLabel = "無料で診断する", dark = false, onCo
   const normalize = (v) => (/^https?:\/\//i.test(v) ? v : `https://${v}`);
 
   const sendLead = () => {
-    // Route the "詳細レポート希望" lead through the site contact form (no email exposed).
     if (typeof onContact === 'function') onContact('diagnostic');
   };
 
-  const submit = async (e) => {
-    e.preventDefault();
-    const v = url.trim();
+  const run = async (raw) => {
+    const v = String(raw || '').trim();
     if (!v) return;
     setStatus('loading');
     setErrMsg('');
@@ -884,21 +996,41 @@ function DiagUrlForm({ buttonLabel = "無料で診断する", dark = false, onCo
       // Diagnosis delivered → GA4 generate_lead (key event for Google Ads).
       // Fires once per successful submission; the form unmounts during loading
       // so a single submit can't re-fire. Guarded so analytics never breaks UI.
+      // 注意: lead_type='diagnosis' は「診断を実行した」で、連絡先はまだ受け取っていない。
+      // 連絡先つきの問い合わせは、結果のフォーム (lead_type='contact', form_kind='diagnostic-report') で数える。
       if (typeof window !== 'undefined' && typeof window.nqTrack === 'function') {
         window.nqTrack('generate_lead', { lead_type: 'diagnosis', currency: 'JPY' }, 'diagnostic');
       }
+      const ov = data.overall || {};
+      const cats = data.categories || {};
+      const weakest = Object.keys(cats).sort((a, b) => cats[a].score - cats[b].score)[0] || '';
+      nqFunnel('diagnosis_result', { score: ov.score, rank: ov.rank, weakest, security_score: cats.security ? cats.security.score : undefined });
       await settle(() => { setResult(data); setStatus('done'); });
     } catch (err) {
-      await settle(() => { setErrMsg(String(err.message || err)); setStatus('error'); });
+      const code = String(err.message || err);
+      nqFunnel('diagnosis_error', { code: code.slice(0, 40) });
+      await settle(() => { setErrMsg(DIAG_ERRORS[code] || 'サイトを診断できませんでした。URL をご確認のうえ、もう一度お試しください。'); setStatus('error'); });
     }
   };
+
+  const submit = (e) => { e.preventDefault(); run(url); };
+  const reset = () => { setResult(null); setUrl(''); setStatus('idle'); };
+
+  React.useEffect(() => {
+    if (!autoStart) return;
+    let handed = '';
+    try { handed = sessionStorage.getItem(DIAG_HANDOFF_KEY) || ''; sessionStorage.removeItem(DIAG_HANDOFF_KEY); } catch (_) { /* 使えない環境では何もしない */ }
+    if (!handed || window.__NORTIQ_PRERENDER__) return;
+    setUrl(handed);
+    run(handed);
+  }, []);
 
   if (status === 'loading') {
     return <DiagProgress/>;
   }
 
   if (status === 'done' && result) {
-    return <DiagResult data={result} onLead={sendLead}/>;
+    return <DiagResult data={result} onReset={reset}/>;
   }
 
   return (
@@ -908,6 +1040,8 @@ function DiagUrlForm({ buttonLabel = "無料で診断する", dark = false, onCo
           className="diag-input"
           type="text"
           inputMode="url"
+          autoCapitalize="none"
+          spellCheck={false}
           value={url}
           onChange={(e) => setUrl(e.target.value)}
           placeholder="https://your-site.com"
@@ -918,37 +1052,41 @@ function DiagUrlForm({ buttonLabel = "無料で診断する", dark = false, onCo
       <ul className="diag-trust">
         <li>その場で結果表示</li>
         <li>登録不要</li>
-        <li>4領域を即時診断</li>
+        <li>6領域・最大{DIAG_MAX_CHECKS}項目</li>
       </ul>
       {status === 'error' && (
-        <p className="diag-error">
-          診断に失敗しました（{errMsg}）。URL をご確認のうえ再度お試しください。
+        <p className="diag-error" role="alert">
+          {errMsg}
           <br/>解決しない場合は <a href="#" onClick={(e) => { e.preventDefault(); sendLead(); }}>こちらから直接ご相談</a> いただけます。
         </p>
       )}
-      {!dark && status !== 'error' && <p className="diag-microcopy">※ 診断結果のサマリーはその場で無料表示。詳細レポートはメールでお届けします。</p>}
+      {!dark && status !== 'error' && <p className="diag-microcopy">※ 診断結果はその場で無料表示。公開されているページを1回開いて分かる範囲を確認します。</p>}
     </>
   );
 }
 
 function DiagnosticLPPage({ onNavigate, onContact }) {
   const pains = [
-    { ico: "❓", q: "「SEOが悪い」と言われるけど、具体的に何が問題か分からない", a: "47項目を診断し、具体的な課題を可視化" },
+    { ico: "❓", q: "「SEOが悪い」と言われるけど、具体的に何が問題か分からない", a: `最大${DIAG_MAX_CHECKS}項目を診断し、具体的な課題を可視化` },
     { ico: "🔧", q: "改善ポイントが多すぎて、何から手をつければいいか優先度が分からない", a: "改善インパクトの高い順に優先順位を提案" },
     { ico: "🤖", q: "ChatGPTやGeminiで検索しても、自社サイトが出てこない", a: "AI可視性を独自指標でスコア化・対策提示" },
-    { ico: "⚔️", q: "競合と比べて、何が劣っているのかが把握できない", a: "競合サイトと並べて詳細比較レポート" },
+    { ico: "🛡", q: "古いシステムのまま放置していて、セキュリティが心配", a: "通信の暗号化・ヘッダー設定・古い部品を外形チェック" },
+    { ico: "⚔️", q: "競合と比べて、何が劣っているのかが把握できない", a: "競合サイトとの比較は詳細レポートで" },
   ];
+  // その場で結果が出る 6 領域。項目は api/_lib/diagnose-core.js が実際に見ているものだけを書く
+  // (以前は Core Web Vitals・画像リンク切れ・競合の自動検出など、この診断が見ていない項目も並んでいた)。
   const feats = [
-    { ico: "🔧", name: "Technical SEO", jp: "サイトの土台を徹底チェック", items: ["Core Web Vitals", "モバイル対応", "HTTPS / robots.txt", "構造化データ"] },
-    { ico: "📝", name: "On-Page SEO", jp: "ページ単位の最適化を診断", items: ["title タグ", "メタディスクリプション", "見出し構造", "画像 alt / OGP"] },
-    { ico: "🔗", name: "Broken Links", jp: "リンク切れを自動検出", items: ["内部 404", "外部リンク到達性", "リダイレクト深度", "画像リンク切れ"] },
-    { ico: "🤖", name: "AI Visibility", jp: "AI検索時代の新指標", tag: "NEW", items: ["llms.txt 設置", "AIクローラー許可", "E-E-A-T シグナル", "引用されやすい構造"] },
-    { ico: "⚔️", name: "Competitive", jp: "競合と並べて評価", items: ["競合サイト自動検出", "スコア比較", "キーワードギャップ", "改善優先度マッピング"] },
+    { ico: "🔧", name: "Technical SEO", jp: "サイトの土台をチェック", items: ["HTTPS / スマホ対応 (viewport)", "robots.txt / sitemap.xml", "noindex・canonical の誤設定", "構造化データ (JSON-LD)"] },
+    { ico: "📝", name: "On-Page SEO", jp: "ページ単位の最適化を診断", items: ["title タグ", "メタディスクリプション", "見出し構造 (h1 / h2)", "画像 alt / OGP"] },
+    { ico: "🛡", name: "Security", jp: "脆弱性につながる設定を外形チェック", tag: "NEW", items: ["通信の暗号化 (HTTPS / HSTS)", "セキュリティヘッダー・Cookie の属性", "サポート切れの PHP・古い WordPress / jQuery", "混在コンテンツ・版の露出・鍵の漏れ"] },
+    { ico: "⚡", name: "Speed", jp: "表示速度の簡易チェック", tag: "NEW", items: ["サーバーの応答時間", "HTML の重さ・圧縮", "描画を止めるスクリプト", "画像の遅延読み込み・軽い形式"] },
+    { ico: "🤖", name: "AI Visibility", jp: "AI検索時代の指標", items: ["AIクローラーの許可 (robots.txt)", "構造化データ・運営者情報", "記事の著者・更新日 (E-E-A-T)", "llms.txt・引用されやすい構造"] },
+    { ico: "🔗", name: "Broken Links", jp: "リンク切れを検出", items: ["サイト内のリンク", "外部サイトへのリンク", "転送 (リダイレクト) の回数", "ボット拒否と本当の切れを区別"] },
   ];
   const steps = [
     { n: "STEP 1", ico: "🌐", t: "URLを入力", d: "診断したいサイトのURLを入力フォームに貼り付けて、ボタンを押すだけ。", time: "5秒" },
-    { n: "STEP 2", ico: "⚡", t: "自動診断", d: "NORTIQLAB の診断エンジンが、5領域を並列で実行します。", time: "60秒" },
-    { n: "STEP 3", ico: "📊", t: "レポートを確認", d: "総合スコアと主要課題が即表示。詳細レポートと改善提案はメールでお届け。", time: "即時" },
+    { n: "STEP 2", ico: "⚡", t: "自動診断", d: "NORTIQLAB の診断エンジンが、6領域を並列で確認します。", time: "約10〜30秒" },
+    { n: "STEP 3", ico: "📊", t: "レポートを確認", d: "総合スコアと領域ごとの主な課題をその場で表示。全ての指摘と直し方は、2項目の入力でお届け。", time: "即時" },
   ];
   const whys = [
     { t: "専門家による解説付き", d: "ただの数値羅列ではありません。NORTIQLAB認定エンジニアが、あなたのサイトに特化した改善提案を添えてお届けします。" },
@@ -958,7 +1096,7 @@ function DiagnosticLPPage({ onNavigate, onContact }) {
   const stats = [
     { v: "無料", l: "サイト診断・サマリーレポート" },
     { v: "登録不要", l: "URLを入れるだけ" },
-    { v: "4領域", l: "テクニカル / オンページ / リンク / AI可視性" },
+    { v: "6領域", l: "テクニカル / オンページ / セキュリティ / 表示速度 / AI可視性 / リンク" },
   ];
   const quotes = [
     { p: "AI可視性スコアが衝撃でした。自社サイトがChatGPTで一切引用されない理由が初めて分かり、改善後は問い合わせが2倍に。", c: "田中様 — EC事業 マーケ部長" },
@@ -967,8 +1105,9 @@ function DiagnosticLPPage({ onNavigate, onContact }) {
   ];
   const faqs = [
     { q: "本当に無料ですか?", a: "はい、サイト診断とサマリーレポートは完全無料です。詳細レポート・改善提案も無料でメール送付します。会員登録も不要です。" },
-    { q: "個人情報の入力が必要ですか?", a: "URL入力だけで診断は実行できます。詳細レポートを受け取る際にのみ、お名前・会社名・メールアドレスをいただきます。" },
-    { q: "診断結果はどれくらいの精度ですか?", a: "Lighthouse (Google公式) 準拠の技術指標と、NORTIQLAB独自のAI可視性アルゴリズムを組み合わせています。実証済みのロジックで高い精度を実現します。" },
+    { q: "個人情報の入力が必要ですか?", a: "URL入力だけで診断は実行できます。全ての指摘と詳細レポートを受け取る際にのみ、貴社名とメールアドレスをいただきます。" },
+    { q: "診断結果はどれくらいの精度ですか?", a: `公開されているページを実際に1回開き、HTML と応答の内容から最大${DIAG_MAX_CHECKS}項目を機械的に確認します。その場の診断は「設定の抜け・誤り」を見つけるためのもので、Core Web Vitals の実測や、複数ページにまたがる調査は詳細レポートで行います。` },
+    { q: "セキュリティは何を調べていますか? 攻撃のようなことはしませんか?", a: "ふつうのブラウザがページを開いたときに受け取る情報だけを見ます。通信の暗号化 (HTTPS / HSTS)、セキュリティヘッダー、Cookie の属性、暗号化されていない部品の読み込み、サポートが終了した PHP や古い WordPress・jQuery、ソフトの版の露出などです。管理画面を探す、パスワードを試す、といった攻撃にあたる操作は行いません。侵入テストではないので、ログイン後の画面やサーバー内部の問題は対象外です。本格的な脆弱性診断は、サイトの所有を確認したうえで別途承ります。" },
     { q: "どんなサイトでも診断できますか?", a: "HTTPS / HTTP の公開ウェブサイトであれば診断可能です。ログインが必要なページや、JavaScriptで動的生成される一部のSPAは部分的に対応となります。" },
     { q: "競合の自動検出はどうやっていますか?", a: "サイトの内容 (タイトル・キーワード・カテゴリ) から類似性の高いサイトを自動抽出します。任意の競合URLを手動で指定することも可能です。" },
     { q: "診断結果は保存されますか?", a: "レポートは90日間保存されます。共有URL機能で社内チームと共有することも可能です。" },
@@ -984,7 +1123,7 @@ function DiagnosticLPPage({ onNavigate, onContact }) {
           <div className="diag-hero-inner diag-hero-has-visual">
             <span className="diag-badge">完全無料・登録不要</span>
             <h1 className="diag-h1">URLを入れるだけで、<br/>サイトの<span className="hl">「本当の課題」</span><span className="nw">が見える。</span></h1>
-            <p className="diag-hero-sub">テクニカルSEO・AI可視性・競合比較まで、NORTIQLAB の専門家が改善提案までお届けします。</p>
+            <p className="diag-hero-sub">SEO・セキュリティ・表示速度・AI可視性を、その場で採点。直し方は NORTIQLAB の担当者がお届けします。</p>
             <TrackedBanner id="diagnostic-hero" className="diag-hero-visual">
               <BannerImg
                 base="assets/banners/08_diagnostic_1x1" widths={[600, 1200]} sizes="(max-width: 959px) 300px, 400px"
@@ -992,7 +1131,7 @@ function DiagnosticLPPage({ onNavigate, onContact }) {
                 alt="ホームページ無料診断の結果イメージ: 総合スコア 72/100、SEO・表示速度・AI可視性・競合比較の4項目にチェック。URLを入れるだけ・登録不要"
               />
             </TrackedBanner>
-            <DiagUrlForm onContact={onContact}/>
+            <DiagUrlForm onContact={onContact} autoStart/>
             <p className="diag-social"><strong>登録不要</strong> ・ URLを入れるだけ ・ <strong>その場で結果表示</strong></p>
           </div>
         </div>
@@ -1017,13 +1156,13 @@ function DiagnosticLPPage({ onNavigate, onContact }) {
         </div>
       </section>
 
-      {/* 5 features */}
+      {/* 6 features */}
       <section className="diag-section alt">
         <div className="diag-wrap">
           <div className="diag-head">
             <p className="diag-eyebrow">Features</p>
-            <h2 className="diag-h2">5つの観点で、サイトを徹底解剖</h2>
-            <p className="diag-lead">業界標準のテクニカル指標から、AI検索時代の新しい評価軸まで。NORTIQLAB独自のアルゴリズムで包括的に診断します。</p>
+            <h2 className="diag-h2">6つの観点で、サイトを徹底解剖</h2>
+            <p className="diag-lead">検索エンジン向けの基本から、セキュリティの設定、AI検索時代の新しい評価軸まで。最大{DIAG_MAX_CHECKS}項目をその場で確認します。</p>
           </div>
           <div className="diag-feat-grid">
             {feats.map((f, i) => (
@@ -1036,6 +1175,7 @@ function DiagnosticLPPage({ onNavigate, onContact }) {
               </div>
             ))}
           </div>
+          <p className="diag-feat-note">競合サイトとの比較と、Core Web Vitals の実測は、詳細レポートでお届けします。</p>
           <div style={{ textAlign: 'center', marginTop: 32 }}>
             <a className="diag-btn ghost" href="#diag-top" onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); }}>今すぐ無料診断を試す <Icon name="arrow-right" size={16}/></a>
           </div>
@@ -1047,7 +1187,7 @@ function DiagnosticLPPage({ onNavigate, onContact }) {
         <div className="diag-wrap">
           <div className="diag-head">
             <p className="diag-eyebrow">How It Works</p>
-            <h2 className="diag-h2">たった60秒。3ステップで完了。</h2>
+            <h2 className="diag-h2">URLを入れて待つだけ。3ステップで完了。</h2>
           </div>
           <div className="diag-steps">
             {steps.map((s, i) => (
@@ -1124,7 +1264,7 @@ function DiagnosticLPPage({ onNavigate, onContact }) {
       {/* Final CTA */}
       <section className="diag-final">
         <div className="diag-wrap">
-          <h2>まずは、あなたのサイトを<br/>60秒で診断してみませんか?</h2>
+          <h2>まずは、あなたのサイトを<br/>無料で診断してみませんか?</h2>
           <DiagUrlForm dark onContact={onContact}/>
         </div>
       </section>

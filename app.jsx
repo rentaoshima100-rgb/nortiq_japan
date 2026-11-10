@@ -212,7 +212,7 @@ const SEO_DESC = {
   voice: 'Nortiq Labsのサービスをご利用いただいた企業様のインタビュー。導入前の課題、選んだ理由、導入後の変化を業種別に紹介します。',
   pricing: 'ホームページ制作・AIチャットボット・DX支援の料金一覧。初期費用と月額運用を明記し、補助金活用のご相談も可能。京都・全国オンライン対応、初回相談は無料です。',
   support: '公開後のサイト更新・セキュリティ保守・改善提案までカバーする運用サポート。月次レポートとGA4データに基づき、作って終わりにしない改善を続けます。',
-  diagnostic: 'サイトURLを入力するだけで、SEO・表示速度・導線の改善点を無料診断。営業日24時間以内に、具体的な改善レポートをお返しします。',
+  diagnostic: 'サイトURLを入力するだけで、SEO・セキュリティ設定・表示速度・AI対応の改善点をその場で無料診断。全ての指摘と改善レポートは、担当者がメールでお届けします。',
   // /subsidy 本文の「正直な前提」(content-data.jsx の SUBSIDY_CONTENT.honest) に合わせる。
   // 以前は補助額を確認できると書いていたが、当社は IT導入支援事業者に未登録で、
   // 単純なホームページ制作は旧IT導入補助金の対象外。補助される前提で予算を組まれないようにする。
@@ -433,7 +433,7 @@ function pageLd(route, url) {
         name: 'NORTIQLAB サイト診断', url,
         applicationCategory: 'SEO Analysis Tool', operatingSystem: 'Any (Web)',
         offers: { '@type': 'Offer', price: '0', priceCurrency: 'JPY' },
-        featureList: ['テクニカルSEO', 'オンページ分析', 'リンク切れ検出', 'AI可視性チェック', '競合比較'],
+        featureList: ['テクニカルSEO', 'オンページ分析', 'セキュリティ設定の外形チェック', '表示速度の簡易チェック', 'AI可視性チェック', 'リンク切れ検出'],
         provider: ORG_REF,
       };
     case 'news':
