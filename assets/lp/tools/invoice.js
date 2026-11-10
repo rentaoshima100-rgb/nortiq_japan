@@ -93,7 +93,7 @@
       '<div class="res-stat"><div class="big">' + items.length + '<small>行</small></div><div class="lab">明細（税抜小計 ¥' + fmt(sub) + '）</div></div></div>' +
       '<div class="doc-actions"><button type="button" class="btn btn--primary btn--sm" id="print">印刷・PDF保存</button><button type="button" class="btn btn--outline btn--sm" id="csv">明細をCSVで保存</button><button type="button" class="btn btn--outline btn--sm" id="copy">文面をコピー</button><button type="button" class="btn btn--outline btn--sm" id="other">別の書類を作る</button></div>' +
       '<div class="doc-wrap">' + doc + '</div>' +
-      '<div class="again">ほかのツール：<a href="/tools/cover-letter">送付状メーカー</a><a href="/tools/payment-match">入金消し込み照合</a><a href="/tools/order-summary">注文集計・出荷指示書</a><a href="/tools/address-list">宛先リスト整形（送り状用）</a></div>' +
+      '<div class="again">ほかのツール：<a href="/tools/monthly-billing">締め請求書メーカー（月末にまとめて）</a><a href="/tools/price-list">価格表メーカー</a><a href="/tools/cover-letter">送付状メーカー</a><a href="/tools/payment-match">入金消し込み照合</a><a href="/tools/order-summary">注文集計・出荷指示書</a><a href="/tools/address-list">宛先リスト整形（送り状用）</a></div>' +
       '<div class="ctas" id="ctas"></div>';
     $('#print').addEventListener('click', function () { T.track('tool_print', { kind: 'tools-invoice' }); window.print(); });
     $('#csv').addEventListener('click', function () { T.download(kind.t + '_' + (docno || date) + '.csv', '﻿' + csv, 'text/csv;charset=utf-8'); T.track('tool_download', { kind: 'tools-invoice' }); });

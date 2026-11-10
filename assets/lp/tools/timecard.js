@@ -94,7 +94,7 @@
       '<div class="doc-wrap" hidden><div class="doc print-target" id="doc"><h2 class="doc-title">勤怠集計表</h2><p class="doc-meta">' + esc(title) + '　作成日：' + T.today() + '</p>' +
       '<table class="doc-sum" style="margin-left:0;width:100%"><tbody>' + sumRows.map(function (s) { return '<tr><th>' + esc(s[0]) + '</th><td class="num">' + esc(s[1]) + '</td></tr>'; }).join('') + (wage ? '<tr><th>割増込みの概算（時給 ' + fmt(wage) + '円）</th><td class="num">¥' + fmt(pay) + '</td></tr>' : '') + '</tbody></table>' +
       '<table><thead>' + head + '</thead><tbody>' + dayRows + '</tbody></table><p style="font-size:11px">法定外＝1日8時間超と週40時間超（労基法32条・37条）。深夜＝22時〜5時。法定休日＝' + WD[hol] + '曜。時間は分単位・丸めなし。</p></div></div>' +
-      '<div class="again">ほかのツール：<a href="/tools/daily-report">作業日報メーカー</a><a href="/tools/invoice">請求書・見積書メーカー</a><a href="/tools/stocktake">棚卸差異チェック</a></div>' +
+      '<div class="again">ほかのツール：<a href="/tools/shift-table">シフト表メーカー</a><a href="/tools/daily-report">作業日報メーカー</a><a href="/tools/invoice">請求書・見積書メーカー</a><a href="/tools/stocktake">棚卸差異チェック</a></div>' +
       '<div class="ctas" id="ctas"></div>';
     var csv = [['日', '曜日', '区分', '出勤', '退勤', '休憩(分)', '労働(分)', '法定内残業(分)', '法定外(分)', '深夜(分)', '法定休日(分)']].concat(days.map(function (r) { return [r.d, WD[r.w], r.hol ? '法定休日' : '', r.si, r.so, r.work ? r.b : '', r.work, r.inner, r.over + r.wover, r.hol ? 0 : r.night, r.holw]; }))
       .concat([[], ['合計', '', '', '', '', '', tot.work, tot.inner, tot.over, tot.night, tot.hol], ['うち60時間超(分)', '', '', '', '', '', '', '', over60, '', '']])

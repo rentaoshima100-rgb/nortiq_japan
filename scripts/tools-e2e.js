@@ -39,6 +39,11 @@ const FLOWS = {
   'list-dedupe': async (page) => { await page.click('#run'); },
   'booking-sheet': async (page) => { await page.click('#run'); },
   'daily-report': async (page) => { await page.click('#run'); },
+  'reorder-list': async (page) => { await page.click('#run'); },
+  'monthly-billing': async (page) => { await page.click('#run'); },
+  'price-list': async (page) => { await page.click('#run'); },
+  'shift-table': async (page) => { await page.click('#run'); },
+  'work-days': async (page) => { await page.click('#run'); },
 };
 
 const srv = http.createServer((req, res) => {

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>発注リストメーカー｜在庫一覧を貼ると発注点を割った品だけ仕入先別の発注書に｜Nortiq Labs</title>
+<meta name="description" content="在庫の一覧（品名・今の在庫・発注点・発注ロット・仕入先）を貼ると、発注点を割った品だけを拾い、仕入先ごとのA4発注書とFAX・メール用の文面、発注リストCSVにします。入荷待ちの数も見るので二重発注を防げます。登録不要、入力した内容はサーバーに送りません。">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+<link rel="canonical" href="https://nortiqlab.com/tools/reorder-list">
+<meta name="theme-color" content="#E60012">
+<meta name="format-detection" content="telephone=no">
+<link rel="icon" href="/assets/nortiq-fav.png">
+<link rel="apple-touch-icon" href="/assets/nortiq-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Nortiq Labs">
+<meta property="og:title" content="発注リストメーカー｜在庫一覧を貼ると発注点を割った品だけ仕入先別の発注書に">
+<meta property="og:description" content="在庫の一覧（品名・今の在庫・発注点・発注ロット・仕入先）を貼ると、発注点を割った品だけを拾い、仕入先ごとのA4発注書とFAX・メール用の文面、発注リストCSVにします。入荷待ちの数も見るので二重発注を防げます。登録不要、入力した内容はサーバーに送りません。">
+<meta property="og:url" content="https://nortiqlab.com/tools/reorder-list">
+<meta property="og:image" content="https://nortiqlab.com/assets/og/tools.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="ja_JP">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="発注リストメーカー｜在庫一覧を貼ると発注点を割った品だけ仕入先別の発注書に">
+<meta name="twitter:description" content="在庫の一覧（品名・今の在庫・発注点・発注ロット・仕入先）を貼ると、発注点を割った品だけを拾い、仕入先ごとのA4発注書とFAX・メール用の文面、発注リストCSVにします。入荷待ちの数も見るので二重発注を防げます。登録不要、入力した内容はサーバーに送りません。">
+<meta name="twitter:image" content="https://nortiqlab.com/assets/og/tools.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Space+Grotesk:wght@500;700&display=swap">
+<link rel="stylesheet" href="/assets/lp/common/lp.css?v={{V}}">
+<link rel="stylesheet" href="/assets/lp/tools/tools.css?v={{V}}">
+{{ANALYTICS}}
+<script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://nortiqlab.com/#org","name":"Nortiq Labs","legalName":"NORTIQLAB株式会社","url":"https://nortiqlab.com/","logo":"https://nortiqlab.com/assets/nortiq-mark.png","email":"info@nortiqlab.com"},{"@type":"WebSite","@id":"https://nortiqlab.com/#website","name":"Nortiq Labs","url":"https://nortiqlab.com/","publisher":{"@id":"https://nortiqlab.com/#org"},"inLanguage":"ja"},{"@type":"WebPage","@id":"https://nortiqlab.com/tools/reorder-list","url":"https://nortiqlab.com/tools/reorder-list","name":"発注リストメーカー｜在庫一覧を貼ると発注点を割った品だけ仕入先別の発注書に","description":"在庫一覧から発注点を割った品を拾い、仕入先別のA4発注書・FAXやメール用の文面・発注リストCSVを作る無料ツール。","isPartOf":{"@id":"https://nortiqlab.com/#website"},"inLanguage":"ja","datePublished":"2026-11-10","dateModified":"2026-11-10"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://nortiqlab.com/"},{"@type":"ListItem","position":2,"name":"無料ツール","item":"https://nortiqlab.com/tools"},{"@type":"ListItem","position":3,"name":"発注リストメーカー","item":"https://nortiqlab.com/tools/reorder-list"}]},{"@type":"SoftwareApplication","name":"発注リストメーカー｜在庫一覧を貼ると発注点を割った品だけ仕入先別の発注書に","applicationCategory":"BusinessApplication","operatingSystem":"Web","url":"https://nortiqlab.com/tools/reorder-list","offers":{"@type":"Offer","price":"0","priceCurrency":"JPY"},"provider":{"@id":"https://nortiqlab.com/#org"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"入力した在庫や仕入先の名前は保存されますか？","acceptedAnswer":{"@type":"Answer","text":"保存しません。貼った一覧と自社名は、お使いのブラウザの中だけで処理し、サーバーには送りません。ページを閉じると消えるので、発注書の印刷（PDF保存）・文面のコピー・CSVのどれかで手元に残してください。"}},{"@type":"Question","name":"発注点が決まっていない品はどうすればいいですか？","acceptedAnswer":{"@type":"Answer","text":"目安は「1日に使う数 × 届くまでの日数 ＋ 余裕の数」です。たとえば1日2個使い、届くまで3日、余裕を4個見るなら発注点は10個です。まず主な品だけ決めて貼り、欠品や余りが出たら数を見直してください。発注点が空欄の行は判定できないので、読めなかった行として表示します。"}},{"@type":"Question","name":"入荷待ちの列は何のためにありますか？","acceptedAnswer":{"@type":"Answer","text":"注文済みでまだ届いていない数を入れる列です。今の在庫だけで判定すると、届く前にもう一度同じ品を頼んでしまいます。このツールは「今の在庫＋入荷待ち」で判定するので、発注書を送ったら在庫表の入荷待ちに発注数を書き足しておくと、次回は二重に拾いません。"}},{"@type":"Question","name":"消費税や送料は計算されますか？","acceptedAnswer":{"@type":"Answer","text":"計算しません。発注書の金額は「単価 × 発注数」の税抜の合計で、「消費税は別途」と印字します。税率ごとの消費税まで入れた発注書が必要な場合は、請求書・見積書メーカーで書類の種類を発注書にして作れます。"}}]}]}
+</script>
+</head>
+<body data-lp="tools-reorder-list">
+
+<header class="header">
+  <div class="container header__inner">
+    <a class="brand" href="/" aria-label="Nortiq Labs トップページ"><span class="brand__name">NORTIQ</span><span class="brand__sub">LABS</span></a>
+    <a class="btn btn--primary btn--sm header__cta" href="/#request" data-ga="consult_request" data-ga-location="header">無料で相談する</a>
+  </div>
+</header>
+
+<main class="tool-main" data-clarity-mask="true">
+<section class="section tool-hero" aria-labelledby="fv-title">
+  <div class="container">
+    <nav aria-label="パンくず"><ol class="crumbs"><li><a href="/">ホーム</a></li><li><a href="/tools">無料ツール</a></li><li aria-current="page">発注リストメーカー</li></ol></nav>
+    <div class="tool-wrap">
+      <p class="eyebrow">Reorder List / 登録不要</p>
+      <h1 class="h1" id="fv-title"><span class="nb">発注忘れと</span><span class="nb">二重発注を、</span><span class="nb"><span class="accent">発注リスト</span>で</span><span class="nb">なくす。</span></h1>
+      <p class="tool-hero__sub">在庫の一覧を貼るだけ。発注点を割った品だけを拾って、ロット単位の発注数を出し、仕入先ごとの発注書にまとめます。注文済みでまだ届いていない数（入荷待ち）も足して判定します。</p>
+      <div class="tool-chips"><span>発注点を割った品だけ拾う</span><span>入荷待ちも見て判定</span><span>仕入先別のA4発注書・文面・CSV</span><span>入力した内容はサーバーに送りません</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="container">
+  <div class="tool-wrap">
+
+<section class="tool-card">
+  <div class="qnum">Step 1</div><h2 class="q">在庫の一覧を貼る</h2><p class="qhelp">1行に「品名　今の在庫　発注点　発注ロット　仕入先　単価　入荷待ち」。Excelからのコピー（タブ区切り）、カンマ区切り、空白2つ以上の区切りを読みます。単価と入荷待ちは無くても構いません。</p>
+  <textarea id="stock" class="paste" rows="10" spellcheck="false">コピー用紙 A4 500枚	3	5	10	サンプル事務機	420	0
+トナー 黒 TK-100	1	2	2	サンプル事務機	8,800	0
+梱包テープ 50mm	12	24	48	見本包材	180	48
+段ボール 100サイズ	40	50	100	見本包材	95	0
+緩衝材 ロール	6	4	5	見本包材	1,200	0
+ラベル用紙 A4 20面	2	5	10	サンプル事務機	1,500	0
+軍手 12双	8	10	20	テスト商会	380	0
+ゴミ袋 45L 100枚	15	10	10	テスト商会	650	0</textarea>
+  <p class="tool-sample">発注点＝「この数以下になったら発注する」と決めている数。発注ロット＝1回に頼む数（箱・ケースの入数など）。</p>
+</section>
+<section class="tool-card">
+  <div class="qnum">Step 2</div><h2 class="q">発注書に印字する内容</h2><p class="qhelp">自社名と納品先は発注書に印字するためだけに使い、どこにも保存しません。空欄のままでも作れます。</p>
+  <div class="form-grid">
+  <div><label for="date">発注日</label><input id="date" type="date" value=""></div>
+  <div><label for="due">希望納期（任意）</label><input id="due" type="date" value=""></div>
+  <div class="span2"><label for="me">自社名・部署・担当</label><input id="me" type="text" maxlength="60" value="株式会社サンプル 総務部 発注担当"></div>
+  <div class="span2"><label for="ship">納品先・連絡先（任意）</label><input id="ship" type="text" maxlength="80" value="本社 1階 倉庫／TEL 000-0000-0000" placeholder="例：本社1階 倉庫／TEL"></div>
+  <div class="span2"><label for="note">備考（任意。全部の発注書に入ります）</label><input id="note" type="text" maxlength="80" value="納期のご回答をお願いいたします。"></div>
+  </div>
+  <div class="tool-nav"><button type="button" class="btn btn--primary" id="run">発注リストを作る</button><span class="tool-sample">初期値はサンプルです。自社の在庫に書き換えてください。</span></div>
+</section>
+
+<section id="result" hidden></section>
+
+<div class="section__head" style="margin-top:48px"><h2 class="h2" style="font-size:24px">このツールについて</h2></div>
+<div class="tool-card">
+<p style="font-size:14.5px">2026年11月6日に事務の求人票を読んだところ、「在庫管理 発注 事務」で見つかった30件の多くに「部品の発注・在庫管理」「仕入れ・発注・在庫管理」が並び、仕事内容の詳細には「在庫管理、発注タイミングの確認」「メーカー、仕入先への商品発注」と書かれていました。Xには「発注を忘れて売れ筋の在庫が0本」「手元にある数と、注文済みでまだ届いていない数は分けてメモする」という当事者の投稿がありました。このツールは、毎週の「何を・どこに・いくつ頼むか」をその場で1枚にします。</p>
+<h3 style="font-size:16px;margin-top:16px">出てくるもの</h3>
+<p style="font-size:14px;color:var(--text-2)"><b>仕入先別の発注リスト</b>：発注が要る品だけを仕入先ごとにまとめ、発注数と金額（税抜）を出します。<b>A4の発注書</b>：仕入先ごとに1枚。宛名・発注日・希望納期・品名・数量・単価・金額・納品先・備考が入り、印刷するか、印刷画面でPDFに保存してFAX・メールに使えます。<b>FAX・メール用の文面</b>：仕入先ごとの注文文をまとめてコピーできます。<b>CSV</b>：発注リスト（仕入先・品名・発注数・単価・金額）と、全品目の判定一覧の2種類。Excelで開いても文字化けしないBOM付きUTF-8です。</p>
+<h3 style="font-size:16px;margin-top:16px">発注数の決め方</h3>
+<p style="font-size:14px;color:var(--text-2)">「今の在庫＋入荷待ち」が発注点以下の品を、発注が要る品とします。発注数は、発注ロットの倍数で「今の在庫＋入荷待ち＋発注数」が発注点を上回る最小の数です。たとえば在庫3・発注点5・ロット10なら10、在庫0・発注点30・ロット12なら36（12×3）。入荷待ちを足すと発注点を上回る品は「入荷待ちで足りる」と表示し、発注リストには入れません。発注ロットが空欄の品は1個単位で計算します。</p>
+<h3 style="font-size:16px;margin-top:16px">使い方</h3>
+<p style="font-size:14px;color:var(--text-2)">1. 在庫表から「品名・今の在庫・発注点・発注ロット・仕入先・単価・入荷待ち」の列をコピーして貼る　2. 発注日と自社名を入れて「発注リストを作る」　3. 発注書を印刷・PDF保存するか、文面をコピーして仕入先に送る　4. 送ったら、在庫表の「入荷待ち」に発注数を書き足す（次に貼ったときの二重発注を防げます）。金額は税抜で、消費税は計算しません。</p>
+<p style="margin-top:12px;font-size:14px;color:var(--text-2)">関連：実地の数と帳簿を合わせるなら <a href="/tools/stocktake">棚卸差異チェック</a>、受けた注文を品目ごとに数えるなら <a href="/tools/order-summary">注文集計表・出荷指示書メーカー</a>、1通だけ発注書を作るなら <a href="/tools/invoice">請求書・見積書メーカー（発注書にも対応）</a>。在庫が減ったら自動で発注リストが届く仕組みにしたいときは <a href="/dx">業務システム開発</a> や <a href="/automation">ひと業務AI</a> をご覧ください。</p>
+</div>
+
+<div class="section__head" style="margin-top:48px"><h2 class="h2" style="font-size:24px">よくある質問</h2></div><div class="faq">
+<div class="faq__item is-open"><button type="button" class="faq__q" aria-expanded="true">入力した在庫や仕入先の名前は保存されますか？<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button><div class="faq__a"><div><p style="padding:0 0 20px;font-size:14.5px">保存しません。貼った一覧と自社名は、お使いのブラウザの中だけで処理し、サーバーには送りません。ページを閉じると消えるので、発注書の印刷（PDF保存）・文面のコピー・CSVのどれかで手元に残してください。</p></div></div></div>
+<div class="faq__item"><button type="button" class="faq__q" aria-expanded="false">発注点が決まっていない品はどうすればいいですか？<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button><div class="faq__a"><div><p style="padding:0 0 20px;font-size:14.5px">目安は「1日に使う数 × 届くまでの日数 ＋ 余裕の数」です。たとえば1日2個使い、届くまで3日、余裕を4個見るなら発注点は10個です。まず主な品だけ決めて貼り、欠品や余りが出たら数を見直してください。発注点が空欄の行は判定できないので、読めなかった行として表示します。</p></div></div></div>
+<div class="faq__item"><button type="button" class="faq__q" aria-expanded="false">入荷待ちの列は何のためにありますか？<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button><div class="faq__a"><div><p style="padding:0 0 20px;font-size:14.5px">注文済みでまだ届いていない数を入れる列です。今の在庫だけで判定すると、届く前にもう一度同じ品を頼んでしまいます。このツールは「今の在庫＋入荷待ち」で判定するので、発注書を送ったら在庫表の入荷待ちに発注数を書き足しておくと、次回は二重に拾いません。</p></div></div></div>
+<div class="faq__item"><button type="button" class="faq__q" aria-expanded="false">消費税や送料は計算されますか？<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button><div class="faq__a"><div><p style="padding:0 0 20px;font-size:14.5px">計算しません。発注書の金額は「単価 × 発注数」の税抜の合計で、「消費税は別途」と印字します。税率ごとの消費税まで入れた発注書が必要な場合は、請求書・見積書メーカーで書類の種類を発注書にして作れます。</p></div></div></div>
+</div>
+    <div class="tool-foot">発注数は入力した発注点と発注ロットから機械的に計算したものです。実際の発注の前に、数量と仕入先を確認してください。入力内容はブラウザの中だけで処理し、サーバーには送りません。</div>
+  </div>
+</section>
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer__inner">
+      <a class="brand" href="/" aria-label="Nortiq Labs トップページ"><span class="brand__name">NORTIQ</span><span class="brand__sub">LABS</span></a>
+      <ul class="footer__links">
+        <li><a href="/tools">無料ツール</a></li>
+        <li><a href="/dx">業務システム・AI開発</a></li>
+        <li><a href="/web">ホームページ制作</a></li>
+        <li><a href="/automation">ひと業務AI</a></li>
+        <li><a href="/works">制作実績</a></li>
+        <li><a href="/company">会社概要</a></li>
+        <li><a href="/privacy">プライバシーポリシー</a></li>
+        <li><a href="/privacy-handling">個人情報の取扱い</a></li>
+      </ul>
+    </div>
+    <p class="footer__copy">© 2026 NORTIQLAB株式会社</p>
+  </div>
+</footer>
+
+<script src="/assets/lp/common/lp.js?v={{V}}" defer></script>
+<script src="/assets/lp/tools/tools-common.js?v={{V}}" defer></script>
+<script src="/assets/lp/tools/reorder-list.js?v={{V}}" defer></script>
+</body>
+</html>

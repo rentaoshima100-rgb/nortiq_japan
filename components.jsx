@@ -74,6 +74,8 @@ const NAV_MEGA = [
         { id: 'lp-tools-payment', label: '入金消し込み照合・タイムカード集計', href: '/tools/payment-match' },
         { id: 'lp-tools-order', label: '注文集計・出荷指示書／送り状の宛先整形', href: '/tools/order-summary' },
         { id: 'lp-tools-booking', label: '予約表メーカー・作業日報メーカー', href: '/tools/booking-sheet' },
+        { id: 'lp-tools-billing', label: '締め請求書・発注リスト・価格表メーカー', href: '/tools/monthly-billing' },
+        { id: 'lp-tools-shift', label: 'シフト表メーカー・出面表メーカー', href: '/tools/shift-table' },
       ]},
     ],
   },
@@ -725,6 +727,11 @@ function Footer({ onNavigate, onContact }) {
               <li><a href="/tools/list-dedupe">名簿の重複チェック</a></li>
               <li><a href="/tools/booking-sheet">予約表メーカー</a></li>
               <li><a href="/tools/daily-report">作業日報メーカー</a></li>
+              <li><a href="/tools/monthly-billing">締め請求書メーカー</a></li>
+              <li><a href="/tools/reorder-list">発注リストメーカー</a></li>
+              <li><a href="/tools/price-list">価格表メーカー</a></li>
+              <li><a href="/tools/shift-table">シフト表メーカー</a></li>
+              <li><a href="/tools/work-days">出面表メーカー</a></li>
             </ul>
             <h3 style={{ marginTop: 24 }}>会社</h3>
             <ul>

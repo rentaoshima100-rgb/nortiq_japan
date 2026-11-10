@@ -735,6 +735,66 @@
       "default_next": null
     },
     {
+      "url": "/tools/monthly-billing",
+      "type": "service",
+      "title": "締め請求書メーカー",
+      "industry": [],
+      "need": ["業務システム・DX"],
+      "audience": "月末に得意先ごとの請求書を作っている経理・事務の方向け",
+      "summary": "1か月の明細を貼ると得意先別のインボイス対応請求書と一覧CSVが出る。",
+      "suggestable": false,
+      "block_id": null,
+      "default_next": null
+    },
+    {
+      "url": "/tools/reorder-list",
+      "type": "service",
+      "title": "発注リストメーカー",
+      "industry": [],
+      "need": ["業務システム・DX"],
+      "audience": "在庫管理と発注を担当している事務の方向け",
+      "summary": "在庫一覧を貼ると発注点を割った品を仕入先別の発注書にまとめる。",
+      "suggestable": false,
+      "block_id": null,
+      "default_next": null
+    },
+    {
+      "url": "/tools/price-list",
+      "type": "service",
+      "title": "価格表メーカー",
+      "industry": [],
+      "need": ["業務システム・DX"],
+      "audience": "得意先別の単価や値上げの表を作る営業事務の方向け",
+      "summary": "定価に掛率・値上げ率をかけて丸めた価格表と新旧価格表を作る。",
+      "suggestable": false,
+      "block_id": null,
+      "default_next": null
+    },
+    {
+      "url": "/tools/shift-table",
+      "type": "service",
+      "title": "シフト表メーカー",
+      "industry": [],
+      "need": ["業務システム・DX"],
+      "audience": "毎週シフト表を作っている店長・責任者の方向け",
+      "summary": "シフトを貼ると週の表と人別の時間、人数不足の日が出る。",
+      "suggestable": false,
+      "block_id": null,
+      "default_next": null
+    },
+    {
+      "url": "/tools/work-days",
+      "type": "service",
+      "title": "出面表メーカー",
+      "industry": [],
+      "need": ["業務システム・DX"],
+      "audience": "月末に日報を整理している建設・現場事務の方向け",
+      "summary": "日付・氏名・現場・人工を貼ると出面表と現場別の人工集計が出る。",
+      "suggestable": false,
+      "block_id": null,
+      "default_next": null
+    },
+    {
       "url": "/tools/manual-cost",
       "type": "service",
       "title": "手作業コスト計算機",

@@ -999,6 +999,11 @@ function SitemapPage({ onNavigate, onContact }) {
               { id: 'lp-tools-list-dedupe', label: '名簿の重複チェック・表記ゆれ整形', href: '/tools/list-dedupe' },
               { id: 'lp-tools-booking-sheet', label: '予約表メーカー', href: '/tools/booking-sheet' },
               { id: 'lp-tools-daily-report', label: '作業日報メーカー', href: '/tools/daily-report' },
+              { id: 'lp-tools-monthly-billing', label: '締め請求書メーカー', href: '/tools/monthly-billing' },
+              { id: 'lp-tools-reorder-list', label: '発注リストメーカー', href: '/tools/reorder-list' },
+              { id: 'lp-tools-price-list', label: '価格表メーカー（掛率・新旧価格表）', href: '/tools/price-list' },
+              { id: 'lp-tools-shift-table', label: 'シフト表メーカー', href: '/tools/shift-table' },
+              { id: 'lp-tools-work-days', label: '出面表メーカー（人工集計）', href: '/tools/work-days' },
               { id: 'lp-shindan-battery', label: '蓄電池の見積もり診断（ご家庭向け）', href: '/shindan/battery' },
               { id: 'lp-partner-energy', label: '蓄電池・太陽光 紹介パートナー募集', href: '/partner/energy' },
             ]}/>

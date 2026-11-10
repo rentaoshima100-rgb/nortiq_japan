@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>シフト表メーカー｜希望を貼ると1週間のシフト表と人別の時間・人数不足の日が出る｜Nortiq Labs</title>
+<meta name="description" content="「名前・曜日・開始・終了」を貼ると、1週間のシフト表（A4）を作り、人ごとの労働時間と出勤日数、日ごとの人数、必要人数に足りない日を表示します。週40時間超・1日8時間超・7日連続の印つき。LINE用の文面とCSVも。登録不要、入力した内容はサーバーに送りません。">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+<link rel="canonical" href="https://nortiqlab.com/tools/shift-table">
+<meta name="theme-color" content="#E60012">
+<meta name="format-detection" content="telephone=no">
+<link rel="icon" href="/assets/nortiq-fav.png">
+<link rel="apple-touch-icon" href="/assets/nortiq-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Nortiq Labs">
+<meta property="og:title" content="シフト表メーカー｜希望を貼ると1週間のシフト表と人別の時間・人数不足の日が出る">
+<meta property="og:description" content="「名前・曜日・開始・終了」を貼ると、1週間のシフト表（A4）を作り、人ごとの労働時間と出勤日数、日ごとの人数、必要人数に足りない日を表示します。週40時間超・1日8時間超・7日連続の印つき。LINE用の文面とCSVも。登録不要、入力した内容はサーバーに送りません。">
+<meta property="og:url" content="https://nortiqlab.com/tools/shift-table">
+<meta property="og:image" content="https://nortiqlab.com/assets/og/tools.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="ja_JP">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="シフト表メーカー｜希望を貼ると1週間のシフト表と人別の時間・人数不足の日が出る">
+<meta name="twitter:description" content="「名前・曜日・開始・終了」を貼ると、1週間のシフト表（A4）を作り、人ごとの労働時間と出勤日数、日ごとの人数、必要人数に足りない日を表示します。週40時間超・1日8時間超・7日連続の印つき。LINE用の文面とCSVも。登録不要、入力した内容はサーバーに送りません。">
+<meta name="twitter:image" content="https://nortiqlab.com/assets/og/tools.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Space+Grotesk:wght@500;700&display=swap">
+<link rel="stylesheet" href="/assets/lp/common/lp.css?v={{V}}">
+<link rel="stylesheet" href="/assets/lp/tools/tools.css?v={{V}}">
+{{ANALYTICS}}
+<script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://nortiqlab.com/#org","name":"Nortiq Labs","legalName":"NORTIQLAB株式会社","url":"https://nortiqlab.com/","logo":"https://nortiqlab.com/assets/nortiq-mark.png","email":"info@nortiqlab.com"},{"@type":"WebSite","@id":"https://nortiqlab.com/#website","name":"Nortiq Labs","url":"https://nortiqlab.com/","publisher":{"@id":"https://nortiqlab.com/#org"},"inLanguage":"ja"},{"@type":"WebPage","@id":"https://nortiqlab.com/tools/shift-table","url":"https://nortiqlab.com/tools/shift-table","name":"シフト表メーカー｜希望を貼ると1週間のシフト表と人別の時間・人数不足の日が出る","description":"名前・曜日・時間を貼ると1週間のシフト表（A4・CSV・LINE用の文面）と人別の時間、人数不足の日を出す無料ツール。","isPartOf":{"@id":"https://nortiqlab.com/#website"},"inLanguage":"ja","datePublished":"2026-11-10","dateModified":"2026-11-10"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://nortiqlab.com/"},{"@type":"ListItem","position":2,"name":"無料ツール","item":"https://nortiqlab.com/tools"},{"@type":"ListItem","position":3,"name":"シフト表メーカー","item":"https://nortiqlab.com/tools/shift-table"}]},{"@type":"SoftwareApplication","name":"シフト表メーカー｜希望を貼ると1週間のシフト表と人別の時間・人数不足の日が出る","applicationCategory":"BusinessApplication","operatingSystem":"Web","url":"https://nortiqlab.com/tools/shift-table","offers":{"@type":"Offer","price":"0","priceCurrency":"JPY"},"provider":{"@id":"https://nortiqlab.com/#org"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"入力したスタッフの名前は保存されますか？","acceptedAnswer":{"@type":"Answer","text":"保存しません。貼ったシフトと店名は、お使いのブラウザの中だけで処理し、サーバーには送りません。ページを閉じると消えるので、シフト表の印刷（PDF保存）・文面のコピー・CSVで手元に残してください。"}},{"@type":"Question","name":"シフトを自動で組んでくれますか？","acceptedAnswer":{"@type":"Answer","text":"組みません。このツールがするのは、貼ったシフトを表に並べ、時間と人数を数え、足りない日と確認が要る人に印を付けるところまでです。誰をどこに入れるかは、足りない日の印を見ながら行を直して決めてください。直して「シフト表を作る」を押すたびに、表と合計が作り直されます。"}},{"@type":"Question","name":"月単位のシフト表は作れますか？","acceptedAnswer":{"@type":"Answer","text":"1回に作れるのは1週間（7日）です。月のシフトは、週の最初の日を変えて週ごとに作り、CSVをExcelでつなげてください。週40時間の確認も1週間ごとに行います。"}},{"@type":"Question","name":"休憩が店の決まりと違うときはどうすればいいですか？","acceptedAnswer":{"@type":"Answer","text":"休憩の扱いを「引かない」にすると、開始から終了までをそのまま時間として数えます。そのうえで、終了時刻を実働に合わせて入れるか、合計から休憩分を読み替えてください。自動で引くのは労働基準法34条の最低限（6時間超45分・8時間超60分）です。"}}]}]}
+</script>
+</head>
+<body data-lp="tools-shift-table">
+
+<header class="header">
+  <div class="container header__inner">
+    <a class="brand" href="/" aria-label="Nortiq Labs トップページ"><span class="brand__name">NORTIQ</span><span class="brand__sub">LABS</span></a>
+    <a class="btn btn--primary btn--sm header__cta" href="/#request" data-ga="consult_request" data-ga-location="header">無料で相談する</a>
+  </div>
+</header>
+
+<main class="tool-main" data-clarity-mask="true">
+<section class="section tool-hero" aria-labelledby="fv-title">
+  <div class="container">
+    <nav aria-label="パンくず"><ol class="crumbs"><li><a href="/">ホーム</a></li><li><a href="/tools">無料ツール</a></li><li aria-current="page">シフト表メーカー</li></ol></nav>
+    <div class="tool-wrap">
+      <p class="eyebrow">Shift Table / 登録不要</p>
+      <h1 class="h1" id="fv-title"><span class="nb"><span class="accent">シフト表</span>を</span><span class="nb">作る時間を、</span><span class="nb">貼って</span><span class="nb">数分に。</span></h1>
+      <p class="tool-hero__sub">集めた希望やメモを「名前・曜日・開始・終了」で貼るだけ。1週間のシフト表に並べ、人ごとの時間と、人数が足りない日をその場で出します。</p>
+      <div class="tool-chips"><span>人別の時間と出勤日数</span><span>人数が足りない日に印</span><span>A4・LINE用の文面・CSV</span><span>入力した内容はサーバーに送りません</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="container">
+  <div class="tool-wrap">
+
+<section class="tool-card">
+  <div class="qnum">Step 1</div><h2 class="q">シフトを貼る</h2><p class="qhelp">1行に「名前　曜日　開始　終了」。曜日は「月」「火」…または「11/16」のような日付。Excelからのコピー（タブ区切り）、カンマ区切り、空白2つ以上の区切りを読みます。「9:00-17:00」とまとめて書いても読みます。</p>
+  <textarea id="shifts" class="paste" rows="12" spellcheck="false">佐藤	月	9:00	17:00
+佐藤	火	9:00	17:00
+佐藤	水	9:00	17:00
+佐藤	金	9:00	18:00
+佐藤	土	9:00	18:00
+鈴木	月	12:00	20:00
+鈴木	水	12:00	20:00
+鈴木	木	12:00	20:00
+鈴木	土	12:00	20:00
+鈴木	日	10:00	18:00
+高橋	火	9:00	13:00
+高橋	木	9:00	13:00
+高橋	金	17:00	21:00
+高橋	土	9:00	13:00
+高橋	日	10:00	15:00
+田中	月	17:00	21:00
+田中	火	17:00	21:00
+田中	木	17:00	21:00
+田中	金	12:00	20:00</textarea>
+</section>
+<section class="tool-card">
+  <div class="qnum">Step 2</div><h2 class="q">週と人数を決める</h2><p class="qhelp">店名はシフト表の表題に印字するためだけに使います。</p>
+  <div class="form-grid">
+  <div><label for="week">週の最初の日</label><input id="week" type="date" value=""></div>
+  <div><label for="need">1日に必要な人数</label><input id="need" type="number" min="0" max="99" step="1" inputmode="numeric" value="3"></div>
+  <div class="span2"><label for="rest">休憩の扱い</label><select id="rest"><option value="auto" selected>自動で引く（法定の最低限）</option><option value="none">引かない（開始〜終了のまま）</option></select></div>
+  <div class="span2"><label for="shop">店名・部署（表題に印字・任意）</label><input id="shop" type="text" maxlength="40" value="サンプル店" placeholder="例：〇〇店 ホール"></div>
+  </div>
+  <p class="tool-sample">「自動で引く」は、開始から終了までが6時間を超えると45分、8時間45分を超えると60分を引いて労働時間にします。</p>
+  <div class="tool-nav"><button type="button" class="btn btn--primary" id="run">シフト表を作る</button><span class="tool-sample">初期値はサンプルです。自分の店のシフトに書き換えてください。</span></div>
+</section>
+
+<section id="result" hidden></section>
+
+<div class="section__head" style="margin-top:48px"><h2 class="h2" style="font-size:24px">このツールについて</h2></div>
+<div class="tool-card">
+<p style="font-size:14.5px">2026年11月5日・6日に公開されている投稿を調べたところ、「シフト表を作る上司の様子を見ていると大変さが分かる」「会社でシフト表を作るために有料のAIにした」「正社員になるならとシフト作成や発注管理まで引き受けていた」といった当事者の投稿が、2日間で5件ありました。集めた希望を曜日ごとに並べ直し、1人ずつ時間を足し、人が足りない日を探す。その並べ直しと足し算を、貼るだけで終わらせるためのツールです。誰をどこに入れるかを決めるのは、店を知っている人の仕事として残します。</p>
+<h3 style="font-size:16px;margin-top:16px">出てくるもの</h3>
+<p style="font-size:14px;color:var(--text-2)"><b>1週間のシフト表</b>：行が人、列が7日。1日に2回入る人（中抜け）は2段で出します。<b>人ごとの合計</b>：労働時間（休憩を引いたあと）と出勤日数。<b>日ごとの人数</b>：その日に入っている人数と、必要人数に足りない日の印。<b>A4のシフト表</b>：そのまま印刷して貼り出すか、印刷画面でPDFに保存できます。<b>LINE用の文面</b>：日ごとに「だれが何時から何時まで」を並べたテキスト。<b>CSV</b>：シフト表の形（人×日）と、1行1シフトの明細の2種類。</p>
+<h3 style="font-size:16px;margin-top:16px">時間の数え方と確認の印（2026年11月時点）</h3>
+<p style="font-size:14px;color:var(--text-2)">休憩を「自動で引く」にすると、開始から終了までが6時間を超えるシフトは45分、8時間45分を超えるシフトは60分を引いて労働時間にします。労働基準法34条1項が、労働時間が6時間を超える場合は少なくとも45分、8時間を超える場合は少なくとも1時間の休憩を求めているためです（法定の最低限で計算します。実際の休憩が長い店は、終了時刻を実働に合わせるか、休憩を引かない設定にして読み替えてください）。あわせて、次の3つに当てはまる人に確認の印を付けます。労働時間が1日8時間を超える（同法32条2項）、1週間で40時間を超える（同法32条1項）、7日すべてに入っていて休日がない（同法35条1項は毎週少なくとも1回の休日を求めています。4週4日の変形の定めがある場合を除く）。印は入力の見直しのためのもので、割増賃金や変形労働時間制の判定はしません。残業時間の区分は <a href="/tools/timecard">タイムカード集計・残業時間計算表</a> で出せます。</p>
+<h3 style="font-size:16px;margin-top:16px">使い方</h3>
+<p style="font-size:14px;color:var(--text-2)">1. 紙やLINEで集めた希望を「名前・曜日・開始・終了」でメモ帳やExcelに打つ　2. このページに貼り、週の最初の日と必要な人数を入れて「シフト表を作る」　3. 足りない日・多すぎる人を見て、貼った行を直して作り直す　4. 決まったら印刷して貼り出し、文面をコピーしてグループLINEに送る。終了が開始より前の時刻（22:00〜翌5:00など）は、翌日にまたぐシフトとして計算し、開始した日の列に入れます。</p>
+<p style="margin-top:12px;font-size:14px;color:var(--text-2)">関連：働いたあとの集計は <a href="/tools/timecard">タイムカード集計</a>、予約の入り方から人数を決めるなら <a href="/tools/booking-sheet">予約表メーカー</a>、その日の報告は <a href="/tools/daily-report">作業日報メーカー</a>。希望の回収からシフトの確定・通知までを仕組みにしたいときは <a href="/dx">業務システム開発</a> や <a href="/automation">ひと業務AI</a> をご覧ください。</p>
+</div>
+
+<div class="section__head" style="margin-top:48px"><h2 class="h2" style="font-size:24px">よくある質問</h2></div><div class="faq">
+<div class="faq__item is-open"><button type="button" class="faq__q" aria-expanded="true">入力したスタッフの名前は保存されますか？<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button><div class="faq__a"><div><p style="padding:0 0 20px;font-size:14.5px">保存しません。貼ったシフトと店名は、お使いのブラウザの中だけで処理し、サーバーには送りません。ページを閉じると消えるので、シフト表の印刷（PDF保存）・文面のコピー・CSVで手元に残してください。</p></div></div></div>
+<div class="faq__item"><button type="button" class="faq__q" aria-expanded="false">シフトを自動で組んでくれますか？<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button><div class="faq__a"><div><p style="padding:0 0 20px;font-size:14.5px">組みません。このツールがするのは、貼ったシフトを表に並べ、時間と人数を数え、足りない日と確認が要る人に印を付けるところまでです。誰をどこに入れるかは、足りない日の印を見ながら行を直して決めてください。直して「シフト表を作る」を押すたびに、表と合計が作り直されます。</p></div></div></div>
+<div class="faq__item"><button type="button" class="faq__q" aria-expanded="false">月単位のシフト表は作れますか？<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button><div class="faq__a"><div><p style="padding:0 0 20px;font-size:14.5px">1回に作れるのは1週間（7日）です。月のシフトは、週の最初の日を変えて週ごとに作り、CSVをExcelでつなげてください。週40時間の確認も1週間ごとに行います。</p></div></div></div>
+<div class="faq__item"><button type="button" class="faq__q" aria-expanded="false">休憩が店の決まりと違うときはどうすればいいですか？<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button><div class="faq__a"><div><p style="padding:0 0 20px;font-size:14.5px">休憩の扱いを「引かない」にすると、開始から終了までをそのまま時間として数えます。そのうえで、終了時刻を実働に合わせて入れるか、合計から休憩分を読み替えてください。自動で引くのは労働基準法34条の最低限（6時間超45分・8時間超60分）です。</p></div></div></div>
+</div>
+    <div class="tool-foot">法令の記載は2026年11月時点のものです。労働時間・休憩・休日の取り扱いは就業規則と労使協定に従い、判断に迷う場合は社会保険労務士にご確認ください。入力内容はブラウザの中だけで処理し、サーバーには送りません。</div>
+  </div>
+</section>
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer__inner">
+      <a class="brand" href="/" aria-label="Nortiq Labs トップページ"><span class="brand__name">NORTIQ</span><span class="brand__sub">LABS</span></a>
+      <ul class="footer__links">
+        <li><a href="/tools">無料ツール</a></li>
+        <li><a href="/dx">業務システム・AI開発</a></li>
+        <li><a href="/web">ホームページ制作</a></li>
+        <li><a href="/automation">ひと業務AI</a></li>
+        <li><a href="/works">制作実績</a></li>
+        <li><a href="/company">会社概要</a></li>
+        <li><a href="/privacy">プライバシーポリシー</a></li>
+        <li><a href="/privacy-handling">個人情報の取扱い</a></li>
+      </ul>
+    </div>
+    <p class="footer__copy">© 2026 NORTIQLAB株式会社</p>
+  </div>
+</footer>
+
+<script src="/assets/lp/common/lp.js?v={{V}}" defer></script>
+<script src="/assets/lp/tools/tools-common.js?v={{V}}" defer></script>
+<script src="/assets/lp/tools/shift-table.js?v={{V}}" defer></script>
+</body>
+</html>

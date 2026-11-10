@@ -89,7 +89,7 @@
       '<div class="note-red"><b>数え直す順番</b>金額差（なければ数量差）の大きい品から数え直してください。「実地なし」は数え漏れか品番の表記ゆれ、「帳簿なし」は帳簿の登録漏れか品番違いの可能性があります。</div></div>' +
       '<div class="doc-wrap" hidden><div class="doc print-target" id="doc"><h2 class="doc-title">棚卸差異表</h2><p class="doc-meta">' + esc(label()) + '　作成日：' + T.today() + '　差異 ' + diffRows.length + '/' + rows.length + '品目' + (hasPrice ? '　金額差 ' + (amtTotal > 0 ? '+' : '') + fmt(amtTotal) + '円' : '') + '</p>' +
       '<table><thead>' + head + '</thead><tbody>' + rows.map(function (r) { return tr(r, false); }).join('') + '</tbody></table></div></div>' +
-      '<div class="again">ほかのツール：<a href="/tools/payment-match">入金消し込み照合</a><a href="/tools/invoice">請求書・見積書メーカー</a><a href="/tools/order-summary">注文集計・出荷指示書</a></div>' +
+      '<div class="again">ほかのツール：<a href="/tools/reorder-list">発注リストメーカー</a><a href="/tools/payment-match">入金消し込み照合</a><a href="/tools/invoice">請求書・見積書メーカー</a><a href="/tools/order-summary">注文集計・出荷指示書</a></div>' +
       '<div class="ctas" id="ctas"></div>';
     var csv = [['判定', '品番', '品名', '帳簿数', '実地数', '差', '金額差']].concat(rows.map(function (r) { return [r.st, r.code, r.name, r.book, r.real == null ? '' : r.real, r.diff, r.amt == null ? '' : r.amt]; })).map(function (r) { return r.map(function (c) { return '"' + String(c == null ? '' : c).replace(/"/g, '""') + '"'; }).join(','); }).join('\r\n');
     var memo = ['【' + title + '】' + T.today(), '品目 ' + rows.length + '／差異 ' + diffRows.length + '（一致率 ' + rate + '%）' + (hasPrice ? '／金額差 ' + (amtTotal > 0 ? '+' : '') + fmt(amtTotal) + '円' : ''), '', '■ 差異のある品（差の大きい順）']

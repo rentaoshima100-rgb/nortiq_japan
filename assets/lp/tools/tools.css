@@ -320,3 +320,47 @@
 @media (max-width:640px){.bk-what{display:block;margin-left:0}}
 /* 2026-11-05: 印刷のとき、固定ヘッダー分の上余白（body の padding-top）を無くし、保存メッセージ（.msg）を書類に出さない */
 @media print{body{padding-top:0 !important}#result>.msg{display:none !important}}
+/* ---------- 2026-11-10: 発注リスト・締め請求書・価格表・シフト表・出面表 ---------- */
+/* 書類を複数並べる（仕入先ごと・得意先ごとに1枚）。印刷では1枚ずつ改ページ */
+.doc-wrap .doc+.doc{margin-top:16px}
+@media print{.doc-wrap .doc+.doc{margin-top:0}.doc--pb{break-after:page;page-break-after:always}}
+.sh td.c,.sh th.c,.tbl--days td.c,.tbl--days th.c{text-align:center}
+.tbl--3 td small,.sh td small{font-size:12px}
+.tbl--3 th small{font-weight:500;color:var(--text-3);font-size:11.5px}
+.tbl--3 th{vertical-align:bottom}
+.doc .doc-items .c-no{width:8%}
+@media (max-width:480px){.doc .doc-items .c-no{width:11%}}
+/* monthly-billing の明細 */
+.doc .bill-items .c-d{width:13%}.doc .bill-items .c-q{width:11%}.doc .bill-items .c-p{width:15%}.doc .bill-items .c-a{width:17%}
+.doc .bill-items td.c{white-space:nowrap}
+@media (max-width:480px){.doc .bill-items .c-d{width:15%}.doc .bill-items .c-q{width:12%}.doc .bill-items .c-p{width:17%}.doc .bill-items .c-a{width:20%}}
+/* price-list の表 */
+.doc .pl-items .c-n{width:8%}.doc .pl-items .c-p{width:16%}.doc .pl-items .c-r{width:13%}
+@media (max-width:480px){.doc .pl-items .c-n{width:9%}.doc .pl-items .c-p{width:17%}.doc .pl-items .c-r{width:13%}}
+/* shift-table: 画面の表（時刻は折り返さない）と A4 */
+.tbl--sh table{min-width:760px}
+@media (max-width:860px){.tbl--sh .tbl-hint{display:block}}
+.tbl--sh th,.tbl--sh td{padding:8px 5px;font-size:13px}
+.tbl--sh th:first-child,.tbl--sh td:first-child{padding-left:12px}
+.tbl--sh th small{font-weight:500;color:var(--text-3)}
+.sh td,.sh th{white-space:nowrap}
+.sh td small{color:var(--text-3)}
+.sh .tag{margin-top:2px}
+.doc .sh-doc .c-n{width:15%}.doc .sh-doc .c-s{width:11%}
+.doc .sh-doc th,.doc .sh-doc td{font-size:11px;line-height:1.35;padding:4px 3px}
+.doc .sh-doc td.c{white-space:nowrap}
+.doc .sh-doc hr{border:0;border-top:1px dotted #999;margin:2px 0}
+/* work-days: 画面の出面表（1〜31日）と A4横 */
+.tbl--days table{min-width:1180px}
+.tbl--days .tbl-hint{display:block}
+.tbl--days th,.tbl--days td{padding:6px 3px;font-size:12.5px}
+.tbl--days th:first-child,.tbl--days td:first-child{padding-left:10px;white-space:nowrap}
+.tbl--days th small{font-weight:500;color:var(--text-3)}
+.tbl--days td.r,.tbl--days th.r{padding-right:8px}
+.doc .wd-grid .c-n{width:11%}.doc .wd-grid .c-s{width:5%}
+.doc .wd-grid th,.doc .wd-grid td{font-size:9px;line-height:1.3;padding:3px 1px;white-space:nowrap;overflow:hidden}
+.doc .wd-grid td:first-child{white-space:normal;padding-left:4px;font-size:10px}
+.doc .wd-site .c-p{width:26%}.doc .wd-site .c-q{width:14%}.doc .wd-site .c-a{width:20%}
+.doc .wd-site th{text-align:center}
+@page land{size:A4 landscape;margin:10mm}
+@media print{html.print-land body{page:land}}

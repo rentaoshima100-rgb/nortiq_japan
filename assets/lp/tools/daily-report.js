@@ -133,7 +133,7 @@
       (warn ? '<div class="note-red"><b>入力の確認</b>' + esc(warn) + '</div>' : '') +
       '<div class="min"><b>CSVの使い方</b>「1日1行」のCSVを毎日保存し、月末にExcelで行をつなげると月報になります。残業時間の区分や概算は <a href="/tools/timecard">タイムカード集計</a> で出せます。</div></div>' +
       '<div class="doc-wrap">' + doc + '</div>' +
-      '<div class="again">ほかのツール：<a href="/tools/timecard">タイムカード集計</a><a href="/tools/booking-sheet">予約表メーカー</a><a href="/tools/order-summary">注文集計・出荷指示書</a><a href="/tools/invoice">請求書・見積書メーカー</a></div>' +
+      '<div class="again">ほかのツール：<a href="/tools/work-days">出面表メーカー（月末の集計）</a><a href="/tools/timecard">タイムカード集計</a><a href="/tools/booking-sheet">予約表メーカー</a><a href="/tools/order-summary">注文集計・出荷指示書</a><a href="/tools/invoice">請求書・見積書メーカー</a></div>' +
       '<div class="ctas" id="ctas"></div>';
 
     $('#copy').addEventListener('click', function () { T.copyText(text, $('#copy'), $('#repText')); T.track('tool_copy', { kind: KIND }); });

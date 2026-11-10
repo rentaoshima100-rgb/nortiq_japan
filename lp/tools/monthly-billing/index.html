@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>締め請求書メーカー｜1か月の納品明細を貼ると得意先別の請求書がまとめてできる｜Nortiq Labs</title>
+<meta name="description" content="1か月分の納品・売上の明細（日付・得意先・品名・数量・単価・税率）を貼ると、得意先ごとに合計したインボイス対応のA4請求書をまとめて作成。消費税は請求書ごと・税率ごとに1回だけ端数処理します。請求一覧CSVは入金の消し込みにも。登録不要、入力はサーバーに送りません。">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+<link rel="canonical" href="https://nortiqlab.com/tools/monthly-billing">
+<meta name="theme-color" content="#E60012">
+<meta name="format-detection" content="telephone=no">
+<link rel="icon" href="/assets/nortiq-fav.png">
+<link rel="apple-touch-icon" href="/assets/nortiq-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Nortiq Labs">
+<meta property="og:title" content="締め請求書メーカー｜1か月の納品明細を貼ると得意先別の請求書がまとめてできる">
+<meta property="og:description" content="1か月分の納品・売上の明細（日付・得意先・品名・数量・単価・税率）を貼ると、得意先ごとに合計したインボイス対応のA4請求書をまとめて作成。消費税は請求書ごと・税率ごとに1回だけ端数処理します。請求一覧CSVは入金の消し込みにも。登録不要、入力はサーバーに送りません。">
+<meta property="og:url" content="https://nortiqlab.com/tools/monthly-billing">
+<meta property="og:image" content="https://nortiqlab.com/assets/og/tools.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="ja_JP">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="締め請求書メーカー｜1か月の納品明細を貼ると得意先別の請求書がまとめてできる">
+<meta name="twitter:description" content="1か月分の納品・売上の明細（日付・得意先・品名・数量・単価・税率）を貼ると、得意先ごとに合計したインボイス対応のA4請求書をまとめて作成。消費税は請求書ごと・税率ごとに1回だけ端数処理します。請求一覧CSVは入金の消し込みにも。登録不要、入力はサーバーに送りません。">
+<meta name="twitter:image" content="https://nortiqlab.com/assets/og/tools.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Space+Grotesk:wght@500;700&display=swap">
+<link rel="stylesheet" href="/assets/lp/common/lp.css?v={{V}}">
+<link rel="stylesheet" href="/assets/lp/tools/tools.css?v={{V}}">
+{{ANALYTICS}}
+<script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://nortiqlab.com/#org","name":"Nortiq Labs","legalName":"NORTIQLAB株式会社","url":"https://nortiqlab.com/","logo":"https://nortiqlab.com/assets/nortiq-mark.png","email":"info@nortiqlab.com"},{"@type":"WebSite","@id":"https://nortiqlab.com/#website","name":"Nortiq Labs","url":"https://nortiqlab.com/","publisher":{"@id":"https://nortiqlab.com/#org"},"inLanguage":"ja"},{"@type":"WebPage","@id":"https://nortiqlab.com/tools/monthly-billing","url":"https://nortiqlab.com/tools/monthly-billing","name":"締め請求書メーカー｜1か月の納品明細を貼ると得意先別の請求書がまとめてできる","description":"1か月分の納品明細から、得意先ごとのインボイス対応A4請求書・請求一覧CSV・明細CSVをまとめて作る無料ツール。","isPartOf":{"@id":"https://nortiqlab.com/#website"},"inLanguage":"ja","datePublished":"2026-11-10","dateModified":"2026-11-10"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://nortiqlab.com/"},{"@type":"ListItem","position":2,"name":"無料ツール","item":"https://nortiqlab.com/tools"},{"@type":"ListItem","position":3,"name":"締め請求書メーカー","item":"https://nortiqlab.com/tools/monthly-billing"}]},{"@type":"SoftwareApplication","name":"締め請求書メーカー｜1か月の納品明細を貼ると得意先別の請求書がまとめてできる","applicationCategory":"BusinessApplication","operatingSystem":"Web","url":"https://nortiqlab.com/tools/monthly-billing","offers":{"@type":"Offer","price":"0","priceCurrency":"JPY"},"provider":{"@id":"https://nortiqlab.com/#org"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"入力した得意先名や金額は保存されますか？","acceptedAnswer":{"@type":"Answer","text":"保存しません。貼った明細と自社の情報は、お使いのブラウザの中だけで処理し、サーバーには送りません。ページを閉じると消えるので、請求書の印刷（PDF保存）とCSVで手元に残してください。"}},{"@type":"Question","name":"1行ごとに消費税を計算した金額と合わないのはなぜですか？","acceptedAnswer":{"@type":"Answer","text":"インボイス（適格請求書）では、消費税額の端数処理は1枚の請求書につき税率ごとに1回と決められているためです（消費税法施行令70条の10）。このツールは得意先ごと・税率ごとに税抜金額を合計してから1回だけ端数を処理します。1行ごとに端数を処理して足した金額とは、数円ずれることがあります。"}},{"@type":"Question","name":"税込の単価で入力できますか？","acceptedAnswer":{"@type":"Answer","text":"このツールは税抜の単価で計算します。税込の単価しか手元にない場合は、先に税抜に直してから貼ってください。得意先との取り決めが税込価格の場合の書き方は、顧問の税理士にご確認ください。"}},{"@type":"Question","name":"前月の繰越や入金額を請求書に載せられますか？","acceptedAnswer":{"@type":"Answer","text":"載せられません。このツールが作るのは「今回の納品分の請求書」です。前回請求額・ご入金額・繰越額を並べる形式が必要な場合は、請求一覧CSVをもとに販売管理ソフトで作るか、仕組みづくりをご相談ください。"}}]}]}
+</script>
+</head>
+<body data-lp="tools-monthly-billing">
+
+<header class="header">
+  <div class="container header__inner">
+    <a class="brand" href="/" aria-label="Nortiq Labs トップページ"><span class="brand__name">NORTIQ</span><span class="brand__sub">LABS</span></a>
+    <a class="btn btn--primary btn--sm header__cta" href="/#request" data-ga="consult_request" data-ga-location="header">無料で相談する</a>
+  </div>
+</header>
+
+<main class="tool-main" data-clarity-mask="true">
+<section class="section tool-hero" aria-labelledby="fv-title">
+  <div class="container">
+    <nav aria-label="パンくず"><ol class="crumbs"><li><a href="/">ホーム</a></li><li><a href="/tools">無料ツール</a></li><li aria-current="page">締め請求書メーカー</li></ol></nav>
+    <div class="tool-wrap">
+      <p class="eyebrow">Monthly Billing / 登録不要</p>
+      <h1 class="h1" id="fv-title"><span class="nb">月末の</span><span class="nb"><span class="accent">請求書</span>づくりを、</span><span class="nb">貼って1回で</span><span class="nb">終わらせる。</span></h1>
+      <p class="tool-hero__sub">売上伝票や納品の明細を1か月分まとめて貼ると、得意先ごとに集計して請求書を1社1枚で作ります。消費税は、請求書1枚につき税率ごとに1回だけ端数処理。請求一覧は入金確認の表にもなります。</p>
+      <div class="tool-chips"><span>得意先ごとに1社1枚</span><span>税率ごとに1回の端数処理</span><span>請求一覧CSVは入金の消し込みへ</span><span>入力した内容はサーバーに送りません</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="container">
+  <div class="tool-wrap">
+
+<section class="tool-card">
+  <div class="qnum">Step 1</div><h2 class="q">1か月分の納品・売上の明細を貼る</h2><p class="qhelp">1行に「日付　得意先　品名　数量　単価　税率」。Excelからのコピー（タブ区切り）、カンマ区切りを読みます。単価は税抜。税率は 10 か 8（軽減税率）で、空欄は10%として扱います。</p>
+  <textarea id="lines" class="paste" rows="11" spellcheck="false">10/2	株式会社サンプル商事	業務用洗剤 5L	4	2,480	10
+10/2	株式会社サンプル商事	紙タオル 200枚×30	2	3,150	10
+10/9	株式会社サンプル商事	業務用洗剤 5L	6	2,480	10
+10/16	株式会社サンプル商事	緑茶ティーバッグ 100袋	3	1,333	8
+10/5	見本食堂	割り箸 100膳	10	298	10
+10/5	見本食堂	緑茶ティーバッグ 100袋	5	1,333	8
+10/19	見本食堂	割り箸 100膳	10	298	10
+10/19	見本食堂	ミネラルウォーター 2L×6	8	777	8
+10/7	テスト保育園	紙タオル 200枚×30	1	3,150	10
+10/21	テスト保育園	業務用洗剤 5L	2	2,480	10
+10/28	テスト保育園	ミネラルウォーター 2L×6	3	777	8</textarea>
+</section>
+<section class="tool-card">
+  <div class="qnum">Step 2</div><h2 class="q">請求書に印字する内容</h2><p class="qhelp">自社の情報は請求書に印字するためだけに使い、どこにも保存しません。</p>
+  <div class="form-grid">
+  <div><label for="period">請求の対象（件名に入ります）</label><input id="period" type="text" maxlength="30" value="2026年10月分"></div>
+  <div><label for="idate">請求日</label><input id="idate" type="date" value=""></div>
+  <div><label for="due">お支払期限</label><input id="due" type="date" value=""></div>
+  <div><label for="mode">消費税の端数</label><select id="mode"><option value="floor" selected>切り捨て</option><option value="round">四捨五入</option><option value="ceil">切り上げ</option></select></div>
+  <div><label for="prefix">請求番号の頭（連番が付きます）</label><input id="prefix" type="text" maxlength="16" value="202610-"></div>
+  <div><label for="regno">登録番号（T＋13桁）</label><input id="regno" type="text" maxlength="14" value="T0000000000000" inputmode="text"></div>
+  <div class="span2"><label for="me">自社名</label><input id="me" type="text" maxlength="50" value="株式会社サンプル"></div>
+  <div class="span2"><label for="addr">住所（任意）</label><input id="addr" type="text" maxlength="60" value="〒000-0000 京都府京都市〇〇区〇〇町1-2-3"></div>
+  <div class="span2"><label for="tel">電話・メール（任意）</label><input id="tel" type="text" maxlength="60" value="TEL 000-000-0000"></div>
+  <div class="span2"><label for="bank">お振込先</label><input id="bank" type="text" maxlength="90" value="サンプル銀行 見本支店 普通 0000000 カ）サンプル"></div>
+  </div>
+  <div class="tool-nav"><button type="button" class="btn btn--primary" id="run">請求書をまとめて作る</button><span class="tool-sample">初期値はサンプルです。自社の明細に書き換えてください。</span></div>
+</section>
+
+<section id="result" hidden></section>
+
+<div class="section__head" style="margin-top:48px"><h2 class="h2" style="font-size:24px">このツールについて</h2></div>
+<div class="tool-card">
+<p style="font-size:14.5px">2026年11月6日に事務の求人票を読んだところ、「請求書 発行 入金 事務」で見つかった28件に「請求書作成・入金チェック」「売掛・請求業務・売上管理」「売上伝票、請求書などの作成」が並び、ある求人の1日の流れには「10:00 請求書の作成・発行」と1時間が割り当てられていました。月末締めの会社では、1か月分の伝票を得意先ごとに足し直して、1社ずつ請求書に書き写す作業が毎月あります。このツールは、明細を貼るだけでその足し直しと書き写しを終わらせます。</p>
+<h3 style="font-size:16px;margin-top:16px">出てくるもの</h3>
+<p style="font-size:14px;color:var(--text-2)"><b>得意先ごとのA4請求書</b>：1社1枚。請求番号・請求日・お支払期限・明細（日付・品名・数量・単価・金額）・税率ごとの対象額と消費税・ご請求金額・お振込先・登録番号が入ります。まとめて印刷するか、印刷画面でPDFに保存できます。<b>請求一覧</b>：得意先ごとの税抜・消費税・請求額の表。<b>請求一覧CSV</b>：「得意先・請求額・請求番号・お支払期限」の順なので、<a href="/tools/payment-match">入金消し込み照合</a>の請求一覧にそのまま貼れます。<b>明細CSV</b>：請求番号つきの全明細。<b>文面</b>：請求一覧のテキスト。</p>
+<h3 style="font-size:16px;margin-top:16px">消費税の計算（2026年11月時点）</h3>
+<p style="font-size:14px;color:var(--text-2)">消費税と地方消費税を合わせた税率は、標準税率10%と軽減税率8%（飲食料品など）です（消費税法29条、地方税法72条の83、平成28年改正法附則34条）。適格請求書（インボイス）に書く消費税額は、<b>1枚の請求書につき、税率ごとに1回</b>の端数処理と決められています（消費税法57条の4第1項、同施行令70条の10。国税庁「インボイス制度に関するQ&amp;A」）。明細の1行ごとに消費税を計算して足す方法は認められていません。このツールは、得意先ごと・税率ごとに税抜金額を合計してから、選んだ方法（切り捨て・四捨五入・切り上げ）で1回だけ端数を処理します。軽減税率の行には「※」を付けます。登録番号（T＋13桁）は自社のものに書き換えてください。免税事業者の方は空欄にすると、登録番号の行を印字しません。</p>
+<h3 style="font-size:16px;margin-top:16px">使い方</h3>
+<p style="font-size:14px;color:var(--text-2)">1. 売上伝票・納品書の控えを「日付・得意先・品名・数量・単価・税率」の順で1か月分入力する（販売管理ソフトやExcelにあれば、その一覧をコピー）　2. このページに貼り、請求日・お支払期限・自社名・振込先を入れて「請求書をまとめて作る」　3. 請求書を印刷・PDF保存して送る　4. 請求一覧CSVを保存しておき、入金があったら消し込みに使う。得意先名は、全角・半角と空白の違い、（株）と株式会社の違いを同じ会社として合算します。</p>
+<p style="margin-top:12px;font-size:14px;color:var(--text-2)">関連：1通だけ作るなら <a href="/tools/invoice">請求書・見積書・納品書メーカー</a>、送るときの <a href="/tools/cover-letter">送付状メーカー</a>、入金の確認は <a href="/tools/payment-match">入金消し込み照合</a>。伝票の入力から請求書の発行・送付までを自動にしたいときは <a href="/dx">業務システム開発</a> や <a href="/automation">ひと業務AI</a> をご覧ください。</p>
+</div>
+
+<div class="section__head" style="margin-top:48px"><h2 class="h2" style="font-size:24px">よくある質問</h2></div><div class="faq">
+<div class="faq__item is-open"><button type="button" class="faq__q" aria-expanded="true">入力した得意先名や金額は保存されますか？<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button><div class="faq__a"><div><p style="padding:0 0 20px;font-size:14.5px">保存しません。貼った明細と自社の情報は、お使いのブラウザの中だけで処理し、サーバーには送りません。ページを閉じると消えるので、請求書の印刷（PDF保存）とCSVで手元に残してください。</p></div></div></div>
+<div class="faq__item"><button type="button" class="faq__q" aria-expanded="false">1行ごとに消費税を計算した金額と合わないのはなぜですか？<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button><div class="faq__a"><div><p style="padding:0 0 20px;font-size:14.5px">インボイス（適格請求書）では、消費税額の端数処理は1枚の請求書につき税率ごとに1回と決められているためです（消費税法施行令70条の10）。このツールは得意先ごと・税率ごとに税抜金額を合計してから1回だけ端数を処理します。1行ごとに端数を処理して足した金額とは、数円ずれることがあります。</p></div></div></div>
+<div class="faq__item"><button type="button" class="faq__q" aria-expanded="false">税込の単価で入力できますか？<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button><div class="faq__a"><div><p style="padding:0 0 20px;font-size:14.5px">このツールは税抜の単価で計算します。税込の単価しか手元にない場合は、先に税抜に直してから貼ってください。得意先との取り決めが税込価格の場合の書き方は、顧問の税理士にご確認ください。</p></div></div></div>
+<div class="faq__item"><button type="button" class="faq__q" aria-expanded="false">前月の繰越や入金額を請求書に載せられますか？<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button><div class="faq__a"><div><p style="padding:0 0 20px;font-size:14.5px">載せられません。このツールが作るのは「今回の納品分の請求書」です。前回請求額・ご入金額・繰越額を並べる形式が必要な場合は、請求一覧CSVをもとに販売管理ソフトで作るか、仕組みづくりをご相談ください。</p></div></div></div>
+</div>
+    <div class="tool-foot">法令の記載は2026年11月時点のものです。税率の区分や請求書の記載に迷う場合は、税理士または所轄の税務署にご確認ください。入力内容はブラウザの中だけで処理し、サーバーには送りません。</div>
+  </div>
+</section>
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer__inner">
+      <a class="brand" href="/" aria-label="Nortiq Labs トップページ"><span class="brand__name">NORTIQ</span><span class="brand__sub">LABS</span></a>
+      <ul class="footer__links">
+        <li><a href="/tools">無料ツール</a></li>
+        <li><a href="/dx">業務システム・AI開発</a></li>
+        <li><a href="/web">ホームページ制作</a></li>
+        <li><a href="/automation">ひと業務AI</a></li>
+        <li><a href="/works">制作実績</a></li>
+        <li><a href="/company">会社概要</a></li>
+        <li><a href="/privacy">プライバシーポリシー</a></li>
+        <li><a href="/privacy-handling">個人情報の取扱い</a></li>
+      </ul>
+    </div>
+    <p class="footer__copy">© 2026 NORTIQLAB株式会社</p>
+  </div>
+</footer>
+
+<script src="/assets/lp/common/lp.js?v={{V}}" defer></script>
+<script src="/assets/lp/tools/tools-common.js?v={{V}}" defer></script>
+<script src="/assets/lp/tools/monthly-billing.js?v={{V}}" defer></script>
+</body>
+</html>
