@@ -64,7 +64,9 @@ function PriceFigure({ label, tax, amount, unit, range }) {
 //  - amount の無い行 (保守・運用。プラン別の月額が未定) は金額の段を出さない。
 //  - note は表の下の注記 (AIチャットボットの月額など)。
 // 以前あった r.from の <sup> は styles.css にスタイルが無く大きく出てしまうので、label に置き換えた。
-function PricingTable({ rows, featuredIndex, note }) {
+//  - onConsult(row) を渡すと、各カードの下に「このプランで相談する」を出す (2026-11、/pricing 用)。
+//    Clarity では料金表に入った人はほぼ最後まで読むのに、表の中に次の一歩が無く、プランの説明文が押されていた。
+function PricingTable({ rows, featuredIndex, note, onConsult }) {
   const recommended = rows.findIndex((r) => r.recommended);
   const featured = featuredIndex != null ? featuredIndex : (recommended >= 0 ? recommended : 1);
   return (
@@ -90,6 +92,11 @@ function PricingTable({ rows, featuredIndex, note }) {
                 </li>
               ))}
             </ul>
+            {onConsult && (
+              <div className="price-card-cta">
+                <Button variant={i === featured ? 'primary' : 'ghost'} onClick={() => onConsult(r)}>このプランで相談する<Icon name="arrow-right" size={13}/></Button>
+              </div>
+            )}
           </div>
         ))}
       </div>

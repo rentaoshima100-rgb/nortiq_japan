@@ -5333,3 +5333,126 @@ button.kw-pill, .tagcloud button { background: none; border: 0; margin: 0; font-
 /* 追従バーの閉じるボタンが .sticky-cta button の赤に負けて、赤い楕円になっていた */
 .sticky-cta .sticky-cta-close { background: rgba(255,255,255,0.16); color: #fff; }
 .sticky-cta .sticky-cta-close:hover { background: rgba(255,255,255,0.32); color: #fff; }
+
+/* ============================================================
+   2026-11 CV改善 (Clarity のヒートマップから): LINE の導線 / 軽くした資料請求フォーム /
+   導入実績のリンク化 / 料金ページの次の一歩。docs/cv-improvements-2026-11.md
+   ============================================================ */
+
+/* --- LINE のボタン (LineLink)。緑は LINE の色。白文字が読めるよう、地は一段濃い緑にする (白との対比 4.7:1) --- */
+:root { --line: #06C755; --line-deep: #05853A; }
+.btn-line { background: var(--line-deep); border-color: var(--line-deep); color: #fff; }
+.btn-line:hover { background: #046B2F; border-color: #046B2F; color: #fff; }
+.btn-line-ghost { background: #fff; border-color: var(--line-deep); color: var(--line-deep); }
+.btn-line-ghost:hover { background: var(--line-deep); border-color: var(--line-deep); color: #fff; }
+.line-text-link { display: inline-flex; align-items: center; gap: 5px; color: var(--line-deep); font-weight: 700; border-bottom: 1px solid currentColor; }
+/* 赤い帯 (.t_inq_btns) の上では、他のボタンと同じ白地にして文字だけ緑にする */
+.t_inq_btns .btn.btn-line { color: var(--line-deep); }
+.t_inq_btns .btn.btn-line:hover { color: #fff; }
+
+/* 資料請求の帯の下: LINE のボタンと無料診断のリンクを横に並べる (狭い幅では折り返す) */
+.cta-band-links { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 12px 24px; }
+/* 既存の .cta-band-links a (文字色を灰色、hover で赤) がボタンにも当たるので、LINE のボタンの色を戻す */
+.cta-band-links a.btn-line-ghost { color: var(--line-deep); }
+.cta-band-links a.btn-line-ghost:hover { color: #fff; }
+
+/* スマホ下部ナビの先頭「LINE相談」。色だけに頼らず文字でも LINE と分かる */
+.sp-bottom-nav .sp-bottom-line,
+.sp-bottom-nav .sp-bottom-line .icn { color: var(--line-deep); }
+.sp-bottom-nav .sp-bottom-line { font-weight: 700; }
+.sp-bottom-nav .sp-bottom-line:hover { color: #046B2F; }
+
+/* --- 資料請求フォーム: 「詳しく伝える (任意)」の折りたたみ --- */
+.lead-more { margin: 4px 0 20px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--bg-2); }
+.lead-more summary {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px;
+  padding: 12px 14px; min-height: 44px; cursor: pointer; list-style: none;
+  font-size: 13px; font-weight: 600; color: var(--text);
+}
+.lead-more summary::-webkit-details-marker { display: none; }
+.lead-more summary::before { content: "＋"; color: var(--accent); font-weight: 700; width: 1em; }
+.lead-more[open] summary::before { content: "−"; }
+.lead-more summary .any {
+  font-size: 12px; background: var(--bg); border: 1px solid var(--border);
+  padding: 1px 6px; border-radius: 3px; font-weight: 500; color: var(--text-3);
+}
+.lead-more-hint { font-size: 12px; font-weight: 400; color: var(--text-3); }
+.lead-more-body { padding: 6px 14px 2px; border-top: 1px solid var(--border); background: var(--bg); border-radius: 0 0 var(--radius-sm) var(--radius-sm); }
+.lead-more-body .field:first-child { margin-top: 14px; }
+.big-form-wrap .lead-more { margin-top: 20px; }
+/* 未入力の項目は赤い枠で示す (文字の色だけにしない) */
+.field input[aria-invalid="true"],
+.big-form-table input[aria-invalid="true"] { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+.big-form-table th label { font: inherit; color: inherit; }
+.big-form-table .err, .big-form-wrap .field-check .err { color: var(--accent); font-size: 12px; margin-top: 4px; }
+.lead-send-error { margin: 0 0 12px; font-size: 13px; color: var(--accent-text); font-weight: 600; }
+.lead-topic { margin: 12px 0 0; font-size: 13px; font-weight: 700; color: var(--text); }
+.lead-topic span {
+  display: inline-block; margin-right: 8px; padding: 1px 8px; border-radius: 3px;
+  background: var(--accent-soft); color: var(--accent-text); font-size: 12px;
+}
+
+/* モーダルの下: 入力が手間な人向けの LINE */
+.lead-alt { margin-top: 24px; padding-top: 20px; border-top: 1px dashed var(--border-hi); text-align: center; }
+.lead-alt-label { margin: 0 0 10px; font-size: 12px; color: var(--text-3); }
+.lead-alt-note { margin: 10px 0 0; color: var(--text-3); }
+
+/* 送信後: 資料をその場で開く + LINE */
+.lead-done { text-align: center; padding: 20px 0; }
+.lead-done-icon {
+  width: 56px; height: 56px; border-radius: 50%; background: var(--accent-soft); color: var(--accent);
+  display: grid; place-items: center; margin: 0 auto 20px;
+}
+.lead-done h3 { margin: 0 0 12px; }
+.lead-done .body { font-size: 14px; margin: 0 0 24px; }
+.lead-done-actions { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; }
+.lead-done-more { margin: 16px 0 20px; }
+.lead-done-more a { color: var(--accent-text); border-bottom: 1px solid currentColor; }
+
+/* --- トップ: 導入実績のカードと業種タグをリンクにした --- */
+.case-card-link { display: block; color: inherit; text-decoration: none; cursor: pointer; }
+.case-card-more {
+  display: inline-flex; align-items: center; gap: 6px; margin-top: 16px;
+  font-size: 12px; font-weight: 700; color: var(--accent-text);
+}
+.case-card-link:hover .case-card-more { text-decoration: underline; }
+a.fc-cell { text-decoration: none; cursor: pointer; transition: background 140ms, color 140ms; }
+a.fc-cell:hover { background: var(--accent); color: #fff; }
+
+/* --- 料金ページ: プランごとの相談ボタン / 料金表へのジャンプ --- */
+.price-card-cta { margin-top: auto; padding-top: 8px; }
+.price-card-cta .btn { width: 100%; justify-content: center; }
+.price-jump { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 16px; }
+.price-jump-label { font-size: 12px; color: var(--text-3); margin-right: 4px; }
+.price-jump a {
+  display: inline-flex; align-items: center; min-height: 36px; padding: 6px 14px;
+  border: 1px solid var(--border-hi); border-radius: 999px; background: #fff;
+  font-size: 12px; font-weight: 600; color: var(--text-2);
+}
+.price-jump a:hover { border-color: var(--accent); color: var(--accent); }
+.price-hero-line { margin: 12px 0 0; font-size: 13px; color: var(--text-3); }
+/* 最初の料金表は、見出しの上の余白も詰める */
+.section-pad.price-first { padding-top: clamp(32px, 4vw, 56px); }
+
+/* 低いヒーロー (PageHero compact)。料金ページでは料金表の手前で半分が離脱していたので、見出しと余白を詰めて本題を上げる。
+   PageHero は余白を inline style で持っているので、ここは !important で上書きする。 */
+.page-hero.page-hero-compact { padding-top: clamp(28px, 3vw, 40px); padding-bottom: clamp(24px, 2.6vw, 32px); }
+.page-hero-compact .main-eyebrow { margin-bottom: 14px !important; }
+.page-hero-compact h1.display-xl { font-size: clamp(28px, 2.9vw, 40px); margin-bottom: 6px !important; }
+.page-hero-compact .display-l { font-size: clamp(18px, 1.7vw, 22px); margin-bottom: 12px !important; }
+.page-hero-compact .lede { margin-bottom: 14px !important; line-height: 1.85; max-width: none; }
+.page-hero-compact .page-hero-badges { margin-bottom: 18px !important; }
+.page-hero-compact .page-hero-cta .btn-lg { padding: 14px 28px; font-size: 14px; }
+.page-hero-compact .page-hero-visual img { max-width: 220px; }
+.page-hero-compact.page-hero-has-visual .page-hero-grid { grid-template-columns: minmax(0, 1fr) 220px; gap: 40px; }
+@media (max-width: 767px) {
+  .page-hero-compact .page-hero-visual,
+  .page-hero-compact .page-hero-badges { display: none; }
+  .page-hero-compact.page-hero-has-visual .page-hero-grid { grid-template-columns: minmax(0, 1fr); }
+  .page-hero-compact .page-hero-cta .btn { flex: 1 1 100%; }
+  /* ジャンプは1行にして横に送る (折り返すと4行ぶんの高さを取る) */
+  .price-jump { flex-wrap: nowrap; overflow-x: auto; margin-right: -16px; padding: 2px 16px 6px 0; scrollbar-width: none; }
+  .price-jump::-webkit-scrollbar { display: none; }
+  .price-jump a, .price-jump-label { flex: 0 0 auto; white-space: nowrap; }
+  .lead-done-actions .btn { flex: 1 1 100%; justify-content: center; }
+}

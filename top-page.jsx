@@ -108,13 +108,21 @@ function TopPage({ onNavigate, onContact }) {
         { num: "0", text: "AI 重大インシデント" },
       ]}/>
 
-      {/* =========== FC strip ================= */}
+      {/* =========== FC strip =================
+          2026-11: 業種のタグをリンクにした。Clarity では「▸ 小売」などが押されていたが、ただの文字で何も起きなかった。
+          その業種の実績ページへ、専用の実績ページが無い業種は実績一覧へ送る。
+          帯は同じ並びを2回描いて流しているので、2回目は読み上げとキーボード操作から外す。 */}
       <div className="fc-strip">
         <div className="fc-strip-track">
           {[...Array(2)].map((_, dup) => (
             <React.Fragment key={dup}>
-              {["クリニック", "不動産", "建築", "工務店", "人材", "小売", "AIスタートアップ", "士業", "教育", "インフラ", "製造", "NPO/自治体"].map(t => (
-                <span key={t + dup} className="fc-cell">▸ {t}</span>
+              {[
+                ["クリニック", 'works-clinic'], ["不動産", 'works-realty'], ["建築", 'works-build'], ["工務店", 'works-build'],
+                ["人材", 'works-hr'], ["小売", 'works-retail'], ["AIスタートアップ", 'works-ai'], ["士業", 'works'],
+                ["教育", 'works'], ["インフラ", 'works-infra'], ["製造", 'works-infra'], ["NPO/自治体", 'works'],
+              ].map(([t, to]) => (
+                <a key={t + dup} className="fc-cell" {...navProps(to, onNavigate)}
+                   {...(dup ? { 'aria-hidden': 'true', tabIndex: -1 } : {})}>▸ {t}</a>
               ))}
             </React.Fragment>
           ))}
@@ -130,12 +138,16 @@ function TopPage({ onNavigate, onContact }) {
           </div>
           <div className="case-slider">
             {[
-              { tag: "外国人材組合", title: "高い技術と安全性、組合の総合刷新", q: "Webのプロが横にいる感覚を、初めて持てました。", author: "理事 A.K.", img: "assets/work-asia-exchange.png" },
-              { tag: "歯科クリニック", title: "歯科医院の総合 LP 構築 (白藍 HAKURAN DENTAL)", q: "他社見積もりの半額で、しかも公開後の伴走まで含まれていて驚きました。", author: "院長 H.K.", img: "assets/hero-04.png" },
+              // to: カードの行き先 (その実績が載っている業種別の実績ページ。info-pages.jsx の WORKS_DATA の category と合わせる)。
+              { tag: "外国人材組合", title: "高い技術と安全性、組合の総合刷新", q: "Webのプロが横にいる感覚を、初めて持てました。", author: "理事 A.K.", img: "assets/work-asia-exchange.png", to: 'works-hr', more: "人材業界の実績を見る" },
+              { tag: "歯科クリニック", title: "歯科医院の総合 LP 構築 (白藍 HAKURAN DENTAL)", q: "他社見積もりの半額で、しかも公開後の伴走まで含まれていて驚きました。", author: "院長 H.K.", img: "assets/hero-04.png", to: 'works-clinic', more: "クリニックの実績を見る" },
               // お客様の声 (/voice) に対応する発言が無い実績は、声を作らずに制作内容だけを書く。
-              { tag: "ゴルフリゾート", title: "ゴルフリゾート (COCOPA) のブランドサイト", note: "ゴルフリゾートの世界観を、写真を中心に伝えるブランドサイトを制作しました。", img: "assets/work-cocopa.png" },
+              { tag: "ゴルフリゾート", title: "ゴルフリゾート (COCOPA) のブランドサイト", note: "ゴルフリゾートの世界観を、写真を中心に伝えるブランドサイトを制作しました。", img: "assets/work-cocopa.png", to: 'works-retail', more: "小売・ECの実績を見る" },
             ].map((c, i) => (
-              <article key={i} className="case-card fadein" data-delay={i * 150}>
+              /* 2026-11: カード全体をリンクにした。Clarity (過去14日・PC) でトップのクリックが一番多かったのは
+                 この導入実績の画像 (5回) だったが、リンクではなく何も起きなかった。 */
+              <a key={i} className="case-card case-card-link fadein" data-delay={i * 150}
+                 {...navProps(c.to, (id) => { nqFunnel('case_click', { case_to: id }); onNavigate(id); })}>
                 <div className="shot-frame">
                   <Placeholder label={c.tag} caption="case study" aspect="16/10" src={c.img} alt={`${c.title}の導入実績`} fit/>
                 </div>
@@ -150,8 +162,9 @@ function TopPage({ onNavigate, onContact }) {
                         <p className="small">― {c.author}</p>
                       </React.Fragment>
                     : <p className="body" style={{ fontSize: 14, lineHeight: 1.9, margin: 0 }}>{c.note}</p>}
+                  <span className="case-card-more">{c.more}<Icon name="arrow-right" size={12}/></span>
                 </div>
-              </article>
+              </a>
             ))}
           </div>
           <div style={{ textAlign: 'center', marginTop: 48 }}>
@@ -587,7 +600,7 @@ function TopPage({ onNavigate, onContact }) {
           {/* LINE 友だち追加バナー (2026-11): フォームの前に「LINE でも相談できる」入口を置く。
               公式アカウント NORTIQ LAB (@498ynxrl)。友だち追加すると、トークで届く質問にボタンで答えるだけで相談できる。
               PC 21:9 (11) / 767px 以下は 1:1 (12)。表示・クリックは banner_id=line-request で GA4 に送る。 */}
-          <TrackedBanner id="line-request" tag="a" className="line-banner fadein" href="https://line.me/R/ti/p/@498ynxrl" target="_blank" rel="noopener">
+          <TrackedBanner id="line-request" tag="a" className="line-banner fadein" href={LINE_URL} target="_blank" rel="noopener" onClick={() => nqFunnel('line_click', { location: 'top-request-banner' })}>
             <BannerImg
               base="assets/banners/11_line_pc_21x9" widths={[1400, 2400]} sizes="(max-width: 952px) calc(100vw - 32px), 920px"
               width={2400} height={1029}
