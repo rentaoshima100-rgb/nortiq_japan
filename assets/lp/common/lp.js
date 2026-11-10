@@ -175,14 +175,46 @@
     if (msg) el.setAttribute('aria-invalid', 'true'); else el.removeAttribute('aria-invalid');
   }
 
+  // 未入力の項目の名前 (エラー文に並べる)。囲みの aria-label → label[for] の文字 → 同意のチェック の順で探す。
+  function itemName(el) {
+    var group = el.closest('[data-required-group]');
+    if (group && group.getAttribute('aria-label')) return group.getAttribute('aria-label').replace(/[（(]必須[）)]/g, '').trim();
+    if (el.id) {
+      var lab = form.querySelector('label[for="' + el.id + '"]');
+      // ラベルの中の「必須」バッジ (span) を除いた、先頭の文字だけを取る
+      if (lab && lab.childNodes[0] && lab.childNodes[0].nodeType === 3 && lab.childNodes[0].textContent.trim()) return lab.childNodes[0].textContent.trim();
+    }
+    if (el.name === 'consent') return '個人情報の取り扱いへの同意';
+    return el.dataset.label || el.getAttribute('aria-label') || '';
+  }
+
+  // いま未入力として示している項目 ({ box: 赤枠を付けた囲み, el: フォーカス先, name })。
+  // 入力で解消されたら一覧から外し、エラー文も書き換える (直したのに文が残って迷わせない)。
+  var missing = [];
+
+  function showMissing() {
+    missing = missing.filter(function (m) { return m.box.classList.contains('is-invalid'); });
+    if (!missing.length) { setStatus('', ''); return; }
+    var names = [];
+    missing.forEach(function (m) { if (m.name && names.indexOf(m.name) < 0) names.push(m.name); });
+    setStatus('未入力の項目があります' + (names.length ? '（' + names.join('、') + '）' : '') + '。赤枠の項目をご確認ください。', 'error');
+  }
+
+  // 未入力の項目まで移動する。チェックボックスやラジオは focus() だけでは画面が動かない端末がある (iOS Safari)。
+  function goToMissing() {
+    var m = missing[0];
+    if (!m) return;
+    try { m.box.scrollIntoView({ block: 'center' }); } catch (_) { m.box.scrollIntoView(); }
+    try { m.el.focus({ preventScroll: true }); } catch (_) { m.el.focus(); }
+  }
+
   function validate() {
-    var ok = true;
-    var first = null;
+    missing = [];
     form.querySelectorAll('[required]').forEach(function (el) {
       var bad = el.type === 'checkbox' ? !el.checked : !el.value.trim();
       if (!bad && el.type === 'email') bad = !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(el.value.trim());
       fieldError(el, bad ? 'required' : '');
-      if (bad) { ok = false; if (!first) first = el; }
+      if (bad) missing.push({ box: el.closest('.field') || el.closest('.consent') || el, el: el, name: itemName(el) });
     });
     // 複数選択 (checkbox 群) と単一選択 (radio 群) の必須は、入力ごとの required では表せない
     // (checkbox に required を付けると「全部にチェック」の意味になる)。囲みの .field に
@@ -192,23 +224,87 @@
       var any = false;
       inputs.forEach(function (i) { if (i.checked) any = true; });
       group.classList.toggle('is-invalid', !any);
-      if (!any) { ok = false; if (!first && inputs[0]) first = inputs[0]; }
+      if (!any && inputs[0]) missing.push({ box: group, el: inputs[0], name: itemName(inputs[0]) });
     });
-    if (first) first.focus();
-    return ok;
+    // ページの上から順に並べる (required の項目と選択の群が混ざっていても、最初の未入力へ移動する)
+    missing.sort(function (a, b) {
+      return (a.box.compareDocumentPosition(b.box) & Node.DOCUMENT_POSITION_FOLLOWING) ? -1 : 1;
+    });
+    return missing.length === 0;
   }
 
+  // ---------- 入力の一時保存 (form に data-persist があるLPだけ) ----------
+  // Clarity (2026-11-09、/partner/energy・スマホ): 「個人情報の取扱い」を開いて戻るとページが読み直され、
+  // 全項目を最初から入れ直していた。入力をこのタブの sessionStorage に控え、読み直されても元に戻す。
+  // 控えるのは目に見える入力欄だけ (hidden とハニーポットは対象外)。送信が届いたら消す。タブを閉じても消える。
+  var DRAFT_KEY = 'nq_form_draft:' + location.pathname.replace(/\/+$/, '');
+  var persist = form.hasAttribute('data-persist');
+  function draftFields() {
+    var out = [];
+    form.querySelectorAll('input,select,textarea').forEach(function (el) {
+      if (!el.name || el.name === 'website') return;
+      if (el.type === 'hidden' || el.type === 'password' || el.type === 'file' || el.type === 'submit') return;
+      out.push(el);
+    });
+    return out;
+  }
+  function saveDraft() {
+    if (!persist) return;
+    try {
+      var data = draftFields().map(function (el) {
+        return (el.type === 'checkbox' || el.type === 'radio') ? { n: el.name, v: el.value, c: el.checked } : { n: el.name, t: String(el.value || '').slice(0, 2000) };
+      });
+      window.sessionStorage.setItem(DRAFT_KEY, JSON.stringify(data));
+    } catch (_) { /* 保存できない環境 (プライベートブラウズの制限など) では、従来どおり動く */ }
+  }
+  function clearDraft() {
+    try { window.sessionStorage.removeItem(DRAFT_KEY); } catch (_) {}
+  }
+  function restoreDraft() {
+    if (!persist) return;
+    try {
+      var data = JSON.parse(window.sessionStorage.getItem(DRAFT_KEY) || 'null');
+      if (!Array.isArray(data)) return;
+      var fields = draftFields();
+      data.forEach(function (d) {
+        if (!d || typeof d.n !== 'string') return;
+        fields.forEach(function (el) {
+          if (el.name !== d.n) return;
+          if (el.type === 'checkbox' || el.type === 'radio') {
+            if (el.value === d.v) el.checked = !!d.c;
+          } else if (typeof d.t === 'string' && !el.value) {
+            el.value = d.t; // すでに値がある欄 (ブラウザが自分で戻した場合) は上書きしない
+          }
+        });
+      });
+    } catch (_) {}
+  }
+  restoreDraft();
+
   form.querySelectorAll('input,select,textarea').forEach(function (el) {
-    el.addEventListener('input', function () { fieldError(el, ''); });
-    el.addEventListener('change', function () { fieldError(el, ''); });
+    var onEdit = function () {
+      fieldError(el, '');
+      if (missing.length) showMissing();
+      saveDraft();
+    };
+    el.addEventListener('input', onEdit);
+    el.addEventListener('change', onEdit);
   });
+
+  // エラー文を押したら、未入力の項目へ移動する (Clarity の録画で、エラー文そのものが2回押されていた)
+  if (status) {
+    status.addEventListener('click', function () { if (missing.length) goToMissing(); });
+  }
 
   form.addEventListener('submit', function (e) {
     e.preventDefault();
     if (!validate()) {
-      setStatus('未入力の項目があります。赤枠の項目をご確認ください。', 'error');
+      showMissing();
+      goToMissing();
+      track('form_invalid', { missing: missing.length });
       return;
     }
+    missing = [];
     var fd = new FormData(form);
     var topicSel = form.querySelector('[name="topic"]');
     var timingSel = form.querySelector('[name="timing"]');
@@ -285,6 +381,7 @@
       // 送達 → GA4 generate_lead (+ Google Ads コンバージョン。本体と同じ key event)
       track('generate_lead', { lead_type: 'contact', currency: 'JPY', form_kind: payload.kind }, 'contact');
       nqGoalContact(); // 次ページ提案 (nq) のゴール。nq のセッションが無ければ何もしない
+      clearDraft(); // 届いたので、控えていた入力を消す
       form.hidden = true;
       if (done) { done.hidden = false; done.setAttribute('tabindex', '-1'); done.focus(); }
       try { history.replaceState(null, '', location.pathname + location.search + '#contact-done'); } catch (_) {}
