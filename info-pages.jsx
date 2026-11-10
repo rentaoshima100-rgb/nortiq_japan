@@ -401,13 +401,22 @@ function PricingPage({ onNavigate, onContact }) {
   // 無いように見える、など)。いまは /web・/chatbot・/dx と同じ rows を同じ PricingTable で描画する。
   // PricingTable / PriceFigure / ChatbotMonthlyNote は service-pages.jsx の定義 (描画時に参照する)。
   const P = NORTIQ_PRICING;
+  // 2026-11 (Clarity の料金ページ: 18表示で申込みボタンのクリックは0、料金表の手前で半分が離脱):
+  //  - 各プランに「このプランで相談する」を置く。押すと資料請求モーダルが「Web制作 / Standard プラン」の
+  //    ように何の相談かを持って開き、届くメールにも同じ種別が載る。
+  //  - ヒーローを低くして料金表を上げる (PageHero compact)。ヒーローに料金表へのジャンプと、概算見積ツール・LINE の入口を置く。
+  const consult = (svc) => (row) => {
+    const topic = svc.label + ' / ' + row.name + ' プラン';
+    nqFunnel('plan_consult_click', { plan: topic });
+    onContact(topic);
+  };
   const blocks = [
-    { key: 'web', title: P.web.label, to: P.web.route, link: '機能詳細を見る', body: <PricingTable rows={pricePlanRows('web')}/> },
-    { key: 'chatbot', title: P.chatbot.label, to: P.chatbot.route, link: '機能詳細を見る', body: <PricingTable rows={pricePlanRows('chatbot')} note={<ChatbotMonthlyNote/>}/> },
-    { key: 'dx', title: P.dx.label, to: P.dx.route, link: '機能詳細を見る', body: <PricingTable rows={pricePlanRows('dx')}/> },
+    { key: 'web', title: P.web.label, to: P.web.route, link: '機能詳細を見る', body: <PricingTable rows={pricePlanRows('web')} onConsult={consult(P.web)}/> },
+    { key: 'chatbot', title: P.chatbot.label, to: P.chatbot.route, link: '機能詳細を見る', body: <PricingTable rows={pricePlanRows('chatbot')} note={<ChatbotMonthlyNote/>} onConsult={consult(P.chatbot)}/> },
+    { key: 'dx', title: P.dx.label, to: P.dx.route, link: '機能詳細を見る', body: <PricingTable rows={pricePlanRows('dx')} onConsult={consult(P.dx)}/> },
     { key: 'maintenance', title: P.maintenance.label, to: P.maintenance.route, link: 'サポート内容を見る', body: <MaintenancePricing/> },
-    { key: 'automation', title: P.automation.label, body: <PricingAutomationRow/> },
-    { key: 'lps', title: '業種特化のサイト制作', body: <PricingLpRows/> },
+    { key: 'automation', title: P.automation.label, short: 'ひと業務AI', body: <PricingAutomationRow/> },
+    { key: 'lps', title: '業種特化のサイト制作', short: '業種特化', body: <PricingLpRows/> },
   ];
   return (
     <main className="page-fade">
@@ -419,16 +428,26 @@ function PricingPage({ onNavigate, onContact }) {
         lede={'サービスごとに3つのプランを用意。実際の費用はヒアリング後の見積でご提案しますが、目安レンジをすべて公開しています。' + P.taxNote + '。'}
         badges={["明朗会計", "補助金活用の相談可", "段階契約OK"]}
         onContact={onContact}
-        subCta="ホームページ無料診断"
-        subCtaTo="diagnostic"
-        nav={onNavigate}
+        /* 2つ目のボタンは概算見積ツール (/tools/estimate。6問・連絡先不要。静的ページなので通常の遷移)。
+           以前は料金ページからこのツールへ行く導線が無かった。無料診断への導線はページ末尾の帯に残っている。 */
+        subCta="1分で概算見積（連絡先不要）"
+        subCtaHref="/tools/estimate"
+        onSubCta={() => nqFunnel('estimate_click', { location: 'pricing-hero' })}
         /* 納品バナー 04 (3プランの料金カード)。画像内の金額は作成時点の NORTIQ_PRICING と同じ。料金を変えたら画像も作り直す。
            alt の金額は NORTIQ_PRICING から組み立てる (金額を手で書かない決まり)。 */
         visual={{ id: 'pricing-hero', base: 'assets/banners/04_pricing_1x1', alt: `Web制作の料金プランのイメージ: ${P.web.plans.map((p) => p.name + ' ' + priceFrom(p.min)).join('、')}（${P.taxNote}）。電卓を持った赤いマスコット` }}
-      />
+        compact
+      >
+        {/* 料金表へのジャンプ (ページ内リンクなので JS が無くても同じ場所へ飛ぶ) と、料金の質問用の LINE */}
+        <nav className="price-jump fadein" data-delay="450" aria-label="料金表へ移動">
+          <span className="price-jump-label">料金表へ</span>
+          {blocks.map((b) => <a key={b.key} href={'#price-' + b.key}>{b.short || b.title}</a>)}
+        </nav>
+        <p className="price-hero-line fadein" data-delay="500">料金のご質問は <LineLink place="pricing-hero" variant="text">LINEで聞く</LineLink></p>
+      </PageHero>
 
       {blocks.map((block, i) => (
-        <section key={block.key} className="section-pad" style={{ borderTop: i > 0 ? '1px solid var(--border)' : undefined, background: i % 2 === 1 ? 'var(--bg-2)' : undefined, borderBottom: i % 2 === 1 ? '1px solid var(--border)' : undefined }}>
+        <section key={block.key} id={'price-' + block.key} className={'section-pad' + (i === 0 ? ' price-first' : '')} style={{ scrollMarginTop: 80, borderTop: i > 0 ? '1px solid var(--border)' : undefined, background: i % 2 === 1 ? 'var(--bg-2)' : undefined, borderBottom: i % 2 === 1 ? '1px solid var(--border)' : undefined }}>
           <div className="container">
             <div className="row" style={{ marginBottom: 32, justifyContent: 'space-between', alignItems: 'flex-end' }}>
               <h2 className="display-m">{block.title}</h2>
@@ -891,8 +910,11 @@ function CompanyPage({ onNavigate, onContact }) {
             <p className="small" style={{ color: 'var(--text-3)' }}>
               ご相談はオンラインで承ります。ご来社の際は事前にご連絡ください。
             </p>
-            <div style={{ marginTop: 24 }}>
-              <Button variant="ghost" onClick={onContact}>お問い合わせ<Icon name="arrow-right" size={14}/></Button>
+            {/* 2026-11: 会社概要は最後まで読まれている (Clarity: PC 14表示のうち64%が最下部まで)。信用を確かめた人の
+                出口として、相談と LINE を並べる。 */}
+            <div className="row" style={{ marginTop: 24, gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
+              <Button variant="primary" onClick={() => onContact('company')}>無料で相談する<Icon name="arrow-right" size={14}/></Button>
+              <LineLink place="company" variant="ghost">LINEで相談する</LineLink>
             </div>
           </div>
         </div>

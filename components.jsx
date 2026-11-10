@@ -136,6 +136,40 @@ function nqPageView(params) {
 }
 if (typeof window !== 'undefined') window.nqPageView = nqPageView;
 
+// -------------------- 途中の行動の計測 (2026-11) --------------------
+// 送信数だけでは件数が少なすぎて施策の効果が読めない (Clarity 過去14日: フォーム送信4件)。
+// 送信の手前の行動 (フォームを開いた・入力を始めた・LINE を押した・プランの相談ボタンを押した) を
+// GA4 のイベントと Clarity のカスタムイベントの両方に送る。Clarity 側はイベント名で録画を絞り込める。
+// イベント名: form_open / form_start / line_click / plan_consult_click / deck_open / estimate_click / case_click
+function nqFunnel(eventName, params) {
+  nqTrack(eventName, Object.assign({ page_path: typeof location !== 'undefined' ? location.pathname : '' }, params || {}));
+  try {
+    if (typeof window === 'undefined' || window.__NORTIQ_PRERENDER__ || window.__NQ_INTERNAL__) return;
+    if (typeof window.clarity === 'function') window.clarity('event', eventName);
+  } catch (_) { /* 計測の失敗で UI を止めない */ }
+}
+if (typeof window !== 'undefined') window.nqFunnel = nqFunnel;
+
+// -------------------- LINE 公式アカウント --------------------
+// 公式アカウント NORTIQ LAB (@498ynxrl)。友だち追加すると、トークで届く質問にボタンで答えるだけで相談できる。
+// フォームより軽い入口として、フォームの手前・送信後・スマホの下部ナビ・各ページ末尾に置く (LineLink)。
+// PC で開くと LINE の QR コードのページになる (スマホで読み取って追加)。
+const LINE_URL = 'https://line.me/R/ti/p/@498ynxrl';
+
+// place は置き場所の名前 (GA4 の line_click.location に入る。場所ごとの押され方を比べるため必ず渡す)。
+// variant: 'solid' (緑地のボタン) / 'ghost' (白地・緑枠) / 'text' (文中のリンク)。
+function LineLink({ place, variant = 'solid', size, children, className = '', style }) {
+  const cls = variant === 'text'
+    ? ('line-text-link ' + className).trim()
+    : ['btn', 'btn-line', variant === 'ghost' && 'btn-line-ghost', size === 'lg' && 'btn-lg', size === 'sm' && 'btn-sm', className].filter(Boolean).join(' ');
+  return (
+    <a className={cls} style={style} href={LINE_URL} target="_blank" rel="noopener"
+       data-line={place} onClick={() => nqFunnel('line_click', { location: place })}>
+      <Icon name="chat" size={variant === 'text' ? 13 : 15} stroke={1.8}/>{children || 'LINEで相談する'}
+    </a>
+  );
+}
+
 // -------------------- Contact delivery --------------------
 // All inquiry forms POST to the serverless function, which
 // sends a real email via Resend (no mail-client dependency). Throws on failure
@@ -175,6 +209,7 @@ function Icon({ name, size = 16, stroke = 1.4 }) {
     case 'grid':           return (<svg viewBox="0 0 24 24" {...s}><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>);
     case 'yen':            return (<svg viewBox="0 0 24 24" {...s}><path d="M4 4l8 11 8-11M7 13h10M7 17h10"/></svg>);
     case 'menu':           return (<svg viewBox="0 0 24 24" {...s}><path d="M4 7h16M4 12h16M4 17h16"/></svg>);
+    case 'chat':           return (<svg viewBox="0 0 24 24" {...s}><path d="M21 11.5a8.5 8.5 0 0 1-12.3 7.6L3 21l1.9-5.7A8.5 8.5 0 1 1 21 11.5z"/></svg>);
     case 'search':         return (<svg viewBox="0 0 24 24" {...s}><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg>);
     default: return null;
   }
@@ -653,9 +688,12 @@ function Footer({ onNavigate, onContact }) {
               日本のDX、世界水準で巻き返す。<br/>
               Web制作からAI・DX実装まで。
             </p>
-            <Button variant="primary" size="sm" onClick={onContact}>
-              <Icon name="mail" size={13}/>資料請求はこちら
-            </Button>
+            <div className="row" style={{ gap: 10, flexWrap: 'wrap' }}>
+              <Button variant="primary" size="sm" onClick={onContact}>
+                <Icon name="mail" size={13}/>資料請求はこちら
+              </Button>
+              <LineLink place="footer" variant="ghost" size="sm">LINEで相談する</LineLink>
+            </div>
           </div>
 
           <div className="footer-col">
@@ -756,31 +794,179 @@ function Footer({ onNavigate, onContact }) {
   );
 }
 
-// -------------------- Contact Modal (big 12-field) --------------------
+// -------------------- Contact Modal / 資料請求フォーム --------------------
 const CATEGORY_OPTIONS = ["Web制作", "AIチャットボット", "DX・ML", "業務自動化", "LP制作", "採用サイト"];
 const INQ_TYPE_OPTIONS = ["新規HP制作", "HPリニューアル", "AIチャットボット導入", "DX・ML 実装", "業務自動化", "リスティング広告", "コンサルティング"];
 const REASON_OPTIONS = ["HPが無い", "問い合わせを増やしたい", "サービス資料がほしい", "無料診断", "デザインを改善したい", "SEOを上げたい", "AI活用したい", "業務効率化したい", "補助金活用を相談したい"];
 const SOURCE_OPTIONS = ["Google検索", "Yahoo検索", "AIチャット (ChatGPT/Claude/Gemini等)", "ご紹介", "メール", "DMチラシ", "SNS (X/LinkedIn)", "以前から知っていた", "その他"];
 
-function ContactModal({ open, onClose, defaultCategory = '' }) {
-  const initialForm = {
-    company: '', name: '', email: '', phone: '', address: '',
-    categories: defaultCategory ? [defaultCategory] : [],
-    inqTypes: [], reasons: [],
-    source: '', station: '', siteUrl: '', message: '',
-    agree: false,
-  };
-  const [form, setForm] = React.useState(initialForm);
+// 資料請求フォーム (モーダル / トップ下部のインライン) — 2026-11 に軽量化。
+// Clarity (2026-10〜11): PCトップの資料請求ボタンは4回押されて送信0件。必須が6項目 (電話番号を含む)、
+// トップ下部のフォームは住所も必須で、資料を見たいだけの人には重かった。
+//  - 必須は「貴社名」「メールアドレス」と同意だけ。ご相談内容は任意の1欄。
+//  - 担当者名・電話番号・カテゴリーなどは「詳しく伝える (任意)」に畳む (LeadFormMore)。住所・最寄り駅は外した。
+//  - 未入力で送信したら、その項目まで移動してフォーカスする (どこが足りないか探させない)。
+//  - 送信後は資料 (PDF) をその場で開ける (LeadFormDone)。入力が手間な人には LINE を案内する。
+//  - 途中の行動は nqFunnel で form_open / form_start を送る。
+const LEAD_FORM_INITIAL = {
+  company: '', name: '', email: '', phone: '',
+  categories: [], inqTypes: [], reasons: [],
+  source: '', siteUrl: '', message: '',
+  agree: false,
+};
+const LEAD_EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+// kind: フォームの置き場所 (GA4 の form_kind とメールの件名に出る)。topic: 開いた入口が渡す相談の種別
+// (例「Web制作 / Standard プラン」)。メールでは「ご相談内容（種別）」の行になる。
+function useLeadForm(kind, topic) {
+  const [form, setForm] = React.useState(LEAD_FORM_INITIAL);
   const [errors, setErrors] = React.useState({});
-  const [stage, setStage] = React.useState('form');
+  const [stage, setStage] = React.useState('form'); // form | sending | done | error
+  const started = React.useRef(false);
+  const formRef = React.useRef(null);
+  const touch = () => {
+    if (started.current) return;
+    started.current = true;
+    nqFunnel('form_start', { form_kind: kind });
+  };
+  const onChange = (k) => (e) => {
+    const v = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
+    touch();
+    setForm((f) => ({ ...f, [k]: v }));
+    setErrors((er) => (er[k] ? { ...er, [k]: undefined } : er));
+  };
+  const toggleMulti = (key, val) => {
+    touch();
+    setForm((f) => ({ ...f, [key]: f[key].includes(val) ? f[key].filter((x) => x !== val) : [...f[key], val] }));
+  };
+  const reset = () => {
+    setForm(LEAD_FORM_INITIAL);
+    setErrors({});
+    setStage('form');
+    started.current = false;
+  };
+  const submit = async (e) => {
+    e.preventDefault();
+    const er = {};
+    if (!form.company.trim()) er.company = '貴社名を入力してください';
+    if (!form.email.trim()) er.email = 'メールアドレスを入力してください';
+    else if (!LEAD_EMAIL_RE.test(form.email.trim())) er.email = 'メールアドレスの形式が正しくありません';
+    if (!form.agree) er.agree = '個人情報の取り扱いに同意してください';
+    setErrors(er);
+    const firstKey = ['company', 'email', 'agree'].find((k) => er[k]);
+    if (firstKey) {
+      const el = formRef.current && formRef.current.querySelector('[data-field="' + firstKey + '"]');
+      if (el) {
+        el.scrollIntoView({ block: 'center' });
+        el.focus({ preventScroll: true });
+      }
+      return;
+    }
+    setStage('sending');
+    try {
+      // topic は文字列だけ送る。送信元のページも添える (どのページで資料請求されたかがメールで分かる)。
+      await sendInquiry({ ...form, topic: typeof topic === 'string' ? topic : '', page: location.pathname }, kind);
+      setStage('done');
+    } catch (err) {
+      setStage('error');
+    }
+  };
+  return { form, errors, stage, formRef, onChange, toggleMulti, submit, reset };
+}
+
+// 「詳しく伝える (任意)」— 畳んである任意項目。モーダルとインラインフォームで同じものを使う。
+function LeadFormMore({ lf, idp }) {
+  const { form, onChange, toggleMulti } = lf;
+  const group = (key, options) => (
+    <div className="cb-group">
+      {options.map((o) => (
+        <label key={o} className={form[key].includes(o) ? 'checked' : ''}>
+          <input type="checkbox" checked={form[key].includes(o)} onChange={() => toggleMulti(key, o)}/>
+          {o}
+        </label>
+      ))}
+    </div>
+  );
+  return (
+    <details className="lead-more">
+      <summary>
+        <span className="lead-more-title">詳しく伝える</span><span className="any">任意</span>
+        <span className="lead-more-hint">ご担当者名・電話番号・ご相談の種類など</span>
+      </summary>
+      <div className="lead-more-body">
+        <div className="field">
+          <label htmlFor={idp + '-name'}>ご担当者名</label>
+          <input id={idp + '-name'} type="text" value={form.name} onChange={onChange('name')} placeholder="山田 太郎" autoComplete="name"/>
+        </div>
+        <div className="field">
+          <label htmlFor={idp + '-phone'}>電話番号</label>
+          <input id={idp + '-phone'} type="tel" value={form.phone} onChange={onChange('phone')} placeholder="03-XXXX-XXXX" autoComplete="tel"/>
+        </div>
+        <div className="field">
+          <label>カテゴリー</label>
+          {group('categories', CATEGORY_OPTIONS)}
+        </div>
+        <div className="field">
+          <label>お問い合わせ内容</label>
+          {group('inqTypes', INQ_TYPE_OPTIONS)}
+        </div>
+        <div className="field">
+          <label>いまの状況</label>
+          {group('reasons', REASON_OPTIONS)}
+        </div>
+        <div className="field">
+          <label htmlFor={idp + '-source'}>本サイトを知ったきっかけ</label>
+          <select id={idp + '-source'} value={form.source} onChange={onChange('source')}>
+            <option value="">選択してください</option>
+            {SOURCE_OPTIONS.map((o) => <option key={o} value={o}>{o}</option>)}
+          </select>
+        </div>
+        <div className="field">
+          <label htmlFor={idp + '-url'}>サイトURL</label>
+          <input id={idp + '-url'} type="text" value={form.siteUrl} onChange={onChange('siteUrl')} placeholder="https://" inputMode="url"/>
+        </div>
+      </div>
+    </details>
+  );
+}
+
+// 送信後の表示。資料 (PDF) をその場で開けるようにし、続きの相談先として LINE を置く。
+// place は置き場所の名前 (deck_open / line_click の location に入る)。
+function LeadFormDone({ place, onClose }) {
+  return (
+    <div className="lead-done" role="status">
+      <div className="lead-done-icon"><Icon name="check" size={24} stroke={2}/></div>
+      <h3 className="display-s">送信が完了しました</h3>
+      <p className="body">
+        お問い合わせありがとうございます。営業日 24 時間以内に担当者よりご返信します。<br/>
+        サービス紹介資料は、いますぐご覧いただけます。
+      </p>
+      <div className="lead-done-actions">
+        <a className="btn btn-primary btn-lg" href="assets/Nortiq_Service_Deck.pdf" target="_blank" rel="noopener"
+           onClick={() => nqFunnel('deck_open', { location: place })}>
+          <Icon name="doc" size={15}/>サービス紹介資料を開く (PDF)
+        </a>
+        <LineLink place={place + '-done'} variant="ghost" size="lg">LINEで続きを相談する</LineLink>
+      </div>
+      <p className="small lead-done-more"><a href="/guidebook">サービス別の資料も見る</a></p>
+      {onClose && <Button variant="ghost" size="sm" onClick={onClose}>閉じる</Button>}
+    </div>
+  );
+}
+
+function ContactModal({ open, onClose, defaultCategory = '' }) {
+  // defaultCategory は開いた入口が渡す相談の種別。ページ内のボタンは onClick={onContact} で開くため、
+  // 以前はクリックイベントがここまで届いて categories に入り、送信データを作る JSON.stringify が失敗していた
+  // (全項目を入れても「送信に失敗しました」になり、問い合わせが届かない)。文字列以外は種別として扱わない。
+  const topic = typeof defaultCategory === 'string' ? defaultCategory : '';
+  const lf = useLeadForm('modal', topic);
+  const { form, errors, stage, formRef, onChange, submit, reset } = lf;
 
   React.useEffect(() => {
-    if (open) {
-      setStage('form');
-      setErrors({});
-      setForm(f => ({ ...initialForm, categories: defaultCategory ? [defaultCategory] : [] }));
-    }
-  }, [open, defaultCategory]);
+    if (!open) return;
+    reset();
+    nqFunnel('form_open', { form_kind: 'modal', topic });
+  }, [open, topic]);
 
   React.useEffect(() => {
     const handler = (e) => { if (e.key === 'Escape' && open) onClose(); };
@@ -788,44 +974,8 @@ function ContactModal({ open, onClose, defaultCategory = '' }) {
     return () => window.removeEventListener('keydown', handler);
   }, [open, onClose]);
 
-  const validate = () => {
-    const e = {};
-    if (!form.company.trim()) e.company = '貴社名を入力してください';
-    if (!form.name.trim()) e.name = 'ご担当者名を入力してください';
-    if (!form.email.trim()) e.email = 'メールアドレスを入力してください';
-    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) e.email = 'メールアドレスの形式が正しくありません';
-    if (!form.phone.trim()) e.phone = '電話番号を入力してください';
-    if (form.categories.length === 0) e.categories = 'カテゴリーを選択してください';
-    if (form.inqTypes.length === 0) e.inqTypes = 'お問い合わせ内容を選択してください';
-    if (!form.agree) e.agree = '個人情報取り扱いに同意してください';
-    setErrors(e);
-    return Object.keys(e).length === 0;
-  };
-
-  const submit = async (e) => {
-    e.preventDefault();
-    if (!validate()) return;
-    setStage('sending');
-    try {
-      await sendInquiry(form, 'modal');
-      setStage('done');
-    } catch (err) {
-      setStage('error');
-    }
-  };
-
-  const onChange = (k) => (e) => {
-    const v = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
-    setForm({ ...form, [k]: v });
-    if (errors[k]) setErrors({ ...errors, [k]: undefined });
-  };
-
-  const toggleMulti = (key, val) => {
-    const list = form[key];
-    const next = list.includes(val) ? list.filter(x => x !== val) : [...list, val];
-    setForm({ ...form, [key]: next });
-    if (errors[key]) setErrors({ ...errors, [key]: undefined });
-  };
+  // 種別が日本語のラベル (料金表の「このプランで相談する」など) のときだけ、何について開いたかを見せる。
+  const topicLabel = /[^\x00-\x7F]/.test(topic) ? topic : '';
 
   return (
     <div className={`modal-backdrop${open ? ' open' : ''}`} onClick={(e) => e.target === e.currentTarget && onClose()}>
@@ -833,126 +983,44 @@ function ContactModal({ open, onClose, defaultCategory = '' }) {
         <button className="modal-close" onClick={onClose} aria-label="閉じる"><Icon name="close" size={16}/></button>
 
         {stage === 'done' ? (
-          <div style={{ textAlign: 'center', padding: '20px 0' }}>
-            <div style={{
-              width: 56, height: 56, borderRadius: '50%',
-              background: 'var(--accent-soft)',
-              color: 'var(--accent)', display: 'grid', placeItems: 'center',
-              margin: '0 auto 24px'
-            }}>
-              <Icon name="check" size={24} stroke={2}/>
-            </div>
-            <h3 className="display-s" style={{ marginBottom: 12 }}>送信が完了しました</h3>
-            <p className="body" style={{ marginBottom: 24, fontSize: 14 }}>
-              お問い合わせありがとうございます。<br/>
-              営業日 24 時間以内に担当者よりご返信します。
-            </p>
-            <Button variant="ghost" onClick={onClose}>閉じる</Button>
-          </div>
-        ) : stage === 'error' ? (
-          <div style={{ textAlign: 'center', padding: '20px 0' }}>
-            <div style={{
-              width: 56, height: 56, borderRadius: '50%',
-              background: 'var(--accent-soft)', color: 'var(--accent)',
-              display: 'grid', placeItems: 'center', margin: '0 auto 24px'
-            }}>
-              <Icon name="close" size={24} stroke={2}/>
-            </div>
-            <h3 className="display-s" style={{ marginBottom: 12 }}>送信に失敗しました</h3>
-            <p className="body" style={{ marginBottom: 12, fontSize: 14 }}>
-              通信エラーが発生しました。お手数ですが、もう一度お試しください。
-            </p>
-            <p className="small" style={{ color: 'var(--text-3)', marginBottom: 24 }}>
-              解決しない場合は、お手数ですが時間をおいて再度お試しください。
-            </p>
-            <Button variant="primary" onClick={() => setStage('form')}>フォームに戻る</Button>
-          </div>
+          <LeadFormDone place="modal" onClose={onClose}/>
         ) : (
           <>
             <div style={{ marginBottom: 24 }}>
               <div className="eyebrow eyebrow-accent" style={{ marginBottom: 12 }}>CONTACT</div>
               <h3 className="display-s" style={{ marginBottom: 8 }}>資料請求・お問い合わせ</h3>
-              <p className="small">初回相談は無料です。営業日24時間以内にご返信します。</p>
+              <p className="small">入力は2項目です。送信後すぐに資料 (PDF) をご覧いただけます。初回相談は無料です。</p>
+              {topicLabel && <p className="lead-topic"><span>ご相談</span>{topicLabel}</p>}
             </div>
 
-            <form onSubmit={submit} noValidate>
+            <form onSubmit={submit} noValidate ref={formRef}>
               <div className="field">
-                <label>貴社名<span className="req">必須</span></label>
-                <input type="text" value={form.company} onChange={onChange('company')} placeholder="株式会社○○" aria-label="貴社名" autoComplete="organization"/>
+                <label htmlFor="modal-company">貴社名<span className="req">必須</span></label>
+                <input id="modal-company" data-field="company" type="text" value={form.company} onChange={onChange('company')} placeholder="株式会社○○ (屋号でも可)" autoComplete="organization" aria-invalid={errors.company ? 'true' : undefined}/>
                 {errors.company && <div className="err">{errors.company}</div>}
               </div>
               <div className="field">
-                <label>ご担当者名<span className="req">必須</span></label>
-                <input type="text" value={form.name} onChange={onChange('name')} placeholder="山田 太郎" aria-label="ご担当者名" autoComplete="name"/>
-                {errors.name && <div className="err">{errors.name}</div>}
-              </div>
-              <div className="field">
-                <label>メールアドレス<span className="req">必須</span></label>
-                <input type="email" value={form.email} onChange={onChange('email')} placeholder="you@example.com" aria-label="メールアドレス" autoComplete="email"/>
+                <label htmlFor="modal-email">メールアドレス<span className="req">必須</span></label>
+                <input id="modal-email" data-field="email" type="email" value={form.email} onChange={onChange('email')} placeholder="you@example.com" autoComplete="email" aria-invalid={errors.email ? 'true' : undefined}/>
                 {errors.email && <div className="err">{errors.email}</div>}
               </div>
               <div className="field">
-                <label>電話番号<span className="req">必須</span></label>
-                <input type="tel" value={form.phone} onChange={onChange('phone')} placeholder="03-XXXX-XXXX" aria-label="電話番号" autoComplete="tel"/>
-                {errors.phone && <div className="err">{errors.phone}</div>}
+                <label htmlFor="modal-message">ご相談内容<span className="any">任意</span></label>
+                <textarea id="modal-message" value={form.message} onChange={onChange('message')} placeholder="資料だけほしい、費用感を知りたい、など一言でも大丈夫です。" style={{ minHeight: 84 }}></textarea>
               </div>
-              <div className="field">
-                <label>カテゴリー<span className="req">必須</span></label>
-                <div className="cb-group">
-                  {CATEGORY_OPTIONS.map(o => (
-                    <label key={o} className={form.categories.includes(o) ? 'checked' : ''}>
-                      <input type="checkbox" checked={form.categories.includes(o)} onChange={() => toggleMulti('categories', o)}/>
-                      {o}
-                    </label>
-                  ))}
-                </div>
-                {errors.categories && <div className="err">{errors.categories}</div>}
-              </div>
-              <div className="field">
-                <label>お問い合わせ内容<span className="req">必須</span></label>
-                <div className="cb-group">
-                  {INQ_TYPE_OPTIONS.map(o => (
-                    <label key={o} className={form.inqTypes.includes(o) ? 'checked' : ''}>
-                      <input type="checkbox" checked={form.inqTypes.includes(o)} onChange={() => toggleMulti('inqTypes', o)}/>
-                      {o}
-                    </label>
-                  ))}
-                </div>
-                {errors.inqTypes && <div className="err">{errors.inqTypes}</div>}
-              </div>
-              <div className="field">
-                <label>ご相談内容<span className="any">任意</span></label>
-                <div className="cb-group">
-                  {REASON_OPTIONS.map(o => (
-                    <label key={o} className={form.reasons.includes(o) ? 'checked' : ''}>
-                      <input type="checkbox" checked={form.reasons.includes(o)} onChange={() => toggleMulti('reasons', o)}/>
-                      {o}
-                    </label>
-                  ))}
-                </div>
-              </div>
-              <div className="field">
-                <label>本サイトを知ったきっかけ<span className="any">任意</span></label>
-                <select value={form.source} onChange={onChange('source')} aria-label="本サイトを知ったきっかけ">
-                  <option value="">選択してください</option>
-                  {SOURCE_OPTIONS.map(o => <option key={o} value={o}>{o}</option>)}
-                </select>
-              </div>
-              <div className="field">
-                <label>サイトURL<span className="any">任意</span></label>
-                <input type="text" value={form.siteUrl} onChange={onChange('siteUrl')} placeholder="https://" aria-label="サイトURL" inputMode="url"/>
-              </div>
-              <div className="field">
-                <label>その他ご質問<span className="any">任意</span></label>
-                <textarea value={form.message} onChange={onChange('message')} placeholder="ご質問・ご相談がございましたらお気軽にご記入ください。"></textarea>
-              </div>
+              <LeadFormMore lf={lf} idp="modal"/>
               <div className="field field-check">
-                <input type="checkbox" id="agree" checked={form.agree} onChange={onChange('agree')} style={{ marginTop: 2 }}/>
+                <input type="checkbox" id="agree" data-field="agree" checked={form.agree} onChange={onChange('agree')} style={{ marginTop: 2 }}/>
                 <label htmlFor="agree" style={{ cursor: 'pointer' }}>
                   <a href="/privacy-handling" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)', textDecoration: 'underline' }}>個人情報の取り扱い</a>に同意します<span className="req">必須</span>
                   {errors.agree && <div className="err">{errors.agree}</div>}
                 </label>
               </div>
+              {stage === 'error' && (
+                <p className="err lead-send-error" role="alert">
+                  送信に失敗しました。通信状況をご確認のうえ、もう一度お試しください。入力内容は残っています。
+                </p>
+              )}
               <div style={{ marginTop: 8, textAlign: 'center' }}>
                 <Button variant="primary" size="lg" type="submit" disabled={stage === 'sending'}>
                   {stage === 'sending' ? '送信中…' : '同意して送信する'}
@@ -960,6 +1028,13 @@ function ContactModal({ open, onClose, defaultCategory = '' }) {
                 </Button>
               </div>
             </form>
+
+            {/* 入力が手間な人の入口。Clarity ではボタンは押されるのに送信まで行かなかった */}
+            <div className="lead-alt">
+              <p className="lead-alt-label">入力が手間な方は</p>
+              <LineLink place="modal" variant="ghost">LINEで相談する</LineLink>
+              <p className="small lead-alt-note">友だち追加して、届く質問にボタンで答えるだけです。</p>
+            </div>
           </>
         )}
       </div>
@@ -967,191 +1042,67 @@ function ContactModal({ open, onClose, defaultCategory = '' }) {
   );
 }
 
-// -------------------- Big 12-field inline form (table style) --------------------
+// -------------------- トップ下部のインライン資料請求フォーム (table style) --------------------
 function BigInlineForm() {
-  const initialForm = {
-    company: '', name: '', email: '', phone: '', address: '',
-    categories: [], inqTypes: [], reasons: [],
-    source: '', station: '', siteUrl: '', message: '',
-    agree: false,
-  };
-  const [form, setForm] = React.useState(initialForm);
-  const [errors, setErrors] = React.useState({});
-  const [done, setDone] = React.useState(false);
-  const [sending, setSending] = React.useState(false);
-  const [failed, setFailed] = React.useState(false);
+  const lf = useLeadForm('full-page');
+  const { form, errors, stage, formRef, onChange, submit } = lf;
 
-  const onChange = (k) => (e) => {
-    const v = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
-    setForm({ ...form, [k]: v });
-    if (errors[k]) setErrors({ ...errors, [k]: undefined });
-  };
-  const toggleMulti = (key, val) => {
-    const list = form[key];
-    const next = list.includes(val) ? list.filter(x => x !== val) : [...list, val];
-    setForm({ ...form, [key]: next });
-    if (errors[key]) setErrors({ ...errors, [key]: undefined });
-  };
-
-  const submit = async (e) => {
-    e.preventDefault();
-    const er = {};
-    if (!form.company) er.company = '必須項目です';
-    if (!form.name) er.name = '必須項目です';
-    if (!form.email) er.email = '必須項目です';
-    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) er.email = 'メールアドレスの形式が正しくありません';
-    if (!form.phone) er.phone = '必須項目です';
-    if (form.categories.length === 0) er.categories = 'カテゴリーを選択してください';
-    if (form.inqTypes.length === 0) er.inqTypes = 'お問い合わせ内容を選択してください';
-    if (!form.address) er.address = '必須項目です';
-    if (!form.agree) er.agree = '同意してください';
-    setErrors(er);
-    if (Object.keys(er).length !== 0) return;
-    setSending(true);
-    setFailed(false);
-    try {
-      await sendInquiry(form, 'full-page');
-      setDone(true);
-    } catch (err) {
-      setFailed(true);
-    } finally {
-      setSending(false);
-    }
-  };
-
-  if (done) {
+  if (stage === 'done') {
     return (
-      <div className="big-form-wrap" style={{ textAlign: 'center', padding: 48 }}>
-        <div style={{ width: 56, height: 56, borderRadius: '50%', background: 'var(--accent-soft)', color: 'var(--accent)', display: 'grid', placeItems: 'center', margin: '0 auto 20px' }}>
-          <Icon name="check" size={24} stroke={2}/>
-        </div>
-        <h3 className="display-s" style={{ marginBottom: 8 }}>送信が完了しました</h3>
-        <p className="small" style={{ marginBottom: 8 }}>お問い合わせありがとうございます。営業日 24h 以内にご返信します。</p>
+      <div className="big-form-wrap">
+        <LeadFormDone place="inline"/>
       </div>
     );
   }
 
   return (
-    <form onSubmit={submit} noValidate className="big-form-wrap">
+    <form onSubmit={submit} noValidate className="big-form-wrap" ref={formRef}>
       <p className="lede" style={{ fontSize: 14 }}>
-        下記フォームに必要事項をご記入の上、送信してください。
+        入力は2項目です。送信後すぐに資料 (PDF) をご覧いただけます。
       </p>
       <table className="big-form-table">
         <tbody>
           <tr>
-            <th>貴社名<span className="req">必須</span></th>
+            <th><label htmlFor="big-company">貴社名</label><span className="req">必須</span></th>
             <td>
-              <input type="text" value={form.company} onChange={onChange('company')} placeholder="株式会社○○" aria-label="貴社名" autoComplete="organization"/>
+              <input id="big-company" data-field="company" type="text" value={form.company} onChange={onChange('company')} placeholder="株式会社○○ (屋号でも可)" autoComplete="organization" aria-invalid={errors.company ? 'true' : undefined}/>
               {errors.company && <div className="err">{errors.company}</div>}
             </td>
           </tr>
           <tr>
-            <th>ご担当者名<span className="req">必須</span></th>
+            <th><label htmlFor="big-email">メールアドレス</label><span className="req">必須</span></th>
             <td>
-              <input type="text" value={form.name} onChange={onChange('name')} placeholder="山田 太郎" aria-label="ご担当者名" autoComplete="name"/>
-              {errors.name && <div className="err">{errors.name}</div>}
-            </td>
-          </tr>
-          <tr>
-            <th>メールアドレス<span className="req">必須</span></th>
-            <td>
-              <input type="email" value={form.email} onChange={onChange('email')} placeholder="you@example.com" aria-label="メールアドレス" autoComplete="email"/>
+              <input id="big-email" data-field="email" type="email" value={form.email} onChange={onChange('email')} placeholder="you@example.com" autoComplete="email" aria-invalid={errors.email ? 'true' : undefined}/>
               {errors.email && <div className="err">{errors.email}</div>}
             </td>
           </tr>
           <tr>
-            <th>電話番号<span className="req">必須</span></th>
+            <th><label htmlFor="big-message">ご相談内容</label><span className="any">任意</span></th>
             <td>
-              <input type="tel" value={form.phone} onChange={onChange('phone')} placeholder="03-XXXX-XXXX" aria-label="電話番号" autoComplete="tel"/>
-              {errors.phone && <div className="err">{errors.phone}</div>}
+              <textarea id="big-message" value={form.message} onChange={onChange('message')} placeholder="資料だけほしい、費用感を知りたい、など一言でも大丈夫です。" style={{ minHeight: 90 }}/>
             </td>
-          </tr>
-          <tr>
-            <th>カテゴリー<span className="req">必須</span></th>
-            <td>
-              <div className="cb-group">
-                {CATEGORY_OPTIONS.map(o => (
-                  <label key={o} className={form.categories.includes(o) ? 'checked' : ''}>
-                    <input type="checkbox" checked={form.categories.includes(o)} onChange={() => toggleMulti('categories', o)}/>
-                    {o}
-                  </label>
-                ))}
-              </div>
-              {errors.categories && <div className="err">{errors.categories}</div>}
-            </td>
-          </tr>
-          <tr>
-            <th>住所<span className="req">必須</span></th>
-            <td>
-              <input type="text" value={form.address} onChange={onChange('address')} placeholder="京都府京都市…" aria-label="住所" autoComplete="street-address"/>
-              {errors.address && <div className="err">{errors.address}</div>}
-            </td>
-          </tr>
-          <tr>
-            <th>お問い合わせ内容<span className="req">必須</span></th>
-            <td>
-              <div className="cb-group">
-                {INQ_TYPE_OPTIONS.map(o => (
-                  <label key={o} className={form.inqTypes.includes(o) ? 'checked' : ''}>
-                    <input type="checkbox" checked={form.inqTypes.includes(o)} onChange={() => toggleMulti('inqTypes', o)}/>
-                    {o}
-                  </label>
-                ))}
-              </div>
-              <textarea value={form.message} onChange={onChange('message')} placeholder="その他質問がございましたらお気軽にご記入ください。" style={{ marginTop: 12, minHeight: 90 }}/>
-              {errors.inqTypes && <div className="err">{errors.inqTypes}</div>}
-            </td>
-          </tr>
-          <tr>
-            <th>ご相談内容<span className="any">任意</span></th>
-            <td>
-              <div className="cb-group">
-                {REASON_OPTIONS.map(o => (
-                  <label key={o} className={form.reasons.includes(o) ? 'checked' : ''}>
-                    <input type="checkbox" checked={form.reasons.includes(o)} onChange={() => toggleMulti('reasons', o)}/>
-                    {o}
-                  </label>
-                ))}
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <th>本サイトを知ったきっかけ<span className="any">任意</span></th>
-            <td>
-              <select value={form.source} onChange={onChange('source')} aria-label="本サイトを知ったきっかけ">
-                <option value="">選択してください</option>
-                {SOURCE_OPTIONS.map(o => <option key={o} value={o}>{o}</option>)}
-              </select>
-            </td>
-          </tr>
-          <tr>
-            <th>最寄り駅<span className="any">任意</span></th>
-            <td><input type="text" value={form.station} onChange={onChange('station')} aria-label="最寄り駅"/></td>
-          </tr>
-          <tr>
-            <th>サイトURL<span className="any">任意</span></th>
-            <td><input type="text" value={form.siteUrl} onChange={onChange('siteUrl')} placeholder="https://" aria-label="サイトURL" inputMode="url"/></td>
           </tr>
         </tbody>
       </table>
+      <LeadFormMore lf={lf} idp="big"/>
       <div className="big-form-note">
         ※<a href="/privacy-handling" target="_blank" rel="noopener noreferrer">個人情報の取扱</a>への同意の上、送信してください。 ただし個人情報の利用目的はお問合せ者情報に限ります。
       </div>
       <div className="field field-check" style={{ justifyContent: 'center', marginTop: 16 }}>
-        <input type="checkbox" id="big-agree" checked={form.agree} onChange={onChange('agree')} style={{ marginTop: 2 }}/>
+        <input type="checkbox" id="big-agree" data-field="agree" checked={form.agree} onChange={onChange('agree')} style={{ marginTop: 2 }}/>
         <label htmlFor="big-agree" style={{ cursor: 'pointer' }}>
           個人情報の取り扱いに同意します<span className="req">必須</span>
           {errors.agree && <div className="err">{errors.agree}</div>}
         </label>
       </div>
-      {failed && (
-        <p className="err" style={{ textAlign: 'center', marginTop: 12 }}>
-          送信に失敗しました。お手数ですが、時間をおいて再度お試しください。
+      {stage === 'error' && (
+        <p className="err lead-send-error" role="alert" style={{ textAlign: 'center' }}>
+          送信に失敗しました。通信状況をご確認のうえ、もう一度お試しください。入力内容は残っています。
         </p>
       )}
       <div className="big-form-submit">
-        <Button variant="primary" size="lg" type="submit" disabled={sending}>
-          {sending ? '送信中…' : <>同意して送信する<Icon name="arrow-right" size={14}/></>}
+        <Button variant="primary" size="lg" type="submit" disabled={stage === 'sending'}>
+          {stage === 'sending' ? '送信中…' : <>同意して送信する<Icon name="arrow-right" size={14}/></>}
         </Button>
       </div>
     </form>
@@ -1252,14 +1203,18 @@ function SideTabForm() {
 }
 
 // -------------------- SP Bottom Nav (fixed 5-icon) --------------------
+// 2026-11: 先頭の「トップ」を「LINE相談」に替えた。Clarity (過去14日) のスマホのトップでは、申込みにつながる
+// ボタンのタップが 0 で、タップは移動 (メニューの開閉・トップ) に使われていた。トップへはヘッダーのロゴと
+// メニューから戻れる。LINE はスマホで一番軽い相談の入口なので、どのページでも1タップで届く場所に置く。
 function SPBottomNav({ onNavigate, onContact }) {
   return (
     <nav className="sp-bottom-nav" aria-label="モバイル下部ナビ">
       <ul>
         <li>
-          <a {...navProps('top', onNavigate)}>
-            <span className="icn"><Icon name="home" size={20}/></span>
-            <span>トップ</span>
+          <a className="sp-bottom-line" href={LINE_URL} target="_blank" rel="noopener" data-line="sp-nav"
+             onClick={() => nqFunnel('line_click', { location: 'sp-nav' })}>
+            <span className="icn"><Icon name="chat" size={20} stroke={1.8}/></span>
+            <span>LINE相談</span>
           </a>
         </li>
         <li>
@@ -1341,7 +1296,9 @@ function RedCTAStrip({ onContact, onNavigate, title }) {
                 alt="Web制作・AI・DXの資料を、無料でお届けします。初回相談無料。営業日24時間以内に担当者からご返信します。資料請求（無料）"
               />
             </TrackedBanner>
+            {/* 2026-11: 資料請求の帯の下に、LINE と無料診断を並べる (ほぼ全ページの末尾に出る) */}
             <p className="cta-band-links">
+              <LineLink place="cta-band" variant="ghost">LINEで相談する</LineLink>
               <a {...(onNavigate ? navProps('diagnostic', onNavigate) : { href: '/diagnostic' })}>ホームページ無料診断もあります <Icon name="arrow-right" size={12}/></a>
             </p>
           </div>
@@ -1355,6 +1312,7 @@ function RedCTAStrip({ onContact, onNavigate, title }) {
           <h2>{title || (<><span className="phrase">オリジナルデザインのWeb制作 × AI運用</span>{' '}<span className="phrase">まずは無料で資料請求</span></>)}</h2>
           <div className="t_inq_btns">
             <Button onClick={onContact}><Icon name="mail" size={14}/>資料請求はこちら</Button>
+            <LineLink place="cta-strip" className="btn-line-on-red">LINEで相談する</LineLink>
             <Button to="diagnostic" nav={onNavigate}><Icon name="search" size={14}/>ホームページ無料診断</Button>
           </div>
           <p className="t_inq_time">営業日 24時間以内に担当者よりご返信します。</p>
@@ -1375,9 +1333,14 @@ function CTAStrip(props) { return React.createElement(RedCTAStrip, props); }
 // ボタンが常設されていた (クローラから見ればリンクが無い)。
 // visual: { base, alt } を渡すと、ヒーロー右半分 (以前は空白) に 1:1 の納品バナー (assets/banners/04-07, 09) を出す。
 // 767px 以下では見出し・ボタンの下に中央寄せ (最大 420px)。
-function PageHero({ eyebrow, title, sub, lede, badges, onContact, ctaLabel = "資料請求はこちら", subCta = "デモを見る", subCtaTo, nav, watermark, pageNo, visual }) {
+// compact: ヒーローを低くして本題を上げる (2026-11、料金ページ用)。見出し・余白・右の画像を小さくし、
+//   767px 以下では画像とバッジを出さない。
+// subCtaHref: 2つ目のボタンの行き先が SPA のルートではない静的ページ (/tools/* など) のとき。通常の <a href> で遷移する。
+//   onSubCta はそのクリックの計測用。
+// children: ボタンの行の下に置く追加の導線 (料金ページの料金表へのジャンプなど)。
+function PageHero({ eyebrow, title, sub, lede, badges, onContact, ctaLabel = "資料請求はこちら", subCta = "デモを見る", subCtaTo, subCtaHref, onSubCta, nav, watermark, pageNo, visual, compact = false, children }) {
   return (
-    <section className={`page-hero${visual ? ' page-hero-has-visual' : ''}`}>
+    <section className={`page-hero${visual ? ' page-hero-has-visual' : ''}${compact ? ' page-hero-compact' : ''}`}>
       <div className="page-hero-deco">
         {watermark && <div className="page-hero-watermark">{watermark}</div>}
         <div className="page-hero-band"></div>
@@ -1395,16 +1358,19 @@ function PageHero({ eyebrow, title, sub, lede, badges, onContact, ctaLabel = "�
           {sub && <p className="display-l fadein" data-delay="150" style={{ marginBottom: 24 }}>{sub}</p>}
           {lede && <p className="lede fadein" data-delay="200" style={{ marginBottom: 32, maxWidth: 720 }}>{lede}</p>}
           {badges && (
-            <div className="row fadein" data-delay="300" style={{ marginBottom: 32 }}>
+            <div className="row page-hero-badges fadein" data-delay="300" style={{ marginBottom: 32 }}>
               {badges.map((b, i) => <span key={i} className="tag">{b}</span>)}
             </div>
           )}
-          <div className="row fadein" data-delay="400" style={{ gap: 16 }}>
+          <div className="row page-hero-cta fadein" data-delay="400" style={{ gap: 16 }}>
             <Button variant="primary" size="lg" onClick={onContact} arrow>{ctaLabel}</Button>
-            {subCtaTo && nav && (
+            {subCtaHref ? (
+              <a className="btn btn-ghost btn-lg" href={subCtaHref} onClick={onSubCta}>{subCta}<Icon name="arrow-right" size={14}/></a>
+            ) : subCtaTo && nav && (
               <Button variant="ghost" size="lg" to={subCtaTo} nav={nav}>{subCta}<Icon name="arrow-right" size={14}/></Button>
             )}
           </div>
+          {children}
         </div>
         {visual && (
           <TrackedBanner id={visual.id || 'page-hero'} className="page-hero-visual">
@@ -1833,4 +1799,5 @@ Object.assign(window, {
   WorkShot,
   NAV_MEGA, PREFECTURES,
   CATEGORY_OPTIONS, INQ_TYPE_OPTIONS, REASON_OPTIONS, SOURCE_OPTIONS,
+  LINE_URL, LineLink, nqFunnel, LeadFormDone,
 });

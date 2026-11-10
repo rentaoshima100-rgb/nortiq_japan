@@ -259,6 +259,9 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:poin
 .form__status--error{color:#8A1C1C;border-color:var(--accent-2);background:var(--accent-soft)}
 .field.is-invalid input,.field.is-invalid select,.field.is-invalid textarea{border-color:var(--accent);outline-color:var(--accent)}
 .consent.is-invalid{color:var(--accent)}
+/* 同意のチェックが未入力のときも、文字の色だけでなく枠で示す (エラー文は「赤枠の項目」と案内している) */
+.consent.is-invalid{outline:2px solid #E60012;outline-offset:6px;border-radius:6px}
+.form__status--error{cursor:pointer}
 .form-done{max-width:var(--text-max);border:2px solid var(--accent);border-radius:var(--radius-card);padding:var(--space-32);background:var(--surface)}
 .form-done:focus{outline:2px solid var(--accent);outline-offset:2px}
 .form-done__title{font-size:22px;font-weight:700;line-height:1.35;color:var(--text)}

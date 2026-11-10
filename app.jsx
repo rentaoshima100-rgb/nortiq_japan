@@ -677,8 +677,11 @@ function App() {
     return () => clearTimeout(t);
   }, [route]);
 
+  // cat は相談の種別 (文字列)。ページ内のボタンは onClick={onContact} で呼ぶので、第1引数にクリックイベントが
+  // 来ることがある。以前はそれをそのまま種別として保持し、モーダルの送信が必ず失敗していた (components.jsx の
+  // ContactModal 参照)。文字列だけを受け取る。
   const handleContact = (cat = '') => {
-    setContactCategory(cat || '');
+    setContactCategory(typeof cat === 'string' ? cat : '');
     setContactOpen(true);
   };
 

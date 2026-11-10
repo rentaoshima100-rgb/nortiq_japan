@@ -2,6 +2,7 @@
 //
 // POST /api/contact  { company, name, email, phone, message, kind, ... }
 //   -> { ok: true, id }
+// 必須は email と、name か company のどちらか。
 //
 // Requires env RESEND_API_KEY. Optional env:
 //   CONTACT_TO   (default rdaichi27@gmail.com)
@@ -33,9 +34,12 @@ module.exports = async (req, res) => {
   // Honeypot (LP の非表示フィールド)。埋まっていたらボット扱いで送らずに成功を返す。
   if (String(body.hp || '').trim()) { res.status(200).json({ ok: true, id: null }); return; }
 
+  // 必須はメールアドレスと、ご担当者名か貴社名のどちらか (2026-11)。資料請求フォームを「貴社名とメール」だけに
+  // 軽くしたので、担当者名は空で届くことがある。LP のフォームは今も両方を必須で送ってくる。
   const name = String(body.name || '').trim();
+  const company = String(body.company || '').trim();
   const email = String(body.email || '').trim();
-  if (!name || !email) { res.status(400).json({ error: 'name_email_required' }); return; }
+  if ((!name && !company) || !email) { res.status(400).json({ error: 'name_email_required' }); return; }
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { res.status(400).json({ error: 'invalid_email' }); return; }
 
   const apiKey = process.env.RESEND_API_KEY;
@@ -73,6 +77,8 @@ module.exports = async (req, res) => {
     ['業種', body.industry],
     ['募集職種', body.jobs],
     ['流入LP', body.lp],
+    // 本体サイトのフォームが送る、資料請求されたページのパス (例 /pricing)
+    ['送信元ページ', body.page],
   ].filter(([, v]) => v != null && String(v).trim() !== '');
 
   const tableRows = rows.map(([k, v]) =>
