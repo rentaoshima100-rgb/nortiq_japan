@@ -428,11 +428,11 @@ function PricingPage({ onNavigate, onContact }) {
         lede={'サービスごとに3つのプランを用意。実際の費用はヒアリング後の見積でご提案しますが、目安レンジをすべて公開しています。' + P.taxNote + '。'}
         badges={["明朗会計", "補助金活用の相談可", "段階契約OK"]}
         onContact={onContact}
-        /* 2つ目のボタンは概算見積ツール (/tools/estimate。6問・連絡先不要。静的ページなので通常の遷移)。
-           以前は料金ページからこのツールへ行く導線が無かった。無料診断への導線はページ末尾の帯に残っている。 */
-        subCta="1分で概算見積（連絡先不要）"
-        subCtaHref="/tools/estimate"
-        onSubCta={() => nqFunnel('estimate_click', { location: 'pricing-hero' })}
+        /* 2つ目のボタンは無料診断 (2026-11 に概算見積から戻した。GA4 では無料診断が連絡先なしで一番使われている入口)。
+           概算見積ツール (/tools/estimate。6問・連絡先不要) は、すぐ下の行の文字リンクに残す。 */
+        subCta="いまのサイトを無料診断（登録不要）"
+        subCtaTo="diagnostic"
+        nav={onNavigate}
         /* 納品バナー 04 (3プランの料金カード)。画像内の金額は作成時点の NORTIQ_PRICING と同じ。料金を変えたら画像も作り直す。
            alt の金額は NORTIQ_PRICING から組み立てる (金額を手で書かない決まり)。 */
         visual={{ id: 'pricing-hero', base: 'assets/banners/04_pricing_1x1', alt: `Web制作の料金プランのイメージ: ${P.web.plans.map((p) => p.name + ' ' + priceFrom(p.min)).join('、')}（${P.taxNote}）。電卓を持った赤いマスコット` }}
@@ -443,7 +443,11 @@ function PricingPage({ onNavigate, onContact }) {
           <span className="price-jump-label">料金表へ</span>
           {blocks.map((b) => <a key={b.key} href={'#price-' + b.key}>{b.short || b.title}</a>)}
         </nav>
-        <p className="price-hero-line fadein" data-delay="500">料金のご質問は <LineLink place="pricing-hero" variant="text">LINEで聞く</LineLink></p>
+        <p className="price-hero-line fadein" data-delay="500">
+          <a className="price-estimate-link" href="/tools/estimate" onClick={() => nqFunnel('estimate_click', { location: 'pricing-hero' })}>1分で概算見積（連絡先不要）</a>
+          <span className="price-hero-sep" aria-hidden="true">／</span>
+          料金のご質問は <LineLink place="pricing-hero" variant="text">LINEで聞く</LineLink>
+        </p>
       </PageHero>
 
       {blocks.map((block, i) => (

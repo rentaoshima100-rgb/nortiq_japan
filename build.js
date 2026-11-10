@@ -1097,7 +1097,7 @@ function buildArticles(nq) {
     }
     // updated は改修 (refit) で本文を書き換えたときにパイプラインが入れる更新日。
     // date は初出の公開日で改修しても変えないため、鮮度は updated 側で伝える。
-    html = insertTopicCta(html, a.slug);
+    html = insertTopicCta(html, a);
     out[a.slug] = { slug: a.slug, title: a.title, category: a.category, date: a.date, updated: a.updated || '', read: a.read, img: a.img, supervised: !!a.supervised, desc: a.desc || '', noindex: !!a.noindex, est_read_sec: Math.round(chars / 10), nq_block: nqBlock, html };
   }
   const placedCount = mid.override + mid.h2 + mid.h3;
@@ -1145,13 +1145,29 @@ const SECURITY_ARTICLE_CTA = '<aside class="article-topic-cta" data-banner="arti
   + '<p class="article-topic-cta__body">無料のセキュリティ外形チェックから始められます。毎日の脆弱性診断と、見つけた弱点の修正・再診断までを月額でお任せいただけます。</p>'
   + '<a class="article-topic-cta__link" href="/security">脆弱性診断・セキュリティ保守を見る →</a>'
   + '</aside>';
+// 2026-11: ホームページそのものがテーマの記事 (Web制作・SEO・マーケティング) には、無料診断の案内を同じ位置に入れる。
+// GA4 (90日): 記事は着地の約4割を占めるのに、記事から問い合わせ・診断に進んだ記録が無い。
+// 記事を読んでいる人にとって「自分のサイトはどうか」をその場で確かめられる入口で、連絡先は要らない。
+// AI活用・DX・技術などの記事には入れない (テーマが合う記事だけ、という方針は変えない)。セキュリティの記事は上の案内を優先する。
+const DIAGNOSTIC_ARTICLE_CATEGORIES = new Set(['Web制作', 'SEO', 'マーケティング']);
+const DIAGNOSTIC_ARTICLE_CTA = '<aside class="article-topic-cta" data-banner="article-diagnostic-cta">'
+  + '<p class="article-topic-cta__title">あなたのホームページは、いま何点ですか？</p>'
+  + '<p class="article-topic-cta__body">URLを入れるだけで、SEO・セキュリティ設定・表示速度・AI対応をその場で採点します。登録は不要、無料です。</p>'
+  + '<a class="article-topic-cta__link" href="/diagnostic">ホームページを無料診断する →</a>'
+  + '</aside>';
+function topicCtaFor(article) {
+  if (SECURITY_ARTICLE_SLUGS.has(article.slug)) return SECURITY_ARTICLE_CTA;
+  if (DIAGNOSTIC_ARTICLE_CATEGORIES.has(article.category) && !article.noindex) return DIAGNOSTIC_ARTICLE_CTA;
+  return '';
+}
 // 2つ目の見出しの直前 (本文の冒頭を読んだ位置) に入れる。見出しが足りない記事には入れない。
-function insertTopicCta(html, slug) {
-  if (!SECURITY_ARTICLE_SLUGS.has(slug)) return html;
+function insertTopicCta(html, article) {
+  const cta = topicCtaFor(article);
+  if (!cta) return html;
   const heads = nqTopLevelHeadings(html);
   if (!heads || heads.length < 2) return html;
   const at = heads[1].at;
-  return html.slice(0, at) + SECURITY_ARTICLE_CTA + html.slice(at);
+  return html.slice(0, at) + cta + html.slice(at);
 }
 
 function rmrf(p) {
