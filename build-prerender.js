@@ -33,6 +33,7 @@ const ARTICLE_ROUTES = (() => {
 })();
 
 const ROUTES_ALLOWLIST = [
+  '/article-care-plan-data-linkage-version-5',
   '/article-care-record-electronic-storage',
   '/article-ai-development-model-data-rights',
   '/article-ai-search-incorrect-company-info',
