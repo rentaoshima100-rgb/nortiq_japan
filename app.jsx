@@ -6,6 +6,7 @@ const ROUTES = {
   top:             { c: () => window.TopPage,             title: '京都のWeb制作・AI導入・DX支援｜Nortiq Labs' },
   web:             { c: () => window.WebPage,             title: 'ホームページ制作サービス・機能一覧｜Nortiq Labs' },
   chatbot:         { c: () => window.ChatbotPage,         title: 'AIチャットボット導入サービス｜機能・料金・事例 — Nortiq Labs' },
+  'phone-ai':      { c: () => window.PhoneAiPage,         title: '電話AI導入・開発｜電話の一次対応をAIに — Nortiq Labs' },
   dx:              { c: () => window.DXPage,              title: 'DX支援・機械学習（ML）実装サービス｜Nortiq Labs' },
   works:           { c: () => window.WorksPage,           title: '制作実績一覧｜業種別のWeb制作・DX事例 — Nortiq Labs', argName: 'category', argVal: null },
   voice:           { c: () => window.VoicePage,           title: '導入事例・お客様の声｜Nortiq Labs' },
@@ -207,6 +208,7 @@ const SEO_DESC = {
   web: 'オリジナルデザインのホームページ制作。SEO設計・高速表示（Core Web Vitals対応）・CMS・アクセス解析まで標準対応。京都から全国のBtoB・店舗ビジネスを支援します。',
   // 「◯万円台」は上限があるように読めるので使わない。料金表と同じ「初期費用」＋開始価格で書く。
   chatbot: `自社サイトのFAQ・問い合わせ対応を自動化するAIチャットボット導入。WordPress連携・LINE連携・自社データ学習に対応。初期費用${priceFrom(NORTIQ_PRICING.chatbot.plans[0].min)}${priceTax()}、京都のNortiq Labsが構築します。`,
+  'phone-ai': '営業時間外や接客中、外国語の電話の一次対応をAIが引き受ける電話AIの導入・開発。用件を聞き取り、要約をLINE・メールで担当者へ通知し、必要な電話は人へ転送します。京都のNortiq Labsが業種に合わせて構築。',
   dx: 'PoCで終わらせないAI・機械学習の本実装。業務分析から要件定義、モデル構築、運用まで伴走。中小企業のDXを京都の技術チームが支援します。',
   works: '宿泊リゾート、アンティークEC、建築、協同組合、不動産、ジムなど業種別の制作実績。デザイン・実装・成果までを事例ごとに公開しています。',
   voice: 'Nortiq Labsのサービスをご利用いただいた企業様のインタビュー。導入前の課題、選んだ理由、導入後の変化を業種別に紹介します。',
@@ -341,6 +343,7 @@ const ORG_REF = { '@id': NORTIQ_ORG_ID };
 const SERVICE_LD = {
   web: { name: 'Web制作', types: ['コーポレートサイト制作', 'LP制作', 'ブランドサイト制作'] },
   chatbot: { name: 'AIチャットボット導入', types: ['AIチャットボット', 'WordPress AI投稿アシスタント', '問い合わせ自動化'] },
+  'phone-ai': { name: '電話AI導入・開発', types: ['AI電話応対', '電話の一次受付の自動化', '外国語の電話対応'] },
   dx: { name: 'DX・ML実装', types: ['機械学習', 'データ分析', '業務自動化'] },
 };
 

@@ -992,6 +992,7 @@ function SitemapPage({ onNavigate, onContact }) {
             <SitemapCol heading="サービス" onNavigate={onNavigate} links={[
               { id: 'web', label: 'ホームページ制作' },
               { id: 'chatbot', label: 'AIチャットボット' },
+              { id: 'phone-ai', label: '電話AI' },
               { id: 'dx', label: '業務システム・AI開発' },
               { id: 'feature-lpo', label: 'LP制作 / LPO' },
               { id: 'feature-recruit', label: '採用専門サイト' },

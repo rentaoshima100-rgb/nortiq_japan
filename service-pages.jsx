@@ -510,6 +510,283 @@ function ChatbotPage({ onNavigate, onContact }) {
   );
 }
 
+// ============================================================
+// 2.5) 電話AI (/phone-ai) — 2026-11
+// ============================================================
+// 構成と見た目は /chatbot に合わせている。バナーは assets/banners/13 (ヒーロー 1:1) と 14 (中段 21:9)。
+// 料金は個別見積り (NORTIQ_PRICING に電話AIの金額はまだ無い)。金額が決まったら content-data.jsx に足して
+// PricingTable に差し替える。実績の写真 2 枚は AI で作成したイメージなので、実写が届いたら差し替える。
+const PHONE_AI_ICONS = {
+  clock:    <><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></>,
+  globe:    <><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a14 14 0 0 1 0 18a14 14 0 0 1 0-18z"/></>,
+  repeat:   <><path d="M4 12a8 8 0 0 1 13.7-5.7L20 8"/><path d="M20 4v4h-4"/><path d="M9 12l2 2l4-4"/><path d="M20 12a8 8 0 0 1-8 8"/></>,
+  message:  <><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/><path d="M9 11h6"/><path d="M9 14h4"/></>,
+  forward:  <><path d="M5 4h4l2 5l-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/><path d="M15 4h5v5"/><path d="M20 4l-6 6"/></>,
+  record:   <><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M9 13h6"/><path d="M9 17h6"/></>,
+  bell:     <><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></>,
+};
+function PhoneAiIcon({ name, size = 26 }) {
+  return (
+    <svg aria-hidden="true" viewBox="0 0 24 24" width={size} height={size} fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+      {PHONE_AI_ICONS[name]}
+    </svg>
+  );
+}
+
+function PhoneAiCase({ no, tag, client, title, industry, product, img, alt, reverse }) {
+  return (
+    <article className={'phone-ai-case' + (reverse ? ' is-reverse' : '')}>
+      <div className="phone-ai-case-photo">
+        <Picture src={img} alt={alt}/>
+        <span className="phone-ai-note">AIで作成したイメージ</span>
+      </div>
+      <div className="phone-ai-case-body">
+        <div className="phone-ai-case-meta">
+          <span className="step-num">CASE / {no}</span>
+          <span className="tag">{tag}</span>
+        </div>
+        <p className="phone-ai-case-client">{client}</p>
+        <h3 className="phone-ai-case-title">{title}</h3>
+        <dl className="phone-ai-dl">
+          <div><dt>業種</dt><dd>{industry}</dd></div>
+          <div><dt>導入したもの</dt><dd><strong>{product}</strong></dd></div>
+        </dl>
+      </div>
+    </article>
+  );
+}
+
+function PhoneAiPage({ onNavigate, onContact }) {
+  const contact = () => onContact('phone-ai');
+  return (
+    <main className="page-fade">
+      <PageHero
+        eyebrow="AI PHONE / 電話AI"
+        title="電話AI導入・開発"
+        sub={<>出られなかった電話を、<br/>AIが受けます。</>}
+        lede="営業時間外、接客中、外国語。出られない電話の一次対応をAIが引き受け、用件の要約を担当者へ届けます。業種に合わせて一から組む、Nortiq Labs の電話応対AIです。"
+        badges={["日本語・英語に対応", "24時間受付", "要約をLINE・メールへ通知", "担当者への転送"]}
+        onContact={contact}
+        ctaLabel="導入の相談をする"
+        subCta="導入実績を見る"
+        subCtaHref="#phone-ai-cases"
+        nav={onNavigate}
+        visual={{ id: 'phone-ai-hero', base: 'assets/banners/13_phone_ai_1x1', alt: '電話AIのイメージ: 「もしもし、予約できますか？」という電話に、ヘッドセットを付けたマスコットが「はい、承ります！」と応える。電話の一次対応を、AIにおまかせ' }}
+      />
+
+      {/* THE MISSED CALL */}
+      <section className="section-pad-sm">
+        <div className="container">
+          <div className="eyebrow" style={{ marginBottom: 16 }}>THE MISSED CALL / 取りこぼしの連鎖</div>
+          <h2 className="display-m" style={{ marginBottom: 48, maxWidth: 880 }}>
+            電話に出られないと、仕事も逃げていきます。
+          </h2>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 16, alignItems: 'stretch' }}>
+            {[
+              { n: "01", t: "営業時間外に鳴る", d: "夜間、定休日、昼休み。留守番電話に用件を残す人は多くありません" },
+              { n: "02", t: "手が離せない", d: "接客中、現場での作業中、運転中。出たくても出られない時間があります" },
+              { n: "03", t: "外国語でかかってくる", d: "聞き取れないまま、用件が分からずに切れてしまいます" },
+              { n: "04", t: "折り返した頃には、他社へ", d: "かけ直しても、もうつながりません。逃した電話は数字に残りません" },
+            ].map((it, i) => (
+              <div key={i} style={{
+                padding: 24,
+                background: i === 3 ? 'var(--surface)' : 'var(--bg-2)',
+                border: '1px solid var(--border)',
+                borderColor: i === 3 ? 'var(--accent)' : 'var(--border)',
+                borderRadius: 'var(--radius-lg)',
+                position: 'relative',
+              }}>
+                <div className="step-num" style={{ marginBottom: 16 }}>{it.n}</div>
+                <h3 style={{ fontSize: 17, fontWeight: 500, margin: 0, marginBottom: 8, color: i === 3 ? 'var(--accent)' : 'var(--text)' }}>{it.t}</h3>
+                <p className="small" style={{ color: 'var(--text-2)' }}>{it.d}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* SOLUTION */}
+      <section className="section-pad" style={{ background: 'var(--bg-2)', borderTop: '1px solid var(--border)', borderBottom: '1px solid var(--border)' }}>
+        <div className="container">
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.2fr', gap: 64, alignItems: 'center' }}>
+            <div>
+              <div className="eyebrow eyebrow-accent" style={{ marginBottom: 16 }}>SOLUTION / 解決策</div>
+              <h2 className="display-m" style={{ marginBottom: 24 }}>
+                最初に出るのは、<br/>AIです。
+              </h2>
+              <p className="lede" style={{ marginBottom: 24 }}>
+                かかってきた電話にAIが出て、用件を聞き取り、担当者へ引き継ぎます。<span style={{ color: 'var(--text)' }}>人が出るのは、人でなければ進まない電話だけになります。</span>
+              </p>
+              <div className="stack-m" style={{ marginBottom: 32 }}>
+                <SolutionBullet n="01" title="AIが電話に出る" desc="話された言語を聞き分け、日本語か英語で応対します"/>
+                <SolutionBullet n="02" title="用件を聞き取り、復唱して確かめる" desc="お名前、日時、人数などの聞き違いを、その場で防ぎます"/>
+                <SolutionBullet n="03" title="要約を届ける。急ぎは人へつなぐ" desc="日本語の要約をLINEやメールへ。AIで足りない電話は担当者へ転送します"/>
+              </div>
+              <Button variant="primary" onClick={contact} arrow>導入の相談をする</Button>
+            </div>
+            <div className="phone-ai-log" role="img" aria-label="通話ログの画面イメージ。英語でかかってきた在庫の問い合わせにAIが応対し、名前のつづりを復唱で確かめたあと、日本語の要約を担当者へ通知している">
+              <div className="phone-ai-log-head">
+                <span className="phone-ai-log-chip">Call log</span>
+                <span>着信 14:02 ／ 言語：英語（自動で判別）</span>
+              </div>
+              <div className="phone-ai-log-talk">
+                <div className="phone-ai-say is-caller"><span>お客様</span><p>Hello, do you have any vintage Japanese toys in stock?</p></div>
+                <div className="phone-ai-say is-ai"><span>AI</span><p>Thank you for calling. I’ll take your request and our staff will get back to you. May I have your name?</p></div>
+                <div className="phone-ai-say is-caller"><span>お客様</span><p>It’s Emma. E-M-M-A.</p></div>
+                <div className="phone-ai-say is-ai"><span>AI</span><p>Thank you, Emma. E, M, M, A — is that correct?</p></div>
+              </div>
+              <div className="phone-ai-notify">
+                <div className="phone-ai-notify-head"><PhoneAiIcon name="bell" size={16}/>担当者への通知（日本語の要約）</div>
+                <dl className="phone-ai-dl is-compact">
+                  <div><dt>用件</dt><dd>在庫の問い合わせ（ヴィンテージ玩具）</dd></div>
+                  <div><dt>言語</dt><dd>英語</dd></div>
+                  <div><dt>お名前</dt><dd>Emma（つづりを確認済み）</dd></div>
+                  <div><dt>次の対応</dt><dd>スタッフから折り返し</dd></div>
+                </dl>
+              </div>
+              <p className="phone-ai-log-foot">画面イメージです。会話の内容はサンプルです。</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 中段バナー (14)。クリックは他の CTA と同じく相談モーダル。JS が無い環境には /#request へのリンクとして見える */}
+      <section className="phone-ai-band-wrap fadein" aria-label="電話AIのご相談">
+        <div className="container">
+          <TrackedBanner id="phone-ai-band" tag="a" className="cta-band phone-ai-band" href="/#request" onClick={(e) => { e.preventDefault(); contact(); }}>
+            <BannerImg
+              base="assets/banners/14_phone_ai_band_21x9" widths={[1400, 2400]} sizes="(max-width: 1232px) calc(100vw - 32px), 1200px"
+              width={2400} height={1029}
+              alt="鳴りっぱなしの電話を、AIが受けます。営業時間外も、外国語の電話も。まずはご相談ください。導入の相談をする"
+            />
+          </TrackedBanner>
+        </div>
+      </section>
+
+      {/* CASE */}
+      <section className="section-pad" id="phone-ai-cases">
+        <div className="container">
+          <div className="eyebrow" style={{ marginBottom: 16 }}>CASE / 導入実績</div>
+          <h2 className="display-m" style={{ marginBottom: 16, maxWidth: 880 }}>
+            京都の現場で、<span className="text-accent">もう動いています。</span>
+          </h2>
+          <p className="lede" style={{ marginBottom: 56 }}>
+            観光地のアンティークショップと、インフラを守る設備会社。業種の違う2社で、AIが最初の応対を担っています。
+          </p>
+          <PhoneAiCase
+            no="01" tag="小売・インバウンド"
+            client="Antique shop Taketora 様（京都・東山）"
+            title={<>海外のお客様からの電話に、<br/>AIが応対。</>}
+            industry="アンティークショップ"
+            product="外国人電話対応AI"
+            img="assets/phone-ai-case-retail.jpg"
+            alt="京都・東山のアンティークショップの店内。店主がカウンターで商品を包み、海外からのお客様が棚の器を手に取っている（AIで作成したイメージ）"
+          />
+          <PhoneAiCase
+            reverse
+            no="02" tag="インフラ・設備メンテナンス"
+            client="京環メンテナンス株式会社 様（京都市）"
+            title={<>お問合せの一次受付を、<br/>AIに。</>}
+            industry="設備メンテナンス"
+            product="お問合せ対応AI"
+            img="assets/phone-ai-case-infra.jpg"
+            alt="京都の住宅街で、作業服とヘルメット姿の作業員2人がマンホールの点検をしている。1人がスマートフォンで通知を確認している（AIで作成したイメージ）"
+          />
+        </div>
+      </section>
+
+      {/* FEATURES */}
+      <section className="section-pad" style={{ background: 'var(--bg-2)', borderTop: '1px solid var(--border)', borderBottom: '1px solid var(--border)' }}>
+        <div className="container">
+          <SectionHead eyebrow="FEATURES / できること" title="電話口で、ここまで任せられます。"/>
+          <div className="phone-ai-features">
+            {[
+              { i: 'clock',   t: '24時間の一次受付', d: '夜間も定休日も、最初の1コールからAIが出ます' },
+              { i: 'globe',   t: '日本語と英語での応対', d: '話し始めた言語に合わせて、そのまま会話を続けます' },
+              { i: 'repeat',  t: '復唱による聞き違いの防止', d: '名前のつづり、日付、人数は、必ず声に出して確かめます' },
+              { i: 'message', t: '要約をLINE・メールへ', d: '通話が終わると、用件を日本語でまとめて担当者へ届けます' },
+              { i: 'forward', t: '担当者への転送', d: '急ぎの用件や、AIでは答えられない内容は人へつなぎます' },
+              { i: 'record',  t: '録音と文字起こし', d: '通話は記録に残り、あとから内容を確かめられます' },
+            ].map((f) => (
+              <div key={f.i}>
+                <span className="text-accent" style={{ display: 'flex' }}><PhoneAiIcon name={f.i}/></span>
+                <h3>{f.t}</h3>
+                <p>{f.d}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* PRICING (個別見積り) */}
+      <section className="section-pad">
+        <div className="container">
+          <SectionHead
+            eyebrow="PRICING / 料金"
+            title="料金は、個別にお見積りします。"
+            lede="電話の件数、応対する内容、対応する言語によって構成が変わります。ヒアリングのあと、初期費用と月額を分けてご提示します。"
+            align="center"
+          />
+          <div className="phone-ai-quote">
+            <ul>
+              <li><span className="text-accent"><Icon name="check" size={14} stroke={2}/></span>初回のご相談は無料です</li>
+              <li><span className="text-accent"><Icon name="check" size={14} stroke={2}/></span>初期費用と月額を、分けてお見積りします</li>
+              <li><span className="text-accent"><Icon name="check" size={14} stroke={2}/></span>営業日24時間以内に、担当者からご返信します</li>
+            </ul>
+            <Button variant="primary" size="lg" onClick={contact} arrow>導入の相談をする</Button>
+          </div>
+        </div>
+      </section>
+
+      {/* FLOW */}
+      <section className="section-pad" style={{ background: 'var(--bg-2)', borderTop: '1px solid var(--border)', borderBottom: '1px solid var(--border)' }}>
+        <div className="container">
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.5fr', gap: 64, alignItems: 'flex-start' }}>
+            <div>
+              <div className="eyebrow" style={{ marginBottom: 16 }}>FLOW / 導入の流れ</div>
+              <h2 className="display-m" style={{ marginBottom: 20 }}>いまの電話を、<br/>止めずに始めます。</h2>
+              <p className="lede">どんな電話が、いつ、どれくらいかかってくるか。そこを伺うところから始め、テスト通話で応対を確かめてから本番に切り替えます。</p>
+            </div>
+            <ol className="phone-ai-flow">
+              {[
+                { t: 'ヒアリング', d: 'よくある用件、時間帯、言語、いまの受け方を伺います。初回のご相談は無料です' },
+                { t: '応対シナリオの設計', d: 'AIが答える範囲と、人へつなぐ条件を決めます。通知先もここで決めます' },
+                { t: 'テスト通話', d: '実際に電話をかけて、聞き取りと受け答えを一緒に確かめます' },
+                { t: '本番への切り替えと見直し', d: '運用を始めたあとも、通話の記録をもとに応対を直していきます' },
+              ].map((s, i) => (
+                <li key={i}>
+                  <span className="num">{'0' + (i + 1)}</span>
+                  <div><h3>{s.t}</h3><p>{s.d}</p></div>
+                </li>
+              ))}
+            </ol>
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ */}
+      <section className="section-pad">
+        <div className="container">
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: 64, alignItems: 'flex-start' }}>
+            <div>
+              <div className="eyebrow" style={{ marginBottom: 16 }}>FAQ / よくある質問</div>
+              <h2 className="display-m">導入前に、よく聞かれること。</h2>
+            </div>
+            <FAQ items={[
+              { q: "電話の相手には、AIだと伝えますか?", a: "はい。通話の最初に、AIが応対していることと、通話を録音することをお伝えします。" },
+              { q: "AIが答えられない用件は、どうなりますか?", a: "無理に答えさせません。担当者へ転送するか、用件の要約をお送りして折り返しにつなげます。" },
+              { q: "対応できる言語は?", a: "日本語と英語に対応しています。そのほかの言語はご相談ください。" },
+              { q: "費用はどのくらいですか?", a: "電話の件数や応対する内容で変わるため、ヒアリングのあとに初期費用と月額を分けてお見積りします。初回のご相談は無料です。" },
+            ]}/>
+          </div>
+        </div>
+      </section>
+
+      <CTAStrip onContact={contact} onNavigate={onNavigate} />
+    </main>
+  );
+}
+
 function SolutionBullet({ n, title, desc }) {
   return (
     <div style={{ display: 'grid', gridTemplateColumns: '40px 1fr', gap: 16, alignItems: 'flex-start' }}>
@@ -766,4 +1043,4 @@ function TeamCard({ role, name, desc, tags, src }) {
 
 // Export
 // PricingTable / PriceFigure / ChatbotMonthlyNote は /pricing (info-pages.jsx) も使う。
-Object.assign(window, { WebPage, ChatbotPage, DXPage, PricingTable, PriceFigure, ChatbotMonthlyNote });
+Object.assign(window, { WebPage, ChatbotPage, PhoneAiPage, DXPage, PricingTable, PriceFigure, ChatbotMonthlyNote });

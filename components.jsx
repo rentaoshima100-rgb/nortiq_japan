@@ -15,6 +15,7 @@ const NAV_MEGA = [
       { heading: 'サービス一覧', links: [
         { id: 'web',     label: 'ホームページ制作' },
         { id: 'chatbot', label: 'AIチャットボット' },
+        { id: 'phone-ai', label: '電話AI' },
         { id: 'dx',      label: '業務システム・AI開発' },
       ]},
       { heading: '技術領域', links: [
@@ -719,6 +720,7 @@ function Footer({ onNavigate, onContact }) {
             <ul>
               <li><a {...navProps('web', onNavigate)}>ホームページ制作</a></li>
               <li><a {...navProps('chatbot', onNavigate)}>AIチャットボット</a></li>
+              <li><a {...navProps('phone-ai', onNavigate)}>電話AI</a></li>
               <li><a {...navProps('dx', onNavigate)}>業務システム・AI開発</a></li>
               <li><a {...navProps('feature-lpo', onNavigate)}>LP制作 / LPO</a></li>
               <li><a {...navProps('feature-recruit', onNavigate)}>採用専門サイト</a></li>

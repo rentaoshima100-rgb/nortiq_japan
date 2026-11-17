@@ -209,7 +209,7 @@
   ],
   "rewrites": [
     {
-      "source": "/(web|chatbot|dx|works|voice|support|pricing|quick-diagnosis|subsidy|guidebook|column|company|staff|sitemap|news|recruit|diagnostic|privacy|terms|privacy-handling)",
+      "source": "/(web|chatbot|phone-ai|dx|works|voice|support|pricing|quick-diagnosis|subsidy|guidebook|column|company|staff|sitemap|news|recruit|diagnostic|privacy|terms|privacy-handling)",
       "destination": "/app.html"
     },
     {

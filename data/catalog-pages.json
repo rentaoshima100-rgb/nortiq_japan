@@ -39,6 +39,18 @@
       "default_next": "sg-works"
     },
     {
+      "url": "/phone-ai",
+      "type": "service",
+      "title": "電話AI導入・開発",
+      "industry": [],
+      "need": ["AI導入・チャットボット"],
+      "audience": "電話の一次対応をAIに任せたい事業者で、営業時間外や接客中の電話、外国語の電話も受けたい人向け",
+      "summary": "電話の一次対応をAIが引き受け、用件の要約を担当者へ通知。必要な電話は人へ転送。料金は個別見積り。",
+      "suggestable": false,
+      "block_id": null,
+      "default_next": null
+    },
+    {
       "url": "/dx",
       "type": "service",
       "title": "DX・機械学習の実装支援",

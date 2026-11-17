@@ -1671,7 +1671,7 @@ async function build() {
   fs.writeFileSync(path.join(DIST, 'robots.txt'),
     `User-agent: *\nAllow: /\n\nSitemap: ${SITE}/sitemap.xml\n`, 'utf8');
   const SITEMAP_ROUTES = [
-    'top', 'web', 'chatbot', 'dx', 'works', 'voice', 'support', 'pricing',
+    'top', 'web', 'chatbot', 'phone-ai', 'dx', 'works', 'voice', 'support', 'pricing',
     // /diagnosis は /diagnostic に統合し301 (検索意図が同一で共食いしていた)
     'subsidy', 'guidebook', 'column', 'company', 'staff', 'recruit',
     'news', 'diagnostic', 'product-vetonet', 'product-wpchat', 'product-tennis',

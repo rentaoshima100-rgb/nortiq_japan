@@ -241,6 +241,7 @@ const ROUTES_ALLOWLIST = [
   // non-JS crawlers see per-page values instead of the homepage shell.
   '/web',
   '/chatbot',
+  '/phone-ai',
   '/dx',
   '/works',
   '/voice',
