@@ -42,7 +42,10 @@ jobs:
   prerender:
     # 自分自身が作ったコミットでは回さない (無限ループ防止)
     if: "!contains(github.event.head_commit.message, '[prerender]')"
-    runs-on: ubuntu-latest
+    # ubuntu-latest が 26.04 に切り替わり、package-lock の Playwright (1.60.0) が
+    # 「ubuntu26.04-x64 では chromium を入れられない」と失敗するようになった (2026-11-16 の記事公開2本から)。
+    # Playwright を 26.04 対応の版に上げるまで 24.04 に固定する。
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
