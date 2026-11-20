@@ -121,6 +121,7 @@ const ORG_SAME_AS = [
 // desc → meta description / og:description / BlogPosting.description に使う。
 //        未指定の記事は app.jsx の SEO_DESC か自動生成の定型文にフォールバックする
 const BLOG = [
+  { slug: 'full-renewal-vs-partial-update-seo', category: 'Web制作', date: '2026.11.20', read: '11 min', title: '全面リニューアルと部分改修はどちらを選ぶ？検索への影響', img: 'assets/blog-default.png', desc: '全面リニューアルと部分改修の違いは、規模ではなくURLが変わるかどうかで決まります。URLが変わる場合の反映期間とリダイレクトの維持、変わらない場合のDNSのTTLとクロール率を、Google公式の記述をもとに比べます。', supervised: true },
   { slug: 'site-renewal-launch-during-core-update', category: 'Web制作', date: '2026.11.20', read: '12 min', title: 'サイトリニューアル公開はずらすべき？展開中の判断基準', img: 'assets/blog-default.png', desc: 'コアアップデートの展開中にリニューアルを公開すると、順位の変動の原因が切り分けられなくなります。公開日をずらす判断基準と、ずらせない場合に公開前に残しておく記録を、Google公式の記述をもとに解説します。', supervised: true },
   { slug: 'care-plan-data-linkage-version-5', category: '技術', date: '2026.11.17', read: '6 min', title: 'ケアプランデータ連携5.0版｜旧版との違いと改修', img: 'assets/blog-default.png', desc: 'ケアプランデータ連携の5.0版は令和8年8月の版で、すでに公開されています。旧版との違いはデータ形式と文字コードです。連携システムを使っている場合と自社でファイルを扱う場合に分けて、必要な対応を解説します。', supervised: true },
   { slug: 'care-record-electronic-storage', category: '技術', date: '2026.11.16', read: '9 min', title: '介護記録は電子のみで保存可｜根拠と保存年限', img: 'assets/blog-default.png', desc: '介護記録を紙に印刷せず電子だけで保存してよいかを、平成11年厚生省令第37号の条文で確認します。保存年限の起算日、条例で5年に延長される例、紙をやめる4段階の手順を整理します。', supervised: true },

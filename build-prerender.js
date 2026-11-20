@@ -33,6 +33,7 @@ const ARTICLE_ROUTES = (() => {
 })();
 
 const ROUTES_ALLOWLIST = [
+  '/article-full-renewal-vs-partial-update-seo',
   '/article-site-renewal-launch-during-core-update',
   '/article-care-plan-data-linkage-version-5',
   '/article-care-record-electronic-storage',
