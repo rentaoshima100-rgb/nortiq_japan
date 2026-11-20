@@ -27,6 +27,14 @@ function toVisit(body) {
   return { id: body.id, path: path.split(/[?#]/)[0].slice(0, 200) };
 }
 
+// 営業先は日本の会社だけなので、日本国外からの訪問はメールのセキュリティチェック（リンクスキャナ）とみなす。
+// 例: 2026-11-20 愛車の窓口。カナダの Edge が送信の約25時間後に1秒だけ開き、スクロールで記録されていた（Clarity で確認）。
+// 国は Vercel が付ける x-vercel-ip-country で見る（保存はしない）。ヘッダが無い環境（ローカル）では判定しない。
+function isAbroad(country) {
+  const c = String(Array.isArray(country) ? country[0] : country == null ? '' : country).trim().toUpperCase();
+  return /^[A-Z]{2}$/.test(c) && c !== 'JP';
+}
+
 async function record(visit, suspect) {
   const base = String(process.env.SUPABASE_URL).replace(/\/+$/, '');
   const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
@@ -62,8 +70,9 @@ async function handler(req, res) {
 
     const visit = toVisit(body);
     if (!visit) return done();
-    // bot の UA は捨てずに suspect で残す（CTR と同じ扱い。追いメールのきっかけにはならない）
-    await record(visit, guard.isBot(req.headers && req.headers['user-agent']));
+    // bot の UA と日本国外からの訪問は捨てずに suspect で残す（CTR と同じ扱い。通知と追いメールのきっかけにはならない）
+    const h = req.headers || {};
+    await record(visit, guard.isBot(h['user-agent']) || isAbroad(h['x-vercel-ip-country']));
     done();
   } catch (e) {
     console.error('[outbound-visit] error', String((e && e.name) || 'error'));
@@ -73,3 +82,4 @@ async function handler(req, res) {
 
 module.exports = handler;
 module.exports.toVisit = toVisit;
+module.exports.isAbroad = isAbroad;
