@@ -1505,6 +1505,8 @@ async function build() {
   // 解除は ?nq_internal=0。外部の訪問者には何も保存しない (パラメータ付きで開いたときだけ書く)。
   // 2つ目のスクリプトは、営業メールのリンク (utm_source=outbound) から来た人の訪問の記録 (api/outbound-visit.js)。
   // 開いただけのリンクスキャナを数えないよう、操作があったときか20秒表示されたときに1回だけ送る。自分のアクセスは送らない。
+  // 開いて3秒以内の操作は数えない（スキャナは開いた直後にスクロールする。2026-11-20 に Clarity で1秒の記録を確認）。
+  // 日本国外からの訪問は api/outbound-visit.js が suspect にする。
   const internalHead = `
   <script>
     (function(){try{var q=location.search;
@@ -1513,10 +1515,11 @@ async function build() {
       window.__NQ_INTERNAL__=localStorage.getItem('nq_internal')==='1';}catch(e){}})();
     (function(){try{if(window.__NQ_INTERNAL__)return;var p=new URLSearchParams(location.search),id=p.get('utm_content');
       if(p.get('utm_source')!=='outbound'||!/^[0-9a-f]{8}$/.test(id||''))return;
-      var sent=false,ev=['scroll','pointerdown','keydown'];
-      function send(){if(sent)return;sent=true;ev.forEach(function(e){removeEventListener(e,send,true)});
+      var sent=false,t0=Date.now(),ev=['scroll','pointerdown','keydown'];
+      function send(){if(sent)return;sent=true;ev.forEach(function(e){removeEventListener(e,on,true)});
         navigator.sendBeacon('/api/outbound-visit',JSON.stringify({id:id,path:location.pathname}));}
-      ev.forEach(function(e){addEventListener(e,send,{capture:true,passive:true})});
+      function on(){if(Date.now()-t0>=3000)send();}
+      ev.forEach(function(e){addEventListener(e,on,{capture:true,passive:true})});
       setTimeout(function(){if(document.visibilityState==='visible')send();},20000);}catch(e){}})();
   </script>`;
   const clarityHead = CLARITY_ON ? `

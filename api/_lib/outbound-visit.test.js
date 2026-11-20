@@ -74,3 +74,23 @@ test('handler: 環境変数が無ければ何もしない', async () => {
   assert.strictEqual(await call({ body: { id: '7cf04605', path: '/' }, headers: BROWSER }), 204);
   if (url !== undefined) process.env.SUPABASE_URL = url;
 });
+
+test('isAbroad: 日本以外の国コードだけを国外とみなす', () => {
+  const { isAbroad } = handler;
+  assert.strictEqual(isAbroad('CA'), true);
+  assert.strictEqual(isAbroad('us'), true);
+  assert.strictEqual(isAbroad('JP'), false);
+  assert.strictEqual(isAbroad(undefined), false);
+  assert.strictEqual(isAbroad(''), false);
+  assert.strictEqual(isAbroad('XYZ'), false);
+});
+
+test('handler: 日本国外からの訪問は suspect として渡す', () => withEnv(async (calls) => {
+  await call({ body: { id: '7cf04605', path: '/feature-recruit' }, headers: { ...BROWSER, 'x-vercel-ip-country': 'CA' } });
+  assert.strictEqual(calls[0].body.p_suspect, true);
+}));
+
+test('handler: 日本からのふつうのブラウザは suspect にしない', () => withEnv(async (calls) => {
+  await call({ body: { id: '7cf04605', path: '/feature-recruit' }, headers: { ...BROWSER, 'x-vercel-ip-country': 'JP' } });
+  assert.strictEqual(calls[0].body.p_suspect, false);
+}));
