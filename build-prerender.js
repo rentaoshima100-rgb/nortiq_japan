@@ -33,6 +33,7 @@ const ARTICLE_ROUTES = (() => {
 })();
 
 const ROUTES_ALLOWLIST = [
+  '/article-contact-form-email-not-delivered-spf',
   '/article-security-declaration-gbizid-steps',
   '/article-internal-knowledge-search-ai-scope',
   '/article-clinic-system-outsourcing-responsibility',
