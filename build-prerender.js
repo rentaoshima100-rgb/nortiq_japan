@@ -33,6 +33,7 @@ const ARTICLE_ROUTES = (() => {
 })();
 
 const ROUTES_ALLOWLIST = [
+  '/article-clinic-system-outsourcing-responsibility',
   '/article-ssl-certificate-validity-47-days',
   '/article-subsidy-training-manual-service-cost',
   '/article-full-renewal-vs-partial-update-seo',
