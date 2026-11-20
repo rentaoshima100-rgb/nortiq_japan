@@ -121,6 +121,7 @@ const ORG_SAME_AS = [
 // desc → meta description / og:description / BlogPosting.description に使う。
 //        未指定の記事は app.jsx の SEO_DESC か自動生成の定型文にフォールバックする
 const BLOG = [
+  { slug: 'ssl-certificate-validity-47-days', category: 'Web制作', date: '2026.11.20', read: '7 min', title: 'SSL証明書の有効期間47日短縮｜いつ何をする', img: 'assets/blog-default.png', desc: '「SSL証明書が47日になる」のは2029年3月からです。2026年11月時点の上限は200日で、次の変更は2027年3月です。御社がいま確認すべき3点と、自動更新へ移す手順を解説します。', supervised: true },
   { slug: 'subsidy-training-manual-service-cost', category: '技術', date: '2026.11.20', read: '7 min', title: '補助金でマニュアルと研修は対象？役務の上限200万円', img: 'assets/blog-default.png', desc: '業務システムの導入にかかるマニュアル作成と導入研修は、デジタル化・AI導入補助金2026の役務として補助の対象です。役務3カテゴリの区分、200万円の上限、交通費と宿泊費が対象外になる点、見積書の分け方を公募要領の記載で整理しました。', supervised: true },
   { slug: 'full-renewal-vs-partial-update-seo', category: 'Web制作', date: '2026.11.20', read: '11 min', title: '全面リニューアルと部分改修はどちらを選ぶ？検索への影響', img: 'assets/blog-default.png', desc: '全面リニューアルと部分改修の違いは、規模ではなくURLが変わるかどうかで決まります。URLが変わる場合の反映期間とリダイレクトの維持、変わらない場合のDNSのTTLとクロール率を、Google公式の記述をもとに比べます。', supervised: true },
   { slug: 'site-renewal-launch-during-core-update', category: 'Web制作', date: '2026.11.20', read: '12 min', title: 'サイトリニューアル公開はずらすべき？展開中の判断基準', img: 'assets/blog-default.png', desc: 'コアアップデートの展開中にリニューアルを公開すると、順位の変動の原因が切り分けられなくなります。公開日をずらす判断基準と、ずらせない場合に公開前に残しておく記録を、Google公式の記述をもとに解説します。', supervised: true },
