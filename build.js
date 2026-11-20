@@ -121,6 +121,7 @@ const ORG_SAME_AS = [
 // desc → meta description / og:description / BlogPosting.description に使う。
 //        未指定の記事は app.jsx の SEO_DESC か自動生成の定型文にフォールバックする
 const BLOG = [
+  { slug: 'internal-knowledge-search-ai-scope', category: 'AI活用', date: '2026.11.20', read: '8 min', title: '社内ナレッジ検索AIの外注｜参照範囲の決め方', img: 'assets/blog-default.png', desc: '参照させる文書に個人情報が含まれるかで、確認すべきことが変わります。利用目的の範囲内かの確認、機械学習に利用しないことの確認、最小権限の設計、漏えい時の報告期限まで、出典つきでまとめました。', supervised: true },
   { slug: 'clinic-system-outsourcing-responsibility', category: '技術', date: '2026.11.20', read: '10 min', title: '診療所のシステム外注｜委託先との責任分界の決め方', img: 'assets/blog-default.png', desc: '委託先の管理も医療機関の管理責任に含まれます。責任分界を法律上の範囲と運用上の範囲に分ける考え方、契約書と手順書の書き分け、JIS Q 15001とJIS Q 27001の位置づけ、令和9年度の二要素認証までまとめました。', supervised: true },
   { slug: 'ssl-certificate-validity-47-days', category: 'Web制作', date: '2026.11.20', read: '7 min', title: 'SSL証明書の有効期間47日短縮｜いつ何をする', img: 'assets/blog-default.png', desc: '「SSL証明書が47日になる」のは2029年3月からです。2026年11月時点の上限は200日で、次の変更は2027年3月です。御社がいま確認すべき3点と、自動更新へ移す手順を解説します。', supervised: true },
   { slug: 'subsidy-training-manual-service-cost', category: '技術', date: '2026.11.20', read: '7 min', title: '補助金でマニュアルと研修は対象？役務の上限200万円', img: 'assets/blog-default.png', desc: '業務システムの導入にかかるマニュアル作成と導入研修は、デジタル化・AI導入補助金2026の役務として補助の対象です。役務3カテゴリの区分、200万円の上限、交通費と宿泊費が対象外になる点、見積書の分け方を公募要領の記載で整理しました。', supervised: true },
