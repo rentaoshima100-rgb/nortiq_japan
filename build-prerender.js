@@ -33,6 +33,7 @@ const ARTICLE_ROUTES = (() => {
 })();
 
 const ROUTES_ALLOWLIST = [
+  '/article-system-development-progress-review-minutes',
   '/article-cms-migration-scope-and-cost',
   '/article-generative-ai-policy-adoption-rate',
   '/article-scs-security-evaluation-preparation',
