@@ -121,6 +121,7 @@ const ORG_SAME_AS = [
 // desc → meta description / og:description / BlogPosting.description に使う。
 //        未指定の記事は app.jsx の SEO_DESC か自動生成の定型文にフォールバックする
 const BLOG = [
+  { slug: 'web-agency-closure-domain-recovery', category: 'Web制作', date: '2026.11.21', read: '9 min', title: '制作会社が廃業｜ドメインとデータの取り戻し方', img: 'assets/blog-default.png', desc: '制作会社が廃業した、連絡が取れないときに、ドメインとサイトのデータを取り戻す手順を解説します。名義の調べ方、著作権の条文で確認する点、取り戻せない場合の作り直しまで整理しました。', supervised: true },
   { slug: 'system-development-progress-review-minutes', category: '技術', date: '2026.11.21', read: '10 min', title: 'システム開発外注の進捗確認｜議事録の決め方', img: 'assets/blog-default.png', desc: 'システム開発を外注している間、発注側が進捗をどう確認し、議事録をどう残すかを解説します。IPAモデル契約書の条文にもとづき、連絡協議会で協議する5項目、議事録の必須3点、点検期限の決め方を整理します。', supervised: true },
   { slug: 'cms-migration-scope-and-cost', category: 'Web制作', date: '2026.11.21', read: '9 min', title: 'CMS乗り換えのデータ移行｜範囲と費用の決まり方', img: 'assets/blog-default.png', desc: 'CMSを乗り換えるリニューアルで、記事や画像をどこまで移行できるかと、移行費用の決まり方を解説します。見積書で分ける項目、URLを変える場合の作業、自社と制作会社の分担まで整理しました。', supervised: true },
   { slug: 'generative-ai-policy-adoption-rate', category: 'AI活用', date: '2026.11.21', read: '8 min', title: '生成AI活用方針の策定率68.9%｜中小は58.1%', img: 'assets/blog-default.png', desc: '総務省の令和8年版情報通信白書をもとに、生成AI活用方針の策定状況を整理します。日本全体68.9%、大企業74.0%、中小企業58.1%という数値と、「組織的な取組はない」27.0%という差、方針に書く項目を解説します。', supervised: true },
