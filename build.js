@@ -121,6 +121,7 @@ const ORG_SAME_AS = [
 // desc → meta description / og:description / BlogPosting.description に使う。
 //        未指定の記事は app.jsx の SEO_DESC か自動生成の定型文にフォールバックする
 const BLOG = [
+  { slug: 'generative-ai-policy-adoption-rate', category: 'AI活用', date: '2026.11.21', read: '8 min', title: '生成AI活用方針の策定率68.9%｜中小は58.1%', img: 'assets/blog-default.png', desc: '総務省の令和8年版情報通信白書をもとに、生成AI活用方針の策定状況を整理します。日本全体68.9%、大企業74.0%、中小企業58.1%という数値と、「組織的な取組はない」27.0%という差、方針に書く項目を解説します。', supervised: true },
   { slug: 'scs-security-evaluation-preparation', category: 'Web制作', date: '2026.11.21', read: '9 min', title: 'SCS評価制度の準備｜★3の登録料と着手する順番', img: 'assets/blog-default.png', desc: 'SCS評価制度の登録希望組織の受付開始は2027年3月以降の予定で、★3の登録料は10,000円です。★3と★4の評価方法の違いと、受付開始までにSECURITY ACTIONから着手する順番を解説します。', supervised: true },
   { slug: 'security-checklist-response-preparation', category: 'Web制作', date: '2026.11.21', read: '10 min', title: 'セキュリティチェックシートの回答準備｜25項目で揃える', img: 'assets/blog-default.png', desc: '取引先から届いたセキュリティチェックシートに、IPAの自社診断25項目を根拠として答える手順をまとめました。問われやすい4項目、回答台帳の作り方、未実施の項目の書き方まで解説します。', supervised: true },
   { slug: 'search-ranking-drop-google-update-check', category: 'Web制作', date: '2026.11.21', read: '12 min', title: '検索順位が下がったのはアップデートか｜公式記録で確認', img: 'assets/blog-default.png', desc: 'サイトを変えていないのに検索順位が下がったとき、Googleのアップデートが原因かを確かめる手順を解説します。Search Status Dashboardで更新の開始日と所要期間を確認し、下落幅ごとの対応と待つ期間の目安まで整理します。', supervised: true },
