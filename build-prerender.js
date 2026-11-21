@@ -33,6 +33,7 @@ const ARTICLE_ROUTES = (() => {
 })();
 
 const ROUTES_ALLOWLIST = [
+  '/article-contact-form-data-storage-permissions',
   '/article-kaigo-technology-settlement-support-subsidy',
   '/article-google-update-rollout-wait-period',
   '/article-home-care-record-app-requirements',

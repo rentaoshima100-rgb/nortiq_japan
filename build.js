@@ -121,6 +121,7 @@ const ORG_SAME_AS = [
 // desc → meta description / og:description / BlogPosting.description に使う。
 //        未指定の記事は app.jsx の SEO_DESC か自動生成の定型文にフォールバックする
 const BLOG = [
+  { slug: 'contact-form-data-storage-permissions', category: 'Web制作', date: '2026.11.21', read: '7 min', title: '問い合わせフォームの保存先と権限の決め方', img: 'assets/blog-default.png', desc: 'ホームページの問い合わせフォームに届いた内容がどこに保存され、誰が見られるのかを解説します。CMS、外部サービス、メールという3つの保存先の見分け方と、発注時に決める保存期間、閲覧権限、削除の方法までまとめます。', supervised: true },
   { slug: 'kaigo-technology-settlement-support-subsidy', category: '技術', date: '2026.11.21', read: '11 min', title: '介護テクノロジー定着支援事業｜導入済みも対象か', img: 'assets/blog-default.png', desc: 'すでに介護記録システムを導入した事業所が、介護テクノロジー定着支援事業の補助を使えるのかを整理します。導入支援事業との違い、職員数別の補助基準額、都道府県と年度で異なる補助率、自県の要綱の調べ方と申請の流れまで解説します。', supervised: true },
   { slug: 'google-update-rollout-wait-period', category: 'Web制作', date: '2026.11.21', read: '9 min', title: 'スパムアップデートの展開期間と待つ日数', img: 'assets/blog-default.png', desc: 'スパムアップデートの展開期間は2026年の実績で19時間30分から13日16時間でした。順位の変動を何日待って判断するか、待っている間に書き出す数字、待った後の比較の取り方を解説します。', supervised: true },
   { slug: 'home-care-record-app-requirements', category: '技術', date: '2026.11.21', read: '10 min', title: '訪問介護の記録アプリ｜発注前に決める5項目', img: 'assets/blog-default.png', desc: '訪問介護の記録アプリを外注する前に決める5項目を解説します。通信が切れる利用者宅での入力、直行直帰での確認の流れ、介護ソフトやLIFEへの受け渡し、個人情報と端末の管理、補助金の時期を整理します。', supervised: true },
