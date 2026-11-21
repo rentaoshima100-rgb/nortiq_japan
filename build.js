@@ -121,6 +121,7 @@ const ORG_SAME_AS = [
 // desc → meta description / og:description / BlogPosting.description に使う。
 //        未指定の記事は app.jsx の SEO_DESC か自動生成の定型文にフォールバックする
 const BLOG = [
+  { slug: 'interim-deliverable-review-period', category: '技術', date: '2026.11.21', read: '9 min', title: '中間資料の点検期間｜黙っていると承認扱いになる', img: 'assets/blog-default.png', desc: 'システム開発の外注で、中間資料を点検期間内に確認しないと承認したものとみなされます。モデル契約書の条文をもとに、みなし承認の効果、点検期間の日数の決め方、承認を留保するときの書面の書き方を解説します。', supervised: true },
   { slug: 'unused-subdomain-dns-cleanup', category: 'Web制作', date: '2026.11.21', read: '10 min', title: '使わないサブドメインの閉じ方｜DNSの消す順番', img: 'assets/blog-default.png', desc: 'リニューアルで使わなくなったサブドメインを閉じる手順を整理します。消し忘れたDNSレコードが第三者に使われる仕組み、デジタル庁のガイドラインが挙げるレコードの種類、TTLで決まる反映までの時間を解説します。', supervised: true },
   { slug: 'member-login-security-requirements', category: 'Web制作', date: '2026.11.21', read: '10 min', title: '会員ログイン機能の発注｜不正アクセス対策の要件', img: 'assets/blog-default.png', desc: '会員向けや社員向けのログイン機能を発注するとき、不正アクセス対策として何を要件に書くかを整理します。公的統計が示す狙われ方、国が示すアクセス管理者の措置5項目、二要素認証とパスキーの選び方を解説します。', supervised: true },
   { slug: 'old-site-data-deletion-timing', category: 'Web制作', date: '2026.11.21', read: '9 min', title: '旧サイトのデータはいつ消す？保存期間の決め方', img: 'assets/blog-default.png', desc: 'ホームページのリニューアル後、旧サイトのデータをいつ削除してよいかを整理します。帳簿書類の保存期間と個人データの消去の努力義務で判断する方法、リダイレクトの維持期間との違い、サーバ解約前の手順を解説します。', supervised: true },
