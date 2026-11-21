@@ -121,6 +121,7 @@ const ORG_SAME_AS = [
 // desc → meta description / og:description / BlogPosting.description に使う。
 //        未指定の記事は app.jsx の SEO_DESC か自動生成の定型文にフォールバックする
 const BLOG = [
+  { slug: 'google-update-rollout-wait-period', category: 'Web制作', date: '2026.11.21', read: '9 min', title: 'スパムアップデートの展開期間と待つ日数', img: 'assets/blog-default.png', desc: 'スパムアップデートの展開期間は2026年の実績で19時間30分から13日16時間でした。順位の変動を何日待って判断するか、待っている間に書き出す数字、待った後の比較の取り方を解説します。', supervised: true },
   { slug: 'home-care-record-app-requirements', category: '技術', date: '2026.11.21', read: '10 min', title: '訪問介護の記録アプリ｜発注前に決める5項目', img: 'assets/blog-default.png', desc: '訪問介護の記録アプリを外注する前に決める5項目を解説します。通信が切れる利用者宅での入力、直行直帰での確認の流れ、介護ソフトやLIFEへの受け渡し、個人情報と端末の管理、補助金の時期を整理します。', supervised: true },
   { slug: 'website-production-contract-checklist', category: 'Web制作', date: '2026.11.21', read: '9 min', title: 'ホームページ制作の業務委託契約書｜確認6項目', img: 'assets/blog-default.png', desc: 'ホームページ制作の業務委託契約書を、成果物の範囲、著作権、検収、支払、公開後の責任、再委託と秘密保持の順に確認する手順をまとめました。条項ごとの判断基準と、修正を依頼するときの伝え方まで解説します。', supervised: true },
   { slug: 'kaigo-software-subsidy-limit', category: '技術', date: '2026.11.21', read: '11 min', title: '介護ソフト補助金の上限額｜職員数と都道府県で変わる補助率', img: 'assets/blog-default.png', desc: '介護ソフトの補助金の上限額を、職員数別の基準額と都道府県ごとの補助率から整理します。1法人あたりの上限、障害福祉分野との補助率の違い、交付決定前に発注できない点まで、県の公式資料を出典に解説します。', supervised: true },
