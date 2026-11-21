@@ -33,6 +33,7 @@ const ARTICLE_ROUTES = (() => {
 })();
 
 const ROUTES_ALLOWLIST = [
+  '/article-construction-photo-drawing-archive-requirements',
   '/article-ai-outsourcing-accuracy-drop-retraining',
   '/article-website-post-launch-revision-scope',
   '/article-generative-ai-customer-data-rules',
