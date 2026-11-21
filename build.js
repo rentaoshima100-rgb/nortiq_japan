@@ -121,6 +121,7 @@ const ORG_SAME_AS = [
 // desc → meta description / og:description / BlogPosting.description に使う。
 //        未指定の記事は app.jsx の SEO_DESC か自動生成の定型文にフォールバックする
 const BLOG = [
+  { slug: 'subsidy-multiple-quotes-requirements', category: 'Web制作', date: '2026.11.21', read: '8 min', title: '補助金の相見積もりは必要？制度ごとの要件', img: 'assets/blog-default.png', desc: '補助金の相見積もりが必要かどうかは制度で異なります。デジタル化・AI導入補助金2026通常枠の公募要領と小規模事業者持続化補助金のガイドブックの記載から、2者以上が必要な金額と見積書の内訳、提出の時期を整理しました。', supervised: true },
   { slug: 'careplan-data-linkage-license-fee', category: '技術', date: '2026.11.21', read: '9 min', title: 'ケアプランデータ連携の利用料と利用開始の手続き', img: 'assets/blog-default.png', desc: 'ケアプランデータ連携システムの利用料は1事業所番号あたり年額21,000円 (税込) です。課金の単位、申込日起算の有効期限と更新、利用開始までの7工程、介護ソフトの対応確認までを国保中央会の資料にもとづいて解説します。', supervised: true },
   { slug: 'acceptance-test-production-data-pseudonymization', category: '技術', date: '2026.11.21', read: '11 min', title: '受入テストの本番データ｜仮名加工の要件と手順', img: 'assets/blog-default.png', desc: '受入テストに本番データを使えるかの線引きと、仮名加工情報に加工して外注先へ渡す要件を、個人情報保護委員会の資料にもとづき整理します。削除すべき3つの対象と加工後も残る義務、契約に書く項目まで解説します。', supervised: true },
   { slug: 'system-development-acceptance-period', category: '技術', date: '2026.11.21', read: '12 min', title: 'システム開発の検収期間は何日？日数の決め方', img: 'assets/blog-default.png', desc: 'システム開発の検収期間は、日数を定めた法令がなく契約で決めます。確認工数からの逆算、支払期日が受領日から60日以内という枠、契約不適合の通知期間が不適合を知った時から1年である点を、条文の原文で整理します。', supervised: true },
