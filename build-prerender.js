@@ -33,6 +33,7 @@ const ARTICLE_ROUTES = (() => {
 })();
 
 const ROUTES_ALLOWLIST = [
+  '/article-home-care-record-app-requirements',
   '/article-website-production-contract-checklist',
   '/article-kaigo-software-subsidy-limit',
   '/article-subsidy-multiple-quotes-requirements',
