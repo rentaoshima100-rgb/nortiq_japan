@@ -33,6 +33,7 @@ const ARTICLE_ROUTES = (() => {
 })();
 
 const ROUTES_ALLOWLIST = [
+  '/article-kaigo-software-subsidy-limit',
   '/article-subsidy-multiple-quotes-requirements',
   '/article-careplan-data-linkage-license-fee',
   '/article-acceptance-test-production-data-pseudonymization',
