@@ -33,6 +33,7 @@ const ARTICLE_ROUTES = (() => {
 })();
 
 const ROUTES_ALLOWLIST = [
+  '/article-unused-subdomain-dns-cleanup',
   '/article-member-login-security-requirements',
   '/article-old-site-data-deletion-timing',
   '/article-contact-form-email-not-delivered-spf',
