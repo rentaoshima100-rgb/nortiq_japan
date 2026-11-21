@@ -121,6 +121,7 @@ const ORG_SAME_AS = [
 // desc → meta description / og:description / BlogPosting.description に使う。
 //        未指定の記事は app.jsx の SEO_DESC か自動生成の定型文にフォールバックする
 const BLOG = [
+  { slug: 'website-tampering-detection-requirements', category: 'Web制作', date: '2026.11.21', read: '9 min', title: 'ホームページ改ざんの検知｜発注時に書く監視の要件', img: 'assets/blog-default.png', desc: 'ホームページの改ざんに気づく仕組みを発注時の要件として書く方法をまとめました。監視すべき4つの対象、通知の宛先と時間の決め方、保守契約への書き分け、年額費用の内訳まで解説します。', supervised: true },
   { slug: 'block-generative-ai-training-settings', category: 'AI活用', date: '2026.11.21', read: '11 min', title: '生成AIの学習を拒否する設定｜発注前の判断', img: 'assets/blog-default.png', desc: '自社サイトの記事を生成AIの学習や引用に使わせたくないとき、どの設定で止まり何が止まらないのかを公式仕様で整理します。Google-ExtendedとGPTBotの対象範囲、検索流入への影響、制作会社への頼み方と反映までの期間を解説します。', supervised: true },
   { slug: 'web-agency-closure-domain-recovery', category: 'Web制作', date: '2026.11.21', read: '9 min', title: '制作会社が廃業｜ドメインとデータの取り戻し方', img: 'assets/blog-default.png', desc: '制作会社が廃業した、連絡が取れないときに、ドメインとサイトのデータを取り戻す手順を解説します。名義の調べ方、著作権の条文で確認する点、取り戻せない場合の作り直しまで整理しました。', supervised: true },
   { slug: 'system-development-progress-review-minutes', category: '技術', date: '2026.11.21', read: '10 min', title: 'システム開発外注の進捗確認｜議事録の決め方', img: 'assets/blog-default.png', desc: 'システム開発を外注している間、発注側が進捗をどう確認し、議事録をどう残すかを解説します。IPAモデル契約書の条文にもとづき、連絡協議会で協議する5項目、議事録の必須3点、点検期限の決め方を整理します。', supervised: true },

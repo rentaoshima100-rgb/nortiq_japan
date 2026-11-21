@@ -33,6 +33,7 @@ const ARTICLE_ROUTES = (() => {
 })();
 
 const ROUTES_ALLOWLIST = [
+  '/article-website-tampering-detection-requirements',
   '/article-block-generative-ai-training-settings',
   '/article-web-agency-closure-domain-recovery',
   '/article-system-development-progress-review-minutes',
