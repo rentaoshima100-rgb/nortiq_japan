@@ -33,6 +33,7 @@ const ARTICLE_ROUTES = (() => {
 })();
 
 const ROUTES_ALLOWLIST = [
+  '/article-scs-security-evaluation-preparation',
   '/article-security-checklist-response-preparation',
   '/article-search-ranking-drop-google-update-check',
   '/article-contact-form-data-storage-permissions',
