@@ -121,6 +121,7 @@ const ORG_SAME_AS = [
 // desc → meta description / og:description / BlogPosting.description に使う。
 //        未指定の記事は app.jsx の SEO_DESC か自動生成の定型文にフォールバックする
 const BLOG = [
+  { slug: 'security-checklist-response-preparation', category: 'Web制作', date: '2026.11.21', read: '10 min', title: 'セキュリティチェックシートの回答準備｜25項目で揃える', img: 'assets/blog-default.png', desc: '取引先から届いたセキュリティチェックシートに、IPAの自社診断25項目を根拠として答える手順をまとめました。問われやすい4項目、回答台帳の作り方、未実施の項目の書き方まで解説します。', supervised: true },
   { slug: 'search-ranking-drop-google-update-check', category: 'Web制作', date: '2026.11.21', read: '12 min', title: '検索順位が下がったのはアップデートか｜公式記録で確認', img: 'assets/blog-default.png', desc: 'サイトを変えていないのに検索順位が下がったとき、Googleのアップデートが原因かを確かめる手順を解説します。Search Status Dashboardで更新の開始日と所要期間を確認し、下落幅ごとの対応と待つ期間の目安まで整理します。', supervised: true },
   { slug: 'contact-form-data-storage-permissions', category: 'Web制作', date: '2026.11.21', read: '7 min', title: '問い合わせフォームの保存先と権限の決め方', img: 'assets/blog-default.png', desc: 'ホームページの問い合わせフォームに届いた内容がどこに保存され、誰が見られるのかを解説します。CMS、外部サービス、メールという3つの保存先の見分け方と、発注時に決める保存期間、閲覧権限、削除の方法までまとめます。', supervised: true },
   { slug: 'kaigo-technology-settlement-support-subsidy', category: '技術', date: '2026.11.21', read: '11 min', title: '介護テクノロジー定着支援事業｜導入済みも対象か', img: 'assets/blog-default.png', desc: 'すでに介護記録システムを導入した事業所が、介護テクノロジー定着支援事業の補助を使えるのかを整理します。導入支援事業との違い、職員数別の補助基準額、都道府県と年度で異なる補助率、自県の要綱の調べ方と申請の流れまで解説します。', supervised: true },
