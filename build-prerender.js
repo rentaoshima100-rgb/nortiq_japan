@@ -33,6 +33,7 @@ const ARTICLE_ROUTES = (() => {
 })();
 
 const ROUTES_ALLOWLIST = [
+  '/article-careplan-data-linkage-license-fee',
   '/article-acceptance-test-production-data-pseudonymization',
   '/article-system-development-acceptance-period',
   '/article-construction-photo-drawing-archive-requirements',
