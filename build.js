@@ -121,6 +121,7 @@ const ORG_SAME_AS = [
 // desc → meta description / og:description / BlogPosting.description に使う。
 //        未指定の記事は app.jsx の SEO_DESC か自動生成の定型文にフォールバックする
 const BLOG = [
+  { slug: 'system-development-acceptance-period', category: '技術', date: '2026.11.21', read: '12 min', title: 'システム開発の検収期間は何日？日数の決め方', img: 'assets/blog-default.png', desc: 'システム開発の検収期間は、日数を定めた法令がなく契約で決めます。確認工数からの逆算、支払期日が受領日から60日以内という枠、契約不適合の通知期間が不適合を知った時から1年である点を、条文の原文で整理します。', supervised: true },
   { slug: 'construction-photo-drawing-archive-requirements', category: '技術', date: '2026.11.21', read: '10 min', title: '建設業の工事写真と図面｜10年保存と検索の外注要件', img: 'assets/blog-default.png', desc: '工事資料の保存期間は営業に関する図書が10年、帳簿等が5年です。この区分を前提に、保管と検索の仕組みを外注するときの要件、移行対象の絞り方、導入後に紙が残らない分担の決め方を解説します。', supervised: true },
   { slug: 'ai-outsourcing-accuracy-drop-retraining', category: 'AI活用', date: '2026.11.21', read: '10 min', title: 'AI開発の外注｜納品後に精度が下がるときの再学習', img: 'assets/blog-default.png', desc: '外注したAIの精度が落ちてきたとき、再学習を誰がどの費用でやるのかを解説します。経済産業省の契約ガイドラインが定める追加学習段階と、産総研の品質ガイドラインが示す更新形態をもとに、発注前に決める6項目を整理します。', supervised: true },
   { slug: 'website-post-launch-revision-scope', category: 'Web制作', date: '2026.11.21', read: '8 min', title: 'ホームページ公開後の修正｜無償の範囲の決め方', img: 'assets/blog-default.png', desc: 'ホームページを公開した後の文字の直しや写真の差し替えを、どこまで無償で頼めるかを解説します。無償と有償は契約の記載で決まるため、対象の作業、回数または時間、依頼の方法、対応までの日数、範囲外の単価の5項目の決め方を整理します。', supervised: true },
