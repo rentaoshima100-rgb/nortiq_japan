@@ -121,6 +121,7 @@ const ORG_SAME_AS = [
 // desc → meta description / og:description / BlogPosting.description に使う。
 //        未指定の記事は app.jsx の SEO_DESC か自動生成の定型文にフォールバックする
 const BLOG = [
+  { slug: 'staging-environment-noindex-requirements', category: 'Web制作', date: '2026.11.21', read: '12 min', title: 'テスト環境を検索に出さない｜noindexの指示5項目', img: 'assets/blog-default.png', desc: '公開前のテスト環境を検索結果に出さないための要件を整理します。noindexはmetaタグとHTTPヘッダの2通りで、robots.txtでは指定できません。併用すると効かない理由と、公開時に外す手順をGoogle公式の記載で示します。', supervised: true },
   { slug: 'website-tampering-detection-requirements', category: 'Web制作', date: '2026.11.21', read: '9 min', title: 'ホームページ改ざんの検知｜発注時に書く監視の要件', img: 'assets/blog-default.png', desc: 'ホームページの改ざんに気づく仕組みを発注時の要件として書く方法をまとめました。監視すべき4つの対象、通知の宛先と時間の決め方、保守契約への書き分け、年額費用の内訳まで解説します。', supervised: true },
   { slug: 'block-generative-ai-training-settings', category: 'AI活用', date: '2026.11.21', read: '11 min', title: '生成AIの学習を拒否する設定｜発注前の判断', img: 'assets/blog-default.png', desc: '自社サイトの記事を生成AIの学習や引用に使わせたくないとき、どの設定で止まり何が止まらないのかを公式仕様で整理します。Google-ExtendedとGPTBotの対象範囲、検索流入への影響、制作会社への頼み方と反映までの期間を解説します。', supervised: true },
   { slug: 'web-agency-closure-domain-recovery', category: 'Web制作', date: '2026.11.21', read: '9 min', title: '制作会社が廃業｜ドメインとデータの取り戻し方', img: 'assets/blog-default.png', desc: '制作会社が廃業した、連絡が取れないときに、ドメインとサイトのデータを取り戻す手順を解説します。名義の調べ方、著作権の条文で確認する点、取り戻せない場合の作り直しまで整理しました。', supervised: true },
