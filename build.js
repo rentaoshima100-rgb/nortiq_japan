@@ -121,6 +121,7 @@ const ORG_SAME_AS = [
 // desc → meta description / og:description / BlogPosting.description に使う。
 //        未指定の記事は app.jsx の SEO_DESC か自動生成の定型文にフォールバックする
 const BLOG = [
+  { slug: 'old-site-data-deletion-timing', category: 'Web制作', date: '2026.11.21', read: '9 min', title: '旧サイトのデータはいつ消す？保存期間の決め方', img: 'assets/blog-default.png', desc: 'ホームページのリニューアル後、旧サイトのデータをいつ削除してよいかを整理します。帳簿書類の保存期間と個人データの消去の努力義務で判断する方法、リダイレクトの維持期間との違い、サーバ解約前の手順を解説します。', supervised: true },
   { slug: 'contact-form-email-not-delivered-spf', category: 'Web制作', date: '2026.11.20', read: '9 min', title: '問い合わせフォームの通知メールが届かない原因と設定', img: 'assets/blog-default.png', desc: 'フォームからの通知メールが届かない、または迷惑メールに入るときの直し方です。Googleが2024年2月1日から求める要件、SPFとDKIMとDMARCの役割、設定の手順、ヘッダでの確認方法を順に解説します。', supervised: true },
   { slug: 'security-declaration-gbizid-steps', category: 'Web制作', date: '2026.11.20', read: '5 min', title: '取引先にセキュリティ宣言を求められたときの手順', img: 'assets/blog-default.png', desc: '取引先からセキュリティ対策の宣言を求められたとき、二つ星で用意するもの、GビズIDの準備、自社サイトでの基本方針の公開、取引先への回答の揃え方を順に整理します。宣言後に先に効く対策も公的統計から示します。', supervised: true },
   { slug: 'internal-knowledge-search-ai-scope', category: 'AI活用', date: '2026.11.20', read: '8 min', title: '社内ナレッジ検索AIの外注｜参照範囲の決め方', img: 'assets/blog-default.png', desc: '参照させる文書に個人情報が含まれるかで、確認すべきことが変わります。利用目的の範囲内かの確認、機械学習に利用しないことの確認、最小権限の設計、漏えい時の報告期限まで、出典つきでまとめました。', supervised: true },
