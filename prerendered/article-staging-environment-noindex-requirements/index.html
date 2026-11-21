@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="ja" style="--accent: hsl(354, 92%, 45%); --accent-hi: hsl(354, 95%, 52%); --accent-soft: hsl(354, 90%, 95%);"><head>
+  <meta charset="UTF-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; form-action 'self'; frame-src 'self'; script-src 'self' 'sha256-ocRBZRJbPcvKG6Qsbe5AZCl1WeoAuzpcVpkhAf5xM+g=' 'sha256-Kw0nZV75o5JtrJ6JtZw2ebqGC30k/KhvkOn7Ro9UE1Q=' 'sha256-Wz147NFgJy4vRm8+5b9ZyHibNfQczwF3HPKS6wtTlfk=' 'unsafe-hashes' 'sha256-MhtPZXr7+LpJUY5qtMutB+qWfQtMaPccfe7QXtCcEYc=' https://www.googletagmanager.com https://www.clarity.ms https://scripts.clarity.ms; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https:; media-src 'self' blob:; connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com https://*.google.com https://*.google.co.jp https://*.doubleclick.net https://*.clarity.ms https://c.bing.com; upgrade-insecure-requests">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>
+    (function(){try{var q=location.search;
+      if(/[?&]nq_internal=1(&|$)/.test(q))localStorage.setItem('nq_internal','1');
+      if(/[?&]nq_internal=0(&|$)/.test(q))localStorage.removeItem('nq_internal');
+      window.__NQ_INTERNAL__=localStorage.getItem('nq_internal')==='1';}catch(e){}})();
+    (function(){try{if(window.__NQ_INTERNAL__)return;var p=new URLSearchParams(location.search),id=p.get('utm_content');
+      if(p.get('utm_source')!=='outbound'||!/^[0-9a-f]{8}$/.test(id||''))return;
+      var sent=false,t0=Date.now(),ev=['scroll','pointerdown','keydown'];
+      function send(){if(sent)return;sent=true;ev.forEach(function(e){removeEventListener(e,on,true)});
+        navigator.sendBeacon('/api/outbound-visit',JSON.stringify({id:id,path:location.pathname}));}
+      function on(){if(Date.now()-t0>=3000)send();}
+      ev.forEach(function(e){addEventListener(e,on,{capture:true,passive:true})});
+      setTimeout(function(){if(document.visibilityState==='visible')send();},20000);}catch(e){}})();
+  </script>
+  <!-- Google tag (gtag.js) — GA4 + Google Ads conversion tracking (本体は DOMContentLoaded 後に読む) -->
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-EYTD1TWR7T');
+    window.NORTIQ_CONV = { contact: null, diagnostic: null };
+    (function(){if(window.__NQ_INTERNAL__)return;var s=document.createElement('script');s.async=true;s.fetchPriority='low';s.src='https://www.googletagmanager.com/gtag/js?id=G-EYTD1TWR7T';
+      function go(){document.head.appendChild(s);}
+      if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',go);}else{go();}})();
+  </script>
+  <!-- Microsoft Clarity — heatmaps & session recordings (本体は DOMContentLoaded 後に読む) -->
+  <script>
+    (function(c,l,a,r,i){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+    if(c.__NQ_INTERNAL__)return;
+    function go(){var t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;l.head.appendChild(t);}
+    if(l.readyState==='loading'){l.addEventListener('DOMContentLoaded',go);}else{go();}})(window, document, "clarity", "script", "z2wvw7aod2");
+  </script>
+  <title>テスト環境を検索に出さない｜noindexの指示5項目 — Nortiq Labs</title>
+  <meta name="description" content="公開前のテスト環境を検索結果に出さないための要件を整理します。noindexはmetaタグとHTTPヘッダの2通りで、robots.txtでは指定できません。併用すると効かない理由と、公開時に外す手順をGoogle公式の記載で示します。">
+  <link rel="icon" href="/assets/nortiq-fav.png" type="image/png">
+  <link rel="apple-touch-icon" href="/assets/nortiq-icon.png">
+  <meta name="theme-color" content="#E60012">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Nortiq Labs">
+  <!-- 記事ルートでは app.jsx が og:type を article に変え、下の2つに日付を入れる。
+       setMetaContent は既存要素しか書き換えないため、空のまま置いておく必要がある -->
+  <meta property="article:published_time" content="2026-11-21">
+  <meta property="article:modified_time" content="2026-11-21">
+  <meta property="og:title" content="テスト環境を検索に出さない｜noindexの指示5項目 — Nortiq Labs">
+  <meta property="og:description" content="公開前のテスト環境を検索結果に出さないための要件を整理します。noindexはmetaタグとHTTPヘッダの2通りで、robots.txtでは指定できません。併用すると効かない理由と、公開時に外す手順をGoogle公式の記載で示します。">
+  <meta property="og:url" content="https://nortiqlab.com/article-staging-environment-noindex-requirements">
+  <meta property="og:image" content="https://nortiqlab.com/assets/blog-default.png">
+  <meta property="og:locale" content="ja_JP">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="テスト環境を検索に出さない｜noindexの指示5項目 — Nortiq Labs">
+  <meta name="twitter:description" content="公開前のテスト環境を検索結果に出さないための要件を整理します。noindexはmetaタグとHTTPヘッダの2通りで、robots.txtでは指定できません。併用すると効かない理由と、公開時に外す手順をGoogle公式の記載で示します。">
+  <meta name="twitter:image" content="https://nortiqlab.com/assets/blog-default.png">
+  <link rel="stylesheet" href="/styles.css?v=1fcd267ad1">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&amp;family=Space+Grotesk:wght@400;500;600;700&amp;display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&amp;family=Space+Grotesk:wght@400;500;600;700&amp;display=swap" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Space+Grotesk:wght@400;500;600;700&display=swap"></noscript>
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://nortiqlab.com/#org","name":"Nortiq Labs","legalName":"NORTIQLAB株式会社","url":"https://nortiqlab.com/","logo":"https://nortiqlab.com/assets/nortiq-mark.png","image":"https://nortiqlab.com/assets/og-image.png","description":"京都のWeb制作×AI実装カンパニー。オリジナルデザインのホームページ制作からAIチャットボット導入、DXコンサルティングまで一気通貫で支援。初回相談無料・営業日24時間以内に返信します。","foundingDate":"2026-07-07","email":"info@nortiqlab.com","identifier":{"@type":"PropertyValue","propertyID":"法人番号","value":"6130001082671"},"address":{"@type":"PostalAddress","addressCountry":"JP","postalCode":"604-0012","addressRegion":"京都府","addressLocality":"京都市中京区","streetAddress":"竪大恩寺町751 シュデン二条201"},"areaServed":{"@type":"Country","name":"Japan"},"alternateName":["ノーティックラボ","株式会社ノーティックラボ","NORTIQLAB"],"knowsAbout":["Web制作","AIチャットボット","DX","機械学習","SEO","LP制作 / LPO","業務自動化","データ分析"]},{"@type":"WebSite","@id":"https://nortiqlab.com/#website","name":"Nortiq Labs","url":"https://nortiqlab.com/","publisher":{"@id":"https://nortiqlab.com/#org"},"inLanguage":"ja"},{"@type":"ProfessionalService","name":"Nortiq Labs","url":"https://nortiqlab.com/","description":"京都のWeb制作×AI実装カンパニー。オリジナルデザインのホームページ制作からAIチャットボット導入、DXコンサルティングまで一気通貫で支援。初回相談無料・営業日24時間以内に返信します。","areaServed":"JP","serviceType":["Web制作","AIチャットボット導入","DX・ML実装","補助金活用のDX導入相談"],"provider":{"@id":"https://nortiqlab.com/#org"}}]}</script>
+  <!-- defer: この2本 (計約139KB) は head にあって描画をブロックしていた。
+       ページの初期表示はプリレンダ済みHTMLで完結するのでJSを待つ必要がない。
+       defer は文書順に実行されるため react → react-dom → articles.js →
+       app.bundle.js の順序は保たれる。 -->
+  <script src="/assets/vendor/react.production.min.js?v=1fcd267ad1" defer=""></script>
+  <script src="/assets/vendor/react-dom.production.min.js?v=1fcd267ad1" defer=""></script>
+<script src="/articles/staging-environment-noindex-requirements.js" defer="" data-article="staging-environment-noindex-requirements"></script><link rel="canonical" href="https://nortiqlab.com/article-staging-environment-noindex-requirements"><script type="application/ld+json" id="route-ld">[{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"トップ","item":"https://nortiqlab.com/"},{"@type":"ListItem","position":2,"name":"コラム","item":"https://nortiqlab.com/column"},{"@type":"ListItem","position":3,"name":"テスト環境を検索に出さない","item":"https://nortiqlab.com/article-staging-environment-noindex-requirements"}]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"テスト環境を検索に出さない｜noindexの指示5項目","description":"公開前のテスト環境を検索結果に出さないための要件を整理します。noindexはmetaタグとHTTPヘッダの2通りで、robots.txtでは指定できません。併用すると効かない理由と、公開時に外す手順をGoogle公式の記載で示します。","image":"https://nortiqlab.com/assets/blog-default.png","url":"https://nortiqlab.com/article-staging-environment-noindex-requirements","inLanguage":"ja","articleSection":"Web制作","datePublished":"2026-11-21","dateModified":"2026-11-21","author":{"@type":"Organization","@id":"https://nortiqlab.com/#org","name":"Nortiq Labs"},"publisher":{"@id":"https://nortiqlab.com/#org"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://nortiqlab.com/article-staging-environment-noindex-requirements","reviewedBy":{"@id":"https://nortiqlab.com/#org"}}}]</script></head>
+<body>
+  <div id="app"><header class="nav" role="banner"><div class="nav-inner"><a class="nav-logo" href="/" style="cursor: pointer;"><span class="nav-logo-mark"></span><span class="wordmark"><span class="wordmark-main">NORTIQ</span><span class="wordmark-sub">LABS</span></span></a><nav class="nav-links" aria-label="メインナビゲーション"><div class="nav-link-wrap"><a class="nav-link" href="/">トップ</a></div><div class="nav-link-wrap"><button type="button" class="nav-link" aria-haspopup="true" aria-expanded="false">サービス<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></button><div class="megamenu" hidden=""><div class="megamenu-inner"><div class="megamenu-col"><h4>サービス一覧</h4><ul><li><a href="/web">ホームページ制作<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></li><li><a href="/chatbot">AIチャットボット<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></li><li><a href="/phone-ai">電話AI<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></li><li><a href="/dx">業務システム・AI開発<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></li></ul></div><div class="megamenu-col"><h4>技術領域</h4><ul><li><a href="/feature-lpo">LP制作 / LPO<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></li><li><a href="/feature-recruit">採用専門サイト<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></li><li><a href="/feature-analytics">アクセス解析カスタム実装<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></li><li><a href="/feature-cms">CMS / 記事更新システム<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></li></ul></div><div class="megamenu-col"><h4>自社プロダクト</h4><ul><li><a href="/product-vetonet">VetoNet (AI Security)<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></li><li><a href="/product-wpchat">ブログボット（AI投稿アシスタント）<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></li></ul></div></div></div></div><div class="nav-link-wrap"><button type="button" class="nav-link" aria-haspopup="true" aria-expanded="false">制作実績<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></button><div class="megamenu" hidden=""><div class="megamenu-inner"><div class="megamenu-col"><h4>業種から探す</h4><ul><li><a href="/works-clinic">クリニック・医療<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></li><li><a href="/works-realty">不動産<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></li><li><a href="/works-build">建築・工務店<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></li><li><a href="/works-hr">人材<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></li><li><a href="/works-retail">小売 / EC<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></li><li><a href="/works-infra">インフラ・製造<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></li><li><a href="/works-ai">AIスタートアップ<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></li></ul></div><div class="megamenu-col"><h4>強化LP別</h4><ul><li><a href="/works-lp-corp">コーポレートサイト<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></li><li><a href="/works-lp-recruit">採用LP<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></li><li><a href="/works-lp-ec">EC連動LP<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></li></ul></div><div class="megamenu-col"><h4>実績まとめ</h4><ul><li><a href="/works">全実績一覧<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></li></ul></div></div></div></div><div class="nav-link-wrap"><button type="button" class="nav-link" aria-haspopup="true" aria-expanded="false">業種ソリューション<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></button><div class="megamenu" hidden=""><div class="megamenu-inner"><div class="megamenu-col"><h4>業種別パッケージ</h4><ul><li><a href="/solution-clinic">クリニック・医療 DXパッケージ<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></li><li><a href="/solution-realty">不動産 集客×管理パッケージ<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></li><li><a href="/solution-build">建築 ブランド×案件管理<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></li><li><a href="/solution-hr">人材 マッチング×集客<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></li><li><a href="/solution-retail">小売・EC OMOパッケージ<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></li></ul></div><div class="megamenu-col"><h4>特設ページ (NEW)</h4><ul><li><a href="/service/kanri-dantai">監理団体・登録支援機関向け<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></li><li><a href="/service/recruit-site">建設・運送・介護の採用サイト<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></li><li><a href="/security">脆弱性診断・セキュリティ保守<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></li><li><a href="/automation">ひと業務AI（1業務自動化サブスク）<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></li><li><a href="/tools">無料ツール（概算見積・診断・計算機）<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></li><li><a href="/tools/invoice">請求書・見積書メーカー（インボイス対応）<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></li><li><a href="/tools/payment-match">入金消し込み照合・タイムカード集計<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></li><li><a href="/tools/order-summary">注文集計・出荷指示書／送り状の宛先整形<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></li><li><a href="/tools/booking-sheet">予約表メーカー・作業日報メーカー<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></li><li><a href="/tools/monthly-billing">締め請求書・発注リスト・価格表メーカー<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></li><li><a href="/tools/shift-table">シフト表メーカー・出面表メーカー<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></li></ul></div></div></div></div><div class="nav-link-wrap"><a class="nav-link" href="/voice">ご利用会社様の声</a></div><div class="nav-link-wrap"><a class="nav-link" href="/support">サポート</a></div><div class="nav-link-wrap"><a class="nav-link" href="/pricing">料金プラン</a></div><div class="nav-link-wrap"><button type="button" class="nav-link" aria-current="page" aria-haspopup="true" aria-expanded="false">コンテンツ<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></button><div class="megamenu" hidden=""><div class="megamenu-inner"><div class="megamenu-col"><h4>メディア</h4><ul><li><a href="/column">コラム / 技術ブログ<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></li><li><a href="/news">お知らせ<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></li><li><a href="/guidebook">サービス紹介資料<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></li><li><a href="/subsidy">補助金活用相談<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></li></ul></div></div></div></div><div class="nav-link-wrap"><a class="nav-link" href="/diagnostic">無料診断</a></div><div class="nav-link-wrap"><a class="nav-link" href="/tools">無料ツール</a></div></nav><div class="nav-cta-wrap"><button class="btn btn-primary btn-sm" type="button"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><path d="M22 6l-10 7L2 6"></path></svg>メールでお問合せ</button><button class="hamburger" aria-label="メニューを開く" aria-expanded="false"><span></span><span></span><span></span></button></div></div><div class="nav-drawer"><div class="nav-drawer-panel"><div class="nav-drawer-head"><span class="nav-logo" style="font-size: 18px;"><span class="nav-logo-mark" aria-hidden="true"></span><span class="wordmark"><span class="wordmark-main">NORTIQ</span><span class="wordmark-sub">LABS</span></span></span><button class="drawer-close" aria-label="閉じる"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M6 18L18 6"></path></svg></button></div><nav class="nav-drawer-body"><a class="drawer-item" href="/"><span>トップ</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><div class="drawer-group"><button class="drawer-item drawer-group-head"><span>サービス</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></button><div class="drawer-group-body"><div class="drawer-subgroup"><h5>サービス一覧</h5><a class="drawer-sub-item" href="/web"><span>ホームページ制作</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/chatbot"><span>AIチャットボット</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/phone-ai"><span>電話AI</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/dx"><span>業務システム・AI開発</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></div><div class="drawer-subgroup"><h5>技術領域</h5><a class="drawer-sub-item" href="/feature-lpo"><span>LP制作 / LPO</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/feature-recruit"><span>採用専門サイト</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/feature-analytics"><span>アクセス解析カスタム実装</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/feature-cms"><span>CMS / 記事更新システム</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></div><div class="drawer-subgroup"><h5>自社プロダクト</h5><a class="drawer-sub-item" href="/product-vetonet"><span>VetoNet (AI Security)</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/product-wpchat"><span>ブログボット（AI投稿アシスタント）</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></div></div></div><div class="drawer-group"><button class="drawer-item drawer-group-head"><span>制作実績</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></button><div class="drawer-group-body"><div class="drawer-subgroup"><h5>業種から探す</h5><a class="drawer-sub-item" href="/works-clinic"><span>クリニック・医療</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/works-realty"><span>不動産</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/works-build"><span>建築・工務店</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/works-hr"><span>人材</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/works-retail"><span>小売 / EC</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/works-infra"><span>インフラ・製造</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/works-ai"><span>AIスタートアップ</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></div><div class="drawer-subgroup"><h5>強化LP別</h5><a class="drawer-sub-item" href="/works-lp-corp"><span>コーポレートサイト</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/works-lp-recruit"><span>採用LP</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/works-lp-ec"><span>EC連動LP</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></div><div class="drawer-subgroup"><h5>実績まとめ</h5><a class="drawer-sub-item" href="/works"><span>全実績一覧</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></div></div></div><div class="drawer-group"><button class="drawer-item drawer-group-head"><span>業種ソリューション</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></button><div class="drawer-group-body"><div class="drawer-subgroup"><h5>業種別パッケージ</h5><a class="drawer-sub-item" href="/solution-clinic"><span>クリニック・医療 DXパッケージ</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/solution-realty"><span>不動産 集客×管理パッケージ</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/solution-build"><span>建築 ブランド×案件管理</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/solution-hr"><span>人材 マッチング×集客</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/solution-retail"><span>小売・EC OMOパッケージ</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></div><div class="drawer-subgroup"><h5>特設ページ (NEW)</h5><a class="drawer-sub-item" href="/service/kanri-dantai"><span>監理団体・登録支援機関向け</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/service/recruit-site"><span>建設・運送・介護の採用サイト</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/security"><span>脆弱性診断・セキュリティ保守</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/automation"><span>ひと業務AI（1業務自動化サブスク）</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/tools"><span>無料ツール（概算見積・診断・計算機）</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/tools/invoice"><span>請求書・見積書メーカー（インボイス対応）</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/tools/payment-match"><span>入金消し込み照合・タイムカード集計</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/tools/order-summary"><span>注文集計・出荷指示書／送り状の宛先整形</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/tools/booking-sheet"><span>予約表メーカー・作業日報メーカー</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/tools/monthly-billing"><span>締め請求書・発注リスト・価格表メーカー</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/tools/shift-table"><span>シフト表メーカー・出面表メーカー</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></div></div></div><a class="drawer-item" href="/voice"><span>ご利用会社様の声</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-item" href="/support"><span>サポート</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-item" href="/pricing"><span>料金プラン</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><div class="drawer-group"><button class="drawer-item drawer-group-head"><span>コンテンツ</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></button><div class="drawer-group-body"><div class="drawer-subgroup"><h5>メディア</h5><a class="drawer-sub-item" href="/column"><span>コラム / 技術ブログ</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/news"><span>お知らせ</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/guidebook"><span>サービス紹介資料</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/subsidy"><span>補助金活用相談</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></div></div></div><a class="drawer-item" href="/diagnostic"><span>無料診断</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-item" href="/tools"><span>無料ツール</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></nav><div class="nav-drawer-foot"><button class="btn btn-primary btn-lg" type="button" style="width: 100%;"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><path d="M22 6l-10 7L2 6"></path></svg>資料請求・お問い合わせ</button></div></div></div></header><div><main class="page-fade"><nav aria-label="Breadcrumb" style="padding: 14px 0px; border-bottom: 1px solid var(--border); background: var(--bg-2);"><div class="container"><ol class="row-tight" style="list-style: none; padding: 0px; margin: 0px; font-size: 12px; color: var(--text-3);"><li class="row-tight" style="gap: 8px;"><a href="/" style="cursor: pointer; color: var(--text-2);">トップ</a></li><li class="row-tight" style="gap: 8px;"><span style="color: var(--text-4);">›</span><a href="/column" style="cursor: pointer; color: var(--text-2);">コラム</a></li><li class="row-tight" style="gap: 8px;"><span style="color: var(--text-4);">›</span><span style="color: var(--text);">テスト環境を検索に出さない｜noindexの指示5項目</span></li></ol></div></nav><article><header style="padding-top: clamp(48px, 7vw, 90px); padding-bottom: 32px;"><div class="container" style="max-width: 820px;"><div class="row" style="gap: 12px; margin-bottom: 24px; color: var(--text-3); font-size: 13px; flex-wrap: wrap;"><span class="tag" style="color: var(--accent-text); border-color: var(--accent);">Web制作</span><span class="num">2026.11.21</span><span>·</span><span>12 min<!-- --> read</span><span>·</span><span>Nortiq Labs</span></div><h1 class="display-l fadein is-in" style="margin-bottom: 8px;">テスト環境を検索に出さない｜noindexの指示5項目</h1></div></header><div class="container" style="max-width: 880px; margin-bottom: 8px;"><div class="article-cover tone-red" role="img" aria-label="テスト環境を検索に出さない｜noindexの指示5項目" style="aspect-ratio: 21 / 9;"><span class="article-cover-cat">Web制作</span><span class="article-cover-title">テスト環境を検索に出さない</span><span class="article-cover-brand">NORTIQ LABS · COLUMN</span></div></div><div class="container" style="max-width: 780px; margin-top: 24px; margin-bottom: 64px;"><div class="article-prose article-body"><h2>テスト環境を検索に出さないために何を指示する？</h2>
+<p>指示するのは、隠す手段をどれにするかと、公開時に外す作業を誰がいつ行うかの2点です。手段はnoindexかアクセス制限のどちらかに決め、robots.txtで隠す指示は出さないようにします。</p>
+<p>理由は単純です。Googleは「robots.txt ファイルで noindex ルールを指定することは、Google ではサポートされていません。」と明記しています（出典: Google検索セントラル「noindex を使用してインデックス登録をブロックする」 <a href="https://developers.google.com/search/docs/crawling-indexing/block-indexing?hl=ja%EF%BC%89%E3%80%82">https://developers.google.com/search/docs/crawling-indexing/block-indexing?hl=ja）。</a></p>
+<h3>発注時に決める5項目</h3>
+<p>発注時に決めるのは次の5つです。</p>
+<ol>
+<li>隠す手段を1つに決める（目安: 30分）。アクセス制限かnoindexのどちらかにします。つまずきやすい点は、両方を指示して結果的にどちらも効かない状態にすることです。</li>
+<li>適用する範囲を決める（目安: 30分）。HTMLのページだけでなく、PDFや画像、ステージング用のサブドメイン全体を対象にします。つまずきやすい点は、サイトマップやフィードのURLを対象から外してしまうことです。</li>
+<li>公開時の解除の担当者と実施日を決める（目安: 30分）。制作会社と御社のどちらが外すかを、公開手順書に名前で書きます。</li>
+<li>解除の確認方法を決める（目安: 30分）。URL検査ツールで取得したHTMLの提出を求める形にします。つまずきやすい点は、見た目の確認だけで済ませ、ヘッダの指定が残っていることに気付かないことです。</li>
+<li>検索結果に出てしまった場合の連絡と対処の役割を決める（目安: 30分）。誰が気付いて誰が申請するかを先に決めます。</li>
+</ol>
+<p>この5項目は、発注書に1段落で書ける分量です。後述する検収項目と合わせて指定してください。</p>
+<h3>手段を1つに決める理由</h3>
+<p>併用が危ないのは、robots.txtがクローラの入口を閉じてしまうからです。</p>
+<p>Googleは、noindexを使う場合に「robots.txt ファイルでページやリソースをブロックせず、クローラがページにアクセスできるようにする必要があります」と記載しています（出典: Google検索セントラル「noindex を使用してインデックス登録をブロックする」 <a href="https://developers.google.com/search/docs/crawling-indexing/block-indexing?hl=ja%EF%BC%89%E3%80%82">https://developers.google.com/search/docs/crawling-indexing/block-indexing?hl=ja）。</a></p>
+<p>クローラがページにアクセスできなければ、noindexは認識されません。他のページからリンクされていると、検索結果に表示され続けることがあるとされています（出典: 同上）。</p>
+<p>つまり、両方を指示した現場では「noindexも入れたので安心」という状態が成立しません。ここが最も誤解されやすい点です。</p>
+<p>実装者の視点で1つ補足します。テスト環境のrobots.txtは、本番へそのまま持っていかれる事故が起きやすいファイルです。本番で全面ブロックが残ると、公開したのにインデックスされない状態になります。テスト環境ではrobots.txtを触らず、アクセス制限で閉じるほうが事故が少ない設計です。</p>
+<h2>noindexとrobots.txtは何が違う？併用してよい？</h2>
+<p>noindexは検索結果への表示を防ぐ指定で、robots.txtはクロールを禁止する指定です。併用するとクローラがnoindexを読めなくなるため、両方入れたつもりで隠れていない状態になります。</p>
+<p>役割が違う2つを、同じ目的の道具だと思って重ねてしまうのが典型的な失敗です。</p>
+<h3>noindexの2通りの指定方法</h3>
+<p>noindexの入れ方は2つあります。</p>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>書き方</th>
+<th>向いている対象</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>metaタグ</td>
+<td>ページの内に<meta name="robots" content="noindex">を置く</td>
+<td>HTMLのページ</td>
+</tr>
+<tr>
+<td>HTTPヘッダ</td>
+<td>X-Robots-Tag: noindex を返す</td>
+<td>PDF、動画ファイル、画像ファイルなどHTML以外のリソース</td>
+</tr>
+</tbody></table>
+<p>Googleは2つの効果は同じであると説明しています。HTTPヘッダのほうは、PDF、動画ファイル、画像ファイルなどHTML以外のリソースにも使えるとされています（出典: Google検索セントラル「noindex を使用してインデックス登録をブロックする」 <a href="https://developers.google.com/search/docs/crawling-indexing/block-indexing?hl=ja%EF%BC%89%E3%80%82">https://developers.google.com/search/docs/crawling-indexing/block-indexing?hl=ja）。</a></p>
+<p>テスト環境ではHTTPヘッダ側を選ぶほうが確実です。ページごとのタグ挿入漏れが起きません。</p>
+<h3>robots.txtでnoindexは指定できない</h3>
+<p>robots.txtに書く方法はありません。Googleは「robots.txt ファイルで noindex ルールを指定することは、Google ではサポートされていません。」と明記しています（出典: 同上）。</p>
+<p>ここを誤解した指示書が、実務ではしばしば出てきます。「robots.txtにnoindexと書いてください」という依頼は、効果を持ちません。</p>
+<h3>併用すると効かなくなる仕組み</h3>
+<p>noindexを使う場合の前提は、クローラがページを読めることです。</p>
+<p>Googleは「robots.txt ファイルでページやリソースをブロックせず、クローラがページにアクセスできるようにする必要があります」と記載しています（出典: 同上）。</p>
+<p>クローラがアクセスできないと、noindexは認識されません。その結果、他のページからリンクされていると検索結果に表示され続けることがあるとされています（出典: 同上）。</p>
+<p>まとめると次の関係になります。</p>
+<ul>
+<li>noindexだけを入れる: クローラが読んで、表示されなくなる</li>
+<li>robots.txtだけで閉じる: 内容は読まれないが、URLが出ることがある</li>
+<li>両方を入れる: noindexが読まれず、意図した効果が得られない</li>
+</ul>
+<p>実装者の視点で1点補足します。テスト環境を公開用のサーバと同じ構成で作ると、robots.txtの差分が本番との唯一の違いになりがちです。差分を1ファイルに集めると、公開作業でそのファイルを戻し忘れたときに事故になります。テスト環境の制限は、サーバの設定側で分けるほうが安全です。</p>
+<h2>robots.txtで隠すとURLだけ出てしまう？</h2>
+<p>出ることがあります。クロールを禁止したページの内容はインデックスに登録されませんが、URLだけがインデックスに登録され、スニペットなしで検索結果に表示される場合があるとGoogleが説明しています。</p>
+<p>テスト環境のURLは、それ自体が社内の構成を示す情報です。URLだけでも出したくない場面が多いはずです。</p>
+<h3>URLだけが表示される条件</h3>
+<p>Googleの記載は次のとおりです。「Google は、クロールが許可されていないページのコンテンツをインデックスに登録することはできませんが、URL をインデックスに登録して、スニペットなしで検索結果に表示することはできます。」（出典: Google検索セントラル「robots.txt の書き方、設定と送信」 <a href="https://developers.google.com/search/docs/crawling-indexing/robots/robots_txt?hl=ja%EF%BC%89">https://developers.google.com/search/docs/crawling-indexing/robots/robots_txt?hl=ja）</a></p>
+<p>同ページでは、インデックス登録を防ぎたい場合はインデックス登録をブロックする方法を参照する必要があるとされています。</p>
+<p>起点になるのは外部からのリンクです。公開用のサイトやサービスの管理画面からテスト環境へリンクが残っていると、URLだけが拾われます。</p>
+<h3>robots.txtの仕様で押さえる数値</h3>
+<p>robots.txtに頼る設計をやめる理由は、仕様の細かさにもあります。発注時に押さえておきたい数値を表にします。</p>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>仕様</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ファイルサイズの上限</td>
+<td>500 KiB（超えた内容は無視される）</td>
+</tr>
+<tr>
+<td>通常のキャッシュ期間</td>
+<td>最大24時間</td>
+</tr>
+<tr>
+<td>5xxを返したときのクロール停止</td>
+<td>最初の12時間</td>
+</tr>
+<tr>
+<td>5xxが続いたときのキャッシュ版の使用</td>
+<td>最大30日間</td>
+</tr>
+<tr>
+<td>リダイレクトが404扱いになるホップ数</td>
+<td>5ホップ以上</td>
+</tr>
+</tbody></table>
+<p>これらはいずれもGoogleの公式記載です（出典: Google検索セントラル「robots.txt の書き方、設定と送信」 <a href="https://developers.google.com/search/docs/crawling-indexing/robots/robots_txt?hl=ja%EF%BC%89%E3%80%82429%E4%BB%A5%E5%A4%96%E3%81%AE4xx%E3%81%8C%E8%BF%94%E3%82%8B%E3%81%A8%E3%80%81%E6%9C%89%E5%8A%B9%E3%81%AArobots.txt%E3%81%8C%E5%AD%98%E5%9C%A8%E3%81%97%E3%81%AA%E3%81%84%E3%82%82%E3%81%AE%E3%81%A8%E3%81%BF%E3%81%AA%E3%81%95%E3%82%8C%E3%80%81%E3%82%AF%E3%83%AD%E3%83%BC%E3%83%AB%E3%81%AE%E5%88%B6%E9%99%90%E3%81%AF%E3%81%8B%E3%81%8B%E3%82%8A%E3%81%BE%E3%81%9B%E3%82%93%E3%80%82">https://developers.google.com/search/docs/crawling-indexing/robots/robots_txt?hl=ja）。429以外の4xxが返ると、有効なrobots.txtが存在しないものとみなされ、クロールの制限はかかりません。</a></p>
+<p>注目したいのは2行目と3行目です。robots.txtを書き換えても、最大24時間はキャッシュが使われる可能性があります。公開当日にrobots.txtを差し替える手順は、この遅れを前提に組む必要があります。</p>
+<p>実装者の視点で1点補足します。テスト環境が5xxを返す状態でrobots.txtだけを置いても、期待どおりには働きません。キャッシュ版が最大30日間使われるため、設定を直した後も古い内容で判断される時間が残ります。テスト環境は、robots.txtの挙動に依存させないほうが読みやすい設計になります。</p>
+<h2>パスワードで保護するのとnoindexはどちらを選ぶ？</h2>
+<p>テスト環境ではアクセス制限を基本にします。Googleは完全に隠す方法を3つ挙げており、パスワード保護はクローラをブロックし、noindexはGoogle検索結果への表示のみを防ぐという違いがあります。</p>
+<p>選び方の分かれ目は、御社が何を守りたいかです。検索結果に出ないことだけが目的なのか、人にも見せたくないのかで変わります。</p>
+<h3>3つの方法の違いと向き</h3>
+<p>Googleが挙げている3つを整理します。</p>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>何を防ぐか</th>
+<th>テスト環境への向き</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>コンテンツを非表示または更新する</td>
+<td>他の検索エンジンへの表示や他のユーザのアクセスも防ぐ</td>
+<td>公開前の環境では使えない</td>
+</tr>
+<tr>
+<td>パスワードで保護する</td>
+<td>クローラをブロックし、適切なユーザだけが閲覧できる</td>
+<td>向いている</td>
+</tr>
+<tr>
+<td>noindexタグを追加する</td>
+<td>Google検索結果への表示のみを防ぐ</td>
+<td>補助として有効</td>
+</tr>
+</tbody></table>
+<p>Googleは1つ目を「最も安全な方法」としています。パスワード保護については、アクセスを制限して適切なユーザだけが閲覧できるようにしつつ、Googlebotなどのクローラをブロックする方法として挙げています。noindexタグは、Google検索結果への表示のみを防ぐ方法で、noindexに対応しないユーザや検索エンジンは引き続きページを閲覧できるとされています（出典: Google検索セントラル「Google 検索から情報を削除する」 <a href="https://developers.google.com/search/docs/crawling-indexing/remove-information?hl=ja%EF%BC%89%E3%80%82">https://developers.google.com/search/docs/crawling-indexing/remove-information?hl=ja）。</a></p>
+<p>テスト環境は社外に見せる前提のものではありません。したがって、人のアクセスも止められるパスワード保護が基本になります。</p>
+<p>同ページでは、ページをブロックする目的でrobots.txtを使わないよう指示されています（出典: 同上）。前の見出しで見た併用の問題と同じ結論です。</p>
+<h3>制作会社へ出す指示文の例</h3>
+<p>発注時の文面は短くて構いません。次の3文で足ります。</p>
+<ol>
+<li>テスト環境はベーシック認証などのアクセス制限で閉じてください（目安: 設定は1時間以内）。つまずきやすい点は、画像やPDFを配信するパスだけ認証から外れていることです。</li>
+<li>補助としてX-Robots-Tag: noindexをサーバ側で返してください（目安: 設定は1時間以内）。つまずきやすい点は、ページだけに入れてHTML以外のリソースを対象から外すことです。</li>
+<li>robots.txtでテスト環境を閉じる設定は入れないでください。公開時にそのまま本番へ持ち込まれる事故を防ぐためです。</li>
+</ol>
+<p>あわせて、認証のIDとパスワードの共有方法も指定してください。URLと一緒にメール本文へ書く運用は避けます。</p>
+<p>実装者の視点で1点補足します。アクセス制限を入れると、制作会社が使う表示速度の測定ツールや検証ツールが動かなくなる場合があります。測定が必要な期間だけ特定のIPアドレスを許可する形にしておくと、作業が止まりません。許可するIPアドレスの管理は、公開時に解除する項目として手順書に残してください。</p>
+<h2>公開時にnoindexを外す作業はいつ反映される？</h2>
+<p>外した時点では反映されません。反映には再クロールが必要で、Googlebotの再訪が数か月後になる場合があるとされているため、公開手順にURL検査ツールでの再クロール申請と検出状況の確認まで含めます。</p>
+<p>ここを作業の完了扱いにしてしまうと、公開したのに検索結果に出ないという状態が長く続きます。</p>
+<h3>再クロールを待たずに申請する手順</h3>
+<p>Googleは、Googlebotがタグまたはヘッダを検出するとそのページを検索結果から削除すると説明しています。一方で反映には再クロールが必要であり「インターネット上でのページの重要性によっては、Googlebot がページに再度アクセスするのが数か月後になる場合があります」と記載されています（出典: Google検索セントラル「noindex を使用してインデックス登録をブロックする」 <a href="https://developers.google.com/search/docs/crawling-indexing/block-indexing?hl=ja%EF%BC%89%E3%80%82">https://developers.google.com/search/docs/crawling-indexing/block-indexing?hl=ja）。</a></p>
+<p>この遅れは、外すときにも同じようにかかります。したがって待つのではなく申請します。</p>
+<ol>
+<li>本番のURLでnoindexが返っていないことを確認する（目安: 10分）。つまずきやすい点は、ブラウザの表示だけを見てHTTPヘッダを確認しないことです。</li>
+<li>URL検査ツールで再クロールをリクエストする（目安: 10分）。主要なページから順に行います。</li>
+<li>取得されたHTMLを確認する（目安: 20分）。Googleは、実装の確認方法としてURL検査ツールでGooglebotが取得したHTMLを見る方法を挙げています（出典: 同上）。</li>
+</ol>
+<h3>公開後に確認するレポート</h3>
+<p>申請の後は、検出状況を定期的に見ます。Googleは、Search Consoleのページのインデックス登録レポートでnoindexの検出状況をモニタする方法を案内しています（出典: 同上）。</p>
+<p>確認は1回で終わりにしないでください。公開直後は問題がなくても、後からテンプレートの更新で指定が戻ることがあります。</p>
+<h3>公開当日の手順書に書き足す項目</h3>
+<p>noindexの解除は、公開当日の作業の中に埋め込みます。リダイレクトの設定と同じ扱いにするのが分かりやすい形です。</p>
+<table>
+<thead>
+<tr>
+<th>作業</th>
+<th>根拠となる期間</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>noindexの解除とURL検査ツールでの申請</td>
+<td>再訪は数か月後になる場合があるため当日に申請する</td>
+</tr>
+<tr>
+<td>旧URLから新URLへの301リダイレクトの維持</td>
+<td>保持する期間の目安は1年以上</td>
+</tr>
+<tr>
+<td>アドレス変更ツールを使う場合のリダイレクト維持</td>
+<td>最低180日</td>
+</tr>
+<tr>
+<td>旧ドメインの維持</td>
+<td>悪用防止のため1年以上が推奨される</td>
+</tr>
+</tbody></table>
+<p>リダイレクトに関する数値はGoogleの公式ドキュメントの記載です（出典: 「URL の変更を伴うサイト移転」Google検索セントラル、「アドレス変更ツール」Search Consoleヘルプ）。リダイレクトチェーンは5個未満、理想は3個以下とされ、Googlebotがたどれるリダイレクトの最大ホップ数は10ホップとされています（出典: 同上）。</p>
+<p>公開当日の切り替えと切り戻しの判断そのものは、当サイトの「リニューアル公開当日の切り替え手順と切り戻し」で扱っています。</p>
+<p>実装者の視点で1点補足します。解除の確認は、公開作業を行った本人以外が行う形にしてください。設定した本人は、入れた場所を見に行くため、別の経路で残っている指定を見落としがちです。CDNやリバースプロキシの設定にX-Robots-Tagが残っているのが、見つけにくい例です。</p>
+<h2>すでにテスト環境が検索結果に出ていたらどうする？</h2>
+<p>まずアクセスを止め、そのうえで検索結果からの削除を申請します。非表示ツールはリクエストの有効期間が約6か月、検索結果から隠せる時間が1日以内とされており、恒久的な対処は内容の非公開かアクセス制限です。</p>
+<p>順番が大事です。削除だけを申請して環境を開けたままにすると、期間が切れた後に再び表示されます。</p>
+<h3>順番を間違えない手順</h3>
+<ol>
+<li>テスト環境のアクセスを止める（目安: 30分）。アクセス制限をかけるか、環境自体を停止します。つまずきやすい点は、停止したつもりでキャッシュ配信が残り、CDN経由で見える状態が続くことです。</li>
+<li>非表示ツールで削除を申請する（目安: 30分）。Googleは、非表示ツールで検索結果からページを隠せる時間を1日以内としています（出典: Google検索セントラル「Google 検索から情報を削除する」 <a href="https://developers.google.com/search/docs/crawling-indexing/remove-information?hl=ja%EF%BC%89%E3%80%82">https://developers.google.com/search/docs/crawling-indexing/remove-information?hl=ja）。</a></li>
+<li>恒久的な対処に切り替える（目安: 当日から数日）。同ページは、非表示ツールによるリクエストの有効期間を約6か月としています（出典: 同上）。6か月のあいだに、内容の非公開かアクセス制限のどちらかを確定させます。</li>
+</ol>
+<p>Googleは、完全に隠す方法として、コンテンツを非表示または更新する方法を「最も安全な方法」としています（出典: 同上）。テスト環境であれば、環境を畳むのが最も確実です。</p>
+<h3>複数URLの取りこぼしを防ぐ</h3>
+<p>削除の申請では、対象の数え方を間違えやすくなります。</p>
+<p>Googleは、同じページを指す複数のURL（大文字小文字の違いやパラメータ付きURLなど）をすべて保護または非表示にする必要があるとしています（出典: 同上）。</p>
+<p>テスト環境では、次のような重複が生まれます。</p>
+<table>
+<thead>
+<tr>
+<th>重複の例</th>
+<th>見落としやすい理由</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>httpとhttpsの両方</td>
+<td>リダイレクトを入れていない環境が残る</td>
+</tr>
+<tr>
+<td>wwwありとwwwなし</td>
+<td>ステージング用のサブドメインで設定が抜ける</td>
+</tr>
+<tr>
+<td>末尾のスラッシュの有無</td>
+<td>正規化を本番側だけに入れている</td>
+</tr>
+<tr>
+<td>パラメータ付きのURL</td>
+<td>プレビュー用のパラメータが別URLとして扱われる</td>
+</tr>
+</tbody></table>
+<p>対象を洗い出すときは、Search Consoleでテスト環境のホストを対象にインデックスされているURLを確認し、一覧にしてから申請してください。</p>
+<p>実装者の視点で1点補足します。検索結果に出てしまう経路として多いのは、公開用のサイトから誤ってテスト環境へリンクが貼られている状態です。削除の申請と同時に、本番のHTMLとサイトマップにテスト環境のホストが含まれていないかを検索してください。リンクが残っていると、何度申請しても拾われ続けます。</p>
+<h2>発注書と検収項目にどう書く？</h2>
+<p>隠す手段、適用範囲、公開時の解除担当、解除の確認方法の4つを発注書に書き、検収項目に解除の確認を入れます。手順書と確認結果の提出まで含めると、公開後の見落としが残りません。</p>
+<p>口頭の合意だけで進めると、公開後に「入れたはず」「聞いていない」という状態になります。</p>
+<h3>発注書に書く4項目</h3>
+<p>発注書に入れる文言を項目ごとに示します。</p>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>書く内容</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>隠す手段</td>
+<td>アクセス制限で閉じ、補助としてX-Robots-Tagでnoindexを返す。robots.txtでの制限は入れない</td>
+</tr>
+<tr>
+<td>適用範囲</td>
+<td>テスト環境のホスト全体。HTML以外のPDF、画像、サイトマップ、フィードを含む</td>
+</tr>
+<tr>
+<td>公開時の解除担当</td>
+<td>解除の実施者と実施日を氏名と日付で特定する</td>
+</tr>
+<tr>
+<td>解除の確認方法</td>
+<td>URL検査ツールで取得したHTMLと、ページのインデックス登録レポートの画面を提出する</td>
+</tr>
+</tbody></table>
+<p>robots.txtを使わない根拠は、Googleが「robots.txt ファイルで noindex ルールを指定することは、Google ではサポートされていません。」と明記していることです（出典: Google検索セントラル「noindex を使用してインデックス登録をブロックする」 <a href="https://developers.google.com/search/docs/crawling-indexing/block-indexing?hl=ja%EF%BC%89%E3%80%82">https://developers.google.com/search/docs/crawling-indexing/block-indexing?hl=ja）。</a></p>
+<h3>検収で確認する項目</h3>
+<p>検収のチェック項目は5つで足ります。</p>
+<ol>
+<li>本番の主要ページがnoindexを返していないこと（目安: 20分）。HTTPヘッダとHTMLの両方を見ます。</li>
+<li>URL検査ツールで取得されたHTMLにnoindexが無いこと（目安: 20分）。つまずきやすい点は、ブラウザで見た画面だけを証跡にすることです。</li>
+<li>ページのインデックス登録レポートでnoindexの検出が無いこと（目安: 20分）。反映には時間がかかるため、公開後に日を置いて再確認します。</li>
+<li>テスト環境が閉じられていること（目安: 20分）。認証がかかっているか、環境が停止しているかを確認します。</li>
+<li>本番のHTMLとサイトマップにテスト環境のホストが含まれていないこと（目安: 20分）。文字列検索で確認します。</li>
+</ol>
+<p>3番目を1回で済ませない点が重要です。Googleは、反映には再クロールが必要であり、Googlebotの再訪が数か月後になる場合があると記載しています（出典: 同上）。公開当日に確認して問題がなくても、後から指定が戻る経路は残ります。</p>
+<p>検収の期間と合否の伝え方そのものは、当サイトの「ホームページリニューアルの検収項目と通知期限」で扱っています。</p>
+<h3>公開前に自社で確認できることはありますか</h3>
+<p>制作会社に任せきりにしない方法があります。公開前に、テスト環境のURLをブラウザのシークレットウィンドウで開いてみてください。認証なしで見えるのであれば、クローラからも見えています。</p>
+<p>実装者の視点で1点補足します。認証の設定は、トップページだけに効いていて、画像やAPIのパスが素通しになっている例が少なくありません。確認するときは、ページのURLではなく、ページ内で読み込まれている画像やJSONのURLを直接開いてください。ここが開くようであれば、設定の範囲が足りていません。</p>
+<h2>よくあるご質問</h2>
+<p>この記事に関して多い質問と回答をまとめます。</p>
+<h3>テスト環境はnoindexとrobots.txtのどちらで隠せばよいですか</h3>
+<p>robots.txtでは隠せません。Googleは「robots.txt ファイルで noindex ルールを指定することは、Google ではサポートされていません。」と明記しています（出典: Google検索セントラル「noindex を使用してインデックス登録をブロックする」 <a href="https://developers.google.com/search/docs/crawling-indexing/block-indexing?hl=ja%EF%BC%89%E3%80%82">https://developers.google.com/search/docs/crawling-indexing/block-indexing?hl=ja）。</a></p>
+<p>テスト環境ではアクセス制限を基本にし、補助としてnoindexをHTTPヘッダで返す形が確実です。</p>
+<h3>robots.txtでクロールを禁止すれば検索結果には出ませんか</h3>
+<p>出ることがあります。Googleは「Google は、クロールが許可されていないページのコンテンツをインデックスに登録することはできませんが、URL をインデックスに登録して、スニペットなしで検索結果に表示することはできます。」と説明しています（出典: Google検索セントラル「robots.txt の書き方、設定と送信」 <a href="https://developers.google.com/search/docs/crawling-indexing/robots/robots_txt?hl=ja%EF%BC%89%E3%80%82">https://developers.google.com/search/docs/crawling-indexing/robots/robots_txt?hl=ja）。</a></p>
+<p>本文は出ませんが、URLは出る可能性があります。テスト環境のURLは構成を示す情報なので、これも避けたいところです。</p>
+<h3>公開時にnoindexを外し忘れたらどうなりますか</h3>
+<p>検索結果に出ない状態が続きます。外した後も即座には戻りません。</p>
+<p>Googleは、反映には再クロールが必要であり「インターネット上でのページの重要性によっては、Googlebot がページに再度アクセスするのが数か月後になる場合があります」と記載しています（出典: Google検索セントラル「noindex を使用してインデックス登録をブロックする」 <a href="https://developers.google.com/search/docs/crawling-indexing/block-indexing?hl=ja%EF%BC%89%E3%80%82">https://developers.google.com/search/docs/crawling-indexing/block-indexing?hl=ja）。</a></p>
+<p>気付いた時点で指定を外し、URL検査ツールで再クロールを申請してください。</p>
+<h3>テスト環境が検索結果に出てしまった場合はどうすればよいですか</h3>
+<p>先にアクセスを止め、次に非表示ツールで削除を申請します。</p>
+<p>Googleは、非表示ツールで検索結果からページを隠せる時間を1日以内、リクエストの有効期間を約6か月としています（出典: Google検索セントラル「Google 検索から情報を削除する」 <a href="https://developers.google.com/search/docs/crawling-indexing/remove-information?hl=ja%EF%BC%89%E3%80%82">https://developers.google.com/search/docs/crawling-indexing/remove-information?hl=ja）。</a></p>
+<p>約6か月のあいだに、環境の停止かアクセス制限のどちらかを確定させてください。申請だけでは期間が切れた後に再び表示されます。</p>
+<h3>ベーシック認証をかければnoindexは不要ですか</h3>
+<p>認証が全てのパスに効いていれば、クローラはページを取得できません。Googleはパスワード保護を、アクセスを制限して適切なユーザだけが閲覧できるようにしつつ、Googlebotなどのクローラをブロックする方法として挙げています（出典: 同上）。</p>
+<p>ただし実務では、画像やAPIのパスが認証から外れている例が多くあります。保険としてnoindexをHTTPヘッダで返しておくと、設定の抜けが事故に直結しません。</p>
+<h2>テスト環境の扱いを発注書に落とし込むなら</h2>
+<p>テスト環境が検索結果に出る事故は、技術の難しさではなく役割分担の抜けで起きます。誰が閉じて、誰が外し、誰が確認するのかを書いていないと、公開作業の中で静かに抜け落ちます。</p>
+<p>当社は実装する側として、リニューアルの発注書と検収項目の作り方から伴走しています。制作会社へ出す要件の書き方で迷っている段階でもご相談いただけます。</p>
+<p>まずは<a href="/diagnostic">無料診断</a>で、発注準備の状況をご確認ください。</p>
+<h2>関連リンク</h2>
+<ul>
+<li><a href="/article-website-renewal-guide">ホームページリニューアルの進め方の全体像</a></li>
+<li><a href="/article-website-launch-switchover-rollback">リニューアル公開当日の切り替え手順と切り戻しの判断</a></li>
+<li><a href="/article-website-renewal-acceptance-checklist">リニューアルの検収項目と契約不適合の通知期限</a></li>
+<li><a href="/article-homepage-renewal-301-redirect-guide">リニューアルの301リダイレクトとURL移行の設定</a></li>
+<li><a href="/diagnostic">リニューアルの発注準備を確かめる無料診断</a></li>
+</ul>
+</div><div style="margin-top: 32px; padding: 16px 20px; background: var(--bg-2); border-radius: 10px; font-size: 13px; color: var(--text-3); line-height: 1.8;"><div>監修: NORTIQLAB株式会社 代表（AIエンジニア）</div><div>本記事はAIを活用して制作しています</div></div><aside class="nq-slot" data-slot="slot-end" aria-label="次に読むページ"><div class="nq-suggest" data-block="sg-guidebook" data-variant="default"><p class="nq-suggest__eyebrow">この記事を読んだ方へ</p><h3 class="nq-suggest__title"><a href="/guidebook">サービス紹介資料を無料でダウンロード。</a></h3><p class="nq-suggest__body">制作の進め方・実績・料金プラン・制作の流れを、全11ページのPDFにまとめています。費用はかかりません。</p><span class="nq-suggest__cta" aria-hidden="true">資料を見る<!-- --> →</span></div></aside></div><section class="section-pad" style="background: var(--bg-2);"><div class="container" style="max-width: 880px;"><h3 class="display-s" style="margin-bottom: 24px;">関連記事</h3><div class="grid-3"><a class="article-card fadein is-in" href="/article-subsidy-grant-decision-before-order" style="cursor: pointer;"><div class="article-cover tone-red" role="img" aria-label="補助金の交付決定前に発注してよい？着手の時期" style="aspect-ratio: 16 / 10;"><span class="article-cover-cat">Web制作</span><span class="article-cover-title">補助金の交付決定前に発注してよい？着手の時期</span><span class="article-cover-brand">NORTIQ LABS · COLUMN</span></div><div class="article-meta"><span style="color: var(--accent);">Web制作</span><span class="article-meta-sep">·</span><span>2026.11.21</span></div><h3 class="article-title">補助金の交付決定前に発注してよい？着手の時期</h3></a><a class="article-card fadein is-in" href="/article-website-tampering-detection-requirements" style="cursor: pointer;"><div class="article-cover tone-red" role="img" aria-label="ホームページ改ざんの検知｜発注時に書く監視の要件" style="aspect-ratio: 16 / 10;"><span class="article-cover-cat">Web制作</span><span class="article-cover-title">ホームページ改ざんの検知</span><span class="article-cover-brand">NORTIQ LABS · COLUMN</span></div><div class="article-meta"><span style="color: var(--accent);">Web制作</span><span class="article-meta-sep">·</span><span>2026.11.21</span></div><h3 class="article-title">ホームページ改ざんの検知｜発注時に書く監視の要件</h3></a><a class="article-card fadein is-in" href="/article-block-generative-ai-training-settings" style="cursor: pointer;"><div class="article-cover tone-blue" role="img" aria-label="生成AIの学習を拒否する設定｜発注前の判断" style="aspect-ratio: 16 / 10;"><span class="article-cover-cat">AI活用</span><span class="article-cover-title">生成AIの学習を拒否する設定</span><span class="article-cover-brand">NORTIQ LABS · COLUMN</span></div><div class="article-meta"><span style="color: var(--accent);">AI活用</span><span class="article-meta-sep">·</span><span>2026.11.21</span></div><h3 class="article-title">生成AIの学習を拒否する設定｜発注前の判断</h3></a></div></div></section></article><section class="t_inq_wrap fadein is-in"><div class="container"><h2>こうした観点をベースに、<br>貴社の DX を一緒に考えませんか。</h2><div class="t_inq_btns"><button class="btn btn-primary" type="button"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><path d="M22 6l-10 7L2 6"></path></svg>資料請求はこちら</button><a class="btn btn-line btn-line-on-red" href="https://line.me/R/ti/p/@498ynxrl" target="_blank" rel="noopener" data-line="cta-strip"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.5 8.5 0 0 1-12.3 7.6L3 21l1.9-5.7A8.5 8.5 0 1 1 21 11.5z"></path></svg>LINEで相談する</a><a class="btn btn-primary" href="/diagnostic"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><path d="M21 21l-4.35-4.35"></path></svg>ホームページ無料診断</a></div><p class="t_inq_time">営業日 24時間以内に担当者よりご返信します。</p></div></section></main></div><footer class="footer"><div class="container"><div class="footer-grid"><div class="footer-brand"><div class="nav-logo" style="margin-bottom: 16px;"><span class="nav-logo-mark"></span><span class="wordmark"><span class="wordmark-main">NORTIQ</span><span class="wordmark-sub">LABS</span></span></div><p class="body" style="font-size: 13px; max-width: 320px; margin-bottom: 24px;">日本のDX、世界水準で巻き返す。<br>Web制作からAI・DX実装まで。</p><div class="row" style="gap: 10px; flex-wrap: wrap;"><button class="btn btn-primary btn-sm" type="button"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><path d="M22 6l-10 7L2 6"></path></svg>資料請求はこちら</button><a class="btn btn-line btn-line-ghost btn-sm" href="https://line.me/R/ti/p/@498ynxrl" target="_blank" rel="noopener" data-line="footer"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.5 8.5 0 0 1-12.3 7.6L3 21l1.9-5.7A8.5 8.5 0 1 1 21 11.5z"></path></svg>LINEで相談する</a></div></div><div class="footer-col"><h3>制作実績</h3><ul><li><a href="/works">全実績一覧</a></li><li><a href="/works-clinic">クリニック・医療</a></li><li><a href="/works-realty">不動産</a></li><li><a href="/works-build">建築・工務店</a></li><li><a href="/works-hr">人材</a></li><li><a href="/works-retail">小売 / EC</a></li><li><a href="/works-infra">インフラ・製造</a></li><li><a href="/works-ai">AIスタートアップ</a></li><li><a href="/works-lp-corp">コーポレートLP</a></li><li><a href="/works-lp-recruit">採用LP</a></li><li><a href="/works-lp-ec">EC連動LP</a></li><li><a href="/works-video">動画制作事例</a></li></ul></div><div class="footer-col"><h3>サービス</h3><ul><li><a href="/web">ホームページ制作</a></li><li><a href="/chatbot">AIチャットボット</a></li><li><a href="/phone-ai">電話AI</a></li><li><a href="/dx">業務システム・AI開発</a></li><li><a href="/feature-lpo">LP制作 / LPO</a></li><li><a href="/feature-recruit">採用専門サイト</a></li><li><a href="/feature-analytics">アクセス解析</a></li></ul><h3 style="margin-top: 24px;">自社プロダクト</h3><ul><li><a href="/product-vetonet">VetoNet</a></li><li><a href="/product-wpchat">ブログボット（AI投稿アシスタント）</a></li></ul></div><div class="footer-col"><h3>サポート・コンサル</h3><ul><li><a href="/support">運用サポート</a></li><li><a href="/voice">ご利用会社様の声</a></li><li><a href="/diagnostic">サイト無料診断 (URL入力)</a></li><li><a href="/column">技術ブログ / コラム</a></li><li><a href="/news">お知らせ</a></li><li><a href="/subsidy">補助金活用相談</a></li><li><a href="/guidebook">サービス紹介資料</a></li></ul><h3 style="margin-top: 24px;">業種別ソリューション</h3><ul><li><a href="/solution-clinic">クリニック・医療</a></li><li><a href="/solution-realty">不動産</a></li><li><a href="/solution-build">建築・工務店</a></li><li><a href="/solution-hr">人材</a></li><li><a href="/solution-retail">小売 / EC</a></li><li><a href="/service/kanri-dantai">監理団体・登録支援機関</a></li><li><a href="/service/recruit-site">建設・運送・介護 採用サイト</a></li></ul><h3 style="margin-top: 24px;">特設ページ</h3><ul><li><a href="/security">脆弱性診断・セキュリティ保守</a></li><li><a href="/automation">ひと業務AI（1業務自動化サブスク）</a></li><li><a href="/tools">無料ツール（概算見積・診断・計算機）</a></li><li><a href="/tools/invoice">請求書・見積書メーカー</a></li><li><a href="/tools/payment-match">入金消し込み照合</a></li><li><a href="/tools/timecard">タイムカード集計</a></li><li><a href="/tools/order-summary">注文集計・出荷指示書</a></li><li><a href="/tools/address-list">宛先リスト整形（送り状用CSV）</a></li><li><a href="/tools/list-dedupe">名簿の重複チェック</a></li><li><a href="/tools/booking-sheet">予約表メーカー</a></li><li><a href="/tools/daily-report">作業日報メーカー</a></li><li><a href="/tools/monthly-billing">締め請求書メーカー</a></li><li><a href="/tools/reorder-list">発注リストメーカー</a></li><li><a href="/tools/price-list">価格表メーカー</a></li><li><a href="/tools/shift-table">シフト表メーカー</a></li><li><a href="/tools/work-days">出面表メーカー</a></li></ul><h3 style="margin-top: 24px;">会社</h3><ul><li><a href="/company">会社概要</a></li><li><a href="/staff">チーム / スタッフ</a></li><li><a href="/pricing">料金プラン</a></li><li><a href="/sitemap">サイトマップ</a></li></ul></div></div><div class="footer-bottom"><span>© 2026 NORTIQLAB株式会社 All rights reserved.</span><div class="row" style="gap: 24px;"><a href="/privacy" style="color: var(--text-3);">プライバシーポリシー</a><a href="/terms" style="color: var(--text-3);">利用規約</a><a href="/privacy-handling" style="color: var(--text-3);">個人情報の取扱い</a></div></div></div></footer><div class="modal-backdrop"><div class="modal" role="dialog" aria-modal="true" aria-label="資料請求・お問い合わせ"><button class="modal-close" aria-label="閉じる"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M6 18L18 6"></path></svg></button><div style="margin-bottom: 24px;"><div class="eyebrow eyebrow-accent" style="margin-bottom: 12px;">CONTACT</div><h3 class="display-s" style="margin-bottom: 8px;">資料請求・お問い合わせ</h3><p class="small">入力は2項目です。送信後すぐに資料 (PDF) をご覧いただけます。初回相談は無料です。</p></div><form novalidate=""><div class="field"><label for="modal-company">貴社名<span class="req">必須</span></label><input id="modal-company" data-field="company" type="text" placeholder="株式会社○○ (屋号でも可)" autocomplete="organization" value=""></div><div class="field"><label for="modal-email">メールアドレス<span class="req">必須</span></label><input id="modal-email" data-field="email" type="email" placeholder="you@example.com" autocomplete="email" value=""></div><div class="field"><label for="modal-message">ご相談内容<span class="any">任意</span></label><textarea id="modal-message" placeholder="資料だけほしい、費用感を知りたい、など一言でも大丈夫です。" style="min-height: 84px;"></textarea></div><details class="lead-more"><summary><span class="lead-more-title">詳しく伝える</span><span class="any">任意</span><span class="lead-more-hint">ご担当者名・電話番号・ご相談の種類など</span></summary><div class="lead-more-body"><div class="field"><label for="modal-name">ご担当者名</label><input id="modal-name" type="text" placeholder="山田 太郎" autocomplete="name" value=""></div><div class="field"><label for="modal-phone">電話番号</label><input id="modal-phone" type="tel" placeholder="03-XXXX-XXXX" autocomplete="tel" value=""></div><div class="field"><label>カテゴリー</label><div class="cb-group"><label class=""><input type="checkbox">Web制作</label><label class=""><input type="checkbox">AIチャットボット</label><label class=""><input type="checkbox">DX・ML</label><label class=""><input type="checkbox">業務自動化</label><label class=""><input type="checkbox">LP制作</label><label class=""><input type="checkbox">採用サイト</label></div></div><div class="field"><label>お問い合わせ内容</label><div class="cb-group"><label class=""><input type="checkbox">新規HP制作</label><label class=""><input type="checkbox">HPリニューアル</label><label class=""><input type="checkbox">AIチャットボット導入</label><label class=""><input type="checkbox">DX・ML 実装</label><label class=""><input type="checkbox">業務自動化</label><label class=""><input type="checkbox">リスティング広告</label><label class=""><input type="checkbox">コンサルティング</label></div></div><div class="field"><label>いまの状況</label><div class="cb-group"><label class=""><input type="checkbox">HPが無い</label><label class=""><input type="checkbox">問い合わせを増やしたい</label><label class=""><input type="checkbox">サービス資料がほしい</label><label class=""><input type="checkbox">無料診断</label><label class=""><input type="checkbox">デザインを改善したい</label><label class=""><input type="checkbox">SEOを上げたい</label><label class=""><input type="checkbox">AI活用したい</label><label class=""><input type="checkbox">業務効率化したい</label><label class=""><input type="checkbox">補助金活用を相談したい</label></div></div><div class="field"><label for="modal-source">本サイトを知ったきっかけ</label><select id="modal-source"><option value="">選択してください</option><option value="Google検索">Google検索</option><option value="Yahoo検索">Yahoo検索</option><option value="AIチャット (ChatGPT/Claude/Gemini等)">AIチャット (ChatGPT/Claude/Gemini等)</option><option value="ご紹介">ご紹介</option><option value="メール">メール</option><option value="DMチラシ">DMチラシ</option><option value="SNS (X/LinkedIn)">SNS (X/LinkedIn)</option><option value="以前から知っていた">以前から知っていた</option><option value="その他">その他</option></select></div><div class="field"><label for="modal-url">サイトURL</label><input id="modal-url" type="text" placeholder="https://" inputmode="url" value=""></div></div></details><div class="field field-check"><input type="checkbox" id="agree" data-field="agree" style="margin-top: 2px;"><label for="agree" style="cursor: pointer;"><a href="/privacy-handling" target="_blank" rel="noopener noreferrer" style="color: var(--accent); text-decoration: underline;">個人情報の取り扱い</a>に同意します<span class="req">必須</span></label></div><div style="margin-top: 8px; text-align: center;"><button class="btn btn-primary btn-lg" type="submit">同意して送信する<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></button></div></form><div class="lead-alt"><p class="lead-alt-label">入力が手間な方は</p><a class="btn btn-line btn-line-ghost" href="https://line.me/R/ti/p/@498ynxrl" target="_blank" rel="noopener" data-line="modal"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.5 8.5 0 0 1-12.3 7.6L3 21l1.9-5.7A8.5 8.5 0 1 1 21 11.5z"></path></svg>LINEで相談する</a><p class="small lead-alt-note">友だち追加して、届く質問にボタンで答えるだけです。</p></div></div></div><nav class="sp-bottom-nav" aria-label="モバイル下部ナビ"><ul><li><a class="sp-bottom-line" href="https://line.me/R/ti/p/@498ynxrl" target="_blank" rel="noopener" data-line="sp-nav"><span class="icn"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.5 8.5 0 0 1-12.3 7.6L3 21l1.9-5.7A8.5 8.5 0 1 1 21 11.5z"></path></svg></span><span>LINE相談</span></a></li><li><a href="/works"><span class="icn"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect></svg></span><span>制作実績</span></a></li><li><a href="/pricing"><span class="icn"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4l8 11 8-11M7 13h10M7 17h10"></path></svg></span><span>料金</span></a></li><li><button type="button"><span class="icn"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><path d="M22 6l-10 7L2 6"></path></svg></span><span>資料請求</span></button></li><li><a href="/sitemap"><span class="icn"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M4 12h16M4 17h16"></path></svg></span><span>メニュー</span></a></li></ul></nav><div class="sticky-cta" role="region" aria-label="ご相談の案内"><span class="pulse"></span><span>初回相談無料 · 営業日24h以内にご返信</span><button>資料請求 →</button><button class="sticky-cta-close" aria-label="閉じる"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M6 18L18 6"></path></svg></button></div></div>
+  <script src="/articles.js?v=1fcd267ad1" defer=""></script>
+  <script src="/app.bundle.js?v=1fcd267ad1" defer=""></script>
+
+
+</body></html>
