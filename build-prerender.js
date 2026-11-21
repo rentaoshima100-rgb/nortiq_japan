@@ -33,6 +33,7 @@ const ARTICLE_ROUTES = (() => {
 })();
 
 const ROUTES_ALLOWLIST = [
+  '/article-generative-ai-customer-data-rules',
   '/article-clinic-two-factor-authentication-requirements',
   '/article-generative-ai-customer-data-input-rules',
   '/article-website-admin-account-handover',

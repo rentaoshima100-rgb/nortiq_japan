@@ -121,6 +121,7 @@ const ORG_SAME_AS = [
 // desc → meta description / og:description / BlogPosting.description に使う。
 //        未指定の記事は app.jsx の SEO_DESC か自動生成の定型文にフォールバックする
 const BLOG = [
+  { slug: 'generative-ai-customer-data-rules', category: 'AI活用', date: '2026.11.21', read: '9 min', title: '生成AIに顧客情報を入力してよいか｜線引きと報告', img: 'assets/blog-default.png', desc: '生成AIに顧客情報を入力してよいかを、個人情報保護委員会が示す2つの確認事項から整理します。入力してよい情報の線引き、社内ルールを作る5つの手順、入力した場合の報告の4類型と期限まで解説します。', supervised: true },
   { slug: 'clinic-two-factor-authentication-requirements', category: '技術', date: '2026.11.21', read: '9 min', title: '診療所の二要素認証｜外注の要件5項目と責任分界', img: 'assets/blog-default.png', desc: '二要素認証の適用時期は厚生労働省のガイドラインの該当する版で確認します。診療所の発注では対象システム、認証の方式、設定を変更できる人、ログの範囲を要件に書きます。委託先の過失でも責任は医療機関に残ります。', supervised: true },
   { slug: 'generative-ai-customer-data-input-rules', category: 'AI活用', date: '2026.11.21', read: '11 min', title: '生成AIに顧客情報を入力してよいか｜社内ルールの決め方', img: 'assets/blog-default.png', desc: '生成AIに顧客情報を入力してよいかは、個人情報保護委員会の注意喚起が示す2点で判断します。利用目的の範囲内かの確認と、学習に利用しないことの確認です。社内ルールに書く5項目と、入力した場合の報告の期限まで整理します。', supervised: true },
   { slug: 'website-admin-account-handover', category: 'Web制作', date: '2026.11.21', read: '8 min', title: 'ホームページ管理アカウントの棚卸｜退職時の手順', img: 'assets/blog-default.png', desc: '担当者の交代や退職でホームページの管理アカウントをどう整理するかを、国が示すアクセス管理者の措置から解説します。5系統の洗い出し、付与と削除の順番、Search Consoleの所有権トークンの削除まで扱います。', supervised: true },
