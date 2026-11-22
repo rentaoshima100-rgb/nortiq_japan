@@ -121,6 +121,7 @@ const ORG_SAME_AS = [
 // desc → meta description / og:description / BlogPosting.description に使う。
 //        未指定の記事は app.jsx の SEO_DESC か自動生成の定型文にフォールバックする
 const BLOG = [
+  { slug: 'oss-license-check-for-outsourced-system', category: '技術', date: '2026.11.22', read: '11 min', title: 'システム開発外注のOSSライセンス確認手順5つ', img: 'assets/blog-default.png', desc: '納品物のOSS一覧は、名称・バージョン・ライセンス種別の3項目で求めます。公開義務が生じる条件、契約での責任分担、納品後の更新の決め方を、IPAと中小企業庁の資料をもとに解説します。', supervised: true },
   { slug: 'construction-admin-work-survey', category: '技術', date: '2026.11.22', read: '9 min', title: '建設業の事務作業時間と手戻りの割合｜2026年調査データ', img: 'assets/blog-default.png', desc: '建設業の事務作業は1日2時間以上が54.4%、月1回以上の手戻りは46.7%でした。二重入力の割合を役職別に示し、出典と対象者数つきで解説します。', supervised: true },
   { slug: 'scanner-storage-paper-disposal-timing', category: 'AI活用', date: '2026.11.22', read: '10 min', title: 'スキャナ保存で紙の原本はいつ廃棄できる？要件を解説', img: 'assets/blog-default.png', desc: 'スキャンした紙の注文書や請求書をいつ廃棄できるかを、国税庁の一問一答 (令和8年7月) から整理します。最低限の同等確認と入力期間 (おおむね7営業日、最長2か月)、解像度200dpiと検索機能の3要件、社内手順の決め方まで示します。', supervised: true },
   { slug: 'renewal-analytics-handover-spec', category: 'Web制作', date: '2026.11.22', read: '8 min', title: 'リニューアルの計測引き継ぎ｜発注で指定する項目', img: 'assets/blog-default.png', desc: 'ホームページのリニューアルで計測が途切れないよう、発注時に指定する項目を整理します。タグの設置範囲、コンバージョンの定義、権限の扱い、公開前に書き出すデータの期限、公開後の比較の制約まで解説します。', supervised: true },
