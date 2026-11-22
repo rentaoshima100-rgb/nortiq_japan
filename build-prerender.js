@@ -33,6 +33,7 @@ const ARTICLE_ROUTES = (() => {
 })();
 
 const ROUTES_ALLOWLIST = [
+  '/article-construction-admin-work-survey',
   '/article-scanner-storage-paper-disposal-timing',
   '/article-renewal-analytics-handover-spec',
   '/article-wordpress-update-status-check',
