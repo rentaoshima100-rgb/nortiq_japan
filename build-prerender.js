@@ -33,6 +33,7 @@ const ARTICLE_ROUTES = (() => {
 })();
 
 const ROUTES_ALLOWLIST = [
+  '/article-wordpress-update-status-check',
   '/article-bulk-email-consent-requirements',
   '/article-website-incident-response-plan',
   '/article-retail-customer-record-system-requirements',
