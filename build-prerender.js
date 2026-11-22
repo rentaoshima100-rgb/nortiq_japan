@@ -33,6 +33,7 @@ const ARTICLE_ROUTES = (() => {
 })();
 
 const ROUTES_ALLOWLIST = [
+  '/article-csv-integration-spec-checklist',
   '/article-face-recognition-camera-signage-requirements',
   '/article-website-renewal-launch-schedule',
   '/article-subsidy-grant-decision-before-order',
