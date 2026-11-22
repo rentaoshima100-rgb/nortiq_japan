@@ -33,6 +33,7 @@ const ARTICLE_ROUTES = (() => {
 })();
 
 const ROUTES_ALLOWLIST = [
+  '/article-old-domain-retention-period-after-renewal',
   '/article-system-design-document-review-scope',
   '/article-subsidy-performance-report-documents',
   '/article-dental-clinic-web-reservation-requirements',

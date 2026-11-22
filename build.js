@@ -121,6 +121,7 @@ const ORG_SAME_AS = [
 // desc → meta description / og:description / BlogPosting.description に使う。
 //        未指定の記事は app.jsx の SEO_DESC か自動生成の定型文にフォールバックする
 const BLOG = [
+  { slug: 'old-domain-retention-period-after-renewal', category: 'Web制作', date: '2026.11.22', read: '12 min', title: '旧ドメインの更新はいつまで？維持期間は1年以上', img: 'assets/blog-default.png', desc: 'ドメインを変えてリニューアルした後、旧ドメインの更新をいつまで続けるかを整理します。Googleは301リダイレクトの保持と旧ドメインの維持をいずれも1年以上としています。やめた場合の影響と確認項目も示します。', supervised: true },
   { slug: 'system-design-document-review-scope', category: '技術', date: '2026.11.22', read: '7 min', title: 'システム開発外注の設計書｜発注側が見る5観点', img: 'assets/blog-default.png', desc: '外注した開発の設計書を、発注側としてどこまで読むべきかを解説します。技術の妥当性はベンダの領域とし、業務の流れ、項目と区分、権限、連携先、例外処理の5観点に絞る方法と、点検の期限と返し方の手順を整理します。', supervised: true },
   { slug: 'subsidy-performance-report-documents', category: 'Web制作', date: '2026.11.22', read: '12 min', title: 'ホームページ補助金の実績報告｜書類と保存5年', img: 'assets/blog-default.png', desc: '補助金でホームページを作った後の実績報告を整理します。提出物は実績報告書と関係書類等の2種類、期限は終了日から30日と提出期限の早い方、帳簿と証拠書類は年度終了後5年間の保存です。公募要領の原文で確認します。', supervised: true },
   { slug: 'dental-clinic-web-reservation-requirements', category: '技術', date: '2026.11.22', read: '12 min', title: '歯科医院のWeb予約と定期検診案内｜外注前に決める要件', img: 'assets/blog-default.png', desc: '歯科医院がWeb予約と定期検診の案内送信を外注するときに決める要件を、予約枠の持ち方、送信条件、同意の取得と記録、受信拒否の受付の順に整理します。特定電子メール法の条文と厚生労働省のガイドラインを根拠に示します。', supervised: true },
