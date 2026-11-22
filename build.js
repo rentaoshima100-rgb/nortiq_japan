@@ -121,6 +121,7 @@ const ORG_SAME_AS = [
 // desc → meta description / og:description / BlogPosting.description に使う。
 //        未指定の記事は app.jsx の SEO_DESC か自動生成の定型文にフォールバックする
 const BLOG = [
+  { slug: 'face-recognition-camera-signage-requirements', category: '技術', date: '2026.11.22', read: '12 min', title: '顔識別カメラの掲示と通知｜発注前に決める要件', img: 'assets/blog-default.png', desc: '顔識別機能付きカメラを店舗に導入するとき、掲示と通知のどこまでが法律上の義務かを条項ごとに整理します。施設内の掲示事項4項目、Webサイトに載せる範囲、運用を外注する場合の運用主体と問合せ先の決め方まで、発注前に決める要件を解説します。', supervised: true },
   { slug: 'website-renewal-launch-schedule', category: 'Web制作', date: '2026.11.22', read: '11 min', title: 'ホームページリニューアル｜公開日から逆算する手順', img: 'assets/blog-default.png', desc: 'ホームページリニューアルの公開日から逆算する段取りをまとめます。ドメイン移管の認証コードの35日、DNSのTTLを下げる時期、公開後のリダイレクトの維持期間まで、公式資料の期限を基に説明します。', supervised: true },
   { slug: 'subsidy-grant-decision-before-order', category: 'Web制作', date: '2026.11.21', read: '9 min', title: '補助金の交付決定前に発注してよい？着手の時期', img: 'assets/blog-default.png', desc: '補助金を使うホームページ制作で、発注してよいのは交付決定の後です。交付決定前の契約、発注、支払いが対象外になる根拠を事務局資料から整理し、待機中に進められる準備と例外の有無を解説します。', supervised: true },
   { slug: 'staging-environment-noindex-requirements', category: 'Web制作', date: '2026.11.21', read: '12 min', title: 'テスト環境を検索に出さない｜noindexの指示5項目', img: 'assets/blog-default.png', desc: '公開前のテスト環境を検索結果に出さないための要件を整理します。noindexはmetaタグとHTTPヘッダの2通りで、robots.txtでは指定できません。併用すると効かない理由と、公開時に外す手順をGoogle公式の記載で示します。', supervised: true },
