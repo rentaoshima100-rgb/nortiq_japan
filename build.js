@@ -121,6 +121,7 @@ const ORG_SAME_AS = [
 // desc → meta description / og:description / BlogPosting.description に使う。
 //        未指定の記事は app.jsx の SEO_DESC か自動生成の定型文にフォールバックする
 const BLOG = [
+  { slug: 'bulk-email-consent-requirements', category: '技術', date: '2026.11.22', read: '9 min', title: '案内メール一斉配信の外注｜特定電子メール法の要件', img: 'assets/blog-default.png', desc: '案内メールの一斉配信を外注するときに決める要件を、特定電子メール法に沿って整理します。同意の取り方と記録の保存期間 (1ヶ月・1年・3年)、メールに表示する5項目、配信停止の受付と自動反映まで、要件書に書く7項目を示します。', supervised: true },
   { slug: 'website-incident-response-plan', category: 'Web制作', date: '2026.11.22', read: '9 min', title: 'サイトのインシデント｜初動と報告期限の決め方', img: 'assets/blog-default.png', desc: 'サイトの改ざんや情報漏えいが起きたとき、何から手を打ち、いつまでに誰へ報告するのかを公的な手引きに沿って説明します。発注の段階で連絡先の表とログ保存期間を決めておく手順まで扱います。', supervised: true },
   { slug: 'retail-customer-record-system-requirements', category: '技術', date: '2026.11.22', read: '9 min', title: '小売業の来店予約と顧客記録｜外注前に決める要件', img: 'assets/blog-default.png', desc: '小売業の来店予約や取り置きの記録を紙の台帳から仕組みに移すとき、外注前に決める5点を整理します。依頼の単位と記録する4項目、期限の持たせ方、個人情報保護法で義務になる安全管理措置、検収で操作して確認する項目まで解説します。', supervised: true },
   { slug: 'construction-business-records-retention', category: '技術', date: '2026.11.22', read: '11 min', title: '建設業の営業に関する図書｜10年保存と電子化の要件', img: 'assets/blog-default.png', desc: '建設業の営業に関する図書は、引渡しから10年間の保存が必要です。施行規則第26条第5項の対象5号と立場ごとの保存範囲、電磁的記録のまま保存してよい3つの条件、保存の仕組みを外注するときに決める要件を条文で整理します。', supervised: true },
