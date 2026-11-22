@@ -33,6 +33,7 @@ const ARTICLE_ROUTES = (() => {
 })();
 
 const ROUTES_ALLOWLIST = [
+  '/article-subsidy-performance-report-documents',
   '/article-dental-clinic-web-reservation-requirements',
   '/article-csv-integration-spec-checklist',
   '/article-face-recognition-camera-signage-requirements',
