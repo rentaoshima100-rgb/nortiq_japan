@@ -33,6 +33,7 @@ const ARTICLE_ROUTES = (() => {
 })();
 
 const ROUTES_ALLOWLIST = [
+  '/article-always-on-ssl-migration',
   '/article-employee-photo-name-consent-website',
   '/article-remove-indexed-staging-site',
   '/article-system-development-change-request-cost',
