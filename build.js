@@ -121,6 +121,7 @@ const ORG_SAME_AS = [
 // desc → meta description / og:description / BlogPosting.description に使う。
 //        未指定の記事は app.jsx の SEO_DESC か自動生成の定型文にフォールバックする
 const BLOG = [
+  { slug: 'construction-company-ga4-inquiry-metrics', category: 'Web制作', date: '2026.11.22', read: '10 min', title: '建設会社のGA4｜問い合わせを確認する指標', img: 'assets/blog-default.png', desc: '建設会社の自社サイトで、問い合わせが来ているかをGA4のどこで見るのかを整理します。推奨イベントgenerate_leadの確認手順、データの保持期間の注意点、施工実績と採用で分けて数える方法まで解説します。', supervised: true },
   { slug: 'system-development-defect-liability-period', category: '技術', date: '2026.11.22', read: '8 min', title: 'システム開発の契約不適合責任｜通知期間の決め方', img: 'assets/blog-default.png', desc: '契約不適合責任の通知期間は、起算日と長さの2つで決まります。検収との役割の違い、契約書に書く4要素、不具合が見つかったときの5ステップ、保守契約との分け方を発注側の視点で解説します。', supervised: true },
   { slug: 'site-renewal-rollback-dns', category: 'Web制作', date: '2026.11.22', read: '10 min', title: 'リニューアル公開当日の切り戻し｜判断とDNS反映', img: 'assets/blog-default.png', desc: 'リニューアルを公開した当日に不具合が出たとき、元に戻すかをどう判断するかを整理します。アドレス変更ツールのキャンセルの3段階と180日の期限、DNSのTTLが反映時間を決める仕組みを解説します。', supervised: true },
   { slug: 'staging-environment-access-restrictions', category: 'Web制作', date: '2026.11.22', read: '8 min', title: 'ステージング環境の制限｜発注で書く3つの要件', img: 'assets/blog-default.png', desc: 'ホームページ制作の検証環境を第三者に見られないようにするため、Basic認証とIP制限のどちらを指定するかを整理します。RFCが示すHTTPSとの併用の前提、noindexの条件、発注書に書く3項目を示します。', supervised: true },
