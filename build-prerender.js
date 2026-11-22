@@ -33,6 +33,7 @@ const ARTICLE_ROUTES = (() => {
 })();
 
 const ROUTES_ALLOWLIST = [
+  '/article-search-console-period-comparison',
   '/article-customer-testimonial-consent-guide-2',
   '/article-sme-ai-adoption-rate-survey-gap',
   '/article-careplan-data-linkage-outsourcing-requirements',

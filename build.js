@@ -121,6 +121,7 @@ const ORG_SAME_AS = [
 // desc → meta description / og:description / BlogPosting.description に使う。
 //        未指定の記事は app.jsx の SEO_DESC か自動生成の定型文にフォールバックする
 const BLOG = [
+  { slug: 'search-console-period-comparison', category: 'Web制作', date: '2026.11.22', read: '7 min', title: 'Search Consoleの期間比較｜前後の順位の見方', img: 'assets/blog-default.png', desc: 'Search Consoleで変更前と変更後の期間を並べて比べる手順を、公式ヘルプの仕様にそって解説します。比較は一度に1つ、データの保持期間は16か月という制約と、平均掲載順位の読み方、集計単位の違いまで整理します。', supervised: true },
   { slug: 'customer-testimonial-consent-guide-2', category: 'Web制作', date: '2026.11.22', read: '11 min', title: 'お客様の声の掲載許可｜依頼の手順と個人情報の扱い', img: 'assets/blog-default.png', desc: 'お客様の声を自社サイトに掲載するときの許可の取り方を、5つの手順で解説します。氏名や社名を出す場合の個人情報の扱い、無回答を同意とみなせない根拠、好意的な意見だけを抜き出した場合の景品表示法上の扱いまで、公的資料をもとに整理しました。', supervised: true },
   { slug: 'sme-ai-adoption-rate-survey-gap', category: 'AI活用', date: '2026.11.22', read: '9 min', title: '中小企業のAI導入率｜2割と8割が並ぶ理由', img: 'assets/blog-default.png', desc: '中小企業のAI導入率として2割と8割の両方が示される理由を、公的調査の母集団と設問から整理します。中小機構の実態調査の20.4%と総務省の情報通信白書の86.4%の違い、引き算できない理由、社内説明での併記の型を解説します。', supervised: true },
   { slug: 'careplan-data-linkage-outsourcing-requirements', category: '技術', date: '2026.11.22', read: '10 min', title: 'ケアプランデータ連携の外注要件｜様式コードと文字コード', img: 'assets/blog-default.png', desc: 'ケアプランデータ連携の標準仕様で決まっている様式種類コードと文字コードを整理し、発注書に転記する5項目をまとめました。5.0版でJSONとUTF-8に変わった点、ライセンス料と改修費の切り分けも解説します。', supervised: true },
