@@ -121,6 +121,7 @@ const ORG_SAME_AS = [
 // desc → meta description / og:description / BlogPosting.description に使う。
 //        未指定の記事は app.jsx の SEO_DESC か自動生成の定型文にフォールバックする
 const BLOG = [
+  { slug: 'employee-photo-name-consent-website', category: 'Web制作', date: '2026.11.22', read: '10 min', title: '従業員の写真と実名の掲載｜同意と退職後の扱い', img: 'assets/blog-default.png', desc: '社員の顔写真や実名を自社サイトに載せるときの同意の取り方を整理します。同意書に書く4つの項目、退職した社員の掲載をいつまで続けてよいか、削除を求められたときの手順、棚卸しで見る場所まで解説します。', supervised: true },
   { slug: 'remove-indexed-staging-site', category: 'Web制作', date: '2026.11.22', read: '10 min', title: 'テスト環境のインデックス削除｜約6か月の期限', img: 'assets/blog-default.png', desc: '公開前のテスト環境が検索結果に出たときの消し方を、Google公式の記載から整理します。非表示ツールの約6か月という期限、恒久的に外す3つの方法、robots.txtとnoindexを併用すると効かない理由を解説します。', supervised: true },
   { slug: 'system-development-change-request-cost', category: '技術', date: '2026.11.22', read: '10 min', title: 'システム開発の仕様変更｜追加費用の判断と手続', img: 'assets/blog-default.png', desc: 'システム開発の仕様変更で追加費用が出る線引きと、提示された金額の妥当性を確かめる手順を解説します。中小受託取引適正化法の明示義務と禁止行為、契約書に書く変更管理の条項も整理しました。', supervised: true },
   { slug: 'search-console-period-comparison', category: 'Web制作', date: '2026.11.22', read: '7 min', title: 'Search Consoleの期間比較｜前後の順位の見方', img: 'assets/blog-default.png', desc: 'Search Consoleで変更前と変更後の期間を並べて比べる手順を、公式ヘルプの仕様にそって解説します。比較は一度に1つ、データの保持期間は16か月という制約と、平均掲載順位の読み方、集計単位の違いまで整理します。', supervised: true },
