@@ -33,6 +33,7 @@ const ARTICLE_ROUTES = (() => {
 })();
 
 const ROUTES_ALLOWLIST = [
+  '/article-domain-expiry-risk-management',
   '/article-construction-company-ga4-inquiry-metrics',
   '/article-system-development-defect-liability-period',
   '/article-site-renewal-rollback-dns',
