@@ -121,6 +121,7 @@ const ORG_SAME_AS = [
 // desc → meta description / og:description / BlogPosting.description に使う。
 //        未指定の記事は app.jsx の SEO_DESC か自動生成の定型文にフォールバックする
 const BLOG = [
+  { slug: 'software-escrow-vendor-bankruptcy-handover', category: '技術', date: '2026.11.22', read: '9 min', title: '開発会社の廃業に備える業務システムの引き継ぎ準備', img: 'assets/blog-default.png', desc: '開発会社が廃業した業務システムを別の会社へ引き継ぐための準備をまとめます。著作権の特掲、納品物に入れる書類、ソフトウェア・エスクロウ制度の仕組みと手数料の実額まで、出典つきで整理します。', supervised: true },
   { slug: 'page-speed-bounce-evidence', category: 'Web制作', date: '2026.11.22', read: '9 min', title: '表示速度3秒で離脱は本当か｜根拠と確認方法', img: 'assets/blog-default.png', desc: '「表示に3秒以上かかると53%が離脱する」という数字の出典をGoogleの原典の脚注まで遡って確認し、現行の公式しきい値であるLCP2.5秒以内との違い、Search ConsoleとGA4での確認手順を整理します。', supervised: true },
   { slug: 'domain-expiry-risk-management', category: 'Web制作', date: '2026.11.22', read: '9 min', title: 'ドメイン期限切れの影響｜第三者が取れるまで', img: 'assets/blog-default.png', desc: 'ドメインの有効期限が切れるとサイトと自社ドメインのメールが止まります。汎用JPドメイン名では廃止状態が1カ月、登録回復期間は20日まで。第三者に取られるまでの期間と管理の決め方を整理します。', supervised: true },
   { slug: 'construction-company-ga4-inquiry-metrics', category: 'Web制作', date: '2026.11.22', read: '10 min', title: '建設会社のGA4｜問い合わせを確認する指標', img: 'assets/blog-default.png', desc: '建設会社の自社サイトで、問い合わせが来ているかをGA4のどこで見るのかを整理します。推奨イベントgenerate_leadの確認手順、データの保持期間の注意点、施工実績と採用で分けて数える方法まで解説します。', supervised: true },
