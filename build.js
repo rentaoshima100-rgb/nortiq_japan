@@ -121,6 +121,7 @@ const ORG_SAME_AS = [
 // desc → meta description / og:description / BlogPosting.description に使う。
 //        未指定の記事は app.jsx の SEO_DESC か自動生成の定型文にフォールバックする
 const BLOG = [
+  { slug: 'website-renewal-launch-schedule', category: 'Web制作', date: '2026.11.22', read: '11 min', title: 'ホームページリニューアル｜公開日から逆算する手順', img: 'assets/blog-default.png', desc: 'ホームページリニューアルの公開日から逆算する段取りをまとめます。ドメイン移管の認証コードの35日、DNSのTTLを下げる時期、公開後のリダイレクトの維持期間まで、公式資料の期限を基に説明します。', supervised: true },
   { slug: 'subsidy-grant-decision-before-order', category: 'Web制作', date: '2026.11.21', read: '9 min', title: '補助金の交付決定前に発注してよい？着手の時期', img: 'assets/blog-default.png', desc: '補助金を使うホームページ制作で、発注してよいのは交付決定の後です。交付決定前の契約、発注、支払いが対象外になる根拠を事務局資料から整理し、待機中に進められる準備と例外の有無を解説します。', supervised: true },
   { slug: 'staging-environment-noindex-requirements', category: 'Web制作', date: '2026.11.21', read: '12 min', title: 'テスト環境を検索に出さない｜noindexの指示5項目', img: 'assets/blog-default.png', desc: '公開前のテスト環境を検索結果に出さないための要件を整理します。noindexはmetaタグとHTTPヘッダの2通りで、robots.txtでは指定できません。併用すると効かない理由と、公開時に外す手順をGoogle公式の記載で示します。', supervised: true },
   { slug: 'website-tampering-detection-requirements', category: 'Web制作', date: '2026.11.21', read: '9 min', title: 'ホームページ改ざんの検知｜発注時に書く監視の要件', img: 'assets/blog-default.png', desc: 'ホームページの改ざんに気づく仕組みを発注時の要件として書く方法をまとめました。監視すべき4つの対象、通知の宛先と時間の決め方、保守契約への書き分け、年額費用の内訳まで解説します。', supervised: true },
