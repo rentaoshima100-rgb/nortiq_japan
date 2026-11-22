@@ -121,6 +121,7 @@ const ORG_SAME_AS = [
 // desc → meta description / og:description / BlogPosting.description に使う。
 //        未指定の記事は app.jsx の SEO_DESC か自動生成の定型文にフォールバックする
 const BLOG = [
+  { slug: 'renewal-analytics-handover-spec', category: 'Web制作', date: '2026.11.22', read: '8 min', title: 'リニューアルの計測引き継ぎ｜発注で指定する項目', img: 'assets/blog-default.png', desc: 'ホームページのリニューアルで計測が途切れないよう、発注時に指定する項目を整理します。タグの設置範囲、コンバージョンの定義、権限の扱い、公開前に書き出すデータの期限、公開後の比較の制約まで解説します。', supervised: true },
   { slug: 'wordpress-update-status-check', category: 'Web制作', date: '2026.11.22', read: '8 min', title: 'WordPressの更新漏れ｜確認する3つの数字', img: 'assets/blog-default.png', desc: '自社のWordPressの更新が止まっていないかを、管理画面のバージョンとPHPのバージョン、更新があるプラグインの数の3点で確認する手順を示します。保守を誰がやるかを発注時に決める4項目も扱います。', supervised: true },
   { slug: 'bulk-email-consent-requirements', category: '技術', date: '2026.11.22', read: '9 min', title: '案内メール一斉配信の外注｜特定電子メール法の要件', img: 'assets/blog-default.png', desc: '案内メールの一斉配信を外注するときに決める要件を、特定電子メール法に沿って整理します。同意の取り方と記録の保存期間 (1ヶ月・1年・3年)、メールに表示する5項目、配信停止の受付と自動反映まで、要件書に書く7項目を示します。', supervised: true },
   { slug: 'website-incident-response-plan', category: 'Web制作', date: '2026.11.22', read: '9 min', title: 'サイトのインシデント｜初動と報告期限の決め方', img: 'assets/blog-default.png', desc: 'サイトの改ざんや情報漏えいが起きたとき、何から手を打ち、いつまでに誰へ報告するのかを公的な手引きに沿って説明します。発注の段階で連絡先の表とログ保存期間を決めておく手順まで扱います。', supervised: true },
