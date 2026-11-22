@@ -121,6 +121,7 @@ const ORG_SAME_AS = [
 // desc → meta description / og:description / BlogPosting.description に使う。
 //        未指定の記事は app.jsx の SEO_DESC か自動生成の定型文にフォールバックする
 const BLOG = [
+  { slug: 'retail-customer-record-system-requirements', category: '技術', date: '2026.11.22', read: '9 min', title: '小売業の来店予約と顧客記録｜外注前に決める要件', img: 'assets/blog-default.png', desc: '小売業の来店予約や取り置きの記録を紙の台帳から仕組みに移すとき、外注前に決める5点を整理します。依頼の単位と記録する4項目、期限の持たせ方、個人情報保護法で義務になる安全管理措置、検収で操作して確認する項目まで解説します。', supervised: true },
   { slug: 'construction-business-records-retention', category: '技術', date: '2026.11.22', read: '11 min', title: '建設業の営業に関する図書｜10年保存と電子化の要件', img: 'assets/blog-default.png', desc: '建設業の営業に関する図書は、引渡しから10年間の保存が必要です。施行規則第26条第5項の対象5号と立場ごとの保存範囲、電磁的記録のまま保存してよい3つの条件、保存の仕組みを外注するときに決める要件を条文で整理します。', supervised: true },
   { slug: 'always-on-ssl-migration', category: 'Web制作', date: '2026.11.22', read: '9 min', title: '常時SSL未対応の影響｜対応に必要な作業と判断', img: 'assets/blog-default.png', desc: '自社サイトがhttpのままだと、WordPressの動作環境を満たさずフォームの送信内容も暗号化されません。順位への効果はGoogleの記述で1%未満。対応に必要な作業と発注時に決める4項目を整理します。', supervised: true },
   { slug: 'employee-photo-name-consent-website', category: 'Web制作', date: '2026.11.22', read: '10 min', title: '従業員の写真と実名の掲載｜同意と退職後の扱い', img: 'assets/blog-default.png', desc: '社員の顔写真や実名を自社サイトに載せるときの同意の取り方を整理します。同意書に書く4つの項目、退職した社員の掲載をいつまで続けてよいか、削除を求められたときの手順、棚卸しで見る場所まで解説します。', supervised: true },
