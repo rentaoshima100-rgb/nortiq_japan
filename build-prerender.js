@@ -33,6 +33,7 @@ const ARTICLE_ROUTES = (() => {
 })();
 
 const ROUTES_ALLOWLIST = [
+  '/article-staging-environment-access-restrictions',
   '/article-oss-license-check-for-outsourced-system',
   '/article-construction-admin-work-survey',
   '/article-scanner-storage-paper-disposal-timing',
