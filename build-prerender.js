@@ -33,6 +33,7 @@ const ARTICLE_ROUTES = (() => {
 })();
 
 const ROUTES_ALLOWLIST = [
+  '/article-remove-indexed-staging-site',
   '/article-system-development-change-request-cost',
   '/article-search-console-period-comparison',
   '/article-customer-testimonial-consent-guide-2',

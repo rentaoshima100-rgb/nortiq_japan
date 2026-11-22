@@ -121,6 +121,7 @@ const ORG_SAME_AS = [
 // desc → meta description / og:description / BlogPosting.description に使う。
 //        未指定の記事は app.jsx の SEO_DESC か自動生成の定型文にフォールバックする
 const BLOG = [
+  { slug: 'remove-indexed-staging-site', category: 'Web制作', date: '2026.11.22', read: '10 min', title: 'テスト環境のインデックス削除｜約6か月の期限', img: 'assets/blog-default.png', desc: '公開前のテスト環境が検索結果に出たときの消し方を、Google公式の記載から整理します。非表示ツールの約6か月という期限、恒久的に外す3つの方法、robots.txtとnoindexを併用すると効かない理由を解説します。', supervised: true },
   { slug: 'system-development-change-request-cost', category: '技術', date: '2026.11.22', read: '10 min', title: 'システム開発の仕様変更｜追加費用の判断と手続', img: 'assets/blog-default.png', desc: 'システム開発の仕様変更で追加費用が出る線引きと、提示された金額の妥当性を確かめる手順を解説します。中小受託取引適正化法の明示義務と禁止行為、契約書に書く変更管理の条項も整理しました。', supervised: true },
   { slug: 'search-console-period-comparison', category: 'Web制作', date: '2026.11.22', read: '7 min', title: 'Search Consoleの期間比較｜前後の順位の見方', img: 'assets/blog-default.png', desc: 'Search Consoleで変更前と変更後の期間を並べて比べる手順を、公式ヘルプの仕様にそって解説します。比較は一度に1つ、データの保持期間は16か月という制約と、平均掲載順位の読み方、集計単位の違いまで整理します。', supervised: true },
   { slug: 'customer-testimonial-consent-guide-2', category: 'Web制作', date: '2026.11.22', read: '11 min', title: 'お客様の声の掲載許可｜依頼の手順と個人情報の扱い', img: 'assets/blog-default.png', desc: 'お客様の声を自社サイトに掲載するときの許可の取り方を、5つの手順で解説します。氏名や社名を出す場合の個人情報の扱い、無回答を同意とみなせない根拠、好意的な意見だけを抜き出した場合の景品表示法上の扱いまで、公的資料をもとに整理しました。', supervised: true },
