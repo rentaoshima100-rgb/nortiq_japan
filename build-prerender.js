@@ -33,6 +33,7 @@ const ARTICLE_ROUTES = (() => {
 })();
 
 const ROUTES_ALLOWLIST = [
+  '/article-dental-clinic-web-reservation-requirements',
   '/article-csv-integration-spec-checklist',
   '/article-face-recognition-camera-signage-requirements',
   '/article-website-renewal-launch-schedule',
