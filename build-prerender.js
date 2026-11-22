@@ -33,6 +33,7 @@ const ARTICLE_ROUTES = (() => {
 })();
 
 const ROUTES_ALLOWLIST = [
+  '/article-sme-ai-adoption-rate-survey-gap',
   '/article-careplan-data-linkage-outsourcing-requirements',
   '/article-system-development-payment-deadline',
   '/article-old-domain-retention-period-after-renewal',

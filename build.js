@@ -121,6 +121,7 @@ const ORG_SAME_AS = [
 // desc → meta description / og:description / BlogPosting.description に使う。
 //        未指定の記事は app.jsx の SEO_DESC か自動生成の定型文にフォールバックする
 const BLOG = [
+  { slug: 'sme-ai-adoption-rate-survey-gap', category: 'AI活用', date: '2026.11.22', read: '9 min', title: '中小企業のAI導入率｜2割と8割が並ぶ理由', img: 'assets/blog-default.png', desc: '中小企業のAI導入率として2割と8割の両方が示される理由を、公的調査の母集団と設問から整理します。中小機構の実態調査の20.4%と総務省の情報通信白書の86.4%の違い、引き算できない理由、社内説明での併記の型を解説します。', supervised: true },
   { slug: 'careplan-data-linkage-outsourcing-requirements', category: '技術', date: '2026.11.22', read: '10 min', title: 'ケアプランデータ連携の外注要件｜様式コードと文字コード', img: 'assets/blog-default.png', desc: 'ケアプランデータ連携の標準仕様で決まっている様式種類コードと文字コードを整理し、発注書に転記する5項目をまとめました。5.0版でJSONとUTF-8に変わった点、ライセンス料と改修費の切り分けも解説します。', supervised: true },
   { slug: 'system-development-payment-deadline', category: '技術', date: '2026.11.22', read: '7 min', title: 'システム開発の支払期日｜検収後60日の数え方', img: 'assets/blog-default.png', desc: 'システム開発を外注するときの支払期日は、検収の完了日ではなく納品物を受領した日から60日以内です。取適法の規定をもとに、受領日の定義、締め日と支払日の決め方、手形が使えなくなった後の支払手段までを手順で整理します。', supervised: true },
   { slug: 'old-domain-retention-period-after-renewal', category: 'Web制作', date: '2026.11.22', read: '12 min', title: '旧ドメインの更新はいつまで？維持期間は1年以上', img: 'assets/blog-default.png', desc: 'ドメインを変えてリニューアルした後、旧ドメインの更新をいつまで続けるかを整理します。Googleは301リダイレクトの保持と旧ドメインの維持をいずれも1年以上としています。やめた場合の影響と確認項目も示します。', supervised: true },
