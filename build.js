@@ -121,6 +121,7 @@ const ORG_SAME_AS = [
 // desc → meta description / og:description / BlogPosting.description に使う。
 //        未指定の記事は app.jsx の SEO_DESC か自動生成の定型文にフォールバックする
 const BLOG = [
+  { slug: 'ssl-certificate-expiry-renewal', category: 'Web制作', date: '2026.11.23', read: '9 min', title: 'SSL証明書の期限切れ｜誰が更新するかの確認', img: 'assets/blog-default.png', desc: 'SSL証明書の期限が切れるとHTTPSが成立せず、サイトの入口が止まります。Let\'s Encryptは90日で60日ごとの更新を推奨。有効期間が47日へ短縮される公式スケジュールと、更新の担当の決め方を整理します。', supervised: true },
   { slug: 'website-access-log-retention-requirements', category: 'Web制作', date: '2026.11.23', read: '8 min', title: 'アクセスログの保存期間｜公的な参考値は1年以上', img: 'assets/blog-default.png', desc: 'ホームページのアクセスログの保存期間について、JPCERT/CCが示す1年以上という参考値と、ログ量と費用から決める2段階の手順を整理します。発注や保守契約に書く4項目と、今のサーバ設定の確認手順も示します。', supervised: true },
   { slug: 'business-system-manual-training-scope', category: '技術', date: '2026.11.23', read: '7 min', title: '業務システム外注｜マニュアルと研修の範囲', img: 'assets/blog-default.png', desc: '業務システムを外注したとき、操作マニュアルの作成と社内研修がどこまで開発会社の範囲に入るかを整理します。国の補助制度の経費区分をもとにした費用の目安、マニュアルの作る分担、発注前に決める3項目を示します。', supervised: true },
   { slug: 'ai-agent-operation-permissions', category: 'AI活用', date: '2026.11.23', read: '10 min', title: 'AIエージェントの操作権限｜外注前に決める6項目', img: 'assets/blog-default.png', desc: 'AIエージェントに業務システムを触らせる前に決める項目を、権限の範囲、連携先の限定、操作記録、人の承認、個人情報、責任分担の6つに整理しました。既存システムの制約でつまずく箇所も解説します。', supervised: true },
