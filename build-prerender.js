@@ -33,6 +33,7 @@ const ARTICLE_ROUTES = (() => {
 })();
 
 const ROUTES_ALLOWLIST = [
+  '/article-business-system-data-return-clause',
   '/article-care-software-migration-data-export-requirements',
   '/article-tokyo-sme-website-adoption-rate',
   '/article-ssl-certificate-expiry-renewal',

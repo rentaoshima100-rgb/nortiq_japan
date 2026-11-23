@@ -121,6 +121,7 @@ const ORG_SAME_AS = [
 // desc → meta description / og:description / BlogPosting.description に使う。
 //        未指定の記事は app.jsx の SEO_DESC か自動生成の定型文にフォールバックする
 const BLOG = [
+  { slug: 'business-system-data-return-clause', category: '技術', date: '2026.11.23', read: '10 min', title: '業務システム外注、契約終了時のデータ返却条項', img: 'assets/blog-default.png', desc: '業務システムの外注先との契約が終わるとき、自社のデータを使える形で返してもらうための条項を整理します。返却する形式の指定、消去の期限と報告、電子帳簿保存法の保存要件との関係、契約の終わり方による違いを解説します。', supervised: true },
   { slug: 'care-software-migration-data-export-requirements', category: '技術', date: '2026.11.23', read: '9 min', title: '介護ソフトの乗り換え｜記録を持ち出す前の確認項目', img: 'assets/blog-default.png', desc: '介護ソフトを乗り換えるとき記録を持ち出せるかは、現行ソフトの書き出し機能で決まります。国の標準仕様が対象にしている範囲、CSVで決める5項目、保存年限から見た移行範囲を出典つきで整理します。', supervised: true },
   { slug: 'tokyo-sme-website-adoption-rate', category: 'Web制作', date: '2026.11.23', read: '10 min', title: '東京都の中小企業のホームページ開設率と事業所規模', img: 'assets/blog-default.png', desc: 'よく引用されるホームページ開設率9割は、従業員100人以上の企業6,040社を対象とした数値です。東京都の民営事業所628,239事業所との重ね方、稟議の資料で使うときに併記する4点を出典つきで整理しました。', supervised: true },
   { slug: 'ssl-certificate-expiry-renewal', category: 'Web制作', date: '2026.11.23', read: '9 min', title: 'SSL証明書の期限切れ｜誰が更新するかの確認', img: 'assets/blog-default.png', desc: 'SSL証明書の期限が切れるとHTTPSが成立せず、サイトの入口が止まります。Let\'s Encryptは90日で60日ごとの更新を推奨。有効期間が47日へ短縮される公式スケジュールと、更新の担当の決め方を整理します。', supervised: true },
