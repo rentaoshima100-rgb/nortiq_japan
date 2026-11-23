@@ -121,6 +121,7 @@ const ORG_SAME_AS = [
 // desc → meta description / og:description / BlogPosting.description に使う。
 //        未指定の記事は app.jsx の SEO_DESC か自動生成の定型文にフォールバックする
 const BLOG = [
+  { slug: 'contact-form-spam-prevention', category: 'Web制作', date: '2026.11.23', read: '9 min', title: 'フォームのスパム対策｜IPAの対策項目と要件', img: 'assets/blog-default.png', desc: 'フォームに届くスパムと、フォームが他人への送信に悪用される問題は別です。IPAの根本的解決3項目と保険的対策、reCAPTCHA v3の既定しきい値0.5、発注時に決める4項目を公式資料で整理します。', supervised: true },
   { slug: 'customer-testimonial-interview-cost', category: 'Web制作', date: '2026.11.23', read: '11 min', title: 'お客様の声の取材と撮影｜分担と費用の決め方', img: 'assets/blog-default.png', desc: 'お客様の声のページで、取材と撮影と原稿を制作会社と自社のどちらが担うかを整理しました。見積もりのどの項目に費用が乗るか、追加費用になりやすい4つの要因、同意と表示の責任の所在も解説します。', supervised: true },
   { slug: 'business-system-data-return-clause', category: '技術', date: '2026.11.23', read: '10 min', title: '業務システム外注、契約終了時のデータ返却条項', img: 'assets/blog-default.png', desc: '業務システムの外注先との契約が終わるとき、自社のデータを使える形で返してもらうための条項を整理します。返却する形式の指定、消去の期限と報告、電子帳簿保存法の保存要件との関係、契約の終わり方による違いを解説します。', supervised: true },
   { slug: 'care-software-migration-data-export-requirements', category: '技術', date: '2026.11.23', read: '9 min', title: '介護ソフトの乗り換え｜記録を持ち出す前の確認項目', img: 'assets/blog-default.png', desc: '介護ソフトを乗り換えるとき記録を持ち出せるかは、現行ソフトの書き出し機能で決まります。国の標準仕様が対象にしている範囲、CSVで決める5項目、保存年限から見た移行範囲を出典つきで整理します。', supervised: true },
