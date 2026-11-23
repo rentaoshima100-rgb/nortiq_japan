@@ -121,6 +121,7 @@ const ORG_SAME_AS = [
 // desc → meta description / og:description / BlogPosting.description に使う。
 //        未指定の記事は app.jsx の SEO_DESC か自動生成の定型文にフォールバックする
 const BLOG = [
+  { slug: 'admin-two-factor-authentication', category: 'Web制作', date: '2026.11.23', read: '10 min', title: '管理画面の二要素認証｜国の統計と発注の要件', img: 'assets/blog-default.png', desc: '令和7年の不正アクセス行為の認知件数は7,190件で前年比約34.2%増。不正利用が最多のサービスは社員・会員用等の専用サイトです。管理画面の二要素認証を入れる根拠と、発注時に決める4項目を整理します。', supervised: true },
   { slug: 'php-end-of-life-migration', category: 'Web制作', date: '2026.11.23', read: '9 min', title: 'PHPサポート終了の影響と移行の判断｜期限一覧', img: 'assets/blog-default.png', desc: 'PHPのサポートが終了すると新たな脆弱性が修正されなくなります。8.2は2026年12月31日、8.1は2025年12月31日に終了。公式の期限一覧と、移行するかどうかの判断、費用の決まり方を整理します。', supervised: true },
   { slug: 'software-escrow-vendor-bankruptcy-handover', category: '技術', date: '2026.11.22', read: '9 min', title: '開発会社の廃業に備える業務システムの引き継ぎ準備', img: 'assets/blog-default.png', desc: '開発会社が廃業した業務システムを別の会社へ引き継ぐための準備をまとめます。著作権の特掲、納品物に入れる書類、ソフトウェア・エスクロウ制度の仕組みと手数料の実額まで、出典つきで整理します。', supervised: true },
   { slug: 'page-speed-bounce-evidence', category: 'Web制作', date: '2026.11.22', read: '9 min', title: '表示速度3秒で離脱は本当か｜根拠と確認方法', img: 'assets/blog-default.png', desc: '「表示に3秒以上かかると53%が離脱する」という数字の出典をGoogleの原典の脚注まで遡って確認し、現行の公式しきい値であるLCP2.5秒以内との違い、Search ConsoleとGA4での確認手順を整理します。', supervised: true },
