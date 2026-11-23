@@ -33,6 +33,7 @@ const ARTICLE_ROUTES = (() => {
 })();
 
 const ROUTES_ALLOWLIST = [
+  '/article-php-end-of-life-migration',
   '/article-software-escrow-vendor-bankruptcy-handover',
   '/article-page-speed-bounce-evidence',
   '/article-domain-expiry-risk-management',
