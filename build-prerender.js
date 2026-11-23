@@ -33,6 +33,7 @@ const ARTICLE_ROUTES = (() => {
 })();
 
 const ROUTES_ALLOWLIST = [
+  '/article-generative-ai-customer-data-input-report',
   '/article-ai-search-citation-tracking-frequency',
   '/article-admin-two-factor-authentication',
   '/article-php-end-of-life-migration',
