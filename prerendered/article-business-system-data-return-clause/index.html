@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="ja" style="--accent: hsl(354, 92%, 45%); --accent-hi: hsl(354, 95%, 52%); --accent-soft: hsl(354, 90%, 95%);"><head>
+  <meta charset="UTF-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; form-action 'self'; frame-src 'self'; script-src 'self' 'sha256-ocRBZRJbPcvKG6Qsbe5AZCl1WeoAuzpcVpkhAf5xM+g=' 'sha256-Kw0nZV75o5JtrJ6JtZw2ebqGC30k/KhvkOn7Ro9UE1Q=' 'sha256-Wz147NFgJy4vRm8+5b9ZyHibNfQczwF3HPKS6wtTlfk=' 'unsafe-hashes' 'sha256-MhtPZXr7+LpJUY5qtMutB+qWfQtMaPccfe7QXtCcEYc=' https://www.googletagmanager.com https://www.clarity.ms https://scripts.clarity.ms; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https:; media-src 'self' blob:; connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com https://*.google.com https://*.google.co.jp https://*.doubleclick.net https://*.clarity.ms https://c.bing.com; upgrade-insecure-requests">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>
+    (function(){try{var q=location.search;
+      if(/[?&]nq_internal=1(&|$)/.test(q))localStorage.setItem('nq_internal','1');
+      if(/[?&]nq_internal=0(&|$)/.test(q))localStorage.removeItem('nq_internal');
+      window.__NQ_INTERNAL__=localStorage.getItem('nq_internal')==='1';}catch(e){}})();
+    (function(){try{if(window.__NQ_INTERNAL__)return;var p=new URLSearchParams(location.search),id=p.get('utm_content');
+      if(p.get('utm_source')!=='outbound'||!/^[0-9a-f]{8}$/.test(id||''))return;
+      var sent=false,t0=Date.now(),ev=['scroll','pointerdown','keydown'];
+      function send(){if(sent)return;sent=true;ev.forEach(function(e){removeEventListener(e,on,true)});
+        navigator.sendBeacon('/api/outbound-visit',JSON.stringify({id:id,path:location.pathname}));}
+      function on(){if(Date.now()-t0>=3000)send();}
+      ev.forEach(function(e){addEventListener(e,on,{capture:true,passive:true})});
+      setTimeout(function(){if(document.visibilityState==='visible')send();},20000);}catch(e){}})();
+  </script>
+  <!-- Google tag (gtag.js) — GA4 + Google Ads conversion tracking (本体は DOMContentLoaded 後に読む) -->
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-EYTD1TWR7T');
+    window.NORTIQ_CONV = { contact: null, diagnostic: null };
+    (function(){if(window.__NQ_INTERNAL__)return;var s=document.createElement('script');s.async=true;s.fetchPriority='low';s.src='https://www.googletagmanager.com/gtag/js?id=G-EYTD1TWR7T';
+      function go(){document.head.appendChild(s);}
+      if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',go);}else{go();}})();
+  </script>
+  <!-- Microsoft Clarity — heatmaps & session recordings (本体は DOMContentLoaded 後に読む) -->
+  <script>
+    (function(c,l,a,r,i){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+    if(c.__NQ_INTERNAL__)return;
+    function go(){var t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;l.head.appendChild(t);}
+    if(l.readyState==='loading'){l.addEventListener('DOMContentLoaded',go);}else{go();}})(window, document, "clarity", "script", "z2wvw7aod2");
+  </script>
+  <title>業務システム外注、契約終了時のデータ返却条項 — Nortiq Labs</title>
+  <meta name="description" content="業務システムの外注先との契約が終わるとき、自社のデータを使える形で返してもらうための条項を整理します。返却する形式の指定、消去の期限と報告、電子帳簿保存法の保存要件との関係、契約の終わり方による違いを解説します。">
+  <link rel="icon" href="/assets/nortiq-fav.png" type="image/png">
+  <link rel="apple-touch-icon" href="/assets/nortiq-icon.png">
+  <meta name="theme-color" content="#E60012">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Nortiq Labs">
+  <!-- 記事ルートでは app.jsx が og:type を article に変え、下の2つに日付を入れる。
+       setMetaContent は既存要素しか書き換えないため、空のまま置いておく必要がある -->
+  <meta property="article:published_time" content="2026-11-23">
+  <meta property="article:modified_time" content="2026-11-23">
+  <meta property="og:title" content="業務システム外注、契約終了時のデータ返却条項 — Nortiq Labs">
+  <meta property="og:description" content="業務システムの外注先との契約が終わるとき、自社のデータを使える形で返してもらうための条項を整理します。返却する形式の指定、消去の期限と報告、電子帳簿保存法の保存要件との関係、契約の終わり方による違いを解説します。">
+  <meta property="og:url" content="https://nortiqlab.com/article-business-system-data-return-clause">
+  <meta property="og:image" content="https://nortiqlab.com/assets/blog-default.png">
+  <meta property="og:locale" content="ja_JP">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="業務システム外注、契約終了時のデータ返却条項 — Nortiq Labs">
+  <meta name="twitter:description" content="業務システムの外注先との契約が終わるとき、自社のデータを使える形で返してもらうための条項を整理します。返却する形式の指定、消去の期限と報告、電子帳簿保存法の保存要件との関係、契約の終わり方による違いを解説します。">
+  <meta name="twitter:image" content="https://nortiqlab.com/assets/blog-default.png">
+  <link rel="stylesheet" href="/styles.css?v=e301065ae3">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&amp;family=Space+Grotesk:wght@400;500;600;700&amp;display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&amp;family=Space+Grotesk:wght@400;500;600;700&amp;display=swap" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Space+Grotesk:wght@400;500;600;700&display=swap"></noscript>
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://nortiqlab.com/#org","name":"Nortiq Labs","legalName":"NORTIQLAB株式会社","url":"https://nortiqlab.com/","logo":"https://nortiqlab.com/assets/nortiq-mark.png","image":"https://nortiqlab.com/assets/og-image.png","description":"京都のWeb制作×AI実装カンパニー。オリジナルデザインのホームページ制作からAIチャットボット導入、DXコンサルティングまで一気通貫で支援。初回相談無料・営業日24時間以内に返信します。","foundingDate":"2026-07-07","email":"info@nortiqlab.com","identifier":{"@type":"PropertyValue","propertyID":"法人番号","value":"6130001082671"},"address":{"@type":"PostalAddress","addressCountry":"JP","postalCode":"604-0012","addressRegion":"京都府","addressLocality":"京都市中京区","streetAddress":"竪大恩寺町751 シュデン二条201"},"areaServed":{"@type":"Country","name":"Japan"},"alternateName":["ノーティックラボ","株式会社ノーティックラボ","NORTIQLAB"],"knowsAbout":["Web制作","AIチャットボット","DX","機械学習","SEO","LP制作 / LPO","業務自動化","データ分析"]},{"@type":"WebSite","@id":"https://nortiqlab.com/#website","name":"Nortiq Labs","url":"https://nortiqlab.com/","publisher":{"@id":"https://nortiqlab.com/#org"},"inLanguage":"ja"},{"@type":"ProfessionalService","name":"Nortiq Labs","url":"https://nortiqlab.com/","description":"京都のWeb制作×AI実装カンパニー。オリジナルデザインのホームページ制作からAIチャットボット導入、DXコンサルティングまで一気通貫で支援。初回相談無料・営業日24時間以内に返信します。","areaServed":"JP","serviceType":["Web制作","AIチャットボット導入","DX・ML実装","補助金活用のDX導入相談"],"provider":{"@id":"https://nortiqlab.com/#org"}}]}</script>
+  <!-- defer: この2本 (計約139KB) は head にあって描画をブロックしていた。
+       ページの初期表示はプリレンダ済みHTMLで完結するのでJSを待つ必要がない。
+       defer は文書順に実行されるため react → react-dom → articles.js →
+       app.bundle.js の順序は保たれる。 -->
+  <script src="/assets/vendor/react.production.min.js?v=e301065ae3" defer=""></script>
+  <script src="/assets/vendor/react-dom.production.min.js?v=e301065ae3" defer=""></script>
+<script src="/articles/business-system-data-return-clause.js" defer="" data-article="business-system-data-return-clause"></script><link rel="canonical" href="https://nortiqlab.com/article-business-system-data-return-clause"><script type="application/ld+json" id="route-ld">[{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"トップ","item":"https://nortiqlab.com/"},{"@type":"ListItem","position":2,"name":"コラム","item":"https://nortiqlab.com/column"},{"@type":"ListItem","position":3,"name":"業務システム外注、契約終了時のデータ返却条項","item":"https://nortiqlab.com/article-business-system-data-return-clause"}]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"業務システム外注、契約終了時のデータ返却条項","description":"業務システムの外注先との契約が終わるとき、自社のデータを使える形で返してもらうための条項を整理します。返却する形式の指定、消去の期限と報告、電子帳簿保存法の保存要件との関係、契約の終わり方による違いを解説します。","image":"https://nortiqlab.com/assets/blog-default.png","url":"https://nortiqlab.com/article-business-system-data-return-clause","inLanguage":"ja","articleSection":"技術","datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","@id":"https://nortiqlab.com/#org","name":"Nortiq Labs"},"publisher":{"@id":"https://nortiqlab.com/#org"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://nortiqlab.com/article-business-system-data-return-clause","reviewedBy":{"@id":"https://nortiqlab.com/#org"}}}]</script></head>
+<body>
+  <div id="app"><header class="nav" role="banner"><div class="nav-inner"><a class="nav-logo" href="/" style="cursor: pointer;"><span class="nav-logo-mark"></span><span class="wordmark"><span class="wordmark-main">NORTIQ</span><span class="wordmark-sub">LABS</span></span></a><nav class="nav-links" aria-label="メインナビゲーション"><div class="nav-link-wrap"><a class="nav-link" href="/">トップ</a></div><div class="nav-link-wrap"><button type="button" class="nav-link" aria-haspopup="true" aria-expanded="false">サービス<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></button><div class="megamenu" hidden=""><div class="megamenu-inner"><div class="megamenu-col"><h4>サービス一覧</h4><ul><li><a href="/web">ホームページ制作<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></li><li><a href="/chatbot">AIチャットボット<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></li><li><a href="/phone-ai">電話AI<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></li><li><a href="/dx">業務システム・AI開発<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></li></ul></div><div class="megamenu-col"><h4>技術領域</h4><ul><li><a href="/feature-lpo">LP制作 / LPO<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></li><li><a href="/feature-recruit">採用専門サイト<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></li><li><a href="/feature-analytics">アクセス解析カスタム実装<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></li><li><a href="/feature-cms">CMS / 記事更新システム<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></li></ul></div><div class="megamenu-col"><h4>自社プロダクト</h4><ul><li><a href="/product-vetonet">VetoNet (AI Security)<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></li><li><a href="/product-wpchat">ブログボット（AI投稿アシスタント）<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></li></ul></div></div></div></div><div class="nav-link-wrap"><button type="button" class="nav-link" aria-haspopup="true" aria-expanded="false">制作実績<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></button><div class="megamenu" hidden=""><div class="megamenu-inner"><div class="megamenu-col"><h4>業種から探す</h4><ul><li><a href="/works-clinic">クリニック・医療<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></li><li><a href="/works-realty">不動産<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></li><li><a href="/works-build">建築・工務店<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></li><li><a href="/works-hr">人材<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></li><li><a href="/works-retail">小売 / EC<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></li><li><a href="/works-infra">インフラ・製造<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></li><li><a href="/works-ai">AIスタートアップ<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></li></ul></div><div class="megamenu-col"><h4>強化LP別</h4><ul><li><a href="/works-lp-corp">コーポレートサイト<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></li><li><a href="/works-lp-recruit">採用LP<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></li><li><a href="/works-lp-ec">EC連動LP<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></li></ul></div><div class="megamenu-col"><h4>実績まとめ</h4><ul><li><a href="/works">全実績一覧<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></li></ul></div></div></div></div><div class="nav-link-wrap"><button type="button" class="nav-link" aria-haspopup="true" aria-expanded="false">業種ソリューション<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></button><div class="megamenu" hidden=""><div class="megamenu-inner"><div class="megamenu-col"><h4>業種別パッケージ</h4><ul><li><a href="/solution-clinic">クリニック・医療 DXパッケージ<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></li><li><a href="/solution-realty">不動産 集客×管理パッケージ<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></li><li><a href="/solution-build">建築 ブランド×案件管理<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></li><li><a href="/solution-hr">人材 マッチング×集客<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></li><li><a href="/solution-retail">小売・EC OMOパッケージ<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></li></ul></div><div class="megamenu-col"><h4>特設ページ (NEW)</h4><ul><li><a href="/service/kanri-dantai">監理団体・登録支援機関向け<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></li><li><a href="/service/recruit-site">建設・運送・介護の採用サイト<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></li><li><a href="/security">脆弱性診断・セキュリティ保守<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></li><li><a href="/automation">ひと業務AI（1業務自動化サブスク）<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></li><li><a href="/tools">無料ツール（概算見積・診断・計算機）<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></li><li><a href="/tools/invoice">請求書・見積書メーカー（インボイス対応）<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></li><li><a href="/tools/payment-match">入金消し込み照合・タイムカード集計<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></li><li><a href="/tools/order-summary">注文集計・出荷指示書／送り状の宛先整形<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></li><li><a href="/tools/booking-sheet">予約表メーカー・作業日報メーカー<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></li><li><a href="/tools/monthly-billing">締め請求書・発注リスト・価格表メーカー<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></li><li><a href="/tools/shift-table">シフト表メーカー・出面表メーカー<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></li></ul></div></div></div></div><div class="nav-link-wrap"><a class="nav-link" href="/voice">ご利用会社様の声</a></div><div class="nav-link-wrap"><a class="nav-link" href="/support">サポート</a></div><div class="nav-link-wrap"><a class="nav-link" href="/pricing">料金プラン</a></div><div class="nav-link-wrap"><button type="button" class="nav-link" aria-current="page" aria-haspopup="true" aria-expanded="false">コンテンツ<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></button><div class="megamenu" hidden=""><div class="megamenu-inner"><div class="megamenu-col"><h4>メディア</h4><ul><li><a href="/column">コラム / 技術ブログ<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></li><li><a href="/news">お知らせ<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></li><li><a href="/guidebook">サービス紹介資料<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></li><li><a href="/subsidy">補助金活用相談<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></li></ul></div></div></div></div><div class="nav-link-wrap"><a class="nav-link" href="/diagnostic">無料診断</a></div><div class="nav-link-wrap"><a class="nav-link" href="/tools">無料ツール</a></div></nav><div class="nav-cta-wrap"><button class="btn btn-primary btn-sm" type="button"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><path d="M22 6l-10 7L2 6"></path></svg>メールでお問合せ</button><button class="hamburger" aria-label="メニューを開く" aria-expanded="false"><span></span><span></span><span></span></button></div></div><div class="nav-drawer"><div class="nav-drawer-panel"><div class="nav-drawer-head"><span class="nav-logo" style="font-size: 18px;"><span class="nav-logo-mark" aria-hidden="true"></span><span class="wordmark"><span class="wordmark-main">NORTIQ</span><span class="wordmark-sub">LABS</span></span></span><button class="drawer-close" aria-label="閉じる"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M6 18L18 6"></path></svg></button></div><nav class="nav-drawer-body"><a class="drawer-item" href="/"><span>トップ</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><div class="drawer-group"><button class="drawer-item drawer-group-head"><span>サービス</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></button><div class="drawer-group-body"><div class="drawer-subgroup"><h5>サービス一覧</h5><a class="drawer-sub-item" href="/web"><span>ホームページ制作</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/chatbot"><span>AIチャットボット</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/phone-ai"><span>電話AI</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/dx"><span>業務システム・AI開発</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></div><div class="drawer-subgroup"><h5>技術領域</h5><a class="drawer-sub-item" href="/feature-lpo"><span>LP制作 / LPO</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/feature-recruit"><span>採用専門サイト</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/feature-analytics"><span>アクセス解析カスタム実装</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/feature-cms"><span>CMS / 記事更新システム</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></div><div class="drawer-subgroup"><h5>自社プロダクト</h5><a class="drawer-sub-item" href="/product-vetonet"><span>VetoNet (AI Security)</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/product-wpchat"><span>ブログボット（AI投稿アシスタント）</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></div></div></div><div class="drawer-group"><button class="drawer-item drawer-group-head"><span>制作実績</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></button><div class="drawer-group-body"><div class="drawer-subgroup"><h5>業種から探す</h5><a class="drawer-sub-item" href="/works-clinic"><span>クリニック・医療</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/works-realty"><span>不動産</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/works-build"><span>建築・工務店</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/works-hr"><span>人材</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/works-retail"><span>小売 / EC</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/works-infra"><span>インフラ・製造</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/works-ai"><span>AIスタートアップ</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></div><div class="drawer-subgroup"><h5>強化LP別</h5><a class="drawer-sub-item" href="/works-lp-corp"><span>コーポレートサイト</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/works-lp-recruit"><span>採用LP</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/works-lp-ec"><span>EC連動LP</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></div><div class="drawer-subgroup"><h5>実績まとめ</h5><a class="drawer-sub-item" href="/works"><span>全実績一覧</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></div></div></div><div class="drawer-group"><button class="drawer-item drawer-group-head"><span>業種ソリューション</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></button><div class="drawer-group-body"><div class="drawer-subgroup"><h5>業種別パッケージ</h5><a class="drawer-sub-item" href="/solution-clinic"><span>クリニック・医療 DXパッケージ</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/solution-realty"><span>不動産 集客×管理パッケージ</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/solution-build"><span>建築 ブランド×案件管理</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/solution-hr"><span>人材 マッチング×集客</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/solution-retail"><span>小売・EC OMOパッケージ</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></div><div class="drawer-subgroup"><h5>特設ページ (NEW)</h5><a class="drawer-sub-item" href="/service/kanri-dantai"><span>監理団体・登録支援機関向け</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/service/recruit-site"><span>建設・運送・介護の採用サイト</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/security"><span>脆弱性診断・セキュリティ保守</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/automation"><span>ひと業務AI（1業務自動化サブスク）</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/tools"><span>無料ツール（概算見積・診断・計算機）</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/tools/invoice"><span>請求書・見積書メーカー（インボイス対応）</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/tools/payment-match"><span>入金消し込み照合・タイムカード集計</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/tools/order-summary"><span>注文集計・出荷指示書／送り状の宛先整形</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/tools/booking-sheet"><span>予約表メーカー・作業日報メーカー</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/tools/monthly-billing"><span>締め請求書・発注リスト・価格表メーカー</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/tools/shift-table"><span>シフト表メーカー・出面表メーカー</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></div></div></div><a class="drawer-item" href="/voice"><span>ご利用会社様の声</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-item" href="/support"><span>サポート</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-item" href="/pricing"><span>料金プラン</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><div class="drawer-group"><button class="drawer-item drawer-group-head"><span>コンテンツ</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></button><div class="drawer-group-body"><div class="drawer-subgroup"><h5>メディア</h5><a class="drawer-sub-item" href="/column"><span>コラム / 技術ブログ</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/news"><span>お知らせ</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/guidebook"><span>サービス紹介資料</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/subsidy"><span>補助金活用相談</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></div></div></div><a class="drawer-item" href="/diagnostic"><span>無料診断</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-item" href="/tools"><span>無料ツール</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></nav><div class="nav-drawer-foot"><button class="btn btn-primary btn-lg" type="button" style="width: 100%;"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><path d="M22 6l-10 7L2 6"></path></svg>資料請求・お問い合わせ</button></div></div></div></header><div><main class="page-fade"><nav aria-label="Breadcrumb" style="padding: 14px 0px; border-bottom: 1px solid var(--border); background: var(--bg-2);"><div class="container"><ol class="row-tight" style="list-style: none; padding: 0px; margin: 0px; font-size: 12px; color: var(--text-3);"><li class="row-tight" style="gap: 8px;"><a href="/" style="cursor: pointer; color: var(--text-2);">トップ</a></li><li class="row-tight" style="gap: 8px;"><span style="color: var(--text-4);">›</span><a href="/column" style="cursor: pointer; color: var(--text-2);">コラム</a></li><li class="row-tight" style="gap: 8px;"><span style="color: var(--text-4);">›</span><span style="color: var(--text);">業務システム外注、契約終了時のデータ返却条項</span></li></ol></div></nav><article><header style="padding-top: clamp(48px, 7vw, 90px); padding-bottom: 32px;"><div class="container" style="max-width: 820px;"><div class="row" style="gap: 12px; margin-bottom: 24px; color: var(--text-3); font-size: 13px; flex-wrap: wrap;"><span class="tag" style="color: var(--accent-text); border-color: var(--accent);">技術</span><span class="num">2026.11.23</span><span>·</span><span>10 min<!-- --> read</span><span>·</span><span>Nortiq Labs</span></div><h1 class="display-l fadein is-in" style="margin-bottom: 8px;">業務システム外注、契約終了時のデータ返却条項</h1></div></header><div class="container" style="max-width: 880px; margin-bottom: 8px;"><div class="article-cover tone-ink" role="img" aria-label="業務システム外注、契約終了時のデータ返却条項" style="aspect-ratio: 21 / 9;"><span class="article-cover-cat">技術</span><span class="article-cover-title">業務システム外注、契約終了時のデータ返却条項</span><span class="article-cover-brand">NORTIQ LABS · COLUMN</span></div></div><div class="container" style="max-width: 780px; margin-top: 24px; margin-bottom: 64px;"><div><div class="article-prose article-body"><h2>契約終了時のデータの返却は何を決めればいいですか</h2>
+<p>返却する形式、返却の期限、事業者側のデータを消す期限の3つを決めます。形式を決めずに「返却する」と書いた条項では、使えない状態で渡される余地が残ります。</p>
+<p>決めるのは発注の段階です。契約が終わる場面になってから交渉すると、相手に応じる動機がありません。</p>
+<h3>返却の条項が無いと何が起きるか</h3>
+<p>起きるのは、データの中身ではなく「渡し方」で揉めることです。悪意がなくても、双方の想定が違えば止まります。</p>
+<p>実際に起きる行き違いは次のとおりです。</p>
+<table>
+<thead>
+<tr>
+<th>条項が無い場合に起きること</th>
+<th>発注側が困る点</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>画面を印刷したPDFで渡される</td>
+<td>次の仕組みに取り込めません</td>
+</tr>
+<tr>
+<td>管理画面を一定期間だけ見られる形にされる</td>
+<td>期間が過ぎると過去の記録を参照できません</td>
+</tr>
+<tr>
+<td>返却の作業に別途の費用を請求される</td>
+<td>予算の手当てが必要になり、移行の日程が遅れます</td>
+</tr>
+<tr>
+<td>添付したファイルや画像が対象から外れる</td>
+<td>見積書や図面の控えが残りません</td>
+</tr>
+<tr>
+<td>事業者側にデータが残り続ける</td>
+<td>委託先の管理の範囲が不明なままになります</td>
+</tr>
+</tbody></table>
+<p>いずれも条項があれば防げます。契約の終わり方が決まっていないシステムは、乗り換えの判断そのものが遅れます。</p>
+<h3>最低限決める3項目</h3>
+<p>3項目を決めれば、残りは後から詰められます。発注の段階で次の形にしてください。</p>
+<ol>
+<li>返却する形式 (他の仕組みで読み込める形式を具体名で指定します)</li>
+<li>返却の期限 (契約の終了日を起点に、何日以内かを書きます)</li>
+<li>事業者側のデータを消す期限 (返却の完了を起点に、何日以内かを書きます)</li>
+</ol>
+<p>3番目を忘れると、返却を受けた後も相手側にデータが残ります。委託先の管理という観点では、返却と消去は別の作業として扱う必要があります。</p>
+<p>このほかに、移行の作業へ協力する義務と、その費用の負担も条項に入れておくと確実です。詳しい作り方は、後のセクションで6項目にまとめます。</p>
+<p>形式の指定の書き方は、次のセクションで説明します。</p>
+<h2>返却するデータの形式はどう指定しますか</h2>
+<p>他の仕組みで読み込める形式を具体名で指定します。画面の印刷や画像での提供は返却とみなさない旨も書いておきます。</p>
+<p>形式の指定が曖昧だと、相手は最も手間のかからない方法を選びます。それが悪意とは限りませんが、受け取る側は使えません。</p>
+<h3>形式の指定の書き方</h3>
+<p>書き方は「表形式のデータ」と「それ以外のファイル」に分けます。表形式は列の構造ごと受け取れる形にしてください。</p>
+<table>
+<thead>
+<tr>
+<th>対象</th>
+<th>指定する形式</th>
+<th>条項に書く補足</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>顧客や取引の一覧</td>
+<td>CSVまたはそれに相当する区切り文字のテキスト</td>
+<td>文字コードと改行の形式を指定します</td>
+</tr>
+<tr>
+<td>画面に表示していた項目の構造</td>
+<td>テーブルごとのファイルに分けた形</td>
+<td>項目名を1行目に含める旨を書きます</td>
+</tr>
+<tr>
+<td>添付した書類や写真</td>
+<td>もとのファイル形式のまま</td>
+<td>ファイル名と、どの記録に紐づくかの対応表を添える旨を書きます</td>
+</tr>
+<tr>
+<td>権限や操作の記録</td>
+<td>CSVまたはそれに相当する形式</td>
+<td>対象の期間を指定します</td>
+</tr>
+</tbody></table>
+<p>画像やPDFでの提供を返却とみなさない旨は、条項に1文入れておいてください。「別途の形式変換を要しない状態で引き渡す」という表現で足ります。</p>
+<p>文字コードの指定は、実務で見落とされやすい項目です。日本語を含むデータをCSVで受け取るとき、文字コードの指定が無いと取り込んだ先で文字化けします。条項に明記するか、少なくとも打ち合わせの記録に残してください。</p>
+<h3>一緒に受け取る説明資料</h3>
+<p>データだけでは移行できません。項目の意味が分かる資料を一緒に受け取る旨を書いてください。</p>
+<p>受け取る資料は次の3つです。</p>
+<ol>
+<li>項目の一覧と意味の説明 (列の名前が英数字の略語の場合、意味が分からないと移行先に割り当てられません)</li>
+<li>記録の件数 (返却が完全かどうかを確かめる基準になります)</li>
+<li>記録の間の関係の説明 (受注と明細のように、どの記録がどの記録に紐づくか)</li>
+</ol>
+<p>2番目は受け取った直後に確認してください。件数が合わない状態で移行を始めると、どこで欠けたのかを後から追えません。</p>
+<p>実装の経験から申し添えると、移行で最も手間がかかるのは3番目の関係の情報です。表ごとのファイルは受け取れても、紐づけの鍵となる項目が落ちていると、人の目で突き合わせる作業が発生します。紐づけに使っている項目を残した形で返却する旨を、条項か仕様の確認事項に入れておいてください。</p>
+<p>法令上の保存義務との関係は、次のセクションで扱います。</p>
+<h2>法令上の保存義務はデータの返却とどう関係しますか</h2>
+<p>取引に関するデータは、システムをやめた後も保存義務が続きます。返却されたデータが保存の要件を満たす形かどうかを、契約の前に確認する必要があります。</p>
+<p>返却を受けたから終わり、ではありません。返却の形式を決める段階で、保存の要件を満たせるかを併せて見てください。</p>
+<h3>電子取引のデータ保存の要件</h3>
+<p>国税庁の電子取引関係のページには、請求書、領収書、契約書、見積書などに関する電子データを送付または受領した場合には、その電子データを一定の要件を満たした形で保存することが必要であると記載されています。</p>
+<p>印刷して綴じるだけの運用が認められたのは、令和5年12月31日までです。同ページには、令和5年12月31日までに行う電子取引については保存すべき電子データをプリントアウトして保存し税務調査等の際に提示または提出できるようにしていれば差し支えないが、令和6年からは保存要件に従って電子データの保存が行えるよう必要な準備をお願いしますと記載されています。</p>
+<p>出典: 国税庁「電子帳簿等保存制度特設サイト 電子取引関係」</p>
+<p>要件は真実性の要件と可視性の要件に整理されています。民間の解説によれば、真実性の要件として認められる措置は次の4つです。</p>
+<ol>
+<li>タイムスタンプが付与された後に取引情報を授受する</li>
+<li>取引情報の授受後に速やかにタイムスタンプを付与する</li>
+<li>訂正と削除の事実と内容を確認できるシステムを使用する</li>
+<li>訂正と削除を防止する事務処理規程を定めて運用する</li>
+</ol>
+<p>4番目の方法であれば、タイムスタンプの仕組みを持たなくても対応できます。システムを手放した後の保存方法としては、この選択が現実的です。</p>
+<p>可視性の要件については、保存場所にパソコン、プログラム、ディスプレイ、プリンタおよびマニュアルを備え付けて整然とした形式で速やかに出力できるようにしておくこと、システム概要書を備え付けること、検索機能を確保することが挙げられています。</p>
+<p>検索については、取引年月日その他の日付、取引金額および取引先で検索できる仕組みが必要とされています。基準期間の売上高が5,000万円以下の場合は、ダウンロードの求めに応じることで検索要件が不要になるとされています。</p>
+<p>保存要件の細部と5,000万円という金額基準は民間の解説を出典としており、税制改正で変わりえます。実務での判断は、国税庁の「電子帳簿保存法一問一答【電子取引関係】」など最新の一次資料でご確認ください。</p>
+<h3>返却後の保存方法の決め方</h3>
+<p>決め方は、自社が検索要件を満たす必要があるかどうかで分かれます。先に売上高の基準に当てはまるかを確認してください。</p>
+<table>
+<thead>
+<tr>
+<th>自社の状況</th>
+<th>返却の時点で必要なこと</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>検索要件が必要な場合</td>
+<td>取引年月日、取引金額、取引先で検索できる形で保存できるデータを受け取る</td>
+</tr>
+<tr>
+<td>ダウンロードの求めに応じる方法を選ぶ場合</td>
+<td>求めに応じて提示できる形で保管しておく</td>
+</tr>
+<tr>
+<td>いずれの場合も</td>
+<td>システム概要書を返却の資料として受け取る</td>
+</tr>
+</tbody></table>
+<p>システム概要書の備付けは、外注する場合に成果物として求めるべき書類にあたります。契約の終了時に受け取るのではなく、納品時の成果物として受け取っておくほうが確実です。</p>
+<p>国税庁は「電子取引データ保存要件チェックシート」(令和6年11月) と「電子帳簿保存法対応！令和6年1月以降の電子取引データの保存方法について」(令和6年11月) を公開しています。返却の形式を決める前に、この2つで自社に必要な要件を確認してください。</p>
+<p>出典: 国税庁「電子帳簿等保存制度特設サイト 電子取引関係」 (令和6年11月公開の資料を含む)</p>
+<p>消去の条項の書き方は、次のセクションで扱います。</p>
+<h2>返却の後に事業者側のデータを消させる条項はどう書きますか</h2>
+<p>消す期限と、消したことの報告を書面で受ける旨を書きます。バックアップも対象に含めることを明記してください。</p>
+<p>返却と消去は別の作業です。返却を受けただけでは、相手側に残っているかどうかを御社から確かめられません。</p>
+<h3>消去の範囲と期限</h3>
+<p>範囲は、稼働していた環境だけでは足りません。次の4つを対象として列挙してください。</p>
+<table>
+<thead>
+<tr>
+<th>消去の対象</th>
+<th>条項に書く補足</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>稼働していた環境のデータ</td>
+<td>返却の完了から何日以内かを書きます</td>
+</tr>
+<tr>
+<td>バックアップ</td>
+<td>世代の数と、最後の世代が消える時期を確認します</td>
+</tr>
+<tr>
+<td>検証や開発に使っていた環境の複製</td>
+<td>本番の写しを使っていたかを確認します</td>
+</tr>
+<tr>
+<td>事業者の担当者の端末に残る抽出ファイル</td>
+<td>調査や修正のために出した控えが対象です</td>
+</tr>
+</tbody></table>
+<p>3番目と4番目は見落とされやすい箇所です。作業の都合で本番のデータを抜き出すことは実際にありますので、条項で対象に含めてください。</p>
+<p>消去を求める根拠は、委託先の監督にあります。個人情報保護委員会のガイドライン (通則編) 3-4-4では、委託先の選定に当たって、委託先の安全管理措置が少なくとも法第23条およびガイドラインで委託元に求められるものと同等であることを、委託業務に沿ってあらかじめ確認する必要があるとされています。委託契約には、双方が同意した安全管理措置の内容とともに、委託先における個人データの取扱状況を委託元が合理的に把握することを盛り込むことが望ましいとされています。</p>
+<p>出典: 個人情報保護委員会「個人情報の保護に関する法律についてのガイドライン (通則編)」3-4-4</p>
+<p>取扱状況の把握には、定期的な監査等により実施の程度を調査して評価することが望ましいとされています。契約の終了時に消去の状況を確認することは、この把握の一部として位置づけられます。</p>
+<h3>消去の記録をどう確認するか</h3>
+<p>書面で受け取る形にしてください。口頭やメールでの「消しました」では、後から説明の根拠になりません。</p>
+<p>受け取る書面に含める項目は次の4つです。</p>
+<ol>
+<li>消去した対象の一覧 (環境の名称と、バックアップの世代まで)</li>
+<li>消去を実施した日付</li>
+<li>消去の方法 (削除の操作か、記録媒体の廃棄か)</li>
+<li>実施した担当者と、確認した責任者の氏名</li>
+</ol>
+<p>記録を残す理由は、漏えい等が起きたときの報告期限とも関係します。個人情報保護委員会の漏えい等の対応のページでは、速報は発覚日から3日から5日以内、確報は発覚日から30日以内とされており、不正な目的で行われたおそれがある場合は発覚日から60日以内とされています。</p>
+<p>出典: 個人情報保護委員会「漏えい等の対応 (個人情報)」</p>
+<p>報告の対象となる事態には、要配慮個人情報を含む漏えい等、財産的被害が生じるおそれがある漏えい等、不正の目的で行われたおそれがある行為による漏えい等、本人の数が1,000人を超える漏えい等が挙げられており、いずれも「そのおそれ」を含みます。</p>
+<p>契約が終わった後に事業者側で問題が起きた場合、何件のデータがどこに残っていたのかを御社が説明できなければ、この期間内の報告は組み立てられません。消去の書面は、そのための備えにあたります。</p>
+<p>契約の終わり方による違いは、次のセクションで扱います。</p>
+</div><aside class="nq-slot" data-slot="slot-mid" aria-label="おすすめのページ"><div class="nq-suggest" data-block="sg-dx" data-variant="default"><p class="nq-suggest__eyebrow">業務の自動化をお考えの方へ</p><h3 class="nq-suggest__title"><a href="/dx">検証して、判断して、進めるDX・ML実装。</a></h3><p class="nq-suggest__body">ML実装、業務自動化、データ分析基盤、生成AIの業務組み込み。フェーズごとにGO/NO-GOを判断できます。</p><span class="nq-suggest__cta" aria-hidden="true">詳しく見る<!-- --> →</span></div></aside><div class="article-prose article-body"><h2>契約の終わり方によって扱いは変わりますか</h2>
+<p>変わります。期間満了で終える場合と、途中で解除する場合では、精算と引き渡しの根拠になる条文が別になります。</p>
+<p>返却の条項そのものは共通で使えます。違いが出るのは、支払う金額と、作りかけの成果物の扱いです。</p>
+<h3>途中で解除する場合の根拠</h3>
+<p>根拠は契約の形態で分かれます。請負契約と準委任契約で、精算の数え方が変わります。</p>
+<table>
+<thead>
+<tr>
+<th>契約の形態</th>
+<th>解除の根拠</th>
+<th>精算の基準</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>請負契約</td>
+<td>民法第641条 (請負人が仕事を完成しない間は、注文者はいつでも損害を賠償して契約の解除をすることができる)</td>
+<td>民法第634条 (注文者が受ける利益の割合)</td>
+</tr>
+<tr>
+<td>準委任契約</td>
+<td>民法第651条第1項 (委任は各当事者がいつでも解除できる。民法第656条により準用)</td>
+<td>民法第648条第3項 (既にした履行の割合)</td>
+</tr>
+</tbody></table>
+<p>出典: 民法第641条、第634条、第651条第1項、第656条、第648条第3項 (e-Gov法令検索)</p>
+<p>民法第634条は、請負人が既にした仕事の結果のうち可分な部分の給付によって注文者が利益を受けるときは、その部分を仕事の完成とみなすと定めています。どこまでを可分な部分とみるかが、精算額を決める論点になります。</p>
+<p>準委任の場合は、既にした履行の割合が基準です。違いの出どころは契約の定義にあります。民法第632条は請負を仕事の完成を約するものとし、民法第643条は委任を法律行為の委託を承諾するものとしています。完成を約するかどうかの違いが、中止したときの考え方の違いにつながっています。</p>
+<p>民法第651条第2項は、相手方に不利な時期に解除したときなどは相手方の損害を賠償しなければならないとし、やむを得ない事由があったときはこの限りでないとしています。解除の時期も金額に影響します。</p>
+<p>途中で解除する場合の精算と成果物の扱いは、システム開発を途中で中止したときの精算と成果物の扱いをまとめた記事で詳しく扱っています。</p>
+<h3>期間満了で終える場合の段取り</h3>
+<p>期間満了の場合は、精算の論点が出ません。代わりに、通知の時期と並行稼働の期間が論点になります。</p>
+<p>決めておく項目は次の3つです。</p>
+<ol>
+<li>更新しない旨を通知する時期 (契約の終了日から何か月前までか)</li>
+<li>返却を受けてから次の仕組みへ移すまでの並行稼働を認めるか、その期間の費用</li>
+<li>移行の作業への協力義務の範囲 (質問への回答、データの再出力の回数)</li>
+</ol>
+<p>2番目は交渉になりやすい項目です。返却を受けた後に移行の作業で不足が見つかることがありますので、契約の終了後も一定期間は参照できる状態を残す形が安全です。</p>
+<p>未完成の成果物やソースコードを受け取れるかどうか、その著作権がどちらに残るかは、民法の条文ではなく個々の契約書の定めによります。契約書のひな型の側でも、この点は検討の対象になっています。IPAは「情報システム・モデル取引・契約書」第二版を2020年12月22日に公開しており、見直しの論点として請負契約と準委任契約における報酬請求権が挙げられています。</p>
+<p>出典: IPA「情報システム・モデル取引・契約書」第二版 (2020年12月22日公開)</p>
+<p>条項の作り方は、次のセクションで6項目にまとめます。</p>
+<h2>契約書に入れる条項の作り方は？</h2>
+<p>返却の形式、返却の期限、消去の期限、消去の報告、移行の協力義務、費用の負担の6項目を順に決めます。発注の段階で決めれば、交渉の材料になります。</p>
+<p>社内の作業は半日から1日が目安です (当社の実装経験にもとづく目安で、公的な出典はありません)。すでに契約が進んでいる場合は、覚書の形で追加する方法もあります。</p>
+<h3>6項目の決め方と所要時間の目安</h3>
+<ol>
+<li>返却の形式を決める (所要時間の目安: 2時間。つまずきやすい点: 添付したファイルと記録の対応表を忘れると、後から紐づけができません)</li>
+<li>返却の期限を決める (所要時間の目安: 30分。契約の終了日を起点に何日以内かを書きます)</li>
+<li>消去の期限と対象を決める (所要時間の目安: 1時間。バックアップの世代と検証環境の複製まで対象に含めます)</li>
+<li>消去の報告の受け取り方を決める (所要時間の目安: 30分。書面で受ける旨と記載項目を書きます)</li>
+<li>移行の協力義務の範囲を決める (所要時間の目安: 1時間。質問への回答とデータの再出力の回数を決めます)</li>
+<li>費用の負担を決める (所要時間の目安: 1時間。つまずきやすい点: 「協力する」とだけ書くと、作業の費用を後から請求される余地が残ります)</li>
+</ol>
+<p>6番目は必ず金額か算定の方法まで決めてください。無償とするか、作業時間に単価を掛ける方式にするかを書いておけば、終了の場面で揉めません。</p>
+<h3>実装者から見てつまずきやすい箇所</h3>
+<p>最も多いのは、返却の対象に「データ」しか書いていないことです。業務システムは、データだけでは動きの再現ができません。</p>
+<p>条項に書き足しておくと後で助かる項目は次の3つです。</p>
+<table>
+<thead>
+<tr>
+<th>書き足す項目</th>
+<th>書いておかないと起きること</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>項目の定義の資料 (項目名と意味の対応)</td>
+<td>列の名前が略語のままで、移行先に割り当てられません</td>
+</tr>
+<tr>
+<td>権限の設定の内容 (誰にどの範囲を与えていたか)</td>
+<td>次の仕組みで権限を一から設計し直すことになります</td>
+</tr>
+<tr>
+<td>入力の制限や計算の規則 (必須項目、自動計算の内容)</td>
+<td>業務の決め事が失われ、運用の手順書を作り直すことになります</td>
+</tr>
+</tbody></table>
+<p>3番目は特に見落とされます。入力の制限や自動計算は、長年の運用で積み上がった業務の決め事です。システムの中にしか残っていないことが多いため、返却の対象として明記してください。</p>
+<p>もう1点、試しの返却を1回入れておくことをおすすめします。契約の終了を待たず、稼働中に小さな範囲で返却を受けておけば、形式が想定どおりかを確かめられます。この1回を条項に入れておくと、終了の場面で初めて問題に気づく事態を避けられます。</p>
+<p>契約条項の整理をご相談されたい場合は、無料診断 (/diagnostic) からご連絡ください。</p>
+<h2>返却の交渉でよくある行き違いは？</h2>
+<p>多いのは、返却の作業に費用がかかると後から言われることと、添付したファイルや画像が返却の対象から外れていることです。</p>
+<p>どちらも相手に悪意があるとは限りません。条項に書いていない作業は見積もりに入っていないため、追加の作業として扱われます。</p>
+<p>起きやすい行き違いと、先に手を打てる点を整理します。</p>
+<table>
+<thead>
+<tr>
+<th>行き違いの内容</th>
+<th>先に条項へ入れておくこと</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>返却の作業に別途の費用を請求される</td>
+<td>無償とするか、作業時間と単価による算定方式かを明記する</td>
+</tr>
+<tr>
+<td>添付したファイルや画像が対象外とされる</td>
+<td>もとのファイル形式のまま引き渡す旨と、対応表を添える旨を書く</td>
+</tr>
+<tr>
+<td>返却の回数が1回に限られる</td>
+<td>不足が見つかった場合の再出力の回数を書く</td>
+</tr>
+<tr>
+<td>契約の終了日に環境が止まり参照できなくなる</td>
+<td>並行稼働または参照のみの期間と、その費用を書く</td>
+</tr>
+<tr>
+<td>返却の形式が担当者の判断で変わる</td>
+<td>形式を具体名で指定し、変更には書面の合意が必要とする</td>
+</tr>
+</tbody></table>
+<p>3番目は実務でよく起きます。1回で完全な返却を受けられることは少なく、取り込んだ後に不足が見つかります。再出力を2回程度まで認める形にしておくと安心です。</p>
+<p>費用の交渉は、終了の場面では不利になります。乗り換えを決めた相手に有利な条件を出す動機は、相手側にありません。発注の段階か、更新の交渉の時期に決めてください。</p>
+<p>もう1点、返却を受ける担当者を社内で決めておいてください。受け取ったデータの件数を確認し、不足を指摘する作業が必要です。担当者が決まっていないと、受け取ったまま誰も中身を見ない状態になり、再出力を求められる期間を過ぎてしまいます。</p>
+<p>契約の終わり方を含めた発注の整理をご相談されたい場合は、お問い合わせ (/contact) からご連絡ください。</p>
+<h2>よくあるご質問</h2>
+<p>この記事に関して多い質問と回答をまとめます。契約の終了が近い場面で迷いやすい点を中心に挙げています。</p>
+<h3>契約書に返却の条項が無い場合、データを返してもらえませんか</h3>
+<p>返してもらえないとは限りませんが、形式と期限を相手の判断に委ねることになります。まずは契約書と、発注時の仕様や覚書を確認してください。条項が無い場合は、更新の交渉の時期に覚書の形で追加する方法があります。すでに終了が決まっている場合は、返却の形式と期限を書面で合意してから作業を依頼してください。</p>
+<h3>返却の作業に費用は発生しますか</h3>
+<p>条項の書き方によります。「協力する」とだけ書かれている場合、作業の費用を請求される余地が残ります。無償とするか、作業時間に単価を掛ける方式にするかを契約の段階で決めておくことをおすすめします。終了が決まった後の交渉では、条件が不利になりやすい点にご注意ください。</p>
+<h3>返却されたデータで電子帳簿保存法の要件を満たせますか</h3>
+<p>受け取る形式によります。国税庁の電子取引関係のページでは、電子データを一定の要件を満たした形で保存することが必要とされており、可視性の要件として検索機能の確保が挙げられています。検索は取引年月日その他の日付、取引金額および取引先で行える仕組みが必要とされています。基準期間の売上高が5,000万円以下の場合は、ダウンロードの求めに応じることで検索要件が不要になるとされています。自社がどちらに当てはまるかを確認してから、返却の形式を決めてください。要件の細部は税制改正で変わりうるため、国税庁の最新の資料でご確認ください。</p>
+<h3>事業者側のデータを消したことはどう確認すればよいですか</h3>
+<p>消去の報告を書面で受け取る形にしてください。含める項目は、消去した対象の一覧、消去を実施した日付、消去の方法、実施した担当者と確認した責任者です。バックアップの世代と、検証や開発に使っていた環境の複製も対象に含めてください。委託先の取扱状況を委託元が合理的に把握することは、個人情報保護委員会のガイドライン (通則編) 3-4-4で望ましいとされています。</p>
+<h3>添付ファイルや画像も返却の対象に含まれますか</h3>
+<p>条項に書いていなければ、対象から外れることがあります。見積書の控えや現場の写真のように、業務の記録として重要なファイルが含まれる場合は、もとのファイル形式のまま引き渡す旨と、どの記録に紐づくかの対応表を添える旨を条項に書いてください。ファイル名だけを受け取っても、紐づけが分からなければ使えません。</p>
+<h2>関連リンク</h2>
+<ul>
+<li><a href="/diagnostic">業務システムの契約条項の整理を無料診断で相談する</a></li>
+</ul>
+</div></div><div style="margin-top: 32px; padding: 16px 20px; background: var(--bg-2); border-radius: 10px; font-size: 13px; color: var(--text-3); line-height: 1.8;"><div>監修: NORTIQLAB株式会社 代表（AIエンジニア）</div><div>本記事はAIを活用して制作しています</div></div><aside class="nq-slot" data-slot="slot-end" aria-label="次に読むページ"><div class="nq-suggest" data-block="sg-guidebook" data-variant="default"><p class="nq-suggest__eyebrow">この記事を読んだ方へ</p><h3 class="nq-suggest__title"><a href="/guidebook">サービス紹介資料を無料でダウンロード。</a></h3><p class="nq-suggest__body">制作の進め方・実績・料金プラン・制作の流れを、全11ページのPDFにまとめています。費用はかかりません。</p><span class="nq-suggest__cta" aria-hidden="true">資料を見る<!-- --> →</span></div></aside></div><section class="section-pad" style="background: var(--bg-2);"><div class="container" style="max-width: 880px;"><h3 class="display-s" style="margin-bottom: 24px;">関連記事</h3><div class="grid-3"><a class="article-card fadein is-in" href="/article-unauthorized-access-statistics-target-sites" style="cursor: pointer;"><div class="article-cover tone-red" role="img" aria-label="自社サイトの会員ページが狙われる割合30.6%" style="aspect-ratio: 16 / 10;"><span class="article-cover-cat">Web制作</span><span class="article-cover-title">自社サイトの会員ページが狙われる割合30.6%</span><span class="article-cover-brand">NORTIQ LABS · COLUMN</span></div><div class="article-meta"><span style="color: var(--accent);">Web制作</span><span class="article-meta-sep">·</span><span>2026.11.23</span></div><h3 class="article-title">自社サイトの会員ページが狙われる割合30.6%</h3></a><a class="article-card fadein is-in" href="/article-subsidy-payment-method-website" style="cursor: pointer;"><div class="article-cover tone-red" role="img" aria-label="補助金の支払方法｜制作費は現金で払える？" style="aspect-ratio: 16 / 10;"><span class="article-cover-cat">Web制作</span><span class="article-cover-title">補助金の支払方法</span><span class="article-cover-brand">NORTIQ LABS · COLUMN</span></div><div class="article-meta"><span style="color: var(--accent);">Web制作</span><span class="article-meta-sep">·</span><span>2026.11.23</span></div><h3 class="article-title">補助金の支払方法｜制作費は現金で払える？</h3></a><a class="article-card fadein is-in" href="/article-contact-form-spam-prevention" style="cursor: pointer;"><div class="article-cover tone-red" role="img" aria-label="フォームのスパム対策｜IPAの対策項目と要件" style="aspect-ratio: 16 / 10;"><span class="article-cover-cat">Web制作</span><span class="article-cover-title">フォームのスパム対策</span><span class="article-cover-brand">NORTIQ LABS · COLUMN</span></div><div class="article-meta"><span style="color: var(--accent);">Web制作</span><span class="article-meta-sep">·</span><span>2026.11.23</span></div><h3 class="article-title">フォームのスパム対策｜IPAの対策項目と要件</h3></a></div></div></section></article><section class="t_inq_wrap fadein is-in"><div class="container"><h2>こうした観点をベースに、<br>貴社の DX を一緒に考えませんか。</h2><div class="t_inq_btns"><button class="btn btn-primary" type="button"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><path d="M22 6l-10 7L2 6"></path></svg>資料請求はこちら</button><a class="btn btn-line btn-line-on-red" href="https://line.me/R/ti/p/@498ynxrl" target="_blank" rel="noopener" data-line="cta-strip"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.5 8.5 0 0 1-12.3 7.6L3 21l1.9-5.7A8.5 8.5 0 1 1 21 11.5z"></path></svg>LINEで相談する</a><a class="btn btn-primary" href="/diagnostic"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><path d="M21 21l-4.35-4.35"></path></svg>ホームページ無料診断</a></div><p class="t_inq_time">営業日 24時間以内に担当者よりご返信します。</p></div></section></main></div><footer class="footer"><div class="container"><div class="footer-grid"><div class="footer-brand"><div class="nav-logo" style="margin-bottom: 16px;"><span class="nav-logo-mark"></span><span class="wordmark"><span class="wordmark-main">NORTIQ</span><span class="wordmark-sub">LABS</span></span></div><p class="body" style="font-size: 13px; max-width: 320px; margin-bottom: 24px;">日本のDX、世界水準で巻き返す。<br>Web制作からAI・DX実装まで。</p><div class="row" style="gap: 10px; flex-wrap: wrap;"><button class="btn btn-primary btn-sm" type="button"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><path d="M22 6l-10 7L2 6"></path></svg>資料請求はこちら</button><a class="btn btn-line btn-line-ghost btn-sm" href="https://line.me/R/ti/p/@498ynxrl" target="_blank" rel="noopener" data-line="footer"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.5 8.5 0 0 1-12.3 7.6L3 21l1.9-5.7A8.5 8.5 0 1 1 21 11.5z"></path></svg>LINEで相談する</a></div></div><div class="footer-col"><h3>制作実績</h3><ul><li><a href="/works">全実績一覧</a></li><li><a href="/works-clinic">クリニック・医療</a></li><li><a href="/works-realty">不動産</a></li><li><a href="/works-build">建築・工務店</a></li><li><a href="/works-hr">人材</a></li><li><a href="/works-retail">小売 / EC</a></li><li><a href="/works-infra">インフラ・製造</a></li><li><a href="/works-ai">AIスタートアップ</a></li><li><a href="/works-lp-corp">コーポレートLP</a></li><li><a href="/works-lp-recruit">採用LP</a></li><li><a href="/works-lp-ec">EC連動LP</a></li><li><a href="/works-video">動画制作事例</a></li></ul></div><div class="footer-col"><h3>サービス</h3><ul><li><a href="/web">ホームページ制作</a></li><li><a href="/chatbot">AIチャットボット</a></li><li><a href="/phone-ai">電話AI</a></li><li><a href="/dx">業務システム・AI開発</a></li><li><a href="/feature-lpo">LP制作 / LPO</a></li><li><a href="/feature-recruit">採用専門サイト</a></li><li><a href="/feature-analytics">アクセス解析</a></li></ul><h3 style="margin-top: 24px;">自社プロダクト</h3><ul><li><a href="/product-vetonet">VetoNet</a></li><li><a href="/product-wpchat">ブログボット（AI投稿アシスタント）</a></li></ul></div><div class="footer-col"><h3>サポート・コンサル</h3><ul><li><a href="/support">運用サポート</a></li><li><a href="/voice">ご利用会社様の声</a></li><li><a href="/diagnostic">サイト無料診断 (URL入力)</a></li><li><a href="/column">技術ブログ / コラム</a></li><li><a href="/news">お知らせ</a></li><li><a href="/subsidy">補助金活用相談</a></li><li><a href="/guidebook">サービス紹介資料</a></li></ul><h3 style="margin-top: 24px;">業種別ソリューション</h3><ul><li><a href="/solution-clinic">クリニック・医療</a></li><li><a href="/solution-realty">不動産</a></li><li><a href="/solution-build">建築・工務店</a></li><li><a href="/solution-hr">人材</a></li><li><a href="/solution-retail">小売 / EC</a></li><li><a href="/service/kanri-dantai">監理団体・登録支援機関</a></li><li><a href="/service/recruit-site">建設・運送・介護 採用サイト</a></li></ul><h3 style="margin-top: 24px;">特設ページ</h3><ul><li><a href="/security">脆弱性診断・セキュリティ保守</a></li><li><a href="/automation">ひと業務AI（1業務自動化サブスク）</a></li><li><a href="/tools">無料ツール（概算見積・診断・計算機）</a></li><li><a href="/tools/invoice">請求書・見積書メーカー</a></li><li><a href="/tools/payment-match">入金消し込み照合</a></li><li><a href="/tools/timecard">タイムカード集計</a></li><li><a href="/tools/order-summary">注文集計・出荷指示書</a></li><li><a href="/tools/address-list">宛先リスト整形（送り状用CSV）</a></li><li><a href="/tools/list-dedupe">名簿の重複チェック</a></li><li><a href="/tools/booking-sheet">予約表メーカー</a></li><li><a href="/tools/daily-report">作業日報メーカー</a></li><li><a href="/tools/monthly-billing">締め請求書メーカー</a></li><li><a href="/tools/reorder-list">発注リストメーカー</a></li><li><a href="/tools/price-list">価格表メーカー</a></li><li><a href="/tools/shift-table">シフト表メーカー</a></li><li><a href="/tools/work-days">出面表メーカー</a></li></ul><h3 style="margin-top: 24px;">会社</h3><ul><li><a href="/company">会社概要</a></li><li><a href="/staff">チーム / スタッフ</a></li><li><a href="/pricing">料金プラン</a></li><li><a href="/sitemap">サイトマップ</a></li></ul></div></div><div class="footer-bottom"><span>© 2026 NORTIQLAB株式会社 All rights reserved.</span><div class="row" style="gap: 24px;"><a href="/privacy" style="color: var(--text-3);">プライバシーポリシー</a><a href="/terms" style="color: var(--text-3);">利用規約</a><a href="/privacy-handling" style="color: var(--text-3);">個人情報の取扱い</a></div></div></div></footer><div class="modal-backdrop"><div class="modal" role="dialog" aria-modal="true" aria-label="資料請求・お問い合わせ"><button class="modal-close" aria-label="閉じる"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M6 18L18 6"></path></svg></button><div style="margin-bottom: 24px;"><div class="eyebrow eyebrow-accent" style="margin-bottom: 12px;">CONTACT</div><h3 class="display-s" style="margin-bottom: 8px;">資料請求・お問い合わせ</h3><p class="small">入力は2項目です。送信後すぐに資料 (PDF) をご覧いただけます。初回相談は無料です。</p></div><form novalidate=""><div class="field"><label for="modal-company">貴社名<span class="req">必須</span></label><input id="modal-company" data-field="company" type="text" placeholder="株式会社○○ (屋号でも可)" autocomplete="organization" value=""></div><div class="field"><label for="modal-email">メールアドレス<span class="req">必須</span></label><input id="modal-email" data-field="email" type="email" placeholder="you@example.com" autocomplete="email" value=""></div><div class="field"><label for="modal-message">ご相談内容<span class="any">任意</span></label><textarea id="modal-message" placeholder="資料だけほしい、費用感を知りたい、など一言でも大丈夫です。" style="min-height: 84px;"></textarea></div><details class="lead-more"><summary><span class="lead-more-title">詳しく伝える</span><span class="any">任意</span><span class="lead-more-hint">ご担当者名・電話番号・ご相談の種類など</span></summary><div class="lead-more-body"><div class="field"><label for="modal-name">ご担当者名</label><input id="modal-name" type="text" placeholder="山田 太郎" autocomplete="name" value=""></div><div class="field"><label for="modal-phone">電話番号</label><input id="modal-phone" type="tel" placeholder="03-XXXX-XXXX" autocomplete="tel" value=""></div><div class="field"><label>カテゴリー</label><div class="cb-group"><label class=""><input type="checkbox">Web制作</label><label class=""><input type="checkbox">AIチャットボット</label><label class=""><input type="checkbox">DX・ML</label><label class=""><input type="checkbox">業務自動化</label><label class=""><input type="checkbox">LP制作</label><label class=""><input type="checkbox">採用サイト</label></div></div><div class="field"><label>お問い合わせ内容</label><div class="cb-group"><label class=""><input type="checkbox">新規HP制作</label><label class=""><input type="checkbox">HPリニューアル</label><label class=""><input type="checkbox">AIチャットボット導入</label><label class=""><input type="checkbox">DX・ML 実装</label><label class=""><input type="checkbox">業務自動化</label><label class=""><input type="checkbox">リスティング広告</label><label class=""><input type="checkbox">コンサルティング</label></div></div><div class="field"><label>いまの状況</label><div class="cb-group"><label class=""><input type="checkbox">HPが無い</label><label class=""><input type="checkbox">問い合わせを増やしたい</label><label class=""><input type="checkbox">サービス資料がほしい</label><label class=""><input type="checkbox">無料診断</label><label class=""><input type="checkbox">デザインを改善したい</label><label class=""><input type="checkbox">SEOを上げたい</label><label class=""><input type="checkbox">AI活用したい</label><label class=""><input type="checkbox">業務効率化したい</label><label class=""><input type="checkbox">補助金活用を相談したい</label></div></div><div class="field"><label for="modal-source">本サイトを知ったきっかけ</label><select id="modal-source"><option value="">選択してください</option><option value="Google検索">Google検索</option><option value="Yahoo検索">Yahoo検索</option><option value="AIチャット (ChatGPT/Claude/Gemini等)">AIチャット (ChatGPT/Claude/Gemini等)</option><option value="ご紹介">ご紹介</option><option value="メール">メール</option><option value="DMチラシ">DMチラシ</option><option value="SNS (X/LinkedIn)">SNS (X/LinkedIn)</option><option value="以前から知っていた">以前から知っていた</option><option value="その他">その他</option></select></div><div class="field"><label for="modal-url">サイトURL</label><input id="modal-url" type="text" placeholder="https://" inputmode="url" value=""></div></div></details><div class="field field-check"><input type="checkbox" id="agree" data-field="agree" style="margin-top: 2px;"><label for="agree" style="cursor: pointer;"><a href="/privacy-handling" target="_blank" rel="noopener noreferrer" style="color: var(--accent); text-decoration: underline;">個人情報の取り扱い</a>に同意します<span class="req">必須</span></label></div><div style="margin-top: 8px; text-align: center;"><button class="btn btn-primary btn-lg" type="submit">同意して送信する<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></button></div></form><div class="lead-alt"><p class="lead-alt-label">入力が手間な方は</p><a class="btn btn-line btn-line-ghost" href="https://line.me/R/ti/p/@498ynxrl" target="_blank" rel="noopener" data-line="modal"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.5 8.5 0 0 1-12.3 7.6L3 21l1.9-5.7A8.5 8.5 0 1 1 21 11.5z"></path></svg>LINEで相談する</a><p class="small lead-alt-note">友だち追加して、届く質問にボタンで答えるだけです。</p></div></div></div><nav class="sp-bottom-nav" aria-label="モバイル下部ナビ"><ul><li><a class="sp-bottom-line" href="https://line.me/R/ti/p/@498ynxrl" target="_blank" rel="noopener" data-line="sp-nav"><span class="icn"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.5 8.5 0 0 1-12.3 7.6L3 21l1.9-5.7A8.5 8.5 0 1 1 21 11.5z"></path></svg></span><span>LINE相談</span></a></li><li><a href="/works"><span class="icn"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect></svg></span><span>制作実績</span></a></li><li><a href="/pricing"><span class="icn"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4l8 11 8-11M7 13h10M7 17h10"></path></svg></span><span>料金</span></a></li><li><button type="button"><span class="icn"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><path d="M22 6l-10 7L2 6"></path></svg></span><span>資料請求</span></button></li><li><a href="/sitemap"><span class="icn"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M4 12h16M4 17h16"></path></svg></span><span>メニュー</span></a></li></ul></nav><div class="sticky-cta" role="region" aria-label="ご相談の案内"><span class="pulse"></span><span>初回相談無料 · 営業日24h以内にご返信</span><button>資料請求 →</button><button class="sticky-cta-close" aria-label="閉じる"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M6 18L18 6"></path></svg></button></div></div>
+  <script src="/articles.js?v=e301065ae3" defer=""></script>
+  <script src="/app.bundle.js?v=e301065ae3" defer=""></script>
+
+
+</body></html>
