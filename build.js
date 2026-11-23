@@ -121,6 +121,7 @@ const ORG_SAME_AS = [
 // desc → meta description / og:description / BlogPosting.description に使う。
 //        未指定の記事は app.jsx の SEO_DESC か自動生成の定型文にフォールバックする
 const BLOG = [
+  { slug: 'ai-agent-operation-permissions', category: 'AI活用', date: '2026.11.23', read: '10 min', title: 'AIエージェントの操作権限｜外注前に決める6項目', img: 'assets/blog-default.png', desc: 'AIエージェントに業務システムを触らせる前に決める項目を、権限の範囲、連携先の限定、操作記録、人の承認、個人情報、責任分担の6つに整理しました。既存システムの制約でつまずく箇所も解説します。', supervised: true },
   { slug: 'outsourced-ai-article-acceptance-check', category: 'AI活用', date: '2026.11.23', read: '9 min', title: '外注AI記事の検収｜受け入れ前の確認8項目', img: 'assets/blog-default.png', desc: '外注した記事がAIで書かれていた場合に、発注側が受け入れるか差し戻すかを判断する確認項目をまとめます。Google公式の記述をもとに、本文以外に確認する4か所と、検収で使える8項目のチェックリストを示します。', supervised: true },
   { slug: 'generative-ai-customer-data-input-report', category: 'AI活用', date: '2026.11.23', read: '9 min', title: '生成AIに顧客情報を入力した時の報告義務と手順', img: 'assets/blog-default.png', desc: '生成AIに顧客情報を入力してしまった時の対応手順をまとめます。個人情報保護委員会が示す報告対象事態の4類型と、速報と確報の期限から逆算した社内の動き方、再発を防ぐために決める5項目まで、出典つきで整理します。', supervised: true },
   { slug: 'ai-search-citation-tracking-frequency', category: 'AI活用', date: '2026.11.23', read: '10 min', title: 'AI検索の定点観測｜自社の引用を記録する頻度', img: 'assets/blog-default.png', desc: 'AI検索の定点観測は、記録を週次、比較を月次に分けるのが現実的です。公式レポートで数えられるのは表示回数のみで、クエリは追えません。記録に残す5項目と、数値が落ちたときの切り分けの順番も示します。', supervised: true },
