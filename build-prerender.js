@@ -33,6 +33,7 @@ const ARTICLE_ROUTES = (() => {
 })();
 
 const ROUTES_ALLOWLIST = [
+  '/article-business-system-manual-training-scope',
   '/article-ai-agent-operation-permissions',
   '/article-outsourced-ai-article-acceptance-check',
   '/article-generative-ai-customer-data-input-report',
