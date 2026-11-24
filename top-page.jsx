@@ -178,7 +178,64 @@ function TopPage({ onNavigate, onContact }) {
         </div>
       </section>
 
-      {/* =========== 納品バナー 01/02 (無料モックアップ → 資料請求): 導入実績の直下 ===========
+      {/* 2026-11 トップの短縮 (Clarity 過去30日・PC 127表示: 最初の1画面で26%、上から20%までで半分が離脱。最後まで見るのは15%)。
+          ・サービスと開始価格 (ホームページ機能) を導入実績のすぐ下へ上げた (以前は 7,500px 付近で、ほとんど見られていなかった)。
+          ・業種特化LPの帯 (約1,270px) を企業様の声の下へ下げた。
+          ・ほかの場所と重なる 補助金/資料/ブログボットのカード・キーワードタグ・タグクラウド・「作るだけじゃない」・
+            Nortiq コンテンツ (固定の5行)・PICK UP を外した (行き先はヘッダー・Inside・えらばれる理由・最新コラムに残っている)。 */}
+      {/* =========== サービスと料金の目安 (Feature 3 cards) ===========
+          見出しは以前「ホームページ機能」だったが、中身は3サービスと開始価格なので、何が書いてあるかが分かる見出しにした。 */}
+      <section className="section-pad">
+        <div className="container">
+          <div className="section-head">
+            <h2 className="section-title fadein">サービスと料金の目安</h2>
+            <p className="section-sub fadein">SERVICE &amp; PRICE</p>
+          </div>
+          <div className="feature-trio">
+            <FeatureTrioCard
+              vertical="STEP 01"
+              label="入口"
+              titlePrefix="Web"
+              titleSuffix="制作"
+              sub="機能・サービス一覧"
+              desc="集客と問い合わせ獲得を前提とした現代的なWebサイト。WordPress / Next.js から最適選定。"
+              {...stepPrice('web')}
+              to={'web'} nav={onNavigate}
+              delay={0}
+            />
+            <FeatureTrioCard
+              vertical="STEP 02"
+              label="主力"
+              titlePrefix="AI"
+              titleSuffix="チャットボット"
+              sub="機能・サービス一覧"
+              desc="質問するだけで記事が書ける投稿ツール。WordPress 更新が止まる、を解決。"
+              {...stepPrice('chatbot')}
+              featured
+              to={'chatbot'} nav={onNavigate}
+              delay={150}
+            />
+            <FeatureTrioCard
+              vertical="STEP 03"
+              label="本格"
+              titlePrefix="DX"
+              titleSuffix="・ML"
+              sub="機能・サービス一覧"
+              desc="ML 実装 / 業務自動化 / データ分析基盤 / 生成AI業務組み込み。"
+              {...stepPrice('dx')}
+              to={'dx'} nav={onNavigate}
+              delay={300}
+            />
+          </div>
+          <div className="row" style={{ justifyContent: 'center', marginTop: 32, gap: 16 }}>
+            {/* 料金を見た人の次の一歩は、連絡先なしで金額が出る概算見積を主にする (資料請求はすぐ下のバナーにある)。 */}
+            <Button variant="ghost" to={'pricing'} nav={onNavigate}>料金プランをくわしく見る<Icon name="arrow-right" size={14}/></Button>
+            <a className="btn btn-primary" href="/tools/estimate" onClick={() => nqFunnel('estimate_click', { location: 'top-service-price' })}>1分で概算見積（連絡先不要）<Icon name="arrow-right" size={14}/></a>
+          </div>
+        </div>
+      </section>
+
+      {/* =========== 納品バナー 01/02 (無料モックアップ → 資料請求): 導入実績・サービスと料金の下 ===========
           PC 4:1 / 767px 以下は 4:5。クリックは他の CTA と同じくモーダル、JS が無い環境では #request
           (ページ下部のフォーム) へ。表示・クリックは banner_id=top-hero で GA4 に送る。 */}
       <section className="top-banner-section">
@@ -191,51 +248,6 @@ function TopPage({ onNavigate, onContact }) {
               alt="ホームページ制作、まずは無料モックアップから。契約前に、御社サイトの完成イメージをお見せします。無料で相談する。初回相談無料・営業日24時間以内に返信・制作・支援実績30社+"
             />
           </TrackedBanner>
-        </div>
-      </section>
-
-      {/* =========== 業種特化LP (監理団体・登録支援機関) への導線 =========== */}
-      <IndustryLpBanner/>
-
-      {/* =========== PROMO BANNERS (補助金 / ガイドブック / AI) =========== */}
-      <section className="section-pad-sm">
-        <div className="container">
-          <div className="promo-grid">
-            <a className="promo-card fadein" {...navProps('subsidy', onNavigate)}>
-              <div className="promo-tag">補助金の相談</div>
-              <div className="promo-num">01</div>
-              <div className="promo-body">
-                <p className="promo-eyebrow">SUBSIDY</p>
-                <h3>補助金を活用した<br/>DX導入</h3>
-                <p className="promo-desc">IT導入補助金などの活用を視野に、DX投資の進め方をご相談いただけます。</p>
-              </div>
-              <div className="promo-cta">詳しく見る <Icon name="arrow-right" size={14}/></div>
-            </a>
-            <a className="promo-card promo-card-has-thumb fadein" data-delay="120" {...navProps('guidebook', onNavigate)}>
-              <div className="promo-tag">無料DL</div>
-              <div className="promo-num">02</div>
-              <div className="promo-body">
-                <p className="promo-eyebrow">SALES DECK</p>
-                <h3>Web制作<br/>サービス紹介資料</h3>
-                <p className="promo-desc">制作の進め方・実績・料金プラン・制作の流れを一冊に。</p>
-              </div>
-              <div className="promo-cta">ダウンロード <Icon name="arrow-right" size={14}/></div>
-              {/* 納品バナー 09 (資料の表紙) をサムネに */}
-              <div className="promo-thumb" aria-hidden="true">
-                <BannerImg base="assets/banners/09_guidebook_1x1" widths={[600, 1200]} sizes="100px" width={1200} height={1200} alt=""/>
-              </div>
-            </a>
-            <a className="promo-card promo-card-feature fadein" data-delay="240" {...navProps('product-wpchat', onNavigate)}>
-              <div className="promo-tag">主力プロダクト</div>
-              <div className="promo-num">03</div>
-              <div className="promo-body">
-                <p className="promo-eyebrow">AI PRODUCT</p>
-                <h3>ブログボット<br/>AI投稿アシスタント</h3>
-                <p className="promo-desc">質問するだけで記事が書ける、Nortiq Labs 内製プロダクト。</p>
-              </div>
-              <div className="promo-cta">プロダクト詳細 <Icon name="arrow-right" size={14}/></div>
-            </a>
-          </div>
         </div>
       </section>
 
@@ -318,169 +330,8 @@ function TopPage({ onNavigate, onContact }) {
       {/* =========== Red CTA Strip =========== */}
       <RedCTAStrip onContact={onContact} onNavigate={onNavigate}/>
 
-      {/* =========== ホームページ機能 (Feature 3 cards) =========== */}
-      <section className="section-pad">
-        <div className="container">
-          <div className="section-head">
-            <h2 className="section-title fadein">ホームページ機能</h2>
-            <p className="section-sub fadein">HOMEPAGE FEATURE</p>
-          </div>
-          <div className="feature-trio">
-            <FeatureTrioCard
-              vertical="STEP 01"
-              label="入口"
-              titlePrefix="Web"
-              titleSuffix="制作"
-              sub="機能・サービス一覧"
-              desc="集客と問い合わせ獲得を前提とした現代的なWebサイト。WordPress / Next.js から最適選定。"
-              {...stepPrice('web')}
-              to={'web'} nav={onNavigate}
-              delay={0}
-            />
-            <FeatureTrioCard
-              vertical="STEP 02"
-              label="主力"
-              titlePrefix="AI"
-              titleSuffix="チャットボット"
-              sub="機能・サービス一覧"
-              desc="質問するだけで記事が書ける投稿ツール。WordPress 更新が止まる、を解決。"
-              {...stepPrice('chatbot')}
-              featured
-              to={'chatbot'} nav={onNavigate}
-              delay={150}
-            />
-            <FeatureTrioCard
-              vertical="STEP 03"
-              label="本格"
-              titlePrefix="DX"
-              titleSuffix="・ML"
-              sub="機能・サービス一覧"
-              desc="ML 実装 / 業務自動化 / データ分析基盤 / 生成AI業務組み込み。"
-              {...stepPrice('dx')}
-              to={'dx'} nav={onNavigate}
-              delay={300}
-            />
-          </div>
-          <div className="row" style={{ justifyContent: 'center', marginTop: 32, gap: 16 }}>
-            <Button variant="ghost" to={'web'} nav={onNavigate}>機能一覧はこちらから<Icon name="arrow-right" size={14}/></Button>
-            <Button variant="primary" onClick={onContact}>サービス資料を請求する (無料)<Icon name="arrow-right" size={14}/></Button>
-          </div>
-        </div>
-      </section>
-
       {/* =========== 制作実績ギャラリー (タブ式) =========== */}
       <GalleryTabs onNavigate={onNavigate}/>
-
-      {/* =========== キーワード絞り込みタグ (5-color, scroll) =========== */}
-      <section className="top-sp-hide" style={{ paddingBottom: 'clamp(48px, 7vw, 90px)' }}>
-        <div className="container">
-          <div className="row" style={{ justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 24 }}>
-            <h3 className="display-s">キーワードから探す</h3>
-            <span className="small text-mono" style={{ color: 'var(--text-3)' }}>― FROM KEYWORDS</span>
-          </div>
-          <div className="kw-scroll">
-            <div className="kw-row">
-              {[
-                ['クリニック', 'blue', false], ['不動産', 'green', true], ['建築', 'gold', false],
-                ['工務店', 'blue2', false], ['人材', 'orange', false], ['小売', 'blue', true],
-                ['EC連動', 'green', false], ['AIスタートアップ', 'gold', true], ['士業', 'blue2', false],
-                ['教育', 'orange', false], ['インフラ', 'blue', false], ['製造', 'green', false],
-                ['自治体', 'gold', false], ['NPO', 'blue2', false],
-                ['クリニック', 'blue', false], ['不動産', 'green', true], ['建築', 'gold', false],
-                ['工務店', 'blue2', false], ['人材', 'orange', false], ['小売', 'blue', true],
-              ].map((k, i) => (
-                <HashTag key={i} color={k[1]} big={k[2]} to="works" nav={onNavigate}>{k[0]}</HashTag>
-              ))}
-            </div>
-            <div className="kw-row kw-row-rev">
-              {[
-                ['コーポレートLP', 'blue', true], ['採用LP', 'green', false], ['EC連動LP', 'orange', false],
-                ['動画制作', 'blue2', true], ['動画SEO', 'gold', false], ['WordPress', 'blue', false],
-                ['Next.js', 'green', false], ['AI記事生成', 'gold', true], ['FAQボット', 'blue2', false],
-                ['ML分類', 'orange', false], ['予測モデル', 'blue', false], ['異常検知', 'green', false],
-                ['業務自動化', 'gold', true], ['データ可視化', 'blue2', false],
-                ['コーポレートLP', 'blue', true], ['採用LP', 'green', false], ['EC連動LP', 'orange', false],
-                ['動画制作', 'blue2', true], ['動画SEO', 'gold', false], ['WordPress', 'blue', false],
-              ].map((k, i) => (
-                <HashTag key={i} color={k[1]} big={k[2]} to="works" nav={onNavigate}>{k[0]}</HashTag>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* =========== Tag Cloud (weighted) =========== */}
-      <section className="top-sp-hide" style={{ paddingBottom: 'clamp(64px, 9vw, 110px)' }}>
-        <div className="container">
-          <div className="section-head" style={{ marginBottom: 32 }}>
-            <h3 className="display-s fadein">扱う技術と業務領域</h3>
-            <p className="section-sub fadein">TOPICS · WEIGHTED CLOUD</p>
-          </div>
-          <TagCloud
-            to="column" nav={onNavigate}
-            tags={[
-              { label: "Web制作", w: 5 },
-              { label: "AIチャットボット", w: 4 },
-              { label: "DX", w: 5 },
-              { label: "WordPress", w: 4 },
-              { label: "Next.js", w: 3 },
-              { label: "ML実装", w: 4 },
-              { label: "業務自動化", w: 3 },
-              { label: "データ分析", w: 3 },
-              { label: "RAG", w: 2 },
-              { label: "Fine-tuning", w: 2 },
-              { label: "Computer Vision", w: 2 },
-              { label: "MLOps", w: 2 },
-              { label: "SEO", w: 4 },
-              { label: "LPO", w: 3 },
-              { label: "Core Web Vitals", w: 1 },
-              { label: "WCAG", w: 1 },
-              { label: "BigQuery", w: 1 },
-              { label: "Looker", w: 1 },
-              { label: "Anthropic", w: 2 },
-              { label: "OpenAI", w: 2 },
-              { label: "Pinecone", w: 1 },
-              { label: "LangChain", w: 1 },
-              { label: "MediaPipe", w: 1 },
-              { label: "FastAPI", w: 1 },
-              { label: "PyTorch", w: 2 },
-              { label: "Rust", w: 1 },
-            ]}
-          />
-        </div>
-      </section>
-
-      {/* =========== 作るだけじゃない (運用サポート) =========== */}
-      <section className="section-pad" style={{ background: 'var(--bg-2)' }}>
-        <div className="container">
-          <div className="section-head">
-            <h2 className="section-title fadein">作るだけじゃない。</h2>
-            <p className="section-sub fadein">WE DON'T JUST MAKE IT</p>
-            <p className="lede fadein" style={{ margin: '24px auto 0' }}>
-              担当者からの<span className="highlight">「月次アクセス報告」「オンライン定例」「活用勉強会の実施」</span>など、1社1社のWEB運用をサポートします。<br/>
-              アクセス解析・ヒートマップなどのデータを蓄積し、Web 戦略をたて、運用のアドバイスをします。
-            </p>
-          </div>
-          <div className="support-grid">
-            {[
-              { n: "01", t: "月次アクセス報告", d: "GA4 / GSC / 独自解析を統合したカスタムダッシュボードで、毎月の変化を可視化。" },
-              { n: "02", t: "オンライン定例",   d: "月1回のオンライン MTG で、改善施策をその場で決定。" },
-              { n: "03", t: "操作マニュアル整備", d: "WordPress / AI ツールの管理画面ごとに、画像付きの操作手順書をお渡しします。" },
-              { n: "04", t: "ヒートマップ解析",   d: "どこで離脱するか、どこをクリックするか。データに基づくUI改善を提案。" },
-            ].map((it, i) => (
-              <div key={i} className="support-card fadein" data-delay={i * 120}>
-                <div className="step-num" style={{ marginBottom: 16 }}>SUPPORT / {it.n}</div>
-                <h3 style={{ fontSize: 18, fontWeight: 700, margin: 0, marginBottom: 12 }}>{it.t}</h3>
-                <p className="body" style={{ fontSize: 13, margin: 0 }}>{it.d}</p>
-              </div>
-            ))}
-          </div>
-          <div className="row" style={{ justifyContent: 'center', marginTop: 48, gap: 16 }}>
-            <Button variant="ghost" to={'support'} nav={onNavigate}>コンサル・運用サポート<Icon name="arrow-right" size={14}/></Button>
-            <Button variant="ghost" to={'staff'} nav={onNavigate}>スタッフ紹介<Icon name="arrow-right" size={14}/></Button>
-          </div>
-        </div>
-      </section>
 
       {/* =========== 企業様の声 =========== */}
       <section className="section-pad">
@@ -518,8 +369,8 @@ function TopPage({ onNavigate, onContact }) {
         </div>
       </section>
 
-      {/* =========== コラム タブ =========== */}
-      <ContentTabs onNavigate={onNavigate}/>
+      {/* =========== 業種特化LP (監理団体・登録支援機関) への導線 =========== */}
+      <IndustryLpBanner/>
 
       {/* =========== 最新コラム (個別記事への内部リンク導線) =========== */}
       {(() => {
@@ -552,43 +403,6 @@ function TopPage({ onNavigate, onContact }) {
           </section>
         );
       })()}
-
-      {/* =========== ピックアップ 3 バナー =========== */}
-      <section className="section-pad-sm top-sp-hide">
-        <div className="container">
-          <div className="row" style={{ marginBottom: 32, justifyContent: 'space-between', alignItems: 'flex-end' }}>
-            <div>
-              <h3 className="display-s">PICK UP</h3>
-              <p className="section-sub" style={{ marginTop: 4 }}>注目コンテンツ</p>
-            </div>
-          </div>
-          <div className="pickup-grid">
-            <PickupCard
-              label="MAGAZINE"
-              title="Nortiq 通信"
-              desc="日本のDX、米国の最新、業界別の DX 観察記を月刊配信します。"
-              accent="var(--tag-blue2)"
-              to={'column'} nav={onNavigate}
-            />
-            {/* 以前は to が無く、「詳しく見る」を押しても何も起きないカードだった。リスティング広告の記事へ繋ぐ。 */}
-            <PickupCard
-              label="LISTING"
-              title="リスティング広告支援"
-              desc="集客に効くリスティング広告、業種別キーワード設計から運用代行まで。"
-              accent="var(--tag-orange)"
-              to={'article-listing-ads-cpc-roi'} nav={onNavigate}
-            />
-            <PickupCard
-              label="DIAGNOSIS"
-              title="サイト無料診断"
-              desc="現状の課題を、Nortiq 独自の30項目チェックリストで分析します。"
-              accent="var(--accent)"
-              to={'diagnostic'} nav={onNavigate}
-              thumb={{ base: 'assets/banners/08_diagnostic_1x1', alt: 'ホームページ無料診断の結果イメージ (SEO・表示速度・AI可視性・競合比較)' }}
-            />
-          </div>
-        </div>
-      </section>
 
       {/* =========== 大型インライン資料請求フォーム ===========
           id="request": ヒーローバナー・共通CTA帯の JS 無し時の飛び先 (/#request)。app.jsx が着地時のハッシュを見て
@@ -829,78 +643,5 @@ function VoiceBubble({ tag, quote, name, role, reversed, delay, src }) {
   );
 }
 
-function ContentTabs({ onNavigate }) {
-  const [tab, setTab] = React.useState(0);
-  const data = [
-    {
-      label: "コラム",
-      en: "COLUMN",
-      items: [
-        { date: "2026.05.12", title: "日本のDX、なぜ2〜3年遅れているのか", tag: "DX 観察記" },
-        { date: "2026.04.28", title: "VetoNet 開発の裏側 — AI agent security とは何か", tag: "技術" },
-        { date: "2026.04.14", title: "30万円でちゃんと集客できる Web サイトを作る方法", tag: "Web制作" },
-        { date: "2026.03.30", title: "WordPress 更新が止まる本当の理由とその解決", tag: "AI活用" },
-        { date: "2026.03.18", title: "Core Web Vitals Good の現実的な取り方", tag: "技術" },
-      ],
-      ctaTo: 'column',
-    },
-  ];
-  const t = data[tab];
-  return (
-    <section className="section-pad top-sp-hide" style={{ background: 'var(--bg-2)' }}>
-      <div className="container">
-        <div className="section-head">
-          <h2 className="section-title fadein">Nortiq コンテンツ</h2>
-          <p className="section-sub fadein">CONTENTS</p>
-        </div>
-        <div className="content-tabs fadein">
-          {data.map((d, i) => (
-            <button key={i} className={`content-tab${tab === i ? ' active' : ''}`} onClick={() => setTab(i)}>
-              <span className="tl">{d.label}</span>
-              <span className="en">{d.en}</span>
-            </button>
-          ))}
-        </div>
-        <div className="content-list fadein">
-          {t.items.map((it, i) => (
-            <a key={i} className="content-row" {...navProps(t.ctaTo, onNavigate)}>
-              <span className="content-date">{it.date}</span>
-              <span className="content-tag-pill">{it.tag}</span>
-              <span className="content-title">{it.title}</span>
-              <Icon name="arrow-right" size={14}/>
-            </a>
-          ))}
-        </div>
-        <div style={{ textAlign: 'center', marginTop: 32 }}>
-          <Button variant="ghost" to={t.ctaTo} nav={onNavigate}>{t.label} 一覧を見る<Icon name="arrow-right" size={14}/></Button>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-// thumb: { base, alt } で右上に 1:1 のサムネ (納品バナー 08 等) を出す。
-function PickupCard({ label, title, desc, accent, onClick, to, nav, thumb }) {
-  const Tag = to && nav ? 'a' : 'article';
-  const linkProps = to && nav ? navProps(to, nav) : { onClick };
-  return (
-    <Tag className="pickup-card fadein" {...linkProps}>
-      <div className="pickup-accent" style={{ background: accent }}></div>
-      <div className="pickup-body">
-        <div className="pickup-text">
-          <p className="pickup-label" style={{ color: accent }}>{label}</p>
-          <h3 className="pickup-title">{title}</h3>
-          <p className="pickup-desc">{desc}</p>
-          <span className="pickup-cta">詳しく見る <Icon name="arrow-right" size={14}/></span>
-        </div>
-        {thumb && (
-          <div className="pickup-thumb">
-            <BannerImg base={thumb.base} widths={[600, 1200]} sizes="88px" width={1200} height={1200} alt={thumb.alt}/>
-          </div>
-        )}
-      </div>
-    </Tag>
-  );
-}
 
 Object.assign(window, { TopPage });
