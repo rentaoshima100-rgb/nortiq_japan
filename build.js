@@ -121,6 +121,7 @@ const ORG_SAME_AS = [
 // desc → meta description / og:description / BlogPosting.description に使う。
 //        未指定の記事は app.jsx の SEO_DESC か自動生成の定型文にフォールバックする
 const BLOG = [
+  { slug: 'subsidy-website-post-completion-obligations', category: 'Web制作', date: '2026.11.25', read: '10 min', title: '補助金のホームページ｜公開後の報告と処分制限の期限', img: 'assets/blog-default.png', desc: '補助金でホームページを作った後に残る、効果報告と書類保管と財産処分の制限を整理しました。小規模事業者持続化補助金は事業実施期間終了日の翌月から1年間、デジタル化・AI導入補助金2026は3年度目まで報告が続きます。公募要領の原文で確認しています。', supervised: true },
   { slug: 'internal-document-ai-scope-permissions', category: 'AI活用', date: '2026.11.25', read: '10 min', title: '社内文書を参照するAIの外注｜参照範囲と権限の決め方', img: 'assets/blog-default.png', desc: '社内の規程やマニュアルを参照するAIを外注するとき、参照範囲と閲覧権限をどう決めるかを解説します。発注書に書く要件7項目、文書の権限と揃える方法、機械学習に利用されないことの確認手順を、個人情報保護委員会の注意喚起に沿って整理しました。', supervised: true },
   { slug: 'website-maintenance-backup-requirements', category: 'Web制作', date: '2026.11.25', read: '8 min', title: 'ホームページ保守の復旧時間とバックアップの決め方', img: 'assets/blog-default.png', desc: 'ホームページの保守でバックアップと復旧時間をどこまで契約に書くかを解説します。警察庁の資料にある復旧期間と費用の数値をもとに、対象の範囲や保管先を含む6項目の決め方、見積書の確認箇所、復元テストの依頼の仕方を扱います。', supervised: true },
   { slug: 'php-8-2-end-of-support-upgrade-request', category: 'Web制作', date: '2026.11.25', read: '11 min', title: 'PHP 8.2サポート終了2026年12月の対応5手順', img: 'assets/blog-default.png', desc: 'PHP 8.2のサポートは2026年12月31日に終了します。PHP公式とWordPress公式の記載をもとに、上げる先の版の選び方、制作会社への依頼の5ステップ、見積書で確認する項目、切り替え後に自社で点検する箇所を解説します。', supervised: true },

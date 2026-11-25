@@ -33,6 +33,7 @@ const ARTICLE_ROUTES = (() => {
 })();
 
 const ROUTES_ALLOWLIST = [
+  '/article-subsidy-website-post-completion-obligations',
   '/article-internal-document-ai-scope-permissions',
   '/article-website-maintenance-backup-requirements',
   '/article-php-8-2-end-of-support-upgrade-request',
