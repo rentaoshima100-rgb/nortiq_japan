@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="ja" style="--accent: hsl(354, 92%, 45%); --accent-hi: hsl(354, 95%, 52%); --accent-soft: hsl(354, 90%, 95%);"><head>
+  <meta charset="UTF-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; form-action 'self'; frame-src 'self'; script-src 'self' 'sha256-ocRBZRJbPcvKG6Qsbe5AZCl1WeoAuzpcVpkhAf5xM+g=' 'sha256-Kw0nZV75o5JtrJ6JtZw2ebqGC30k/KhvkOn7Ro9UE1Q=' 'sha256-Wz147NFgJy4vRm8+5b9ZyHibNfQczwF3HPKS6wtTlfk=' 'unsafe-hashes' 'sha256-MhtPZXr7+LpJUY5qtMutB+qWfQtMaPccfe7QXtCcEYc=' https://www.googletagmanager.com https://www.clarity.ms https://scripts.clarity.ms; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https:; media-src 'self' blob:; connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com https://*.google.com https://*.google.co.jp https://*.doubleclick.net https://*.clarity.ms https://c.bing.com; upgrade-insecure-requests">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>
+    (function(){try{var q=location.search;
+      if(/[?&]nq_internal=1(&|$)/.test(q))localStorage.setItem('nq_internal','1');
+      if(/[?&]nq_internal=0(&|$)/.test(q))localStorage.removeItem('nq_internal');
+      window.__NQ_INTERNAL__=localStorage.getItem('nq_internal')==='1';}catch(e){}})();
+    (function(){try{if(window.__NQ_INTERNAL__)return;var p=new URLSearchParams(location.search),id=p.get('utm_content');
+      if(p.get('utm_source')!=='outbound'||!/^[0-9a-f]{8}$/.test(id||''))return;
+      var sent=false,t0=Date.now(),ev=['scroll','pointerdown','keydown'];
+      function send(){if(sent)return;sent=true;ev.forEach(function(e){removeEventListener(e,on,true)});
+        navigator.sendBeacon('/api/outbound-visit',JSON.stringify({id:id,path:location.pathname}));}
+      function on(){if(Date.now()-t0>=3000)send();}
+      ev.forEach(function(e){addEventListener(e,on,{capture:true,passive:true})});
+      setTimeout(function(){if(document.visibilityState==='visible')send();},20000);}catch(e){}})();
+  </script>
+  <!-- Google tag (gtag.js) — GA4 + Google Ads conversion tracking (本体は DOMContentLoaded 後に読む) -->
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-EYTD1TWR7T');
+    window.NORTIQ_CONV = { contact: null, diagnostic: null };
+    (function(){if(window.__NQ_INTERNAL__)return;var s=document.createElement('script');s.async=true;s.fetchPriority='low';s.src='https://www.googletagmanager.com/gtag/js?id=G-EYTD1TWR7T';
+      function go(){document.head.appendChild(s);}
+      if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',go);}else{go();}})();
+  </script>
+  <!-- Microsoft Clarity — heatmaps & session recordings (本体は DOMContentLoaded 後に読む) -->
+  <script>
+    (function(c,l,a,r,i){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+    if(c.__NQ_INTERNAL__)return;
+    function go(){var t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;l.head.appendChild(t);}
+    if(l.readyState==='loading'){l.addEventListener('DOMContentLoaded',go);}else{go();}})(window, document, "clarity", "script", "z2wvw7aod2");
+  </script>
+  <title>PHP 8.2サポート終了2026年12月の対応5手順 — Nortiq Labs</title>
+  <meta name="description" content="PHP 8.2のサポートは2026年12月31日に終了します。PHP公式とWordPress公式の記載をもとに、上げる先の版の選び方、制作会社への依頼の5ステップ、見積書で確認する項目、切り替え後に自社で点検する箇所を解説します。">
+  <link rel="icon" href="/assets/nortiq-fav.png" type="image/png">
+  <link rel="apple-touch-icon" href="/assets/nortiq-icon.png">
+  <meta name="theme-color" content="#E60012">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Nortiq Labs">
+  <!-- 記事ルートでは app.jsx が og:type を article に変え、下の2つに日付を入れる。
+       setMetaContent は既存要素しか書き換えないため、空のまま置いておく必要がある -->
+  <meta property="article:published_time" content="2026-11-25">
+  <meta property="article:modified_time" content="2026-11-25">
+  <meta property="og:title" content="PHP 8.2サポート終了2026年12月の対応5手順 — Nortiq Labs">
+  <meta property="og:description" content="PHP 8.2のサポートは2026年12月31日に終了します。PHP公式とWordPress公式の記載をもとに、上げる先の版の選び方、制作会社への依頼の5ステップ、見積書で確認する項目、切り替え後に自社で点検する箇所を解説します。">
+  <meta property="og:url" content="https://nortiqlab.com/article-php-8-2-end-of-support-upgrade-request">
+  <meta property="og:image" content="https://nortiqlab.com/assets/blog-default.png">
+  <meta property="og:locale" content="ja_JP">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="PHP 8.2サポート終了2026年12月の対応5手順 — Nortiq Labs">
+  <meta name="twitter:description" content="PHP 8.2のサポートは2026年12月31日に終了します。PHP公式とWordPress公式の記載をもとに、上げる先の版の選び方、制作会社への依頼の5ステップ、見積書で確認する項目、切り替え後に自社で点検する箇所を解説します。">
+  <meta name="twitter:image" content="https://nortiqlab.com/assets/blog-default.png">
+  <link rel="stylesheet" href="/styles.css?v=a461bab53c">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&amp;family=Space+Grotesk:wght@400;500;600;700&amp;display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&amp;family=Space+Grotesk:wght@400;500;600;700&amp;display=swap" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Space+Grotesk:wght@400;500;600;700&display=swap"></noscript>
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://nortiqlab.com/#org","name":"Nortiq Labs","legalName":"NORTIQLAB株式会社","url":"https://nortiqlab.com/","logo":"https://nortiqlab.com/assets/nortiq-mark.png","image":"https://nortiqlab.com/assets/og-image.png","description":"京都のWeb制作×AI実装カンパニー。オリジナルデザインのホームページ制作からAIチャットボット導入、DXコンサルティングまで一気通貫で支援。初回相談無料・営業日24時間以内に返信します。","foundingDate":"2026-07-07","email":"info@nortiqlab.com","identifier":{"@type":"PropertyValue","propertyID":"法人番号","value":"6130001082671"},"address":{"@type":"PostalAddress","addressCountry":"JP","postalCode":"604-0012","addressRegion":"京都府","addressLocality":"京都市中京区","streetAddress":"竪大恩寺町751 シュデン二条201"},"areaServed":{"@type":"Country","name":"Japan"},"alternateName":["ノーティックラボ","株式会社ノーティックラボ","NORTIQLAB"],"knowsAbout":["Web制作","AIチャットボット","DX","機械学習","SEO","LP制作 / LPO","業務自動化","データ分析"]},{"@type":"WebSite","@id":"https://nortiqlab.com/#website","name":"Nortiq Labs","url":"https://nortiqlab.com/","publisher":{"@id":"https://nortiqlab.com/#org"},"inLanguage":"ja"},{"@type":"ProfessionalService","name":"Nortiq Labs","url":"https://nortiqlab.com/","description":"京都のWeb制作×AI実装カンパニー。オリジナルデザインのホームページ制作からAIチャットボット導入、DXコンサルティングまで一気通貫で支援。初回相談無料・営業日24時間以内に返信します。","areaServed":"JP","serviceType":["Web制作","AIチャットボット導入","DX・ML実装","補助金活用のDX導入相談"],"provider":{"@id":"https://nortiqlab.com/#org"}}]}</script>
+  <!-- defer: この2本 (計約139KB) は head にあって描画をブロックしていた。
+       ページの初期表示はプリレンダ済みHTMLで完結するのでJSを待つ必要がない。
+       defer は文書順に実行されるため react → react-dom → articles.js →
+       app.bundle.js の順序は保たれる。 -->
+  <script src="/assets/vendor/react.production.min.js?v=a461bab53c" defer=""></script>
+  <script src="/assets/vendor/react-dom.production.min.js?v=a461bab53c" defer=""></script>
+<script src="/articles/php-8-2-end-of-support-upgrade-request.js" defer="" data-article="php-8-2-end-of-support-upgrade-request"></script><link rel="canonical" href="https://nortiqlab.com/article-php-8-2-end-of-support-upgrade-request"><script type="application/ld+json" id="route-ld">[{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"トップ","item":"https://nortiqlab.com/"},{"@type":"ListItem","position":2,"name":"コラム","item":"https://nortiqlab.com/column"},{"@type":"ListItem","position":3,"name":"PHP 8.2サポート終了2026年12月の対応5手順","item":"https://nortiqlab.com/article-php-8-2-end-of-support-upgrade-request"}]},{"@context":"https://schema.org","@type":"BlogPosting","headline":"PHP 8.2サポート終了2026年12月の対応5手順","description":"PHP 8.2のサポートは2026年12月31日に終了します。PHP公式とWordPress公式の記載をもとに、上げる先の版の選び方、制作会社への依頼の5ステップ、見積書で確認する項目、切り替え後に自社で点検する箇所を解説します。","image":"https://nortiqlab.com/assets/blog-default.png","url":"https://nortiqlab.com/article-php-8-2-end-of-support-upgrade-request","inLanguage":"ja","articleSection":"Web制作","datePublished":"2026-11-25","dateModified":"2026-11-25","author":{"@type":"Organization","@id":"https://nortiqlab.com/#org","name":"Nortiq Labs"},"publisher":{"@id":"https://nortiqlab.com/#org"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://nortiqlab.com/article-php-8-2-end-of-support-upgrade-request","reviewedBy":{"@id":"https://nortiqlab.com/#org"}}}]</script></head>
+<body>
+  <div id="app"><header class="nav" role="banner"><div class="nav-inner"><a class="nav-logo" href="/" style="cursor: pointer;"><span class="nav-logo-mark"></span><span class="wordmark"><span class="wordmark-main">NORTIQ</span><span class="wordmark-sub">LABS</span></span></a><nav class="nav-links" aria-label="メインナビゲーション"><div class="nav-link-wrap"><a class="nav-link" href="/">トップ</a></div><div class="nav-link-wrap"><button type="button" class="nav-link" aria-haspopup="true" aria-expanded="false">サービス<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></button><div class="megamenu" hidden=""><div class="megamenu-inner"><div class="megamenu-col"><h4>サービス一覧</h4><ul><li><a href="/web">ホームページ制作<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></li><li><a href="/chatbot">AIチャットボット<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></li><li><a href="/phone-ai">電話AI<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></li><li><a href="/dx">業務システム・AI開発<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></li></ul></div><div class="megamenu-col"><h4>技術領域</h4><ul><li><a href="/feature-lpo">LP制作 / LPO<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></li><li><a href="/feature-recruit">採用専門サイト<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></li><li><a href="/feature-analytics">アクセス解析カスタム実装<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></li><li><a href="/feature-cms">CMS / 記事更新システム<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></li></ul></div><div class="megamenu-col"><h4>自社プロダクト</h4><ul><li><a href="/product-vetonet">VetoNet (AI Security)<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></li><li><a href="/product-wpchat">ブログボット（AI投稿アシスタント）<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></li></ul></div></div></div></div><div class="nav-link-wrap"><button type="button" class="nav-link" aria-haspopup="true" aria-expanded="false">制作実績<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></button><div class="megamenu" hidden=""><div class="megamenu-inner"><div class="megamenu-col"><h4>業種から探す</h4><ul><li><a href="/works-clinic">クリニック・医療<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></li><li><a href="/works-realty">不動産<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></li><li><a href="/works-build">建築・工務店<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></li><li><a href="/works-hr">人材<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></li><li><a href="/works-retail">小売 / EC<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></li><li><a href="/works-infra">インフラ・製造<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></li><li><a href="/works-ai">AIスタートアップ<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></li></ul></div><div class="megamenu-col"><h4>強化LP別</h4><ul><li><a href="/works-lp-corp">コーポレートサイト<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></li><li><a href="/works-lp-recruit">採用LP<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></li><li><a href="/works-lp-ec">EC連動LP<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></li></ul></div><div class="megamenu-col"><h4>実績まとめ</h4><ul><li><a href="/works">全実績一覧<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></li></ul></div></div></div></div><div class="nav-link-wrap"><button type="button" class="nav-link" aria-haspopup="true" aria-expanded="false">業種ソリューション<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></button><div class="megamenu" hidden=""><div class="megamenu-inner"><div class="megamenu-col"><h4>業種別パッケージ</h4><ul><li><a href="/solution-clinic">クリニック・医療 DXパッケージ<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></li><li><a href="/solution-realty">不動産 集客×管理パッケージ<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></li><li><a href="/solution-build">建築 ブランド×案件管理<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></li><li><a href="/solution-hr">人材 マッチング×集客<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></li><li><a href="/solution-retail">小売・EC OMOパッケージ<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></li></ul></div><div class="megamenu-col"><h4>特設ページ (NEW)</h4><ul><li><a href="/service/kanri-dantai">監理団体・登録支援機関向け<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></li><li><a href="/service/recruit-site">建設・運送・介護の採用サイト<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></li><li><a href="/security">脆弱性診断・セキュリティ保守<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></li><li><a href="/automation">ひと業務AI（1業務自動化サブスク）<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></li><li><a href="/tools">無料ツール（概算見積・診断・計算機）<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></li><li><a href="/tools/invoice">請求書・見積書メーカー（インボイス対応）<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></li><li><a href="/tools/payment-match">入金消し込み照合・タイムカード集計<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></li><li><a href="/tools/order-summary">注文集計・出荷指示書／送り状の宛先整形<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></li><li><a href="/tools/booking-sheet">予約表メーカー・作業日報メーカー<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></li><li><a href="/tools/monthly-billing">締め請求書・発注リスト・価格表メーカー<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></li><li><a href="/tools/shift-table">シフト表メーカー・出面表メーカー<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></li></ul></div></div></div></div><div class="nav-link-wrap"><a class="nav-link" href="/voice">ご利用会社様の声</a></div><div class="nav-link-wrap"><a class="nav-link" href="/support">サポート</a></div><div class="nav-link-wrap"><a class="nav-link" href="/pricing">料金プラン</a></div><div class="nav-link-wrap"><button type="button" class="nav-link" aria-current="page" aria-haspopup="true" aria-expanded="false">コンテンツ<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></button><div class="megamenu" hidden=""><div class="megamenu-inner"><div class="megamenu-col"><h4>メディア</h4><ul><li><a href="/column">コラム / 技術ブログ<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></li><li><a href="/news">お知らせ<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></li><li><a href="/guidebook">サービス紹介資料<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></li><li><a href="/subsidy">補助金活用相談<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></li></ul></div></div></div></div><div class="nav-link-wrap"><a class="nav-link" href="/diagnostic">無料診断</a></div><div class="nav-link-wrap"><a class="nav-link" href="/tools">無料ツール</a></div></nav><div class="nav-cta-wrap"><button class="btn btn-primary btn-sm" type="button"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><path d="M22 6l-10 7L2 6"></path></svg>メールでお問合せ</button><button class="hamburger" aria-label="メニューを開く" aria-expanded="false"><span></span><span></span><span></span></button></div></div><div class="nav-drawer"><div class="nav-drawer-panel"><div class="nav-drawer-head"><span class="nav-logo" style="font-size: 18px;"><span class="nav-logo-mark" aria-hidden="true"></span><span class="wordmark"><span class="wordmark-main">NORTIQ</span><span class="wordmark-sub">LABS</span></span></span><button class="drawer-close" aria-label="閉じる"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M6 18L18 6"></path></svg></button></div><nav class="nav-drawer-body"><a class="drawer-item" href="/"><span>トップ</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><div class="drawer-group"><button class="drawer-item drawer-group-head"><span>サービス</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></button><div class="drawer-group-body"><div class="drawer-subgroup"><h5>サービス一覧</h5><a class="drawer-sub-item" href="/web"><span>ホームページ制作</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/chatbot"><span>AIチャットボット</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/phone-ai"><span>電話AI</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/dx"><span>業務システム・AI開発</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></div><div class="drawer-subgroup"><h5>技術領域</h5><a class="drawer-sub-item" href="/feature-lpo"><span>LP制作 / LPO</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/feature-recruit"><span>採用専門サイト</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/feature-analytics"><span>アクセス解析カスタム実装</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/feature-cms"><span>CMS / 記事更新システム</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></div><div class="drawer-subgroup"><h5>自社プロダクト</h5><a class="drawer-sub-item" href="/product-vetonet"><span>VetoNet (AI Security)</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/product-wpchat"><span>ブログボット（AI投稿アシスタント）</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></div></div></div><div class="drawer-group"><button class="drawer-item drawer-group-head"><span>制作実績</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></button><div class="drawer-group-body"><div class="drawer-subgroup"><h5>業種から探す</h5><a class="drawer-sub-item" href="/works-clinic"><span>クリニック・医療</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/works-realty"><span>不動産</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/works-build"><span>建築・工務店</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/works-hr"><span>人材</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/works-retail"><span>小売 / EC</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/works-infra"><span>インフラ・製造</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/works-ai"><span>AIスタートアップ</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></div><div class="drawer-subgroup"><h5>強化LP別</h5><a class="drawer-sub-item" href="/works-lp-corp"><span>コーポレートサイト</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/works-lp-recruit"><span>採用LP</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/works-lp-ec"><span>EC連動LP</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></div><div class="drawer-subgroup"><h5>実績まとめ</h5><a class="drawer-sub-item" href="/works"><span>全実績一覧</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></div></div></div><div class="drawer-group"><button class="drawer-item drawer-group-head"><span>業種ソリューション</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></button><div class="drawer-group-body"><div class="drawer-subgroup"><h5>業種別パッケージ</h5><a class="drawer-sub-item" href="/solution-clinic"><span>クリニック・医療 DXパッケージ</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/solution-realty"><span>不動産 集客×管理パッケージ</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/solution-build"><span>建築 ブランド×案件管理</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/solution-hr"><span>人材 マッチング×集客</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/solution-retail"><span>小売・EC OMOパッケージ</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></div><div class="drawer-subgroup"><h5>特設ページ (NEW)</h5><a class="drawer-sub-item" href="/service/kanri-dantai"><span>監理団体・登録支援機関向け</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/service/recruit-site"><span>建設・運送・介護の採用サイト</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/security"><span>脆弱性診断・セキュリティ保守</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/automation"><span>ひと業務AI（1業務自動化サブスク）</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/tools"><span>無料ツール（概算見積・診断・計算機）</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/tools/invoice"><span>請求書・見積書メーカー（インボイス対応）</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/tools/payment-match"><span>入金消し込み照合・タイムカード集計</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/tools/order-summary"><span>注文集計・出荷指示書／送り状の宛先整形</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/tools/booking-sheet"><span>予約表メーカー・作業日報メーカー</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/tools/monthly-billing"><span>締め請求書・発注リスト・価格表メーカー</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/tools/shift-table"><span>シフト表メーカー・出面表メーカー</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></div></div></div><a class="drawer-item" href="/voice"><span>ご利用会社様の声</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-item" href="/support"><span>サポート</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-item" href="/pricing"><span>料金プラン</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><div class="drawer-group"><button class="drawer-item drawer-group-head"><span>コンテンツ</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></button><div class="drawer-group-body"><div class="drawer-subgroup"><h5>メディア</h5><a class="drawer-sub-item" href="/column"><span>コラム / 技術ブログ</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/news"><span>お知らせ</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/guidebook"><span>サービス紹介資料</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-sub-item" href="/subsidy"><span>補助金活用相談</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></div></div></div><a class="drawer-item" href="/diagnostic"><span>無料診断</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a><a class="drawer-item" href="/tools"><span>無料ツール</span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></a></nav><div class="nav-drawer-foot"><button class="btn btn-primary btn-lg" type="button" style="width: 100%;"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><path d="M22 6l-10 7L2 6"></path></svg>資料請求・お問い合わせ</button></div></div></div></header><div><main class="page-fade"><nav aria-label="Breadcrumb" style="padding: 14px 0px; border-bottom: 1px solid var(--border); background: var(--bg-2);"><div class="container"><ol class="row-tight" style="list-style: none; padding: 0px; margin: 0px; font-size: 12px; color: var(--text-3);"><li class="row-tight" style="gap: 8px;"><a href="/" style="cursor: pointer; color: var(--text-2);">トップ</a></li><li class="row-tight" style="gap: 8px;"><span style="color: var(--text-4);">›</span><a href="/column" style="cursor: pointer; color: var(--text-2);">コラム</a></li><li class="row-tight" style="gap: 8px;"><span style="color: var(--text-4);">›</span><span style="color: var(--text);">PHP 8.2サポート終了2026年12月の対応5手順</span></li></ol></div></nav><article><header style="padding-top: clamp(48px, 7vw, 90px); padding-bottom: 32px;"><div class="container" style="max-width: 820px;"><div class="row" style="gap: 12px; margin-bottom: 24px; color: var(--text-3); font-size: 13px; flex-wrap: wrap;"><span class="tag" style="color: var(--accent-text); border-color: var(--accent);">Web制作</span><span class="num">2026.11.25</span><span>·</span><span>11 min<!-- --> read</span><span>·</span><span>Nortiq Labs</span></div><h1 class="display-l fadein is-in" style="margin-bottom: 8px;">PHP 8.2サポート終了2026年12月の対応5手順</h1></div></header><div class="container" style="max-width: 880px; margin-bottom: 8px;"><div class="article-cover tone-red" role="img" aria-label="PHP 8.2サポート終了2026年12月の対応5手順" style="aspect-ratio: 21 / 9;"><span class="article-cover-cat">Web制作</span><span class="article-cover-title">PHP 8.2サポート終了2026年12月の対応5手順</span><span class="article-cover-brand">NORTIQ LABS · COLUMN</span></div></div><div class="container" style="max-width: 780px; margin-top: 24px; margin-bottom: 64px;"><div><div class="article-prose article-body"><h2>まず何をするか: 自社サイトのPHPの版を確認して制作会社へ連絡する</h2>
+<p>最初にやることは、自社サイトが動いているPHPの版を確認し、8.2以下であれば保守先へ「いつ上げるか」を日付で尋ねる連絡を入れることです。PHP公式のSupported Versionsによると、PHP 8.2のセキュリティサポートの終了日は2026年12月31日です。期限が決まっている作業ですので、調べるより先に連絡を入れてしまってもかまいません。</p>
+<aside class="article-topic-cta" data-banner="article-diagnostic-cta"><p class="article-topic-cta__title">あなたのホームページは、いま何点ですか？</p><p class="article-topic-cta__body">URLを入れるだけで、SEO・セキュリティ設定・表示速度・AI対応をその場で採点します。登録は不要、無料です。</p><a class="article-topic-cta__link" href="/diagnostic">ホームページを無料診断する →</a></aside><h3>PHPの版を自分で確認する3つの場所</h3>
+<p>技術の知識がなくても、次の順番で見れば確認できます。</p>
+<ol>
+<li>WordPressの管理画面を開き、「ツール」から「サイトヘルス」を選び、「情報」タブの「サーバ」の欄にある「PHPバージョン」を見ます。所要時間は3分ほどです。</li>
+<li>管理画面に入れない場合は、レンタルサーバの管理画面にログインし、「PHP設定」や「PHPバージョン切替」の画面で、対象のドメインに設定されている版を確認します。所要時間は5分ほどです。</li>
+<li>どちらも分からない場合は、契約している制作会社または保守会社に「このサイトのPHPの版を教えてください」と尋ねます。回答までの時間は相手次第ですので、この経路を選ぶ場合は早めに送ります。</li>
+</ol>
+<h3>連絡時に書くと話が早い3項目</h3>
+<p>保守先への連絡では、次の3点を本文に入れておくと、折り返しの質問を1往復減らせます。</p>
+<ul>
+<li>対象のサイトのURL (複数ある場合はすべて)</li>
+<li>確認できたPHPの版、または確認できなかったという事実</li>
+<li>「2026年12月31日までに上げられますか。難しい場合は、いつなら可能ですか」という日付を尋ねる一文</li>
+</ul>
+<p>上げる先の版をこちらから指定する必要はありません。WordPress公式の動作環境では推奨されるPHPのバージョンが8.3以上とされており、選び方には次の期限という観点も関わりますので、この点は後述します。</p>
+<h3>所要時間の目安と、つまずきやすい点</h3>
+<p>確認そのものは10分程度で終わりますが、実際に版を上げる作業には、検証環境での動作確認を含めて数日から数週間かかることがあります。年末は制作会社の作業枠が埋まりやすく、期限に近づくほど日程の選択肢が減ります。</p>
+<p>つまずきやすいのは、「サーバの管理画面でPHPの版を切り替えられるので自分でやってしまおう」と考えてしまう場面です。切り替えは数クリックで終わりますが、古いプラグインやテーマがその場で動かなくなり、サイトが表示されない状態になることがあります。切り替えは検証環境での確認の後に行うものですので、本番のサイトで試さないようにしてください。</p>
+<h2>PHP 8.2のサポートは2026年12月31日に終わります</h2>
+<p>PHP公式のSupported Versionsによると、PHP 8.2のセキュリティサポートの終了日は2026年12月31日で、Active Supportは2024年12月31日に終了しています。つまりPHP 8.2は、すでに2年近く「不具合の修正は行われず、セキュリティの修正だけが提供される」状態にあり、その最後の保護も2026年の年末で切れます。</p>
+<h3>Active SupportとSecurity Supportの違い</h3>
+<p>PHP公式のSupported Versionsは、各版の支援期間を2段階で示しています。</p>
+<table>
+<thead>
+<tr>
+<th>段階</th>
+<th>提供されるもの</th>
+<th>PHP 8.2の終了日</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Active Support</td>
+<td>不具合の修正とセキュリティの修正</td>
+<td>2024年12月31日</td>
+</tr>
+<tr>
+<td>Security Support (end of life)</td>
+<td>深刻なセキュリティ問題の修正のみ</td>
+<td>2026年12月31日</td>
+</tr>
+</tbody></table>
+<p>Active Supportが終わった時点では、動作に支障があっても修正の対象になりません。Security Supportまで終わると、深刻なセキュリティ問題が見つかっても修正そのものが提供されなくなります。この2段目が終わる日が、PHP 8.2では2026年12月31日です。</p>
+<h3>終了後に何が止まるのか、何が止まらないのか</h3>
+<p>誤解されやすい点ですので、分けて書きます。</p>
+<ul>
+<li><strong>止まらないもの</strong>: サイトの表示です。2027年1月1日になった瞬間にサイトが落ちるわけではありません。PHP 8.2は同じように動き続けます。</li>
+<li><strong>止まるもの</strong>: 新しく見つかった問題への修正の供給です。問題が見つかっても、直す手段が提供されません。</li>
+<li><strong>時間差で影響が出るもの</strong>: WordPress本体とプラグインの対応です。WordPress公式の動作環境では推奨されるPHPのバージョンが8.3以上とされており、古いPHPのままでは、更新を続けるうちに動作が保証されない組み合わせになっていきます。</li>
+<li><strong>外部から見える部分</strong>: レンタルサーバ側が古いPHPの提供を打ち切る場合です。契約しているサーバの告知によっては、こちらの都合に関係なく切り替えの期日が決まります。</li>
+</ul>
+<h3>サポートが切れた状態を使い続けた場合にIPAが指摘していること</h3>
+<p>IPAはサポート終了に関する注意喚起で、サポートが終了した製品を使い続けた場合、危険度の高い脆弱性が新たに見つかっても製品ベンダによる修正等の対応が期待できず、情報漏えいや意図しないサービス停止につながるおそれがあると説明しています。根本的な対策としては、サポートが継続している後継または代替へ移行し、移行先で動作検証を行うことが推奨されています。</p>
+<p>なお、このIPAの注意喚起はOSを対象とした文書で、PHPを名指しした記述ではありません。ここではサポート終了という状態の一般的な考え方として参照しています。ただし「移行したうえで動作検証を行う」という組み立ては、PHPの版を上げる作業でもそのまま当てはまります。検証環境での確認を省いて本番だけを切り替える進め方は、この推奨から外れることになります。</p>
+<h2>上げる先は8.3か8.4か: 次の期限から逆算して選ぶ</h2>
+<p>WordPressの推奨環境を満たす最低ラインはPHP 8.3以上で、同じ作業を数年先に回したい場合はセキュリティサポートが2028年12月31日まであるPHP 8.4が候補になります。どちらを選んでも作業そのものの手順は変わりませんので、判断の軸は「次に同じ依頼をするのはいつか」に置くと決めやすくなります。</p>
+<h3>各版のセキュリティサポートの終了日を並べて比べる</h3>
+<p>PHP公式のSupported Versionsによると、各版の期限は次のとおりです。</p>
+<table>
+<thead>
+<tr>
+<th>版</th>
+<th>Active Supportの終了日</th>
+<th>Security Supportの終了日</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>PHP 8.2</td>
+<td>2024年12月31日</td>
+<td>2026年12月31日</td>
+</tr>
+<tr>
+<td>PHP 8.3</td>
+<td>(終了済み)</td>
+<td>2027年12月31日</td>
+</tr>
+<tr>
+<td>PHP 8.4</td>
+<td>2026年12月31日</td>
+<td>2028年12月31日</td>
+</tr>
+<tr>
+<td>PHP 8.5</td>
+<td>2027年12月31日</td>
+<td>2029年12月31日</td>
+</tr>
+</tbody></table>
+<p>8.3に上げた場合、次の期限は2027年12月31日で、1年後にまた同じ作業が必要になります。8.4なら2028年12月31日、8.5なら2029年12月31日まで猶予があります。作業を1回で済ませたい場合、8.3は選びにくい版だということが表から読み取れます。</p>
+<h3>WordPress公式が求める動作環境 (PHP・データベース・HTTPS)</h3>
+<p>WordPress公式の動作環境のページには、次のとおり記載されています。</p>
+<ul>
+<li>PHP: 「バージョン 8.3 以上。」</li>
+<li>データベース: 「MariaDB 10.11 以上、または MySQL 8.4 以上。」</li>
+<li>HTTPS: 「すべてのインストールに必須。」</li>
+</ul>
+<p>ここで見落としやすいのが、データベースの版です。PHPだけを上げても、データベースが古いままでは推奨環境を満たしません。保守先に連絡するときは、PHPの版と合わせてデータベースの版も確認してもらうと、二度手間になりません。</p>
+<p>WordPress本体も確認の対象です。WordPress公式のリリース一覧によると、最新の安定版は2026年11月18日に公開されたWordPress 7.1.5で、同ページには7.1シリーズの中で最新のもののみが安全に使用でき、積極的にメンテナンスされていると記載されています。PHPの版を上げる作業は、本体とプラグインの更新と並行して発生すると考えてください。</p>
+<h3>プラグインとテーマの対応状況という制約</h3>
+<p>実際にどの版まで上げられるかは、使っているプラグインとテーマで決まることがあります。制約になりやすいのは次の3つです。</p>
+<ol>
+<li><strong>更新が止まっているプラグイン</strong>: 作者の更新が数年単位で止まっているものは、新しいPHPで動く保証がありません。代替への差し替えか、機能そのものをやめる判断が必要になります。</li>
+<li><strong>制作時に作り込んだテーマや独自機能</strong>: 既製のテーマと違って作者による更新がありませんので、修正は制作会社の作業になります。ここが見積もりの差になりやすい部分です。</li>
+<li><strong>決済や外部サービスとの連携</strong>: 連携先が指定する動作環境に合わせる必要があり、PHPの版を自由に選べない場合があります。</li>
+</ol>
+<p>したがって、版の希望は「8.4を希望しますが、プラグインの対応状況によっては8.3でもかまいません」という形で伝えるのが現実的です。確定させるのは、検証環境での確認の後になります。</p>
+<h2>依頼の手順: 見積もりを取ってから切り替えるまでの5ステップ</h2>
+<p>確認、見積もり、検証環境での動作確認、本番の切り替え、切り替え後の点検の5段階に分け、各段階で何を受け取るかを先に決めておくと手戻りが出ません。社内で技術的な判断ができなくても、「次に何が返ってくるか」が分かっていれば進行は管理できます。</p>
+<h3>手順1 現状の確認と対象の洗い出し</h3>
+<p>保守先に、現在のPHPの版、データベースの版、WordPress本体の版、使用中のプラグインとテーマの一覧を出してもらいます。対象のサイトが複数ある場合は、サイトごとに分けて出してもらってください。</p>
+<ul>
+<li>所要時間の目安: 依頼から2日から5日程度</li>
+<li>つまずきやすい点: サイトが複数ある場合、サブドメインのサイトや過去のキャンペーン用サイトが抜け落ちます。ドメインの一覧を自社側から渡すほうが確実です</li>
+</ul>
+<h3>手順2 見積もりの取得と作業範囲の確定</h3>
+<p>洗い出しの結果をもとに、見積もりを依頼します。この段階で「上げる先の版」「検証環境を用意するか」「プラグインが動かない場合の対応」を文面で確定させます。</p>
+<ul>
+<li>所要時間の目安: 依頼から1週間程度</li>
+<li>つまずきやすい点: 「PHPバージョンアップ作業」の1行だけで見積もりが出てくることがあります。その場合は内訳を分けてもらいます。詳しくは次のセクションで扱います</li>
+</ul>
+<h3>手順3 検証環境での動作確認</h3>
+<p>本番のサイトを複製した検証環境を作り、そこで新しいPHPの版に切り替えて動作を確認します。IPAもサポート終了への対応として、移行先での動作検証を推奨しています。</p>
+<ul>
+<li>所要時間の目安: 1週間から2週間</li>
+<li>つまずきやすい点: 確認を制作会社だけに任せると、業務上の使い方が抜けます。自社でも問い合わせフォームの送信や記事の投稿を実際に試してください</li>
+</ul>
+<h3>手順4 本番の切り替えと切り戻しの用意</h3>
+<p>検証環境で問題がないことを確認したら、本番を切り替えます。切り替え前のバックアップと、問題が出た場合に元の版へ戻す手順を、作業前に文面で確認しておきます。</p>
+<ul>
+<li>所要時間の目安: 作業自体は当日のうちに完了します</li>
+<li>つまずきやすい点: アクセスの多い時間帯や、キャンペーンの期間中は避けます。切り戻しの判断を誰がするのかも、作業前に決めておきます</li>
+</ul>
+<h3>手順5 切り替え後の点検と記録</h3>
+<p>切り替え後に、サイトの表示と主要な機能を点検します。あわせて、切り替えた日付と上げた先の版を自社の記録に残します。</p>
+<ul>
+<li>所要時間の目安: 当日30分程度の点検と、1週間程度の経過観察</li>
+<li>つまずきやすい点: 記録を残さないと、次の期限が来たときに現状を再び調べ直すことになります。点検の具体的な箇所は後述します</li>
+</ul>
+</div><aside class="nq-slot" data-slot="slot-mid" aria-label="おすすめのページ"><div class="nq-suggest" data-block="sg-web" data-variant="default"><p class="nq-suggest__eyebrow">サイト制作をご検討の方へ</p><h3 class="nq-suggest__title"><a href="/web">集客と問い合わせ獲得を前提に設計するWeb制作。</a></h3><p class="nq-suggest__body">WordPress・静的サイト・Next.jsを、目的に合わせて選びます。料金は30万円〜（税別）。</p><span class="nq-suggest__cta" aria-hidden="true">機能と料金を見る<!-- --> →</span></div></aside><div class="article-prose article-body"><h2>見積書で確認する項目と、追加費用になりやすい作業</h2>
+<p>PHPの版を上げる作業は、WordPress本体とプラグインの更新、テーマの修正、検証環境の用意が別項目になりやすいため、どこまでが見積もりに含まれるかを項目ごとに確認します。「PHPバージョンアップ対応」の1行で金額だけが書かれた見積もりは、後から追加費用が発生しやすい形です。</p>
+<h3>作業範囲として書き分けてもらう項目</h3>
+<p>次の項目が、それぞれ含まれるのか、別見積もりなのかを文面で確認します。金額を比べる前に、同じ範囲で比べられる状態にすることが先です。</p>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>確認したいこと</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>検証環境の用意</td>
+<td>本番の複製を作るか、本番で直接作業するか</td>
+</tr>
+<tr>
+<td>バックアップの取得</td>
+<td>取得するデータの範囲と、保管する期間</td>
+</tr>
+<tr>
+<td>PHPの切り替え作業</td>
+<td>サーバ側の設定変更そのもの</td>
+</tr>
+<tr>
+<td>WordPress本体の更新</td>
+<td>同時に最新の安定版へ上げるか</td>
+</tr>
+<tr>
+<td>プラグインの更新</td>
+<td>全件を対象にするか、必要なものだけか</td>
+</tr>
+<tr>
+<td>テーマや独自機能の修正</td>
+<td>修正が必要になった場合の扱い</td>
+</tr>
+<tr>
+<td>切り替え後の動作確認</td>
+<td>誰がどこまで確認するか</td>
+</tr>
+<tr>
+<td>切り戻しの対応</td>
+<td>問題が出た場合の作業が含まれるか</td>
+</tr>
+</tbody></table>
+<h3>古いプラグインやテーマが動かない場合の扱い</h3>
+<p>見積もりの段階では、どのプラグインが動かないかはまだ分かりません。検証環境で確認して初めて判明しますので、ここをどう扱うかを先に決めておく必要があります。取り決め方は3通りあります。</p>
+<ol>
+<li><strong>上限を決めた追加作業として扱う</strong>: 「修正が必要な場合は、着手前に見積もりを出し、承認後に作業する」と書いてもらう形です。想定外の請求を避けられます。</li>
+<li><strong>一定の範囲までを含める</strong>: 「軽微な修正はn時間まで作業範囲に含む」という形です。小さな修正のたびに承認を取るやり取りが省けます。</li>
+<li><strong>機能をやめる判断も選択肢に入れる</strong>: 使っていない機能のために修正費を払う必要はありません。洗い出しの段階で、現在使っていないプラグインを自社側で洗い出しておくと費用が下がります。</li>
+</ol>
+<h3>保守契約に含まれるか、別見積もりかの線引き</h3>
+<p>月額の保守契約を結んでいる場合、PHPの版を上げる作業が含まれるかどうかは契約によって異なります。契約書で次の2点を確認してください。</p>
+<ul>
+<li>保守の対象が「サイトの維持」までか、「動作環境の更新」まで含むか</li>
+<li>更新に伴う不具合の修正が、保守の範囲か別作業か</li>
+</ul>
+<p>含まれていない場合でも、それは不当な請求ではありません。版の切り替えは定期的に発生する作業ですので、今回の見積もりを取る際に、次回以降を保守契約に含める形へ見直せるかも一緒に相談すると、同じやり取りを繰り返さずに済みます。</p>
+<h2>実装側でつまずきやすい点と、担当者が見るべき確認箇所</h2>
+<p>切り替え後に問題が出やすいのは、問い合わせフォームの送信、決済や外部連携、管理画面の拡張機能で、画面の表示が正常でも機能だけが止まることがあります。トップページを開いて問題なく見えたからといって、確認を終えてはいけません。</p>
+<h3>非推奨の警告が画面に出てしまうケース</h3>
+<p>新しいPHPでは、古い書き方が非推奨として扱われます。この警告が画面に表示される設定になっていると、サイトの上部や記事の途中に英語の文字列が出ることがあります。訪問者から見える形で出てしまうため、発見が遅れると印象に直接影響します。</p>
+<p>実装側の注意点として、警告の表示を画面から消す設定だけで対応を終えると、原因はそのまま残ります。警告はログに記録して、原因となっている箇所を直すのが本来の対応です。見積もりを取る際に「非推奨の警告が出た場合、表示を止めるだけか、原因の修正まで行うか」を確認しておくと、この取り違えを防げます。</p>
+<p>もう1つハマりやすいのが、キャッシュです。切り替え直後は、キャッシュのプラグインやサーバ側のキャッシュが古い状態を保持しているため、問題があっても見えないことがあります。確認の前にキャッシュを消してもらうよう依頼してください。</p>
+<h3>フォーム送信と外部連携の確認</h3>
+<p>表示に出ない不具合が集まるのが、この部分です。次の箇所は、実際に動かして確認する必要があります。</p>
+<ul>
+<li>問い合わせフォームからの送信と、通知メールの受信</li>
+<li>予約や資料請求など、送信後に自動返信が届く仕組み</li>
+<li>決済や外部サービスとの連携 (カート、予約システム、地図、SNSの表示など)</li>
+<li>管理画面の拡張機能 (記事の入力画面、画像の一括処理、バックアップの自動実行など)</li>
+<li>サイト内検索と、絞り込みの機能</li>
+</ul>
+<p>通知メールは、届かなくても画面上は送信完了と表示されることがあります。実際に受信箱を開いて確認してください。</p>
+<h3>切り替え後に自社で踏む確認手順のチェック表</h3>
+<p>制作会社の確認とは別に、自社でも次の順で確認します。所要時間は30分程度です。</p>
+<ol>
+<li>トップページと主要な下層ページを表示する (スマートフォンでも確認します)</li>
+<li>問い合わせフォームからテスト送信し、通知メールの受信を確認する</li>
+<li>管理画面にログインし、記事を1件下書き保存して、画像を1枚アップロードする</li>
+<li>決済や予約の仕組みがある場合は、テスト用の手順で1件通す</li>
+<li>サイト内検索で、結果が返ることを確認する</li>
+</ol>
+<p>問題が見つかった場合は、切り戻すべき状態なのか、修正で対応できるのかを保守先に判断してもらいます。自社側で切り替えを戻そうとしないでください。</p>
+<h2>間に合わない場合の考え方と、次の期限への備え</h2>
+<p>年内に間に合わない場合も、作業の予定日を決めて記録し、暫定で何を止めるかを保守先と合意しておくことが、放置との差になります。期限を過ぎた瞬間にサイトが落ちるわけではありませんので、慌てて準備不足のまま切り替えるより、日程を決めて進めるほうが結果は安全です。</p>
+<h3>予定日を決めて記録に残す</h3>
+<p>間に合わないと分かった時点で、次の3つを文面で残します。</p>
+<ol>
+<li>作業を行う予定の月 (日付まで決まらなくても、月単位で決めます)</li>
+<li>その日まで暫定で何をするか (プラグインの更新を止める、新しい機能の追加を見送る等)</li>
+<li>誰が進行を見るか (自社の担当者と、保守先の担当者の双方)</li>
+</ol>
+<p>記録の形式は、メールのやり取りを残しておく程度でも十分です。重要なのは、次に誰かが見たときに「いつ対応する予定だったか」が分かる状態にしておくことです。</p>
+<h3>次の期限を保守契約の確認項目に入れる</h3>
+<p>PHPの版の期限は、PHP公式のSupported Versionsで公表されています。PHP 8.3のセキュリティサポートの終了日は2027年12月31日、8.4は2028年12月31日、8.5は2029年12月31日です。今回どの版に上げたかによって、次に同じ作業が必要になる時期が決まります。</p>
+<table>
+<thead>
+<tr>
+<th>今回上げた先</th>
+<th>次の期限</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>PHP 8.3</td>
+<td>2027年12月31日</td>
+</tr>
+<tr>
+<td>PHP 8.4</td>
+<td>2028年12月31日</td>
+</tr>
+<tr>
+<td>PHP 8.5</td>
+<td>2029年12月31日</td>
+</tr>
+</tbody></table>
+<p>この日付を自社の年間予定に入れておくと、次は期限の半年前から動けます。保守契約を更新する際に、動作環境の更新を保守の範囲に含めるか、含めない場合は期限の半年前に見積もりを出してもらう取り決めを入れておくと、担当者が代わっても引き継がれます。</p>
+<h3>リニューアルとまとめて実施する判断の目安</h3>
+<p>サイトの作り直しを検討している場合、PHPの版を上げる作業とまとめたほうが費用の無駄が少ないことがあります。目安は次のとおりです。</p>
+<ul>
+<li><strong>まとめたほうがよい場合</strong>: リニューアルの実施が1年以内に決まっており、現在のサイトに大きな不具合が出ていない場合です。古いテーマの修正費が、作り直しで不要になります。</li>
+<li><strong>先にPHPだけ上げたほうがよい場合</strong>: リニューアルの時期が未定か、1年より先になる場合です。期限の切れた状態を長く続けることになるため、切り離して進めます。</li>
+<li><strong>判断を保留してよい場合はありません</strong>: どちらにしても、いつ何をするかを決めた記録だけは残してください。</li>
+</ul>
+<p>サイトの作り直しそのものの進め方は本記事の範囲を超えますので、リニューアルの進め方を扱った記事をあわせてご覧ください。</p>
+<h2>よくあるご質問</h2>
+<p>この記事に関して多い質問と回答をまとめます。</p>
+<h3>PHP 8.2のサポートはいつ終わりますか</h3>
+<p>PHP公式のSupported Versionsによると、PHP 8.2のセキュリティサポートの終了日は2026年12月31日です。不具合の修正まで含むActive Supportは、2024年12月31日に終了しています。</p>
+<h3>サポートが終わったPHPを使い続けると、サイトはすぐに止まりますか</h3>
+<p>期限を過ぎた時点でサイトの表示が止まるわけではありません。止まるのは、新たに見つかった問題に対する修正の供給です。IPAはサポート終了に関する注意喚起で、サポートが終了した製品では危険度の高い脆弱性が新たに見つかっても製品ベンダによる修正等の対応が期待できず、情報漏えいや意図しないサービス停止につながるおそれがあると説明しています。あわせて、レンタルサーバ側が古い版の提供を終了する場合は、その告知の期日にも従う必要があります。</p>
+<h3>PHPの版を上げる作業は、保守契約の範囲に含まれますか</h3>
+<p>契約によって異なります。保守の対象が「サイトの維持」までなのか、「動作環境の更新」まで含むのかを契約書で確認してください。含まれていない場合は別見積もりになりますが、次回以降を保守の範囲に含める形へ見直せるかを、今回の依頼とあわせて相談すると、同じやり取りを繰り返さずに済みます。</p>
+<h3>PHP 8.3と8.4のどちらに上げるべきですか</h3>
+<p>次の期限から逆算して選びます。PHP公式のSupported Versionsによると、8.3のセキュリティサポートの終了日は2027年12月31日、8.4は2028年12月31日です。WordPress公式の動作環境では推奨されるPHPのバージョンが8.3以上とされていますので、8.3でも要件は満たしますが、1年後にまた同じ作業が必要になります。プラグインの対応状況が許すなら、8.4以上を希望として伝えるほうが作業の回数が減ります。</p>
+<h3>古いプラグインが新しいPHPで動かない場合はどうなりますか</h3>
+<p>対応は3通りです。同じ機能を持つ別のプラグインへ差し替える、制作会社に修正してもらう、その機能そのものをやめる、のいずれかになります。どれを選ぶかは検証環境で確認して初めて判断できますので、見積もりの段階で「修正が必要になった場合は着手前に見積もりを出す」という取り決めを入れておくと、想定外の請求を避けられます。現在使っていないプラグインを自社側で洗い出しておくと、そもそも対応の対象が減ります。</p>
+<h2>関連リンク</h2>
+<ul>
+<li><a href="/diagnostic">PHPのサポート終了に合わせてリニューアルも検討する場合の診断</a></li>
+<li><a href="/guidebook">制作会社への依頼内容を整理するためのガイドブック</a></li>
+<li><a href="/pricing">サイトの保守と運用にかかる費用の考え方</a></li>
+<li><a href="/column">サイトの運用と保守に関する解説記事の一覧</a></li>
+</ul>
+</div></div><div style="margin-top: 32px; padding: 16px 20px; background: var(--bg-2); border-radius: 10px; font-size: 13px; color: var(--text-3); line-height: 1.8;"><div>監修: NORTIQLAB株式会社 代表（AIエンジニア）</div><div>本記事はAIを活用して制作しています</div></div><aside class="nq-slot" data-slot="slot-end" aria-label="次に読むページ"><div class="nq-suggest" data-block="sg-guidebook" data-variant="default"><p class="nq-suggest__eyebrow">この記事を読んだ方へ</p><h3 class="nq-suggest__title"><a href="/guidebook">サービス紹介資料を無料でダウンロード。</a></h3><p class="nq-suggest__body">制作の進め方・実績・料金プラン・制作の流れを、全11ページのPDFにまとめています。費用はかかりません。</p><span class="nq-suggest__cta" aria-hidden="true">資料を見る<!-- --> →</span></div></aside></div><section class="section-pad" style="background: var(--bg-2);"><div class="container" style="max-width: 880px;"><h3 class="display-s" style="margin-bottom: 24px;">関連記事</h3><div class="grid-3"><a class="article-card fadein is-in" href="/article-unauthorized-access-statistics-target-sites" style="cursor: pointer;"><div class="article-cover tone-red" role="img" aria-label="自社サイトの会員ページが狙われる割合30.6%" style="aspect-ratio: 16 / 10;"><span class="article-cover-cat">Web制作</span><span class="article-cover-title">自社サイトの会員ページが狙われる割合30.6%</span><span class="article-cover-brand">NORTIQ LABS · COLUMN</span></div><div class="article-meta"><span style="color: var(--accent);">Web制作</span><span class="article-meta-sep">·</span><span>2026.11.23</span></div><h3 class="article-title">自社サイトの会員ページが狙われる割合30.6%</h3></a><a class="article-card fadein is-in" href="/article-subsidy-payment-method-website" style="cursor: pointer;"><div class="article-cover tone-red" role="img" aria-label="補助金の支払方法｜制作費は現金で払える？" style="aspect-ratio: 16 / 10;"><span class="article-cover-cat">Web制作</span><span class="article-cover-title">補助金の支払方法</span><span class="article-cover-brand">NORTIQ LABS · COLUMN</span></div><div class="article-meta"><span style="color: var(--accent);">Web制作</span><span class="article-meta-sep">·</span><span>2026.11.23</span></div><h3 class="article-title">補助金の支払方法｜制作費は現金で払える？</h3></a><a class="article-card fadein is-in" href="/article-contact-form-spam-prevention" style="cursor: pointer;"><div class="article-cover tone-red" role="img" aria-label="フォームのスパム対策｜IPAの対策項目と要件" style="aspect-ratio: 16 / 10;"><span class="article-cover-cat">Web制作</span><span class="article-cover-title">フォームのスパム対策</span><span class="article-cover-brand">NORTIQ LABS · COLUMN</span></div><div class="article-meta"><span style="color: var(--accent);">Web制作</span><span class="article-meta-sep">·</span><span>2026.11.23</span></div><h3 class="article-title">フォームのスパム対策｜IPAの対策項目と要件</h3></a></div></div></section></article><section class="t_inq_wrap fadein is-in"><div class="container"><h2>こうした観点をベースに、<br>貴社の DX を一緒に考えませんか。</h2><div class="t_inq_btns"><button class="btn btn-primary" type="button"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><path d="M22 6l-10 7L2 6"></path></svg>資料請求はこちら</button><a class="btn btn-line btn-line-on-red" href="https://line.me/R/ti/p/@498ynxrl" target="_blank" rel="noopener" data-line="cta-strip"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.5 8.5 0 0 1-12.3 7.6L3 21l1.9-5.7A8.5 8.5 0 1 1 21 11.5z"></path></svg>LINEで相談する</a><a class="btn btn-primary" href="/diagnostic"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><path d="M21 21l-4.35-4.35"></path></svg>ホームページ無料診断</a></div><p class="t_inq_time">営業日 24時間以内に担当者よりご返信します。</p></div></section></main></div><footer class="footer"><div class="container"><div class="footer-grid"><div class="footer-brand"><div class="nav-logo" style="margin-bottom: 16px;"><span class="nav-logo-mark"></span><span class="wordmark"><span class="wordmark-main">NORTIQ</span><span class="wordmark-sub">LABS</span></span></div><p class="body" style="font-size: 13px; max-width: 320px; margin-bottom: 24px;">日本のDX、世界水準で巻き返す。<br>Web制作からAI・DX実装まで。</p><div class="row" style="gap: 10px; flex-wrap: wrap;"><button class="btn btn-primary btn-sm" type="button"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><path d="M22 6l-10 7L2 6"></path></svg>資料請求はこちら</button><a class="btn btn-line btn-line-ghost btn-sm" href="https://line.me/R/ti/p/@498ynxrl" target="_blank" rel="noopener" data-line="footer"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.5 8.5 0 0 1-12.3 7.6L3 21l1.9-5.7A8.5 8.5 0 1 1 21 11.5z"></path></svg>LINEで相談する</a></div></div><div class="footer-col"><h3>制作実績</h3><ul><li><a href="/works">全実績一覧</a></li><li><a href="/works-clinic">クリニック・医療</a></li><li><a href="/works-realty">不動産</a></li><li><a href="/works-build">建築・工務店</a></li><li><a href="/works-hr">人材</a></li><li><a href="/works-retail">小売 / EC</a></li><li><a href="/works-infra">インフラ・製造</a></li><li><a href="/works-ai">AIスタートアップ</a></li><li><a href="/works-lp-corp">コーポレートLP</a></li><li><a href="/works-lp-recruit">採用LP</a></li><li><a href="/works-lp-ec">EC連動LP</a></li><li><a href="/works-video">動画制作事例</a></li></ul></div><div class="footer-col"><h3>サービス</h3><ul><li><a href="/web">ホームページ制作</a></li><li><a href="/chatbot">AIチャットボット</a></li><li><a href="/phone-ai">電話AI</a></li><li><a href="/dx">業務システム・AI開発</a></li><li><a href="/feature-lpo">LP制作 / LPO</a></li><li><a href="/feature-recruit">採用専門サイト</a></li><li><a href="/feature-analytics">アクセス解析</a></li></ul><h3 style="margin-top: 24px;">自社プロダクト</h3><ul><li><a href="/product-vetonet">VetoNet</a></li><li><a href="/product-wpchat">ブログボット（AI投稿アシスタント）</a></li></ul></div><div class="footer-col"><h3>サポート・コンサル</h3><ul><li><a href="/support">運用サポート</a></li><li><a href="/voice">ご利用会社様の声</a></li><li><a href="/diagnostic">サイト無料診断 (URL入力)</a></li><li><a href="/column">技術ブログ / コラム</a></li><li><a href="/news">お知らせ</a></li><li><a href="/subsidy">補助金活用相談</a></li><li><a href="/guidebook">サービス紹介資料</a></li></ul><h3 style="margin-top: 24px;">業種別ソリューション</h3><ul><li><a href="/solution-clinic">クリニック・医療</a></li><li><a href="/solution-realty">不動産</a></li><li><a href="/solution-build">建築・工務店</a></li><li><a href="/solution-hr">人材</a></li><li><a href="/solution-retail">小売 / EC</a></li><li><a href="/service/kanri-dantai">監理団体・登録支援機関</a></li><li><a href="/service/recruit-site">建設・運送・介護 採用サイト</a></li></ul><h3 style="margin-top: 24px;">特設ページ</h3><ul><li><a href="/security">脆弱性診断・セキュリティ保守</a></li><li><a href="/automation">ひと業務AI（1業務自動化サブスク）</a></li><li><a href="/tools">無料ツール（概算見積・診断・計算機）</a></li><li><a href="/tools/invoice">請求書・見積書メーカー</a></li><li><a href="/tools/payment-match">入金消し込み照合</a></li><li><a href="/tools/timecard">タイムカード集計</a></li><li><a href="/tools/order-summary">注文集計・出荷指示書</a></li><li><a href="/tools/address-list">宛先リスト整形（送り状用CSV）</a></li><li><a href="/tools/list-dedupe">名簿の重複チェック</a></li><li><a href="/tools/booking-sheet">予約表メーカー</a></li><li><a href="/tools/daily-report">作業日報メーカー</a></li><li><a href="/tools/monthly-billing">締め請求書メーカー</a></li><li><a href="/tools/reorder-list">発注リストメーカー</a></li><li><a href="/tools/price-list">価格表メーカー</a></li><li><a href="/tools/shift-table">シフト表メーカー</a></li><li><a href="/tools/work-days">出面表メーカー</a></li></ul><h3 style="margin-top: 24px;">会社</h3><ul><li><a href="/company">会社概要</a></li><li><a href="/staff">チーム / スタッフ</a></li><li><a href="/pricing">料金プラン</a></li><li><a href="/sitemap">サイトマップ</a></li></ul></div></div><div class="footer-bottom"><span>© 2026 NORTIQLAB株式会社 All rights reserved.</span><div class="row" style="gap: 24px;"><a href="/privacy" style="color: var(--text-3);">プライバシーポリシー</a><a href="/terms" style="color: var(--text-3);">利用規約</a><a href="/privacy-handling" style="color: var(--text-3);">個人情報の取扱い</a></div></div></div></footer><div class="modal-backdrop"><div class="modal" role="dialog" aria-modal="true" aria-label="資料請求・お問い合わせ"><button class="modal-close" aria-label="閉じる"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M6 18L18 6"></path></svg></button><div style="margin-bottom: 24px;"><div class="eyebrow eyebrow-accent" style="margin-bottom: 12px;">CONTACT</div><h3 class="display-s" style="margin-bottom: 8px;">資料請求・お問い合わせ</h3><p class="small">入力は2項目です。送信後すぐに資料 (PDF) をご覧いただけます。初回相談は無料です。</p></div><form novalidate=""><div class="field"><label for="modal-company">貴社名<span class="req">必須</span></label><input id="modal-company" data-field="company" type="text" placeholder="株式会社○○ (屋号でも可)" autocomplete="organization" value=""></div><div class="field"><label for="modal-email">メールアドレス<span class="req">必須</span></label><input id="modal-email" data-field="email" type="email" placeholder="you@example.com" autocomplete="email" value=""></div><div class="field"><label for="modal-message">ご相談内容<span class="any">任意</span></label><textarea id="modal-message" placeholder="資料だけほしい、費用感を知りたい、など一言でも大丈夫です。" style="min-height: 84px;"></textarea></div><details class="lead-more"><summary><span class="lead-more-title">詳しく伝える</span><span class="any">任意</span><span class="lead-more-hint">ご担当者名・電話番号・ご相談の種類など</span></summary><div class="lead-more-body"><div class="field"><label for="modal-name">ご担当者名</label><input id="modal-name" type="text" placeholder="山田 太郎" autocomplete="name" value=""></div><div class="field"><label for="modal-phone">電話番号</label><input id="modal-phone" type="tel" placeholder="03-XXXX-XXXX" autocomplete="tel" value=""></div><div class="field"><label>カテゴリー</label><div class="cb-group"><label class=""><input type="checkbox">Web制作</label><label class=""><input type="checkbox">AIチャットボット</label><label class=""><input type="checkbox">DX・ML</label><label class=""><input type="checkbox">業務自動化</label><label class=""><input type="checkbox">LP制作</label><label class=""><input type="checkbox">採用サイト</label></div></div><div class="field"><label>お問い合わせ内容</label><div class="cb-group"><label class=""><input type="checkbox">新規HP制作</label><label class=""><input type="checkbox">HPリニューアル</label><label class=""><input type="checkbox">AIチャットボット導入</label><label class=""><input type="checkbox">DX・ML 実装</label><label class=""><input type="checkbox">業務自動化</label><label class=""><input type="checkbox">リスティング広告</label><label class=""><input type="checkbox">コンサルティング</label></div></div><div class="field"><label>いまの状況</label><div class="cb-group"><label class=""><input type="checkbox">HPが無い</label><label class=""><input type="checkbox">問い合わせを増やしたい</label><label class=""><input type="checkbox">サービス資料がほしい</label><label class=""><input type="checkbox">無料診断</label><label class=""><input type="checkbox">デザインを改善したい</label><label class=""><input type="checkbox">SEOを上げたい</label><label class=""><input type="checkbox">AI活用したい</label><label class=""><input type="checkbox">業務効率化したい</label><label class=""><input type="checkbox">補助金活用を相談したい</label></div></div><div class="field"><label for="modal-source">本サイトを知ったきっかけ</label><select id="modal-source"><option value="">選択してください</option><option value="Google検索">Google検索</option><option value="Yahoo検索">Yahoo検索</option><option value="AIチャット (ChatGPT/Claude/Gemini等)">AIチャット (ChatGPT/Claude/Gemini等)</option><option value="ご紹介">ご紹介</option><option value="メール">メール</option><option value="DMチラシ">DMチラシ</option><option value="SNS (X/LinkedIn)">SNS (X/LinkedIn)</option><option value="以前から知っていた">以前から知っていた</option><option value="その他">その他</option></select></div><div class="field"><label for="modal-url">サイトURL</label><input id="modal-url" type="text" placeholder="https://" inputmode="url" value=""></div></div></details><div class="field field-check"><input type="checkbox" id="agree" data-field="agree" style="margin-top: 2px;"><label for="agree" style="cursor: pointer;"><a href="/privacy-handling" target="_blank" rel="noopener noreferrer" style="color: var(--accent); text-decoration: underline;">個人情報の取り扱い</a>に同意します<span class="req">必須</span></label></div><div style="margin-top: 8px; text-align: center;"><button class="btn btn-primary btn-lg" type="submit">同意して送信する<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M13 5l7 7-7 7"></path></svg></button></div></form><div class="lead-alt"><p class="lead-alt-label">入力が手間な方は</p><a class="btn btn-line btn-line-ghost" href="https://line.me/R/ti/p/@498ynxrl" target="_blank" rel="noopener" data-line="modal"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.5 8.5 0 0 1-12.3 7.6L3 21l1.9-5.7A8.5 8.5 0 1 1 21 11.5z"></path></svg>LINEで相談する</a><p class="small lead-alt-note">友だち追加して、届く質問にボタンで答えるだけです。</p></div></div></div><nav class="sp-bottom-nav" aria-label="モバイル下部ナビ"><ul><li><a class="sp-bottom-line" href="https://line.me/R/ti/p/@498ynxrl" target="_blank" rel="noopener" data-line="sp-nav"><span class="icn"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.5 8.5 0 0 1-12.3 7.6L3 21l1.9-5.7A8.5 8.5 0 1 1 21 11.5z"></path></svg></span><span>LINE相談</span></a></li><li><a href="/works"><span class="icn"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect></svg></span><span>制作実績</span></a></li><li><a href="/pricing"><span class="icn"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4l8 11 8-11M7 13h10M7 17h10"></path></svg></span><span>料金</span></a></li><li><button type="button"><span class="icn"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><path d="M22 6l-10 7L2 6"></path></svg></span><span>資料請求</span></button></li><li><a href="/sitemap"><span class="icn"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M4 12h16M4 17h16"></path></svg></span><span>メニュー</span></a></li></ul></nav><div class="sticky-cta" role="region" aria-label="ご相談の案内"><span class="pulse"></span><span>初回相談無料 · 営業日24h以内にご返信</span><button>資料請求 →</button><button class="sticky-cta-close" aria-label="閉じる"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M6 18L18 6"></path></svg></button></div></div>
+  <script src="/articles.js?v=a461bab53c" defer=""></script>
+  <script src="/app.bundle.js?v=a461bab53c" defer=""></script>
+
+
+</body></html>
