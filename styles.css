@@ -2802,6 +2802,8 @@ picture { display: contents; }
 @media (max-width: 1024px) {
   .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr 1fr; }
   .promo-grid, .reasons-grid, .feature-trio, .support-grid, .case-slider, .pickup-grid, .sitemap-grid { grid-template-columns: 1fr 1fr; }
+  /* サービスと料金の目安は3枚なので、2列だと3枚目の右が空く。3枚目を横いっぱいにする */
+  .feature-trio > :last-child:nth-child(odd) { grid-column: 1 / -1; }
 }
 
 /* =================================================================
