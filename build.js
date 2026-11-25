@@ -121,6 +121,7 @@ const ORG_SAME_AS = [
 // desc → meta description / og:description / BlogPosting.description に使う。
 //        未指定の記事は app.jsx の SEO_DESC か自動生成の定型文にフォールバックする
 const BLOG = [
+  { slug: 'contact-form-spam-filter-blocking-inquiries', category: 'Web制作', date: '2026.11.25', read: '9 min', title: '問い合わせフォームが届かない｜スパム対策の切り分け', img: 'assets/blog-default.png', desc: 'スパム対策を入れた後に問い合わせが届かなくなったとき、弾かれているのか通知メールが来ていないのかを切り分ける手順を解説します。reCAPTCHAの既定のしきい値0.5の意味と、制作会社への依頼文に入れる5項目も示します。', supervised: true },
   { slug: 'https-migration-search-console-property', category: 'Web制作', date: '2026.11.25', read: '11 min', title: '常時SSL化後のSearch Console｜追加の要否', img: 'assets/blog-default.png', desc: '常時SSL化の後、Search Consoleでアドレス変更ツールを使うのか、プロパティを追加するのかを整理しました。Google公式の記述では、HTTPからHTTPSの移行でツールは不要ですが、プロトコルごとの追加は必要です。', supervised: true },
   { slug: 'subsidy-website-post-completion-obligations', category: 'Web制作', date: '2026.11.25', read: '10 min', title: '補助金のホームページ｜公開後の報告と処分制限の期限', img: 'assets/blog-default.png', desc: '補助金でホームページを作った後に残る、効果報告と書類保管と財産処分の制限を整理しました。小規模事業者持続化補助金は事業実施期間終了日の翌月から1年間、デジタル化・AI導入補助金2026は3年度目まで報告が続きます。公募要領の原文で確認しています。', supervised: true },
   { slug: 'internal-document-ai-scope-permissions', category: 'AI活用', date: '2026.11.25', read: '10 min', title: '社内文書を参照するAIの外注｜参照範囲と権限の決め方', img: 'assets/blog-default.png', desc: '社内の規程やマニュアルを参照するAIを外注するとき、参照範囲と閲覧権限をどう決めるかを解説します。発注書に書く要件7項目、文書の権限と揃える方法、機械学習に利用されないことの確認手順を、個人情報保護委員会の注意喚起に沿って整理しました。', supervised: true },

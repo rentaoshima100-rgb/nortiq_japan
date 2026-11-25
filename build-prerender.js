@@ -33,6 +33,7 @@ const ARTICLE_ROUTES = (() => {
 })();
 
 const ROUTES_ALLOWLIST = [
+  '/article-contact-form-spam-filter-blocking-inquiries',
   '/article-https-migration-search-console-property',
   '/article-subsidy-website-post-completion-obligations',
   '/article-internal-document-ai-scope-permissions',
