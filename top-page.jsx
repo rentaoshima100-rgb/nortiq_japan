@@ -562,7 +562,7 @@ function GalleryTabs({ onNavigate }) {
       { tag: "建築", t: "建材メーカーの製品LP (THERMOX)", stat: "BtoB商談化 3.4×", route: 'works-build', img: "assets/work-thermox.png", demo: "/showcase/thermox/" },
     ],
     [
-      { tag: "人材", t: "外国人材組合の総合ブランドサイト", stat: "応募 +84%", route: 'works-hr', img: "assets/work-asia-exchange.png" },
+      { tag: "人材", t: "外国人材組合の総合ブランドサイト", stat: null, route: 'works-hr', img: "assets/work-asia-exchange.png" },
       { tag: "人材", t: "新卒採用ブランドサイト構築 (AXIA · NEW GRADUATES)", stat: "エントリー 2.1×", route: 'works-hr', img: "assets/hero-07.png" },
       { tag: "人材", t: "IT企業の中途採用LP (NEXTCODE · JOIN US)", stat: "応募単価 -38%", route: 'works-hr', img: "assets/work-nextcode.png", demo: "/showcase/nextcode/" },
       { tag: "人材", t: "派遣会社の登録LP (ワークリンク関西)", stat: "登録 1.7×", route: 'works-hr', img: "assets/work-worklink.png", demo: "/showcase/worklink/" },
@@ -610,7 +610,7 @@ function GalleryTabs({ onNavigate }) {
               <div style={{ padding: '18px 22px 20px' }}>
                 <div className="row" style={{ justifyContent: 'space-between', marginBottom: 12 }}>
                   <span className="tag">{w.tag}</span>
-                  <span className="stat-pill">{w.stat}</span>
+                  {w.stat && <span className="stat-pill">{w.stat}</span>}
                 </div>
                 <h3 style={{ fontSize: 15, fontWeight: 700, margin: 0, lineHeight: 1.6 }}>{w.t}</h3>
                 <span className="work-cta">{w.demo ? 'サイトをこの場で見る' : '実績の詳細を見る'}<Icon name="arrow-right" size={12}/></span>

@@ -28,7 +28,7 @@ const WORKS_DATA = [
   { id: 30, tag: "建築", category: "build", title: "設計事務所のポートフォリオ刷新 (ARAI ARCHITECTS)", stat: "問合せ 1.8×", services: ["Web制作"], img: "assets/work-araiarch.png", demo: "/showcase/araiarch/" },
   { id: 31, tag: "建築", category: "build", title: "外構工事会社のローカルSEOサイト (グリーンゲート京都)", stat: "MEO 1位", services: ["Web制作", "MEO"], img: "assets/work-greengate.png", demo: "/showcase/greengate/" },
   { id: 32, tag: "建築", category: "build", title: "建材メーカーの製品LP (THERMOX)", stat: "BtoB商談化 3.4×", services: ["LP制作", "技術資料"], img: "assets/work-thermox.png", demo: "/showcase/thermox/" },
-  { id: 7, tag: "人材", category: "hr", title: "外国人材組合 (Asia Exchange Cooperative) サイト", stat: "応募 +84%", services: ["Web制作", "AIチャットボット"], img: "assets/work-asia-exchange.png" },
+  { id: 7, tag: "人材", category: "hr", title: "外国人材組合 (Asia Exchange Cooperative) サイト", stat: null, services: ["Web制作", "AIチャットボット"], img: "assets/work-asia-exchange.png" },
   { id: 8, tag: "人材", category: "hr", title: "新卒採用ブランドサイト構築 (AXIA · NEW GRADUATES)", stat: "エントリー 2.1×", services: ["Web制作", "AIチャットボット"], img: "assets/hero-07.png" },
   { id: 21, tag: "人材", category: "hr", title: "中途採用 LP (AXIA · 挑め、想定の外へ)", stat: "応募 1.6×", services: ["Web制作", "LPO"], img: "assets/lpo-axia-recruit.png" },
   { id: 33, tag: "人材", category: "hr", title: "IT企業の中途採用LP (NEXTCODE · JOIN US)", stat: "応募単価 -38%", services: ["LP制作", "採用広報"], img: "assets/work-nextcode.png", demo: "/showcase/nextcode/" },
@@ -67,8 +67,11 @@ function WorksPage({ category, onNavigate, onContact }) {
   const items = category ? WORKS_DATA.filter(w => w.category === category) : WORKS_DATA;
   const label = category ? CATEGORY_LABELS[category] : null;
   const allCats = Object.keys(CATEGORY_LABELS);
+  // 2026-11 刷新: ヒーローの文言・右のバナー・末尾CTAの一言は content-data.jsx の WORKS_HERO から引く。
+  const pageKey = category || 'works';
+  const hero = worksHeroProps(pageKey);
   return (
-    <main className="page-fade">
+    <main className="page-fade wk-page">
       <Breadcrumb items={[
         { label: "トップ", id: "top" },
         { label: "制作実績", id: "works" },
@@ -77,47 +80,48 @@ function WorksPage({ category, onNavigate, onContact }) {
 
       <PageHero
         eyebrow={category ? "WORKS / " + label.toUpperCase() : "WORKS"}
-        title={category ? <>{label}の<br/>制作実績</> : <>制作実績の<br/>すべて。</>}
-        lede={category
-          ? `${label}の業種で、Nortiq Labs が手がけた制作・支援実績を集約しました。Web制作からAI実装まで一貫した事例を掲載しています。`
-          : `${NORTIQ_STATS.clients} 社の制作・支援実績から、業種別・LP強化別・動画別に絞り込めます。お探しの業種・課題に近い事例から、最適なアプローチをご検討ください。`
-        }
+        title={hero ? hero.title : (category ? <>{label}の<br/>制作実績</> : <>制作実績の<br/>すべて。</>)}
+        sub={hero ? hero.sub : undefined}
+        lede={hero ? hero.lede : `${label}の業種で、Nortiq Labs が手がけた制作・支援実績を集約しました。`}
         badges={category
           ? ["業種: " + label, "全 " + items.length + " 件"]
           : [`全${NORTIQ_STATS.clients}社`, `業種 ${NORTIQ_STATS.industries} / LP 3 / 動画`, "オリジナルデザイン"]
         }
         onContact={onContact}
-        ctaLabel="同業種の見積依頼"
+        ctaLabel={category ? "同業種の見積依頼" : "無料で相談する"}
         subCta="料金プランを見る"
         subCtaTo="pricing"
         nav={onNavigate}
+        visual={hero ? hero.visual : undefined}
       />
 
-      {/* Category filter */}
-      <section style={{ padding: '0 0 48px' }}>
-        <div className="container">
-          <div className="row" style={{ marginBottom: 16, gap: 8 }}>
-            <span className="small text-mono" style={{ color: 'var(--text-3)' }}>業種で絞り込む:</span>
-          </div>
-          <div className="row" style={{ gap: 8, flexWrap: 'wrap' }}>
-            <a className={`kw-pill ${!category ? 'active' : ''}`} {...navProps('works', onNavigate)} style={!category ? { borderColor: 'var(--accent)', color: 'var(--accent)' } : {}}>すべて</a>
-            {allCats.map(c => (
-              <a
-                key={c}
-                className="kw-pill"
-                {...navProps('works-' + c, onNavigate)}
-                style={category === c ? { borderColor: 'var(--accent)', color: 'var(--accent)' } : {}}
-              >
-                {CATEGORY_LABELS[c]}
-              </a>
-            ))}
-          </div>
-        </div>
-      </section>
+      <WorksFacts/>
+
+      {/* 一覧: 業種・目的の入口 / 業種別: よく伺うお悩み */}
+      {category ? <WorksWorries pageKey={category} heading={label + 'のサイトで、'}/> : <WorksEntry onNavigate={onNavigate}/>}
+
+      {/* 一覧では、深掘りの事例を先に見せる (件数より1件の深さ) */}
+      {!category && <WorksCaseFeature pageKey="works" onNavigate={onNavigate}/>}
 
       {/* Works grid */}
-      <section style={{ paddingBottom: 'clamp(80px, 11vw, 160px)' }}>
+      <section className="section-pad wk-grid-wrap" id="works-list">
         <div className="container">
+          <header className="wk-grid-head fadein">
+            <h2 className="wk-h2">{category ? `${label}の制作実績` : 'すべての制作実績'}<span className="wk-count">{items.length}件</span></h2>
+            <nav className="wk-filter" aria-label="業種で絞り込む">
+              <a className={`kw-pill ${!category ? 'active' : ''}`} {...navProps('works', onNavigate)} aria-current={!category ? 'page' : undefined}>すべて</a>
+              {allCats.map(c => (
+                <a
+                  key={c}
+                  className={`kw-pill ${category === c ? 'active' : ''}`}
+                  {...navProps('works-' + c, onNavigate)}
+                  aria-current={category === c ? 'page' : undefined}
+                >
+                  {CATEGORY_LABELS[c]}
+                </a>
+              ))}
+            </nav>
+          </header>
           <div className="grid-3">
             {items.map(w => (
               <a key={w.id} className={`card${w.demo ? ' card-link' : ''}`} style={{ padding: 0, overflow: 'hidden', cursor: w.demo ? 'pointer' : 'default' }}
@@ -126,7 +130,7 @@ function WorksPage({ category, onNavigate, onContact }) {
                 <div style={{ padding: '18px 22px 20px' }}>
                   <div className="row" style={{ justifyContent: 'space-between', marginBottom: 12 }}>
                     <span className="tag">{w.tag}</span>
-                    <span className="stat-pill">{w.stat}</span>
+                    {w.stat && <span className="stat-pill">{w.stat}</span>}
                   </div>
                   <h3 style={{ fontSize: 16, fontWeight: 700, margin: 0, marginBottom: 12, lineHeight: 1.6 }}>{w.title}</h3>
                   <div className="row-tight">
@@ -139,6 +143,24 @@ function WorksPage({ category, onNavigate, onContact }) {
           </div>
         </div>
       </section>
+
+      {/* 業種別では、一覧のあとに深掘りの事例 */}
+      {category && <WorksCaseFeature pageKey={category} onNavigate={onNavigate}/>}
+
+      {category
+        ? (
+          <IndustrySections category={category} onNavigate={onNavigate}>
+            <WorksFlow/>
+            <WorksPrice category={category} onNavigate={onNavigate}/>
+          </IndustrySections>
+        )
+        : (
+          <React.Fragment>
+            <WorksFlow/>
+            <WorksPrice onNavigate={onNavigate}/>
+            <CDFaq title="よくある質問" items={worksIndexFaqs()}/>
+          </React.Fragment>
+        )}
 
       {/* Related categories (when in category view) */}
       {category && (
@@ -156,9 +178,7 @@ function WorksPage({ category, onNavigate, onContact }) {
         </section>
       )}
 
-      {category && <IndustrySections category={category} onNavigate={onNavigate}/>}
-
-      <CTAStrip onContact={onContact} onNavigate={onNavigate} title="自社の業種に近い事例で、まず相談する。" sub="ヒアリングでヒアリング前に共有資料 (PDF) もお送りします。"/>
+      <WorksCta lead={hero ? hero.cta : '自社の業種に近い事例で、まずご相談ください。'} onContact={onContact} onNavigate={onNavigate}/>
     </main>
   );
 }

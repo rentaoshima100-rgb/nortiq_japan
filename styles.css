@@ -5627,3 +5627,213 @@ a.fc-cell:hover { background: var(--accent); color: #fff; }
   .phone-ai-flow li { gap: 16px; padding: 20px 0; }
   .phone-ai-flow .num { flex-basis: 40px; font-size: 28px; }
 }
+
+
+/* =================================================================
+   実績ページ (/works, /works-<業種>, /works-lp-*) — 2026-11 刷新
+   文言とデータは content-data.jsx の WORKS_* 、部品は Works* (同ファイル)。
+   - 余白は --section-y / --section-y-sm と余白スケールに合わせる
+   - 2カラム (見出し 4 : 本文 8) は 900px 以下で 1 列。表は 767px 以下で縦積み
+   - 色だけで区別しない: 「お悩み」「当社の対応」「おすすめ」は文字のチップ、絞り込みの現在地は塗り + aria-current
+   ================================================================= */
+.wk-h1-line { display: block; }
+@media (min-width: 1025px) { .wk-h1-line { white-space: nowrap; } }
+.wk-page .page-hero { padding-top: clamp(40px, 5vw, 72px); padding-bottom: clamp(36px, 4.4vw, 60px); }
+.wk-page .page-hero .display-l { font-size: clamp(18px, 1.9vw, 26px); line-height: 1.55; letter-spacing: 0; margin-bottom: 18px !important; word-break: auto-phrase; }
+.wk-page .page-hero .lede { margin-bottom: 24px !important; font-size: clamp(14px, 1.1vw, 15.5px); line-height: 1.95; }
+.wk-page .page-hero-badges { margin-bottom: 24px !important; }
+@media (max-width: 767px) {
+  .wk-page .page-hero h1.display-xl { font-size: clamp(27px, 8vw, 34px); }
+}
+
+.wk-h2 {
+  font-size: clamp(23px, 2.8vw, 36px);
+  font-weight: 700;
+  line-height: 1.42;
+  letter-spacing: -0.01em;
+  margin: 0;
+  color: var(--text);
+  word-break: auto-phrase;
+  text-wrap: balance;
+}
+.wk-sec-head { margin-bottom: clamp(28px, 3.6vw, 48px); max-width: 720px; }
+.wk-sec-head .body, .wk-entry-head .body, .wk-worries-head .body, .wk-price-head .body { margin: 14px 0 0; text-wrap: pretty; }
+.wk-chip {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1.5;
+  letter-spacing: 0.08em;
+  padding: 2px 8px;
+  margin-right: 10px;
+  border: 1px solid var(--text);
+  border-radius: 3px;
+  color: var(--text);
+  background: #fff;
+  vertical-align: 2px;
+  white-space: nowrap;
+}
+.wk-chip-solid { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+/* --- ヒーロー直下の3点 --- */
+.wk-facts-wrap { background: var(--bg-2); border-bottom: 1px solid var(--border); }
+.wk-facts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); margin: 0; }
+.wk-fact { padding: 26px 28px; border-left: 1px solid var(--border-hi); }
+.wk-fact:first-child { border-left: 0; padding-left: 0; }
+.wk-fact dt { font-size: 12px; font-weight: 700; color: var(--text-3); letter-spacing: 0.08em; margin-bottom: 6px; }
+.wk-fact dd { margin: 0; }
+.wk-fact-v { display: block; font-size: clamp(20px, 2.1vw, 28px); font-weight: 700; line-height: 1.35; color: var(--text); }
+.wk-fact-v small { font-size: 13px; font-weight: 500; margin-left: 4px; color: var(--text-2); }
+.wk-fact-n { display: block; font-size: 13px; line-height: 1.75; color: var(--text-2); margin-top: 6px; text-wrap: pretty; }
+@media (max-width: 767px) {
+  .wk-facts { grid-template-columns: minmax(0, 1fr); }
+  .wk-fact { border-left: 0; border-top: 1px solid var(--border-hi); padding: 16px 0; }
+  .wk-fact:first-child { border-top: 0; }
+  .wk-fact-v { font-size: 20px; }
+}
+
+/* --- 業種・目的から探す (/works) --- */
+.wk-entry { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: clamp(28px, 4vw, 64px); align-items: start; }
+.wk-entry-cols { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: clamp(24px, 3vw, 48px); align-items: start; }
+.wk-entry-h3 { font-size: 13px; font-weight: 700; letter-spacing: 0.1em; color: var(--text-3); margin: 0; padding-bottom: 10px; border-bottom: 2px solid var(--text); }
+.wk-entry-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto 16px;
+  column-gap: 12px;
+  align-items: center;
+  padding: 13px 4px;
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+  cursor: pointer;
+  transition: background 160ms ease, padding 160ms ease;
+}
+.wk-entry-row:hover { background: var(--bg-2); padding-left: 10px; }
+.wk-entry-row:hover .wk-entry-label { color: var(--accent); }
+.wk-entry-label { grid-column: 1; grid-row: 1; font-size: 16px; font-weight: 700; line-height: 1.5; }
+.wk-entry-focus { grid-column: 1; grid-row: 2; font-size: 12.5px; line-height: 1.6; color: var(--text-2); }
+.wk-entry-count { grid-column: 2; grid-row: 1 / span 2; font-family: var(--font-latin), var(--font-jp); font-size: 13px; font-weight: 700; color: var(--text-3); white-space: nowrap; }
+.wk-entry-row svg { grid-column: 3; grid-row: 1 / span 2; color: var(--accent); }
+.wk-entry-note { font-size: 13px; line-height: 1.8; color: var(--text-2); margin: 16px 0 0; }
+.wk-entry-note a { color: var(--accent-text); font-weight: 700; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+
+/* --- 事例の深掘り --- */
+.wk-cases-wrap { background: var(--bg-2); }
+.wk-case {
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  gap: clamp(24px, 3.4vw, 56px);
+  align-items: center;
+  padding: clamp(20px, 3vw, 40px);
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+}
+.wk-case + .wk-case { margin-top: clamp(20px, 2.4vw, 32px); }
+.wk-case-rev .wk-case-shot { order: 2; }
+.wk-case-shot { border: 1px solid var(--border); border-radius: 8px; overflow: hidden; box-shadow: var(--shadow-sm); }
+.wk-case-shot .shot-frame { border-bottom: 0; }
+.wk-case-title { font-size: clamp(18px, 1.7vw, 22px); font-weight: 700; line-height: 1.55; margin: 0 0 10px; word-break: auto-phrase; }
+.wk-case-lead { font-size: 14.5px; line-height: 1.9; color: var(--text-2); margin: 0 0 18px; text-wrap: pretty; }
+.wk-case-data { margin: 0 0 18px; border-top: 1px solid var(--border); }
+.wk-case-data > div { display: grid; grid-template-columns: 7em minmax(0, 1fr); gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--border); font-size: 13.5px; line-height: 1.7; }
+.wk-case-data dt { font-weight: 700; color: var(--text-3); }
+.wk-case-data dd { margin: 0; color: var(--text); }
+.wk-case-points { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.wk-case-points li { display: grid; grid-template-columns: 16px minmax(0, 1fr); gap: 10px; font-size: 13.5px; line-height: 1.75; color: var(--text-2); }
+.wk-case-points svg { color: var(--accent); margin-top: 5px; }
+.wk-case-link { display: inline-flex; align-items: center; gap: 6px; margin-top: 16px; font-size: 13px; font-weight: 700; color: var(--accent-text); text-decoration: underline; text-underline-offset: 3px; }
+@media (max-width: 900px) {
+  .wk-case { grid-template-columns: minmax(0, 1fr); }
+  .wk-case-rev .wk-case-shot { order: 0; }
+}
+
+/* --- 実績の一覧 (見出し + 絞り込み) --- */
+.wk-grid-wrap { padding-top: var(--section-y-sm); }
+.wk-worries-wrap { padding-bottom: 0; }
+.wk-grid-head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 16px 24px; margin-bottom: 28px; }
+.wk-count { font-family: var(--font-latin), var(--font-jp); font-size: 14px; font-weight: 700; color: var(--text-3); margin-left: 12px; letter-spacing: 0.04em; white-space: nowrap; }
+.wk-filter { display: flex; flex-wrap: wrap; gap: 8px; }
+.wk-filter .kw-pill { padding: 7px 14px; font-size: 12.5px; background: #fff; border-color: var(--border-hi); }
+.wk-filter .kw-pill:hover { background: var(--accent); border-color: var(--accent); color: #fff; }
+.wk-filter .kw-pill.active { background: var(--text); border-color: var(--text); color: #fff; }
+
+/* --- よく伺うお悩み (業種別・目的別) --- */
+.wk-worries { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: clamp(28px, 4vw, 64px); align-items: start; }
+.wk-worries-list { list-style: none; margin: 0; padding: 0; border-top: 2px solid var(--text); }
+.wk-worry { padding: 22px 0; border-bottom: 1px solid var(--border); }
+.wk-worry-q { font-size: clamp(16px, 1.35vw, 18px); font-weight: 700; line-height: 1.7; margin: 0 0 10px; color: var(--text); }
+.wk-worry-a { font-size: 14.5px; line-height: 1.9; color: var(--text-2); margin: 0; text-wrap: pretty; }
+
+/* --- ご相談から公開後まで (黒地) --- */
+.wk-flow-wrap { background: #111; color: #fff; padding-block: var(--section-y); }
+.wk-flow-wrap .wk-h2 { color: #fff; }
+.wk-flow-wrap .wk-sec-head .body { color: rgba(255, 255, 255, 0.74); }
+.wk-flow { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); position: relative; }
+.wk-flow::before { content: ""; position: absolute; top: 20px; left: 20px; right: 20px; height: 1px; background: rgba(255, 255, 255, 0.3); }
+.wk-flow-step { position: relative; padding-right: 22px; }
+.wk-flow-no {
+  position: relative; z-index: 1;
+  display: flex; align-items: center; justify-content: center;
+  width: 40px; height: 40px; margin-bottom: 18px;
+  border-radius: 50%;
+  background: var(--accent); color: #fff;
+  font-family: var(--font-latin); font-size: 16px; font-weight: 700;
+}
+.wk-flow-step h3 { font-size: 16px; font-weight: 700; line-height: 1.5; margin: 0 0 8px; color: #fff; }
+.wk-flow-step p { font-size: 13px; line-height: 1.85; color: rgba(255, 255, 255, 0.78); margin: 0; text-wrap: pretty; }
+@media (max-width: 900px) {
+  .wk-flow { grid-template-columns: minmax(0, 1fr); }
+  .wk-flow::before { top: 20px; bottom: 20px; left: 20px; right: auto; width: 1px; height: auto; }
+  .wk-flow-step { display: grid; grid-template-columns: 40px minmax(0, 1fr); column-gap: 16px; padding: 0 0 26px; }
+  .wk-flow-step:last-child { padding-bottom: 0; }
+  .wk-flow-no { grid-row: 1 / span 2; margin: 0; }
+  .wk-flow-step h3 { padding-top: 8px; }
+}
+
+/* --- 費用と期間の目安 --- */
+.wk-price { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: clamp(28px, 4vw, 64px); align-items: start; }
+.wk-price-head .small { margin: 10px 0 0; }
+.wk-price-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+.wk-price-table thead th { text-align: left; font-size: 12px; font-weight: 700; color: var(--text-3); padding: 0 16px 10px 0; border-bottom: 2px solid var(--text); white-space: nowrap; }
+.wk-price-table tbody tr { border-bottom: 1px solid var(--border); }
+.wk-price-table tbody th { text-align: left; font-size: 15px; font-weight: 700; padding: 18px 16px 18px 0; white-space: nowrap; vertical-align: top; }
+.wk-price-table td { padding: 18px 16px 18px 0; vertical-align: top; line-height: 1.75; color: var(--text-2); }
+.wk-price-table td.wk-price-num { font-family: var(--font-latin), var(--font-jp); font-size: 20px; font-weight: 700; line-height: 1.4; color: var(--text); white-space: nowrap; }
+.wk-price-table .wk-chip { margin: 0 0 0 8px; }
+.wk-price-sol { font-size: 13.5px; line-height: 1.9; color: var(--text-2); margin: 16px 0 0; text-wrap: pretty; }
+.wk-price-sol a { color: var(--accent-text); font-weight: 700; text-decoration: underline; text-underline-offset: 3px; white-space: nowrap; cursor: pointer; }
+.wk-price-sol a svg { margin-left: 4px; vertical-align: -1px; }
+@media (max-width: 767px) {
+  .wk-price-table thead { display: none; }
+  .wk-price-table tbody tr { display: block; padding: 16px 0; }
+  .wk-price-table tbody tr:first-child { border-top: 2px solid var(--text); }
+  .wk-price-table tbody th, .wk-price-table td { display: block; padding: 2px 0; white-space: normal; }
+  .wk-price-table td::before { content: attr(data-label) "："; font-family: var(--font-jp); font-size: 12px; font-weight: 700; color: var(--text-3); }
+}
+
+@media (max-width: 900px) {
+  .wk-entry, .wk-worries, .wk-price { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 600px) {
+  .wk-entry-cols { grid-template-columns: minmax(0, 1fr); }
+}
+
+/* --- 末尾のCTA帯 (バナー 29 = PC 21:9 / 30 = SP 4:5) と、その上の一言 --- */
+.cta-band-lead {
+  font-size: clamp(19px, 2.3vw, 30px);
+  font-weight: 700;
+  line-height: 1.55;
+  text-align: center;
+  margin: 0 auto 24px;
+  max-width: 30em;
+  word-break: auto-phrase;
+  text-wrap: balance;
+}
+.cta-band.works-band img { aspect-ratio: 2400 / 1029; }
+@media (max-width: 767px) {
+  .cta-band.works-band img { aspect-ratio: 1080 / 1350; }
+}
+/* CDCards の cols={3}: 3件・6件のとき PC で 3 列にする (4 列だと最後の列が空く)。タブレット以下は既存の指定のまま */
+@media (min-width: 1101px) {
+  .support-grid.support-grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}

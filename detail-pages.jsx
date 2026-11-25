@@ -873,24 +873,41 @@ const LP_DATA = {
 
 function WorksVariantPage({ pageId, onNavigate, onContact }) {
   const m = LP_DATA[pageId] || LP_DATA['works-lp-corp'];
+  const short = m.eyebrow.split(' / ')[1];
+  // 2026-11 刷新: コーポレート・採用は WORKS_HERO の文言と右のバナーを使う。EC連動・動画は従来のヒーロー。
+  const hero = worksHeroProps(pageId);
+  const recruit = pageId === 'works-lp-recruit';
+  // 見出しに使う呼び名 (eyebrow の「コーポレートLP」「採用LP」より、検索される言い方に寄せる)。
+  const name = { 'works-lp-corp': 'コーポレートサイト', 'works-lp-recruit': '採用サイト・採用LP' }[pageId] || short;
   return (
-    <main className="page-fade">
-      <Breadcrumb items={[{ label: "トップ", id: "top" }, { label: "制作実績", id: "works" }, { label: m.eyebrow.split(' / ')[1] }]} onNavigate={onNavigate}/>
+    <main className="page-fade wk-page">
+      <Breadcrumb items={[{ label: "トップ", id: "top" }, { label: "制作実績", id: "works" }, { label: short }]} onNavigate={onNavigate}/>
       <PageHero
         eyebrow={m.eyebrow}
-        title={m.title}
-        lede={m.lede}
+        title={hero ? hero.title : m.title}
+        sub={hero ? hero.sub : undefined}
+        lede={hero ? hero.lede : m.lede}
         badges={m.badges}
         onContact={onContact}
+        ctaLabel="無料で相談する"
+        subCta="料金プランを見る"
+        subCtaTo="pricing"
+        nav={onNavigate}
+        visual={hero ? hero.visual : undefined}
       />
-      <section className="section-pad">
+      <WorksFacts recruit={recruit}/>
+      <WorksWorries pageKey={pageId} heading={name + 'で、'}/>
+      <section className="section-pad wk-grid-wrap" id="works-list">
         <div className="container">
-          <div className="row" style={{ marginBottom: 24, gap: 8 }}>
-            <a className="kw-pill" {...navProps('works', onNavigate)}>← 全実績</a>
-            {Object.entries(LP_DATA).filter(([k]) => k !== pageId).map(([k, v]) => (
-              <a key={k} className="kw-pill" {...navProps(k, onNavigate)}>{v.eyebrow.split(' / ')[1]}</a>
-            ))}
-          </div>
+          <header className="wk-grid-head fadein">
+            <h2 className="wk-h2">{name}の制作実績<span className="wk-count">{m.items.length}件</span></h2>
+            <nav className="wk-filter" aria-label="ほかの実績を見る">
+              <a className="kw-pill" {...navProps('works', onNavigate)}>← 全実績</a>
+              {Object.entries(LP_DATA).filter(([k]) => k !== pageId).map(([k, v]) => (
+                <a key={k} className="kw-pill" {...navProps(k, onNavigate)}>{v.eyebrow.split(' / ')[1]}</a>
+              ))}
+            </nav>
+          </header>
           <div className="grid-3">
             {m.items.map((w, i) => (
               <a key={i} className={`card fadein${w.demo ? ' card-link' : ''}`} data-delay={i * 60} style={{ padding: 0, overflow: 'hidden', cursor: w.demo ? 'pointer' : 'default' }}
@@ -899,7 +916,7 @@ function WorksVariantPage({ pageId, onNavigate, onContact }) {
                 <div style={{ padding: '18px 22px 20px' }}>
                   <div className="row" style={{ justifyContent: 'space-between', marginBottom: 12 }}>
                     <span className="tag">{w.tag}</span>
-                    <span className="stat-pill">{w.stat}</span>
+                    {w.stat && <span className="stat-pill">{w.stat}</span>}
                   </div>
                   <h3 style={{ fontSize: 15, fontWeight: 700, margin: 0, lineHeight: 1.6 }}>{w.t}</h3>
                   {w.demo && <span className="work-cta">サイトをこの場で見る<Icon name="arrow-right" size={12}/></span>}
@@ -909,13 +926,16 @@ function WorksVariantPage({ pageId, onNavigate, onContact }) {
           </div>
         </div>
       </section>
+      <WorksCaseFeature pageKey={pageId} onNavigate={onNavigate}/>
       {pageId === 'works-video'
         ? <CDCards title={VIDEO_KNOWHOW.title} sub={VIDEO_KNOWHOW.sub} items={VIDEO_KNOWHOW.items}/>
         : <React.Fragment>
-            <CDCards title={LP_KNOWHOW.structure.title} sub={LP_KNOWHOW.structure.sub} items={LP_KNOWHOW.structure.items}/>
+            <CDCards title={LP_KNOWHOW.structure.title} sub={LP_KNOWHOW.structure.sub} items={LP_KNOWHOW.structure.items} cols={3}/>
             <CDCards title={LP_KNOWHOW.cvr.title} sub={LP_KNOWHOW.cvr.sub} items={LP_KNOWHOW.cvr.items}/>
           </React.Fragment>}
-      <RedCTAStrip onContact={onContact} onNavigate={onNavigate}/>
+      <WorksFlow/>
+      <WorksPrice recruit={recruit} onNavigate={onNavigate}/>
+      <WorksCta lead={hero ? hero.cta : '近い事例をもとに、御社の場合をお話しします。'} onContact={onContact} onNavigate={onNavigate}/>
     </main>
   );
 }

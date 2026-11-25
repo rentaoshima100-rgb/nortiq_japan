@@ -1315,7 +1315,9 @@ function NqSlotMount(props) {
 // -------------------- Red CTA Strip (between-section accent band) --------------------
 // 赤帯そのものは固定。その直前に slot-next (次に読む1枚) を置く。slot-next が中身を持つのは
 // 中間ページ (サービス・機能・業種・実績・信頼) だけで、記事・トップ・承認前は null になり何も出ない。
-function RedCTAStrip({ onContact, onNavigate, title }) {
+// band: 帯の画像を差し替える (実績ページ用 WORKS_CTA_BAND など)。{ id, className, base, width, height, widths, mobile, alt }
+// lead: 帯の上に置く、そのページ向けの一言 (h2)。
+function RedCTAStrip({ onContact, onNavigate, title, band, lead }) {
   return (
     <>
       <NqSlotMount slot="slot-next" onNavigate={onNavigate} onContact={onContact}/>
@@ -1326,12 +1328,13 @@ function RedCTAStrip({ onContact, onNavigate, title }) {
       {!title && (
         <section className="cta-band-wrap fadein" aria-label="資料請求のご案内">
           <div className="container">
-            <TrackedBanner id="cta-band" tag="a" className="cta-band" href="/#request" onClick={(e) => { if (onContact) { e.preventDefault(); onContact(); } }}>
+            {lead && <h2 className="cta-band-lead">{lead}</h2>}
+            <TrackedBanner id={band ? band.id : 'cta-band'} tag="a" className={'cta-band' + (band && band.className ? ' ' + band.className : '')} href="/#request" onClick={(e) => { if (onContact) { e.preventDefault(); onContact(); } }}>
               <BannerImg
-                base="assets/banners/03_cta_band_4x1" widths={[1400, 2400]} sizes="(max-width: 1232px) calc(100vw - 32px), 1200px"
-                width={2400} height={595}
-                mobile={{ base: 'assets/banners/10_cta_band_sp_4x5', width: 1080, height: 1341, widths: [780, 1080], sizes: 'calc(100vw - 32px)' }}
-                alt="Web制作・AI・DXの資料を、無料でお届けします。初回相談無料。営業日24時間以内に担当者からご返信します。資料請求（無料）"
+                base={band ? band.base : 'assets/banners/03_cta_band_4x1'} widths={band ? band.widths : [1400, 2400]} sizes="(max-width: 1232px) calc(100vw - 32px), 1200px"
+                width={band ? band.width : 2400} height={band ? band.height : 595}
+                mobile={band ? band.mobile : { base: 'assets/banners/10_cta_band_sp_4x5', width: 1080, height: 1341, widths: [780, 1080], sizes: 'calc(100vw - 32px)' }}
+                alt={band ? band.alt : 'Web制作・AI・DXの資料を、無料でお届けします。初回相談無料。営業日24時間以内に担当者からご返信します。資料請求（無料）'}
               />
             </TrackedBanner>
             {/* 2026-11: 資料請求の帯の下に、LINE と無料診断を並べる (ほぼ全ページの末尾に出る) */}

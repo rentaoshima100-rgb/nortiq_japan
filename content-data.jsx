@@ -737,15 +737,18 @@ const PRICING_EXTRA = [
 // ============================================================
 // 共通レンダラー
 // ============================================================
-function CDCards({ title, sub, items }) {
+// cols: 3 を渡すと PC で 3 列にする (既定は 4 列。3件・6件のとき最後の列が空くのを避ける)。
+// lede: 見出しの下に置く導入文 (実績ページの業種別の説明)。
+function CDCards({ title, sub, items, cols, lede }) {
   return (
     <section className="section-pad-sm">
       <div className="container">
         <div className="section-head" style={{ marginBottom: 32 }}>
           <h2 className="section-title fadein" style={{ fontSize: 'clamp(22px, 3vw, 32px)' }}>{title}</h2>
           {sub && <p className="section-sub fadein">{sub}</p>}
+          {lede && <p className="lede fadein" style={{ margin: '20px auto 0', fontSize: 14.5, maxWidth: 760 }}>{lede}</p>}
         </div>
-        <div className="support-grid">
+        <div className={'support-grid' + (cols === 3 ? ' support-grid-3' : '')}>
           {items.map((it, i) => (
             <div key={i} className="support-card fadein" data-delay={i * 100}>
               <h3 style={{ fontSize: 16, fontWeight: 700, margin: 0, marginBottom: 12 }}>{it.t}</h3>
@@ -857,18 +860,15 @@ function RelatedColumns({ cats, onNavigate }) {
   );
 }
 // 業種ページ一式 (works-<category> 用)
-function IndustrySections({ category, onNavigate }) {
+// children: 法令ブロックと FAQ の間に差し込む内容 (実績ページの「制作の流れ」「費用と期間」)。
+function IndustrySections({ category, onNavigate, children }) {
   const c = INDUSTRY_CONTENT[category];
   if (!c) return null;
   return (
     <React.Fragment>
-      <section className="section-pad-sm" style={{ paddingTop: 0 }}>
-        <div className="container" style={{ maxWidth: 860 }}>
-          <p className="lede fadein" style={{ margin: '0 auto', textAlign: 'center' }}>{c.intro}</p>
-        </div>
-      </section>
-      <CDCards title="この業種の制作ポイント" sub="INDUSTRY POINTS" items={c.points}/>
+      <CDCards title="この業種の制作ポイント" sub="INDUSTRY POINTS" items={c.points} lede={c.intro} cols={c.points.length % 3 === 0 ? 3 : undefined}/>
       <CDLaws data={c.laws}/>
+      {children}
       <CDFaq title="よくある質問" items={c.faqs}/>
       {c.solution && (
         <section className="section-pad-sm" style={{ paddingTop: 0 }}>
@@ -881,6 +881,484 @@ function IndustrySections({ category, onNavigate }) {
     </React.Fragment>
   );
 }
+// ============================================================
+// 実績ページ (/works, /works-<業種>, /works-lp-*) — 2026-11 刷新
+// 方針 (docs/works-refresh-2026-11.md):
+//  - 冒頭の数秒で「同じ業種の事例がある / 費用と期間の目安 / 相談の条件」が分かるようにする
+//  - 事例の深掘り (WORKS_CASES) は、確認できている事実 (業種・作ったもの・担当範囲・構成) だけを書く。
+//    課題・制作期間・お客様の声は、確認が取れたものから足す (未確認の内容を作らない)
+//  - 金額・期間は NORTIQ_PRICING から作る (ここに数字を直書きしない)
+//  - 色だけで区別しない (「お悩み」「当社の対応」は文字のラベルを付ける)
+// ============================================================
+// ヒーロー右の 1:1 バナー (Higgsfield で生成、2026-11)。alt には画像に入っている文字をそのまま書く。
+const WORKS_BANNERS = {
+  works: { base: 'assets/banners/20_works_1x1', alt: '業種別の事例・費用と期間の目安・無料デザイン案。制作実績のサイト画面を案内する担当者とマスコット' },
+  clinic: { base: 'assets/banners/21_works_clinic_1x1', alt: 'Web予約の導線・スマホ最適化・医療広告ガイドライン対応。クリニックのサイト画面を案内する担当者とマスコット' },
+  realty: { base: 'assets/banners/22_works_realty_1x1', alt: '物件検索・売却査定LP・表示ルール対応。不動産サイトの画面を案内する担当者とマスコット' },
+  build: { base: 'assets/banners/23_works_build_1x1', alt: '施工事例・採用ページ・許可番号の表示。建築会社のサイト画面を案内する担当者とマスコット' },
+  hr: { base: 'assets/banners/24_works_hr_1x1', alt: '求人ページ・応募フォーム・求人検索エンジン連携。求人サイトの画面を案内する担当者とマスコット' },
+  retail: { base: 'assets/banners/25_works_retail_1x1', alt: 'ECサイト・越境EC・特商法の表示。ネットショップの画面を案内する担当者とマスコット' },
+  infra: { base: 'assets/banners/26_works_infra_1x1', alt: '技術・設備の紹介・会社案内・採用ページ。製造業のサイト画面を案内する担当者とマスコット' },
+  'works-lp-recruit': { base: 'assets/banners/27_works_lp_recruit_1x1', alt: '採用LP・職種別ページ・応募フォーム。採用ページの画面を案内する担当者とマスコット' },
+  'works-lp-corp': { base: 'assets/banners/28_works_lp_corp_1x1', alt: '会社案内・お知らせ更新・お問い合わせ導線。コーポレートサイトの画面を案内する担当者とマスコット' },
+};
+// ページ末尾のCTA帯 (PC 21:9 / 767px 以下は 4:5)。
+const WORKS_CTA_BAND = {
+  id: 'cta-band-works', className: 'works-band',
+  base: 'assets/banners/29_works_cta_pc_21x9', width: 2400, height: 1029, widths: [1400, 2400],
+  mobile: { base: 'assets/banners/30_works_cta_sp_4x5', width: 1080, height: 1350, widths: [780, 1080], sizes: 'calc(100vw - 32px)' },
+  alt: '近い事例をもとに、費用と期間をお伝えします。初回相談無料。営業日24時間以内に担当者からご返信します。無料で相談する',
+};
+
+// ヒーローの文言。h1 は検索語 (業種名 + 制作実績)、sub がキャッチ。h1 は行ごとの配列 (PC の改行位置を固定する)。
+const WORKS_HERO = {
+  works: {
+    h1: ['業種別の制作実績'],
+    sub: '同じ業種の事例から、費用と進め方まで確認できます。',
+    lede: () => `コーポレートサイト、採用ページ、LP、ECから、予約・在庫管理などの業務システムまで。${NORTIQ_STATS.clients}社の制作・支援実績を、業種別・目的別にまとめました。近い業種の事例からご覧ください。`,
+    cta: 'どの事例が近いか分からない場合も、そのままご相談ください。',
+  },
+  clinic: {
+    h1: ['クリニック・医療の', 'ホームページ制作実績'],
+    sub: '予約までの導線と、医療広告ガイドラインへの対応を両立します。',
+    lede: 'クリニック・歯科・美容外来のサイトで、Nortiq Labs が手がけた制作実績です。診療内容と費用の伝え方、Web予約へのつなぎ方を、事例とあわせてご覧ください。',
+    cta: '診療科と現在の予約方法を伺い、構成案をお出しします。',
+  },
+  realty: {
+    h1: ['不動産会社の', 'ホームページ制作実績'],
+    sub: '物件の見やすさと、査定・問い合わせの導線を設計します。',
+    lede: '売買・賃貸・投資・売却査定など、不動産会社のサイトの制作実績です。おとり広告の禁止や表示ルールに沿った物件ページの作り方も、あわせてまとめています。',
+    cta: '現在お使いのポータルと、物件管理の方法をお聞かせください。',
+  },
+  build: {
+    h1: ['建築・工務店の', 'ホームページ制作実績'],
+    sub: '施工事例の見せ方と、信頼の裏付けになる情報を整えます。',
+    lede: '大規模修繕、工法協会、注文住宅、設計事務所など、建築・工務店のサイトの制作実績です。一般のお客様と、元請・協力会社それぞれの導線の分け方もご紹介します。',
+    cta: '施工事例の見せ方から、一緒に考えます。',
+  },
+  hr: {
+    h1: ['人材会社の', 'ホームページ制作実績'],
+    sub: '求人が検索で見つかり、応募まで迷わないサイトにします。',
+    lede: '協同組合、新卒・中途採用、人材紹介・派遣など、人材業界のサイトの制作実績です。求人情報の的確表示など、法令に沿った求人ページの作り方もまとめています。',
+    cta: '求職者向け・企業向け、どちらを強化したいかからご相談ください。',
+  },
+  retail: {
+    h1: ['小売・ECサイトの', '制作実績'],
+    sub: 'カート選びから、法令表示・越境対応まで一貫して設計します。',
+    lede: 'ブランドLP、越境EC、サブスクEC、店舗の在庫管理システムなど、小売・ECの制作実績です。事業規模に合うカートの選び方と、特定商取引法の表示もあわせてご確認いただけます。',
+    cta: 'いま手作業になっている在庫・受注の作業を教えてください。',
+  },
+  infra: {
+    h1: ['インフラ・製造業の', 'ホームページ制作実績'],
+    sub: '技術と体制を整理して、取引先に伝わるサイトにします。',
+    lede: '工法協会、電力、精密部品メーカーなど、インフラ・製造業のサイトの制作実績です。専門性の高い事業を、取引先や求職者に伝わる構成に整えます。',
+    cta: '設備や技術の資料をお預かりし、伝え方をご提案します。',
+  },
+  ai: {
+    h1: ['AIスタートアップの', 'サイト制作実績'],
+    sub: 'プロダクトの価値を、決裁者に伝わる言葉と構成にします。',
+    lede: 'シード期のLP、BtoB SaaSのサービスサイトなど、AI・IT企業のサイトの制作実績です。課題・解決・効果の順で、非技術者にも伝わる見せ方を設計します。',
+    cta: 'プロダクトの資料をもとに、伝える順番からご提案します。',
+  },
+  'works-lp-corp': {
+    h1: ['コーポレートサイトの', '制作実績'],
+    sub: '名刺代わりで終わらせず、問い合わせにつながる会社サイトへ。',
+    lede: '取引先・採用候補者・投資家に伝わるコーポレートサイトの制作実績です。エネルギー、SaaS、建設、協同組合など、業種を問わず情報設計とブランドを両立させます。',
+    cta: '今のサイトのURLをお送りください。改善できる点をお伝えします。',
+  },
+  'works-lp-recruit': {
+    h1: ['採用サイト・採用LPの', '制作実績'],
+    sub: '求人媒体では伝わらない仕事の中身を、1ページで伝えます。',
+    lede: '新卒採用ブランドサイトなど、採用サイト・採用LPの制作実績です。コンセプト設計からエントリー導線まで、一貫して構築します。',
+    cta: '募集したい職種と、今の応募経路を伺います。',
+  },
+};
+
+// 「このようなお悩みに」。q = ご相談でよく伺う状況、a = 当社の対応 (各業種の制作ポイント INDUSTRY_CONTENT と同じ内容)。
+const WORKS_WORRIES = {
+  clinic: [
+    { q: '予約が電話だけで、診療時間外の予約を取りこぼしている', a: '電話・Web予約・地図をファーストビューに常設し、Googleビジネスプロフィールからは予約ページへ直接つなぎます。' },
+    { q: '自由診療の料金やリスクを、どこまで書いてよいか分からない', a: '費用・回数・期間・主なリスクや副作用を明示できるページ構造にし、限定解除の要件に沿って整理します。' },
+    { q: '診療科や症状ごとの情報がなく、来院前の不安に答えられていない', a: '診療科別・症状別ページ、医師紹介、院内写真を、スマートフォン最優先で設計します。' },
+  ],
+  realty: [
+    { q: '物件情報の更新が追いつかず、成約済みの物件が残ってしまう', a: '成約済み物件の取り下げを更新の手順に組み込み、表示ルールに沿った物件テンプレートを用意します。' },
+    { q: '査定フォームまで来ても、入力の途中で離脱される', a: '入力項目を最短にし、査定の流れを先に見せる構成にします。' },
+    { q: 'ポータル頼みで、自社サイトから直接の反響がない', a: '「地域名＋売却／賃貸」の検索に応えるエリアページで、地域密着の強みを見せます。' },
+  ],
+  build: [
+    { q: '施工事例が古いまま、分類もされていない', a: '工事種別・費用帯・エリアで分類し、検討中の方が「自分の場合」を想像できる施工事例ページにします。' },
+    { q: '相見積もりで比べられたとき、選ばれる理由が伝わらない', a: '保証・アフター対応・工事の流れ・よくある質問を明示し、比較中の方の不安に答えます。' },
+    { q: '一般のお客様と、元請・協力会社の窓口が混ざっている', a: '協力会社募集・元請向けのページを分け、それぞれの問い合わせ導線を設計します。' },
+  ],
+  hr: [
+    { q: '求人媒体には出しているが、自社サイトに求人ページがない', a: '1求人1URLの求人ページを作り、求人検索エンジンへの掲載と、Googleしごと検索向けの構造化データに対応します。' },
+    { q: '求人票が「アットホームな職場」のような抽象的な表現になっている', a: '職種・条件・魅力を、数値と事実で書く原稿に整えます。原稿の添削にも対応します。' },
+    { q: '固定残業代や就業場所の書き方が、法令に合っているか不安', a: '職業安定法の的確表示に沿って、明示すべき事項を整理します。' },
+  ],
+  retail: [
+    { q: 'どのカートで始めればよいか決められない', a: '商材と成長計画を伺い、BASE／STORES／Shopify／カラーミーショップを総コストと将来の販路で比べて選定します。' },
+    { q: '特定商取引法の表記や、最終確認画面が整っていない', a: '表示義務のある項目と、注文内容を確認・訂正できる購入フローを設計します。' },
+    { q: '海外のお客様にも売りたいが、決済と配送が分からない', a: '多通貨決済・海外配送の要件を整理し、プラットフォームの越境機能を使って設計します。' },
+  ],
+  infra: [
+    { q: '技術や設備の強みが、専門外の方に伝わらない', a: '課題→解決アプローチ→技術・体制→問い合わせの順に、判断材料をそろえます。' },
+    { q: '窓口が電話だけで、初めての相談がしにくい', a: '電話・フォーム・オンライン相談予約など、相手が選べる導線にします。' },
+    { q: '料金や対応範囲を載せておらず、問い合わせの内容がばらつく', a: '目安のレンジと対応領域を掲載し、ご相談の前提をそろえます。' },
+  ],
+  ai: [
+    { q: 'プロダクトの説明が技術用語のままで、決裁者に伝わらない', a: '課題→解決→効果の順で、非技術者の決裁者にも伝わるメッセージを設計します。' },
+    { q: '問い合わせの入口が1つしかなく、検討初期の方を逃している', a: '資料ダウンロード・デモ予約・ホワイトペーパーなど、検討段階に合わせた入口を配置します。' },
+    { q: 'サイトの表示が遅く、技術力の印象を損ねている', a: 'Next.js などで高速なサイトに仕上げます。速さそのものが技術力の裏付けになります。' },
+  ],
+  'works-lp-corp': [
+    { q: '会社案内の代わりにはなっているが、問い合わせが来ない', a: '誰に何をしてほしいページかを決め、問い合わせまでの導線を設計します。' },
+    { q: 'お知らせや実績を、自社で更新できない', a: '更新の多い箇所はCMSで管理できるようにし、公開後の更新方法までご説明します。' },
+    { q: '取引先・採用候補者・投資家で、見たい情報が違う', a: '読み手ごとの入口を分け、情報設計とブランドを両立させます。' },
+  ],
+  'works-lp-recruit': [
+    { q: '求人媒体の枠では、仕事の中身が伝わらない', a: '職種・地域・応募経路に合わせて、仕事の中身を1ページで伝える構成にします。' },
+    { q: '応募フォームが長く、スマートフォンで途中離脱される', a: '入力項目を絞り、スマートフォンで迷わず応募できるフォームにします。' },
+    { q: '新卒と中途で、伝えたい内容が違う', a: '社員の声・数字で見る会社・選考フロー・募集要項を、新卒／中途で分けて設計します。' },
+  ],
+};
+
+// 業種の一覧に添える一言 (/works の「業種・目的から探す」)。
+const WORKS_ENTRY_FOCUS = {
+  clinic: '予約導線と医療広告ガイドライン', realty: '物件表示のルールと査定導線', build: '施工事例の見せ方と信頼情報',
+  hr: '求人ページと法令に沿った表示', retail: 'カート選定・特商法・越境対応', infra: '技術の伝え方と問い合わせ導線', ai: '価値の言語化と複数の入口',
+  'works-lp-corp': '会社の信頼と問い合わせ導線', 'works-lp-recruit': '仕事の中身と応募フォーム', 'works-lp-ec': '実店舗とオンラインの連動', 'works-video': 'サイト・SNS・広告で使う動画',
+};
+const WORKS_ENTRY_PURPOSE = [
+  { id: 'works-lp-corp', label: 'コーポレートサイト' }, { id: 'works-lp-recruit', label: '採用サイト・採用LP' },
+  { id: 'works-lp-ec', label: 'EC連動LP' }, { id: 'works-video', label: '動画制作' },
+];
+
+// 事例の深掘り。key は WORKS_DATA の id。ここに書くのは確認できている事実だけ:
+//   client = どんな相手か / made = 作ったもの / scope = 担当範囲 / tech = 技術 / points = 構成・機能 / url = 公開サイト
+// ご相談時の課題・制作期間・プラン・お客様の声は未記入 (docs/works-refresh-2026-11.md の記入シート)。
+const WORKS_CASES = {
+  7: {
+    lead: '制度の説明が中心になる協同組合のサイトを、受入れを検討する企業が読みやすい構成に作り直しました。',
+    client: '外国人材の受入れを支援する協同組合',
+    made: 'コーポレートサイトの全面リニューアル',
+    scope: '情報設計・デザイン・実装・公開。公開後は月額の保守・運用を継続',
+    tech: 'React（SPA）',
+    points: [
+      '育成就労・特定技能の制度ページを設け、受入れからキャリア形成までの流れを表で整理',
+      '育成就労から特定技能1号・2号へ進むキャリアパスを図で示し、長期の受入れ計画を説明しやすい形に',
+      '分野名などの英語表記を、出入国在留管理庁の公式表記にそろえて全ページを確認',
+    ],
+  },
+  5: {
+    lead: '工事の内容と実績を、発注を検討する方が1件ずつ確認できるサイトに作り直しました。',
+    client: '大規模修繕・建物リニューアルの建築会社',
+    made: 'コーポレートサイトのリニューアル（企業情報・事業内容・施工実績・お知らせ・採用）',
+    scope: 'サイト設計・デザイン・原稿作成・実装・公開。公開後は月額の保守・運用を継続',
+    tech: 'React（SPA）',
+    points: [
+      '施工実績を、写真・工事種別・施工年・所在地・工事内容つきで1件ずつ見られる形に',
+      '事業内容ページで、共通仮設から各工事までの内容を工程ごとに説明',
+      '採用ページ、お問い合わせフォーム、所在地の地図を設置',
+    ],
+  },
+  22: {
+    lead: '商品を撮影して、登録からバーコードラベルの発行までを店頭で行えるようにしました。',
+    client: '京都・東山のアンティークショップ（中古フィギュアも取り扱い）',
+    made: '商品を撮影して登録する、在庫管理のiPadアプリ',
+    scope: '要件整理・設計・アプリ開発・POSレジ連携・店頭への導入',
+    tech: 'iPadアプリ / スマレジ連携 / AIによる画像認識',
+    points: [
+      '写真からキャラクター・シリーズ・メーカーをAIが判定（軽い判定から順に3段階で確認）',
+      'スマレジと連携し、商品の登録と在庫の加算までを同じ画面の操作で完了',
+      '自社採番のバーコードをラベルプリンターで発行し、店頭のレジ運用につなげる構成',
+    ],
+  },
+  10: {
+    lead: '海外のお客様に向けて、英語・日本語の2言語で販売できるECサイトを構築しました。',
+    client: '京都・東山のアンティークショップ',
+    made: '英語・日本語のバイリンガルECサイト',
+    scope: 'サイト設計・デザイン・実装・公開',
+    points: [
+      '英語・日本語の2言語で商品を掲載し、海外からの購入に対応',
+      '同じ店舗で、店頭の在庫管理システム（別の事例）もあわせて開発',
+    ],
+    url: 'https://taketora-antique.com', urlLabel: 'taketora-antique.com',
+  },
+};
+// どのページに、どの事例を深掘りで出すか (WORKS_DATA の id、表示順)。
+const WORKS_FEATURED = {
+  works: [5, 7, 22],
+  build: [5], hr: [7], retail: [22, 10],
+  'works-lp-corp': [7, 5],
+};
+
+// 制作の流れ (共通)。金額・月数は NORTIQ_PRICING から作る。
+const worksFlowSteps = () => {
+  const P = NORTIQ_PRICING, c = P.consult, plans = P.web.plans;
+  const sup = plans.map((p) => p.supportMonths);
+  return [
+    { t: '無料相談', d: `オンラインで${c.minutes[0]}〜${c.minutes[1]}分。現状と目的、ご予算を伺います。お問い合わせには${c.reply}にご返信します。` },
+    { t: 'ご提案と無料デザイン案', d: '構成案とお見積りに、トップページのデザイン案を添えてお出しします。契約の前に、完成イメージをご確認いただけます。' },
+    { t: 'ご契約・制作', d: 'デザイン、実装の順に進めます。節目ごとに実際の画面をお見せし、確認しながら仕上げます。' },
+    { t: '確認・公開', d: 'スマートフォンでの表示、お問い合わせフォームの送信、アクセス解析（GA4・Search Console）の設定を確認してから公開します。' },
+    { t: '公開後のサポート', d: `プランに応じて、公開後${Math.min(...sup)}〜${Math.max(...sup)}ヶ月のサポートが付きます。その後は${priceMonthly(P.maintenance.monthlyMin)}の保守・運用で、修正や更新をお任せいただけます。` },
+  ];
+};
+
+// 一覧ページのよくある質問 (共通)。
+const worksIndexFaqs = () => {
+  const P = NORTIQ_PRICING, plans = P.web.plans, sup = plans.map((p) => p.supportMonths);
+  return [
+    { q: '予算が決まっていなくても相談できますか?', a: `はい。${priceConsult()}です。目的を伺ったうえで、プランごとの費用と期間の目安をお伝えします。` },
+    { q: '契約の前に、デザインを確認できますか?', a: 'ご提案の際に、トップページのデザイン案を無料でお作りしています。完成イメージを見てからご判断いただけます。' },
+    { q: '同じ業種の実績がなくても依頼できますか?', a: 'はい。業種ごとの制作ポイントと、関係する法令・ガイドラインを確認したうえで設計します。構成の近い事例をもとにご提案します。' },
+    { q: '公開後の更新や修正はお願いできますか?', a: `制作プランには公開後${Math.min(...sup)}〜${Math.max(...sup)}ヶ月のサポートが含まれます。その後は${priceMonthly(P.maintenance.monthlyMin)}${priceTax()}の保守・運用プランで、文言の修正や記事の更新をお受けします。` },
+    { q: '今あるサイトのリニューアルも依頼できますか?', a: '対応しています。現在のサイトを拝見し、残す部分と作り直す部分を分けてご提案します。無料のホームページ診断で、現状を先に確認することもできます。' },
+    { q: '京都以外の会社でも依頼できますか?', a: 'はい。お打ち合わせはオンラインで行っており、全国の企業様からご依頼いただけます。' },
+    { q: '補助金は使えますか?', a: '制度によります。ホームページ制作では小規模事業者持続化補助金が使われることが多く、申請に必要な見積書・仕様書類の作成に対応しています。採択の保証はできないこと、当社がIT導入支援事業者・適格請求書発行事業者に未登録であることは、あらかじめご確認ください。' },
+  ];
+};
+
+// -------------------- 実績ページ用のレンダラー --------------------
+// 実績ページ共通のヒーロー。key = 'works' / 業種キー / 'works-lp-*'。データが無いページは null を返すので、呼び出し側で従来のヒーローに落とす。
+function worksHeroProps(key) {
+  const h = WORKS_HERO[key];
+  if (!h) return null;
+  const banner = WORKS_BANNERS[key] || WORKS_BANNERS.works;
+  return {
+    title: h.h1.map((line, i) => <span key={i} className="wk-h1-line">{line}</span>),
+    // 「、」の後ろでだけ折り返す (「問い｜合わせ」のように語の途中で折れないようにする)
+    sub: h.sub.split(/(?<=、)/).map((ph, i) => <span key={i} className="phrase">{ph}</span>),
+    lede: typeof h.lede === 'function' ? h.lede() : h.lede,
+    visual: { base: banner.base, alt: banner.alt, id: 'works-hero-' + key },
+    cta: h.cta,
+  };
+}
+
+// ヒーロー直下の3点 (相談の条件・無料デザイン案・費用と期間の目安)。recruit = 採用サイトの料金 (lps.recruit) を出す。
+function WorksFacts({ recruit = false }) {
+  const P = NORTIQ_PRICING, c = P.consult;
+  const light = recruit ? P.lps.recruit.plans[0] : P.web.plans[0];
+  const items = [
+    { k: '初回のご相談', v: '無料', n: `${c.format}${c.minutes[0]}〜${c.minutes[1]}分。${c.reply}にご返信します` },
+    { k: 'ご提案のとき', v: 'デザイン案を無料で', n: '契約の前に、トップページの完成イメージをお見せします' },
+    { k: recruit ? '採用サイト制作' : 'Web制作', v: priceFrom(light.min), tax: priceTax(), n: `${light.ja}プラン。${recruit ? '制作期間の目安' : P.web.periodLabel} ${pricePeriod(light)}` },
+  ];
+  return (
+    <section className="wk-facts-wrap" aria-label="ご相談の条件と費用の目安">
+      <div className="container">
+        <dl className="wk-facts">
+          {items.map((it, i) => (
+            <div key={i} className="wk-fact">
+              <dt>{it.k}</dt>
+              <dd>
+                <span className="wk-fact-v">{it.v}{it.tax && <small>{it.tax}</small>}</span>
+                <span className="wk-fact-n">{it.n}</span>
+              </dd>
+            </div>
+          ))}
+        </dl>
+      </div>
+    </section>
+  );
+}
+
+// 「このようなお悩みに」(業種別・目的別ページ)。
+// heading: 見出しの1行目 (「建築・工務店のサイトで、」など)。
+function WorksWorries({ pageKey, heading }) {
+  const items = WORKS_WORRIES[pageKey];
+  if (!items) return null;
+  return (
+    <section className="section-pad-sm wk-worries-wrap">
+      <div className="container">
+        <div className="wk-worries">
+          <header className="wk-worries-head fadein">
+            <h2 className="wk-h2"><span className="wk-h1-line">{heading}</span><span className="wk-h1-line">よく伺うお悩み</span></h2>
+            <p className="body">ご相談の多い状況と、そのとき当社がどう設計するかをまとめました。</p>
+          </header>
+          <ol className="wk-worries-list">
+            {items.map((it, i) => (
+              <li key={i} className="wk-worry fadein" data-delay={i * 80}>
+                <p className="wk-worry-q"><span className="wk-chip">お悩み</span>{it.q}</p>
+                <p className="wk-worry-a"><span className="wk-chip wk-chip-solid">当社の対応</span>{it.a}</p>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// 事例の深掘り。works = WORKS_DATA (info-pages.jsx)。
+function WorksCaseFeature({ pageKey, onNavigate }) {
+  const ids = WORKS_FEATURED[pageKey];
+  const all = (typeof window !== 'undefined' && window.NORTIQ_WORKS) || [];
+  const cases = (ids || []).map((id) => ({ w: all.find((x) => x.id === id), c: WORKS_CASES[id] })).filter((x) => x.w && x.c);
+  if (!cases.length) return null;
+  return (
+    <section className="section-pad wk-cases-wrap">
+      <div className="container">
+        <header className="wk-sec-head fadein">
+          <h2 className="wk-h2">事例を詳しく見る</h2>
+          <p className="body">どんな会社に、何を作り、どこまで担当したかをまとめています。</p>
+        </header>
+        {cases.map(({ w, c }, i) => (
+          <article key={w.id} className={'wk-case fadein' + (i % 2 ? ' wk-case-rev' : '')}>
+            <div className="wk-case-shot"><WorkShot work={w}/></div>
+            <div className="wk-case-body">
+              <div className="row" style={{ gap: 8, marginBottom: 14 }}>
+                <span className="tag">{w.tag}</span>
+                {w.stat && <span className="stat-pill">{w.stat}</span>}
+              </div>
+              <h3 className="wk-case-title">{w.title}</h3>
+              <p className="wk-case-lead">{c.lead}</p>
+              <dl className="wk-case-data">
+                <div><dt>ご依頼主</dt><dd>{c.client}</dd></div>
+                <div><dt>制作したもの</dt><dd>{c.made}</dd></div>
+                <div><dt>担当範囲</dt><dd>{c.scope}</dd></div>
+                {c.tech && <div><dt>技術</dt><dd>{c.tech}</dd></div>}
+              </dl>
+              <ul className="wk-case-points">
+                {c.points.map((p, j) => <li key={j}><Icon name="check" size={14}/><span>{p}</span></li>)}
+              </ul>
+              {c.url && (
+                <a className="wk-case-link" href={c.url} target="_blank" rel="noopener noreferrer">公開サイトを見る（{c.urlLabel}）<Icon name="arrow-right" size={12}/></a>
+              )}
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+// 制作の流れ (黒地の帯)。
+function WorksFlow() {
+  const steps = worksFlowSteps();
+  return (
+    <section className="wk-flow-wrap">
+      <div className="container">
+        <header className="wk-sec-head fadein">
+          <h2 className="wk-h2">ご相談から公開後まで</h2>
+          <p className="body">契約の前にデザイン案をお見せするので、完成イメージを確かめてから進められます。</p>
+        </header>
+        <ol className="wk-flow">
+          {steps.map((s, i) => (
+            <li key={i} className="wk-flow-step fadein" data-delay={i * 70}>
+              <span className="wk-flow-no" aria-hidden="true">{i + 1}</span>
+              <h3>{s.t}</h3>
+              <p>{s.d}</p>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </section>
+  );
+}
+
+// 費用と期間の目安 (表)。category = 業種キー (集客パッケージの行を足す)、recruit = 採用サイトの料金表。
+function WorksPrice({ category, recruit = false, onNavigate }) {
+  const P = NORTIQ_PRICING;
+  const plans = recruit ? P.lps.recruit.plans : P.web.plans;
+  const rows = plans.map((p) => ({
+    name: p.ja + 'プラン', price: priceFrom(p.min), period: pricePeriod(p),
+    note: recruit ? '' : [p.pages, p.tagline].filter(Boolean).join('／'),
+    recommended: !!p.recommended,
+  }));
+  const sol = category && P.solutions[category];
+  const label = category && typeof CATEGORY_LABELS !== 'undefined' ? CATEGORY_LABELS[category] : '';
+  return (
+    <section className="section-pad wk-price-wrap">
+      <div className="container">
+        <div className="wk-price">
+          <header className="wk-price-head fadein">
+            <h2 className="wk-h2">費用と期間の目安</h2>
+            <p className="body">{recruit ? '建設・運送・介護の採用サイト制作の料金です。' : 'ホームページ制作の料金です。'}ページ数や機能で変わるため、近い事例をもとに個別にお見積りします。</p>
+            <p className="small">{P.taxNote}</p>
+            <div className="row" style={{ gap: 12, marginTop: 20 }}>
+              {recruit
+                ? <a className="btn btn-ghost" href={P.lps.recruit.href}>採用サイト制作の詳細<Icon name="arrow-right" size={14}/></a>
+                : <Button variant="ghost" to="pricing" nav={onNavigate}>料金プランの詳細<Icon name="arrow-right" size={14}/></Button>}
+            </div>
+          </header>
+          <div className="wk-price-table-wrap fadein">
+            <table className="wk-price-table">
+              <thead>
+                <tr><th scope="col">プラン</th><th scope="col">初期費用{priceTax()}</th><th scope="col">制作期間の目安</th>{!recruit && <th scope="col">内容</th>}</tr>
+              </thead>
+              <tbody>
+                {rows.map((r, i) => (
+                  <tr key={i}>
+                    <th scope="row">{r.name}{r.recommended && <span className="wk-chip wk-chip-solid">おすすめ</span>}</th>
+                    <td data-label="初期費用" className="wk-price-num">{r.price}</td>
+                    <td data-label="制作期間の目安">{r.period}</td>
+                    {!recruit && <td data-label="内容">{r.note}</td>}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            {sol && (
+              <p className="wk-price-sol">
+                {label}向けの集客パッケージ（サイト制作＋運用）は {priceInitPlusMonthly(sol)}{priceTax()}、導入期間の目安は{pricePeriod(sol)}です。
+                {' '}<a {...navProps(sol.route, onNavigate)}>パッケージの内容を見る<Icon name="arrow-right" size={12}/></a>
+              </p>
+            )}
+            {!recruit && (
+              <p className="wk-price-sol">
+                AIチャットボットは{priceFrom(P.chatbot.plans[0].min)}、業務システムの開発は技術検証（PoC）{priceFrom(P.dx.plans[0].min)}から承ります。
+              </p>
+            )}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// /works の「業種・目的から探す」。件数は WORKS_DATA から数える。
+function WorksEntry({ onNavigate }) {
+  const all = (typeof window !== 'undefined' && window.NORTIQ_WORKS) || [];
+  const cats = typeof CATEGORY_LABELS !== 'undefined' ? Object.keys(CATEGORY_LABELS) : [];
+  const Row = ({ id, label, count }) => (
+    <a className="wk-entry-row" {...navProps(id, onNavigate)}>
+      <span className="wk-entry-label">{label}</span>
+      <span className="wk-entry-focus">{WORKS_ENTRY_FOCUS[id] || WORKS_ENTRY_FOCUS[id.replace(/^works-/, '')]}</span>
+      {count != null && <span className="wk-entry-count">{count}件</span>}
+      <Icon name="arrow-right" size={14}/>
+    </a>
+  );
+  return (
+    <section className="section-pad-sm wk-entry-wrap" id="works-entry">
+      <div className="container">
+        <div className="wk-entry">
+          <header className="wk-entry-head fadein">
+            <h2 className="wk-h2">業種・目的から探す</h2>
+            <p className="body">業種ごとのページには、制作実績のほかに、その業種で押さえる制作ポイントと関係する法令・ガイドラインをまとめています。</p>
+          </header>
+          <div className="wk-entry-cols fadein">
+            <div>
+              <h3 className="wk-entry-h3">業種から</h3>
+              {cats.map((c) => <Row key={c} id={'works-' + c} label={CATEGORY_LABELS[c]} count={all.filter((w) => w.category === c).length}/>)}
+            </div>
+            <div>
+              <h3 className="wk-entry-h3">目的から</h3>
+              {WORKS_ENTRY_PURPOSE.map((x) => <Row key={x.id} id={x.id} label={x.label}/>)}
+              <p className="wk-entry-note">業種が決まっていない場合は、<a {...navProps('pricing', onNavigate)}>料金プラン</a>か<a {...navProps('diagnostic', onNavigate)}>ホームページ無料診断</a>からどうぞ。</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ページ末尾のCTA。lead = そのページ向けの一言。帯の画像は実績ページ共通 (WORKS_CTA_BAND)。
+function WorksCta({ lead, onContact, onNavigate }) {
+  return <RedCTAStrip onContact={onContact} onNavigate={onNavigate} band={WORKS_CTA_BAND} lead={lead}/>;
+}
+
 // 汎用: FEATURE_CONTENT / SUPPORT_CONTENT 等の descriptor 配列を描画
 function ExtraContent({ blocks, onNavigate }) {
   if (!blocks) return null;
@@ -1126,4 +1604,6 @@ Object.assign(window, {
   INDUSTRY_CONTENT, LP_KNOWHOW, VIDEO_KNOWHOW, SUBSIDY_CONTENT, GUIDEBOOK_CONTENT, SALES_DECKS,
   DIAGNOSIS_CONTENT, FEATURE_CONTENT, SOLUTION_CONTENT, SYSTEM_TEMPLATES, SystemTemplates, SUPPORT_CONTENT, PRICING_EXTRA,
   CDCards, CDSteps, CDFaq, CDLaws, RelatedColumns, IndustrySections, ExtraContent, SolutionExtra, SubsidySections,
+  WORKS_HERO, WORKS_BANNERS, WORKS_CASES, worksHeroProps, worksIndexFaqs,
+  WorksFacts, WorksWorries, WorksCaseFeature, WorksFlow, WorksPrice, WorksEntry, WorksCta,
 });
