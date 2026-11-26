@@ -121,6 +121,7 @@ const ORG_SAME_AS = [
 // desc → meta description / og:description / BlogPosting.description に使う。
 //        未指定の記事は app.jsx の SEO_DESC か自動生成の定型文にフォールバックする
 const BLOG = [
+  { slug: 'responsive-retrofit-or-rebuild', category: 'Web制作', date: '2026.11.26', read: '10 min', title: 'ホームページのスマホ対応｜後付けと作り直しの判断', img: 'assets/blog-default.png', desc: 'ホームページのスマホ対応を後付けで済ませられるか、作り直しが必要かを構成別に整理します。Googleが挙げる3構成の見分け方、モバイル側のCore Web Vitalsで測る判断基準、見積もり前に制作会社へ渡す資料まで解説します。', supervised: true },
   { slug: 'overseas-cloud-personal-data', category: '技術', date: '2026.11.26', read: '10 min', title: '国外クラウドの個人データ｜同意の要否と確認項目', img: 'assets/blog-default.png', desc: '業務システムの外注で顧客データが国外のクラウドに保存される場合、本人の同意が必要かを個人情報保護委員会のFAQから整理します。取り扱わないと言える2要件、同意が不要な3つの例外、所在国の公表義務まで解説します。', supervised: true },
   { slug: 'privacy-policy-required-items', category: 'Web制作', date: '2026.11.26', read: '9 min', title: 'プライバシーポリシーの記載事項｜法第32条の4項目と窓口', img: 'assets/blog-default.png', desc: 'プライバシーポリシーの記載事項を、個人情報保護法第32条第1項の4号と施行令第10条の3項目から整理します。利用目的の粒度、開示請求の窓口と手数料、安全管理措置をどこまで公表するかの線引きまで解説します。', supervised: true },
   { slug: 'retail-paper-ledger-phone-statistics', category: '技術', date: '2026.11.25', read: '7 min', title: '小売業の39.0%が口頭と電話と帳簿中心｜公的データ', img: 'assets/blog-default.png', desc: '東京商工会議所の2026年調査では、小売業で口頭と電話と帳簿が中心と回答した割合は39.0%で業種別最多でした。全体24.3%との差と業種別の一覧、顧客記録を仕組みに移すと義務になる措置の項目を整理します。', supervised: true },

@@ -33,6 +33,7 @@ const ARTICLE_ROUTES = (() => {
 })();
 
 const ROUTES_ALLOWLIST = [
+  '/article-responsive-retrofit-or-rebuild',
   '/article-overseas-cloud-personal-data',
   '/article-privacy-policy-required-items',
   '/article-retail-paper-ledger-phone-statistics',
