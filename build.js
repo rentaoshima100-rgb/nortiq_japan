@@ -121,6 +121,7 @@ const ORG_SAME_AS = [
 // desc → meta description / og:description / BlogPosting.description に使う。
 //        未指定の記事は app.jsx の SEO_DESC か自動生成の定型文にフォールバックする
 const BLOG = [
+  { slug: 'system-encryption-requirements', category: '技術', date: '2026.11.26', read: '10 min', title: '業務システム外注の暗号化要件｜保存時と通信時', img: 'assets/blog-default.png', desc: '業務システムを外注するときの暗号化要件を、保存時と通信時に分けて整理します。暗号化する層の選び方、通信の4経路、鍵の管理者の決め方、要件定義書への書き方の例と確認方法まで、発注側の判断材料として解説します。', supervised: true },
   { slug: 'responsive-retrofit-or-rebuild', category: 'Web制作', date: '2026.11.26', read: '10 min', title: 'ホームページのスマホ対応｜後付けと作り直しの判断', img: 'assets/blog-default.png', desc: 'ホームページのスマホ対応を後付けで済ませられるか、作り直しが必要かを構成別に整理します。Googleが挙げる3構成の見分け方、モバイル側のCore Web Vitalsで測る判断基準、見積もり前に制作会社へ渡す資料まで解説します。', supervised: true },
   { slug: 'overseas-cloud-personal-data', category: '技術', date: '2026.11.26', read: '10 min', title: '国外クラウドの個人データ｜同意の要否と確認項目', img: 'assets/blog-default.png', desc: '業務システムの外注で顧客データが国外のクラウドに保存される場合、本人の同意が必要かを個人情報保護委員会のFAQから整理します。取り扱わないと言える2要件、同意が不要な3つの例外、所在国の公表義務まで解説します。', supervised: true },
   { slug: 'privacy-policy-required-items', category: 'Web制作', date: '2026.11.26', read: '9 min', title: 'プライバシーポリシーの記載事項｜法第32条の4項目と窓口', img: 'assets/blog-default.png', desc: 'プライバシーポリシーの記載事項を、個人情報保護法第32条第1項の4号と施行令第10条の3項目から整理します。利用目的の粒度、開示請求の窓口と手数料、安全管理措置をどこまで公表するかの線引きまで解説します。', supervised: true },
