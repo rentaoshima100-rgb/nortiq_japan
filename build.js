@@ -121,6 +121,7 @@ const ORG_SAME_AS = [
 // desc → meta description / og:description / BlogPosting.description に使う。
 //        未指定の記事は app.jsx の SEO_DESC か自動生成の定型文にフォールバックする
 const BLOG = [
+  { slug: 'privacy-policy-required-items', category: 'Web制作', date: '2026.11.26', read: '9 min', title: 'プライバシーポリシーの記載事項｜法第32条の4項目と窓口', img: 'assets/blog-default.png', desc: 'プライバシーポリシーの記載事項を、個人情報保護法第32条第1項の4号と施行令第10条の3項目から整理します。利用目的の粒度、開示請求の窓口と手数料、安全管理措置をどこまで公表するかの線引きまで解説します。', supervised: true },
   { slug: 'retail-paper-ledger-phone-statistics', category: '技術', date: '2026.11.25', read: '7 min', title: '小売業の39.0%が口頭と電話と帳簿中心｜公的データ', img: 'assets/blog-default.png', desc: '東京商工会議所の2026年調査では、小売業で口頭と電話と帳簿が中心と回答した割合は39.0%で業種別最多でした。全体24.3%との差と業種別の一覧、顧客記録を仕組みに移すと義務になる措置の項目を整理します。', supervised: true },
   { slug: 'contact-form-spam-filter-blocking-inquiries', category: 'Web制作', date: '2026.11.25', read: '9 min', title: '問い合わせフォームが届かない｜スパム対策の切り分け', img: 'assets/blog-default.png', desc: 'スパム対策を入れた後に問い合わせが届かなくなったとき、弾かれているのか通知メールが来ていないのかを切り分ける手順を解説します。reCAPTCHAの既定のしきい値0.5の意味と、制作会社への依頼文に入れる5項目も示します。', supervised: true },
   { slug: 'https-migration-search-console-property', category: 'Web制作', date: '2026.11.25', read: '11 min', title: '常時SSL化後のSearch Console｜追加の要否', img: 'assets/blog-default.png', desc: '常時SSL化の後、Search Consoleでアドレス変更ツールを使うのか、プロパティを追加するのかを整理しました。Google公式の記述では、HTTPからHTTPSの移行でツールは不要ですが、プロトコルごとの追加は必要です。', supervised: true },

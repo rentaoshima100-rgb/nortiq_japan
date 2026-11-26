@@ -33,6 +33,7 @@ const ARTICLE_ROUTES = (() => {
 })();
 
 const ROUTES_ALLOWLIST = [
+  '/article-privacy-policy-required-items',
   '/article-retail-paper-ledger-phone-statistics',
   '/article-contact-form-spam-filter-blocking-inquiries',
   '/article-https-migration-search-console-property',
