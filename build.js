@@ -121,6 +121,7 @@ const ORG_SAME_AS = [
 // desc → meta description / og:description / BlogPosting.description に使う。
 //        未指定の記事は app.jsx の SEO_DESC か自動生成の定型文にフォールバックする
 const BLOG = [
+  { slug: 'site-move-recrawl-timeline', category: 'Web制作', date: '2026.11.26', read: '10 min', title: 'リニューアル公開後の再クロール｜待つ期間と操作', img: 'assets/blog-default.png', desc: 'リニューアル公開後にXMLサイトマップを送り直す必要があるかを、URLが変わる移転と変わらない移転に分けて整理します。クロールの反映にかかる期間、リダイレクトの保持期間、経過と異常の見分け方をGoogle公式の記述に沿って解説します。', supervised: true },
   { slug: 'system-encryption-requirements', category: '技術', date: '2026.11.26', read: '10 min', title: '業務システム外注の暗号化要件｜保存時と通信時', img: 'assets/blog-default.png', desc: '業務システムを外注するときの暗号化要件を、保存時と通信時に分けて整理します。暗号化する層の選び方、通信の4経路、鍵の管理者の決め方、要件定義書への書き方の例と確認方法まで、発注側の判断材料として解説します。', supervised: true },
   { slug: 'responsive-retrofit-or-rebuild', category: 'Web制作', date: '2026.11.26', read: '10 min', title: 'ホームページのスマホ対応｜後付けと作り直しの判断', img: 'assets/blog-default.png', desc: 'ホームページのスマホ対応を後付けで済ませられるか、作り直しが必要かを構成別に整理します。Googleが挙げる3構成の見分け方、モバイル側のCore Web Vitalsで測る判断基準、見積もり前に制作会社へ渡す資料まで解説します。', supervised: true },
   { slug: 'overseas-cloud-personal-data', category: '技術', date: '2026.11.26', read: '10 min', title: '国外クラウドの個人データ｜同意の要否と確認項目', img: 'assets/blog-default.png', desc: '業務システムの外注で顧客データが国外のクラウドに保存される場合、本人の同意が必要かを個人情報保護委員会のFAQから整理します。取り扱わないと言える2要件、同意が不要な3つの例外、所在国の公表義務まで解説します。', supervised: true },
