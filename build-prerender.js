@@ -33,6 +33,7 @@ const ARTICLE_ROUTES = (() => {
 })();
 
 const ROUTES_ALLOWLIST = [
+  '/article-contact-conversion-tracking-requirements',
   '/article-requirements-definition-phased-contract',
   '/article-care-record-duplicate-entry-requirements',
   '/article-site-move-recrawl-timeline',

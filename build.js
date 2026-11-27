@@ -121,6 +121,7 @@ const ORG_SAME_AS = [
 // desc → meta description / og:description / BlogPosting.description に使う。
 //        未指定の記事は app.jsx の SEO_DESC か自動生成の定型文にフォールバックする
 const BLOG = [
+  { slug: 'contact-conversion-tracking-requirements', category: 'Web制作', date: '2026.11.27', read: '9 min', title: 'ホームページの問い合わせ計測｜発注で決める6項目', img: 'assets/blog-default.png', desc: 'フォームを作ってもらうだけでは問い合わせの件数は残りません。問い合わせ完了のイベントは自動送信されないためです。要件に書く6項目、保持期間の設定、納品物として受け取る一覧表と動作確認の記録を解説します。', supervised: true },
   { slug: 'requirements-definition-phased-contract', category: '技術', date: '2026.11.27', read: '10 min', title: '要件定義だけ先に発注して本開発を止める契約', img: 'assets/blog-default.png', desc: '要件定義だけの発注は可能です。工程ごとに契約を分ければ、本開発は別の契約として判断できます。前工程の対価と成果物の扱い、要件定義書の点検期限、準委任と請負の選び方を、国の公式モデル契約の記述に沿って解説します。', supervised: true },
   { slug: 'care-record-duplicate-entry-requirements', category: '技術', date: '2026.11.27', read: '10 min', title: '介護記録の二重入力が残る原因と外注要件7項目', img: 'assets/blog-default.png', desc: '介護記録の二重入力が残る原因は、ソフトの有無ではなく入力の場所にあります。記録の経路を洗い出す手順、ケアプラン連携の前提、保存年限の確認、発注で決める7項目を、公的な出典つきでまとめました。', supervised: true },
   { slug: 'site-move-recrawl-timeline', category: 'Web制作', date: '2026.11.26', read: '10 min', title: 'リニューアル公開後の再クロール｜待つ期間と操作', img: 'assets/blog-default.png', desc: 'リニューアル公開後にXMLサイトマップを送り直す必要があるかを、URLが変わる移転と変わらない移転に分けて整理します。クロールの反映にかかる期間、リダイレクトの保持期間、経過と異常の見分け方をGoogle公式の記述に沿って解説します。', supervised: true },
